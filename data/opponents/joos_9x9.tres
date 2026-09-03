@@ -27,4 +27,5 @@ rng_seed = 0
 gtp_command = ""
 gtp_args = PackedStringArray()
 gtp_time_per_move = 1.0
+theme = "theme_ghost"
 on_resign = ""

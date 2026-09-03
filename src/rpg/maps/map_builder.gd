@@ -149,9 +149,19 @@ static func build_crowd(map: MapData, parent: Node2D) -> CrowdSpawner:
     return it
 
 
+## Who is standing here *at this hour*. An entry with no "blocks" is somebody
+## who is always here, which is the same reading TileAnimator and Soundscape
+## give the key -- absent or empty means always, so every map that predates
+## schedules keeps working untouched.
+##
+## This is the whole of the schedule system on the engine side. Where somebody
+## is at a given hour is content, and it lives in tools/gen_maps.py.
 static func build_npcs(map: MapData, parent: Node2D, on_talk: Callable) -> Array[Npc]:
     var out: Array[Npc] = []
     for spec in map.npcs:
+        var blocks: Array = spec.get("blocks", [])
+        if not blocks.is_empty() and not blocks.has(GameState.time_block):
+            continue
         var npc: Npc = NPC_SCENE.instantiate()
         var tile: Array = spec.get("tile", [0, 0])
         npc.npc_id = str(spec.get("id", ""))

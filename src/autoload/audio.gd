@@ -10,6 +10,16 @@ const SFX_VOICES := 8
 const MUSIC_FADE := 0.9
 const AMBIENCE_FADE := 1.6
 
+## A theme may ship a one-shot sting under its own name plus this suffix. It
+## plays once and hands over to the loop -- the Pokemon opening, and the reason
+## a battle theme reads as a battle theme rather than as music that started.
+## Convention rather than configuration: adding an intro to any track is adding
+## a wav, and nothing here or in the caller changes.
+const INTRO_SUFFIX := "_in"
+## A sting is supposed to hit. Fading one in over nine tenths of a second is
+## exactly the thing it exists not to do.
+const INTRO_FADE := 0.12
+
 ## Footstep pairs by surface. A pair, not a sample, because one footstep played
 ## over and over is a metronome -- the same reason play_stone() alternates two.
 const FOOTSTEPS := {
@@ -153,16 +163,22 @@ func play_at(sound_name: String, parent: Node2D, pitch_jitter: float = 0.0,
     p.play()
 
 
+## `track` is always the name of the *loop*, even while its intro is playing:
+## _music_name is what _loop_music() reaches for, what the repeat-call guard
+## compares, and what stop_music() clears. Nothing outside here needs to know an
+## intro exists.
 func play_music(track: String, fade: float = MUSIC_FADE) -> void:
     if _music_name == track and _music.playing:
         return
     if not _streams.has(track):
         return
     _music_name = track
-    _music.stream = _streams[track]
+    var intro: String = track + INTRO_SUFFIX
+    var has_intro: bool = _streams.has(intro)
+    _music.stream = _streams[intro] if has_intro else _streams[track]
     _music.volume_db = -40.0
     _music.play()
-    _music_fade = _fade(_music, 0.0, fade, _music_fade)
+    _music_fade = _fade(_music, 0.0, INTRO_FADE if has_intro else fade, _music_fade)
 
 
 func stop_music(fade: float = MUSIC_FADE) -> void:
@@ -231,12 +247,28 @@ func _loop_ambience() -> void:
 ## buffer's gap at the seam -- which is why the beds are built with
 ## Sound.loopify() so the join is level.
 func _loop_music() -> void:
-    if _music_name != "" and not _music.playing:
-        _music.play()
+    if _music_name == "" or _music.playing:
+        return
+    # If an intro was playing, this is where it ends and the loop it was
+    # introducing takes over. On every pass after that the stream is already the
+    # loop and the swap is a no-op. stop_music() clears _music_name before it
+    # fades, so the `finished` that stop() fires cannot restart anything.
+    var loop: AudioStream = _streams.get(_music_name)
+    if loop != null and _music.stream != loop:
+        _music.stream = loop
+    _music.play()
 
 
 func _on_match_finished(result: MatchResult) -> void:
     play("game_win" if result.player_won else "game_lose")
+
+
+## Is there an audio/<name>.wav under that name? play_music() returns quietly on
+## a name it does not have, which leaves whatever was playing before still
+## playing -- a safe guard and a useless diagnosis. Anything choosing a track at
+## runtime should ask first rather than find out by hearing the street.
+func has_track(track_name: String) -> bool:
+    return _streams.has(track_name)
 
 
 # --- mixing ------------------------------------------------------------------

@@ -10,6 +10,7 @@ static func run(t: TestKit) -> void:
     _test_resources(t)
     _test_puzzles(t)
     _test_maps(t)
+    _test_schedules(t)
     _test_dialogue_branches(t)
     _test_lessons(t)
 
@@ -255,6 +256,69 @@ static func _test_maps(t: TestKit) -> void:
 
 ## The rival's lines must actually change with the result -- that is the whole
 ## point of the encounter, and a broken branch would be silent otherwise.
+## Who is deliberately not there at some hour, and why. A schedule that can hide
+## somebody is a schedule that can hide a quest step, so the default is "present
+## at every hour" and every exception is written down -- the same shape as
+## REACHED_BY_EVENT above, and for the same reason: an absence should be a
+## decision somebody made rather than a schedule nobody re-read.
+const OFF_AT_SOME_HOUR := {
+    "joos": "the arches after dark are the whole of him; unrated, so no quest needs him",
+    "tomas": "the bar is shut in the morning",
+    "sunny": "is nine years old and is not at the Instituut after dark",
+    "orla": "goes home; she is a student and not a fixture",
+    "nadia": "stays for the dusk and then goes",
+}
+
+## The two rooms Act 1 and Act 2 actually run through. If either empties at some
+## hour the player can be left with no way to spend a slot, and no way to spend a
+## slot is no way to reach the hour when the person they want is back -- the one
+## way a schedule can genuinely deadlock the game rather than merely inconvenience.
+const ALWAYS_STAFFED := ["de_ketel", "academy_study"]
+
+
+static func _test_schedules(t: TestKit) -> void:
+    t.section("nobody is scheduled out of the game")
+    var blocks: Array = GameState.BLOCKS
+    var seen := {}          # npc_id -> { block: true }
+    var staffed := {}       # map_id -> { block: true }
+    for path in _list("res://data/maps", ".json"):
+        var map_id := path.get_file().trim_suffix(".json")
+        var m := MapData.load_map(map_id)
+        if m == null:
+            continue
+        for npc in m.npcs:
+            var who := str(npc.get("id", ""))
+            var when: Array = npc.get("blocks", [])
+            if when.is_empty():
+                when = blocks
+            if not seen.has(who):
+                seen[who] = {}
+            for b in when:
+                seen[who][b] = true
+                if not staffed.has(map_id):
+                    staffed[map_id] = {}
+                staffed[map_id][b] = true
+
+    for who in seen.keys():
+        var hours: Dictionary = seen[who]
+        var everywhere := true
+        for b in blocks:
+            if not hours.has(b):
+                everywhere = false
+        if OFF_AT_SOME_HOUR.has(who):
+            t.ok(not everywhere,
+                "%s is on the off-hours list and is actually off for some (%s)"
+                    % [who, str(OFF_AT_SOME_HOUR[who])])
+            t.ok(hours.size() > 0, "%s is still somewhere at some hour" % who)
+        else:
+            t.ok(everywhere, "%s can be found at every hour of the day" % who)
+
+    for map_id in ALWAYS_STAFFED:
+        for b in blocks:
+            t.ok(staffed.get(map_id, {}).has(b),
+                "%s has somebody in it at %s" % [map_id, b])
+
+
 static func _test_dialogue_branches(t: TestKit) -> void:
     t.section("dialogue branching")
     var state: Node = (Engine.get_main_loop() as SceneTree).root.get_node("GameState")

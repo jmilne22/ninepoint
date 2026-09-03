@@ -22,7 +22,7 @@ func _initialize() -> void:
         "go rules": GoRulesTests, "go scoring": GoScoringTests,
         "go ai": GoAiTests, "go setup": GoSetupTests,
         "league": LeagueTests, "content data": GoDataTests,
-        "ambience": WorldAmbienceTests,
+        "ambience": WorldAmbienceTests, "match music": MatchMusicTests,
         "exam": ExamTests,
         "go review": GoReviewTests, "rating": RatingTests, "progress": GoProgressTests, "cup": CupTests, "table talk": TableTalkTests,
     }

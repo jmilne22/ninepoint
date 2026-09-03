@@ -367,6 +367,105 @@ def _bass(s, roots, beat, bars_each=2, amp=0.15, wave="sine", cutoff=900):
     return s
 
 
+# ------------------------------------------------------------------ percussion
+#
+# Nothing in the soundtrack had a drum in it until the battle themes: the town
+# tracks are beds and a bed with a backbeat is not a bed. A game that counts is
+# a different matter, and the difference between "music playing" and "a fight"
+# is almost entirely the kick.
+
+## tools/check_melody.py renders with this off, so its Goertzel probe hears the
+## tune rather than a snare. A broadband hit under a note is exactly what a
+## pitch detector cannot see past.
+DRUMS = True
+
+## Each theme records its lead line here as it renders, so check_melody.py can
+## compare what came out of the wav against what was written, without the
+## melodies having to live somewhere other than the track that owns them.
+LEADS = {}
+
+
+def _kick(amp=0.6):
+    """A kick is a pitch sweep, not a low note: 110 Hz falling to 38 in a sixth
+    of a second. Sound.tone's `detune` ramps the frequency across the buffer,
+    which is what it was there for. The steady tone underneath is the part you
+    feel rather than hear on a laptop speaker.
+    """
+    s = Sound.tone(110.0, 0.16, "sine", amp, detune=-72.0)
+    s.decay(0.055)
+    s.mix(Sound.tone(58.0, 0.16, "sine", amp * 0.4).decay(0.09))
+    return s
+
+
+def _snare(seed=101, amp=0.42):
+    """Noise for the wires and a short tuned body under it for the drum. The
+    same shape as _footstep -- a burst over a thump -- opened out and pitched up.
+    """
+    s = Sound.noise(0.13, amp, seed=seed).highpass(900).lowpass(6500)
+    s.decay(0.05)
+    s.mix(Sound.tone(190.0, 0.13, "tri", amp * 0.3).decay(0.035))
+    return s
+
+
+def _hat(seed=202, amp=0.2, tau=0.014):
+    """Filtered noise with almost no tail. Kept below the master lowpass of the
+    fast tracks on purpose: a hat you can pick out is a hat that is too loud.
+    """
+    return Sound.noise(0.06, amp, seed=seed).highpass(3800).decay(tau)
+
+
+def _drums(s, beat, bars, kick="", snare="", hat="", amp=1.0, seed=1):
+    """Lay a drum pattern into a buffer.
+
+    One string per voice, sixteen characters, one per semiquaver -- a tracker
+    grid, for the same reason melodies are written as note names: `"x...x..."`
+    reads as a rhythm and a list of beat offsets does not. `x` is a hit, `X` is
+    an accented one, and `.` or a space is nothing. The pattern repeats for
+    every bar.
+
+    The three hits are synthesised once each and mixed in repeatedly. wav.py is
+    per-sample pure Python, so rebuilding a hat 128 times is the difference
+    between a build measured in seconds and one measured in minutes -- and
+    Sound.mix() only reads its argument, so one buffer is safe to reuse.
+    """
+    if not DRUMS:
+        return s
+    step = beat / 4.0
+    for pattern, hit in ((kick, _kick()), (snare, _snare(seed=seed + 1)),
+                         (hat, _hat(seed=seed + 2))):
+        if not pattern:
+            continue
+        for bar in range(bars):
+            for i, ch in enumerate(pattern):
+                if ch in ". ":
+                    continue
+                at = (bar * 4 * beat) + i * step
+                s.mix(hit, at, gain=amp * (1.35 if ch == "X" else 1.0))
+    return s
+
+
+def _pulse_bass(s, roots, beat, bars, per_beat=2, amp=0.20, wave="tri",
+                cutoff=1000, hold=0.42):
+    """A bass that moves, as against _bass()'s held root.
+
+    _bass is right for a town: one note a bar, sitting under everything. A game
+    that counts wants the pulse, and the pulse is the whole difference between
+    theme_match and theme_battle -- the notes are barely busier, the *rate* is.
+    One note is synthesised per distinct root and mixed in repeatedly.
+    """
+    voices = {}
+    span = beat / per_beat
+    for bar in range(bars):
+        root = roots[bar % len(roots)]
+        if root not in voices:
+            note = Sound.tone(n(root), span * hold * per_beat, wave, amp)
+            note.env(attack=0.005, decay=0.06, sustain=0.35, release=span * 0.4)
+            voices[root] = note.lowpass(cutoff)
+        for i in range(4 * per_beat):
+            s.mix(voices[root], bar * 4 * beat + i * span)
+    return s
+
+
 @sound("theme_institute")
 def _():
     """The Essenveld Instituut: glass, concrete and timetables.
@@ -620,6 +719,437 @@ def _():
         beat.env(attack=0.01, decay=0.03, sustain=0.3, release=0.05)
         s.mix(beat, at)
     return s.fade_edges(0.01).normalise(0.22)
+
+
+# --------------------------------------------------------------- battle themes
+#
+# theme_match is written to be ignored, and that is right for a lesson, a puzzle
+# and a game in the park. It is wrong for the rival who keeps score, for the man
+# under the arches with no papers, and for the exam that ends Act 2, all of
+# which used to sound exactly like a lesson. MatchMusic.theme_for() draws the
+# line and it draws it where the day economy already drew one: a game that costs
+# you an hour and goes on your record gets music, a free one gets the bed.
+#
+# These run 96-144 bpm against the town's 50-84. They are deliberately louder in
+# the top end too (a master lowpass around 5000 rather than 2800), because the
+# whole point is that the register changes when a game matters. What they do NOT
+# change is the voice: the same oscillators, the same _voice() harmonic, the
+# same normalise band, so a battle theme is recognisably this game's soundtrack
+# playing faster rather than a track borrowed from a different one.
+
+
+@sound("theme_battle")
+def _():
+    """A game that counts. E minor pentatonic at 132, and it is having a good
+    time about it.
+
+    The tune is not much busier than theme_match's -- eight bars of it would fit
+    the same page. What changes is underneath: a bass on every quaver instead of
+    a root once a bar, and a backbeat. Upbeat is a rhythm section decision, not a
+    melodic one, which is why the melody can still leave room to read the board.
+
+    Ends on the fifth rather than the root so the loop drives back round instead
+    of arriving. Nothing in a game of Go has finished when the phrase does.
+    """
+    bpm = 132.0
+    beat = 60.0 / bpm
+    bars = 16
+    s = Sound.silence(bars * 4 * beat)
+
+    melody = [
+        (0, "E5", 1), (1, "G5", 0.5), (1.5, "E5", 0.5), (2, "B4", 1), (3, "D5", 1),
+        (4, "E5", 2), (6.5, "D5", 1.5),
+        (8, "B4", 1), (9, "D5", 0.5), (9.5, "B4", 0.5), (10, "A4", 1), (11, "B4", 1),
+        (12, "G4", 2), (14.5, "A4", 1.5),
+        (16, "E5", 1), (17, "G5", 0.5), (17.5, "A5", 0.5), (18, "B5", 2),
+        (20, "A5", 1), (21, "G5", 1), (22, "E5", 2),
+        (24, "D5", 1), (25, "E5", 0.5), (25.5, "G5", 0.5), (26, "E5", 2),
+        (28, "B4", 1.5), (29.5, "D5", 2.5),
+        (32, "B5", 1), (33, "A5", 0.5), (33.5, "G5", 0.5), (34, "E5", 2),
+        (36, "G5", 1), (37, "A5", 1), (38, "B5", 2),
+        (40, "D6", 1), (41, "B5", 1), (42, "A5", 2),
+        (44, "G5", 1), (45, "E5", 1), (46, "D5", 2),
+        (48, "E5", 1), (49, "G5", 0.5), (49.5, "E5", 0.5), (50, "B4", 1), (51, "D5", 1),
+        (52, "E5", 2), (54.5, "G5", 1.5),
+        (56, "A5", 1), (57, "B5", 1), (58, "D6", 2),
+        (60, "A5", 2), (62, "B5", 2),
+    ]
+    LEADS["theme_battle"] = melody
+    _voice(s, melody, beat, wave="tri", amp=0.26, harm=2.0, harm_amp=0.07,
+           attack=0.01, decay=0.12, sustain=0.5, release=0.3, cutoff=4000,
+           hold=0.9)
+    # The same doubling theme_title uses: a quiet sine four hundredths of a beat
+    # late turns one oscillator into something with a body.
+    _voice(s, [(st + 0.04, nm, ln) for st, nm, ln in melody], beat,
+           wave="sine", amp=0.06, harm_amp=0.0,
+           attack=0.02, decay=0.2, sustain=0.4, release=0.35, cutoff=4200)
+
+    _pulse_bass(s, ["E2", "E2", "G2", "G2", "A2", "A2", "B2", "D3"],
+                beat, bars, per_beat=2, amp=0.20)
+    _drums(s, beat, bars,
+           kick="X.......x...x...",
+           snare="....X.......X...",
+           hat="x.x.x.x.x.x.x.x.", seed=11)
+    return s.lowpass(5000).fade_edges(0.05).normalise(0.46)
+
+
+@sound("theme_battle_in")
+def _():
+    """Four beats that land on theme_battle's downbeat, played once as the board
+    appears. Audio.play_music() finds this by the "<track>_in" convention, so an
+    intro is added to any theme by adding a wav and nothing else.
+
+    A rising fifth-and-octave stab over a noise swell -- the oldest trick there
+    is for "something is about to start", and it works because the ear hears the
+    swell stop rather than the note start.
+    """
+    bpm = 132.0
+    beat = 60.0 / bpm
+    s = Sound.silence(beat * 4.6)
+
+    _voice(s, [(0, "E4", 0.5), (0.5, "B4", 0.5), (1, "E5", 0.5),
+               (1.5, "G5", 0.5), (2, "B5", 2.4)], beat,
+           wave="tri", amp=0.30, harm=2.0, harm_amp=0.10,
+           attack=0.01, decay=0.1, sustain=0.55, release=0.5, cutoff=4200)
+    # The swell fills the two beats before the landing and stops dead on it.
+    swell = Sound.noise(beat * 2.0, 0.45, seed=77).lowpass(2600)
+    swell.env(attack=beat * 1.92, decay=0.005, sustain=1.0, release=0.04)
+    s.mix(swell, 0.0)
+    _drums(s, beat, 1, kick="X...x...X.......", snare="............X...", seed=13)
+    return s.lowpass(5000).fade_edges(0.02).normalise(0.46)
+
+
+@sound("theme_rival")
+def _():
+    """Kesh. The battle theme, but it is him.
+
+    Same key and same family as theme_battle on purpose, and it opens by quoting
+    that track's first interval before going somewhere else -- Kesh is not a
+    different kind of game, he is the game with someone in it who is counting.
+    Twelve bpm faster, and the phrase ends on the flat seventh, so the cadence
+    never closes. He keeps a record of your meetings; it is not over.
+    """
+    bpm = 144.0
+    beat = 60.0 / bpm
+    bars = 16
+    s = Sound.silence(bars * 4 * beat)
+
+    melody = [
+        (0, "E5", 0.5), (0.5, "G5", 0.5), (1, "E5", 1), (2, "D5", 0.5),
+        (2.5, "B4", 1.5),
+        (4, "E5", 0.5), (4.5, "G5", 0.5), (5, "A5", 1), (6, "B5", 2),
+        (8, "A5", 0.5), (8.5, "G5", 0.5), (9, "E5", 1), (10, "G5", 2),
+        (12, "D5", 0.5), (12.5, "E5", 0.5), (13, "B4", 3),
+        (16, "B5", 0.5), (16.5, "A5", 0.5), (17, "G5", 1), (18, "A5", 2),
+        (20, "G5", 0.5), (20.5, "E5", 0.5), (21, "D5", 1), (22, "E5", 2),
+        (24, "G5", 1), (25, "A5", 1), (26, "B5", 1), (27, "D6", 1),
+        (28, "B5", 2), (30, "A5", 2),
+        (32, "E5", 0.5), (32.5, "G5", 0.5), (33, "B5", 1), (34, "A5", 2),
+        (36, "G5", 0.5), (36.5, "A5", 0.5), (37, "G5", 1), (38, "E5", 2),
+        (40, "D5", 0.5), (40.5, "E5", 0.5), (41, "G5", 1), (42, "B5", 2),
+        (44, "A5", 1), (45, "G5", 1), (46, "E5", 2),
+        (48, "B5", 1), (49, "D6", 1), (50, "B5", 2),
+        (52, "A5", 1), (53, "G5", 1), (54, "E5", 2),
+        (56, "G5", 0.5), (56.5, "A5", 0.5), (57, "B5", 1), (58, "E5", 2),
+        (60, "G5", 2), (62, "D5", 2),
+    ]
+    LEADS["theme_rival"] = melody
+    _voice(s, melody, beat, wave="saw", amp=0.20, harm=2.0, harm_amp=0.06,
+           attack=0.01, decay=0.1, sustain=0.45, release=0.28, cutoff=3400,
+           hold=0.88)
+    _voice(s, [(st + 0.05, nm, ln) for st, nm, ln in melody], beat,
+           wave="tri", amp=0.10, harm_amp=0.0,
+           attack=0.02, decay=0.18, sustain=0.4, release=0.3, cutoff=4200)
+
+    _pulse_bass(s, ["E2", "E2", "D3", "D3", "G2", "G2", "A2", "B2"],
+                beat, bars, per_beat=2, amp=0.21)
+    # Busier than theme_battle's, and the extra kick lands off the beat: he is
+    # ahead of you, which is his entire manner at the board.
+    _drums(s, beat, bars,
+           kick="X.....x.x.....x.",
+           snare="....X.......X..X",
+           hat="x.xxx.x.x.xxx.x.", seed=21)
+    return s.lowpass(5200).fade_edges(0.05).normalise(0.47)
+
+
+@sound("theme_rival_in")
+def _():
+    """Kesh sitting down. Three notes and a hit; he does not need longer."""
+    bpm = 144.0
+    beat = 60.0 / bpm
+    s = Sound.silence(beat * 4.4)
+    _voice(s, [(0, "B4", 0.5), (0.5, "E5", 0.5), (1, "G5", 0.5),
+               (1.5, "B5", 2.6)], beat,
+           wave="saw", amp=0.26, harm=2.0, harm_amp=0.08,
+           attack=0.01, decay=0.09, sustain=0.5, release=0.5, cutoff=3800)
+    _drums(s, beat, 1, kick="X...X...X.......", snare="........X...X..X", seed=23)
+    return s.lowpass(5000).fade_edges(0.02).normalise(0.46)
+
+
+@sound("theme_ghost")
+def _():
+    """Joos, under the arches. No card, no papers, and a rank he will not state.
+
+    The heaviest thing in the game, and heavy is a rhythm: half time, kick on
+    one and snare on three, so every bar has a hole in it that the riff falls
+    into. C phrygian -- the flat second is the whole reason it sounds like a
+    threat rather than a mood.
+
+    There is almost no melody. One low saw riff, a bar long, repeated twelve
+    times without developing, and a single high note held over the top that
+    never moves. A theme that refuses to go anywhere is the correct theme for a
+    man who will not tell you how strong he is.
+    """
+    bpm = 96.0
+    beat = 60.0 / bpm
+    bars = 12
+    s = Sound.silence(bars * 4 * beat)
+
+    # One bar, twelve times. The repetition is the character; resist adding a
+    # variation to it, which is what the first version of this did and lost.
+    riff = [(0, "C2", 0.5), (0.75, "C2", 0.25), (1.5, "C2", 0.5),
+            (2, "D#2", 0.5), (2.5, "C2", 0.5), (3, "C#2", 1.0)]
+    figure = [(st + bar * 4, nm, ln) for bar in range(bars) for st, nm, ln in riff]
+    _voice(s, figure, beat, wave="saw", amp=0.26, harm=2.0, harm_amp=0.05,
+           attack=0.004, decay=0.07, sustain=0.6, release=0.25, cutoff=900,
+           hold=0.9)
+    LEADS["theme_ghost"] = figure
+
+    # The note over the top. It is the fifth, it never resolves, and it is only
+    # just loud enough to notice you have been hearing it.
+    for bar in range(0, bars, 4):
+        held = Sound.tone(n("G5"), 16 * beat, "sine", 0.075)
+        held.env(attack=2.2, decay=1.0, sustain=0.8, release=2.4)
+        s.mix(held.lowpass(2600), bar * 4 * beat)
+
+    _drums(s, beat, bars,
+           kick="X...............",
+           snare="........X.......",
+           hat="x...x...x...x...", amp=1.1, seed=31)
+    return s.lowpass(3200).fade_edges(0.06).normalise(0.44)
+
+
+@sound("theme_ghost_in")
+def _():
+    """One hit and a silence, and then the riff. Nobody introduces Joos."""
+    bpm = 96.0
+    beat = 60.0 / bpm
+    s = Sound.silence(beat * 4.2)
+    _voice(s, [(0, "C2", 2.0), (2.5, "C#2", 1.5)], beat,
+           wave="saw", amp=0.30, harm=2.0, harm_amp=0.05,
+           attack=0.004, decay=0.1, sustain=0.55, release=0.5, cutoff=900)
+    _drums(s, beat, 1, kick="X.......X.......", seed=33)
+    return s.lowpass(3000).fade_edges(0.03).normalise(0.44)
+
+
+@sound("theme_teacher")
+def _():
+    """Hana, five dan, actually playing you rather than teaching you.
+
+    The one battle theme with no backbeat: hats and nothing else, because she is
+    not fighting and pretending otherwise would be a lie about the character. F
+    major, and the bass does not leave the tonic for four whole bars -- the
+    harmony moves about a third as often as anything else here.
+
+    It is still a battle theme. What makes it one is that it does not stop.
+    """
+    bpm = 88.0
+    beat = 60.0 / bpm
+    bars = 12
+    s = Sound.silence(bars * 4 * beat)
+
+    melody = [
+        (0, "C5", 2), (2, "A4", 2),
+        (4, "F4", 3), (7, "G4", 1),
+        (8, "A4", 2), (10, "C5", 2),
+        (12, "A4", 4),
+        (16, "D5", 2), (18, "C5", 2),
+        (20, "A4", 3), (23, "G4", 1),
+        (24, "F4", 2), (26, "G4", 2),
+        (28, "A4", 4),
+        (32, "C5", 1), (33, "D5", 1), (34, "F5", 2),
+        (36, "E5", 2), (38, "C5", 2),
+        (40, "D5", 2), (42, "A4", 2),
+        (44, "F4", 4),
+    ]
+    LEADS["theme_teacher"] = melody
+    _voice(s, melody, beat, wave="tri", amp=0.25, harm=1.5, harm_amp=0.09,
+           attack=0.05, decay=0.24, sustain=0.6, release=0.55, cutoff=2800)
+    _voice(s, [(st + 0.05, nm, ln) for st, nm, ln in melody], beat,
+           wave="sine", amp=0.07, harm_amp=0.0,
+           attack=0.1, decay=0.3, sustain=0.5, release=0.6, cutoff=3200)
+
+    # F, then B flat, then C: three chords in thirty-three seconds. Immovable.
+    _bass(s, ["F2", "A#2", "C3"], beat, bars_each=4, amp=0.16)
+    _drums(s, beat, bars, hat="x..xx..xx..xx..x", amp=0.55, seed=41)
+    return s.lowpass(3600).fade_edges(0.06).normalise(0.42)
+
+
+@sound("theme_wall")
+def _():
+    """Orla Finn, four kyu, top of the lower league. The wall.
+
+    Four on the floor: a kick on every single beat, which is pressure rather
+    than aggression, and the difference matters -- Orla does not attack you, she
+    is simply still there. Four bars with no tune at all, just a two-note figure
+    and the pulse, before anything resembling a melody arrives. When it does it
+    is a scale walking up, and it gets cut off before it reaches the top. Twice.
+    """
+    bpm = 120.0
+    beat = 60.0 / bpm
+    bars = 16
+    s = Sound.silence(bars * 4 * beat)
+
+    melody = [
+        # Four bars of the figure. Not a melody: a thing that keeps happening.
+        (0, "A4", 1), (2, "E4", 1),
+        (4, "A4", 1), (6, "E4", 1),
+        (8, "A4", 1), (10, "E4", 1),
+        (12, "A4", 1), (14, "E4", 1),
+        # The scale. It gets to the seventh and stops.
+        (16, "A4", 1), (17, "B4", 1), (18, "C5", 1), (19, "D5", 1),
+        (20, "E5", 1), (21, "F5", 1), (22, "G5", 2),
+        (24, "A4", 1), (26, "E4", 1), (28, "A4", 1), (30, "E4", 1),
+        (32, "C5", 1), (33, "D5", 1), (34, "E5", 1), (35, "F5", 1),
+        (36, "G5", 1), (37, "A5", 1), (38, "B5", 2),
+        (40, "E5", 2), (42, "C5", 2),
+        (44, "A4", 1), (46, "E4", 1),
+        (48, "A4", 1), (49, "C5", 1), (50, "E5", 1), (51, "G5", 1),
+        (52, "A5", 4),
+        (56, "G5", 2), (58, "E5", 2),
+        (60, "A4", 1), (62, "E4", 1),
+    ]
+    LEADS["theme_wall"] = melody
+    _voice(s, melody, beat, wave="tri", amp=0.24, harm=2.0, harm_amp=0.06,
+           attack=0.02, decay=0.14, sustain=0.5, release=0.35, cutoff=3400,
+           hold=0.92)
+
+    _pulse_bass(s, ["A2", "A2", "A2", "A2", "F2", "F2", "G2", "G2"],
+                beat, bars, per_beat=2, amp=0.19)
+    _drums(s, beat, bars,
+           kick="X...x...x...x...",
+           snare="....x.......x...",
+           hat="..x...x...x...x.", amp=0.9, seed=51)
+    return s.lowpass(4600).fade_edges(0.05).normalise(0.45)
+
+
+@sound("theme_exam")
+def _():
+    """Marguerite Sable at the desk, and the qualifying exam she runs.
+
+    This is theme_institute's key and theme_institute's quaver tick, and both
+    have gone serious: the tick is now a dry unvarying quarter note, which is a
+    clock, and the mode keeps flattening the third on its way past. She runs the
+    league and she runs the exam, so the registrar's theme being the
+    institution's theme is the truth about her rather than a shortcut.
+
+    Restrained drums -- a kick twice a bar and nothing else. The clock is the
+    percussion, and putting a hat over it would be arguing with it.
+    """
+    bpm = 100.0
+    beat = 60.0 / bpm
+    bars = 12
+    s = Sound.silence(bars * 4 * beat)
+
+    melody = [
+        (0, "A4", 2), (2, "C#5", 1), (3, "E5", 1),
+        (4, "F#5", 2), (6, "E5", 2),
+        (8, "C5", 2), (10, "B4", 2),
+        (12, "A4", 4),
+        (16, "E5", 1), (17, "F#5", 1), (18, "A5", 2),
+        (20, "G5", 2), (22, "E5", 2),
+        (24, "C5", 1), (25, "B4", 1), (26, "A4", 2),
+        (28, "B4", 4),
+        (32, "C#5", 2), (34, "E5", 2),
+        (36, "A5", 2), (38, "F#5", 2),
+        (40, "E5", 2), (42, "C5", 2),
+        (44, "A4", 4),
+    ]
+    LEADS["theme_exam"] = melody
+    _voice(s, melody, beat, wave="tri", amp=0.25, harm=2.0, harm_amp=0.06,
+           attack=0.03, decay=0.2, sustain=0.55, release=0.45, cutoff=3000)
+
+    # The clock. One note, one level, on every beat, for the whole track. It is
+    # meant to be slightly unpleasant by the third listen.
+    tick = Sound.tone(n("E4"), beat * 0.3, "sine", 0.07)
+    tick.env(attack=0.005, decay=0.06, sustain=0.25, release=beat * 0.2)
+    tick = tick.lowpass(2600)
+    for i in range(bars * 4):
+        s.mix(tick, i * beat)
+
+    _bass(s, ["A2", "F#2", "D3", "E3", "A2", "E3"], beat, bars_each=2, amp=0.15)
+    _drums(s, beat, bars, kick="X.......x.......", amp=0.85, seed=61)
+    return s.lowpass(3800).fade_edges(0.06).normalise(0.42)
+
+
+@sound("theme_cup")
+def _():
+    """The Beginner Cup, at the Bondszaal. An occasion.
+
+    D major, which is theme_title's key and is not a coincidence: the Cup is the
+    first time the promise the title screen makes actually comes due, and the
+    two tracks are meant to be relatives. Saw waves under a low cutoff and a
+    slower attack, which is as close to brass as four oscillators get.
+
+    The only theme here with a real fanfare in it. It is allowed: everything
+    else in this game happens in a back room, and this happens in a hall.
+    """
+    bpm = 112.0
+    beat = 60.0 / bpm
+    bars = 16
+    s = Sound.silence(bars * 4 * beat)
+
+    melody = [
+        (0, "D5", 1), (1, "F#5", 1), (2, "A5", 2),
+        (4, "G5", 1), (5, "F#5", 1), (6, "E5", 2),
+        (8, "F#5", 1), (9, "G5", 1), (10, "A5", 2),
+        (12, "D5", 4),
+        (16, "A5", 1), (17, "B5", 1), (18, "D6", 2),
+        (20, "C#6", 2), (22, "A5", 2),
+        (24, "B5", 1), (25, "A5", 1), (26, "G5", 2),
+        (28, "F#5", 4),
+        (32, "D5", 1), (33, "E5", 1), (34, "F#5", 1), (35, "G5", 1),
+        (36, "A5", 2), (38, "B5", 2),
+        (40, "A5", 1), (41, "F#5", 1), (42, "E5", 2),
+        (44, "D5", 4),
+        (48, "F#5", 1), (49, "A5", 1), (50, "D6", 2),
+        (52, "B5", 2), (54, "G5", 2),
+        (56, "A5", 2), (58, "F#5", 2),
+        (60, "E5", 2), (62, "A5", 2),
+    ]
+    LEADS["theme_cup"] = melody
+    _voice(s, melody, beat, wave="saw", amp=0.20, harm=2.0, harm_amp=0.07,
+           attack=0.06, decay=0.2, sustain=0.65, release=0.4, cutoff=2000)
+    # A third below, in the same voice. Two brass parts, not one with a chorus.
+    thirds = {"D5": "A4", "E5": "B4", "F#5": "D5", "G5": "E5", "A5": "F#5",
+              "B5": "G5", "C#6": "A5", "D6": "A5"}
+    _voice(s, [(st, thirds.get(nm, nm), ln) for st, nm, ln in melody], beat,
+           wave="saw", amp=0.11, harm=2.0, harm_amp=0.03,
+           attack=0.07, decay=0.24, sustain=0.6, release=0.4, cutoff=1700)
+
+    _pulse_bass(s, ["D2", "D2", "G2", "G2", "A2", "A2", "D2", "A2"],
+                beat, bars, per_beat=1, amp=0.20, wave="sine", cutoff=800,
+                hold=0.7)
+    _drums(s, beat, bars,
+           kick="X...x...X...x...",
+           snare="....X..x....X.x.",
+           hat="x.x.x.x.x.x.x.x.", amp=0.9, seed=71)
+    return s.lowpass(4400).fade_edges(0.05).normalise(0.46)
+
+
+@sound("theme_cup_in")
+def _():
+    """The hall going quiet. A rising fanfare and a roll into the downbeat."""
+    bpm = 112.0
+    beat = 60.0 / bpm
+    s = Sound.silence(beat * 4.8)
+    _voice(s, [(0, "D4", 0.5), (0.5, "A4", 0.5), (1, "D5", 0.5),
+               (1.5, "F#5", 0.5), (2, "A5", 2.6)], beat,
+           wave="saw", amp=0.26, harm=2.0, harm_amp=0.08,
+           attack=0.05, decay=0.12, sustain=0.65, release=0.5, cutoff=2200)
+    _drums(s, beat, 1, kick="X.......X.......",
+           snare="........x.x.xxXx", seed=73)
+    return s.lowpass(4400).fade_edges(0.03).normalise(0.46)
 
 
 def build(out_dir):

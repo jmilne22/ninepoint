@@ -68,6 +68,16 @@ var colour_rule: String = "by_rank"
 @export var gtp_time_per_move: float = 1.0
 
 @export_group("Flavour")
+## Which track plays while you are sitting across from them. "" means the game
+## decides from the occasion instead -- see MatchMusic.theme_for(), which falls
+## back to the upbeat theme for a rated game and to the quiet bed for a free one.
+##
+## It lives on the profile rather than in a table keyed by character because the
+## profile is what distinguishes hana_teaching from hana_9x9: a teaching game is
+## not a fight and must not sound like one, and a table keyed by "hana" could
+## not say so.
+@export var theme: String = ""
+
 ## What this opponent says when they give up. Everything else they say at the
 ## board lives in data/banter/<id>.json -- two lines per character, chosen on
 ## who was ahead, was not enough for anybody to sound like a person.

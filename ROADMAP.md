@@ -4,47 +4,34 @@ Everything below is outstanding as of the current build. It is ordered by what
 would most improve the game, not by what is easiest. `MILESTONES.md` records what
 was built and how it was verified; this file records what has not been.
 
-The build is green: `tools/test.sh` runs 5481 checks, `tools/check_lessons.py`
+The build is green: `tools/test.sh` runs 5525 checks, `tools/check_lessons.py`
 reports no problems, and the game is playable from the cold open to the exam and
 the Cup.
 
 ---
 
-## 0. A decision, before anything else
+## 0. ~~A decision, before anything else~~ — decided (M26)
 
-**The term is six weeks and there are about four days of content in it.**
+**The term was six weeks and there were about four days of content in it.**
 
-Counting only what consumes a day's hours: three of Hana's classes and a first
-game against each of about eight reachable opponents. That is eleven slots,
-call it four days at three slots a day. Lessons and puzzles are free and finite.
-The Cup is on day 42.
+Decided by rescaling rather than filling: `CUP_DAY` 42 -> 14, `EXAM_DAY` 38 -> 10. Nine
+open days, the exam's three rounds on 10-12, a clear day, then the Cup. "Six weeks" was
+written in three places, not the four this file claimed -- Wren, Hana, and the
+`first_stones` quest summary; the Ketelsteeg noticeboard carries no duration at all and
+never did.
 
-The calendar did not create this. Before it there was no clock, so nothing felt
-empty; adding one revealed the thinness and then put a "Sleep until the Cup (41
-days)" button on it. That button is a plaster, not a feature.
+The two "Sleep until..." options stay, and are now a convenience rather than a cover-up:
+a dozen keypresses is still a dozen keypresses. Filling the term is item 3 below and is
+still worth doing; rescaling was the honest thing to do first, because the fiction is the
+strongest thing in the project and a game that says six weeks and means four days is
+overstating itself in the one register it cannot afford to.
 
-Two ways out, and they are different sizes:
-
-- **Rescale the term.** "Six weeks" is written in four places — Wren's line, the
-  `first_stones` quest summary, the Ketelsteeg noticeboard, and Marguerite. Two
-  weeks would match the content that exists today. Small, and it stops the game
-  overstating its own scale.
-- **Fill the term.** Items 1–4 below, and then some. The better game, and much
-  more work.
-
-These are not exclusive: rescale now, widen later. But the fiction is the
-strongest thing in the project and "six weeks" is a written line, so this is a
-call for the author rather than something to quietly adjust.
-
-**Still open, and the term now has a second fixed date in it.** The exam is day
-`GameState.EXAM_DAY` (38) and the Cup is day `CUP_DAY` (42), so the last week of
-term holds the exam's three rounds and then the Cup's four. That is seven days of
-content at the end of a forty-two day term against roughly four days spread
-through the rest of it. The exam gives the middle of the term something to aim
-at that it did not have -- your league position is now a thing that decides
-something -- but it does not fill it, and "Sleep until the exam" sits beside
-"Sleep until the Cup" as the same plaster over the same gap. Moving either event
-is one constant each.
+**One thing this dragged out that is worth keeping.** `tools/make_test_save.py` carried
+literal day numbers -- 42, 41, 40, 39, 38, 36 -- across seven presets. None of them would
+have errored after the rescale; `exam_ready` at day 36 against `EXAM_DAY = 10` is simply a
+save twenty-six days past the exam, and a screenshot taken from the wrong starting state
+looks exactly as confident as one taken from the right one. The presets now derive their
+days from the constants, so the next rescale is one line rather than eight.
 
 ---
 
@@ -92,9 +79,21 @@ was written and `check_load.gd` loaded it faithfully every time.
 
 ## 3. Fill the term
 
-- **NPC schedules.** Designed in GAME_DESIGN §4 and never wired. `idle` behaviour
-  works; time-of-day movement does not, so the hours change the light and nothing
-  else. Now that days pass, this is what makes one day differ from another.
+- ~~**NPC schedules.**~~ **Built (M26).** An NPC entry may carry `"blocks"`, the same key
+  and the same "absent means always" reading `TileAnimator` and `Soundscape` already used;
+  `MapBuilder.build_npcs()` filters on the hour and `World._repopulate()` rebuilds when the
+  hour turns with the world still standing. Hana teaches by day and is at De Ketel after
+  dark, Kesh the same, Pip and Bertie move from the park to the arches, the bar is shut in
+  the morning and the study hall empties as the day goes on. The clock was previously read
+  by the light, the sound, the crowd and the music and by nothing that decided where a
+  person stood, which made the most atmospheric system in the project decorative.
+
+  The guard rail is the part worth remembering: a schedule that can hide somebody can hide
+  a quest step. `tests/test_data.gd` asserts every character is findable at every hour
+  unless they are on a written list of the five who are deliberately not, and that De Ketel
+  and the study hall -- the two rooms Act 1 and Act 2 run through -- are staffed at every
+  hour, because a room that empties is an hour the player cannot spend and therefore an
+  hour they cannot get past.
 - **More to do per day.** More puzzles, more classes, repeatable teaching games,
   reasons to visit the quay and Onderbrug.
 - **Quests with meaning.** GAME_DESIGN §7 wants ladder quests, fetch-with-meaning
@@ -102,10 +101,15 @@ was written and `check_load.gd` loaded it faithfully every time.
 
 ## 4. The thin places
 
-The quay is two signs and a bench. Onderbrug has Joos and a crowd it cannot have
-(walled at both ends, so `gen_maps.validate()` rejects every route). Ketelsteeg
-is the largest map in the game and the wassalon is a facade with a door, a sign,
-neon and no warp.
+The quay is two signs and a bench. Ketelsteeg is the largest map in the game and the
+wassalon is a facade with a door, a sign, neon and no warp.
+
+Onderbrug is **half fixed**: it still cannot have a crowd (walled at both ends, so
+`gen_maps.validate()` rejects every route, which is the correct answer for a dead end under
+a viaduct) but it is no longer one man alone. Pip and Bertie come down from the park after
+dark, so the map has three people in it at the hours anybody would be there and nobody at
+the hours they would not -- population from the schedule rather than from a route it can
+never have.
 
 ## 5. Beyond 9×9
 
@@ -114,23 +118,139 @@ the nine star points of a 19×19 — *the shape you grow into* — and there is
 nothing to grow into. 13×13 is the real next step, and it is also where the
 heuristic starts to run out.
 
-GAME_DESIGN §9 sketches chapters 2–6 and a rank arc from 22k to 6k. None of it
-is built.
+GAME_DESIGN §8 and §9 already say what should happen: the Cup "played on 9×9 or
+13×13 depending on the section entered", placing unlocks the 13×13 section of the
+club, and the chapter table moves 9→13 at chapter 2 and 13→19 at chapter 5. The
+intent is written. What is missing is the work, and what is in the way has never
+been written down.
 
-## 6. The review
+**The fiction has promised 19×19 twice already**, which is what makes this a gap
+rather than a preference. The board the last tenant left is described in
+`intro.json` as "a grid of lines cut into the top -- nineteen one way, nineteen the
+other": the player owns a 19×19 board from the first minute of the game and never
+plays a game on one. And the closing line of Act 2, Hana's `exam_word_passed`, is
+"Nineteen by nineteen is a different game and you know almost nothing about it.
+Isn't that good?" -- the game ends by naming the board it does not have.
+
+**What already exists**, so nobody rebuilds it: the rules layer is size-generic
+throughout and simply never called above 9. `GoGame.handicap_points()` switches the
+star points at 13 (`e = 2 if size < 13 else 3`) and places up to nine stones;
+`default_komi()` returns 6.5 at ≥19; `GoRank.ranks_per_stone()` returns 3, 2 or 1
+by board and `max_handicap()` goes 5 → 9; `handicap_between()` *defaults* to
+`board_size = 19`. `tests/test_go_rules.gd` already asserts nine stones on a 19×19
+at the 4-4 points, and `HeuristicOpponent._book_move()` takes its corner book from
+`handicap_points(game.size(), 4)`, so the opening book scales on its own.
+
+**What is in the way**, in the order it would bite:
+
+- **Profile filenames encode the board size, and the tournaments interpolate them.**
+  `world.gd` builds `"res://data/opponents/%s_9x9.tres" % opponent_id` for both Cup
+  and exam rounds, and `go_match.gd` falls back to `kesh_9x9.tres`. A 13×13 section
+  means a second profile per person and a convention in which `_9x9` stops meaning
+  "the profile for this person" -- and `tests/test_data.gd`'s `REACHED_BY_EVENT`
+  allow-list is written in those same names.
+- **Rank arithmetic does not know the board.** `GoRating.performance()` reads
+  `handicap` and `handicap_taken` off each record and never `board_size`, though the
+  field is stored on every one. Three stones is three ranks on 9×9 and nine ranks on
+  19×19 by `ranks_per_stone`, so the first record at a new size mis-rates the player
+  with no error and no failing test. Pillar 5 is that the table is honest; this is
+  the line it stops being honest at. Along with the profile names above, it is one
+  of the two places a bigger board goes quietly wrong rather than merely missing.
+- **Screen space, which is why 13 comes before 19.** The viewport is 384×216 and
+  `GoBoardView` derives its cell size from the panel it is handed
+  (`_cell = floorf((span - 30.0) / float(n - 1))`). At 19×19 that is about 8 px a
+  cell and a stone roughly 7 px across, against an art direction of a 9 px native
+  font and integer scaling only; 13×13 is about 12 px. The board is meant to be the
+  one saturated object on screen, and at 19×19 it stops being legible well before it
+  stops working.
+- **The AI and the review have never been run at either size.** `_score_move()`
+  flood-fills chains per candidate and probes a worst reply, over 361 points instead
+  of 81 and across a game four or five times as long, with weights tuned at 81
+  points (`CAPTURE_WEIGHT`, `PASS_THRESHOLD`, the territory limit
+  `maxi(8, cells / 4)`); `GoReview` replays every move through fourteen detectors.
+  That is a measurement nobody has taken, not a known failure -- and it is the sort
+  of thing this project has twice found out about by running it rather than by
+  reasoning about it.
+
+## 6. The tutorial
+
+Eleven lessons exist and the machinery around them was written when there were
+three. M21 grew the curriculum and did not revisit the rulebook track, the
+`knows_the_rules` flag or the post-lesson beat, and none of what that left behind
+was written down until now.
+
+- **`self_capture` is reachable from one dialogue choice.** In Wren's
+  `ask_experience`, only "Never. I don't know the rules at all." carries
+  `"track": true`, which queues `MatchBridge.TUTORIAL_TRACK` -- liberties, capture,
+  self-capture. "A bit. Remind me of the capturing rule." starts `capture` alone,
+  and `finish_lesson` sets `knows_the_rules` anyway, and Wren's `taught` node still
+  says "liberties, capture, and no filling in your own last one" to a player who was
+  never shown the third one. `start` never returns to `ask_experience`, so it is
+  skipped for the life of that save.
+- **`knows_the_rules` is doing two jobs and doing neither.**
+  `MatchBridge.finish_lesson` sets it whenever any lesson completes with an empty
+  queue, so Bertie's ladders or Tomas's counting or a class at the Institute all
+  count as having been taught the rules. Meanwhile "I know how the stones move" --
+  a player stating outright that they know them -- sets only
+  `wren_knows_you_can_play`, which nothing reads. That player finds the study desk
+  refusing them in their own attic ("You still do not know what any of it is for"),
+  Joos on his `no_rules` branch, Bertie and Tomas both locked, and the ko lesson
+  never offered, until an unrelated lesson from Kesh retroactively unlocks all four.
+  The flag wants splitting: what you have been taught, and what you have said.
+- **Four of the eleven lessons end in silence.** `World._post_lesson()` exists so a
+  lesson "does not end in mid-air" -- it looks up `lesson.teacher` and opens that
+  person's `taught` node. Only `wren.json` and `hana.json` have one. Kesh (`escape`,
+  `connection`), Bertie (`ladders`) and Tomas (`counting`) do not, so
+  `resolve("taught")` returns `""`, `DialogueBox.run` emits `end` without showing a
+  box, and the teacher says nothing about what she has just taught you. This is the
+  rule 6 failure shape one seam over, and `tests/test_data.gd` refuses a
+  `start_match` with no `post_match` while having no lesson equivalent.
+- **The ko lesson replays the pre-Kesh Cup speech.** Wren's `taught` ends
+  `"goto": "cup"`, which runs on into `point_at_kesh` -- "That's Kesh over there, by
+  the window. Twelve kyu. She'll play anyone." `offer_ko` is gated on
+  `kesh_match_done`, so ko is only ever taught after that game has been played. One
+  `taught` node is being asked to close two different lessons.
+- **A lesson cannot be re-taken.** The study desk repeats puzzles once all eight are
+  solved and the class board repeats its last class; the rulebook repeats never,
+  because `wren_asked_experience` closes `ask_experience` permanently. A beginner who
+  has forgotten what a liberty is has nowhere to go, and the desk -- the one place in
+  the game built for revision -- hands out problems only.
+- **`tools/autopilot/tutorial.json` drives a menu item deleted in M12.** It opens
+  `move_down` + `interact` under the note "select Learn to play", against a title
+  screen whose items are New Game / Continue / Quit. It now selects **Continue**,
+  loading whatever is in slot 1, then spends twelve more `interact` taps writing
+  twelve screenshots named `lesson_intro`, `step1_liberties`, `step2_corner` of the
+  overworld -- or, with no save at all, of the title screen with a disabled item
+  under the cursor. Exit 0, no script errors: section 8's lesson, sitting inside the
+  harness that exists to catch it. It is also the only script that needs a save and
+  declares none. `lessons.json` is the working replacement, and CLAUDE.md still
+  advertises `tutorial` as a script you can run.
+- **Nothing asserts a lesson or a puzzle is reachable.** `tests/test_data.gd`
+  checks that every `exit` names a real lesson and a real puzzle, and has the reverse
+  check -- with a written allow-list -- for opponent profiles only. Four lessons
+  (`self_capture`, `openings`, `two_eyes`, `life_and_death`) and all eight puzzles
+  are named nowhere but a GDScript constant: `MatchBridge.TUTORIAL_TRACK`,
+  `World.CLASS_TRACK`, `World.PUZZLE_TRACK`. A typo in one of those is silent at run
+  time, which is the failure section 2 has already paid for once with
+  `hana_teaching`.
+
+## 7. The review
 
 Owned by a parallel effort; listed here for completeness.
 
-- Ten of fifteen characters have no review voice and fall back to
+- **Eight of fifteen characters have no review voice** and fall back to
   `data/reviews/default.json`, so a nine-year-old and the top of the lower league
-  post-mortem in the same words. `abel`, `dov` and `moss` are the highest value:
-  they are who a 22k plays four games running in the Cup.
-- Only `wren` and `default` have an `unqualified` block.
+  post-mortem in the same words. `abel`, `dov` and `moss` -- previously named here as
+  the highest value, being who a 22k plays four games running in the Cup -- have since
+  been written, along with `hana`, `joos`, `kesh` and `wren`. What is left is the
+  students: `ilse`, `sunny`, `orla`, `nadia`, plus `pip`, `bertie`, `tomas` and
+  `marguerite`.
+- ~~Only `wren` and `default` have an `unqualified` block.~~ All eight files have one.
 - The review has rules and no judgement. It can say a group had one liberty and
   died; it cannot say a move was worth four points rather than nine. That needs
   an engine, and at kyu strength it is the right trade.
 
-## 7. Technical debt
+## 8. Technical debt
 
 - **`slice_full` had not been playing its match, three runs in five, since M16.**
   Fixed, and worth reading before trusting any autopilot result again. Every NPC
@@ -188,10 +308,6 @@ Owned by a parallel effort; listed here for completeness.
 - **The exam list and the Cup draw are the same tile** -- two pairs of paper
   pinned to the same wall of the Bondszaal, with nothing but the panel header to
   tell them apart once you press [Space].
-- **`play_music` has the fade race** that `play_ambience` was fixed for. Stopping
-  and starting a track in the same frame leaves the stop's tween running over the
-  new one. Not yet hit in play because no map pair does it; `Audio._fade_ambience`
-  shows the fix.
 - **The AI's endgame is weak.** It stops playing once only first-line points
   remain, so a human who passes wins by a margin that means nothing. It wants a
   mercy rule and a better endgame before it is a satisfying opponent above ~15k.
@@ -208,7 +324,7 @@ Owned by a parallel effort; listed here for completeness.
   as written, reaches the master bus, and exists where a map names it. Whether it
   is any good needs a person and headphones.
 
-## 8. The engine question
+## 9. The engine question
 
 Declined on 3 September 2026 and worth leaving declined for now: ~235 MB of
 binary and weights against a 7.6 MB game whose entire asset pipeline is generated

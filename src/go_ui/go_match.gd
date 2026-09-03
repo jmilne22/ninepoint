@@ -64,7 +64,18 @@ func _ready() -> void:
     # play_music(), so whatever the street happened to be playing carried on
     # underneath a game. Returning to the world re-applies the map's track, so
     # nothing has to put this back.
-    Audio.play_music("theme_match")
+    #
+    # Which track depends on who this is and what is at stake -- see MatchMusic.
+    # It starts here rather than after _setup_phase() on purpose: the nigiri
+    # ceremony is part of the occasion and should have the occasion's music.
+    var track := MatchMusic.theme_for(request)
+    # play_music() on a name it does not have returns without touching the
+    # player, so a typo in a profile's `theme` would leave the street's track
+    # running under a title match and never say a word about it.
+    if not Audio.has_track(track):
+        push_warning("go_match: no audio/%s.wav -- falling back to the bed" % track)
+        track = MatchMusic.DEFAULT
+    Audio.play_music(track)
 
     _build_ui()
     # Show the empty board straight away. The colours are not settled yet, but

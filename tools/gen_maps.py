@@ -224,12 +224,18 @@ def ketelsteeg():
             {"tile": [wash_door, 8], "text": "WASSALON -- open till two. The warmest room on Ketelsteeg, and nobody minds if you only sit."},
             {"tile": [29, 8], "text": "Under the viaduct the brick is black with a century of smoke. Somebody has chalked a 3-4 point on it, and somebody else has chalked the answer."},
         ],
+        # Molenpark is a daylight place: both of these move to the arches at
+        # dusk, which is where the same two men play the same game in the cold
+        # for money. "blocks" is read by MapBuilder.build_npcs the way
+        # TileAnimator and Soundscape read it -- absent means always.
         "npcs": [
-            {"id": "pip", "tile": [10, 16], "dir": "down", "idle": "wander"},
+            {"id": "pip", "tile": [10, 16], "dir": "down", "idle": "wander",
+             "blocks": ["morning", "afternoon"]},
             # "Four kyu, forty years, one park bench." He was under the viaduct,
             # which contradicted his own opening line and left the ladders and
             # nets lesson with nowhere to be taught. He sits at the stone table.
-            {"id": "bertie", "tile": [17, 16], "dir": "right", "idle": "tend"},
+            {"id": "bertie", "tile": [17, 16], "dir": "right", "idle": "tend",
+             "blocks": ["morning", "afternoon"]},
         ],
         # Two pavements, and nobody walks the tram tracks between them. The
         # ends sit off the grid on purpose: a pedestrian who pops into being
@@ -356,8 +362,20 @@ def onderbrug():
             {"tile": [11, 8], "text": "Coins on the corner of the crate, held down by a stone. Nobody counts them until the game is over."},
             {"tile": [2, 4], "text": "One lamp per arch, and the furthest one has been out for years. Everybody sits where they can see; the man at the far end sits where he cannot be seen."},
         ],
+        # The arches are the night half of the city and now read as it. Joos is
+        # only ever here after dark -- a man with no card and no papers is not
+        # under a viaduct at nine in the morning, and making him permanent was
+        # always the flatter reading of him. Pip and Bertie come down from the
+        # park when the light goes, which is the same two men playing the same
+        # game somewhere colder, and it gives this map the population it could
+        # never have from a crowd route (walled at both ends -- see below).
         "npcs": [
-            {"id": "joos", "tile": [19, 7], "dir": "up", "idle": "watch"},
+            {"id": "joos", "tile": [19, 7], "dir": "up", "idle": "watch",
+             "blocks": ["dusk", "night"]},
+            {"id": "pip", "tile": [5, 7], "dir": "up", "idle": "wander",
+             "blocks": ["dusk", "night"]},
+            {"id": "bertie", "tile": [11, 7], "dir": "down", "idle": "tend",
+             "blocks": ["dusk", "night"]},
         ],
         # No crowd route: validate() rejected every one tried here, because the
         # arches are walled at both ends and there is nowhere for a passer-by
@@ -495,15 +513,28 @@ def de_ketel():
             {"tile": [18, 4], "text": "A coal stove, lit from October to April whatever the weather does. The chair nearest it is not yours and everybody knows whose it is."},
             {"tile": [1, 5], "text": "The rate is chalked on a slate: two-fifty an hour, board and stones included. Under it a kettle, a tin of biscuits, and an honesty box. The biscuits are gone."},
         ],
+        # Kesh and Hana are the two people the setting says cross between the
+        # Instituut and the salon, and until M26 that was expressed by placing
+        # two permanent copies of each. Now it is one person with an evening.
+        # Both keep the afternoon on both maps, because Act 1 meets them here on
+        # day one at that hour and a schedule may not break the opening.
+        #
+        # Wren is deliberately unscheduled: she is the anchor that keeps De
+        # Ketel staffed at every hour, and Act 1's rules lessons hang off her.
         "npcs": [
             {"id": "wren", "tile": [6, 8], "dir": "right", "idle": "study"},
             # Kesh does not sit still anywhere, which is most of what she is.
-            {"id": "kesh", "tile": [14, 7], "dir": "left", "idle": "wander"},
+            {"id": "kesh", "tile": [14, 7], "dir": "left", "idle": "wander",
+             "blocks": ["afternoon", "dusk", "night"]},
             # Hana has been watching you since you came down the steps.
-            {"id": "hana", "tile": [3, 3], "dir": "down", "idle": "watch"},
+            {"id": "hana", "tile": [3, 3], "dir": "down", "idle": "watch",
+             "blocks": ["afternoon", "dusk", "night"]},
             # Tomas owns this room and the bar above it, is named on the sign
-            # outside, and until now stood on no map in the game.
-            {"id": "tomas", "tile": [2, 6], "dir": "right", "idle": "tend"},
+            # outside, and until now stood on no map in the game. The bar is
+            # shut in the morning, so the back room is empty but for Wren --
+            # worth walking into once.
+            {"id": "tomas", "tile": [2, 6], "dir": "right", "idle": "tend",
+             "blocks": ["afternoon", "dusk", "night"]},
         ],
         "music": "theme_club",
         "indoors": True,
@@ -583,7 +614,7 @@ def bondszaal():
         "npcs": [
             {"id": "marguerite", "tile": [2, 4], "dir": "right", "idle": "tend"},
         ],
-        "music": "institute",
+        "music": "theme_institute",
         "indoors": True,
     }
 
@@ -714,13 +745,25 @@ def academy_study():
         "warps": [{"tile": [door_x, 7], "map": "academy_hall", "spawn": "from_study",
                    "prompt": "Back to the hall"}],
         "signs": [{"tile": [1, 6], "text": "A kettle, a tin, and a handwritten note: THE BISCUITS ARE FOR EVERYONE WHICH MEANS THEY ARE NOT ALL FOR YOU."}],
+        # The study hall empties as the day goes on, which is what a study hall
+        # does. Ilse is unscheduled and is the anchor that keeps the room -- and
+        # therefore Act 2's league -- playable at every hour; she is also
+        # exactly the person who would still be here at midnight, out of a book.
+        #
+        # Kesh and Orla share a schedule on purpose: they are a "converse" pair
+        # and NpcIdle.find_peer() would otherwise leave one of them talking to
+        # nobody.
         "npcs": [
             # Kesh and Orla are three tiles apart across a board, so they are
             # talking to each other. NpcIdle runs both ends off one clock.
-            {"id": "kesh", "tile": [12, 8], "dir": "up", "idle": "converse:orla"},
+            {"id": "kesh", "tile": [12, 8], "dir": "up", "idle": "converse:orla",
+             "blocks": ["morning", "afternoon"]},
             {"id": "ilse", "tile": [6, 6], "dir": "right", "idle": "study"},
-            {"id": "sunny", "tile": [18, 6], "dir": "left", "idle": "wander"},
-            {"id": "orla", "tile": [12, 11], "dir": "up", "idle": "converse:kesh"},
+            # Sunny is nine. She is not at the Instituut after dark.
+            {"id": "sunny", "tile": [18, 6], "dir": "left", "idle": "wander",
+             "blocks": ["morning", "afternoon"]},
+            {"id": "orla", "tile": [12, 11], "dir": "up", "idle": "converse:kesh",
+             "blocks": ["morning", "afternoon"]},
         ],
         "music": "theme_institute",
         "indoors": True,
@@ -769,9 +812,14 @@ def academy_class():
             {"tile": [8, 2], "text": "__CLASS_BOARD__"},
             {"tile": [9, 2], "text": "__CLASS_BOARD__"},
         ],
+        # Hana teaches in the daylight half of the city and drinks in the other
+        # one; this is the map that says the first half. Nadia stays on into the
+        # dusk with her joseki book, because of course she does.
         "npcs": [
-            {"id": "hana", "tile": [12, 3], "dir": "down", "idle": "watch"},
-            {"id": "nadia", "tile": [4, 5], "dir": "right", "idle": "study"},
+            {"id": "hana", "tile": [12, 3], "dir": "down", "idle": "watch",
+             "blocks": ["morning", "afternoon"]},
+            {"id": "nadia", "tile": [4, 5], "dir": "right", "idle": "study",
+             "blocks": ["morning", "afternoon", "dusk"]},
         ],
         "music": "theme_institute",
         "indoors": True,
@@ -838,8 +886,14 @@ def solid_mask(grid, extra_walkable=frozenset()):
     return rows
 
 
+## The hours of the day, and the only strings an NPC's "blocks" may contain.
+## Mirrors GameState.BLOCKS; validate() is what keeps the two honest.
+BLOCKS = ["morning", "afternoon", "dusk", "night"]
+
+
 def validate(name, data):
-    """Every place a person can stand must actually be standable."""
+    """Every place a person can stand must actually be standable, and every
+    hour they claim to stand there must be an hour that exists."""
     solid = data["solid"]
     problems = []
 
@@ -853,6 +907,16 @@ def validate(name, data):
         x, y = npc["tile"]
         if not walkable(x, y):
             problems.append("%s: npc '%s' at %d,%d is solid" % (name, npc["id"], x, y))
+        # A schedule is only as good as its spelling. GameState.BLOCKS is
+        # morning/afternoon/dusk/night, but GAME_DESIGN says "Morning /
+        # Afternoon / Evening", so "evening" is the word somebody will reach
+        # for -- and MapBuilder would then match it against nothing and drop
+        # the person from the game at every hour, silently, which is the exact
+        # shape of bug this project keeps a list of.
+        for b in npc.get("blocks", []):
+            if b not in BLOCKS:
+                problems.append("%s: npc '%s' has unknown block '%s' (want %s)"
+                                % (name, npc["id"], b, "/".join(BLOCKS)))
     for w in data["warps"]:
         x, y = w["tile"]
         if solid[y][x] != "0":

@@ -191,7 +191,37 @@
     7
    ],
    "dir": "up",
-   "idle": "watch"
+   "idle": "watch",
+   "blocks": [
+    "dusk",
+    "night"
+   ]
+  },
+  {
+   "id": "pip",
+   "tile": [
+    5,
+    7
+   ],
+   "dir": "up",
+   "idle": "wander",
+   "blocks": [
+    "dusk",
+    "night"
+   ]
+  },
+  {
+   "id": "bertie",
+   "tile": [
+    11,
+    7
+   ],
+   "dir": "down",
+   "idle": "tend",
+   "blocks": [
+    "dusk",
+    "night"
+   ]
   }
  ],
  "music": "theme_arches",

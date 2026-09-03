@@ -12,8 +12,14 @@ extends RefCounted
 ## Its constants are reachable through the script itself either way.
 const AudioScript := preload("res://src/autoload/audio.gd")
 
+## Every map, and it has to stay every map. The Bondszaal was missing from this
+## list and spent its whole life declaring a track name that did not exist
+## ("institute", where the file is theme_institute.wav) -- so the hall the Cup
+## and the exam are held in played whatever the last map had been playing. The
+## check below would have caught it on day one.
 const MAPS := ["ketelsteeg", "de_ketel", "attic", "onderbrug", "quay",
-    "academy_hall", "academy_study", "academy_class", "academy_dorm"]
+    "bondszaal", "academy_hall", "academy_study", "academy_class",
+    "academy_dorm"]
 const IDLE_MODES := ["wander", "study", "tend", "watch", "converse"]
 
 
@@ -139,8 +145,13 @@ static func _test_music(t: TestKit) -> void:
             used[track] = true
             t.ok(FileAccess.file_exists("res://audio/%s.wav" % track),
                 "%s: track '%s' exists" % [map_id, track])
-    # The two scenes that are not maps and so have no map to declare them.
-    for track in ["theme_title", "theme_match"]:
+    # The scenes that are not maps and so have no map to declare them. The
+    # battle themes are chosen by MatchMusic and checked in its own suite; the
+    # intro stings are named by nobody at all -- Audio.play_music() finds them
+    # by appending INTRO_SUFFIX -- so this is the only place they can be
+    # required to exist.
+    for track in ["theme_title", "theme_match", "theme_battle_in",
+            "theme_rival_in", "theme_ghost_in", "theme_cup_in"]:
         t.ok(FileAccess.file_exists("res://audio/%s.wav" % track),
             "'%s' exists for the scene that plays it" % track)
     # The bar and the Instituut are the setting's two halves and must not be

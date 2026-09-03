@@ -4,7 +4,8 @@ A top-down 2D RPG about learning to play **Go (baduk)**, in Godot 4.7 / GDScript
 Original setting and characters — nothing is borrowed from any existing game's world,
 cast, art or branding. Combat does not exist; encounters are games of Go.
 
-~10,600 lines GDScript, ~4,700 lines Python tooling, 3,735 headless tests.
+~12,100 lines GDScript in `src/` (15,700 with tests and tools), ~6,600 lines Python
+tooling, 5,525 headless tests.
 
 ---
 
@@ -147,6 +148,7 @@ tools/test.sh                                    # compile gate + load check + a
 tools/run_game.sh tools/autopilot/<script>.json  # drive the game, screenshot each beat
 python3 tools/build_assets.py                    # regenerate ALL art, audio and the font
 python3 tools/check_lessons.py                   # verify every taught position vs the rules
+python3 tools/check_melody.py                    # does each track's wav match its note list?
 godot --headless --path . --script res://tools/review_distribution.gd   # is the review useful?
 tools/check_audio.sh                             # is the music actually coming out? (needs a display)
 python3 tools/gen_maps.py                        # rebuild the maps from their generators
@@ -167,6 +169,8 @@ Autopilot scripts in `tools/autopilot/`: `opening`, `prologue`, `slice_full`, `i
 problem paper, a round, both verdicts, and the refusal shown to somebody who finished sixth),
 `board` (the league table with a term of fixtures behind it),
 `calendar` (sleep in the attic and watch the hour and the day turn over),
+`schedule` (the same three places at two hours each: De Ketel shut in the morning and full
+at night, Molenpark and the arches trading their two regulars),
 `cup` (the southbound tram, entering the Cup, and the draw),
 `cup_round` (from the `cup_day` save: read the draw and play a round).
 Screenshots land in `/tmp/ninepoint-shots` (override with `OUT=`). **`run_game.sh` needs a
@@ -281,14 +285,17 @@ This trips people up. Editing the generated file works until someone reruns the 
 | `tools/characters.py` | every character's sprite **and** portrait (one record drives both) |
 | `tools/gen_tiles.py` | `art/tiles/town_tileset.png` + its manifest **and** `town_tileset.tres` (via `gen_tileset_resource.py`, which `build_assets.py` runs — a tile outside the resource draws as nothing, silently) |
 | `tools/font5x7.py` | the bitmap font glyphs |
-| `tools/gen_audio.py` + `wav.py` | `audio/*.wav` — synthesised from oscillators, no samples. Melodies are `(start_beat, "A4", length_beats)` lists through `_voice()`; `n("F#5")` gives the frequency, so a tune reads as music rather than as magic numbers |
+| `tools/gen_audio.py` + `wav.py` | `audio/*.wav` — synthesised from oscillators, no samples. Melodies are `(start_beat, "A4", length_beats)` lists through `_voice()`; `n("F#5")` gives the frequency, so a tune reads as music rather than as magic numbers. Drums are sixteen-character bar patterns through `_drums()` (`"x...x...x..x...."`) for the same reason. A track named `<t>_in` is a one-shot intro sting for `<t>` and needs no wiring — `Audio.play_music()` finds it by convention |
 | `tools/gen_props.py` | `art/props/*.png` — things that cross the frame (the tram) or float over it (the "..." bubble). Not atlas cells: a tram is three tiles long and no map places it |
 
 Hand-authored (edit directly): `data/dialogue/*.json`, `data/lessons/*.json`,
 `data/puzzles/*.json`, `data/reviews/*.json`, `data/banter/*.json`, everything in `src/`.
 
 `tools/gen_maps.py` has a `validate()` that fails the build if a spawn, an NPC or a warp
-lands on a solid tile, or if a sign lands on a walkable one. Trust it.
+lands on a solid tile, if a sign lands on a walkable one, or if an NPC's `"blocks"` names an
+hour that does not exist — `morning`/`afternoon`/`dusk`/`night` and emphatically not
+"evening", which is the word GAME_DESIGN used for four milestones and which would match no
+hour and delete the person from the game at every one of them. Trust it.
 
 ---
 
@@ -342,8 +349,9 @@ lessons → nigiri → Kesh → a rank → capture puzzle → the tram north →
 a class → the Beginner Cup at the Bondszaal. Ten maps, fifteen characters, four hours of the
 day and weather, and a term that ends.
 
-**See `ROADMAP.md` for what is not built.** The short version: the term is six weeks long
-with about four days of content in it.
+**See `ROADMAP.md` for what is not built.** The short version: the term is a fortnight and
+holds about four days of content, so it is no longer overstating itself, but filling it is
+still the largest open item.
 
 **Rank follows results.** `GoRating.performance()` is a pure function of `GameState.match_records`
 — a performance rating over a rolling window of rated games, with handicap folded in, stored
@@ -351,10 +359,23 @@ nowhere. Every profile is `by_rank`, so the stones thin out as the record improv
 becomes something climbed to rather than the default. Handicap is scaled to the board: three
 ranks to a stone on 9x9, capped at the board's own star points.
 
-**Days pass.** A day holds `SLOTS_PER_DAY` hours; a rated game or a class costs one, and
-lessons, puzzles and unrated games are free — the distinction Go culture already draws, used
-as the economy. Spending an hour moves `time_block`, which is what finally makes the whole
-atmosphere layer visible in play. Sleeping is the only thing that advances the day.
+**Days pass, and people have somewhere to be.** A day holds `SLOTS_PER_DAY` hours; a rated
+game or a class costs one, and lessons, puzzles and unrated games are free — the distinction
+Go culture already draws, used as the economy. Spending an hour moves `time_block`; sleeping
+is the only thing that advances the day. The term is a **fortnight** — `EXAM_DAY` 10,
+`CUP_DAY` 14 — cut down from six weeks in M26 to match the content that exists.
+
+The hour now decides **who is in the room**, not just the light. A map's NPC entry may carry
+`"blocks": ["dusk", "night"]` (absent means always, the same reading `TileAnimator` and
+`Soundscape` give the key); `MapBuilder.build_npcs()` filters on it and `World._repopulate()`
+rebuilds when the hour turns with the world still standing, which only sleeping does. So
+Hana teaches at the Instituut in daylight and drinks at De Ketel after dark — one person
+crossing, where there used to be two permanent copies of her — Pip and Bertie move between
+Molenpark and the arches, the bar is shut in the morning, and Ilse is still in the study
+hall at midnight. **A schedule can hide a quest step**, so `tests/test_data.gd` requires
+every character to be findable at every hour unless they are on a written allow-list, and
+requires De Ketel and the study hall to be staffed at all four: a room that empties is an
+hour you cannot spend, and an hour you cannot spend is an hour you cannot get past.
 
 **The opponents are people at the board, not just in dialogue.** `GoTableTalk` classifies what
 just happened into tags and `data/banter/*.json` gives each character something to say about
@@ -362,6 +383,20 @@ it — Pip shouts "ATARI!", Hana answers a capture with a question, Joos manages
 players now blunder *plausibly*: a bad move comes from a ranked shortlist rather than at
 random, so a 20 kyu plays the fourth-best move instead of a random point. Pip chases ladders,
 Kesh cuts, Ilse opens out of a book and is lost the moment it runs out.
+
+**A game that counts has music.** The soundtrack tiers the way Pokemon's does, and
+`MatchMusic.theme_for()` is the whole of the decision. A free game — a lesson, a puzzle, a
+pickup in the park — keeps `theme_match`, which was written at 58 bpm to be ignored and is
+right for exactly those. A rated game costs an hour and goes on your record, and gets
+`theme_battle`. Five people carry their own (`theme_rival` for Kesh, `theme_ghost` for Joos —
+a half-time riff that refuses to develop, because neither will he — `theme_teacher`,
+`theme_wall`, `theme_exam`), and the two occasions outrank whoever the draw produced
+(`theme_exam`, `theme_cup`). Three rules in that order, and the middle one is load-bearing:
+**a named theme beats the tier**, which is the only reason Joos works, since his games are
+`unrated` so the league never sees them and the tier alone would play the most intimidating
+opponent in the game over the lesson bed. Four themes ship an intro sting named `<track>_in`,
+found by convention rather than configuration. The review drops back to the quiet bed on
+purpose: the fight is over and that is the part where you think.
 
 **Act 2 ends.** The top four of the lower league sit a qualifying exam on day `EXAM_DAY` —
 three rounds, a round robin, even games, top two through — and the league board's promise
@@ -407,11 +442,13 @@ No engine, and the seam for one is `GoEvaluator` — see the debt list before re
   eye or play the first line — a much better opponent and a much worse *subject*. The harness
   runs three player models for that reason and says so in its own output. Do not read it as an
   estimate of what a person triggers.
-- **The calendar outruns the content.** The term is six weeks (`GameState.CUP_DAY`) and holds
-  about four days of it: three classes and a first game against each of eight reachable
-  opponents. The bed offers "Sleep until the Cup" so nobody presses [Space] forty times, and
-  that option is a plaster over a content gap rather than a feature. Whether to rescale the
-  term or fill it is an open decision — see `ROADMAP.md` §0.
+- **The term still wants filling, but it no longer lies about its size.** M26 cut it from
+  six weeks to a fortnight (`GameState.CUP_DAY` 14, `EXAM_DAY` 10), which is roughly the
+  four days of content that exist: three classes and a first game against each of eight
+  reachable opponents. Schedules now make one hour differ from another, which is the first
+  half of filling it; more to do per day is the second and is unbuilt. The bed's "Sleep
+  until..." options stay and are ordinary convenience at this length rather than a plaster.
+  `ROADMAP.md` §3.
 - **The curriculum runs to competence but stops before judgement.** Eleven lessons:
   liberties, capture, self-capture, ko (Wren); escape, connection (Kesh); openings,
   two eyes, life and death (Hana's class); ladders (Bertie); counting (Tomas). Eight
@@ -422,15 +459,16 @@ No engine, and the seam for one is `GoEvaluator` — see the debt list before re
   human who passes wins by a margin that means nothing. Needs a mercy rule and a better
   endgame before it is satisfying above ~15k. Its *style* is no longer the problem: profiles
   differ in how they blunder, how deep they read, and what they are drawn to.
-- Audio has never been *heard* by an assistant, but it is no longer unverified. Three things
-  are now machine-checked: that each track **renders as written** (a Goertzel probe recovers
-  the intended note sequence from the wav, catching a wrong octave or two notes colliding),
-  that each **reaches the master bus** (`tools/check_audio.sh`, which caught the QOA loop bug
-  above), and that every track a map names exists. What none of that answers is whether the
-  music is any *good* — that still needs a person and a pair of headphones.
-- **`play_music` has the fade race that `play_ambience` was fixed for.** Stopping and starting a
-  track in the same frame leaves the stop's tween running over the new one. Not yet hit in play,
-  because no map pair does it — `Audio._fade_ambience` shows the fix.
+- Audio has never been *heard* by an assistant, and the machine checks are worth stating
+  precisely, because the loose version of this sentence claimed more than they do. Checked:
+  that each track's wav **agrees with the note list that produced it** (`tools/check_melody.py`
+  — a Goertzel probe, which catches a harmonic swamping its fundamental, a filter removing a
+  note, a beat grid that does not match the tempo, and a note landing past the bar count and
+  stretching the loop); that each **reaches the master bus** (`tools/check_audio.sh`, which
+  caught the QOA loop bug above); and that every track a map, a scene or a profile names
+  exists. **Not** checked, and not checkable: whether the note list is the tune anybody meant.
+  Edit `E5` to `E4` and the wav and the expectation move together and the probe says ok. That
+  needs a person, and so does whether any of it is any *good*.
 - Passers-by walk their route with no pathfinding at all, so `gen_maps.validate()` checks the
   whole segment is clear rather than just the ends. It is why Onderbrug has no crowd: it is
   walled at both ends and there is nowhere for anyone to be coming from.

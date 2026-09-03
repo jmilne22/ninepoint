@@ -206,7 +206,12 @@
     7
    ],
    "dir": "left",
-   "idle": "wander"
+   "idle": "wander",
+   "blocks": [
+    "afternoon",
+    "dusk",
+    "night"
+   ]
   },
   {
    "id": "hana",
@@ -215,7 +220,12 @@
     3
    ],
    "dir": "down",
-   "idle": "watch"
+   "idle": "watch",
+   "blocks": [
+    "afternoon",
+    "dusk",
+    "night"
+   ]
   },
   {
    "id": "tomas",
@@ -224,7 +234,12 @@
     6
    ],
    "dir": "right",
-   "idle": "tend"
+   "idle": "tend",
+   "blocks": [
+    "afternoon",
+    "dusk",
+    "night"
+   ]
   }
  ],
  "music": "theme_club",

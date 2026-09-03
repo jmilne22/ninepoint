@@ -9,16 +9,24 @@ var player_name: String = "Ro"
 ## Rank as a GoRank strength value; -1 means unranked.
 var rank_strength: int = -1
 
-## The term is six weeks, and the Cup is at the end of it. Wren says so on the
-## day you arrive and the noticeboard has said so since before you did.
-const CUP_DAY := 42
+## The term is a fortnight, and the Cup is at the end of it. Wren says so on the
+## day you arrive.
+##
+## It was six weeks until M26, which was four times the content that exists to
+## fill it -- three classes and a first game against each of eight reachable
+## opponents is eleven slots, call it four days at three slots a day. A term the
+## player sleeps through in one keypress is a term that has overstated itself, so
+## the number came down to meet the game rather than the other way round. Widen
+## it again when there is something to widen it for; every day count in the game
+## is derived from these two constants, so it is this line and its neighbour.
+const CUP_DAY := 14
 
 ## The Instituut's qualifying exam, in the last week of term. It sits before the
 ## Cup rather than after it because the two belong to the two Go cultures the
 ## city is built on: the exam is the Instituut deciding who it keeps, and the Cup
 ## is the open city event you are free to enter afterwards whatever it decided.
 ## Swapping them is this constant and nothing else.
-const EXAM_DAY := 38
+const EXAM_DAY := 10
 
 ## What a day holds. Three is enough that choosing between a league game and a
 ## class costs something, without making an afternoon feel like paperwork.

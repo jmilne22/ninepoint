@@ -36,6 +36,10 @@ func _ready() -> void:
 	_voice = GoReviewVoice.load_voice(str(_payload.get("npc_id", "")))
 	_replay.bind(_payload)
 	_voice.habits = _payload.get("habits", {})
+	# Back to the quiet bed. A boss theme driving on underneath the review would
+	# be arguing with what the review is for: the game is over and this is the
+	# part where you think about it.
+	Audio.play_music(MatchMusic.DEFAULT)
 	_build_ui()
 	set_process_unhandled_input(true)
 	set_process(true)

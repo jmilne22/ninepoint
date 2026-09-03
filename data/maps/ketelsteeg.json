@@ -323,7 +323,11 @@
     16
    ],
    "dir": "down",
-   "idle": "wander"
+   "idle": "wander",
+   "blocks": [
+    "morning",
+    "afternoon"
+   ]
   },
   {
    "id": "bertie",
@@ -332,7 +336,11 @@
     16
    ],
    "dir": "right",
-   "idle": "tend"
+   "idle": "tend",
+   "blocks": [
+    "morning",
+    "afternoon"
+   ]
   }
  ],
  "routes": [

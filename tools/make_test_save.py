@@ -5,7 +5,31 @@ playing (beating the rival, for instance) can still be exercised in the real gam
 """
 import json
 import os
+import re
 import sys
+
+GAME_STATE = os.path.join(os.path.dirname(__file__), "..", "src", "autoload", "game_state.gd")
+
+
+def _const(name):
+    """Read a day constant out of GameState rather than repeating it here.
+
+    These presets used to carry literal day numbers -- 42, 41, 38, 36 -- against
+    a six-week term. M26 cut the term to a fortnight and none of them would have
+    errored: `exam_ready` at day 36 against EXAM_DAY = 10 is simply a save
+    twenty-six days past the exam, and a screenshot of the wrong starting state
+    looks exactly as confident as one of the right state. So the days are
+    derived, and the next rescale is one constant instead of eight literals.
+    """
+    src = open(GAME_STATE, encoding="utf-8").read()
+    m = re.search(r"^const %s\s*:=\s*(\d+)" % re.escape(name), src, re.M)
+    if not m:
+        raise SystemExit("make_test_save: no `const %s` in %s" % (name, GAME_STATE))
+    return int(m.group(1))
+
+
+CUP_DAY = _const("CUP_DAY")
+EXAM_DAY = _const("EXAM_DAY")
 
 STATES = {
     # Act 1 complete and invited east, for testing the Institute directly.
@@ -92,7 +116,7 @@ STATES = {
         "map": "ketelsteeg",
         "spawn": "from_ketel",
     },
-    # Day 42, entered, standing in the Bondszaal: the Cup about to start.
+    # Cup day, entered, standing in the Bondszaal: the Cup about to start.
     "cup_day": {
         "rank_strength": 8,
         "flags": {
@@ -109,9 +133,9 @@ STATES = {
         "won": False,
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": 42,
+        "day": CUP_DAY,
     },
-    # Day 36, enrolled, and third in the lower league on three wins -- inside the
+    # Two days out, enrolled, and third in the lower league on three wins -- inside the
     # four, standing at the federation desk, with nothing entered yet. This is the
     # state the exam gate is actually interesting in: Marguerite can say yes.
     "exam_ready": {
@@ -147,7 +171,7 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": 36,
+        "day": EXAM_DAY - 2,
     },
     # The same record, on the day itself, entered and started: the paper and then
     # the rounds. Slots are untouched so a round can actually be sat.
@@ -186,7 +210,7 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": 38,
+        "day": EXAM_DAY,
     },
     # One win and three losses: sixth of seven, outside the four, and told so.
     # Act 2's other ending has to be played rather than reasoned about.
@@ -228,7 +252,7 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": 38,
+        "day": EXAM_DAY,
     },
     # Paper sat, round one won, round two waiting -- the state the exam
     # actually spends most of its time in, and the one where the review screen
@@ -276,7 +300,7 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": 39,
+        "day": EXAM_DAY + 1,
     },
     # All three rounds won: first of four, and through.
     "exam_passed": {
@@ -333,7 +357,7 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": 41,
+        "day": EXAM_DAY + 3,
     },
     # All three lost: Act 2's other ending, which has to be seen too.
     "exam_failed": {
@@ -390,7 +414,7 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": 41,
+        "day": EXAM_DAY + 3,
     },
     # Two rounds down, the last one to play. The only state in which finishing a
     # game *ends Act 2*, which is the transition nothing had ever driven: the
@@ -444,7 +468,7 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": 40,
+        "day": EXAM_DAY + 2,
     },
     "beat_kesh": {
         "rank_strength": 8,               # 22 kyu

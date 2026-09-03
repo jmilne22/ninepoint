@@ -58,7 +58,9 @@ func _ready() -> void:
     _build_ui()
 
     _apply_music()
-    EventBus.time_block_changed.connect(func(_b: String) -> void: _apply_music())
+    EventBus.time_block_changed.connect(func(_b: String) -> void:
+        _apply_music()
+        _repopulate())
     EventBus.puzzle_finished.connect(_on_puzzle_finished)
     EventBus.map_changed.emit(map.id, GameState.spawn_point)
     await get_tree().process_frame
@@ -208,6 +210,35 @@ func _post_lesson(lesson_id: String) -> void:
     player.face_towards(npc.global_position)
     npc.look_at_point(player.global_position)
     await _talk(npc, "taught")
+
+
+## The hour turned while the world was still standing, so the people in it may
+## have changed. Sleeping is the one case that reaches here: every other way of
+## spending a slot goes through a match or a class, and SceneRouter.go_to() frees
+## the World and builds a fresh one on the far side, filtered on the way in.
+##
+## Guarded on `_talking`, because freeing somebody mid-sentence would be exactly
+## the failure this project keeps writing down -- not a crash, just a
+## conversation that stops happening and a box that never closes. The bed is the
+## only caller and nothing is open when it fires, but the guard is what makes
+## that true rather than merely currently-true.
+func _repopulate() -> void:
+    if _talking or SceneRouter.is_busy():
+        return
+    for n in npcs:
+        if n.idle != null:
+            # Otherwise a speech bubble is a child of a node about to be freed.
+            n.idle.release()
+        # Out of the tree *before* the new ones are built, not merely queued for
+        # it. queue_free() lands at the end of the frame, and Npc.find_peer()
+        # searches the "npc" group -- so an incoming Kesh would pair with the
+        # outgoing Orla and hold a reference to a node that is already going.
+        # "converse" would then stand there facing nobody, which is the shape of
+        # bug this file keeps a list of: no error, no crash, and one thing that
+        # stops happening.
+        entities.remove_child(n)
+        n.queue_free()
+    npcs = MapBuilder.build_npcs(map, entities, _on_talk_requested)
 
 
 func _find_npc(npc_id: String) -> Npc:
@@ -371,8 +402,10 @@ func _offer_sleep(prose: String) -> void:
     var state := "Today is gone." if left <= 0 else (
         "There is still the rest of today." if left > 1 else "There is an hour left in today.")
     var choices: Array = [{"text": "Sleep.", "exit": {"type": "sleep"}}]
-    # Six weeks is six weeks, and nobody should press [Space] forty times to
-    # cross it. Once there is a fixed thing to wait for, you can wait for it.
+    # A fortnight is still a dozen keypresses, and nobody should spend them one
+    # at a time. Once there is a fixed thing to wait for, you can wait for it.
+    # (This was the plaster over a six-week term with four days in it; M26 cut
+    # the term to fit, so it is now a convenience rather than a cover-up.)
     #
     # There are two fixed things now, and only the nearer one may be offered: a
     # bed that offers to sleep past an exam you are entered for is a bed that can

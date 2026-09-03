@@ -175,7 +175,11 @@
     3
    ],
    "dir": "down",
-   "idle": "watch"
+   "idle": "watch",
+   "blocks": [
+    "morning",
+    "afternoon"
+   ]
   },
   {
    "id": "nadia",
@@ -184,7 +188,12 @@
     5
    ],
    "dir": "right",
-   "idle": "study"
+   "idle": "study",
+   "blocks": [
+    "morning",
+    "afternoon",
+    "dusk"
+   ]
   }
  ],
  "music": "theme_institute",

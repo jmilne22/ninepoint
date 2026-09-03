@@ -19,5 +19,5 @@ if ! pgrep -x Xvfb >/dev/null 2>&1; then
 fi
 
 DISPLAY=:99 timeout 180 "$GODOT" --path . --script res://tests/check_audio.gd 2>&1 \
-    | grep -E "driver:|peak|audible|SILENT|check_audio:"
+    | grep -E "driver:|peak|audible|SILENT|check_audio:|sting"
 exit "${PIPESTATUS[0]}"

@@ -174,7 +174,11 @@
     8
    ],
    "dir": "up",
-   "idle": "converse:orla"
+   "idle": "converse:orla",
+   "blocks": [
+    "morning",
+    "afternoon"
+   ]
   },
   {
    "id": "ilse",
@@ -192,7 +196,11 @@
     6
    ],
    "dir": "left",
-   "idle": "wander"
+   "idle": "wander",
+   "blocks": [
+    "morning",
+    "afternoon"
+   ]
   },
   {
    "id": "orla",
@@ -201,7 +209,11 @@
     11
    ],
    "dir": "up",
-   "idle": "converse:kesh"
+   "idle": "converse:kesh",
+   "blocks": [
+    "morning",
+    "afternoon"
+   ]
   }
  ],
  "music": "theme_institute",

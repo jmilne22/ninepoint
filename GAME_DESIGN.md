@@ -46,10 +46,14 @@ better. `LeagueTable` computes it from `GameState.match_records` and has no othe
 **Built:** the day counter. A day holds `SLOTS_PER_DAY` hours; a rated game or a class costs
 one, and lessons, puzzles and the unrated games in the park and under the arches are free --
 the distinction Go culture already draws, used as the economy. Spending an hour moves
-`time_block` through morning, afternoon, dusk and night, which is what finally makes the
-atmosphere systems visible in play. Sleeping is the only thing that advances the day, so the
-player is never punished for sitting and thinking about a position. The term ends in the
-Beginner Cup on day `CUP_DAY`; the qualifying exam is the same machinery and is not built.
+`time_block` through morning, afternoon, dusk and night, which changes the light, the sound,
+the crowd and — since M26 — who is standing in the room. Sleeping is the only thing that
+advances the day, so the player is never punished for sitting and thinking about a position.
+
+The term is a **fortnight**: the exam on day `EXAM_DAY` (10) and the Beginner Cup on
+`CUP_DAY` (14). It was six weeks until M26, which was four times the content that exists to
+fill it, and a term the player crosses with one keypress is a term that has overstated
+itself. Widen it again when there is something to widen it for.
 
 ## 1. Premise
 
@@ -164,18 +168,48 @@ Compact, walkable, vertical: a street with rooms above it and rooms below it. Ei
 | **Essenveld Instituut** | Classes, the internal league, the study hall | Hana, Marguerite, the students |
 | **Bondszaal** | The federation hall: tournaments and the exam | Marguerite |
 
-**Built so far:** Ketelsteeg (street + park end), De Ketel, and the four Instituut rooms. The
-attic, Onderbrug, the quay and the Bondszaal are designed and not built.
+**Built:** all eight, plus the attic — Ketelsteeg (street + park end), De Ketel, Onderbrug,
+the quay, the Bondszaal and the four Instituut rooms. Ten maps.
 
 ### Schedules
-NPCs occupy different locations by time-of-day block (Morning / Afternoon / Evening).
+**Built (M26).** NPCs occupy different locations by time-of-day block. The blocks are
+`morning`, `afternoon`, `dusk`, `night` — `GameState.BLOCKS`, and note that there is no
+"evening": this paragraph said Morning / Afternoon / Evening for four milestones and
+`gen_maps.validate()` now rejects the word, because a misspelt block matches no hour and
+removes the person from the game at every one of them, silently.
+
+A map's NPC entry may carry `"blocks": ["dusk", "night"]`; absent or empty means always,
+the same reading `TileAnimator` and `Soundscape` give the key. `MapBuilder.build_npcs()`
+filters on it, and `World._repopulate()` rebuilds when the hour turns with the world still
+standing — which happens only when you sleep, since every other way of spending an hour
+goes through a scene change and gets a fresh world anyway.
+
+What it buys is the two Go cultures stated in section 1 as one person rather than two
+copies: Hana teaches at the Instituut in the daylight and is at De Ketel after dark; Kesh
+the same. Pip and Bertie are in Molenpark by day and under the arches at night, which
+finally populates a map that can never have a crowd (walled at both ends, so every route
+`validate()` was offered got rejected). The bar is shut in the morning and the study hall
+empties as the day goes on.
+
+Two people are unscheduled on purpose — Wren at De Ketel, Ilse in the study hall — because
+those two rooms are where Act 1 and Act 2 actually run, and a room that empties is a slot
+the player cannot spend, which is the one way a schedule can deadlock the game rather than
+merely inconvenience. `tests/test_data.gd` asserts both rooms are staffed at every hour,
+and that every character is findable at every hour unless they are on a written list of
+the five who are deliberately not.
+
 Time advances when the player sleeps and on certain story beats — not on a real-time clock,
 so the player is never punished for thinking about a position.
 
 ## 5. Cast
 
-Eight characters for the prototype. Ranks are real ranks; the ladder from 20k to 5d is the
-game's difficulty curve made human.
+The nine below are the original prototype cast and the table is kept at that size, because
+these are the nine the design was reasoned from. **Fifteen `NpcData` files ship and twelve
+of them stand on a map** -- the six added since are Ilse, Sunny and Orla in the study hall
+and Abel, Dov and Moss in the Cup field. `CLAUDE.md` carries the complete list with ranks
+and locations; that is the one to read for who exists.
+
+Ranks are real ranks; the ladder from 20k to 5d is the game's difficulty curve made human.
 
 | # | Name | Rank | Role | Personality | Style at the board |
 |---|---|---|---|---|---|
@@ -309,7 +343,9 @@ two ranks; no opponent hard-codes a colour except a scripted story match.
 
 ### The tutorial
 Ninepoint is a game about learning Go, so it teaches Go. The order is Yasuda Yasutoshi's,
-which is how the game is taught in clubs everywhere:
+which is how the game is taught in clubs everywhere. Eleven lessons and, in the middle of
+them, a real game -- with a teacher for each, because who teaches a thing is part of what
+the thing means here:
 
 | # | Lesson | Where |
 |---|---|---|
@@ -317,14 +353,27 @@ which is how the game is taught in clubs everywhere:
 | 2 | **Capture** -- fill the last liberty; chains die whole | Wren, `data/lessons/capture.json` |
 | 3 | **Capture Go** -- a real 7x7 game, first capture wins, no territory and no counting | Pip, in the park |
 | 4 | **No self-capture** -- and the exception that captures create | Wren, `data/lessons/self_capture.json` |
-| 5 | Two eyes and life | Hana *(not yet built)* |
-| 6 | Passing, territory, counting -- then a full 9x9 | Hana *(not yet built)* |
+| 5 | **Ko** -- you may not take it straight back | Wren, once the rulebook has settled |
+| 6 | **Escape** -- a group on one liberty is not dead yet | Kesh, after she has cut you apart |
+| 7 | **Connection** -- the cut, and not being on the wrong end of one | Kesh, after `escape` |
+| 8 | **Ladders** -- the one that works, and the ten seconds of counting that tells you which you have | Bertie, Molenpark |
+| 9 | **Openings** -- corner, side, centre, argued by counting rather than asserted | Hana, the class board |
+| 10 | **Two eyes** -- what alive actually means | Hana, the class board |
+| 11 | **Life and death** -- the vital point | Hana, the class board |
+| 12 | **Counting** -- passing, territory, what a captured stone is worth | Tomas, behind his counter |
 
-Two entry points, both optional so a player who already knows Go is never detained:
-**"Learn to play"** on the title screen runs lessons 1, 2 and 4 back to back and then puts
-you on Ketelsteeg; and Wren asks, the first time you meet her, whether you have played
-before. Capture Go is a real match against a real opponent, not a scripted set piece --
-`GoGame.capture_goal` is a rule of the engine, not a special case in the UI.
+One entry point, and it is a person: Wren asks, the first time you meet her, whether you
+have played before, and "never" runs the rulebook -- 1, 2 and 4 -- back to back. There is
+no menu item, because being taught by somebody is the point. Everything after the rulebook
+is offered by whoever it belongs to, at the moment in the fiction that earns it, and all of
+it is optional so a player who already knows Go is never detained. Capture Go is a real
+match against a real opponent, not a scripted set piece -- `GoGame.capture_goal` is a rule
+of the engine, not a special case in the UI.
+
+**What the teaching path still gets wrong is recorded in ROADMAP §6**, and some of it
+changes what a player is actually taught: `self_capture` hangs off a single dialogue
+choice, `knows_the_rules` means "has had any lesson" rather than "knows the rules", and
+four of the lessons end without their teacher saying anything.
 
 ### Puzzles and lessons
 Puzzles are small board positions with a goal (*capture the marked group*, *make two eyes*,
@@ -334,7 +383,9 @@ renderer as real matches. The study desk at home replays any puzzle already unlo
 
 ## 7. Quests
 
-Quests are data. The slice ships one:
+Quests are data. **Four ship**: `first_stones` (below), `enrolment` ("The Lower League"),
+`qualifying_exam` and `beginner_cup`. The first is the one worth reading in full, because it
+is the shape the other three follow:
 
 **"First Stones"** *(Q_FIRST_STONES)*
 1. Leave your room.
@@ -345,8 +396,9 @@ Quests are data. The slice ships one:
 6. Speak to Hana, who has been watching, and solve her capture puzzle.
 → Rewards: provisional rank 22k, De Ketel membership key item, Kesh relationship established.
 
-Planned quest shapes beyond the slice: *ladder* quests (beat three park players),
-*fetch-with-meaning* quests (return Nadia's joseki book after using it), *tournament arcs*.
+Tournament arcs are built -- the Cup and the exam are both quests. Still unbuilt: *ladder*
+quests (beat three park players) and *fetch-with-meaning* quests (return Nadia's joseki book
+after using it).
 
 ## 8. Tournaments (post-slice design)
 
