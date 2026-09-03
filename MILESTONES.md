@@ -758,6 +758,212 @@ Nothing here blocks the slice; all of it will bite later.
 
 ---
 
+## M23 — The review, properly  [done]
+
+M15 built a review that was correct and not yet useful. Played as the person it is written
+for -- four days into Go, 22k, losing to Kesh by thirty-four points -- it had six problems,
+and the first one was the worst.
+
+- **The opening compliment was not guaranteed.** GAME_DESIGN and this file both state it as
+  a rule; `select()` honoured it `if not good.is_empty()`, and `good_capture` needed three
+  stones in one move while `good_save` required the rescued group to survive to the end of
+  the game. So the losing games -- the ones P5 was written for -- were the likeliest to open
+  on a criticism. `tools/review_distribution.gd` measured it at **44 of 60**. Fixed by
+  lowering both thresholds, adding `atari_answered`, and adding `best_moment` as a floor:
+  every game contains a move after which the player was better off, so there is always
+  something true to open with. Now 60 of 60, across three player models and three strengths.
+- **The gate withheld the two most actionable findings from the people who needed them.**
+  `capture_missed` waited until 18k and `died_savable` until 20k -- above the band where
+  most of the game is played. The order was the lesson order, which is ordered by what
+  builds on what; a review has to be ordered by what you can act on tomorrow. Both are now
+  ungated, and ranked by cost instead.
+- **Severity was not comparable across kinds.** `stones + 3` here, a flat `5.0` there. A new
+  `GoEvaluator` seam prices every finding in points; `GoProgress` implements it by counting
+  what a person counts -- stones plus the regions only one colour has walled off -- after
+  every move. Ranking is cost first, severity as the tiebreak, so the review leads with the
+  worst thing that actually happened.
+- **It said what happened and never what to do.** Findings now carry a `takeaway` (the rule,
+  not the voice, so it lives only in `default.json`) and the id of the lesson that covers
+  them, and `GoPuzzleData.from_finding()` hands the position back as a problem to solve.
+- **You could not look at the board.** `positions_of()` already walked every position to
+  find the findings and threw them all away; `GoReplay` puts a cursor on them and the arrows
+  step through the game.
+- **Nothing was remembered between games.** `MatchResult.review_summary` is small enough to
+  keep in the save, and `GoReviewHistory` reads it back: which habits recur, how many games
+  running, what to study.
+
+**Five bugs found on the way, three of them by the tests and tools this milestone added.**
+
+`positions_of()` fed a curve that was nonsense at the start of every game: on an empty board
+the single region has no border, and after Black's first stone the *entire* rest of the board
+is bordered by Black alone, so a 9x9 read +80 on move one and back to zero on move two.
+`worst_swing()` then found an 81-point collapse in every game ever played -- a review
+inventing a mistake, the one thing this module exists not to do. Territory has to be
+regional to mean anything, which is the same trap `tools/check_lessons.py` was written to
+catch in the openings lesson.
+
+`dead_group_fed` keyed a group by its stones, and the chain grows by one every time it is
+fed, so four wasted stones became four findings of one stone each and the count never
+accumulated -- the same family as the two `stones[0]` bugs M15 found. It keys on the capture
+now: everything taken in one move died together.
+
+`best_moment` and the fallback compliment both fired on a three-move resignation, which
+would have put a review screen in front of somebody who sat down and immediately quit.
+`MatchBridge` skips the review when nothing was found, and that is the mechanism; both now
+require `GoReview.ENOUGH_GAME`.
+
+`_show_cells()` builds its board with `set_position()`, which leaves the move list empty --
+so `GoBoardView`, which draws its last-move marker from `game.last_move()`, silently drew
+nothing. A replay with no indication of what was just played is worse than no replay, and it
+fails exactly the way the blank board view of M8 did: no error, no failing test.
+
+And `tools/autopilot/review.json` was stale against M21's content. Kesh now opens with
+`offer_escape` ("Show me." / "Not now.") rather than going straight to `rematch_offer`, so
+the script chose "Show me.", drove itself into the escape lesson, and reported **0 script
+errors** while screenshotting the wrong screen entirely. A green autopilot run proves the
+game did not crash and nothing else.
+
+**Done when:** the suite went 5118 -> 5480 checks with 281 covering the review and the
+curve; every fixture *played* rather than drawn, so three that had drifted failed loudly
+instead of testing positions nobody meant; `tools/review_distribution.gd` reported 60 of 60
+games opening with praise at strengths 8, 11 and 15 across three player models, with no kind
+above 40% of all findings. That harness carries a warning it is worth repeating: the
+heuristic opponent is no longer a beginner. Since M22 it picks from a ranked shortlist rather
+than playing randomly, and with `SELF_ATARI_PENALTY` on top it will essentially never
+self-atari, fill its own eye or wander onto the first line -- a much better opponent and a
+much worse *subject*. Every number that harness prints is a lower bound on what a person
+triggers, not an estimate of it.
+
+**The harness was hardened, because three of the four things that went wrong this milestone
+were the harness lying rather than the code being wrong.** `tools/run_game.sh` gained
+`SAVE=<preset>`, which regenerates save slot 1 before launching so a script declares the state
+it needs instead of inheriting whatever the last run left behind — every script that ends by
+saving through the pause menu had been poisoning the slot for the next one, and that produced
+three wrong diagnoses in one evening. It also takes an exclusive `flock` and refuses to start
+a second run: two runs share `user://save_*.json` and the screenshot folder, and the second
+one's `rm -rf "$SHOTS"` deletes the first one's frames mid-flight, which surfaces as duplicate
+shot indices and files silently missing from `OUT`. And the screenshot copy no longer ends in
+`2>/dev/null`, which had been turning a failed copy into an absent file — the same trick
+`_talk_to`'s warning played, and indistinguishable from a beat that never ran.
+
+**One detector was deleted rather than fixed.** `first_line_early` fired on the outermost
+ring within twenty moves; M20's `GoTableTalk` emits `you_edge_early` on the identical
+condition, same window, same constant. Said at the table on move eight it is a nudge you can
+still act on; repeated on the result screen it is a lecture about a game that is over. The
+banter owns it now, which also disposed of an awkward 15k threshold on a mistake beginners
+make constantly, and freed one of the three slots for something the player does not already
+know.
+
+---
+
+## M24 — The exam  [done]
+
+Act 2 had no ending. Marguerite said entry was by league position twice, the
+league board printed it under every standing, and `LeagueTable.player_position()`
+was read by exactly one thing in the project: the footer string underneath it.
+
+- **`src/academy/exam.gd`** — four players, three rounds, top two pass. Pure and
+  stores nothing, like `CupDraw` and `LeagueTable`: the crosstable is a function
+  of the field and the games the player has actually played, so a save and a
+  reload is the same exam. Where the Cup is McMahon this is a round robin, which
+  deletes the pairing search entirely — with four people over three rounds
+  everybody meets everybody once and a bye is arithmetically impossible.
+- **The field is earned rather than declared.** `CupBoard.FIELD` is a constant;
+  the exam's field is the top four of the lower league less Marguerite, who runs
+  it. Before the exam starts the list on the wall is a live preview of the
+  standings — look at it in week two and it tells you who would sit it if the
+  term ended now. The first time it is asked for *after* the exam starts it is
+  written down and read back from then on, which is what entries closing means
+  and what stops the list changing under a player who wins a league game between
+  rounds.
+- **Marguerite's problem paper**, sat before round one — two positions from
+  `data/puzzles/`, no hints, and sitting them is what counts. It pays off a line
+  she has had since M13: "I run the register, the league board, and the part of
+  the exam nobody thanks me for."
+- **Both endings are written.** Passing gives a certificate and nothing else, and
+  she says so ("It does not make you stronger"). Failing is an ending too — P5 —
+  and Hana has the closing word on either, because she asked the player's name in
+  the cold open and should be the one to say what the term came to.
+- **Four unreachable opponents wired**, closing ROADMAP §2: Wren at De Ketel
+  (so a beginner's first rated game is no longer against a 12 kyu), Bertie's
+  unrated bench game, Hana's `hana_teaching` and `hana_9x9`, and Marguerite's own
+  league fixture. `hana_teaching` had been orphaned since the day it was written.
+
+**The five bugs this pass found, none of which a green gate would have shown, and
+three of them older than the exam.**
+
+1. **A tournament could not tell you it had ended.** `SceneRouter.go_to()` uses
+   `change_scene_to_file()`, so the World is *freed* for the length of a match --
+   and `World` was listening for `EventBus.match_finished` to notice that a Cup
+   or an exam had played its last round. There is no World in the tree when
+   `finish_match()` emits, so that handler had **never run, not once**. The Cup
+   limped anyway since M19, because `_start_cup_round()` also sets `cup_finished`
+   when you come back and ask for a round that is not there, so the flag arrived
+   a conversation late and only if you asked. The exam made it visible: the
+   standings on the wall said "you finished 3 of 4" while the journal still said
+   "play your three rounds". The check runs in `_after_load()` now, where the
+   world already collects `MatchBridge.last_result`, and one move fixes both
+   events. Every part of this looked correct in isolation -- the emit is in the
+   right place, the handler is on the right signal, and `change_scene_to_file`
+   quietly deletes the listener.
+2. **The journal never noticed a quest finishing.** `Hud` refreshed on
+   `quest_advanced` and not on `quest_completed`, and `QuestTracker` emits the
+   latter for the last step -- so a completed quest kept displaying its final
+   objective until a rank, a day or an hour happened to change. Every quest in
+   the game had ended that way since M6. One line.
+3. **The league table could be ground.** It counted *every* rated game the player
+   had played while the students played a round robin of five, against a sort
+   that leads on wins — so twenty games and eight wins finished above a student
+   who went 5-0. That is grinding past a stronger player and Pillar 1 forbids it;
+   nobody had noticed because nothing read the position. It now counts the
+   player's first game against each person, which is what a league is. Rematches
+   still move rank through `GoRating`, which is where volume belongs.
+4. **Two graphs offered a game and had no `post_match` node** — `tomas.json`
+   since M21, `pip.json` since the prologue. `resolve()` returns `""`, the box
+   never opens, and the after-game beat is skipped in silence. `tests/test_data.gd`
+   now refuses the combination, and found the second one within a minute of
+   existing.
+5. **A player not in the exam field was told they finished fourth of four.**
+   Nothing stops the simulation when the player has no game in it, so it ran to
+   the end and `placing()` fell through to the bottom of the table. Found by
+   looking at a screenshot, which is three for three this year for that rule.
+
+**The shape all five share, and the thing worth carrying forward:** every one was
+a failure that had been converted into an absence. A probe warning that printed
+and carried on. A signal emitted into an empty scene tree. A quest completion
+nobody was listening for. A `cp` with its errors sent to `/dev/null`. None of
+them ever failed anything; they stopped happening quietly, and the run stayed
+green.
+
+**What the validator learned.** `tests/test_data.gd` never looked at an `exit` at
+all, only at `goto`, so a wrong profile, lesson or puzzle id passed every check
+in the project and failed silently at run time. It now validates every exit
+target, requires a `post_match` node beside every `start_match`, and asserts the
+reverse direction: a profile named by no dialogue must appear on a written
+allow-list of the ones an event draws by string interpolation. `check_load.gd`
+had been loading `hana_teaching.tres` faithfully every run since it was written.
+
+**And the harness bug underneath all of it.** `slice_full` had not been playing
+its match in three runs out of five since M16, and nothing had noticed because it
+still wrote all nineteen screenshots and exited 0. M16 gave every NPC an idle
+behaviour; several wander on a leash of about a tile and a half.
+`Autopilot._talk_to` took the tile beside the NPC once, before walking, pressed
+[Space] at where they had been, found nothing on the probe, printed a warning and
+carried on — so the rest of the script ran against a world in which the
+conversation had never happened. Measured on pristine HEAD at 3/5; `_talk_to` now
+retries from where the person actually is and tests whether the dialogue box
+opened rather than what the probe overlaps. 0/5 after. A flaky harness also fakes
+a clean bisect: four single-sample runs pointed convincingly at three different
+files before the rate was measured.
+
+**Done when:** `tools/test.sh` green at 5481 / 0 with the new `exam` suite at 64
+checks; `check_lessons.py` 0 problems; and six autopilot runs screenshotted with
+0 script errors — the list of four, entering, the paper opening on `live_2`, a
+round two that opens on nigiri because the exam is even, and both verdicts, plus
+the refusal shown to somebody who finished sixth.
+
+---
+
 ## After the slice
 
 Most of this table is now done. What is left has moved to **`ROADMAP.md`**, which is

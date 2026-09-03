@@ -67,3 +67,53 @@ func make_game() -> GoGame:
 
 func is_solution(point: int) -> bool:
     return solutions.has(point)
+
+
+## A problem built from a review finding: the position the player got wrong,
+## handed straight back with the move that was there as the answer.
+##
+## No JSON file and no id in data/puzzles/ -- this is one game's mistake and it
+## exists for about a minute. It is the most useful thing the review does,
+## because a beginner is never more ready to solve a problem than thirty seconds
+## after failing to.
+##
+## Returns null when the finding has no single correct move to check against,
+## which is most of them: praise has no answer, and neither does "this is where
+## the game turned".
+static func from_finding(f: Dictionary, board_size: int, takeaway: String = "") -> GoPuzzleData:
+    if f == null or f.is_empty() or bool(f.get("good", false)):
+        return null
+    var detail: Dictionary = f.get("detail", {})
+    # `save` is the move that would have saved a group; `liberty` is the point
+    # that was free all along. Either is a single answer that the rules can
+    # check. A finding with neither is a description, not a problem.
+    var answer: int = int(detail.get("save", detail.get("liberty", -1)))
+    if answer < 0:
+        return null
+    var cells: PackedByteArray = f.get("cells", PackedByteArray())
+    if cells.size() != board_size * board_size:
+        return null
+    if int(cells[answer]) != GoBoard.EMPTY:
+        return null                       # the point is not playable any more
+
+    var p := GoPuzzleData.new()
+    p.id = "review_%s" % str(f.get("kind", "moment"))
+    p.title = "The Same Position"
+    p.size = board_size
+    p.cells = cells.duplicate()
+    p.to_move = GoBoard.BLACK
+    p.solutions = PackedInt32Array([answer])
+    p.target = f.get("points", PackedInt32Array())
+    p.explanation = takeaway
+    match str(f.get("kind", "")):
+        "capture_missed":
+            p.kind = "capture"
+            p.goal = "Take them."
+        "own_eye_filled":
+            p.kind = "live"
+            p.goal = "Make it live."
+        _:
+            p.kind = "escape"
+            p.goal = "Save it."
+    p.hint = "One move. Look at the liberties."
+    return p

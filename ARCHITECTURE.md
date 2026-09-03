@@ -51,8 +51,14 @@ src/
     go_scoring.gd       Japanese (territory) + Chinese (area) scoring, dead-stone heuristic
     go_zobrist.gd       position hashing (ko / superko / repetition)
     go_sgf.gd           SGF export (debugging, reviews, kifu)
-    go_review.gd        replays a finished game and reports what happened in it
-    go_review_detectors.gd  the nine things it knows how to notice
+    go_review.gd        picks the three things worth saying about a finished game
+    go_review_replay.gd     reading a game's positions back
+    go_review_detectors.gd        liberties and capture: what went wrong
+    go_review_detectors_good.gd   the four things it is pleased about
+    go_review_detectors_shape.gd  what only the whole game can show
+    go_evaluator.gd     how the game was going, in points -- the engine seam
+    go_progress.gd      the shipped answer: stones plus what you walled off
+    go_review_history.gd    what this player keeps doing, across games
 
   go_ai/              OPPONENTS — depend on go/ only
     go_opponent.gd      abstract interface: choose_move(game) -> Move  (async-capable)
@@ -67,6 +73,7 @@ src/
     go_puzzle.*         puzzle scene reusing GoBoardView
     go_lesson.*         the tutorial runner, also reusing GoBoardView
     go_review.*         the post-game review, ditto: your own game, replayed at you
+    go_replay.gd        a cursor over the game, so the board can be stepped through
     go_review_voice.gd  which character says a finding, and in what words
 
   rpg/                THE WORLD

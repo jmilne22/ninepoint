@@ -5,6 +5,8 @@ extends RefCounted
 
 static func run(t: TestKit) -> void:
     _test_dialogue(t)
+    _test_dialogue_exits(t)
+    _test_opponents_reachable(t)
     _test_resources(t)
     _test_puzzles(t)
     _test_maps(t)
@@ -54,6 +56,96 @@ static func _gotos(node: Dictionary) -> PackedStringArray:
         if b.has("goto"):
             out.append(str(b["goto"]))
     return out
+
+
+## Every exit in every graph. _gotos() above never looks at one, so until now a
+## typo in a profile, lesson or puzzle id passed every test in the project and
+## turned into a silently wrong match or a broken scene at run time.
+static func _exits(node: Dictionary) -> Array:
+    var out: Array = []
+    if node.has("exit"):
+        out.append(node["exit"])
+    for c in node.get("choices", []):
+        if c.has("exit"):
+            out.append(c["exit"])
+    return out
+
+
+## The exit types World._handle_exit knows. Anything else is dispatched to
+## nothing at all and the conversation simply stops.
+const EXIT_TYPES := ["start_match", "start_lesson", "start_puzzle", "cup_round",
+                     "exam_round", "exam_paper", "end"]
+
+
+static func _test_dialogue_exits(t: TestKit) -> void:
+    t.section("dialogue exits")
+    for path in _list("res://data/dialogue", ".json"):
+        var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
+        if not (parsed is Dictionary):
+            continue
+        var nodes: Dictionary = parsed.get("nodes", {})
+        var starts_a_match := false
+        for key in nodes.keys():
+            for exit in _exits(nodes[key]):
+                var kind := str(exit.get("type", "end"))
+                t.ok(EXIT_TYPES.has(kind),
+                    "%s: '%s' exits with a type the world handles ('%s')" % [path, key, kind])
+                if kind == "start_match":
+                    starts_a_match = true
+                if exit.has("profile"):
+                    t.ok(ResourceLoader.exists("res://data/opponents/%s.tres" % str(exit["profile"])),
+                        "%s: '%s' names a real opponent ('%s')" % [path, key, str(exit["profile"])])
+                if exit.has("lesson"):
+                    t.ok(FileAccess.file_exists("res://data/lessons/%s.json" % str(exit["lesson"])),
+                        "%s: '%s' names a real lesson ('%s')" % [path, key, str(exit["lesson"])])
+                if exit.has("puzzle"):
+                    t.ok(FileAccess.file_exists("res://data/puzzles/%s.json" % str(exit["puzzle"])),
+                        "%s: '%s' names a real puzzle ('%s')" % [path, key, str(exit["puzzle"])])
+        # World._post_match re-enters the graph at "post_match" when the player
+        # lands back in the world. If it is missing, resolve() returns "" and the
+        # box never opens -- so the after-game beat is skipped in silence. Tomas
+        # shipped like that from the day he was given a game.
+        if starts_a_match:
+            t.ok(nodes.has("post_match"),
+                "%s offers a game, so it has a post_match node" % path)
+
+
+## The reverse direction: a profile nothing can reach is a file that loads, is
+## never wrong, and never happens. check_load.gd loads them all, which is exactly
+## why hana_teaching survived unreferenced from the day it was written.
+##
+## The allow-list is deliberately a list of names rather than a blanket rule for
+## anything a tournament might pick up by string interpolation: a profile reached
+## only through an event should be a decision somebody wrote down.
+const REACHED_BY_EVENT := [
+    "wren_9x9", "pip_9x9", "abel_9x9", "dov_9x9", "moss_9x9",     # CupBoard.FIELD
+    "kesh_exam", "ilse_exam", "sunny_exam", "orla_exam", "nadia_exam",  # the exam
+]
+
+
+static func _test_opponents_reachable(t: TestKit) -> void:
+    t.section("every opponent can be played")
+    var named := {}
+    for path in _list("res://data/dialogue", ".json"):
+        var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
+        if not (parsed is Dictionary):
+            continue
+        var nodes: Dictionary = parsed.get("nodes", {})
+        for key in nodes.keys():
+            for exit in _exits(nodes[key]):
+                if exit.has("profile"):
+                    named[str(exit["profile"])] = true
+    for path in _list("res://data/opponents", ".tres"):
+        var id := path.get_file().trim_suffix(".tres")
+        t.ok(named.has(id) or REACHED_BY_EVENT.has(id),
+            "%s is reachable: some dialogue starts it, or an event draws it" % id)
+    # And the exam's field must match the league roster it is drawn from, or the
+    # generator will stop emitting a profile the world then asks for.
+    for npc_id in LeagueTable.ROSTER:
+        if Exam.EXCLUDED.has(npc_id):
+            continue
+        t.ok(ResourceLoader.exists("res://data/opponents/%s_exam.tres" % npc_id),
+            "%s can be drawn in the exam and has an even-game profile" % npc_id)
 
 
 static func _test_resources(t: TestKit) -> void:

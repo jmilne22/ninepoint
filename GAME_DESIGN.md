@@ -223,30 +223,64 @@ In Go the review is usually longer than the game, and it is where the learning a
 happens. So a match does not end at the result card: the person you just played walks you
 back through your own board first.
 
-`GoReview` replays the finished game from its move list and reports what happened in it —
-a group left in atari that died and where its liberty was, a group that died when a move
-would have saved it, an eye you filled, stones you put on one liberty, a capture of theirs
-you never took, an opening move on the first line, a ladder you ran into. And two that are
-not optional: a capture worth mentioning and a group you got out. **Every review opens with
-something the player did**, because P5 says losing is content and a list of failures makes
-it punishment instead.
+`GoReview` replays the finished game from its move list and reports what happened in it. It
+works in three layers, and the separation is the design:
 
-Three rules keep it a review rather than an audit:
+**What happened.** Fourteen detectors, each a fact about the board: a group left in atari
+and where its liberty was, a group that died when a move would have saved it, an eye you
+filled, stones you put on one liberty, a capture of theirs you never took, a group you kept
+feeding after it was lost, your own territory filled in at the end, a cut you answered
+somewhere else, a ladder you ran into, a game you should have stopped playing. And four that
+are not optional: a capture, a group you got out, an atari you answered, and the best move
+you played.
 
-- **Only what you are ready to hear.** Each kind of finding carries the strength at which
-  it becomes useful, in the same teaching order as the lessons. A 22k is told about atari
-  and filled eyes; the first line waits until 15k.
-- **One of each kind, at most three, told in the order they happened.** Four ignored
-  ataris are one mistake made four times.
-- **Only from somebody stronger.** Wren is 20k and refuses once you pass her, rather than
-  inventing something. Joos manages four words. Hana asks instead of telling.
+**What it cost.** A `GoEvaluator` prices every finding in points, so the review can lead
+with the worst thing that happened rather than the thing whose detector happened to shout
+loudest. The shipped implementation, `GoProgress`, counts what a person counts — stones on
+the board, plus the empty points that only one colour has walled off — after every move.
+That curve also answers the question a beginner most wants answered and no single finding
+can: *where did the game turn?*
 
-None of this needs an engine: a group that had one liberty and died is a fact about the
-board rather than an opinion about it, and those are the mistakes that decide games at kyu
-strength. Judgement — *this move was worth four points rather than nine* — is what an
-engine would add, and it is a sentence no beginner can act on. The review also grows rarer
-as the player improves, because a clean game produces no findings at all, which makes it
-one more honest signal of the only progression this game believes in.
+**Who says it.** `GoReviewVoice` overlays a character's file on `default.json`, so Kesh is
+furious and precise, Hana asks rather than tells, and Joos manages four words.
+
+Four rules keep it a review rather than an audit:
+
+- **It always opens with something you did.** Not "when there is something to praise" —
+  always. P5 says losing is content, and a list of failures makes it punishment instead. The
+  compliment used to be conditional, which meant the bad games were the likeliest to open on
+  a criticism; measuring it found 44 of 60 games doing exactly that. `best_moment` is the
+  floor: every game contains a move after which you were better off.
+- **Only what you are ready to hear.** The gate holds back only the kinds that genuinely
+  need a stronger reader. It used to follow the lesson order, which was wrong — lessons are
+  ordered by what builds on what, a review by what you can act on tomorrow.
+- **One of each kind, at most three, told in the order they happened.** Four ignored ataris
+  are one mistake made four times, and the review says so rather than saying it four times.
+- **Only from somebody stronger — but refusing is not silence.** Wren is 20k and will not
+  tell you what you did wrong once you pass her. She will still tell you what was good, and
+  where the game turned, because neither of those needs authority she does not have.
+
+And then it does two things a list of sentences cannot. Each finding carries a **takeaway**,
+one portable sentence that is the rule rather than the voice, and the id of the lesson that
+covers it. And where a finding has a single right answer, the review **hands the position
+back as a puzzle** — the mistake you made ninety seconds ago, to solve now, which is the
+readiest a beginner ever is. The whole game is steppable with the arrow keys throughout,
+because "how did we get here" is the question actually being asked.
+
+Across games, `GoReviewHistory` reads the compact summary each match leaves in
+`GameState.match_records` and notices the pattern a single review cannot: that this is the
+third game running. `head_to_head` records your results; this records your play.
+
+None of this needs an engine. A group that had one liberty and died is a fact about the
+board rather than an opinion about it, and so is the arithmetic that says it cost eleven
+points — those are the mistakes that decide games at kyu strength. Judgement — *this move
+was worth four points rather than nine* — is what an engine would add, and it is a sentence
+no beginner can act on. `The Conquest of Go` bundles KataGo for exactly that and pays for it
+in hundreds of megabytes, a build per platform, and forum threads about the engine freezing;
+`GoEvaluator` is the seam where it could go later without touching a detector or a line of
+dialogue. The review also grows rarer as the player improves, because a clean game produces
+little to say, which makes it one more honest signal of the only progression this game
+believes in.
 
 ### Rules implemented (milestone 1)
 9×9; stone placement; liberties; capture; suicide illegal; ko (simple ko, with positional

@@ -109,6 +109,12 @@ static func _check_one(c: Array) -> bool:
             return _state().is_ranked() and int(_state().rank_strength) <= GoRank.from_string(str(c[1]))
         "unranked":
             return not _state().is_ranked()
+        "league_position_at_most":
+            # Entry to the exam is by league position, which the board has been
+            # promising since the day you enrolled. Derived from the record every
+            # time it is asked, stored nowhere -- Rule 5 -- so a graph can read it
+            # the way the noticeboard states it.
+            return LeagueTable.current_position() <= int(c[1])
         "played_at_least":
             # Games against somebody, win or lose. The record is what the game
             # tracks instead of affection, so it is what an arc advances on.

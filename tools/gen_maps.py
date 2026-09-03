@@ -541,6 +541,10 @@ def bondszaal():
     # The draw is pinned at the front, on the wall base where it can be faced.
     ground.set(9, 2, "Y")
     ground.set(10, 2, "Y")
+    # And the exam list beside it, because the Instituut hires this room too and
+    # pins its own paper up next to the federation's.
+    ground.set(13, 2, "Y")
+    ground.set(14, 2, "Y")
     ground.set(1, 4, "O")                      # the entry desk
     ground.set(W - 2, 3, "V")                  # the federation's own shelf
     ground.set(W - 2, 11, "Q")
@@ -571,6 +575,8 @@ def bondszaal():
         "signs": [
             {"tile": [9, 2], "text": "__CUP_BOARD__"},
             {"tile": [10, 2], "text": "__CUP_BOARD__"},
+            {"tile": [13, 2], "text": "__EXAM_BOARD__"},
+            {"tile": [14, 2], "text": "__EXAM_BOARD__"},
             {"tile": [1, 4], "text": "THE VERHAVEN GO FEDERATION. A hired room, four times a year, and a cupboard the rest of it. The urn is municipal and so is the tea."},
             {"tile": [W - 2, 3], "text": "Bound volumes of every result the federation has recorded since 1954. Somebody's first game is in here and they are dead now."},
         ],

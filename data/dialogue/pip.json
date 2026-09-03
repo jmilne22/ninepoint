@@ -205,6 +205,13 @@
     "Take one of mine and you've won. Right?"
    ],
    "goto": "capture_offer"
+  },
+  "post_match": {
+   "branches": [
+    {
+     "goto": "start"
+    }
+   ]
   }
  }
 }

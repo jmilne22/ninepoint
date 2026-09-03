@@ -96,7 +96,16 @@
  },
  {
   "advance": 40,
-  "note": "through Wren"
+  "stop_at_choice": true,
+  "note": "through Wren, stopping at her offer"
+ },
+ {
+  "choose": 1,
+  "note": "'no thanks' -- both branches rejoin at sign_off"
+ },
+ {
+  "advance": 20,
+  "note": "finish with Wren"
  },
  {
   "talk_to": "kesh"
@@ -216,6 +225,62 @@
  },
  {
   "wait": 2.2,
+  "shot": "review",
+  "note": "the review sits between the result card and the town"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.55
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.55
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.55
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.55
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.55
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.55
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.55
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.55
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "wait": 1.2,
   "shot": "post_match_dialogue"
  },
  {
@@ -225,11 +290,24 @@
  },
  {
   "wait": 0.3,
+  "shot": "lesson_offer",
+  "note": "she offers a lesson first these days"
+ },
+ {
+  "choose": 1,
+  "note": "'Not now.' -- declines the lesson, goes to the rematch"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.3,
   "shot": "rematch_offer"
  },
  {
   "choose": 1,
-  "note": "decline the rematch for now"
+  "note": "'Later.' -- decline the rematch too"
  },
  {
   "advance": 10,

@@ -270,6 +270,11 @@ func _face_towards(point: Vector2) -> void:
         await get_tree().physics_frame
 
 
+## How many times to chase somebody who has wandered off before giving up. Three
+## is enough for a leash of a tile and a half; more would hide a real failure.
+const TALK_ATTEMPTS := 3
+
+
 ## Walks to a free tile beside an NPC, turns to face them, and talks.
 func _talk_to(npc_id: String, timeout: float) -> void:
     var world = _world()
@@ -289,39 +294,47 @@ func _talk_to(npc_id: String, timeout: float) -> void:
         print("AUTOPILOT: cannot walk to '%s' -- a conversation is still open" % npc_id)
         return
 
+    # People move. Since M16 every NPC has an idle behaviour and several of them
+    # wander on a leash of a tile and a half, so the tile beside them when the
+    # walk started is not necessarily the tile beside them when it ends -- the
+    # player arrives, presses [Space] at where Kesh was, and the probe finds
+    # nothing. This used to print a warning and carry on, and the rest of the
+    # script then ran against a world where the conversation had never happened:
+    # `slice_full` walked its whole arc and never played the match it exists to
+    # play, at exit 0 with no script errors. Try again from where they are now.
     var map = world.map
-    var npc_tile := _tile_of(map, target.global_position)
-    var reached := false
-    for offset in [Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1)]:
-        var beside: Vector2i = npc_tile + offset
-        if map.is_solid(beside.x, beside.y):
-            continue
-        reached = await _walk_to(beside, timeout, target)
-        if reached:
-            break
-        # Bumping into the person we are walking towards counts as arriving.
-        var pl := _player()
-        if pl != null and pl.global_position.distance_to(target.global_position) < 22.0:
-            reached = true
-            break
-    if not reached:
-        print("AUTOPILOT: could not get beside '%s'" % npc_id)
-        return
+    for attempt in TALK_ATTEMPTS:
+        var npc_tile := _tile_of(map, target.global_position)
+        var reached := false
+        for offset in [Vector2i(0, 1), Vector2i(-1, 0), Vector2i(1, 0), Vector2i(0, -1)]:
+            var beside: Vector2i = npc_tile + offset
+            if map.is_solid(beside.x, beside.y):
+                continue
+            reached = await _walk_to(beside, timeout, target)
+            if reached:
+                break
+            # Bumping into the person we are walking towards counts as arriving.
+            var pl := _player()
+            if pl != null and pl.global_position.distance_to(target.global_position) < 22.0:
+                reached = true
+                break
+        if not reached:
+            print("AUTOPILOT: could not get beside '%s'" % npc_id)
+            return
 
-    await _face_towards(target.global_position)
-    _send("interact", true)
-    await get_tree().process_frame
-    _send("interact", false)
-    await get_tree().create_timer(0.4).timeout
-    var pl2 := _player()
-    if pl2 != null:
-        var probe = pl2.get_node_or_null("Probe")
-        var seen := []
-        if probe != null:
-            for a in probe.get_overlapping_areas():
-                seen.append(a.name)
-        if seen.is_empty():
-            print("AUTOPILOT: talked to '%s' but the probe saw nothing" % npc_id)
+        await _face_towards(target.global_position)
+        _send("interact", true)
+        await get_tree().process_frame
+        _send("interact", false)
+        await get_tree().create_timer(0.4).timeout
+        # The box being open is the only honest test of "did we talk to them".
+        # The interaction probe was the old one and it answers a different
+        # question: whether somebody is standing there *now*.
+        box = _dialogue_box()
+        if box != null and box.running:
+            return
+    print("AUTOPILOT: talked to '%s' %d times and no conversation opened"
+        % [npc_id, TALK_ATTEMPTS])
 
 
 ## Taps through a conversation until the box closes, rather than guessing how

@@ -51,7 +51,19 @@
  },
  {
   "wait": 0.3,
-  "shot": "b_rematch_offer"
+  "shot": "b_lesson_offer"
+ },
+ {
+  "choose": 1,
+  "note": "'Not now.' -- she offers a lesson first these days"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.3,
+  "shot": "c_rematch_offer"
  },
  {
   "choose": 0,
@@ -59,10 +71,10 @@
  },
  {
   "wait": 3.2,
-  "shot": "c_board"
+  "shot": "d_board"
  },
  {
-  "note": "nine stones down already; poke around the centre and lose things"
+  "note": "poke around the centre and lose things"
  },
  {
   "tap": "move_up"
@@ -71,7 +83,7 @@
   "tap": "interact"
  },
  {
-  "wait": 0.9
+  "wait": 0.75
  },
  {
   "tap": "move_right"
@@ -80,7 +92,7 @@
   "tap": "interact"
  },
  {
-  "wait": 0.9
+  "wait": 0.75
  },
  {
   "tap": "move_down"
@@ -89,7 +101,7 @@
   "tap": "interact"
  },
  {
-  "wait": 0.9
+  "wait": 0.75
  },
  {
   "tap": "move_down"
@@ -98,7 +110,7 @@
   "tap": "interact"
  },
  {
-  "wait": 0.9
+  "wait": 0.75
  },
  {
   "tap": "move_left"
@@ -107,7 +119,7 @@
   "tap": "interact"
  },
  {
-  "wait": 0.9
+  "wait": 0.75
  },
  {
   "tap": "move_left"
@@ -116,7 +128,7 @@
   "tap": "interact"
  },
  {
-  "wait": 0.9
+  "wait": 0.75
  },
  {
   "tap": "move_up"
@@ -125,7 +137,7 @@
   "tap": "interact"
  },
  {
-  "wait": 0.9
+  "wait": 0.75
  },
  {
   "tap": "move_up"
@@ -134,7 +146,7 @@
   "tap": "interact"
  },
  {
-  "wait": 0.9
+  "wait": 0.75
  },
  {
   "tap": "move_right"
@@ -143,7 +155,7 @@
   "tap": "interact"
  },
  {
-  "wait": 0.9
+  "wait": 0.75
  },
  {
   "tap": "move_right"
@@ -152,7 +164,7 @@
   "tap": "interact"
  },
  {
-  "wait": 0.9
+  "wait": 0.75
  },
  {
   "tap": "move_down"
@@ -161,7 +173,7 @@
   "tap": "interact"
  },
  {
-  "wait": 0.9
+  "wait": 0.75
  },
  {
   "tap": "move_down"
@@ -170,7 +182,7 @@
   "tap": "interact"
  },
  {
-  "wait": 0.9
+  "wait": 0.75
  },
  {
   "tap": "move_down"
@@ -179,7 +191,7 @@
   "tap": "interact"
  },
  {
-  "wait": 0.9
+  "wait": 0.75
  },
  {
   "tap": "move_left"
@@ -188,7 +200,7 @@
   "tap": "interact"
  },
  {
-  "wait": 0.9
+  "wait": 0.75
  },
  {
   "tap": "move_left"
@@ -197,7 +209,7 @@
   "tap": "interact"
  },
  {
-  "wait": 0.9
+  "wait": 0.75
  },
  {
   "tap": "move_left"
@@ -206,7 +218,7 @@
   "tap": "interact"
  },
  {
-  "wait": 0.9
+  "wait": 0.75
  },
  {
   "tap": "move_up"
@@ -215,7 +227,7 @@
   "tap": "interact"
  },
  {
-  "wait": 0.9
+  "wait": 0.75
  },
  {
   "tap": "move_up"
@@ -224,11 +236,101 @@
   "tap": "interact"
  },
  {
-  "wait": 0.9
+  "wait": 0.75
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.75
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.75
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.75
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.75
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.75
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.75
+ },
+ {
+  "tap": "move_up"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.75
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.75
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.75
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.75
  },
  {
   "wait": 1.0,
-  "shot": "d_played_out"
+  "shot": "e_played_out"
  },
  {
   "tap": "go_resign"
@@ -241,7 +343,7 @@
  },
  {
   "wait": 1.4,
-  "shot": "e_result"
+  "shot": "f_result"
  },
  {
   "tap": "interact"
@@ -251,41 +353,98 @@
  },
  {
   "wait": 2.0,
-  "shot": "f_review_intro"
+  "shot": "g_review_intro"
  },
  {
   "tap": "interact"
  },
  {
   "wait": 1.0,
-  "shot": "g_review_1"
+  "shot": "h_finding_1"
+ },
+ {
+  "note": "the arrows step through the game itself, not just between findings"
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "wait": 0.25
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "wait": 0.25
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "wait": 0.4,
+  "shot": "i_stepped_forward"
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "wait": 0.4,
+  "shot": "j_stepped_back"
  },
  {
   "tap": "interact"
  },
  {
   "wait": 1.0,
-  "shot": "h_review_2"
+  "shot": "k_finding_2"
  },
  {
   "tap": "interact"
  },
  {
   "wait": 1.0,
-  "shot": "i_review_3"
+  "shot": "l_finding_3"
  },
  {
   "tap": "interact"
  },
  {
-  "wait": 1.0,
-  "shot": "j_review_outro"
+  "wait": 1.2,
+  "shot": "m_outro"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.2,
+  "shot": "n_try_again_offer",
+  "note": "the position handed back, with the board rewound to it"
+ },
+ {
+  "tap": "cancel",
+  "note": "[X] -- take the puzzle rather than decline it"
+ },
+ {
+  "wait": 2.0,
+  "shot": "o_the_same_position"
  },
  {
   "tap": "interact"
  },
  {
   "wait": 2.6,
-  "shot": "k_back_in_the_salon"
+  "shot": "p_back_in_the_salon"
  }
 ]

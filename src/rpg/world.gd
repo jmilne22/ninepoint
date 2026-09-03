@@ -18,6 +18,7 @@ var dialogue: DialogueBox
 var pause_menu: PauseMenu
 var league_board: LeagueBoard
 var cup_board: CupBoard
+var exam_board: ExamBoard
 var entities: Node2D
 var npcs: Array[Npc] = []
 
@@ -58,7 +59,7 @@ func _ready() -> void:
 
     _apply_music()
     EventBus.time_block_changed.connect(func(_b: String) -> void: _apply_music())
-    EventBus.match_finished.connect(_on_match_finished)
+    EventBus.puzzle_finished.connect(_on_puzzle_finished)
     EventBus.map_changed.emit(map.id, GameState.spawn_point)
     await get_tree().process_frame
     _after_load()
@@ -123,6 +124,9 @@ func _build_ui() -> void:
     cup_board = CupBoard.new()
     cup_board.name = "CupBoard"
     add_child(cup_board)
+    exam_board = ExamBoard.new()
+    exam_board.name = "ExamBoard"
+    add_child(exam_board)
     pause_menu = PauseMenu.new()
     pause_menu.name = "PauseMenu"
     add_child(pause_menu)
@@ -135,6 +139,7 @@ func _after_load() -> void:
     var result := MatchBridge.last_result
     if result != null:
         MatchBridge.last_result = null
+        _event_finished_check(result)
         await _post_match(result)
         return
     if MatchBridge.last_lesson != "":
@@ -242,6 +247,10 @@ func _read_sign(text: String) -> void:
     if text == "__CUP_BOARD__":
         player.clear_target()
         cup_board.show_board()
+        return
+    if text == "__EXAM_BOARD__":
+        player.clear_target()
+        exam_board.show_board()
         return
     if text == "__CLASS_BOARD__":
         await _start_class()
@@ -364,8 +373,18 @@ func _offer_sleep(prose: String) -> void:
     var choices: Array = [{"text": "Sleep.", "exit": {"type": "sleep"}}]
     # Six weeks is six weeks, and nobody should press [Space] forty times to
     # cross it. Once there is a fixed thing to wait for, you can wait for it.
+    #
+    # There are two fixed things now, and only the nearer one may be offered: a
+    # bed that offers to sleep past an exam you are entered for is a bed that can
+    # lose you the term while you are looking at a menu.
+    var to_exam := GameState.EXAM_DAY - GameState.day
     var to_cup := GameState.CUP_DAY - GameState.day
-    if GameState.has_flag("cup_entered") and to_cup > 0:
+    var exam_pending: bool = GameState.has_flag("exam_entered") \
+        and not GameState.has_flag("exam_finished")
+    if exam_pending and to_exam > 0:
+        choices.append({"text": "Sleep until the exam (%d days)." % to_exam,
+                        "exit": {"type": "sleep_until_exam"}})
+    elif GameState.has_flag("cup_entered") and to_cup > 0:
         choices.append({"text": "Sleep until the Cup (%d days)." % to_cup,
                         "exit": {"type": "sleep_until_cup"}})
     choices.append({"text": "Not yet.", "goto": "not_yet"})
@@ -384,7 +403,7 @@ func _offer_sleep(prose: String) -> void:
     var exit: Dictionary = await dialogue.run(graph, {"name": "", "portrait": null})
     _talking = false
     var kind := str(exit.get("type", ""))
-    if kind != "sleep" and kind != "sleep_until_cup":
+    if kind != "sleep" and kind != "sleep_until_cup" and kind != "sleep_until_exam":
         player.input_locked = false
         return
     # Turn the day over first, then hand the player back: unlocking here let the
@@ -395,6 +414,11 @@ func _offer_sleep(prose: String) -> void:
         while GameState.day < GameState.CUP_DAY:
             GameState.sleep()
         EventBus.toast.emit("The last week of term. Day %d -- the Cup." % GameState.day)
+        return
+    if kind == "sleep_until_exam":
+        while GameState.day < GameState.EXAM_DAY:
+            GameState.sleep()
+        EventBus.toast.emit("The last week of term. Day %d -- the exam." % GameState.day)
         return
     var days := GameState.days_until_cup()
     if days > 0 and GameState.has_flag("wren_told_about_cup"):
@@ -456,15 +480,36 @@ func _handle_exit(exit: Dictionary, npc: Npc) -> void:
                 bool(exit.get("track", false)))
         "cup_round":
             _start_cup_round()
+        "exam_round":
+            _start_exam_round()
+        "exam_paper":
+            _start_exam_paper()
         _:
             pass
 
 
-## The Cup ends the moment its last round is recorded, so the player is told
-## where they finished by the tournament rather than by asking the desk.
-func _on_match_finished(result: MatchResult) -> void:
-    if result == null or not result.context_id.begins_with(CupDraw.CONTEXT_PREFIX):
+## A tournament ends the moment its last round is recorded, so the player is told
+## where they finished by the event rather than by asking the desk.
+##
+## This is called when the world comes back, **not** from EventBus.match_finished,
+## and the difference is the whole bug. SceneRouter.go_to() uses
+## change_scene_to_file(), so the World is freed for the length of a match: when
+## finish_match() emits match_finished there is no World in the tree to hear it,
+## and the handler this used to be connected to never ran once. The Cup limped
+## anyway, because _start_cup_round() sets cup_finished when you come back and
+## ask for a round that is not there -- so the flag arrived a conversation late
+## and only if you asked. The exam made it visible: the final standings said
+## "you finished 3 of 4" while the journal still said "play your three rounds".
+func _event_finished_check(result: MatchResult) -> void:
+    if result == null:
         return
+    if result.context_id.begins_with(CupDraw.CONTEXT_PREFIX):
+        _cup_finished_check()
+    elif result.context_id.begins_with(Exam.CONTEXT_PREFIX):
+        _exam_finished_check()
+
+
+func _cup_finished_check() -> void:
     var state := CupDraw.run(CupBoard.field(), GameState.match_records, CupBoard.PLAYER_ID)
     if not bool(state["complete"]):
         return
@@ -475,6 +520,24 @@ func _on_match_finished(result: MatchResult) -> void:
     else:
         EventBus.toast.emit("The Cup is over. You finished %d of %d." % [
             place, state["rows"].size()])
+
+
+## The exam's result is a fact about the record, so it is derived here rather
+## than announced by Marguerite -- she then reads the same answer off the same
+## function, and the two can never disagree about whether you passed.
+func _exam_finished_check() -> void:
+    var state := Exam.run(ExamBoard.field(), GameState.match_records, ExamBoard.PLAYER_ID)
+    if not bool(state["player_in_field"]) or not bool(state["complete"]):
+        return
+    GameState.set_flag("exam_finished", true)
+    var place := Exam.placing(state["rows"], ExamBoard.PLAYER_ID)
+    if bool(state["passed"]):
+        GameState.set_flag("exam_passed", true)
+        EventBus.toast.emit("You finished %d. You passed." % place)
+    else:
+        GameState.set_flag("exam_failed", true)
+        EventBus.toast.emit("You finished %d of %d. The top %d qualified." % [
+            place, state["rows"].size(), Exam.PASS_PLACES])
 
 
 ## A Cup round. Who the player meets is not written in the dialogue file, because
@@ -514,6 +577,94 @@ func _start_cup_round() -> void:
     req.intro_line = "Round %d. Board %d." % [int(state["next_round"]) + 1, 1]
     req.player_strength = GameState.rank_strength
     GameState.set_flag("cup_round_day", GameState.day)
+    player.input_locked = true
+    MatchBridge.start_match(req, player.global_position)
+
+
+## Marguerite's problem paper -- the part of the exam nobody thanks her for. Two
+## positions, sat one at a time, and sitting them is what counts: the exam is
+## decided at the board, and a paper you got wrong is still a paper you sat.
+const EXAM_PAPER := ["live_2", "capture_4"]
+
+
+func _paper_index() -> int:
+    return int(GameState.get_flag("exam_paper_index", 0))
+
+
+func _start_exam_paper() -> void:
+    var i := _paper_index()
+    if i >= EXAM_PAPER.size():
+        GameState.set_flag("exam_paper_done", true)
+        EventBus.toast.emit("You have sat the paper.")
+        return
+    player.input_locked = true
+    MatchBridge.start_puzzle(EXAM_PAPER[i], player.global_position)
+
+
+## Sitting a paper problem advances the paper whether or not it was solved. The
+## puzzle scene already sets `<id>_solved` for the ones that were, so what the
+## player got right is on the record without the paper being a wall.
+func _on_puzzle_finished(puzzle_id: String, _solved: bool) -> void:
+    if GameState.has_flag("exam_paper_done") or not GameState.has_flag("exam_entered"):
+        return
+    var i := _paper_index()
+    if i >= EXAM_PAPER.size() or puzzle_id != EXAM_PAPER[i]:
+        return
+    GameState.set_flag("exam_paper_index", i + 1)
+    if i + 1 >= EXAM_PAPER.size():
+        GameState.set_flag("exam_paper_done", true)
+        EventBus.toast.emit("Paper sat. %d of %d correct." % [_paper_correct(), EXAM_PAPER.size()])
+
+
+func _paper_correct() -> int:
+    var n := 0
+    for puzzle in EXAM_PAPER:
+        if GameState.has_flag("%s_solved" % puzzle):
+            n += 1
+    return n
+
+
+## An exam round. Who the player meets is not written in the dialogue file: the
+## schedule is a round robin over a field that was decided by the league, and Exam
+## works it out from the record.
+func _start_exam_round() -> void:
+    var state := Exam.run(ExamBoard.field(), GameState.match_records, ExamBoard.PLAYER_ID)
+    if bool(state["complete"]):
+        _exam_finished_check()
+        return
+    # One round a day, the same rule the Cup runs on and the reason the last week
+    # of term is a week rather than an afternoon.
+    if int(GameState.get_flag("exam_round_day", 0)) == GameState.day:
+        EventBus.toast.emit("One round a day. Come back tomorrow.")
+        return
+    if not GameState.can_act():
+        EventBus.toast.emit("Too late in the day to sit a round. Sleep.")
+        return
+
+    var opponent_id := str(state["next_opponent"])
+    var npc_path := "res://data/npcs/%s.tres" % opponent_id
+    # An exam is even -- no stones, whatever the gap. `_exam` profiles exist for
+    # exactly that; the _9x9 fallback keeps a round playable if one is missing.
+    var profile_path := "res://data/opponents/%s_exam.tres" % opponent_id
+    if not ResourceLoader.exists(profile_path):
+        profile_path = "res://data/opponents/%s_9x9.tres" % opponent_id
+    if opponent_id == "" or not ResourceLoader.exists(npc_path) \
+            or not ResourceLoader.exists(profile_path):
+        push_error("World: no exam opponent for '%s'" % opponent_id)
+        return
+    var data: NpcData = load(npc_path)
+
+    var req := MatchRequest.new()
+    req.profile = load(profile_path)
+    req.context_id = Exam.context_for(int(state["next_round"]))
+    req.npc_id = opponent_id
+    req.opponent_name = data.display_name
+    req.opponent_rank = data.rank_label
+    req.portrait_path = "res://art/portraits/%s.png" % data.portrait_id
+    req.intro_line = "Round %d of %d. Even game." % [
+        int(state["next_round"]) + 1, Exam.ROUNDS]
+    req.player_strength = GameState.rank_strength
+    GameState.set_flag("exam_round_day", GameState.day)
     player.input_locked = true
     MatchBridge.start_match(req, player.global_position)
 

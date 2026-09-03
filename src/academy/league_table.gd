@@ -14,6 +14,12 @@ extends RefCounted
 ## {id, name, rank_label, strength, played, won, lost, is_player}
 const PLAYER_ID := "player"
 
+## The students in the league, in rank order. This lived on LeagueBoard until the
+## exam needed the same list. "Who is in the league" must have exactly one
+## definition, or the board and the thing that gates on it can disagree about who
+## it was you beat. Ranks are still read from each NpcData, never duplicated here.
+const ROSTER := ["kesh", "ilse", "sunny", "orla", "nadia", "marguerite"]
+
 
 ## Builds the standings. `records` is GameState.match_records; `roster` is an
 ## array of {id, name, rank_label} for the students in the league.
@@ -45,13 +51,31 @@ static func standings(records: Array, roster: Array, player_name: String,
     # stayed on nought games, and one win put a beginner above the registrar.
     _play_out_fixtures(rows)
 
-    # Every league game counts once for each side.
+    # Every league game counts once for each side, and only the first game
+    # against each person counts at all.
+    #
+    # The students play a round robin of five. The player used to have every
+    # rated game they had ever played counted, against a sort that leads on
+    # wins -- so somebody who played twenty games and won eight finished above a
+    # student who went five and nought. Pillar 1 forbids grinding past somebody
+    # stronger, and nothing noticed while the standings were read by a footer
+    # string. Rematches are still how rank moves; GoRating counts every one of
+    # them. They are not how the table moves.
+    var counted := {}
     for record in records:
         if bool(record.get("unrated", false)):
             continue
         var opponent_id := str(record.get("npc_id", ""))
         if not by_id.has(opponent_id):
             continue        # a game against somebody outside the league
+        # The exam is played against league members and is not a league game.
+        # Without this, sitting round one against Ilse would rewrite the very
+        # standings that decided you were entitled to sit it.
+        if str(record.get("context_id", "")).begins_with(Exam.CONTEXT_PREFIX):
+            continue
+        if counted.has(opponent_id):
+            continue
+        counted[opponent_id] = true
         var opponent: Dictionary = by_id[opponent_id]
         var player_won := bool(record.get("player_won", false))
 
@@ -143,6 +167,67 @@ static func player_position(rows: Array[Dictionary]) -> int:
         if bool(rows[i].get("is_player", false)):
             return i + 1
     return rows.size()
+
+
+## Who sits the exam: the top `count` of the table, less anybody running it.
+## Pure -- it only reads the rows it is handed. Marguerite is excluded by the
+## caller rather than by name here, because she is on the board as a player and
+## off it as the registrar, and which one she is depends on who is asking.
+static func qualifiers(rows: Array[Dictionary], count: int = 4,
+        exclude: Array = []) -> Array[Dictionary]:
+    var out: Array[Dictionary] = []
+    for row in rows:
+        if exclude.has(str(row.get("id", ""))):
+            continue
+        out.append(row)
+        if out.size() >= count:
+            break
+    return out
+
+
+# Autoloads are not resolvable as plain identifiers in a script compiled ahead of
+# the scene tree, which is exactly what a `--script` test run is -- the same
+# reason DialogueGraph looks GameState up by path. current_rows() is reached from
+# a dialogue condition, so it runs in both worlds.
+static var _state_node: Node = null
+
+
+static func _state() -> Node:
+    if _state_node != null and is_instance_valid(_state_node):
+        return _state_node
+    var loop := Engine.get_main_loop()
+    if loop is SceneTree:
+        _state_node = (loop as SceneTree).root.get_node_or_null(^"GameState")
+    return _state_node
+
+
+## The standings as they stand right now.
+##
+## standings() above stays pure and is handed everything it needs. This is the
+## one impure convenience, and it exists because the board, the exam and the
+## dialogue condition that gates on league position must not each build the
+## roster in a slightly different way. LeagueBoard already did exactly this; it
+## simply had nobody to share it with.
+static func current_rows() -> Array[Dictionary]:
+    var roster: Array = []
+    for npc_id in ROSTER:
+        var path := "res://data/npcs/%s.tres" % npc_id
+        if not ResourceLoader.exists(path):
+            continue
+        var data: NpcData = load(path)
+        roster.append({"id": npc_id, "name": data.display_name,
+                       "rank_label": data.rank_label})
+    var state := _state()
+    if state == null:
+        return standings([], roster, "", "")
+    return standings(state.match_records, roster, state.player_name,
+        state.rank_label())
+
+
+## Where the player is on the board right now, 1-based. This is the number
+## Marguerite has been quoting since the day you enrolled.
+static func current_position() -> int:
+    return player_position(current_rows())
 
 
 ## The line the board and Marguerite both use, so they never disagree.

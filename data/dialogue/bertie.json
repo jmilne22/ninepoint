@@ -55,11 +55,101 @@
    "text": [
     "Read it to the end. That's it. That's the whole of what I know that Pip doesn't.",
     "Corner, side, centre, and read your ladders. Forty years and I could have had it on a postcard."
-   ]
+   ],
+   "goto": "offer_game"
   },
   "later": {
    "text": [
     "I'll be on this bench. I am always on this bench."
+   ]
+  },
+  "offer_game": {
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "bertie_match_done"
+      ]
+     ],
+     "goto": "bench_again"
+    },
+    {
+     "goto": "bench_first"
+    }
+   ]
+  },
+  "bench_first": {
+   "text": [
+    "Right. Sit down. You've had the theory and the theory is worthless.",
+    "Four kyu, forty years, one park bench. I'm not going to fight you -- I'm going to out-count you, and you'll not notice until it's done.",
+    "Doesn't go on anybody's card. Nothing in this park does."
+   ],
+   "choices": [
+    {
+     "text": "Sit down.",
+     "exit": {
+      "type": "start_match",
+      "profile": "bertie_9x9",
+      "context": "bertie_park",
+      "unrated": true,
+      "intro": "Stone table, four kyu, no card. He plays first and does not ask."
+     }
+    },
+    {
+     "text": "Not today.",
+     "goto": "later"
+    }
+   ]
+  },
+  "bench_again": {
+   "text": [
+    "Again. You've got the taste for it now.",
+    "Same terms. Nothing written down, nothing owed."
+   ],
+   "choices": [
+    {
+     "text": "Again.",
+     "exit": {
+      "type": "start_match",
+      "profile": "bertie_9x9",
+      "context": "bertie_park",
+      "unrated": true,
+      "intro": "The same bench. He has already set the bowls out."
+     }
+    },
+    {
+     "text": "Another day.",
+     "goto": "later"
+    }
+   ]
+  },
+  "post_match": {
+   "branches": [
+    {
+     "if": [
+      [
+       "beat",
+       "bertie"
+      ]
+     ],
+     "goto": "bertie_lost"
+    },
+    {
+     "goto": "bertie_won"
+    }
+   ]
+  },
+  "bertie_lost": {
+   "text": [
+    "Hm. Well.",
+    "Forty years and the answer's still the same: somebody comes along who counts faster. Good. Go on then."
+   ]
+  },
+  "bertie_won": {
+   "text": [
+    "Territory, see. You were busy having a lovely time in the middle and I was busy owning the edges.",
+    "Proverb for you: the corner is gold, the side is silver, the centre is grass. Doesn't always apply. Applied there."
    ]
   }
  }

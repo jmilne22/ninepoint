@@ -22,10 +22,16 @@ var _finished := false
 
 
 func _ready() -> void:
+    # A puzzle handed over in memory by the review takes priority: it is the
+    # player's own position from the game they just lost, and there is no file.
     var puzzle_id := MatchBridge.pending_puzzle
-    if puzzle_id == "":
-        puzzle_id = "capture_1"
-    puzzle = GoPuzzleData.load_puzzle(puzzle_id)
+    if MatchBridge.pending_puzzle_data != null:
+        puzzle = MatchBridge.pending_puzzle_data
+        puzzle_id = puzzle.id
+    else:
+        if puzzle_id == "":
+            puzzle_id = "capture_1"
+        puzzle = GoPuzzleData.load_puzzle(puzzle_id)
     if puzzle == null:
         MatchBridge.finish_puzzle(puzzle_id, false)
         return

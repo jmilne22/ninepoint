@@ -7,34 +7,59 @@
   "Right. That's what happened. Now go and do it better and come back."
  ],
  "lines": {
-  "good_capture": [
-   "Move {move}. {stones} stones. Fine -- that was good. I'm saying it once.",
-   "Move {move}. You waited for that and you got {stones} of them. I did not enjoy it."
-  ],
-  "good_save": [
-   "Move {move}. You were dead there and you got out. I'd already counted those stones as mine, which was my mistake, not yours."
+  "big_swing": [
+   "Move {move}. There. That's the game, that whole stretch -- {points}. Everything before it was even and you didn't notice it stop being even."
   ],
   "atari_ignored": [
-   "Move {move}. One liberty. I put your group on one liberty and you went and played {played} like it wasn't happening.",
-   "Move {move}. {liberty}. That's all it needed. I watched you not see it and I did not say anything, because I'm not a saint."
+   "Move {move}. One liberty. I put your group on one liberty and you went and played {played} like it wasn't happening. {again}",
+   "Move {move}. {liberty}. That's all it needed. I watched you not see it and I did not say anything, because I'm not a saint. {again}"
+  ],
+  "capture_missed": [
+   "Move {move}. {stones} of my stones on one liberty and you left them there. I was sweating. You didn't notice, which is the only reason I'm still ahead of you."
   ],
   "died_savable": [
    "Move {move}. {save}, and that group lives. You'd stopped looking at it by then, hadn't you."
   ],
   "own_eye_filled": [
-   "Move {move}. You filled your own eye. I want you to sit with that for a second."
+   "Move {move}. You filled your own eye. I want you to sit with that for a second. {again}"
   ],
   "self_atari": [
-   "Move {move}. {stones} stones, one liberty, and you did it to yourself. I didn't even have to be clever."
+   "Move {move}. {stones}, one liberty, and you did it to yourself. I didn't even have to be clever."
   ],
-  "capture_missed": [
-   "Move {move}. {stones} of my stones on one liberty and you left them there. I was sweating. You didn't notice, which is the only reason I'm still ahead of you."
+  "dead_group_fed": [
+   "Move {move}. It was dead. You knew it was dead. You fed it {stones} more anyway and I took the lot. Stop paying for things you've already lost."
   ],
-  "first_line_early": [
-   "Move {move}. First line, that early. The edge is worth nothing yet and you spent a move on it."
+  "filled_own_territory": [
+   "Move {move}. You spent {stones} moves filling in your own territory at the end. I didn't win those points, you gave them to me. Pass. Passing is a move."
+  ],
+  "cut_ignored": [
+   "Move {move}. I cut you in two and you went and played {played} like nothing had happened. Then I ate the smaller half. This is what I do."
   ],
   "ladder_failed": [
    "Move {move}. You ran. I followed. You ran again. That's a ladder, and it was never going to work -- count it to the end next time, it takes ten seconds."
+  ],
+  "should_have_passed": [
+   "Move {move}. Over. Done. You played {stones} more and lost {points} doing it. Nobody teaches you to stop, so I'm teaching you: count, and pass."
+  ],
+  "good_capture": [
+   "Move {move}. {stones}. Fine -- that was good. I'm saying it once.",
+   "Move {move}. You waited for that and you got {stones} of them. I did not enjoy it."
+  ],
+  "good_save": [
+   "Move {move}. You were dead there and you got out. I'd already counted those stones as mine, which was my mistake, not yours."
+  ],
+  "atari_answered": [
+   "Move {move}. On one liberty and you found {liberty}. Fine. That's the one I thought you'd miss."
+  ],
+  "best_moment": [
+   "Move {move}. That one was good. {points}, and I had to actually think afterwards. Do that again and we'll have a problem."
+  ],
+  "nothing_broke": [
+   "Right -- nothing to tell you. Nothing died that shouldn't have. Don't get comfortable, but that's a clean one."
   ]
- }
+ },
+ "unqualified": [
+  "No. You're stronger than me now and we both know it, so I'm not going to stand here inventing faults.",
+  "I'll tell you what was good. I'm not going to enjoy it."
+ ]
 }

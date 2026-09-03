@@ -5,10 +5,6 @@
 class_name LeagueBoard
 extends CanvasLayer
 
-## The students in the league, in rank order. Read from their NpcData so the
-## board and the opponents can never disagree about who is what rank.
-const ROSTER := ["kesh", "ilse", "sunny", "orla", "nadia", "marguerite"]
-
 var open: bool = false
 
 var _root: Control
@@ -50,7 +46,7 @@ func _build() -> void:
         if c >= 3:
             head.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 
-    for i in ROSTER.size() + 1:
+    for i in LeagueTable.ROSTER.size() + 1:
         var row: Array[Label] = []
         for c in COL_X.size():
             var cell := UiKit.label(panel, Vector2(COL_X[c], 38 + i * 12),
@@ -60,21 +56,14 @@ func _build() -> void:
             row.append(cell)
         _cells.append(row)
 
-    _footer = UiKit.label(panel, Vector2(10, 132), 304, UiKit.INK_SOFT, 50)
+    # Four lines now: the standing, the rule, and whether you are meeting it.
+    _footer = UiKit.label(panel, Vector2(10, 126), 304, UiKit.INK_SOFT, 62)
 
 
 func show_board() -> void:
-    var roster := []
-    for npc_id in ROSTER:
-        var path := "res://data/npcs/%s.tres" % npc_id
-        if not ResourceLoader.exists(path):
-            continue
-        var data: NpcData = load(path)
-        roster.append({"id": npc_id, "name": data.display_name,
-                       "rank_label": data.rank_label})
-
-    var rows := LeagueTable.standings(GameState.match_records, roster,
-        GameState.player_name, GameState.rank_label())
+    # The roster and the standings both live on LeagueTable now, because the exam
+    # gates on the same numbers and the two must not be able to disagree.
+    var rows := LeagueTable.current_rows()
 
     for i in _cells.size():
         var row: Array = _cells[i]
@@ -95,12 +84,31 @@ func show_board() -> void:
             row[c].add_theme_color_override("font_color",
                 UiKit.GOLD if mine else UiKit.INK)
 
-    _footer.text = "%s\n\nThe qualifying exam is at the end of term. Entry is by league position." % \
-        LeagueTable.summary(rows)
+    # Four lines exactly. The blank line this used to carry cost a whole line of
+    # a card that is already the full height of the panel, and the qualification
+    # sentence is the one that has to be on screen.
+    _footer.text = "%s\nThe qualifying exam is at the end of term. Entry is by league position. %s" % [
+        LeagueTable.summary(rows), _exam_line(rows)]
     GameState.set_flag("read_league_board", true)
     open = true
     _root.visible = true
     Audio.play("ui_confirm")
+
+
+## The promise in the line above, answered. Until the exam existed the board
+## could state the rule and say nothing about whether you were meeting it.
+static func _exam_line(rows: Array[Dictionary]) -> String:
+    var place := LeagueTable.player_position(rows)
+    var cut := Exam.FIELD_SIZE
+    # Marguerite is on the board and does not sit the exam, so a place below her
+    # is still inside the four. Count how many of the rows above are entrants.
+    var above := 0
+    for i in mini(place - 1, rows.size()):
+        if not Exam.EXCLUDED.has(str(rows[i].get("id", ""))):
+            above += 1
+    if above < cut:
+        return "As it stands, you are in."
+    return "As it stands, you are not."
 
 
 func close() -> void:

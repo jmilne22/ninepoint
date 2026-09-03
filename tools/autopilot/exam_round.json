@@ -1,0 +1,90 @@
+[
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue from the exam_day save: day 38, entered and started"
+ },
+ {
+  "wait": 2.2,
+  "shot": "a_the_morning_of"
+ },
+ {
+  "walk_to": [
+   13,
+   3
+  ]
+ },
+ {
+  "face": [
+   13,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.4,
+  "shot": "b_the_field_of_four"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "walk_to": [
+   3,
+   4
+  ],
+  "note": "across to the desk"
+ },
+ {
+  "face": [
+   2,
+   4
+  ]
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "advance": 2,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0,
+  "note": "The exam."
+ },
+ {
+  "advance": 4,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.4,
+  "shot": "c_the_paper"
+ },
+ {
+  "choose": 0,
+  "note": "Sit it."
+ },
+ {
+  "wait": 3.0,
+  "shot": "d_paper_problem_one"
+ },
+ {
+  "tap": "cancel"
+ },
+ {
+  "wait": 2.5
+ }
+]

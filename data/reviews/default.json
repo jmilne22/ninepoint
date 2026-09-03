@@ -1,40 +1,78 @@
 {
  "id": "default",
- "intro": ["Let's look at it again while it's fresh."],
- "outro": ["That's the game. Again whenever you like."],
+ "intro": [
+  "Let's look at it again while it's fresh."
+ ],
+ "outro": [
+  "That's the game. Again whenever you like."
+ ],
  "unqualified": [
   "You want me to tell you what went wrong? I've no idea. I was busy playing it.",
   "Ask somebody with a card on the wall. I'd only be guessing."
  ],
  "lines": {
-  "good_capture": [
-   "Move {move}. {stones} stones in one go. You saw that before I did.",
-   "Move {move}. That was {stones} stones off the board and it wasn't luck. Remember the shape."
-  ],
-  "good_save": [
-   "Move {move}. One liberty left, and you got the group out into open space. That's the whole skill, that is."
+  "big_swing": [
+   "Move {move}. That's where it went. You were fine before it and {points} worse after, and everything else we could talk about is smaller than this."
   ],
   "atari_ignored": [
-   "Move {move}. This group had one liberty. One. {liberty} was empty and yours for the taking, and you played {played} instead.",
-   "Move {move}. Look at it. One liberty, and you went off to {played}. It came off the board a few moves later."
+   "Move {move}. This group had one liberty. One. {liberty} was empty and yours for the taking, and you played {played} instead. {again}",
+   "Move {move}. Look at it. One liberty, and you went off to {played}. It came off the board a few moves later. {again}"
+  ],
+  "capture_missed": [
+   "Move {move}. {stones} of mine, sitting on one liberty, and {liberty} stayed empty. I kept expecting you to take them."
   ],
   "died_savable": [
    "Move {move}. {save} saves this group -- it was still there for you. You played {played}, and that was that."
   ],
   "own_eye_filled": [
-   "Move {move}. You filled in your own eye. A group wants two of those to live, and you'd just gone from one to none."
+   "Move {move}. You filled in your own eye. A group wants two of those to live, and you'd just gone from one to none. {again}"
   ],
   "self_atari": [
-   "Move {move}. You put {stones} of your own stones onto a single liberty. Nobody made you do that."
+   "Move {move}. You put {stones} of your own stones onto a single liberty. Nobody made you do that. {again}"
   ],
-  "capture_missed": [
-   "Move {move}. {stones} of mine, sitting on one liberty, and {liberty} stayed empty. I kept expecting you to take them."
+  "dead_group_fed": [
+   "Move {move}. That group was gone already. You put {stones} more stones into it, and every one of them was a prisoner you handed over on top of the ones you'd lost. {again}"
   ],
-  "first_line_early": [
-   "Move {move}, on the first line, that early. The edge gives you almost nothing. Corner, then side, then the middle."
+  "filled_own_territory": [
+   "Move {move}, and {stones} points in all. That was your own territory and you filled it in. Every one of those was a point you already had."
+  ],
+  "cut_ignored": [
+   "Move {move}. That stone cut your two groups apart, and you played {played}. One half of what you cut had nowhere to go."
   ],
   "ladder_failed": [
    "Move {move}. You ran, I followed, you ran again. A ladder only works if it runs into something of yours -- read it to the end before you start."
+  ],
+  "should_have_passed": [
+   "Move {move}. It was already over here -- you could have counted and passed. Instead there were {stones} more stones and {points} fewer points."
+  ],
+  "good_capture": [
+   "Move {move}. {stones} in one go. You saw that before I did.",
+   "Move {move}. That was {stones} off the board and it wasn't luck. Remember the shape."
+  ],
+  "good_save": [
+   "Move {move}. One liberty left, and you got the group out into open space. That's the whole skill, that is."
+  ],
+  "atari_answered": [
+   "Move {move}. Your group was on one liberty and you saw it and played {liberty}. That's the whole of it, that -- look at your own stones first."
+  ],
+  "best_moment": [
+   "Move {move}. That's the best you played all game -- {points} better off after it than before it. Whatever you were doing there, do more of it."
+  ],
+  "nothing_broke": [
+   "Nothing went badly wrong in that one. No group of yours died that didn't have to. That's a whole game of not making the big mistake, and it's further than most people get this early."
   ]
+ },
+ "takeaways": {
+  "big_swing": "Games turn in one place. When you next lose, find the moment rather than the move.",
+  "atari_ignored": "Look at your own groups every move. Any of them on one liberty?",
+  "capture_missed": "A group on one liberty is free. Take it before you go and do something clever.",
+  "died_savable": "A group in trouble wants more room, not more stones.",
+  "own_eye_filled": "A group needs two eyes to live. Never fill your own.",
+  "self_atari": "Count the liberties of the stone you are about to play, not just the ones you already have.",
+  "dead_group_fed": "When a group is dead, stop paying for it. Every extra stone is a second prisoner.",
+  "filled_own_territory": "Your own territory is already yours. Filling it in gives the points back.",
+  "cut_ignored": "When they play between two of your groups, answer there first.",
+  "ladder_failed": "Read a ladder to the edge of the board before you start running. It takes ten seconds.",
+  "should_have_passed": "Passing is a move. When there is nothing left worth a stone, count and pass."
  }
 }

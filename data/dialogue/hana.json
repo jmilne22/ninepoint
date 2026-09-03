@@ -7,6 +7,19 @@
      "if": [
       [
        "flag",
+       "exam_finished"
+      ],
+      [
+       "not_flag",
+       "hana_said_exam"
+      ]
+     ],
+     "goto": "exam_word"
+    },
+    {
+     "if": [
+      [
+       "flag",
        "enrolled"
       ]
      ],
@@ -186,7 +199,8 @@
     "You found it. Good.",
     "The demonstration board at the front is where I teach. Use it whenever you like -- I would rather you took a class twice than pretended you had understood it once.",
     "The rest of your time is yours. Play people. Lose to them. Come back."
-   ]
+   ],
+   "goto": "teaching_offer"
   },
   "taught": {
    "portrait": "happy",
@@ -194,6 +208,170 @@
     "Good. Say it back to yourself in your own words, silently, so I do not have to hear it.",
     "That is the shape of every class here: I set you something, you count, and then you know it rather than having been told it."
    ]
+  },
+  "teaching_offer": {
+   "branches": [
+    {
+     "if": [
+      [
+       "rank_at_least",
+       "8k"
+      ],
+      [
+       "flag",
+       "lesson_life_and_death_done"
+      ]
+     ],
+     "goto": "even_offer"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "lesson_life_and_death_done"
+      ]
+     ],
+     "goto": "handicap_offer"
+    },
+    {
+     "goto": "not_yet_ready"
+    }
+   ]
+  },
+  "not_yet_ready": {
+   "text": [
+    "You are going to ask me for a game. Not yet -- and not because you would lose, which you would.",
+    "Finish the course first. Two eyes, and then life and death. Then the game is worth the afternoon it costs you."
+   ]
+  },
+  "handicap_offer": {
+   "text": [
+    "You have had the whole course now, so: a teaching game.",
+    "You take Black and as many stones as the difference says, and I take the rest of the afternoon. I will not crush you. I will also not let you off.",
+    "Play the stones as though you earned them. That is the only difficult part."
+   ],
+   "choices": [
+    {
+     "text": "Please.",
+     "exit": {
+      "type": "start_match",
+      "profile": "hana_teaching",
+      "context": "hana_teaching",
+      "intro": "A teaching game. She sets the bowls down and waits."
+     }
+    },
+    {
+     "text": "Not today.",
+     "goto": "another_day"
+    }
+   ]
+  },
+  "even_offer": {
+   "text": [
+    "You are eight kyu. When you walked into De Ketel you did not know what a liberty was.",
+    "So. An even game, and I am not going to pretend that is fair, because it is not and it is not meant to be.",
+    "You will lose. Watch what it costs me to beat you -- that number is the only honest measure of a year."
+   ],
+   "choices": [
+    {
+     "text": "Even, then.",
+     "exit": {
+      "type": "start_match",
+      "profile": "hana_9x9",
+      "context": "hana_even",
+      "intro": "Five dan, even, and she has not offered anyone this in some time."
+     }
+    },
+    {
+     "text": "Give me the stones.",
+     "exit": {
+      "type": "start_match",
+      "profile": "hana_teaching",
+      "context": "hana_teaching",
+      "intro": "A teaching game. She sets the bowls down and waits."
+     }
+    }
+   ]
+  },
+  "another_day": {
+   "text": [
+    "Of course. The board is not going anywhere and neither, on current evidence, am I."
+   ]
+  },
+  "post_match": {
+   "branches": [
+    {
+     "if": [
+      [
+       "beat",
+       "hana"
+      ]
+     ],
+     "goto": "hana_lost"
+    },
+    {
+     "goto": "hana_won"
+    }
+   ]
+  },
+  "hana_lost": {
+   "text": [
+    "Ah.",
+    "I am going to sit with that for a moment and then I am going to ask you what you thought I was doing on move nineteen, and I would like you to tell me the truth."
+   ]
+  },
+  "hana_won": {
+   "text": [
+    "Now. Before I say anything -- what was the last move you were sure about?",
+    "Not the last good move. The last one you were *sure* about. Everything after it is where the game actually was."
+   ]
+  },
+  "exam_word": {
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "exam_passed"
+      ]
+     ],
+     "goto": "exam_word_passed"
+    },
+    {
+     "goto": "exam_word_failed"
+    }
+   ]
+  },
+  "exam_word_passed": {
+   "actions": [
+    [
+     "set_flag",
+     "hana_said_exam"
+    ]
+   ],
+   "portrait": "happy",
+   "text": [
+    "I heard before you got up the stairs. Marguerite tells me results the way other people report weather.",
+    "I am going to say the unhelpful thing, because somebody has to and it may as well be the person who asked your name.",
+    "You are the same strength this afternoon as you were on Friday. The card did not do anything. What you did in the six weeks before the card did everything.",
+    "Now. Nineteen by nineteen is a different game and you know almost nothing about it. Isn't that good?"
+   ],
+   "goto": "at_institute"
+  },
+  "exam_word_failed": {
+   "actions": [
+    [
+     "set_flag",
+     "hana_said_exam"
+    ]
+   ],
+   "text": [
+    "I heard. Sit down for a moment, you are allowed.",
+    "I sat that exam twice. The first time I told myself the pairings were unkind, and they were, and it made no difference at all to how I played.",
+    "Three games decided it and you can name what went wrong in all three. That is not nothing -- that is the entire thing, actually. Most people who fail cannot.",
+    "There is another term. Come to the class on the first morning and do not be brave about it."
+   ],
+   "goto": "at_institute"
   }
  }
 }

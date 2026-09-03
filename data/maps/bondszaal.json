@@ -91,7 +91,7 @@
  "ground": [
   "IIIIIIIIIIIIIIIIIIII",
   "IIININIIIIIIIININIII",
-  "iiiiiiiiiYYiiiiiiiii",
+  "iiiiiiiiiYYiiYYiiiii",
   "i21212121212121212Vi",
   "iO21212121212121212i",
   "i212X212X212X212X21i",
@@ -180,6 +180,20 @@
     2
    ],
    "text": "__CUP_BOARD__"
+  },
+  {
+   "tile": [
+    13,
+    2
+   ],
+   "text": "__EXAM_BOARD__"
+  },
+  {
+   "tile": [
+    14,
+    2
+   ],
+   "text": "__EXAM_BOARD__"
   },
   {
    "tile": [

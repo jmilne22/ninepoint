@@ -23,7 +23,8 @@ func _initialize() -> void:
         "go ai": GoAiTests, "go setup": GoSetupTests,
         "league": LeagueTests, "content data": GoDataTests,
         "ambience": WorldAmbienceTests,
-        "go review": GoReviewTests, "rating": RatingTests, "cup": CupTests, "table talk": TableTalkTests,
+        "exam": ExamTests,
+        "go review": GoReviewTests, "rating": RatingTests, "progress": GoProgressTests, "cup": CupTests, "table talk": TableTalkTests,
     }
     for name in suites:
         var before := kit.passed + kit.failed

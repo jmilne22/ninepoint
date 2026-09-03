@@ -1,0 +1,285 @@
+[
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue from exam_final: two rounds won, one to play"
+ },
+ {
+  "wait": 2.2,
+  "shot": "a_last_morning"
+ },
+ {
+  "walk_to": [
+   3,
+   4
+  ],
+  "note": "across to the desk"
+ },
+ {
+  "face": [
+   2,
+   4
+  ]
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "advance": 2,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0,
+  "note": "The exam."
+ },
+ {
+  "advance": 3,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.5,
+  "shot": "b_round_three_offered"
+ },
+ {
+  "choose": 0,
+  "note": "Play the round."
+ },
+ {
+  "wait": 4.0,
+  "shot": "c_the_ceremony"
+ },
+ {
+  "tap": "interact",
+  "times": 10,
+  "gap": 0.5,
+  "note": "through nigiri onto the board"
+ },
+ {
+  "wait": 2.0,
+  "shot": "d_the_board"
+ },
+ {
+  "tap": "move_up",
+  "times": 1,
+  "gap": 0.12
+ },
+ {
+  "tap": "interact",
+  "note": "place a stone"
+ },
+ {
+  "wait": 1.4,
+  "note": "and let her answer"
+ },
+ {
+  "tap": "move_right",
+  "times": 2,
+  "gap": 0.12
+ },
+ {
+  "tap": "interact",
+  "note": "place a stone"
+ },
+ {
+  "wait": 1.4,
+  "note": "and let her answer"
+ },
+ {
+  "tap": "move_down",
+  "times": 3,
+  "gap": 0.12
+ },
+ {
+  "tap": "interact",
+  "note": "place a stone"
+ },
+ {
+  "wait": 1.4,
+  "note": "and let her answer"
+ },
+ {
+  "tap": "move_left",
+  "times": 1,
+  "gap": 0.12
+ },
+ {
+  "tap": "interact",
+  "note": "place a stone"
+ },
+ {
+  "wait": 1.4,
+  "note": "and let her answer"
+ },
+ {
+  "tap": "move_up",
+  "times": 2,
+  "gap": 0.12
+ },
+ {
+  "tap": "interact",
+  "note": "place a stone"
+ },
+ {
+  "wait": 1.4,
+  "note": "and let her answer"
+ },
+ {
+  "tap": "move_right",
+  "times": 1,
+  "gap": 0.12
+ },
+ {
+  "tap": "interact",
+  "note": "place a stone"
+ },
+ {
+  "wait": 1.4,
+  "note": "and let her answer"
+ },
+ {
+  "tap": "move_down",
+  "times": 2,
+  "gap": 0.12
+ },
+ {
+  "tap": "interact",
+  "note": "place a stone"
+ },
+ {
+  "wait": 1.4,
+  "note": "and let her answer"
+ },
+ {
+  "tap": "move_left",
+  "times": 3,
+  "gap": 0.12
+ },
+ {
+  "tap": "interact",
+  "note": "place a stone"
+ },
+ {
+  "wait": 1.4,
+  "note": "and let her answer"
+ },
+ {
+  "wait": 0.6,
+  "shot": "d2_a_real_game"
+ },
+ {
+  "tap": "go_resign",
+  "note": "lose it on purpose -- third of four is the interesting result"
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "tap": "go_resign",
+  "note": "confirm"
+ },
+ {
+  "wait": 1.2,
+  "shot": "e_resigned"
+ },
+ {
+  "wait": 1.2,
+  "shot": "f1_result_card"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6,
+  "shot": "f2_after_card"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6,
+  "shot": "f3_review_or_world"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6,
+  "shot": "f4"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6,
+  "shot": "f5"
+ },
+ {
+  "tap": "interact",
+  "times": 12,
+  "gap": 0.7,
+  "note": "press the rest of the review through -- interact only, never cancel"
+ },
+ {
+  "wait": 2.5,
+  "shot": "g_after_the_review"
+ },
+ {
+  "tap": "interact",
+  "times": 8,
+  "gap": 0.6
+ },
+ {
+  "wait": 2.5,
+  "shot": "h_back_in_the_hall"
+ },
+ {
+  "walk_to": [
+   13,
+   3
+  ]
+ },
+ {
+  "face": [
+   13,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.4,
+  "shot": "i_final_standings"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.6
+ },
+ {
+  "tap": "menu"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "save, so the flags can be read back"
+ },
+ {
+  "wait": 0.8,
+  "shot": "j_saved"
+ }
+]

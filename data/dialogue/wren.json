@@ -148,14 +148,16 @@
     "You BEAT her? On your first game here?",
     "I have played Kesh eleven times. Would you like to guess my record. Go on, guess it.",
     "Sorry. I'm genuinely pleased. She'll want a rematch within the hour, you understand that."
-   ]
+   ],
+   "goto": "offer_game"
   },
   "after_loss": {
    "text": [
     "Ah. Yes. She does that.",
     "For what it's worth you had a real position in the bottom left and then you tried to save everything at once.",
     "That's the whole of my Go knowledge, by the way. You can have it."
-   ]
+   ],
+   "goto": "offer_game"
   },
   "ask_experience": {
    "actions": [
@@ -226,6 +228,100 @@
   "ko_later": {
    "text": [
     "That's fair. It's not one you need until it happens to you, and then you'll want it badly."
+   ]
+  },
+  "offer_game": {
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "wren_match_done"
+      ]
+     ],
+     "goto": "offer_rematch"
+    },
+    {
+     "goto": "offer_first"
+    }
+   ]
+  },
+  "offer_first": {
+   "text": [
+    "Can I ask you something and you promise not to be kind about it.",
+    "Would you play me? I am twenty kyu and I have been twenty kyu for a year, and everybody here is lovely about it in a way I have started to find unbearable.",
+    "You are about my strength. That is not an insult, it is the entire appeal."
+   ],
+   "choices": [
+    {
+     "text": "Let's play.",
+     "exit": {
+      "type": "start_match",
+      "profile": "wren_9x9",
+      "context": "wren_club",
+      "intro": "Wren Calloway, twenty kyu. She has moved the bowls twice."
+     }
+    },
+    {
+     "text": "Another time.",
+     "goto": "offer_later"
+    }
+   ]
+  },
+  "offer_rematch": {
+   "text": [
+    "Again? Yes. Yes, obviously again.",
+    "I have started writing them down. I am not keeping score, I am keeping -- a record. Kesh has ruined me."
+   ],
+   "choices": [
+    {
+     "text": "Set them up.",
+     "exit": {
+      "type": "start_match",
+      "profile": "wren_9x9",
+      "context": "wren_club",
+      "intro": "Wren again. She has the black bowl before you sit down."
+     }
+    },
+    {
+     "text": "Not today.",
+     "goto": "offer_later"
+    }
+   ]
+  },
+  "offer_later": {
+   "text": [
+    "No, that's fine. That's completely fine. I'll be here, doing this."
+   ]
+  },
+  "post_match": {
+   "branches": [
+    {
+     "if": [
+      [
+       "beat",
+       "wren"
+      ]
+     ],
+     "goto": "wren_lost"
+    },
+    {
+     "goto": "wren_won"
+    }
+   ]
+  },
+  "wren_lost": {
+   "text": [
+    "You got me. You got me in the bottom right and I saw it coming for about four moves and played somewhere else anyway.",
+    "That was genuinely good. I am saying that as a person who has just lost, so you can take it seriously."
+   ]
+  },
+  "wren_won": {
+   "portrait": "happy",
+   "text": [
+    "I WON. Sorry. Sorry. I won.",
+    "That is my second win this year and the first one was because somebody's tram was leaving.",
+    "Play me again in a bit, would you? While I still have the nerve."
    ]
   }
  }

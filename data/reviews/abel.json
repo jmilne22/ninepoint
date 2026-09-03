@@ -1,0 +1,30 @@
+{
+ "id": "abel",
+ "intro": [
+  "Right. I'll go through it with you, but I'm twenty-one kyu, so take it with a pinch of something."
+ ],
+ "outro": [
+  "That's what I saw. Could be wrong. Usually am."
+ ],
+ "unqualified": [
+  "Ah -- no, you're past me now. I'd be guessing and you'd be taking it seriously.",
+  "I'll tell you what I liked, though. That much I can see."
+ ],
+ "lines": {
+  "atari_ignored": [
+   "Move {move}. One liberty there, and {liberty} sitting empty. I saw it and said nothing, which I feel bad about."
+  ],
+  "capture_missed": [
+   "Move {move}. {stones} of mine, one liberty, {liberty} free. I was counting the seconds."
+  ],
+  "good_capture": [
+   "Move {move}. {stones}. Nice. Genuinely."
+  ],
+  "best_moment": [
+   "Move {move}. Best thing either of us did, that."
+  ],
+  "big_swing": [
+   "Move {move}. That's where it all went, near enough. {points}."
+  ]
+ }
+}

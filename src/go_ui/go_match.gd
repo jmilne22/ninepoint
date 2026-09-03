@@ -472,6 +472,7 @@ func _finish() -> void:
     # the world learns from a match, so what the review found travels in it.
     res.findings = GoReview.findings(game, player_color, request.player_strength)
     res.final_cells = game.board.cells.duplicate()
+    res.moves = game.moves.duplicate()
 
     var headline := "You win" if res.player_won else "You lose"
     if res.winner == GoBoard.EMPTY:

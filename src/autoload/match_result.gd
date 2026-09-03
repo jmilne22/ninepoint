@@ -31,6 +31,11 @@ var by_capture: bool = false
 var findings: Array = []
 ## The final position, so the review has a board to open and close on.
 var final_cells: PackedByteArray = PackedByteArray()
+## The game's own move list, for the replay the review screen offers. Like
+## `findings` this is screen payload and deliberately absent from to_dict():
+## `sgf` above is the form the record keeps, and re-deriving from that is the
+## intended path for reviewing a game after the fact.
+var moves: Array = []
 
 ## A compact record of what the review found, small enough to keep in the save.
 ## `findings` above carries board positions and is for the screen that runs next;

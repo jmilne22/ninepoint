@@ -11,6 +11,10 @@ const REVIEW_SCENE := "res://src/go_ui/go_review.tscn"
 
 var pending_request: MatchRequest = null
 var pending_puzzle: String = ""
+## A puzzle built in memory rather than loaded from data/puzzles/ -- the review
+## handing the player back the position they got wrong. Takes priority over
+## `pending_puzzle` when set.
+var pending_puzzle_data: GoPuzzleData = null
 var pending_lesson: String = ""
 ## The remaining lessons of a run started from the title screen, in order.
 var lesson_queue: Array[String] = []
@@ -38,6 +42,11 @@ func finish_match(result: MatchResult) -> void:
     # Every game is recorded, unrated ones included: you remember losing to the
     # man under the arches even though no ladder does. What "unrated" changes is
     # that LeagueTable refuses to count it -- see league_table.gd.
+    # What the review found, compressed to something small enough to keep in the
+    # save. It is derived here rather than in the match scene because it is
+    # entirely a function of result.findings, and the match scene should not
+    # have to know that a later game will want to say "that is the third time".
+    result.review_summary = _summarise(result.findings)
     GameState.record_match(result)
     EventBus.match_finished.emit(result)
     # In Go the review is often longer than the game. It only happens when there
@@ -74,16 +83,71 @@ func _review_for(result: MatchResult) -> Dictionary:
         "size": result.board_size,
         "final_cells": result.final_cells,
         "findings": result.findings,
+        # Every board the game passed through, so the review can be stepped
+        # through rather than only jumped between. positions_of() already
+        # computed these to find the findings and then threw them away.
+        "positions": _positions_for(result),
+        "moves": result.moves,
+        "habits": GoReviewHistory.habits(GameState.match_records),
     }
 
 
-func finish_review() -> void:
+## {kinds: {kind: count}, worst: String, swing_move: int, lead_at_end: float}
+func _summarise(findings: Array) -> Dictionary:
+    var kinds := {}
+    var worst := ""
+    var worst_cost := -1.0
+    var swing := -1
+    for f in findings:
+        var kind := str(f.get("kind", ""))
+        kinds[kind] = int(kinds.get(kind, 0)) + int(f.get("instances", 1))
+        if kind == "big_swing":
+            swing = int(f.get("move_index", -1))
+        elif not bool(f.get("good", false)) and float(f.get("cost", 0.0)) > worst_cost:
+            worst_cost = float(f.get("cost", 0.0))
+            worst = kind
+    return {"kinds": kinds, "worst": worst, "swing_move": swing,
+        "lead_at_end": worst_cost}
+
+
+## Rebuilds the replay from the move list. Costs one walk of the game and keeps
+## MatchResult carrying moves rather than eighty-odd board snapshots.
+func _positions_for(result: MatchResult) -> Array:
+    if result.moves.is_empty():
+        return []
+    var game := GoGame.new(result.board_size, result.komi, result.handicap)
+    for m in result.moves:
+        var p: int = int(m["point"])
+        if p >= 0:
+            game.play(p)
+        else:
+            game.pass_turn()
+    return GoReview.positions_of(game)
+
+
+## `try_again` is the review handing back the position from one of its findings.
+## The world is not returned to yet -- the puzzle scene comes back here through
+## finish_puzzle(), which returns it.
+func finish_review(try_again: GoPuzzleData = null) -> void:
     pending_review = {}
+    if try_again != null:
+        await start_puzzle_from(try_again)
+        return
     await _return_to_world()
+
+
+## The review offering the player the position back. `data` is built from a
+## finding rather than loaded, so the mistake you just made becomes the problem
+## you solve thirty seconds later, with no JSON file in between.
+func start_puzzle_from(data: GoPuzzleData) -> void:
+    pending_puzzle_data = data
+    pending_puzzle = ""
+    await SceneRouter.go_to(PUZZLE_SCENE)
 
 
 func start_puzzle(puzzle_id: String, player_position: Vector2) -> void:
     pending_puzzle = puzzle_id
+    pending_puzzle_data = null
     GameState.return_position = player_position
     GameState.has_return_position = true
     await SceneRouter.go_to(PUZZLE_SCENE)

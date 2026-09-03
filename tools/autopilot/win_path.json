@@ -27,14 +27,28 @@
  },
  {
   "wait": 0.3,
+  "shot": "kesh_lesson_offer",
+  "note": "she offers a lesson first these days"
+ },
+ {
+  "choose": 1,
+  "note": "'Not now.' -- declines the lesson, lands on the rematch"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.3,
   "shot": "kesh_rematch_offer"
  },
  {
   "choose": 1,
-  "note": "not right now"
+  "note": "'Later.' -- decline the rematch too"
  },
  {
-  "advance": 10
+  "advance": 10,
+  "note": "finish the conversation"
  },
  {
   "wait": 0.4,

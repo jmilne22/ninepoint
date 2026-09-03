@@ -20,6 +20,7 @@ static func _game(npc: String, won: bool, unrated := false) -> Dictionary:
 static func run(t: TestKit) -> void:
     _test_empty(t)
     _test_counting(t)
+    _test_rematches(t)
     _test_ordering(t)
     _test_ignores(t)
     _test_fixtures(t)
@@ -42,28 +43,60 @@ static func _test_empty(t: TestKit) -> void:
 
 static func _test_counting(t: TestKit) -> void:
     t.section("league: counting")
+    # Two games against Kesh, one against Ilse. Only the first Kesh game counts.
     var records := [_game("kesh", true), _game("kesh", false), _game("ilse", true)]
     var rows := LeagueTable.standings(records, _roster(), "Ro", "22k")
     var by_id := {}
     for r in rows:
         by_id[str(r["id"])] = r
 
-    t.eq(int(by_id["player"]["played"]), 3, "the player has three games")
-    t.eq(int(by_id["player"]["won"]), 2, "two wins")
-    t.eq(int(by_id["player"]["lost"]), 1, "one loss")
+    t.eq(int(by_id["player"]["played"]), 2, "one game against each person counts")
+    t.eq(int(by_id["player"]["won"]), 2, "both of them won")
+    t.eq(int(by_id["player"]["lost"]), 0, "and the rematch loss is not on the table")
     # A three-student roster is two fixtures each, and the player's games are
     # counted on top of those from the opposite end.
     var bare := LeagueTable.standings([], _roster(), "Ro", "22k")
     var base := {}
     for r in bare:
         base[str(r["id"])] = r
-    t.eq(int(by_id["kesh"]["played"]), int(base["kesh"]["played"]) + 2,
-        "kesh played the newcomer twice on top of her fixtures")
-    t.eq(int(by_id["kesh"]["won"]), int(base["kesh"]["won"]) + 1, "and won one of them")
-    t.eq(int(by_id["kesh"]["lost"]), int(base["kesh"]["lost"]) + 1, "and lost the other")
+    t.eq(int(by_id["kesh"]["played"]), int(base["kesh"]["played"]) + 1,
+        "kesh played the newcomer once on top of her fixtures")
+    t.eq(int(by_id["kesh"]["lost"]), int(base["kesh"]["lost"]) + 1, "and lost it")
     t.eq(int(by_id["ilse"]["lost"]), int(base["ilse"]["lost"]) + 1, "ilse lost hers")
     t.eq(int(by_id["orla"]["played"]), int(base["orla"]["played"]),
         "orla has not played the newcomer")
+
+
+## The table is a league, so it counts a league: one game against each person.
+##
+## Before the exam gated on league position this went unnoticed, because nothing
+## read the position. With every rated game counted and a sort that leads on
+## wins, somebody who played twenty games and won eight finished above a student
+## who went five and nought -- which is grinding past a stronger player, and
+## Pillar 1 forbids it. Rank still moves on every game; the table does not.
+static func _test_rematches(t: TestKit) -> void:
+    t.section("league: a rematch is not a second fixture")
+    var grind: Array = []
+    for i in 8:
+        grind.append(_game("kesh", true))
+    var rows := LeagueTable.standings(grind, _roster(), "Ro", "22k")
+    var me := {}
+    for r in rows:
+        if bool(r["is_player"]):
+            me = r
+    t.eq(int(me["played"]), 1, "eight games against one person is one fixture")
+    t.eq(int(me["won"]), 1, "worth one win")
+    t.ok(LeagueTable.player_position(rows) > 1,
+        "so grinding one opponent cannot top the table")
+
+    # The exam is played against league members and is not a league game: sitting
+    # a round must not rewrite the standings that entitled you to sit it.
+    var sat := [{"npc_id": "orla", "player_won": true, "unrated": false,
+                 "context_id": Exam.context_for(0)}]
+    var after := LeagueTable.standings(sat, _roster(), "Ro", "22k")
+    for r in after:
+        if bool(r["is_player"]):
+            t.eq(int(r["played"]), 0, "an exam round is not a league game")
 
 
 static func _test_ordering(t: TestKit) -> void:

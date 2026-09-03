@@ -13,6 +13,13 @@ var rank_strength: int = -1
 ## day you arrive and the noticeboard has said so since before you did.
 const CUP_DAY := 42
 
+## The Instituut's qualifying exam, in the last week of term. It sits before the
+## Cup rather than after it because the two belong to the two Go cultures the
+## city is built on: the exam is the Instituut deciding who it keeps, and the Cup
+## is the open city event you are free to enter afterwards whatever it decided.
+## Swapping them is this constant and nothing else.
+const EXAM_DAY := 38
+
 ## What a day holds. Three is enough that choosing between a league game and a
 ## class costs something, without making an afternoon feel like paperwork.
 const SLOTS_PER_DAY := 3
@@ -89,6 +96,8 @@ func sleep() -> void:
     day += 1
     slots_used = 0
     _sync_time_block()
+    if day >= EXAM_DAY and has_flag("exam_entered"):
+        set_flag("exam_started", true)
     if day >= CUP_DAY and has_flag("cup_entered"):
         set_flag("cup_started", true)
     EventBus.day_changed.emit(day)
@@ -96,6 +105,10 @@ func sleep() -> void:
 
 func days_until_cup() -> int:
     return maxi(CUP_DAY - day, 0)
+
+
+func days_until_exam() -> int:
+    return maxi(EXAM_DAY - day, 0)
 
 
 ## The hour follows the day's spending. Nothing else writes `time_block`; every
@@ -192,6 +205,8 @@ func record_match(result: MatchResult) -> void:
         set_flag("won_a_league_game", true)
     if result.context_id.begins_with(CupDraw.CONTEXT_PREFIX):
         bump_flag("cup_rounds_played", 1)
+    if result.context_id.begins_with(Exam.CONTEXT_PREFIX):
+        bump_flag("exam_rounds_played", 1)
     # A rated game is most of an afternoon. The park and the arches are not, and
     # that difference is the reason unrated games exist in the first place.
     if not result.unrated:

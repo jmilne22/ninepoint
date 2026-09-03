@@ -15,14 +15,12 @@ extends RefCounted
 
 static func run_all(ctx: Dictionary, out: Array) -> void:
 	var reported := {}
-	good_capture(ctx, out)
-	good_save(ctx, out)
+	GoReviewDetectorsGood.run_all(ctx, out)
 	atari_ignored(ctx, out, reported)
 	died_savable(ctx, out, reported)
 	own_eye_filled(ctx, out)
 	self_atari(ctx, out)
 	capture_missed(ctx, out)
-	first_line_early(ctx, out)
 	ladder_failed(ctx, out)
 
 
@@ -46,8 +44,8 @@ static func atari_ignored(ctx: Dictionary, out: Array, reported: Dictionary) -> 
 		# A reply that captured something may well have been the answer.
 		if reply["captured"].size() > 0:
 			continue
-		var before := GoReview.board_at(ctx, k)
-		var after := GoReview.board_at(ctx, k + 1)
+		var before := GoReviewReplay.board_at(ctx, k)
+		var after := GoReviewReplay.board_at(ctx, k + 1)
 		# Only a group next to the stone just played can have been put in atari
 		# by it, which is also why this does not scan the whole board.
 		for nb in after.neighbours(int(m["point"])):
@@ -57,28 +55,36 @@ static func atari_ignored(ctx: Dictionary, out: Array, reported: Dictionary) -> 
 			if ch["liberties"].size() != 1:
 				continue
 			var stones: PackedInt32Array = ch["stones"]
-			if GoReview.already_reported(reported, stones):
+			if GoReviewReplay.already_reported(reported, stones):
 				continue
 			# If it was already in atari, the opponent did not create the
 			# problem and the player has been told about it once already.
 			# The chain may have grown since, so ask about a stone that was
 			# actually on the board then rather than about stones[0].
-			var was := GoReview.representative(before, stones, colour)
+			var was := GoReviewReplay.representative(before, stones, colour)
 			if was >= 0 and before.chain_at(was)["liberties"].size() == 1:
 				continue
 			var liberty: int = ch["liberties"][0]
 			if int(reply["point"]) == liberty:
 				continue        # they answered
-			var died := GoReview.captured_at(ctx, k + 1, stones)
-			if died < 0:
-				continue        # it survived; no harm done
-			GoReview.mark_group(reported, stones)
+			# A group that was left in atari and happened not to be taken is the
+			# same mistake with a kinder outcome. It used to be dropped entirely,
+			# which taught the player that not looking is fine as long as the
+			# opponent also does not look. It reports lower and, having cost no
+			# points, prices to zero -- so it only ever surfaces in a game where
+			# nothing worse happened, which is exactly when it is worth hearing.
+			var died := GoReviewReplay.captured_at(ctx, k + 1, stones)
+			GoReviewReplay.mark_group(reported, stones)
 			var pts := PackedInt32Array(stones)
 			pts.append(liberty)
+			var detail := {"stones": stones.size(), "liberty": liberty,
+				"played": int(reply["point"])}
+			if died >= 0:
+				detail["died_at"] = died
+			else:
+				detail["survived"] = true
 			out.append(GoReview.finding("atari_ignored", k, ctx["positions"][k + 1], pts,
-				float(stones.size()) + 3.0, false,
-				{"stones": stones.size(), "liberty": liberty,
-				 "played": int(reply["point"]), "died_at": died}))
+				float(stones.size()) + (3.0 if died >= 0 else 0.0), false, detail))
 
 
 ## A group that died when a move existed that would have saved it. Distinct
@@ -94,15 +100,15 @@ static func died_savable(ctx: Dictionary, out: Array, reported: Dictionary) -> v
 		var stones: PackedInt32Array = m["captured"]
 		if stones.size() < 2:
 			continue
-		if GoReview.already_reported(reported, stones):
+		if GoReviewReplay.already_reported(reported, stones):
 			continue
 		var j := k - 1
 		while j >= 0 and int(moves[j]["color"]) != colour:
 			j -= 1
 		if j < 0:
 			continue
-		var before := GoReview.board_at(ctx, j)
-		var rep := GoReview.representative(before, stones, colour)
+		var before := GoReviewReplay.board_at(ctx, j)
+		var rep := GoReviewReplay.representative(before, stones, colour)
 		if rep < 0:
 			continue
 		var ch := before.chain_at(rep)
@@ -111,11 +117,11 @@ static func died_savable(ctx: Dictionary, out: Array, reported: Dictionary) -> v
 		var liberty: int = ch["liberties"][0]
 		if int(moves[j]["point"]) == liberty:
 			continue        # they did play there; it simply was not enough
-		var probe := GoReview.mutable_at(ctx, j)
+		var probe := GoReviewReplay.mutable_at(ctx, j)
 		probe.place(liberty, colour)
 		if probe.chain_at(liberty)["liberties"].size() < 2:
 			continue        # there was no save; dying was not a mistake
-		GoReview.mark_group(reported, stones)
+		GoReviewReplay.mark_group(reported, stones)
 		var pts := PackedInt32Array(ch["stones"])
 		pts.append(liberty)
 		out.append(GoReview.finding("died_savable", j, ctx["positions"][j], pts,
@@ -135,7 +141,7 @@ static func own_eye_filled(ctx: Dictionary, out: Array) -> void:
 		if m["captured"].size() > 0:
 			continue
 		var p: int = int(m["point"])
-		var before := GoReview.board_at(ctx, k)
+		var before := GoReviewReplay.board_at(ctx, k)
 		if not before.is_eye_like(p, colour):
 			continue
 		# Filling an eye to connect a group that was about to die is not a
@@ -163,7 +169,7 @@ static func self_atari(ctx: Dictionary, out: Array) -> void:
 			continue
 		if m["captured"].size() > 0:
 			continue
-		var after := GoReview.board_at(ctx, k + 1)
+		var after := GoReviewReplay.board_at(ctx, k + 1)
 		var ch := after.chain_at(int(m["point"]))
 		if ch["liberties"].size() != 1:
 			continue
@@ -186,7 +192,7 @@ static func capture_missed(ctx: Dictionary, out: Array) -> void:
 		var m: Dictionary = moves[k]
 		if int(m["color"]) != colour or int(m["point"]) < 0:
 			continue
-		var before := GoReview.board_at(ctx, k)
+		var before := GoReviewReplay.board_at(ctx, k)
 		for ch in before.all_chains():
 			if int(ch["color"]) != enemy or ch["liberties"].size() != 1:
 				continue
@@ -196,10 +202,10 @@ static func capture_missed(ctx: Dictionary, out: Array) -> void:
 			var liberty: int = ch["liberties"][0]
 			if int(m["point"]) == liberty:
 				continue
-			var key := GoReview.group_key(ch["stones"])
+			var key := GoReviewReplay.group_key(ch["stones"])
 			if seen.has(key):
 				continue
-			if GoReview.captured_at(ctx, k, ch["stones"]) >= 0:
+			if GoReviewReplay.captured_at(ctx, k, ch["stones"]) >= 0:
 				continue        # it died in the end anyway
 			seen[key] = true
 			var pts := PackedInt32Array(ch["stones"])
@@ -207,29 +213,6 @@ static func capture_missed(ctx: Dictionary, out: Array) -> void:
 			out.append(GoReview.finding("capture_missed", k, ctx["positions"][k], pts,
 				float(ch["stones"].size()), false,
 				{"stones": ch["stones"].size(), "liberty": liberty}))
-
-
-## Opening moves on the first line. Corner, side, centre -- the openings class
-## teaches this by making you count the walls; here it is caught in the wild.
-static func first_line_early(ctx: Dictionary, out: Array) -> void:
-	var colour: int = int(ctx["colour"])
-	var size: int = int(ctx["size"])
-	var moves: Array = ctx["moves"]
-	if size < 9:
-		return
-	for k in mini(moves.size(), 20):
-		var m: Dictionary = moves[k]
-		if int(m["color"]) != colour or int(m["point"]) < 0:
-			continue
-		if m["captured"].size() > 0:
-			continue
-		var p: int = int(m["point"])
-		var x: int = p % size
-		var y: int = p / size
-		if mini(mini(x, y), mini(size - 1 - x, size - 1 - y)) != 0:
-			continue
-		out.append(GoReview.finding("first_line_early", k, ctx["positions"][k + 1],
-			PackedInt32Array([p]), 2.0, false, {"move": k + 1}))
 
 
 ## Running from atari, again and again, and dying anyway. Pip does this in the
@@ -244,7 +227,7 @@ static func ladder_failed(ctx: Dictionary, out: Array) -> void:
 	for k in moves.size():
 		var m: Dictionary = moves[k]
 		if int(m["color"]) == colour and int(m["point"]) >= 0:
-			var before := GoReview.board_at(ctx, k)
+			var before := GoReviewReplay.board_at(ctx, k)
 			var ran := false
 			for nb in before.neighbours(int(m["point"])):
 				if before.get_idx(nb) == colour \
@@ -257,54 +240,10 @@ static func ladder_failed(ctx: Dictionary, out: Array) -> void:
 			if streak == 0:
 				first = k
 			streak += 1
-			running = GoReview.board_at(ctx, k + 1).chain_at(int(m["point"]))["stones"]
+			running = GoReviewReplay.board_at(ctx, k + 1).chain_at(int(m["point"]))["stones"]
 		elif int(m["color"]) == enemy and streak >= 2 \
-				and GoReview.intersects(m["captured"], running):
+				and GoReviewReplay.intersects(m["captured"], running):
 			out.append(GoReview.finding("ladder_failed", first, ctx["positions"][first],
 				running, float(running.size()) + 2.0, false,
 				{"stones": running.size(), "tries": streak}))
 			streak = 0
-
-
-# --- the things that went right ----------------------------------------------
-
-## Three stones or more taken at once. A beginner remembers this for a week.
-static func good_capture(ctx: Dictionary, out: Array) -> void:
-	var colour: int = int(ctx["colour"])
-	var moves: Array = ctx["moves"]
-	for k in moves.size():
-		var m: Dictionary = moves[k]
-		if int(m["color"]) != colour or m["captured"].size() < 3:
-			continue
-		var pts := PackedInt32Array(m["captured"])
-		pts.append(int(m["point"]))
-		out.append(GoReview.finding("good_capture", k, ctx["positions"][k], pts,
-			float(m["captured"].size()), true,
-			{"stones": m["captured"].size()}))
-
-
-## A group taken off one liberty and out to safety, that then lived.
-static func good_save(ctx: Dictionary, out: Array) -> void:
-	var colour: int = int(ctx["colour"])
-	var moves: Array = ctx["moves"]
-	for k in moves.size():
-		var m: Dictionary = moves[k]
-		if int(m["color"]) != colour or int(m["point"]) < 0:
-			continue
-		var before := GoReview.board_at(ctx, k)
-		var was_atari := false
-		for nb in before.neighbours(int(m["point"])):
-			if before.get_idx(nb) == colour \
-					and before.chain_at(nb)["liberties"].size() == 1:
-				was_atari = true
-				break
-		if not was_atari:
-			continue
-		var ch := GoReview.board_at(ctx, k + 1).chain_at(int(m["point"]))
-		if ch["liberties"].size() < 3:
-			continue
-		if GoReview.captured_at(ctx, k + 1, ch["stones"]) >= 0:
-			continue        # it died later after all
-		out.append(GoReview.finding("good_save", k, ctx["positions"][k + 1],
-			ch["stones"], float(ch["stones"].size()) + 1.0, true,
-			{"stones": ch["stones"].size()}))

@@ -63,6 +63,12 @@ func _ready() -> void:
     EventBus.toast.connect(show_toast)
     EventBus.rank_changed.connect(func(_o, _n): refresh())
     EventBus.quest_advanced.connect(func(_q, _s, _j): refresh())
+    # Completion is not an advance -- QuestTracker emits quest_completed instead
+    # of quest_advanced for the last step, so without this the journal keeps
+    # displaying the final objective of a finished quest until a rank, a day or
+    # an hour happens to change. Every quest in the game ended that way; the exam
+    # made it visible because finishing it is the last thing that happens.
+    EventBus.quest_completed.connect(func(_q): refresh())
     EventBus.day_changed.connect(func(_d): refresh())
     EventBus.time_block_changed.connect(func(_b): refresh())
     refresh()
@@ -101,15 +107,25 @@ func refresh() -> void:
     _journal.text = Quests.journal_line(str(ids[0])) if not ids.is_empty() else ""
 
 
-## "Day 3, afternoon" once there is a calendar worth showing, with the Cup
-## counted down beside it once somebody has told the player it exists.
+## "Day 3, afternoon" once there is a calendar worth showing, with the next fixed
+## date counted down beside it once somebody has told the player it exists.
+##
+## There are two of them now. Show whichever is nearer and still ahead, so the
+## line answers "how long have I got" rather than naming an event the player has
+## already sat.
 func _day_line() -> String:
+    var here := "Day %d, %s" % [GameState.day, GameState.time_block]
+    var exam := GameState.days_until_exam()
+    if GameState.has_flag("exam_entered") and not GameState.has_flag("exam_finished"):
+        if exam <= 0:
+            return "%s   the exam" % here
+        return "%s   exam in %d" % [here, exam]
     if not GameState.has_flag("wren_told_about_cup"):
         return ""
     var days := GameState.days_until_cup()
     if days <= 0:
-        return "Day %d, %s   the Cup" % [GameState.day, GameState.time_block]
-    return "Day %d, %s   Cup in %d" % [GameState.day, GameState.time_block, days]
+        return "%s   the Cup" % here
+    return "%s   Cup in %d" % [here, days]
 
 
 func _process(delta: float) -> void:

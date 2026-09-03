@@ -1,16 +1,61 @@
 {
  "id": "joos",
  "intro": [],
- "outro": ["Mm."],
+ "outro": [
+  "Mm."
+ ],
  "lines": {
-  "good_capture": ["{stones} stones. Good."],
-  "good_save": ["You got out. Good."],
-  "atari_ignored": ["Move {move}. One liberty. You didn't look."],
-  "died_savable": ["{save}. That was the move."],
-  "own_eye_filled": ["Your own eye. Move {move}."],
-  "self_atari": ["Move {move}. You did that to yourself."],
-  "capture_missed": ["{liberty} was free. All game."],
-  "first_line_early": ["Move {move}. The edge. Too early."],
-  "ladder_failed": ["It was never going to work. Count them."]
- }
+  "big_swing": [
+   "Move {move}. It went there."
+  ],
+  "atari_ignored": [
+   "Move {move}. One liberty. You didn't look."
+  ],
+  "capture_missed": [
+   "{liberty} was free. All game."
+  ],
+  "died_savable": [
+   "{save}. That was the move."
+  ],
+  "own_eye_filled": [
+   "Your own eye. Move {move}."
+  ],
+  "self_atari": [
+   "Move {move}. You did that to yourself."
+  ],
+  "dead_group_fed": [
+   "{stones}. Into a dead group."
+  ],
+  "filled_own_territory": [
+   "{stones} of your own points. Filled in."
+  ],
+  "cut_ignored": [
+   "Move {move}. Cut. You looked away."
+  ],
+  "ladder_failed": [
+   "It was never going to work. Count them."
+  ],
+  "should_have_passed": [
+   "It was finished. You kept going."
+  ],
+  "good_capture": [
+   "{stones}. Good."
+  ],
+  "good_save": [
+   "You got out. Good."
+  ],
+  "atari_answered": [
+   "{liberty}. You saw it."
+  ],
+  "best_moment": [
+   "Move {move}. That one was fine."
+  ],
+  "nothing_broke": [
+   "Clean game. Mm."
+  ]
+ },
+ "unqualified": [
+  "You're above me now.",
+  "I'll say the good bit."
+ ]
 }

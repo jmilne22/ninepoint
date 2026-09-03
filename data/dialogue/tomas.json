@@ -120,6 +120,13 @@
    "text": [
     "Suit yourself. Back room's always open."
    ]
+  },
+  "post_match": {
+   "branches": [
+    {
+     "goto": "regular"
+    }
+   ]
   }
  }
 }

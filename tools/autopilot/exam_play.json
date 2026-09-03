@@ -1,0 +1,84 @@
+[
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue from exam_round2: paper sat, round one won"
+ },
+ {
+  "wait": 2.2,
+  "shot": "a_day_two"
+ },
+ {
+  "walk_to": [
+   13,
+   3
+  ]
+ },
+ {
+  "face": [
+   13,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.4,
+  "shot": "b_crosstable_after_round_one"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "walk_to": [
+   3,
+   4
+  ],
+  "note": "across to the desk"
+ },
+ {
+  "face": [
+   2,
+   4
+  ]
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "advance": 2,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0,
+  "note": "The exam."
+ },
+ {
+  "advance": 3,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.4,
+  "shot": "c_board_is_ready"
+ },
+ {
+  "choose": 0,
+  "note": "Play the round."
+ },
+ {
+  "wait": 4.0,
+  "shot": "d_round_two_board"
+ }
+]
