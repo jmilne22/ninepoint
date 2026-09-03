@@ -1,5 +1,9 @@
 [
  {
+  "save": "lost_to_kesh",
+  "note": "inferred from what the script does (it starts by talking to Kesh where she stands in De Ketel), not from a note"
+ },
+ {
   "wait": 1.0,
   "note": "resign confirmation: R asks before it ends the game"
  },

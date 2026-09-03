@@ -1,5 +1,9 @@
 [
  {
+  "save": "exam_passed",
+  "note": "inferred from what the script does (it starts by reading the finished crosstable at the Bondszaal), not from a note"
+ },
+ {
   "wait": 0.8
  },
  {

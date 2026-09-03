@@ -361,7 +361,22 @@ func _advance_dialogue(max_taps: int = 60, stop_at_choice: bool = false) -> void
         taps += 1
         box = _dialogue_box()
     await get_tree().create_timer(0.15).timeout
-    if taps >= max_taps:
+    # Re-read the box before complaining. Spending the whole tap budget is not a
+    # failure if the box closed on the last tap, or if that tap landed on a
+    # choice -- both are the script doing exactly what it was told. Warning on
+    # success is the mirror of the _talk_to bug: that one hid a real failure,
+    # this one manufactured a false alarm, and both end with nobody reading the
+    # log.
+    #
+    # Still noisy in one case, left rather than guessed at: a script writing
+    # `advance: 1` means "step one line and screenshot", not "close this", and
+    # gets a truthful-but-useless warning. `advance: 20` means "get through
+    # this". Nothing in the step distinguishes the two intents, and inventing a
+    # budget threshold to tell them apart would be a guess -- the scripts should
+    # say which they mean.
+    box = _dialogue_box()
+    if taps >= max_taps and box != null and box.running \
+            and not (stop_at_choice and bool(box.get("_awaiting_choice"))):
         print("AUTOPILOT: dialogue did not close after %d taps" % taps)
 
 

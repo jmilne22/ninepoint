@@ -1,5 +1,9 @@
 [
  {
+  "save": "exam_ready",
+  "note": "the state this script needs; run_game.sh builds it before launching"
+ },
+ {
   "wait": 0.8
  },
  {

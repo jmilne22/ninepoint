@@ -1,5 +1,9 @@
 [
  {
+  "save": "lost_to_kesh",
+  "note": "the state this script needs; run_game.sh builds it before launching"
+ },
+ {
   "note": "banter: play Kesh and watch her react"
  },
  {

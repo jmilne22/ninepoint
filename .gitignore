@@ -4,3 +4,8 @@
 # Local tooling, not the game: vendored third-party skills and their lock file.
 .claude/
 skills-lock.json
+
+# Python bytecode from tools/. Regenerated on every run, so it dirtied
+# `git status` after any generator and churned in every commit.
+__pycache__/
+*.pyc

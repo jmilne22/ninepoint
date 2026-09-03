@@ -1,5 +1,9 @@
 [
  {
+  "save": "invited",
+  "note": "inferred from what the script does (it starts by taking the northbound tram from Ketelsteeg), not from a note"
+ },
+ {
   "wait": 0.8
  },
  {
