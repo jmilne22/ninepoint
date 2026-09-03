@@ -1140,3 +1140,104 @@ The first cut of that script shot the spawn tile and captioned it "Molenpark" �
 exactly as convincing as the correct frame, which is the third time this year that rule has
 earned its place.
 
+
+---
+
+## M27 — The teaching path  [done]
+
+This is a game about being taught Go, and the part that does the teaching was the part
+nobody had revisited since there were three lessons in it. M21 grew the curriculum to
+eleven and left the machinery at three. ROADMAP §6 listed seven faults; all seven are
+closed, and three of them changed what a player was actually taught rather than merely
+how it was worded.
+
+**The one worth naming, because it is a pattern and not an accident.**
+`knows_the_rules` was set by `finish_lesson` whenever *any* lesson completed with an empty
+queue. So Bertie's ladders, or Tomas's counting, or a class at the Instituut, all declared
+the rulebook taught. It gated five things — the study desk, Joos, Bertie, Tomas and Wren's
+ko lesson — and it was never wrong, because it was never really right: it measured
+something far broader than its own name. Two other sessions hit that identical shape in
+this tree on the same day: a melody checker comparing a wav against the note list that
+generated it, and a data test that walked every map's NPCs with no concept of hours. Three
+in one day is a pattern worth writing down. **A check or a flag whose name is narrower
+than what it measures passes for years and tells you nothing.**
+
+It was also worse than ROADMAP §6 recorded, which is the argument for verifying documented
+debt rather than repeating it. `kesh.json`'s `offer_escape` is not gated on the flag, so a
+single lesson from Kesh retroactively unlocked four of those five at once — and a
+player who told Wren outright "I know how the stones move" was refused by every one of them
+until that happened, because that answer set only `wren_knows_you_can_play`, which had zero
+readers and was set by the `cup` node on every path through it regardless of what the
+player had said. Now split: `said_knows_the_rules` for what you said, the three
+`lesson_<id>_done` flags for what you were taught, and `knows_the_rules` as the or of them.
+
+**A lesson ends on `taught_<lesson>`, falling back to `taught`.** `World._post_lesson`
+opened `taught` and nothing else, and only Wren and Hana had one — so Kesh's escape and
+connection, Bertie's ladders and Tomas's counting ended in silence, four of eleven. Not a
+crash: `resolve()` returns `""`, `DialogueBox.run` emits `end` without showing a box, and
+the teacher simply says nothing. The one general seam fixes both halves of the problem,
+because the other half was Wren having *one* `taught` node closing *two* lessons — it ended
+`"goto": "cup"`, and ko is only ever offered after the Kesh game, so finishing ko sent the
+player back through "That's Kesh over there, by the window. Twelve kyu." about somebody
+they had already played.
+
+**Two of the four silent lessons were not missing their writing.** Bertie and Tomas both
+had the paragraph, in nodes called `after_lesson`, reachable from `start` — so it played
+one conversation late, and read as a greeting instead of a close. Bertie's "Read it to the
+end. That's it. That's the whole of what I know that Pip doesn't" is good and had never
+once played at the moment it was written for. One line each.
+
+**And the rulebook can be asked for twice.** `wren_asked_experience` closed
+`ask_experience` for the life of the save, so a beginner who forgot what a liberty was had
+nowhere to go. Wren offers it again from `repeat` and from both game offers. Deliberately
+on her rather than at the study desk: GAME_DESIGN says there is no menu item because being
+taught by somebody is the point, and the desk keeps handing out problems.
+
+**Four guards, each confirmed by breaking the thing on purpose and watching it go red.**
+A test that has never failed is not yet a test — this project shipped `check_melody.py`
+once in a state where it compared a wav to the note list that produced it and passed.
+
+| Guard | Broken on purpose | Result |
+|---|---|---|
+| every lesson's teacher has a close | deleted Bertie's `taught` | 1 failed |
+| tracks name real files | typo'd `capture_3` in `PUZZLE_TRACK` | 1 failed |
+| every dialogue node is reachable | added an orphan to `joos.json` | 1 failed |
+| ... and the allow-list is load-bearing | dropped `pip.json` from `KNOWN_ORPHANS` | 1 failed |
+| lessons are reachable both ways | dropped `self_capture` from the track list | 1 failed |
+| the rulebook is taught whole | removed `track` from Wren's capture choice | 1 failed |
+
+The last one is the general form of the `self_capture` bug rather than the specific one:
+*any* `start_lesson` exit naming a lesson in `TUTORIAL_TRACK` must carry `track`, because
+entering the rulebook part-way and not finishing it is the fault, not that one node being
+wrong. The tracks are read off the script with `get_script_constant_map()` rather than
+named directly, because `MatchBridge` is an autoload and an autoload is not resolvable as a
+plain identifier in a `--script` run — the same reason `dialogue_graph.gd` looks its own up
+by path.
+
+**`tools/autopilot/tutorial.json` is deleted, and its replacement had the same disease.**
+The old script drove a title-screen item removed in M12, so it pressed Continue and wrote
+twelve screenshots of the overworld named `lesson_intro` and `step1_liberties`.
+`lessons.json` replaced it — and `lessons.json` moved the board cursor three squares left
+and **never moved it vertically at all**, so it could not reach the answer to step 1 of the
+ko lesson. It sat on step 1 for the life of the file while writing shots called `ko_taken`,
+`step_two_intro` and `refused`, exiting 0 with no script errors. The whole §6 fix was
+verified against those images before anybody opened them; opening them is what found it.
+Both scripts now navigate by clamping into the corner and counting out, which cannot drift
+no matter where the cursor starts.
+
+That is the third time this year the same rule has earned its place, and it now has a
+sharper form than "look at the screenshots": **a screenshot is evidence of the frame it
+contains and of nothing else.** A file named `f_refused` is a claim, not a result.
+
+**Done when:** `tools/test.sh` green at **5824 / 0** (up from 5525; 150 files load),
+`check_lessons.py` 0 problems, `gen_maps.py` regenerates every map byte-identical, and two
+autopilot runs screenshotted and *looked at* — Wren closing ko on "That is genuinely the
+whole rule. It has a long name and a short meaning, like most of this", and Bertie closing
+ladders on "Corner, side, centre, and read your ladders. Forty years and I could have had
+it on a postcard." Both are beats that, before this milestone, the player never saw.
+
+**Left undone, deliberately.** `pip.json`'s orphaned `capture_go` node is now detected and
+allow-listed rather than fixed: the intended entry condition is not obvious from the file
+and it wants whoever wrote the prologue rather than a guess. And the audit turned up one
+new gap, recorded in ROADMAP §8 — `check_load.gd`'s `EXTS` is `gd/tscn/tres/fnt`, so the
+load gate walks `res://data` and opens none of the JSON in it.

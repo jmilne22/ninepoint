@@ -161,7 +161,7 @@ python3 tools/make_test_save.py invited          # a save in a hard-to-reach sta
 ```
 
 Autopilot scripts in `tools/autopilot/`: `opening`, `prologue`, `slice_full`, `institute`,
-`nigiri`, `tutorial`, `win_path`, `feel`, `resign`, `city`, `night`, `salon`, `joos`,
+`nigiri`, `win_path`, `feel`, `resign`, `city`, `night`, `salon`, `joos`,
 `alive` (the city with people, weather and hours in it — hold-still shots),
 `review` (lose to Kesh on purpose and be told why),
 `handicap` (a league game from the `league_ready` save, to see the stones on the board),
@@ -172,7 +172,9 @@ problem paper, a round, both verdicts, and the refusal shown to somebody who fin
 `schedule` (the same three places at two hours each: De Ketel shut in the morning and full
 at night, Molenpark and the arches trading their two regulars),
 `cup` (the southbound tram, entering the Cup, and the draw),
-`cup_round` (from the `cup_day` save: read the draw and play a round).
+`cup_round` (from the `cup_day` save: read the draw and play a round),
+`lessons` (Wren teaches ko, and closes it in her own words rather than the Cup speech),
+`taught` (Bertie's ladders, and the post-lesson beat that used to be silent).
 Screenshots land in `/tmp/ninepoint-shots` (override with `OUT=`). **`run_game.sh` needs a
 script argument** — it runs on a hidden display, so without one there is nothing to see; it
 will tell you to use `play.sh`. `DISPLAY_NUM=0` runs it on the real display instead, which is
@@ -455,6 +457,15 @@ No engine, and the seam for one is `GoEvaluator` — see the debt list before re
   puzzles at the study desk. What is still missing is whole-board judgement -- when a
   group is worth abandoning, how big a move is -- and that needs an engine or a much
   stronger heuristic, not another lesson.
+
+  **The plumbing around them was fixed in M27** and the shape of what was wrong is worth
+  keeping: `knows_the_rules` was set by *any* completed lesson, so Bertie's ladders
+  declared the rulebook taught. A flag measuring something broader than its own name is
+  never wrong and never right either, and it is the third time this project has shipped
+  one. It is now taught-or-said: the rulebook track finishing, or the player telling Wren
+  outright that they know. A lesson ends on `taught_<lesson>`, falling back to `taught` --
+  `World._post_lesson` tries the specific node first, which is how one teacher closes two
+  different lessons without one running on into the other's speech.
 - **The AI's endgame is weak** — it stops playing once only first-line points remain, so a
   human who passes wins by a margin that means nothing. Needs a mercy rule and a better
   endgame before it is satisfying above ~15k. Its *style* is no longer the problem: profiles

@@ -370,10 +370,15 @@ it is optional so a player who already knows Go is never detained. Capture Go is
 match against a real opponent, not a scripted set piece -- `GoGame.capture_goal` is a rule
 of the engine, not a special case in the UI.
 
-**What the teaching path still gets wrong is recorded in ROADMAP §6**, and some of it
-changes what a player is actually taught: `self_capture` hangs off a single dialogue
-choice, `knows_the_rules` means "has had any lesson" rather than "knows the rules", and
-four of the lessons end without their teacher saying anything.
+**The teaching path was repaired in M27** (ROADMAP §6, now closed). Three of those faults
+changed what a player was actually taught: `self_capture` hung off a single dialogue
+choice, `knows_the_rules` meant "has had any lesson" rather than "knows the rules", and
+four of the eleven lessons ended without their teacher saying anything. Entering the
+rulebook anywhere now teaches the rest of it; the flag distinguishes what you were taught
+from what you said; and every lesson closes on `taught_<lesson>` or `taught`, so a teacher
+with two lessons can end each in its own words. The rulebook can also be asked for again,
+and it is asked for from Wren rather than from a menu, for the reason in the paragraph
+above.
 
 ### Puzzles and lessons
 Puzzles are small board positions with a goal (*capture the marked group*, *make two eyes*,

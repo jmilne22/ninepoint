@@ -151,6 +151,9 @@
     "Territory, see. You were busy having a lovely time in the middle and I was busy owning the edges.",
     "Proverb for you: the corner is gold, the side is silver, the centre is grass. Doesn't always apply. Applied there."
    ]
+  },
+  "taught": {
+   "goto": "after_lesson"
   }
  }
 }

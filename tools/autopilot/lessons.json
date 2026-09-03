@@ -60,43 +60,144 @@
   "shot": "c_ko_step_one"
  },
  {
-  "note": "step 1: take the ko stone at B8 -- cursor starts centre (4,4)"
+  "note": "step 1: the white stone at (2,1) has one liberty, at (1,1). Play there."
  },
  {
   "tap": "move_left",
-  "times": 3
+  "times": 8
  },
  {
-  "wait": 0.4
+  "tap": "move_up",
+  "times": 8
+ },
+ {
+  "tap": "move_right",
+  "times": 1
+ },
+ {
+  "tap": "move_down",
+  "times": 1
+ },
+ {
+  "wait": 0.5,
+  "shot": "d_cursor_on_the_liberty"
  },
  {
   "tap": "interact"
  },
  {
   "wait": 2.5,
-  "shot": "d_ko_taken"
+  "shot": "e_ko_taken"
  },
  {
   "tap": "interact"
  },
  {
   "wait": 2.5,
-  "shot": "e_step_two_intro"
+  "shot": "f_step_two_intro"
  },
  {
-  "note": "step 2: the cursor stays where it was (B8); C8 is one right"
+  "note": "step 2: taking straight back at (2,1) is the illegal move the step wants"
  },
  {
-  "tap": "move_right"
+  "tap": "move_left",
+  "times": 8
  },
  {
-  "wait": 0.4
+  "tap": "move_up",
+  "times": 8
+ },
+ {
+  "tap": "move_right",
+  "times": 2
+ },
+ {
+  "tap": "move_down",
+  "times": 1
+ },
+ {
+  "wait": 0.5
  },
  {
   "tap": "interact"
  },
  {
   "wait": 2.0,
-  "shot": "f_refused"
+  "shot": "g_refused"
+ },
+ {
+  "note": "out of the explanation and through Wren's outro"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.5,
+  "shot": "h_after_refusal"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.5,
+  "shot": "i_outro"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.5,
+  "shot": "j_outro_two"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "note": "lesson ends -> back to the world -> World._post_lesson enters taught_ko"
+ },
+ {
+  "wait": 4.0,
+  "shot": "k_wren_closes_ko"
+ },
+ {
+  "note": "THE FIX: this used to run on into 'That's Kesh over there, by the window'"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.2,
+  "shot": "l_ko_close_two"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.0
+ },
+ {
+  "note": "talk to her again: the game offer now carries a rules refresher"
+ },
+ {
+  "talk_to": "wren"
+ },
+ {
+  "advance": 16,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.8,
+  "shot": "m_offer_with_refresher"
+ },
+ {
+  "choose": 1,
+  "note": "the new option: 'Could you go over the rules again?'"
+ },
+ {
+  "wait": 1.5,
+  "shot": "n_refresher"
+ },
+ {
+  "note": "and the rulebook is on offer again, whole"
  }
 ]
