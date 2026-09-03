@@ -49,6 +49,25 @@ cleanup() {
 }
 trap cleanup INT TERM
 
+# A script may declare the save it needs with a top-level {"save": "<preset>"}
+# entry, which is better than an env var somebody has to remember: joos.json
+# walks tiles (20,10) and (30,9) across Ketelsteeg, which is 34x20, but the
+# obvious presets start you inside De Ketel, which is 20x14 -- so those tiles are
+# out of bounds and the walk silently fails. It only ever "worked" when chained
+# after a run that happened to leave the player on the street. An explicit SAVE=
+# on the command line still wins.
+if [ -z "$SAVE" ]; then
+  SAVE=$(python3 -c "
+import json,sys
+try:
+    for step in json.load(open(sys.argv[1])):
+        if isinstance(step, dict) and 'save' in step:
+            print(step['save']); break
+except Exception:
+    pass
+" "$1" 2>/dev/null)
+fi
+
 if [ -n "$SAVE" ]; then
   echo "regenerating save slot 1 as '$SAVE'"
   python3 tools/make_test_save.py "$SAVE" >/dev/null || {

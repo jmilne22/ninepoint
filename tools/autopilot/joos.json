@@ -1,5 +1,9 @@
 [
  {
+  "save": "invited",
+  "note": "the state this script needs; run_game.sh builds it"
+ },
+ {
   "note": "an unrated game at the arches"
  },
  {

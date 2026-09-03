@@ -173,7 +173,9 @@ Screenshots land in `/tmp/ninepoint-shots` (override with `OUT=`). **`run_game.s
 script argument** — it runs on a hidden display, so without one there is nothing to see; it
 will tell you to use `play.sh`. `DISPLAY_NUM=0` runs it on the real display instead, which is
 the quickest way to watch a script rather than reconstruct it from PNGs afterwards, and
-`SAVE=<preset>` regenerates save slot 1 first — **use it for every script that loads a save.**
+`SAVE=<preset>` regenerates save slot 1 first. Better still, a script **declares its own**
+starting state with a top-level `{"save": "<preset>"}` entry, which `run_game.sh` builds
+before launching; `SAVE=` on the command line overrides it.
 
 **Three rules for writing autopilot scripts, all learned the same night:**
 
@@ -183,11 +185,16 @@ the quickest way to watch a script rather than reconstruct it from PNGs afterwar
    restarting the match, so every later shot was of a second game while the run reported 0
    script errors. A graph that gains one node turns this from working to silently wrong, and
    M21 added nodes to five graphs.
-2. **Declare the save the script needs (`SAVE=`), never inherit one.** Every script that ends
+2. **A script declares the save it needs, and never inherits one.** Every script that ends
    by saving through the pause menu — `slice_full`, `joos`, `win_path` — overwrites slot 1
    with wherever the player finished, so two runs in a row silently test the first one's
    leftovers. This produced three wrong diagnoses in one evening, plus a fourth from a second
    session that ran concurrently and had its own freshly-written save overwritten mid-launch.
+   `joos.json` is the worst case: it walks tiles (20,10) and (30,9) across Ketelsteeg (34x20),
+   but the obvious presets start you inside De Ketel (20x14), so the targets are out of bounds
+   and the walk fails silently. It had only ever "worked" when chained behind a run that
+   happened to leave the player on the street. It now carries `{"save": "invited"}` and works
+   from cold.
    Two sessions must never drive the game at once: `user://save_*.json` and the screenshot
    folder are both shared and neither is namespaced. `run_game.sh` now takes an exclusive
    `flock` and refuses to start a second run rather than letting them corrupt each other —

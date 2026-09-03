@@ -1,5 +1,9 @@
 [
  {
+  "save": "beat_kesh",
+  "note": "the state this script needs; run_game.sh builds it"
+ },
+ {
   "wait": 1.0,
   "shot": "title_with_save"
  },
