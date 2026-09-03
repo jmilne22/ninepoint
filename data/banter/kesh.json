@@ -1,0 +1,48 @@
+{
+ "id": "kesh",
+ "lines": {
+  "you_captured": [
+   "Noted.",
+   "Fine. That was there."
+  ],
+  "you_captured_big": [
+   "Right. I'm going to be quiet for a bit.",
+   "You've taken the whole thing. I saw it going and I played on anyway, which is worse."
+  ],
+  "i_captured": [
+   "Mine.",
+   "Thank you. I'll have those."
+  ],
+  "i_captured_big": [
+   "All of it. You left it loose and I said I noticed.",
+   "That's the group. That's probably the game."
+  ],
+  "ko": [
+   "Ko. Find a threat, then. Let's see what you've got.",
+   "That's a ko and I am absolutely going to fight it."
+  ],
+  "i_atari": [
+   "That's short.",
+   "One liberty. I'm not going to say it twice."
+  ],
+  "you_atari": [
+   "Yes, I see it.",
+   "Mm. That's on me."
+  ],
+  "you_edge_early": [
+   "First line, this early. That's a free move for me."
+  ],
+  "winning": [
+   "I'm ahead and I intend to stay there.",
+   "This is what I meant about counting. I'm not doing it either, but I'm ahead."
+  ],
+  "losing": [
+   "You're ahead. Don't enjoy it, it's early.",
+   "Fine. Fine! You're ahead. I'm aware."
+  ],
+  "level": [
+   "Close. Good.",
+   "This is the interesting part, don't rush it."
+  ]
+ }
+}

@@ -1,0 +1,34 @@
+{
+ "id": "abel",
+ "lines": {
+  "you_captured": [
+   "Ah -- is that allowed? It is, isn't it. Sorry.",
+   "Right. Yes. You can do that."
+  ],
+  "you_captured_big": [
+   "Oh. That's a lot. I came across on the ferry for this.",
+   "I've never had that many taken at once. It's quite exciting, actually."
+  ],
+  "i_captured": [
+   "Sorry! Sorry. Was that alright to do?"
+  ],
+  "i_captured_big": [
+   "Goodness. I didn't know it would do all of that."
+  ],
+  "ko": [
+   "Is this the one where you have to wait? I think it is."
+  ],
+  "i_atari": [
+   "Atari? Atari. Someone told me to say that."
+  ],
+  "winning": [
+   "Am I ahead? I genuinely can't tell. Nobody has taught me to count."
+  ],
+  "losing": [
+   "You're ahead, I think. It's fine. It's a nice room."
+  ],
+  "level": [
+   "I have no idea what's happening and I'm having a lovely time."
+  ]
+ }
+}

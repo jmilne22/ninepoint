@@ -1,0 +1,113 @@
+[
+ {
+  "wait": 1.0,
+  "note": "resign confirmation: R asks before it ends the game"
+ },
+ {
+  "tap": "move_down",
+  "note": "Continue"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.8
+ },
+ {
+  "talk_to": "kesh"
+ },
+ {
+  "advance": 20,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.3
+ },
+ {
+  "choose": 0,
+  "note": "play again"
+ },
+ {
+  "advance": 14
+ },
+ {
+  "wait": 1.0
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.0
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 3.0,
+  "shot": "a_playing"
+ },
+ {
+  "tap": "go_resign"
+ },
+ {
+  "wait": 0.4,
+  "shot": "b_resign_prompt",
+  "note": "R asks first"
+ },
+ {
+  "tap": "move_left",
+  "times": 2,
+  "note": "arrows must not reach the board behind the card"
+ },
+ {
+  "wait": 0.2,
+  "shot": "c_prompt_ignores_arrows"
+ },
+ {
+  "tap": "cancel"
+ },
+ {
+  "wait": 0.4,
+  "shot": "d_cancelled"
+ },
+ {
+  "tap": "interact",
+  "note": "and the game carries on"
+ },
+ {
+  "wait": 2.0,
+  "shot": "e_move_played"
+ },
+ {
+  "tap": "go_resign"
+ },
+ {
+  "wait": 0.3
+ },
+ {
+  "tap": "go_resign"
+ },
+ {
+  "wait": 0.9,
+  "shot": "f_resigned"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.0,
+  "shot": "g_back_in_world"
+ }
+]

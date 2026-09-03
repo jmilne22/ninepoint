@@ -1,0 +1,117 @@
+[
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue from the crafted save"
+ },
+ {
+  "wait": 2.2,
+  "shot": "in_steenbeek"
+ },
+ {
+  "walk_to": [
+   1,
+   10
+  ],
+  "note": "to the tram stop"
+ },
+ {
+  "walk_to": [
+   0,
+   10
+  ],
+  "timeout": 3,
+  "note": "take the northbound tram"
+ },
+ {
+  "wait": 2.0,
+  "shot": "institute_hall"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "wait": 0.5,
+  "shot": "marguerite_desk"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0,
+  "note": "sign"
+ },
+ {
+  "advance": 20
+ },
+ {
+  "wait": 0.5,
+  "shot": "enrolled"
+ },
+ {
+  "walk_to": [
+   10,
+   3
+  ],
+  "note": "to the league board",
+  "timeout": 6
+ },
+ {
+  "tap": "move_up",
+  "note": "face the board"
+ },
+ {
+  "wait": 0.4,
+  "shot": "at_the_board"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.8,
+  "shot": "league_table"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "walk_to": [
+   21,
+   7
+  ],
+  "timeout": 6,
+  "note": "east to the classroom"
+ },
+ {
+  "wait": 1.8,
+  "shot": "classroom"
+ },
+ {
+  "walk_to": [
+   8,
+   3
+  ],
+  "note": "to the demonstration board",
+  "timeout": 6
+ },
+ {
+  "tap": "move_up",
+  "note": "face it"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.2,
+  "shot": "class_begins"
+ }
+]

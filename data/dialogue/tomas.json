@@ -1,0 +1,125 @@
+{
+ "id": "tomas",
+ "nodes": {
+  "start": {
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "lesson_counting_done"
+      ]
+     ],
+     "goto": "after_lesson"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "knows_the_rules"
+      ]
+     ],
+     "goto": "offer_counting"
+    },
+    {
+     "goto": "first"
+    }
+   ]
+  },
+  "first": {
+   "text": [
+    "Bar's shut until the Cup's over -- I'm playing in it, which I regret already. Back room stays open. It always stays open.",
+    "You're the one Wren's teaching. Go and get taught, then come back and I'll show you the part nobody bothers with."
+   ]
+  },
+  "offer_counting": {
+   "text": [
+    "Right. You know how the stones work, so here is the thing that decides games, which nobody ever teaches because it is arithmetic and arithmetic is boring.",
+    "The end. Passing, counting, what a captured stone is actually worth. I have won three hundred games I had no business winning and every one of them was in the last twenty moves."
+   ],
+   "choices": [
+    {
+     "text": "Show me.",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "counting"
+     }
+    },
+    {
+     "text": "Another time.",
+     "goto": "later"
+    }
+   ]
+  },
+  "after_lesson": {
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "tomas_match_done"
+      ]
+     ],
+     "goto": "regular"
+    },
+    {
+     "goto": "offer_game"
+    }
+   ]
+  },
+  "offer_game": {
+   "text": [
+    "You've had the lesson. Now the other half of it, which is somebody making you do it under pressure.",
+    "One game. That's the rule and it has always been the rule -- one a day, and I mean it, because a man who plays four games a day is not thinking about any of them."
+   ],
+   "choices": [
+    {
+     "text": "One game.",
+     "exit": {
+      "type": "start_match",
+      "profile": "tomas_9x9",
+      "context": "tomas_club",
+      "intro": "One game. Back room rules -- it goes on the hooks."
+     }
+    },
+    {
+     "text": "Not today.",
+     "goto": "later"
+    }
+   ]
+  },
+  "regular": {
+   "branches": [
+    {
+     "if": [
+      [
+       "beat",
+       "tomas"
+      ]
+     ],
+     "goto": "beaten"
+    },
+    {
+     "goto": "won"
+    }
+   ]
+  },
+  "beaten": {
+   "text": [
+    "Mm. You counted that better than I did, and I have been counting since before you were born.",
+    "That's the whole compliment. Don't wait for another one."
+   ]
+  },
+  "won": {
+   "text": [
+    "Good game. You were ahead in the middle and you gave it back a point at a time in the last thirty moves.",
+    "That's not a criticism, that's everybody. It's just that I stopped doing it, and that is the only reason I am eight kyu."
+   ]
+  },
+  "later": {
+   "text": [
+    "Suit yourself. Back room's always open."
+   ]
+  }
+ }
+}

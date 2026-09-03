@@ -1,0 +1,71 @@
+[
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue from the invited save"
+ },
+ {
+  "wait": 2.2
+ },
+ {
+  "walk_to": [
+   5,
+   9
+  ]
+ },
+ {
+  "walk_to": [
+   5,
+   8
+  ],
+  "timeout": 3,
+  "note": "up to the attic"
+ },
+ {
+  "wait": 1.8
+ },
+ {
+  "walk_to": [
+   8,
+   4
+  ],
+  "note": "to the desk"
+ },
+ {
+  "face": [
+   9,
+   4
+  ]
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 2.0,
+  "shot": "a_desk_offers"
+ },
+ {
+  "choose": 0,
+  "note": "Set a problem."
+ },
+ {
+  "wait": 6.0,
+  "shot": "b_problem"
+ },
+ {
+  "wait": 2.0,
+  "shot": "c_problem_again"
+ }
+]

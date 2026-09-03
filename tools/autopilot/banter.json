@@ -1,0 +1,199 @@
+[
+ {
+  "note": "banter: play Kesh and watch her react"
+ },
+ {
+  "wait": 1.0
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue from the lost_to_kesh save"
+ },
+ {
+  "wait": 2.2
+ },
+ {
+  "walk_to": [
+   12,
+   9
+  ]
+ },
+ {
+  "walk_to": [
+   14,
+   8
+  ],
+  "timeout": 5
+ },
+ {
+  "wait": 0.6
+ },
+ {
+  "talk_to": "kesh"
+ },
+ {
+  "advance": 12,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 1,
+  "note": "Not now -- decline the lesson"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0,
+  "note": "Again."
+ },
+ {
+  "wait": 3.2,
+  "shot": "a_board"
+ },
+ {
+  "tap": "move_up"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "wait": 1.2,
+  "shot": "b_move_04"
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "tap": "move_up"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "wait": 1.2,
+  "shot": "b_move_07"
+ },
+ {
+  "tap": "move_up"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "wait": 1.2,
+  "shot": "b_move_10"
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "tap": "move_up"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "wait": 1.2,
+  "shot": "b_move_14"
+ }
+]

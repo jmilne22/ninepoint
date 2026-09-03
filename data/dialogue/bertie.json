@@ -1,0 +1,66 @@
+{
+ "id": "bertie",
+ "nodes": {
+  "start": {
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "lesson_ladders_done"
+      ]
+     ],
+     "goto": "after_lesson"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "knows_the_rules"
+      ]
+     ],
+     "goto": "offer_ladders"
+    },
+    {
+     "goto": "first"
+    }
+   ]
+  },
+  "first": {
+   "text": [
+    "Four kyu, forty years, one park bench.",
+    "Corner, side, centre. Learn it in that order and you'll save yourself a decade."
+   ]
+  },
+  "offer_ladders": {
+   "text": [
+    "You've been watching Pip, then. He's been trying the same thing since he got here and it has never once worked, and I have never once managed to explain why.",
+    "Sit down. I'll show you the version that does work, and the ten seconds of counting that tells you which one you've got."
+   ],
+   "choices": [
+    {
+     "text": "Sit down.",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "ladders"
+     }
+    },
+    {
+     "text": "Later.",
+     "goto": "later"
+    }
+   ]
+  },
+  "after_lesson": {
+   "text": [
+    "Read it to the end. That's it. That's the whole of what I know that Pip doesn't.",
+    "Corner, side, centre, and read your ladders. Forty years and I could have had it on a postcard."
+   ]
+  },
+  "later": {
+   "text": [
+    "I'll be on this bench. I am always on this bench."
+   ]
+  }
+ }
+}

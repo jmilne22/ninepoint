@@ -1,0 +1,101 @@
+[
+ {
+  "wait": 0.9,
+  "shot": "title_with_learn"
+ },
+ {
+  "tap": "move_down",
+  "note": "select Learn to play"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.8,
+  "shot": "lesson_intro"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.8,
+  "shot": "step1_liberties"
+ },
+ {
+  "tap": "interact",
+  "note": "place a stone anywhere"
+ },
+ {
+  "wait": 1.0,
+  "shot": "step1_explained"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.8,
+  "shot": "step2_corner"
+ },
+ {
+  "tap": "move_left",
+  "times": 4
+ },
+ {
+  "tap": "move_up",
+  "times": 4
+ },
+ {
+  "wait": 0.3,
+  "shot": "step2_cursor_corner"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.2,
+  "shot": "step2_explained"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.8,
+  "shot": "step3_chain"
+ },
+ {
+  "tap": "move_right",
+  "times": 3
+ },
+ {
+  "tap": "move_down",
+  "times": 3
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.2,
+  "shot": "step3_explained"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.0,
+  "shot": "lesson1_outro"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.8,
+  "shot": "lesson2_capture_intro"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.8,
+  "shot": "capture_step1"
+ }
+]

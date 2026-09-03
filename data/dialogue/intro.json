@@ -1,0 +1,35 @@
+{
+ "id": "intro",
+ "nodes": {
+  "start": {
+   "speaker": "narrator",
+   "text": [
+    "Ketelsteeg, Tuesday. The rain has stopped for a moment and left the tram rails shining.",
+    "You have been in Steenbeek for four days. You came for the room, which is cheap because it is an attic over a shuttered stationer's, and the job, which starts on Monday. The boxes are still stacked against the wall.",
+    "The previous tenant left something behind. It is a slab of wood, about the size of a tea tray, with a grid of lines cut into the top -- nineteen one way, nineteen the other. Beside it sits a wooden bowl of small flat stones, black and white, cool to the touch.",
+    "You have turned the whole arrangement over twice looking for instructions. There are none.",
+    "It is too deliberate to be a chopping board and too heavy to be a game."
+   ],
+   "goto": "resolve"
+  },
+  "resolve": {
+   "speaker": "narrator",
+   "actions": [
+    [
+     "give",
+     "old_goban",
+     "A board somebody left behind"
+    ],
+    [
+     "set_flag",
+     "carrying_board",
+     true
+    ]
+   ],
+   "text": [
+    "Somebody in a town this size will know what it is.",
+    "You put the bowl in the crook of your arm, tuck the board under it, and go out."
+   ]
+  }
+ }
+}

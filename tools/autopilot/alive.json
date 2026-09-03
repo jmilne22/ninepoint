@@ -1,0 +1,222 @@
+[
+ {
+  "note": "does the city look and sound inhabited"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "interact",
+  "note": "New Game"
+ },
+ {
+  "wait": 2.6
+ },
+ {
+  "tap": "interact",
+  "times": 14,
+  "gap": 0.9,
+  "note": "Hana's address"
+ },
+ {
+  "wait": 1.2
+ },
+ {
+  "tap": "interact",
+  "note": "accept the name"
+ },
+ {
+  "wait": 3.2
+ },
+ {
+  "advance": 30
+ },
+ {
+  "walk_to": [
+   6,
+   7
+  ],
+  "note": "out of the attic"
+ },
+ {
+  "walk_to": [
+   6,
+   8
+  ],
+  "timeout": 3
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "note": "east end of Ketelsteeg: snack window, neon, the tram rails"
+ },
+ {
+  "walk_to": [
+   23,
+   10
+  ]
+ },
+ {
+  "wait": 1.0,
+  "shot": "a_street_afternoon"
+ },
+ {
+  "time": "dusk"
+ },
+ {
+  "wait": 1.0,
+  "shot": "b_street_dusk"
+ },
+ {
+  "time": "night"
+ },
+ {
+  "wait": 1.0,
+  "shot": "c_street_night"
+ },
+ {
+  "note": "hold still: passers-by, the neon fault, and a tram"
+ },
+ {
+  "wait": 4.0,
+  "shot": "d_night_hold_1"
+ },
+ {
+  "wait": 4.0,
+  "shot": "e_night_hold_2"
+ },
+ {
+  "wait": 4.0,
+  "shot": "f_night_hold_3"
+ },
+ {
+  "wait": 4.0,
+  "shot": "g_night_hold_4"
+ },
+ {
+  "rain": true
+ },
+ {
+  "wait": 1.6,
+  "shot": "h_night_rain"
+ },
+ {
+  "wait": 3.0,
+  "shot": "i_night_rain_puddles"
+ },
+ {
+  "rain": false
+ },
+ {
+  "note": "down into De Ketel, still after dark"
+ },
+ {
+  "walk_to": [
+   13,
+   9
+  ]
+ },
+ {
+  "walk_to": [
+   13,
+   8
+  ],
+  "timeout": 4
+ },
+ {
+  "wait": 2.0,
+  "shot": "j_ketel_arrive"
+ },
+ {
+  "note": "stand by Hana: watch mode should turn her from across the room"
+ },
+ {
+  "walk_to": [
+   5,
+   5
+  ]
+ },
+ {
+  "wait": 1.5,
+  "shot": "k_ketel_hana_looks_up"
+ },
+ {
+  "wait": 3.0,
+  "shot": "l_ketel_stove"
+ },
+ {
+  "note": "Wren at [6,8], player west then east of her, same camera clamp: her sprite must change if the glance works"
+ },
+ {
+  "walk_to": [
+   3,
+   9
+  ]
+ },
+ {
+  "wait": 1.2,
+  "shot": "l2_wren_from_west"
+ },
+ {
+  "walk_to": [
+   9,
+   9
+  ]
+ },
+ {
+  "wait": 1.2,
+  "shot": "l3_wren_from_east"
+ },
+ {
+  "note": "long hold: the go tables gain stones, 22s a frame"
+ },
+ {
+  "wait": 24.0,
+  "shot": "m_ketel_boards_later"
+ },
+ {
+  "note": "back up to the street, then south to the quay"
+ },
+ {
+  "walk_to": [
+   9,
+   12
+  ]
+ },
+ {
+  "walk_to": [
+   9,
+   13
+  ],
+  "timeout": 4
+ },
+ {
+  "wait": 1.5
+ },
+ {
+  "time": "afternoon"
+ },
+ {
+  "walk_to": [
+   16,
+   18
+  ],
+  "timeout": 14
+ },
+ {
+  "walk_to": [
+   16,
+   19
+  ],
+  "timeout": 4
+ },
+ {
+  "wait": 1.8,
+  "shot": "n_quay"
+ },
+ {
+  "wait": 2.5,
+  "shot": "o_quay_water_moved"
+ }
+]

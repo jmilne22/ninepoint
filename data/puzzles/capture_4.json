@@ -1,0 +1,34 @@
+{
+ "id": "capture_4",
+ "title": "One Eye Is Not Enough",
+ "teacher": "hana",
+ "size": 9,
+ "to_move": "white",
+ "kind": "capture",
+ "board": [
+  "OOOOO....",
+  "OXXXO....",
+  "OX.XO....",
+  "OXXXO....",
+  "OOOOO....",
+  ".........",
+  ".........",
+  ".........",
+  "........."
+ ],
+ "goal": "White to play. The black group has one eye. End it.",
+ "hint": "The group is touching exactly one empty point, and it is inside.",
+ "solutions": [
+  [
+   2,
+   2
+  ]
+ ],
+ "target": [
+  [
+   1,
+   1
+  ]
+ ],
+ "explanation": "The eye was the group's last liberty, so playing in it was legal -- the capture resolves before your own stone is checked. One eye is not life. It never was."
+}

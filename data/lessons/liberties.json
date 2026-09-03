@@ -1,0 +1,45 @@
+{
+"id": "liberties",
+"title": "Liberties",
+"teacher": "wren",
+"size": 7,
+"intro": [
+ "Right. The whole game, from the beginning.",
+ "Black and White take turns putting a stone on an intersection -- a crossing of two lines, not a square. Once it is down it does not move again.",
+ "That is genuinely all the movement there is. Everything else follows from one idea, and the idea is called a liberty."
+],
+"steps": [
+ {
+  "board": [".......", ".......", ".......", ".......", ".......", ".......", "......."],
+  "to_move": "black",
+  "instruction": "Put a black stone anywhere you like. Move the cursor first -- the rings show the empty points it would be touching.",
+  "accept": "any_legal",
+  "show_liberties": true,
+  "explanation": "The empty points touching a stone, up-down-left-right, are its liberties. A stone in the middle of the board has four. That number is the stone's breathing room, and the entire game is an argument about it."
+ },
+ {
+  "board": [".......", "...X...", ".......", ".......", ".......", ".......", "......."],
+  "to_move": "black",
+  "instruction": "Now put a stone in a corner. Watch the count change.",
+  "accept": "points",
+  "points": [[0, 0], [6, 0], [0, 6], [6, 6]],
+  "show_liberties": true,
+  "hint": "Any of the four corners of the board.",
+  "explanation": "A corner stone has two liberties; an edge stone has three. Stones near the edge are easier to take, which is why the edge is cheap and the corner is valuable -- you need fewer stones to surround a corner than a centre."
+ },
+ {
+  "board": [".......", "...X...", "...X...", ".......", ".......", ".......", "......."],
+  "to_move": "black",
+  "instruction": "Play a third black stone directly below the other two, to make a line of three.",
+  "accept": "points",
+  "points": [[3, 3]],
+  "show_liberties": true,
+  "hint": "Directly under the lowest black stone.",
+  "explanation": "Stones of the same colour that touch are one chain, and they share their liberties. They live together and they die together. Three stones in a row have eight liberties between them -- much harder to surround than three lonely stones."
+ }
+],
+"outro": [
+ "That is the whole of the first lesson. Liberties belong to chains, edges have fewer of them, and corners fewer still.",
+ "Next: what happens when a chain runs out."
+]
+}

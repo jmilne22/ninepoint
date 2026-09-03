@@ -1,0 +1,411 @@
+{
+ "tile_size": 16,
+ "columns": 16,
+ "rows": 7,
+ "tiles": {
+  "grass_a": [
+   0,
+   0
+  ],
+  "grass_b": [
+   1,
+   0
+  ],
+  "grass_c": [
+   2,
+   0
+  ],
+  "grass_flowers": [
+   3,
+   0
+  ],
+  "cobble_a": [
+   4,
+   0
+  ],
+  "cobble_b": [
+   5,
+   0
+  ],
+  "pavement": [
+   6,
+   0
+  ],
+  "gravel": [
+   7,
+   0
+  ],
+  "dirt": [
+   8,
+   0
+  ],
+  "kerb": [
+   9,
+   0
+  ],
+  "water": [
+   10,
+   0
+  ],
+  "water_f1": [
+   11,
+   0
+  ],
+  "water_f2": [
+   12,
+   0
+  ],
+  "water_edge": [
+   13,
+   0
+  ],
+  "plank": [
+   14,
+   0
+  ],
+  "step": [
+   15,
+   0
+  ],
+  "drain": [
+   0,
+   1
+  ],
+  "void": [
+   1,
+   1
+  ],
+  "wall_plaster": [
+   2,
+   1
+  ],
+  "wall_plaster_win": [
+   3,
+   1
+  ],
+  "wall_brick": [
+   4,
+   1
+  ],
+  "wall_base": [
+   5,
+   1
+  ],
+  "door_wood": [
+   6,
+   1
+  ],
+  "door_glass": [
+   7,
+   1
+  ],
+  "door_club": [
+   8,
+   1
+  ],
+  "roof_slate": [
+   9,
+   1
+  ],
+  "roof_rust": [
+   10,
+   1
+  ],
+  "roof_eave": [
+   11,
+   1
+  ],
+  "roof_ridge": [
+   12,
+   1
+  ],
+  "chimney": [
+   13,
+   1
+  ],
+  "awning": [
+   14,
+   1
+  ],
+  "sign_hanging": [
+   15,
+   1
+  ],
+  "lamp_post": [
+   0,
+   2
+  ],
+  "wall_corner": [
+   1,
+   2
+  ],
+  "fence_h": [
+   2,
+   2
+  ],
+  "fence_post": [
+   3,
+   2
+  ],
+  "hedge": [
+   4,
+   2
+  ],
+  "tree_tl": [
+   5,
+   2
+  ],
+  "tree_tr": [
+   6,
+   2
+  ],
+  "tree_bl": [
+   7,
+   2
+  ],
+  "tree_br": [
+   8,
+   2
+  ],
+  "bush": [
+   9,
+   2
+  ],
+  "bench": [
+   10,
+   2
+  ],
+  "planter": [
+   11,
+   2
+  ],
+  "stone_table": [
+   12,
+   2
+  ],
+  "noticeboard": [
+   13,
+   2
+  ],
+  "post_box": [
+   14,
+   2
+  ],
+  "barrel": [
+   15,
+   2
+  ],
+  "crate": [
+   0,
+   3
+  ],
+  "flowerbed": [
+   1,
+   3
+  ],
+  "floor_wood_a": [
+   2,
+   3
+  ],
+  "floor_wood_b": [
+   3,
+   3
+  ],
+  "floor_mat": [
+   4,
+   3
+  ],
+  "rug": [
+   5,
+   3
+  ],
+  "wall_int": [
+   6,
+   3
+  ],
+  "wall_int_base": [
+   7,
+   3
+  ],
+  "wall_int_win": [
+   8,
+   3
+  ],
+  "shelf_books": [
+   9,
+   3
+  ],
+  "counter": [
+   10,
+   3
+  ],
+  "go_table": [
+   11,
+   3
+  ],
+  "go_table_f1": [
+   12,
+   3
+  ],
+  "go_table_f2": [
+   13,
+   3
+  ],
+  "go_table_empty": [
+   14,
+   3
+  ],
+  "chair": [
+   15,
+   3
+  ],
+  "kifu_board": [
+   0,
+   4
+  ],
+  "kifu_board_f1": [
+   1,
+   4
+  ],
+  "kifu_board_f2": [
+   2,
+   4
+  ],
+  "plant_int": [
+   3,
+   4
+  ],
+  "kettle_table": [
+   4,
+   4
+  ],
+  "door_int": [
+   5,
+   4
+  ],
+  "asphalt": [
+   6,
+   4
+  ],
+  "puddle": [
+   7,
+   4
+  ],
+  "puddle_f1": [
+   8,
+   4
+  ],
+  "tram_rail_h": [
+   9,
+   4
+  ],
+  "tram_rail_v": [
+   10,
+   4
+  ],
+  "cobble_wet": [
+   11,
+   4
+  ],
+  "canal": [
+   12,
+   4
+  ],
+  "canal_f1": [
+   13,
+   4
+  ],
+  "canal_f2": [
+   14,
+   4
+  ],
+  "quay_edge": [
+   15,
+   4
+  ],
+  "bollard": [
+   0,
+   5
+  ],
+  "bike_rack": [
+   1,
+   5
+  ],
+  "tram_pole": [
+   2,
+   5
+  ],
+  "wall_brick_win": [
+   3,
+   5
+  ],
+  "wall_brick_base": [
+   4,
+   5
+  ],
+  "graffiti": [
+   5,
+   5
+  ],
+  "shutter": [
+   6,
+   5
+  ],
+  "shutter_sign": [
+   7,
+   5
+  ],
+  "arch_left": [
+   8,
+   5
+  ],
+  "arch_right": [
+   9,
+   5
+  ],
+  "arch_shade": [
+   10,
+   5
+  ],
+  "neon_sign": [
+   11,
+   5
+  ],
+  "neon_sign_f1": [
+   12,
+   5
+  ],
+  "snack_window": [
+   13,
+   5
+  ],
+  "stairs_down": [
+   14,
+   5
+  ],
+  "concrete": [
+   15,
+   5
+  ],
+  "glass_curtain": [
+   0,
+   6
+  ],
+  "stove": [
+   1,
+   6
+  ],
+  "stove_f1": [
+   2,
+   6
+  ],
+  "hooks": [
+   3,
+   6
+  ],
+  "floor_concrete": [
+   4,
+   6
+  ]
+ }
+}

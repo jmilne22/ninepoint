@@ -1,0 +1,148 @@
+{
+ "id": "sunny",
+ "nodes": {
+  "start": {
+   "branches": [
+    {
+     "if": [
+      [
+       "played_at_least",
+       "sunny",
+       3
+      ],
+      [
+       "not_flag",
+       "arc_sunny_3"
+      ]
+     ],
+     "goto": "sunny_stage_2"
+    },
+    {
+     "if": [
+      [
+       "played_at_least",
+       "sunny",
+       6
+      ],
+      [
+       "not_flag",
+       "arc_sunny_6"
+      ]
+     ],
+     "goto": "sunny_stage_3"
+    },
+    {
+     "if": [
+      [
+       "beat",
+       "sunny"
+      ]
+     ],
+     "goto": "after_win"
+    },
+    {
+     "if": [
+      [
+       "lost_to",
+       "sunny"
+      ]
+     ],
+     "goto": "after_loss"
+    },
+    {
+     "goto": "first"
+    }
+   ]
+  },
+  "first": {
+   "text": [
+    "Hello! Are you the new one? You're OLD.",
+    "Sunny. I'm nine. I'm six kyu. Mum brings me on the bus and I do my homework in the study hall and everyone here is very serious.",
+    "I'll play you. I don't mind if you're bad, I just like the bit where it gets complicated."
+   ],
+   "goto": "offer"
+  },
+  "offer": {
+   "text": [
+    "Do you want a league game? It goes on the board either way."
+   ],
+   "choices": [
+    {
+     "text": "Yes. Let's play.",
+     "exit": {
+      "type": "start_match",
+      "profile": "sunny_9x9",
+      "context": "league_sunny"
+     }
+    },
+    {
+     "text": "Not now.",
+     "goto": "later"
+    }
+   ]
+  },
+  "later": {
+   "text": [
+    "Okay! I'll be here. I'm always here."
+   ]
+  },
+  "after_win": {
+   "portrait": "happy",
+   "text": [
+    "Ohhh. Oh, that was GOOD. Do it again -- no, wait, don't, I want to work it out.",
+    "You're the first person this month. I'm going to tell Mum on the bus."
+   ],
+   "goto": "offer"
+  },
+  "after_loss": {
+   "text": [
+    "You can resign if you want. Mum says I have to offer, and everyone says no and then it goes on for ages.",
+    "The bit in the corner was nearly right! It was nearly right and then you did the other thing."
+   ],
+   "goto": "offer"
+  },
+  "post_match": {
+   "branches": [
+    {
+     "if": [
+      [
+       "beat",
+       "sunny"
+      ]
+     ],
+     "goto": "after_win"
+    },
+    {
+     "goto": "after_loss"
+    }
+   ]
+  },
+  "sunny_stage_3": {
+   "actions": [
+    [
+     "set_flag",
+     "arc_sunny_6"
+    ]
+   ],
+   "text": [
+    "Okay, I have to tell you something. I have stopped being able to read four moves ahead of you.",
+    "It used to be four. Now it is like two, and sometimes it is none and I just have to think properly, which is HARD.",
+    "I am not being nice. I am complaining."
+   ],
+   "goto": "post_match"
+  },
+  "sunny_stage_2": {
+   "actions": [
+    [
+     "set_flag",
+     "arc_sunny_3"
+    ]
+   ],
+   "text": [
+    "You keep coming back! Most grown-ups play me once and then they are always busy.",
+    "Mum says that is because losing to a nine-year-old is embarrassing. I do not think you find it embarrassing, which is why you are getting better and they are not."
+   ],
+   "goto": "post_match"
+  }
+ }
+}

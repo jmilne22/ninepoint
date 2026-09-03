@@ -1,0 +1,44 @@
+{
+ "id": "wren",
+ "lines": {
+  "you_captured": [
+   "Oh -- yes. That was there, wasn't it.",
+   "Sorry. I mean well done. Well done."
+  ],
+  "you_captured_big": [
+   "Oh no. All of them.",
+   "I'd stopped looking at that group. That's the whole problem, isn't it."
+  ],
+  "i_captured": [
+   "Oh! Sorry. Was that mean?",
+   "I got one. I don't usually."
+  ],
+  "i_captured_big": [
+   "I'm so sorry. That's a lot of your stones.",
+   "That was an accident. I want to be honest about that."
+  ],
+  "ko": [
+   "That's a ko, I think? You can't take it straight back. I'm fairly sure."
+  ],
+  "i_atari": [
+   "Atari -- sorry, am I meant to say that? Everyone here says it."
+  ],
+  "you_atari": [
+   "Ah. Yes. I've walked into that."
+  ],
+  "i_edge_early": [
+   "I know. The edge. I know."
+  ],
+  "winning": [
+   "Am I ahead? That can't be right.",
+   "I don't trust this at all."
+  ],
+  "losing": [
+   "You're much better than me already.",
+   "This is going how it usually goes, honestly."
+  ],
+  "level": [
+   "Oh, this is close. I'm enjoying it and I'm terrified."
+  ]
+ }
+}

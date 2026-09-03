@@ -1,0 +1,209 @@
+{
+ "name": "Essenveld Instituut -- Study Hall",
+ "size": [
+  24,
+  14
+ ],
+ "tile_size": 16,
+ "legend": {
+  "^": "roof_ridge",
+  "#": "roof_slate",
+  "R": "roof_rust",
+  "~": "roof_eave",
+  "C": "chimney",
+  "W": "wall_plaster",
+  "w": "wall_plaster_win",
+  "B": "wall_base",
+  "D": "door_wood",
+  "d": "door_club",
+  "F": "door_glass",
+  "S": "sign_hanging",
+  "A": "awning",
+  "P": "pavement",
+  "K": "kerb",
+  "c": "cobble_a",
+  "v": "cobble_b",
+  "g": "grass_a",
+  "h": "grass_b",
+  "j": "grass_c",
+  "f": "grass_flowers",
+  "T": "tree_tl",
+  "t": "tree_tr",
+  "U": "tree_bl",
+  "u": "tree_br",
+  "H": "hedge",
+  "-": "fence_h",
+  "|": "fence_post",
+  "b": "bench",
+  "s": "stone_table",
+  "n": "noticeboard",
+  "L": "lamp_post",
+  "p": "planter",
+  "o": "post_box",
+  "x": "void",
+  "e": "bush",
+  "r": "gravel",
+  "z": "drain",
+  "a": "asphalt",
+  "=": "tram_rail_h",
+  "!": "tram_rail_v",
+  "q": "puddle",
+  "%": "cobble_wet",
+  ":": "canal",
+  ";": "quay_edge",
+  "J": "bollard",
+  "y": "bike_rack",
+  "l": "tram_pole",
+  "m": "wall_brick",
+  "0": "wall_brick_win",
+  "_": "wall_brick_base",
+  "&": "graffiti",
+  "5": "shutter",
+  "6": "shutter_sign",
+  "(": "arch_left",
+  ")": "arch_right",
+  "7": "arch_shade",
+  "8": "neon_sign",
+  "9": "snack_window",
+  "<": "stairs_down",
+  "+": "concrete",
+  "*": "glass_curtain",
+  "$": "stove",
+  "?": "hooks",
+  ",": "floor_concrete",
+  "1": "floor_wood_a",
+  "2": "floor_wood_b",
+  "3": "floor_mat",
+  "4": "rug",
+  "I": "wall_int",
+  "i": "wall_int_base",
+  "N": "wall_int_win",
+  "V": "shelf_books",
+  "O": "counter",
+  "G": "go_table",
+  "E": "go_table_empty",
+  "X": "chair",
+  "Y": "kifu_board",
+  "Q": "plant_int",
+  "Z": "kettle_table",
+  "M": "door_int"
+ },
+ "ground": [
+  "IIIIIIIIIIIIIIIIIIIIIIII",
+  "IIINIIINIIIIIIIINIIINIII",
+  "iVViiiiiiiiiiiiiiiiiiVVi",
+  "i1121121121121121121121i",
+  "i1211X11211X11211X11211i",
+  "i2112G12112G12112G12112i",
+  "iZ121X21121X21121X2112Qi",
+  "i1211211211211211211211M",
+  "i2112112112112112112112i",
+  "i1121X21121X21121X21121i",
+  "i1211E11211E11211E11211i",
+  "i2112X12112X12112X12112i",
+  "i1121121121121121121121i",
+  "iiiiiiiiiiiiiiiiiiiiiiii"
+ ],
+ "decor": [
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        "
+ ],
+ "solid": [
+  "111111111111111111111111",
+  "111111111111111111111111",
+  "111111111111111111111111",
+  "100000000000000000000001",
+  "100001000001000001000001",
+  "100001000001000001000001",
+  "110001000001000001000011",
+  "100000000000000000000000",
+  "100000000000000000000001",
+  "100001000001000001000001",
+  "100001000001000001000001",
+  "100001000001000001000001",
+  "100000000000000000000001",
+  "111111111111111111111111"
+ ],
+ "spawns": {
+  "from_hall": [
+   22,
+   7
+  ],
+  "middle": [
+   12,
+   7
+  ]
+ },
+ "warps": [
+  {
+   "tile": [
+    23,
+    7
+   ],
+   "map": "academy_hall",
+   "spawn": "from_study",
+   "prompt": "Back to the hall"
+  }
+ ],
+ "signs": [
+  {
+   "tile": [
+    1,
+    6
+   ],
+   "text": "A kettle, a tin, and a handwritten note: THE BISCUITS ARE FOR EVERYONE WHICH MEANS THEY ARE NOT ALL FOR YOU."
+  }
+ ],
+ "npcs": [
+  {
+   "id": "kesh",
+   "tile": [
+    12,
+    8
+   ],
+   "dir": "up",
+   "idle": "converse:orla"
+  },
+  {
+   "id": "ilse",
+   "tile": [
+    6,
+    6
+   ],
+   "dir": "right",
+   "idle": "study"
+  },
+  {
+   "id": "sunny",
+   "tile": [
+    18,
+    6
+   ],
+   "dir": "left",
+   "idle": "wander"
+  },
+  {
+   "id": "orla",
+   "tile": [
+    12,
+    11
+   ],
+   "dir": "up",
+   "idle": "converse:kesh"
+  }
+ ],
+ "music": "theme_institute",
+ "indoors": true
+}

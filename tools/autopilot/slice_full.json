@@ -1,0 +1,294 @@
+[
+ {
+  "wait": 0.8,
+  "shot": "title"
+ },
+ {
+  "tap": "interact",
+  "note": "New Game"
+ },
+ {
+  "wait": 2.6,
+  "note": "the cold open"
+ },
+ {
+  "tap": "interact",
+  "times": 14,
+  "gap": 0.8,
+  "note": "Hana's address"
+ },
+ {
+  "wait": 1.2
+ },
+ {
+  "tap": "interact",
+  "note": "accept the name"
+ },
+ {
+  "wait": 3.2,
+  "note": "arrive in Steenbeek"
+ },
+ {
+  "wait": 1.2
+ },
+ {
+  "advance": 30,
+  "note": "the opening"
+ },
+ {
+  "walk_to": [
+   6,
+   7
+  ],
+  "note": "out of the attic"
+ },
+ {
+  "walk_to": [
+   6,
+   8
+  ],
+  "timeout": 3
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "wait": 0.4,
+  "shot": "street"
+ },
+ {
+  "walk_to": [
+   14,
+   9
+  ]
+ },
+ {
+  "walk_to": [
+   14,
+   8
+  ],
+  "timeout": 3,
+  "note": "into the club"
+ },
+ {
+  "wait": 1.6,
+  "shot": "club"
+ },
+ {
+  "talk_to": "wren"
+ },
+ {
+  "wait": 0.3,
+  "shot": "wren"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true,
+  "note": "Wren asks if you have played"
+ },
+ {
+  "wait": 0.3,
+  "shot": "wren_asks"
+ },
+ {
+  "choose": 1,
+  "note": "say you know the rules"
+ },
+ {
+  "advance": 40,
+  "note": "through Wren"
+ },
+ {
+  "talk_to": "kesh"
+ },
+ {
+  "wait": 0.3,
+  "shot": "kesh_challenge"
+ },
+ {
+  "advance": 12,
+  "note": "accept the challenge"
+ },
+ {
+  "wait": 2.6,
+  "note": "the ceremony plays"
+ },
+ {
+  "tap": "interact",
+  "note": "call it"
+ },
+ {
+  "wait": 4.5,
+  "note": "stones, count, verdict"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.2
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.0
+ },
+ {
+  "wait": 1.2
+ },
+ {
+  "wait": 1.4
+ },
+ {
+  "wait": 1.8,
+  "shot": "match_board"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "tap": "move_left",
+  "times": 2
+ },
+ {
+  "tap": "move_up",
+  "times": 2
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "tap": "move_right",
+  "times": 4
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "tap": "move_down",
+  "times": 4
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "tap": "move_left",
+  "times": 4
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5,
+  "shot": "match_midgame"
+ },
+ {
+  "tap": "go_pass",
+  "times": 45,
+  "gap": 0.4,
+  "note": "pass until the opponent stops too"
+ },
+ {
+  "wait": 1.0,
+  "shot": "match_scoring"
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 1.0,
+  "shot": "match_result"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.2,
+  "shot": "post_match_dialogue"
+ },
+ {
+  "advance": 25,
+  "stop_at_choice": true,
+  "note": "Kesh on the result"
+ },
+ {
+  "wait": 0.3,
+  "shot": "rematch_offer"
+ },
+ {
+  "choose": 1,
+  "note": "decline the rematch for now"
+ },
+ {
+  "advance": 10,
+  "note": "finish the conversation"
+ },
+ {
+  "wait": 0.4,
+  "shot": "after_kesh"
+ },
+ {
+  "talk_to": "hana"
+ },
+ {
+  "wait": 0.3,
+  "shot": "hana"
+ },
+ {
+  "advance": 20,
+  "note": "accept the problem"
+ },
+ {
+  "wait": 1.8,
+  "shot": "puzzle"
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.2,
+  "shot": "puzzle_solved"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.2,
+  "shot": "back_in_club"
+ },
+ {
+  "tap": "menu"
+ },
+ {
+  "wait": 0.4,
+  "shot": "pause_menu"
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.6,
+  "shot": "saved"
+ }
+]

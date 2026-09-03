@@ -1,0 +1,304 @@
+{
+ "id": "marguerite",
+ "nodes": {
+  "start": {
+   "branches": [
+    {
+     "if": [
+      [
+       "on_map",
+       "bondszaal"
+      ]
+     ],
+     "goto": "cup_desk"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "enrolled"
+      ],
+      [
+       "ranked"
+      ],
+      [
+       "rank_at_most",
+       "15k"
+      ],
+      [
+       "not_flag",
+       "told_cup_eligible"
+      ]
+     ],
+     "goto": "cup_eligible"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "enrolled"
+      ],
+      [
+       "ranked"
+      ],
+      [
+       "not_flag",
+       "told_cup_outgrown"
+      ],
+      [
+       "not_flag",
+       "cup_finished"
+      ]
+     ],
+     "goto": "cup_outgrown"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "enrolled"
+      ]
+     ],
+     "goto": "enrolled_chat"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "invited_to_institute"
+      ]
+     ],
+     "goto": "enrol"
+    },
+    {
+     "goto": "who_are_you"
+    }
+   ]
+  },
+  "who_are_you": {
+   "text": [
+    "Entries for the Beginner Cup close on the Friday, fifteen kyu and below, and you are neither entered nor ranked. Come back when somebody has ranked you.",
+    "Rated games, against people who have a rank themselves. That is the whole of it -- there is no form for it and I cannot do it for you."
+   ]
+  },
+  "enrol": {
+   "text": [
+    "I run the register, the league board, and the part of the exam nobody thanks me for.",
+    "Hana sent you. She sends me one a term and she is right about them roughly half the time, which is a better rate than anyone else here.",
+    "You go in at the bottom of the lower league. Everybody does. It is not an insult, it is a starting position -- I believe Kesh has already given you that speech."
+   ],
+   "goto": "enrol_confirm"
+  },
+  "enrol_confirm": {
+   "text": [
+    "Sign here. Then read the board, because I am not going to explain it twice."
+   ],
+   "choices": [
+    {
+     "text": "Sign.",
+     "actions": [
+      [
+       "set_flag",
+       "enrolled",
+       true
+      ],
+      [
+       "give",
+       "institute_card",
+       "Essenveld Instituut card"
+      ],
+      [
+       "toast",
+       "Enrolled at the Essenveld Instituut."
+      ]
+     ],
+     "goto": "enrolled_explain"
+    },
+    {
+     "text": "Give me a moment.",
+     "goto": "wait"
+    }
+   ]
+  },
+  "wait": {
+   "text": [
+    "The desk is not going anywhere. Neither, evidently, are you."
+   ]
+  },
+  "enrolled_explain": {
+   "text": [
+    "Right. Three things and then you are on your own.",
+    "The board behind me is the lower league. It is your record and nothing else -- there is no allowance for effort, promise, or having had a difficult week.",
+    "The study hall is west. Anyone sitting at a board will play you; ask them. Classes are east, whenever Hana is in, which is most of the time.",
+    "The qualifying exam is at the end of term and entry is by league position. That is the entire system. It is brutal and it is fair and those are not in tension."
+   ]
+  },
+  "enrolled_chat": {
+   "text": [
+    "The board is behind me. Your position is on it.",
+    "No, I will not tell you whether it is good. Look at it."
+   ]
+  },
+  "cup_eligible": {
+   "text": [
+    "Before you go. You are ranked, which makes you eligible for the Beginner Cup -- fifteen kyu and below, and you are comfortably below.",
+    "I have watched people at your strength decide they would rather enter next term, when they are readier. There is no readier. There is entered and not entered."
+   ],
+   "goto": "enrolled_chat",
+   "actions": [
+    [
+     "set_flag",
+     "told_cup_eligible"
+    ]
+   ]
+  },
+  "cup_outgrown": {
+   "text": [
+    "You are past fifteen kyu, which means you are too strong for the Beginner Cup and I can no longer enter you in it.",
+    "That is not a loss. It is the only compliment this desk is authorised to pay."
+   ],
+   "goto": "enrolled_chat",
+   "actions": [
+    [
+     "set_flag",
+     "told_cup_outgrown"
+    ]
+   ]
+  },
+  "cup_desk": {
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "cup_finished"
+      ]
+     ],
+     "goto": "cup_over"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "cup_entered"
+      ]
+     ],
+     "goto": "cup_round"
+    },
+    {
+     "if": [
+      [
+       "ranked"
+      ],
+      [
+       "rank_at_most",
+       "15k"
+      ]
+     ],
+     "goto": "cup_enter"
+    },
+    {
+     "goto": "cup_refuse"
+    }
+   ]
+  },
+  "cup_refuse": {
+   "text": [
+    "This is the federation, not the club. I need a rank on a card before I can put a name in a draw.",
+    "Get one written down and come back. It is not a high bar and I am not the one who set it."
+   ]
+  },
+  "cup_enter": {
+   "text": [
+    "The Beginner Cup. Fifteen kyu and below, four rounds, one a day, and no handicap inside the section -- that is what the ceiling is for.",
+    "You are eligible. Entries close on the Friday and I would rather not have this conversation twice."
+   ],
+   "choices": [
+    {
+     "text": "Enter me.",
+     "goto": "cup_entered_confirm"
+    },
+    {
+     "text": "I'll think about it.",
+     "goto": "cup_think"
+    }
+   ]
+  },
+  "cup_entered_confirm": {
+   "actions": [
+    [
+     "set_flag",
+     "cup_entered"
+    ],
+    [
+     "quest_start",
+     "beginner_cup"
+    ],
+    [
+     "toast",
+     "Entered: the Steenbeek Beginner Cup."
+    ]
+   ],
+   "text": [
+    "Entered. Your name goes on the board behind me with everybody else's.",
+    "Four rounds, the last week of term. Sleep until it, play them, and do not ask me who you have got -- it is on the board."
+   ]
+  },
+  "cup_think": {
+   "text": [
+    "Then think somewhere else, there is a queue behind you.",
+    "There is not a queue behind you. I would still rather you thought about it elsewhere."
+   ]
+  },
+  "cup_round": {
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "cup_started"
+      ]
+     ],
+     "goto": "cup_play"
+    },
+    {
+     "goto": "cup_waiting"
+    }
+   ]
+  },
+  "cup_waiting": {
+   "text": [
+    "You are entered. The rounds are the last week of term and it is not the last week of term.",
+    "Go and get better in the meantime. That is not a joke, it is the only advice the federation gives."
+   ]
+  },
+  "cup_play": {
+   "text": [
+    "Your board is ready. The draw is on the wall if you want to look at it first."
+   ],
+   "choices": [
+    {
+     "text": "Play the round.",
+     "exit": {
+      "type": "cup_round"
+     }
+    },
+    {
+     "text": "Not yet.",
+     "goto": "cup_not_yet"
+    }
+   ]
+  },
+  "cup_not_yet": {
+   "text": [
+    "Then you are holding up a room of people. Briefly."
+   ]
+  },
+  "cup_over": {
+   "text": [
+    "The Cup is finished and the result is on the board, where it will stay until somebody takes it down.",
+    "That is what a result is. Not a feeling about how it went."
+   ]
+  }
+ }
+}

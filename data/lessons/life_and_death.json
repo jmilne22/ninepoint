@@ -1,0 +1,112 @@
+{
+ "id": "life_and_death",
+ "title": "The Vital Point",
+ "teacher": "hana",
+ "size": 9,
+ "intro": [
+  "You know that two eyes live. Now the part that is actually played: most groups have neither two eyes nor none, but a space that could become either.",
+  "Whoever plays first inside that space decides which. There is usually one point that decides it, and it is usually the middle."
+ ],
+ "steps": [
+  {
+   "board": [
+    "OOOOOOO..",
+    "OXXXXXO..",
+    "OX...XO..",
+    "OXXXXXO..",
+    "OOOOOOO..",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "white",
+   "instruction": "Black surrounds three points and has not divided them. You are White. Play the point that stops this group ever having two eyes.",
+   "accept": "points",
+   "points": [
+    [
+     3,
+     2
+    ]
+   ],
+   "show_liberties": true,
+   "target": [
+    [
+     1,
+     1
+    ]
+   ],
+   "hint": "The middle of the three. Not an end.",
+   "explanation": "Dead. Black cannot divide the space now, and cannot capture your stone without filling their own last liberties to do it. One move, played inside, and a group of twelve stones will never come back."
+  },
+  {
+   "board": [
+    "OOOOOOO..",
+    "OXXXXXO..",
+    "OX...XO..",
+    "OXXXXXO..",
+    "OOOOOOO..",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "black",
+   "instruction": "The same position, and this time it is your move. Live.",
+   "accept": "points",
+   "points": [
+    [
+     3,
+     2
+    ]
+   ],
+   "eyes_after": 2,
+   "eyes_at": [
+    1,
+    1
+   ],
+   "show_liberties": true,
+   "hint": "The same point White wanted.",
+   "explanation": "Two eyes, and alive for good. The point that kills and the point that lives are one point -- which is what a vital point is, and why the race for it is the whole of life and death."
+  },
+  {
+   "board": [
+    "OOOOOO...",
+    "OXXXXO...",
+    "OX..XO...",
+    "OXXXXO...",
+    "OOOOOO...",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "white",
+   "instruction": "Two points this time. You are White again -- settle it.",
+   "accept": "points",
+   "points": [
+    [
+     2,
+     2
+    ],
+    [
+     3,
+     2
+    ]
+   ],
+   "show_liberties": true,
+   "target": [
+    [
+     1,
+     1
+    ]
+   ],
+   "hint": "Either point. There is no vital point here, because there is no room for one.",
+   "explanation": "A space of two can never become two eyes -- there is nowhere to put the dividing wall. This group was dead before you touched it, and Black playing first would not have helped either."
+  }
+ ],
+ "outro": [
+  "Two points is dead. Three lives only for whoever plays the middle first. Four in a row is already alive and needs nothing from you.",
+  "Do not memorise that. Ask, every time, whether the space can still be cut into two -- and if it can, notice that it is somebody's move."
+ ]
+}

@@ -1,0 +1,29 @@
+{
+ "id": "joos",
+ "lines": {
+  "you_captured": [
+   "Mm."
+  ],
+  "you_captured_big": [
+   "Good."
+  ],
+  "i_captured": [
+   "Mine."
+  ],
+  "i_captured_big": [
+   "That was dead a while ago."
+  ],
+  "ko": [
+   "Ko. Now we find out."
+  ],
+  "winning": [
+   "Mm."
+  ],
+  "losing": [
+   "Hm. Good."
+  ],
+  "level": [
+   "Keep going."
+  ]
+ }
+}

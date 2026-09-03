@@ -1,0 +1,199 @@
+{
+ "id": "hana",
+ "nodes": {
+  "start": {
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "enrolled"
+      ]
+     ],
+     "goto": "at_institute"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "invited_to_institute"
+      ]
+     ],
+     "goto": "repeat_offer"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "capture_1_solved"
+      ]
+     ],
+     "goto": "after_puzzle"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "hana_offered_puzzle"
+      ]
+     ],
+     "goto": "puzzle_again"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "kesh_match_done"
+      ]
+     ],
+     "goto": "first"
+    },
+    {
+     "goto": "too_early"
+    }
+   ]
+  },
+  "too_early": {
+   "text": [
+    "Hana. I teach here on Tuesdays, and watch on every other day.",
+    "Play somebody first. I'd rather see a game of yours than hear you describe one."
+   ]
+  },
+  "first": {
+   "actions": [
+    [
+     "set_flag",
+     "hana_offered_puzzle",
+     true
+    ]
+   ],
+   "text": [
+    "I watched that game. Don't look alarmed -- I watch everyone's, it's the only way to know what to teach.",
+    "There were two or three moves in it you played because you were frightened, rather than because you had a reason. You will know the ones.",
+    "And the answer was the same every time, and you couldn't see it, because nobody has shown it to you yet."
+   ],
+   "goto": "lesson"
+  },
+  "lesson": {
+   "text": [
+    "So. The first thing, before openings, before shape, before any of it.",
+    "A group of stones lives by its liberties -- the empty points touching it. Fill the last one, and the group comes off the board.",
+    "Everything else in this game is a consequence of that sentence."
+   ],
+   "goto": "offer"
+  },
+  "offer": {
+   "text": [
+    "Let me set you a position. Black to play, and there is exactly one move that matters."
+   ],
+   "choices": [
+    {
+     "text": "Show me.",
+     "exit": {
+      "type": "start_puzzle",
+      "puzzle": "capture_1"
+     }
+    },
+    {
+     "text": "In a moment.",
+     "goto": "wait"
+    }
+   ]
+  },
+  "wait": {
+   "text": [
+    "The board will keep. So will I."
+   ]
+  },
+  "puzzle_again": {
+   "text": [
+    "The position is still on the small board. Black to play."
+   ],
+   "choices": [
+    {
+     "text": "Try it.",
+     "exit": {
+      "type": "start_puzzle",
+      "puzzle": "capture_1"
+     }
+    },
+    {
+     "text": "Not now.",
+     "goto": "wait"
+    }
+   ]
+  },
+  "after_puzzle": {
+   "portrait": "happy",
+   "text": [
+    "Good. Now say it back to me in your own words, silently, so I don't have to hear it.",
+    "That is the whole of your first lesson: count the liberties before you decide anything else.",
+    "You are a member here now, as far as I'm concerned. Come on Tuesdays. Bring the disasters."
+   ],
+   "goto": "member"
+  },
+  "member": {
+   "actions": [
+    [
+     "give",
+     "club_card",
+     "Club membership card"
+    ],
+    [
+     "set_flag",
+     "club_member",
+     true
+    ]
+   ],
+   "text": [
+    "There's a card in the tin by the kettle with your name on it. Marguerite insists on cards."
+   ],
+   "goto": "the_offer"
+  },
+  "the_offer": {
+   "actions": [
+    [
+     "set_flag",
+     "invited_to_institute",
+     true
+    ],
+    [
+     "quest_start",
+     "enrolment"
+    ]
+   ],
+   "text": [
+    "Now. I only drink here on Tuesdays. The rest of the week I am at the Essenveld Instituut, two stops north, where about thirty people your age are trying to become professionals and most of them will not.",
+    "They take beginners. That is not a kindness -- it is that they would rather build somebody from nothing than correct somebody's ten years of bad habits.",
+    "You have had one week of Go and you have already stopped being frightened of a losing position. That is rarer than talent and it cannot be taught.",
+    "Tram 4, northbound, from the stop at the end of the street. Ask for Marguerite at the desk. Tell her I sent you."
+   ],
+   "goto": "the_offer_end"
+  },
+  "the_offer_end": {
+   "portrait": "happy",
+   "text": [
+    "Go and pack the board. You'll want your own."
+   ]
+  },
+  "repeat_offer": {
+   "text": [
+    "The road east, past the noticeboard. Marguerite is at the desk and she does not like being kept waiting, which is her whole personality."
+   ]
+  },
+  "at_institute": {
+   "text": [
+    "You found it. Good.",
+    "The demonstration board at the front is where I teach. Use it whenever you like -- I would rather you took a class twice than pretended you had understood it once.",
+    "The rest of your time is yours. Play people. Lose to them. Come back."
+   ]
+  },
+  "taught": {
+   "portrait": "happy",
+   "text": [
+    "Good. Say it back to yourself in your own words, silently, so I do not have to hear it.",
+    "That is the shape of every class here: I set you something, you count, and then you know it rather than having been told it."
+   ]
+  }
+ }
+}

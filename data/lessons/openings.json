@@ -1,0 +1,104 @@
+{
+ "id": "openings",
+ "title": "Corner, Side, Centre",
+ "teacher": "hana",
+ "size": 9,
+ "intro": [
+  "Everyone begins in the middle. It is the biggest empty space and it looks like the most important one, and it is neither.",
+  "I am not going to tell you why. You are going to count.",
+  "Three walls, three times. Each one encloses exactly nine points. Put the last stone in each and watch how many it took."
+ ],
+ "steps": [
+  {
+   "board": [
+    ".........",
+    "...X.....",
+    "...X.....",
+    "XXXX.....",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "black",
+   "instruction": "A corner wall, one stone short. Finish it -- the gap is on the top edge.",
+   "accept": "points",
+   "points": [
+    [
+     3,
+     0
+    ]
+   ],
+   "encloses": 9,
+   "hint": "Top edge, fourth line in from the left.",
+   "explanation": "Nine points of corner, for SEVEN stones. Two sides of that box were the edge of the board, and the board does not charge you for them.",
+   "region_at": [
+    1,
+    1
+   ]
+  },
+  {
+   "board": [
+    ".........",
+    ".........",
+    ".........",
+    "XXXX.....",
+    "...X.....",
+    "...X.....",
+    "...X.....",
+    "XXX......",
+    "........."
+   ],
+   "to_move": "black",
+   "instruction": "The same nine points, but out on the side now. One stone short again -- close the bottom corner of the wall.",
+   "accept": "points",
+   "points": [
+    [
+     3,
+     7
+    ]
+   ],
+   "encloses": 9,
+   "hint": "The bottom right of the wall you can see, on the fourth column.",
+   "explanation": "Nine points again -- for ELEVEN stones. Only one side of the box was free this time, so you paid for the extra wall yourself.",
+   "region_at": [
+    1,
+    5
+   ]
+  },
+  {
+   "board": [
+    ".........",
+    ".........",
+    "..XXXXX..",
+    "..X...X..",
+    "..X...X..",
+    "..X...X..",
+    "..XXXX...",
+    ".........",
+    "........."
+   ],
+   "to_move": "black",
+   "instruction": "And the same nine points in the open centre. Close the ring.",
+   "accept": "points",
+   "points": [
+    [
+     6,
+     6
+    ]
+   ],
+   "encloses": 9,
+   "hint": "The bottom right corner of the ring.",
+   "explanation": "Nine points -- for SIXTEEN stones. Seven in the corner, eleven on the side, sixteen in the middle, for exactly the same territory.",
+   "region_at": [
+    4,
+    4
+   ]
+  }
+ ],
+ "outro": [
+  "Corner, then side, then centre. Not because it is elegant. Because in the corner the board builds two of your walls for nothing, and in the middle it builds none of them.",
+  "That is the whole of opening theory for today. Everything else anyone tells you about the opening is a footnote to that count."
+ ]
+}

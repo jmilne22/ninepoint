@@ -1,0 +1,98 @@
+[
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue from the invited save"
+ },
+ {
+  "wait": 2.2
+ },
+ {
+  "walk_to": [
+   13,
+   9
+  ]
+ },
+ {
+  "walk_to": [
+   13,
+   8
+  ],
+  "timeout": 4,
+  "note": "into De Ketel"
+ },
+ {
+  "wait": 2.2
+ },
+ {
+  "talk_to": "wren"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.4,
+  "shot": "a_wren_offers_ko"
+ },
+ {
+  "choose": 0,
+  "note": "Go on."
+ },
+ {
+  "wait": 3.0,
+  "shot": "b_ko_intro"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.5,
+  "shot": "c_ko_step_one"
+ },
+ {
+  "note": "step 1: take the ko stone at B8 -- cursor starts centre (4,4)"
+ },
+ {
+  "tap": "move_left",
+  "times": 3
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.5,
+  "shot": "d_ko_taken"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.5,
+  "shot": "e_step_two_intro"
+ },
+ {
+  "note": "step 2: the cursor stays where it was (B8); C8 is one right"
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.0,
+  "shot": "f_refused"
+ }
+]

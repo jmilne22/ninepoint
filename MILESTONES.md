@@ -1,0 +1,776 @@
+# NINEPOINT — Milestones
+
+Rule for every milestone: **run the real game, interact with it, screenshot it, read the error
+log, fix, run again.** A milestone is not done because the project opens.
+
+---
+
+## M0 — Foundation  [done]
+Environment (Godot 4.7.2 under `steam-run`, Xvfb render+screenshot loop), design docs,
+directory structure, `project.godot`, autoload skeleton, headless test runner.
+
+## M1 — Go rules module  [done]
+Pure GDScript, zero engine coupling. Board, groups, liberties, capture, suicide, simple ko,
+positional superko, pass, two-pass end, handicap, komi, Japanese + Chinese scoring,
+dead-stone heuristic, Zobrist hashing, SGF export.
+**Done when:** the headless suite passes, including textbook positions (snapback, ko fight,
+handicap placement, territory and area scoring).
+
+## M2 — Opponent interface + shipped AI  [done]
+`GoOpponent` interface, `RandomOpponent`, `HeuristicOpponent` tuned by `OpponentProfile`,
+`GtpOpponent` skeleton with protocol implementation.
+**Done when:** the AI plays full legal 9×9 games to two passes against itself with no illegal
+move and no infinite loop, and a fixed seed reproduces a game move for move while a high
+mistake rate does not.
+
+## M3 — Art pipeline  [done]
+`tools/png.py`, palette, tileset, 9 character sprite sheets + portraits, UI frame, icons,
+title illustration. **Done when:** every asset imports into Godot and a test scene shows the
+tileset and all portraits without a missing-texture placeholder.
+
+## M4 — World, movement, collision  [done]
+Town exterior + Go club interior, `TileMapLayer` maps, collision, player controller, camera,
+warps between maps, spawn points. **Done when:** a screenshot shows the player standing in the
+club having walked there from the street, and the player cannot leave the map or pass a wall.
+
+## M5 — Dialogue + NPCs  [done]
+Dialogue graph runner, typewriter box, portraits, choices, conditions, actions.
+Four interactive NPCs with data-driven graphs.
+**Done when:** every NPC can be talked to, choices branch, and screenshots show the box.
+
+## M6 — Quest + rank + relationships  [done]
+`QuestData`, tracker, journal line, flags, relationship scores, provisional rank award.
+**Done when:** "First Stones" advances through all six steps under autopilot.
+
+## M7 — Match integration  [done]
+`MatchBridge`, match scene, board view, HUD, turn loop, pass/resign, scoring phase, result
+returned to the world; rival dialogue differs on win vs loss.
+**Done when:** the autopilot plays a full 9×9 game against Kesh from inside the RPG, the
+world returns to the same spot afterwards, and both result branches are seen on screen --
+the loss by playing it, the win by loading a save in that state (`tools/make_test_save.py`),
+with the branch logic itself covered by the headless suite.
+
+## M8 — Puzzle/tutorial  [done]
+Capture/liberty puzzle from Hana, reusing the board view; hint, success explanation, retry.
+**Done when:** the puzzle can be failed, retried and solved under autopilot, and the
+explanation is shown on success.
+
+## M9 — Title screen + save/load  [done]
+Title, New Game / Continue / Quit, save slot, restore map + spawn + flags + quest + rank.
+**Done when:** a run is saved, the game is quit, relaunched, continued, and the screenshot
+shows the same position and quest state.
+
+## M10 — Vertical slice polish + full playthrough  [done]
+End-to-end autopilot run: title → new game → leave home → club → Wren → Kesh → match →
+result dialogue → Hana → puzzle → save. Screenshots at every beat, zero errors in the log.
+
+---
+
+## Verification
+
+Every milestone above was checked by running the game, not by reading the code. The habit
+paid for itself: `GoBoardView` carried a type-inference parse error for several milestones,
+so the Go board silently failed to build and the match screen was blank -- the unit tests
+never load that file and could not have caught it. `tools/test.sh` now compiles every script
+as its first step, and `tools/run_game.sh <script>` drives the real game under Xvfb and
+captures a screenshot at each beat.
+
+---
+
+## M11 — Teaching, ceremony, and game feel  [done]
+
+Added after the slice, on the observation that a game about learning Go never taught Go and
+never let you decide who went first.
+
+- **Capture Go** in the rules module (`GoGame.capture_goal`) -- the standard beginner game,
+  first capture wins, no scoring. 15 lines, no new class.
+- **`GoMatchSetup`**: nigiri for even games, automatic Black for handicap games, and a
+  sentence of explanation either way. Colours are derived from the two ranks instead of a
+  hard-coded field on the profile.
+- **A lesson runner** (`GoLessonData` + `go_lesson.tscn`) and three lessons: liberties,
+  capture, self-capture. Reuses `GoBoardView`, so a lesson looks like a real game.
+- **A liberty overlay** on the board view -- rings on the liberties of whatever the cursor
+  is on, which teaches the central concept faster than any amount of prose.
+- **Audio**: `tools/wav.py` and `tools/gen_audio.py` synthesise 17 sounds and two music
+  loops from oscillators and noise. No samples, no service, ~1.9 MB, fully regenerable.
+- **Animation**: stones land with a scale-and-overshoot, captures shrink and fade.
+- **Match state machine**: the `phase` enum plus three loose booleans became explicit states
+  with per-state input handling.
+
+**Done when:** the tutorial was played from the title screen and each step screenshotted, the
+nigiri ceremony was played and both branches seen, and the original slice still ran with 0
+script errors.
+
+---
+
+## M12 — Feedback pass  [done]
+
+- **The tutorial moved out of the menu.** "Learn to play" is gone from the title screen; the
+  lessons are reached only by Wren asking whether you have played, which is the point of
+  setting a teaching game in a club. Saying "never" runs the whole track in one sitting.
+- **Nigiri became a set piece**, structured on HammerLock Wrestling's three-window layout.
+  See ART_DIRECTION.md section 4c.
+- **A generated 5x7 bitmap font** replaced Godot's vector default: a text patch went from
+  157 colours to 2. Native size 9, integer multiples only, and integer window scaling.
+- **Text no longer overflows**: `UiKit` measures cards against their contents and paginates
+  prose that will not fit; the match panel was relaid from two long lines to four short ones.
+- **A real compile gate.** `tests/check_load.gd` loads all 86 scripts, scenes and resources.
+  This exists because a bad patch silently deleted ten functions from `go_match.gd` and the
+  previous gate -- grepping the import log -- reported "all scripts compile".
+
+---
+
+## M13 — Restructure: prologue, then the Institute  [done]
+
+The game opened with the player already living among Go players and a narration that
+implied they knew the rules. Rebuilt into three acts, after Pokemon, Hikaru no Go and
+Yu-Gi-Oh! Tag Force. See GAME_DESIGN.md section 0.
+
+- **A cold open** (`src/ui/opening.gd`): Hana addresses the player directly over an empty
+  board and asks their name.
+- **Act 1 reframed to zero knowledge.** A board is left in the player's room with no
+  instructions; Pip sees them carrying it and teaches them Capture Go before anyone
+  explains anything. Wren then teaches the rules, Kesh challenges, Hana points east.
+- **The Ashfield Institute**: four new maps (hall, study hall, classroom, dormitory), the
+  road east out of Stonebrook gated behind Hana's invitation, and three new students --
+  Ilse 9k, Sunny 6k, Orla 4k -- filling the ladder between Kesh and Nadia.
+- **The league board** (`src/academy/league_table.gd`, `league_board.gd`): standings
+  computed only from `GameState.match_records`. The one honest progression system in the
+  game; 21 tests cover its counting, ordering and what it refuses to count.
+- **A class**: `data/lessons/openings.json` -- corner, side and centre, taught by making
+  the player seal the same nine points three times and count the walls: 7 stones, 11, 16.
+- **The relationship system removed** entirely, at request. Dialogue that branched on
+  affection branches on the record instead.
+
+**Done when:** the cold open, the prologue and the Institute spine were each played under
+autopilot with 0 script errors, and the original slice still ran.
+
+---
+
+## M14 — The setting: Stonebrook becomes Verhaven  [done]
+
+A four-phase setting pass. The town was a texture rather than a place: no
+landmark, no industry, one overcast hour, everything at street level, and a premise that
+admitted the problem ("a town where an unusual number of people play Go" — a coincidence
+standing in for a reason). Re-sited into a rainy port city, with the world split into two
+opposed Go cultures. See CLAUDE.md "The setting".
+
+**Phase 1 — fiction and names  [done]**
+- Every place name **translated** rather than replaced, so nothing in the fiction was lost:
+  Stonebrook → Steenbeek, Kettle Row → Ketelsteeg, Mill Park → Molenpark, Ashfield →
+  Essenveld, the Go club → De Ketel (a bar's back room, three steps below the pavement),
+  the Community Hall → the Bondszaal.
+- Map ids renamed with them (`kettle_row` → `ketelsteeg`, `go_club` → `de_ketel`), which
+  reached eight places outside `data/maps/`.
+- **Joos**, the twelfth cast member: no surname, no papers, and no rank on his card. The
+  counterweight to the Instituut — it says a rank is a document, he says a rank is what
+  happens at the table. His games are `unrated`, so `LeagueTable` never sees them.
+- `OpponentProfile` gained `RANK_WITHHELD` (`"?"`) and `strength_override`, because
+  `GoMatchSetup` cannot derive a handicap from a question mark. `tests/test_data.gd` now
+  asserts a label is a real rank *or* withheld, and separately that every profile has a real
+  strength behind it — rule 3 kept, with its one deliberate exception named.
+- The `enrolment` quest was hand-edited under a header claiming `gen_content.py` had written
+  it, so rerunning the tool neither updated nor deleted it. Both quests are generated now.
+
+**Phase 2 — palette and tiles  [done]**
+- 9 colours added to `tools/palette.py`: `brick0-3`, `asphalt0-2`, `neon0-1`. No sodium ramp
+  was needed — a street lamp is exactly the town's existing `gold1`/`gold2`, which is why the
+  night reads warm without a new colour. The neon is cold and dimmer than `board1`, because
+  nothing may out-saturate the board.
+- 26 tiles added (atlas 16×4 → 16×6, 64 → 90): asphalt, tram rails, puddle, wet cobble,
+  canal, quay edge, bollard, bike rack, tram pole, brick window and wet base, graffiti,
+  shutter and dead sign, the two halves of a viaduct arch and the ground under it, neon,
+  snack window, steps down, concrete, glass curtain, the stove and the hooks, poured floor.
+- **The trap:** `town_tileset.tres` lists one entry per atlas cell and was not regenerated,
+  so every tile in the two new rows drew as nothing, silently — the city's first build had
+  black holes where its windows and road should have been. `build_assets.py` now runs
+  `gen_tileset_resource.py`. The arch was also drawn inside-out on the first pass and read as
+  a diagonal wedge; it is a quarter circle centred on the springing point.
+
+**Phase 3 — the rooms  [done]**
+- `ketelsteeg` rebuilt at 34×20: brick, tram rails in wet asphalt, the shuttered stationer's
+  with your stairs beside it, De Ketel's steps, the wassalon and its snack window, the
+  viaduct closing the east end with an arch you walk into, Molenpark below the road, and the
+  railing gap down to the water.
+- New maps: `attic` (12×9), `onderbrug` (24×12), `quay` (26×14). **The game now opens in the
+  attic**, which is where the narration always said the board was.
+- `de_ketel` gained the stove and the hooks; the hooks sit on the wall *base* because on row 1
+  the interaction probe cannot see them — the same bug the league board had.
+- `academy_hall` is now poured concrete and a glass curtain wall: the two Go cultures should
+  not be dressed alike. `validate()` caught concrete-as-floor immediately.
+- **Camera fix:** a map smaller than the screen was pinned to the top-left with the void
+  showing bottom-right, which read as a broken tileset. Small maps are centred now, and
+  `World._build_backdrop()` paints `ink0` behind the tiles so alleys and frames read as shadow.
+
+**Phase 4 — the hours  [done]**
+- `src/rpg/ambient.gd`: a `CanvasModulate` for the hour plus one additive glow per self-lit
+  tile. Additive is the trick — the modulate multiplies the glow, so a lamp is worth nothing
+  at noon and everything at night, with no second canvas to keep in step with the camera. An
+  earlier draft used a `CanvasLayer` above the modulate and had to copy the camera transform
+  every frame; the additive version deleted that code.
+- `MapData.indoors` and `INDOOR_TINTS`: De Ketel at eleven at night was as blue as the street
+  above it, which is not what a lit bar looks like from inside.
+- Drizzle on its own canvas layer, so rain falls across the screen rather than the map.
+- `EventBus.time_block_changed` / `weather_changed` are the seam the day counter emits on.
+  Ambient only ever reads `GameState.time_block`.
+- Audio: `theme_night` (same key and tempo as `theme_street`, an octave down, more air),
+  plus `amb_rain`, `amb_tram`, `amb_gull`. `MapData.music_night` swaps the street's track
+  after dark.
+
+**Done when:** all twelve autopilot scripts ran with **0 script errors** — including three new
+ones (`city`, `night`, `salon`) — the street was screenshotted at afternoon, dusk, night, and
+night in the rain, the arches were shown lit by their three lamps, and the suite went
+2532 → 3465 checks with every file loading. Two harness bugs were fixed on the way: `feel`
+never got through the cold open at all, and `_walk_to` reported "could not reach" every time a
+walk ended by stepping through a door.
+
+---
+
+## M15 — The review  [done]
+
+A game about learning Go learned one bit per match: whether you won. `MatchResult`
+carried the result and a summary line, `LeagueTable` counted wins and losses, and that
+was the whole of what the world knew about how you had played.
+
+Meanwhile three characters already *talked* as though they had reviewed the game.
+`kesh.json` said "you let me cut you in two on move fourteen and then defended the smaller
+half" whether you had resigned on move six or lost by half a point on move ninety;
+`ilse.json` named move eleven; `hana.json` named moves eleven and twenty. The illusion was
+convincing enough to be remembered as analysis, which is the best possible argument for
+building the real thing in the same shape.
+
+- **`GoReview`** (`src/go/go_review.gd`) replays a finished game from its move list and
+  reports what happened in it. Pure `RefCounted`, no engine, no `Node`: every finding
+  comes from the rules, because a group that had one liberty and died is a fact about the
+  board rather than an opinion about it. `positions_of()` refuses to review a game it
+  cannot reproduce — a position set wholesale by `set_position()` (a puzzle, a lesson)
+  replays to the wrong board, and reviewing the wrong board is worse than reviewing none.
+- **Nine detectors** (`go_review_detectors.gd`): atari ignored, died-when-savable, own eye
+  filled, self-atari, capture missed, first line early, ladder failed — and two that are
+  not optional, `good_capture` and `good_save`. P5 says losing is content; a review that
+  is only a list of failures makes losing punishment instead, so every review opens with
+  something the player did.
+- **Rank thresholding.** Each kind carries the strength at which it becomes worth hearing.
+  A 22k is told about atari and filled eyes and nothing else; the first line waits for 15k.
+  The order is Yasuda's, the same one the lessons already follow.
+- **One finding per kind, at most three, told in the order they happened.** Four ignored
+  ataris are one mistake made four times, and the same sentence three times teaches less
+  than three different ones. The opening compliment keeps its place at the front.
+- **`GoReviewVoice`** + `data/reviews/*.json`: each character's file overlays
+  `default.json`, so a voice writes only what it says differently. Kesh is furious and
+  precise, Hana asks rather than tells, Joos manages four words, and **Wren refuses** —
+  she is 20k and says so rather than inventing something, which is the honest form of the
+  rule that only somebody stronger than you can review your game.
+- **The screen** (`src/go_ui/go_review.gd`) is the lesson runner with the positions coming
+  from the game just played. `GoBoardView` gained one optional field, `mark_point`, because
+  a single ring cannot say both "this group died" and "here is the move that would have
+  saved it" on the same board.
+
+**Two bugs found on the way.** `MatchResult.to_dict()` dropped the `sgf` field, so the game
+record written at `go_match.gd:441` was discarded at the exact moment the match was
+persisted — the kifu was generated and thrown away, and nothing had ever read it. And two
+detectors identified a group by `stones[0]`, which breaks whenever the captured group
+contains a stone played *after* the position being asked about — routinely, since the
+stone the player just added is usually first in the captured list.
+
+**Done when:** the suite went 3465 → 3596 checks with 131 covering the review, every
+fixture *played* as legal moves rather than drawn by eye (`_play()` asserts legality, so a
+fixture that drifts fails loudly); twelve simulated beginner-vs-Kesh games produced a
+review in twelve of twelve; and the screen was run and screenshotted — the position, the
+group ringed, the move that was there marked in teal, and Kesh saying "Move 34. D5. That's
+all it needed. I watched you not see it and I did not say anything, because I'm not a
+saint." The fabricated move numbers are gone from all three dialogue graphs.
+
+Then end to end for real: `tools/autopilot/review.json` loads a save, walks to Kesh in De
+Ketel, plays her, resigns, and is told about it — 0 script errors, and the shot shows the
+review sitting between the result card and the town, with Kesh's edited dialogue picking up
+from it afterwards instead of contradicting it. `slice_full` was re-run and did not desync:
+the review only appears when a game produced findings, and a short resignation produces
+none.
+
+---
+
+## M16 — The city is inhabited  [done]
+
+The town was compact but not alive. Ketelsteeg is 34x20 tiles and had **one person on it**;
+Pip was the only NPC in the game with `wanders = true`, and every other character early-returned
+in `_physics_process` and stood frozen on a single sprite frame. `amb_rain.wav`, `amb_tram.wav`
+and `amb_gull.wav` had been generated, imported and loaded into `Audio._streams` — and were
+played by nothing. Nothing in the world moved: no animated tiles, no `AnimationPlayer` anywhere
+in the repo, no `Tween` in `src/rpg/` at all, one particle system, and glow discs that never
+flickered. GAME_DESIGN P4 asks for "compact and alive over large and empty"; only the first half
+was true.
+
+**The organising idea, taken from `Ambient`:** every system reads the map's own tiles and decides
+from them. `Ambient` already found its lamps that way. So eight of the nine maps needed no data
+change at all, and adding a tile to a table lights it up everywhere it already appears.
+
+- **`Soundscape`** (new) picks one looping bed per map from map + hour + weather (rain outdoors,
+  a room tone indoors, the canal at the quay) and places positional `AudioStreamPlayer2D`
+  emitters from a `SOUND_SOURCES` table shaped exactly like `LIGHT_SOURCES` — the stove, the
+  snack window, the go tables, the quay. Emitters gate on the hour (gulls are a daylight sound,
+  the fryer an after-dark one) and are **thinned**: the quay has 156 canal tiles, and 156 gulls
+  is a seabird attack rather than a port.
+- **`TileAnimator`** (new) cycles water, the canal, puddles, the neon, the stove, the go tables
+  and the kifu boards by tile *name*. Frame 0 **is** the base tile, so parking an animation is a
+  no-op. Native TileSet animation was declined: it needs frames in consecutive atlas cells and
+  `gen_tiles.py` packs strictly `i % 16`, so it would have meant rewriting the packer and editing
+  the generated `.tres` — the file M3 records as silently fatal to get wrong.
+- **`NpcIdle`** (new) gives each NPC a behaviour from one `"idle"` key per *map placement*, so
+  Kesh paces in the bar and talks to Orla in the study hall without either being a property of
+  Kesh. `NpcData.wanders` was deleted: once behaviour moved to the map it was a live-looking
+  field that did nothing. Every NPC also glances up when the player passes — before it you could
+  walk the length of Ketelsteeg and nobody registered that you existed.
+- **`Passer` / `CrowdSpawner`** (new) put traffic on Ketelsteeg and students in the Instituut's
+  hall: no name, no dialogue, not interactable, and they leave. Density falls by time block.
+- **`Tram`** (new) runs on the rails, finding its own row from the longest run of `tram_rail_h`.
+- **`Ambient`** gained per-lamp hum and a neon fault synchronised to the tube's own hold times,
+  plus splash-up particles under the drizzle.
+- **`CharacterSprite`** gained a one-pixel idle bob, on an integer offset and a random phase.
+  No new art: a fourth sprite column would have meant regenerating all 13 sheets for less effect.
+
+New: `soundscape.gd`, `tile_animator.gd`, `npc_idle.gd`, `passer.gd`, `crowd_spawner.gd`,
+`props/tram.gd`, `tools/gen_props.py`, `tests/test_world_ambience.gd`, `tools/autopilot/alive.json`.
+101 tiles (was 90), 31 sounds (was 21), 18 character sheets (was 13, and the five extras get no
+portrait because nothing ever puts them in a dialogue box).
+
+### Verification
+
+- `tools/test.sh` green: 114 files load, 3735 passed / 0 failed, of which the new **ambience**
+  suite is 139 checks. It asserts what fails *silently*: every tile name in every table resolves
+  through `TileAtlas.at()`, every sound named has a wav, every animation's holds match its frames
+  and its frame 0 is the base tile, every crowd sheet exists, and every `converse:<id>` names
+  somebody actually on that map. A wrong name in any of these is silence or a hole, never an error.
+- `gen_maps.validate()` gained route checking — the whole segment, not just the ends, because a
+  passer walks its route with no pathfinding at all. It immediately **rejected the Onderbrug
+  route**: the arches are walled at both ends and there is nowhere for anyone to be coming from,
+  which is the correct answer for a dead end under a viaduct. Onderbrug has no crowd.
+- `tools/autopilot/alive.json` (new), then the screenshots measured rather than eyeballed —
+  region diffs between frames with the camera clamp held identical:
+
+  | check | result |
+  |---|---|
+  | canal band, 2.5s apart | 61.7% of pixels changed — water moves, and not in lockstep |
+  | bare wall, 24s apart, camera fixed | **0.0%** — the control that makes the rest trustworthy |
+  | go tables, same 24s | 12.1% and 7.0% — two stones added, and the two tables out of phase |
+  | the stove, same 24s | 100% — tile *and* its additive glow |
+  | Wren's 16x24 box, player west vs east | 25.0% against a 2.2% control — she turns to look |
+
+### The bug this pass actually hit
+
+Passers-by started on collision layer 1 with the cast, and the first autopilot run through a
+populated Ketelsteeg **could not reach De Ketel at all**. The crowd routes run along the
+pavements, which is also the way the player walks, so somebody was always in the doorway. They
+now sit on their own layer that the player's mask ignores: half a second of overlap when you walk
+through an extra is much cheaper than not being able to get through a door. `Passer.LAYER`
+carries the note.
+
+---
+
+## M17 — The soundtrack  [done]
+
+`world.gd` was the **only** caller of `Audio.play_music()` in the project. Three consequences,
+all of them audible: the title screen and the opening were silent; a Go match had no music of
+its own, so whatever the street happened to be playing simply carried on underneath the game;
+and all four Instituut rooms played `theme_club` — the same track as the bar three steps below
+the pavement in Steenbeek — which flattened the single opposition the setting is built on.
+
+Five tracks, in the register of Tag Force's academy, Hikaru no Go's patience, and Pokemon's
+willingness to have a hook. All synthesised in `gen_audio.py` like everything else; no samples.
+
+| track | where | what it is |
+|---|---|---|
+| `theme_institute` | the four Instituut rooms | A major pentatonic, 84bpm, with a quaver tick underneath that is frankly the timetable. Nothing in it thinks anything is wrong |
+| `theme_match` | the board, during a game | E minor pentatonic, 52bpm, six notes in thirty-seven seconds and a low pulse closer to a clock than a part. It must not compete with reading the position |
+| `theme_quay` | the quay, which shipped silent | D minor, slower than anything else in the game; the phrase falls every time, ends on the fifth in the wrong octave, and never resolves |
+| `theme_arches` | Onderbrug, at every hour | A walking bass on every beat — the only steady pulse in the soundtrack — with the melody landing late. The money table is the one place in Verhaven enjoying itself |
+| `theme_title` | the title screen | Climbs to the ninth and holds there, which is as close as a bitmap-font game gets to explaining its own name out loud |
+
+Supporting changes: melodies are now `(start_beat, "A4", length_beats)` lists fed through a
+shared `_voice()`, with `n("F#5")` for the frequency — the old tracks used raw floats, which
+cannot be read as music. De Ketel keeps `theme_club`; the arches dropped their `music_night`
+because it is never really daylight under a viaduct.
+
+**The latent bug this pass promoted to a real one.** `play_music()` had the same two-live-tweens
+race that `play_ambience()` was fixed for in M16, and it was harmless only because a single
+caller could not stop and start a track in the same frame. The title screen and the match board
+both play music now, so it was fixed rather than documented: `Audio._fade()` is the one helper
+both voices use, and it kills the pending tween before starting another.
+
+### Revision after listening (the part a spectral check cannot do)
+
+Played, and two things were wrong that no gate could have told me:
+
+- **The whole soundtrack was depressing.** Every track was minor and slow, including the two
+  inherited ones. The brief named Tag Force and Pokemon alongside Hikaru no Go and I had taken
+  only the third: `theme_title`, `theme_street`, `theme_night`, `theme_club` and `theme_match`
+  were rewritten into major keys. The title is D major and now sounds like arriving somewhere;
+  the street is G major, because a working street on a wet afternoon was scored like a funeral
+  and it is the track the player hears more than any other; De Ketel is F major, because a bar
+  you like being in is not a sad place; and the match theme leans on C and ends on G rather
+  than falling to the root, so it reads as *focused* rather than bereaved. `theme_quay` was
+  left exactly as it was: it is where you go after losing, and it has earned the right.
+- **A tap was running in every interior.** `amb_room` was broadband noise lowpassed at 420 Hz
+  and normalised to 0.16 — about 11 dB under the music, which does not read as "a room", it
+  reads as water in the next room. Two fixes: filtered far lower and dropped to a third of the
+  level, and, more importantly, a room tone now only plays on interiors with **no music**
+  (the attic and the dormitory). It exists to fill silence; running it under a scored room put
+  a hiss beneath De Ketel and all three Instituut rooms. `amb_rain` and `amb_canal` came down
+  with it — a bed sits under the music, not beside it.
+
+### Verification
+
+- `tools/test.sh` green: 3746 passed / 0 failed, the **ambience** suite now 150 checks. It
+  asserts every track named by a map exists as a wav (an unknown name makes `play_music()`
+  return quietly, so a typo is a silent map), that the two scenes with no map to declare them —
+  title and match — have theirs, and that De Ketel and the Instituut do not share a theme.
+- **The bug this pass uncovered: the game has never had audible music.** Wiring the title
+  screen and the match board meant actually measuring the output, and
+  `AudioServer.get_bus_peak_volume_left_db()` read **-97 dB** while `_music.playing` was true
+  and `volume_db` had faded correctly to 0. `play_music()` set `loop_mode = LOOP_FORWARD` on
+  the stream; these import as QOA, and a loop mode on a QOA `AudioStreamWAV` stops playback
+  within milliseconds, so `_loop_music()` relaunched it on `finished` forever. Isolated by
+  measuring the master peak across five variants of one stream:
+
+  | | master peak | still playing |
+  |---|---|---|
+  | untouched | -8.3 dB | yes |
+  | `LOOP_FORWARD` + `loop_end = 0` (shipped) | -13.3 dB | no |
+  | `LOOP_FORWARD`, `loop_end` left alone | -90.3 dB | no |
+  | untouched, on the Music bus | -14.1 dB | yes |
+
+  The fix is a deletion: never set `loop_mode` in code, loop by replaying on `finished`. The
+  file's old comment — "loop flags do not survive every import path; restart by hand" — had
+  recorded the symptom as though it were the cause, and the manual restart hid it completely.
+  `tools/check_audio.sh` + `tests/check_audio.gd` are new and now assert every track exceeds
+  -45 dB at the master bus. They cannot join `tools/test.sh`, because `--headless` forces the
+  Dummy audio driver and it reports silence for everything: a green headless gate is
+  structurally incapable of catching this.
+- Nobody can hear this, so each track was checked against its own score instead: a Goertzel
+  probe over half-second windows recovers the dominant pitch from the rendered wav, and all
+  five return their written melody in order, with no clipping and peaks of 0.32-0.46. It
+  catches a wrong octave, a note in the wrong place, or two notes landing on each other. It
+  cannot tell anyone whether the music is good.
+
+---
+
+## M18 — Rank follows results  [done]
+
+Rank was awarded once, hardcoded, and never moved again: `["rank", "22k"]` in `kesh.json` was
+the only rank action in the project. Everything downstream was inert because of it.
+
+- `src/go/go_rating.gd` — a performance rating over a rolling window of rated games: the
+  average strength of the opposition, adjusted by the score against it, with handicap stones
+  folded in so beating a 1 dan on nine stones reads as a 10 kyu performance. Pure, stored
+  nowhere, recomputed from `match_records` by `GameState.record_match()`. No hidden score
+  (Rule 5) and no statistic on the character (Pillar 1).
+- `MatchResult` now carries `opponent_strength` and `handicap_taken`, because a game's worth
+  cannot be reconstructed afterwards from a cast list that may since have been edited.
+- Every profile is `by_rank`; `GoMatchSetup` falls back to nigiri once the gap is under a
+  stone, so the ceremony became something climbed to rather than the default. `kesh_first.tres`
+  keeps `nigiri` for the scripted first game, whose dialogue explains komi.
+- **Handicap is scaled to the board.** One stone per rank is a 19x19 convention and does not
+  travel; the league was producing H9 on a 9x9, which is a board with no room left on it.
+  `GoRank.ranks_per_stone()` is three ranks per stone on 9x9, and `max_handicap()` caps a
+  board at its own star points — five on 9x9. The same matchup now plays H4.
+- **The league is a league.** `LeagueTable` plays out the term's fixtures between the students
+  from their ranks, deterministically, with upsets on close pairings pinned to a hash of the
+  two names. Before this, only the player's own games existed, so one win topped the table.
+  Rows on nought games now sort last: that is an absence, not a standing, and the footer
+  already said so.
+- `rank_at_least` / `rank_at_most` / `on_map` dialogue conditions. The Cup's "fifteen kyu and
+  below" is a *ceiling*: it is a thing the player can be too strong for, and eventually is.
+
+## M19 — The calendar and the Cup  [done]
+
+The fiction had been promising a deadline since the first screen — "a tournament in six weeks"
+in the quest summary, the noticeboard, Wren, Tomas, and Marguerite's "entries close on the
+Friday" — against a `time_block` that nothing ever wrote.
+
+- A day holds `SLOTS_PER_DAY` hours. A rated game or a class costs one; lessons, puzzles and
+  unrated games are free, which turns a real distinction in Go culture into the economy and
+  turns Tomas's "one game a day, and he means it" from a brush-off into a mechanic.
+- Spending an hour moves `time_block` through morning, afternoon, dusk and night. The whole
+  M14/M16 atmosphere layer had only ever been seen at "afternoon" in play.
+- Sleeping is the only thing that advances the day, so nobody is punished for thinking about
+  a position. Beds are `__BED__`-sentinel signs, following the board sentinels, so the map
+  generator still owns the prose.
+- **The Bondszaal** — the last unbuilt location in GAME_DESIGN §4. Reached by the southbound
+  tram, because trams run both ways and the federation hall is not the Institute.
+- **The Beginner Cup**: `src/academy/cup_draw.gd`, pure and tested like `LeagueTable`. Four
+  rounds, one a day, McMahon-ish pairing on score. Nothing is stored — the crosstable is a
+  function of the field and the games the player has actually played, so a save and a reload
+  is the same tournament. Greedy pairing can strand the bottom of the table once everyone
+  left has met everyone left; a forced rematch is the answer, because a tournament you
+  entered must never hand you a bye.
+- Three new entrants (Abel Roos 21k, Dov Halevi 19k, Moss Lindqvist 16k). Only Wren and Pip
+  are weak enough for a 15k-and-below section, and a city tournament should bring in people
+  the player has never met.
+- Verified by playing it: the draw board, the pairing, and a round that opens on nigiri —
+  because inside a capped section the ranks are close enough that `by_rank` gives an even
+  game, which is exactly what Marguerite says the ceiling is for.
+
+---
+
+## M20 — Table talk  [done]
+
+The opponent had two lines. `taunt_ahead` and `taunt_behind`, fired on
+`move_number() % 7 == 0` and chosen by a crude whole-board count, so the same two
+sentences cycled all game and nothing anybody said had any relationship to what had
+just happened on the board. Pillar 3 says every opponent is a person first, and at
+the board they were all the same person saying one of two things.
+
+- `src/go/go_table_talk.gd` — pure. Classifies the last move into tags a person
+  could react to: captures (graded by size), ko, atari, the first line played early.
+  Tagged from the speaker's side, so `i_captured` and `you_captured` are the same
+  move read from opposite chairs.
+- `data/banter/*.json` — sixteen voices. A character with no line for a tag falls
+  through to `default`, and a character who should not have one simply does not get
+  a line: Hana answers a capture with a question rather than a boast, and Joos
+  manages "Mm." That is characterisation as data, with no special cases in code.
+- `src/go_ui/table_talk_voice.gd` — picks a line, with a cooldown and a ban on the
+  same remark twice running. Silence is the common case and is the point: somebody
+  who comments on every move is a tutorial, not an opponent.
+
+**The boundary with the review, which is the design decision here.** Banter reacts
+to *outcomes* — a capture landed, a group died, a ko started, the score swung. The
+review reacts to *decisions* — the move you did not see. If Kesh says "you missed
+that atari" live on move fourteen, the review saying it on the result screen has
+nothing left to reveal, and the review's whole value is telling the player something
+they did not already know. The one deliberate exception is announcing your own
+atari, which is characterisation rather than analysis: it discloses nothing the
+board is not already showing, and whether a character does it says a lot about them.
+Pip shouts it. Hana never would.
+
+`taunt_ahead` / `taunt_behind` are deleted from `OpponentProfile` and the `CAST`
+table rather than left as dead exports; `on_resign` stays, and is still read.
+
+---
+
+## M21 — The curriculum  [done]
+
+The game taught liberties, capture and self-capture, then handed the player a full
+scored game using territory rules it had never explained. Wren's own lesson outro
+promised the missing half and pointed at Hana, who never delivered it.
+
+Seven new lessons, and the teachers they belong to:
+
+| lesson | teacher | where |
+|---|---|---|
+| `ko` | Wren | De Ketel, once the rulebook has settled |
+| `escape` | Kesh | after she has beaten you with a cut |
+| `connection` | Kesh | after `escape` |
+| `two_eyes` | Hana | the Institute class board |
+| `life_and_death` | Hana | the class board |
+| `ladders` | Bertie | Molenpark |
+| `counting` | Tomas | De Ketel |
+
+- **`GoLessonData` gained a pre-move.** Ko is a fact about history, not about a
+  position, so a board handed to `set_position` has no ko on it and the engine
+  happily allows the retake. A step may now open with the opponent's move, which
+  means the ko lesson is refused by the same rule that refuses it in a real game.
+- **The openings class finally counts.** It is built on "I am not going to tell you
+  why. You are going to count," and its `encloses` / `region_at` keys were read only
+  by the validator. The runner now highlights the pocket and states its size and
+  cost, so the argument is made by the board.
+- **The class board walks a track** instead of the dead branch that returned
+  `openings` twice under the comment "the only class built so far".
+- **The study desk exists.** GAME_DESIGN promised the board in your room replays
+  problems; it was a sign you could read. Eight puzzles now, in teaching order --
+  and `capture_2`, written long ago and referenced by nothing, is reachable.
+- **Two teachers were in the wrong place.** Bertie's own first line is "four kyu,
+  forty years, one park bench" and he was under a viaduct; he is in Molenpark now.
+  **Tomas was on no map at all** -- he owns the bar, he is named on its sign, he had
+  a sprite, a portrait, dialogue and an 8 kyu profile, and he stood nowhere. He is
+  behind his counter, he teaches the endgame, and his "one game a day, and I mean
+  it" is now a game you can actually play.
+
+**What the validator learned**, because every one of these is a position written by
+hand and CLAUDE.md's rule is never to trust one:
+
+- `liberties_after` / `liberties_at` -- a group told to run must actually get out.
+- `eyes_after` / `eyes_at` -- a group told it is alive must have the eyes.
+- `connects` -- a move told to join two groups must leave them as one.
+- the ko rule, so a forbidden retake is not waved through as legal.
+- puzzle `kind`: capture, live or escape, since a puzzle about living has a correct
+  answer that takes nothing off the board.
+- **stray characters.** `parse()` read anything it did not recognise as an empty
+  point, so a typo at the start of a board row produced a valid, wrong position that
+  every other check then passed. It caught a real one within a minute of existing.
+
+The ladder was not written by hand at all. Four attempts at deriving one by eye were
+wrong -- white gains three liberties on each extension unless the chasing stones are
+placed exactly -- so `tools/` searched for a genuine sustained ladder using the rules
+code and the lesson was emitted from the result.
+
+---
+
+## M22 — Twelve opponents instead of one  [done]
+
+`reading_depth` was documented as 0/1/2 and the code only ever tested `>= 1`, so
+Hana at 5 dan ran the same policy as Ilse at 9 kyu. The single real strength dial
+was `mistake_rate`, and it replaced the best move with a *uniformly random legal
+one* -- Wren at 0.45 played a random point on the board nearly every other move.
+Pillar 3 asks that every opponent be a person first; at the board they were all the
+same person, differing only in how often they threw a move away.
+
+- **Mistakes are plausible now.** Candidates are ranked, and a blunder picks from a
+  shortlist whose width comes from `mistake_rate` (`MISTAKE_BREADTH`). A 20 kyu does
+  not play a random point; they play the fourth-best move, confidently. Measured:
+  200 openings from a 0.9-blunder profile put **74 stones on the first line** under
+  the old code and **none** under the new, and `tests/test_go_ai.gd` asserts the
+  zero. Weakness now reads as misjudgement, which is the only kind of weakness a
+  player can learn from.
+- **`reading_depth = 2` does something.** `_worst_reply()` looks at what the
+  opponent could capture immediately, over the liberties of chains the move
+  actually touches -- a full reply search per candidate is not affordable and would
+  not have found anything this AI could use.
+- **Style flags, from the blurbs.** `ladder_happy` (Pip: "attempts ladders, the
+  ladders do not work" -- nothing at the board made him do it), `cut_bias` (Kesh
+  cuts, which the dialogue had always claimed and the board never showed),
+  `book_moves` (Ilse opens on the corner star points by rote and is on her own the
+  moment the book runs out). Off by default, so nobody acquires a habit by accident.
+
+The style test is worth reading before changing it. Asserting "a ladder-happy
+player chases" passed at 40/40 for *both* profiles, because atari on a nearby stone
+is already the top-scoring move and everybody chases. The test now zeroes
+`aggression` on both sides so the ordinary pull toward contact is out of the way and
+the chase is the only thing that can produce the move: 0 for the calm profile, and
+the habit for the other.
+
+**Arcs, gated on the record.** A new `played_at_least` dialogue condition, and three
+of them written -- Ilse, Sunny and Orla, who are the people a student actually plays
+over and over. Each advances on games played, not on affection (Rule 4 intact), and
+each says something the character could only say after that many games: Ilse decides
+the books were never the problem, Sunny complains that she has stopped being able to
+read four moves ahead of you, Orla admits that top of the lower league is nerve
+rather than talent.
+
+**Not done here, and deliberately:** review voices for the rest of the cast. Ten of
+fifteen characters still fall back to `data/reviews/default.json`. That directory is
+being restructured with new detector kinds, and writing voices against a schema
+about to change would be wasted work.
+
+---
+
+## Known debt and known bugs
+
+Nothing here blocks the slice; all of it will bite later.
+
+**Debt**
+- **Rank follows results (M18).** `GoRating.performance()` is a pure function of
+  `GameState.match_records` — a performance rating over a rolling window of rated games:
+  the average strength of the opposition, adjusted by the score against it, with handicap
+  stones folded in so that beating a 1 dan on nine stones reads as a 10 kyu performance
+  rather than a dan one. Nothing is stored, so there is no hidden score (Rule 5) and no
+  statistic on the player (Pillar 1); delete the save and the rank goes with the games that
+  earned it. `record_match()` recomputes it; below `PROVISIONAL_GAMES` it declines to say,
+  which is what lets Kesh's provisional 22k stand for the first couple of games.
+
+  What that unlocked, and what is still open:
+  1. **Handicap moves.** Every profile is `by_rank` now, so the stones shrink as the record
+     improves, and `GoMatchSetup` falls back to nigiri once the gap is under a stone — the
+     ceremony became something you climb to rather than the default. Kesh's scripted first
+     game keeps its own `kesh_first.tres` at `nigiri`, because her dialogue explains komi
+     and an unranked player would otherwise be handed stones and hear none of it.
+  2. **Handicap is scaled to the board.** One stone per rank is a 19x19 convention and does
+     not travel: `GoRank.ranks_per_stone()` makes it three ranks per stone on 9x9, and
+     `max_handicap()` caps a board at its own star points — five on 9x9. The league used to
+     produce H9 on a 9x9, which is a board with no room left on it rather than a game.
+  3. **`rank_at_least` exists** as a dialogue condition, taking a label ("15k") so a graph
+     reads like the Cup's entry form. Marguerite's Cup gate uses it.
+  4. **Still open: league position is read by nothing.** `player_position()` feeds only the
+     footer string. The exam is what will want it.
+
+- **Dead-stone estimation is a heuristic** (`GoScoring.estimate_dead`). It is right on the
+  positions a beginner reaches and the player can override every call, but it will mis-judge
+  seki and complicated life-and-death. A GTP engine answers this properly with
+  `final_status_list dead`; the seam exists.
+- **The exam does not exist.** The league board and Marguerite both state that entry is by
+  league position at the end of term, and nothing happens. The machinery it needs is now
+  built and running -- a calendar, a term that ends, a pure draw module and a results board
+  (`CupDraw` / `CupBoard`) -- so the exam is a content job rather than a systems one.
+  `LeagueTable.player_position()` is still read by nothing, and that is what it will gate on.
+- **The calendar has nothing to spend itself on.** Six weeks of term against one class, six
+  league opponents and three lessons. "Sleep until the Cup" exists at the bed precisely
+  because the middle of the term is empty, and it is a plaster over a content gap rather
+  than a feature. The extra classes, the puzzle library and the opponent arcs are the fix.
+- **The lessons stop where judgement starts.** Eleven of them now, through counting and
+  life and death, which is enough to play a whole game and know why it was lost. What is
+  not taught is whole-board judgement -- which group is worth abandoning, whether a move
+  is worth eight points or two -- because the rules cannot answer it and the heuristic
+  cannot either. That is the wall Act 3 runs into, not a missing lesson.
+- **The tutorial stops at lesson 4.** Two eyes and territory/counting (lessons 5 and 6) are
+  designed in GAME_DESIGN.md but not built, so the game still hands a beginner their first
+  full scored game without having explained scoring.
+- **Music is two short loops** and repeats quickly. It is pleasant enough under thinking but
+  it is not a soundtrack.
+- **The shipped AI stops playing once only first-line points remain.** That is honest Go
+  judgement, but combined with a human who passes early it produces enormous margins
+  (an autopilot game that passed throughout lost by 83.5). It needs a resign/mercy rule
+  and a stronger midgame before it is a satisfying opponent above ~15 kyu.
+- **A real Go engine was considered and declined (3 September 2026).** The question was
+  whether to put KataGo or GNU Go behind the stronger half of the cast. Measured cost:
+  KataGo's CPU/Eigen Linux build is ~40 MB (v1.18.1 — v1.18.2 ships CUDA-only), a strong
+  network is ~100 MB, and the human-imitation net `b18c384nbt-humanv0.bin.gz` is 94.5 MB
+  and is needed *in addition* to the strong net, not instead of it. That is ~235 MB against
+  a 7.6 MB game. nixpkgs has `katago` (1.16.5, defaulting to OpenCL/CUDA rather than Eigen)
+  and `gnugo`; neither bundles weights.
+  Against that, the gain is small *for this game*: dan-strength opponents nobody has
+  outgrown, point-value judgement no beginner can act on, and better dead-stone marking —
+  the only real one, and beginner positions rarely need it. Turning an engine's visits down
+  does not produce a kyu player either; it produces a dan player with worse precision, whose
+  moves stay structurally sound. The heuristic's legibility is a teaching feature, and a
+  ladder that does not work is content Pip is built out of.
+  **What would change the answer:** a ladder that runs past ~8 kyu, i.e. Act 3. At that
+  point `humanSLProfile` (`rank_9k` and so on) is the correct tool and is worth its size.
+- **`GtpOpponent` is unwired, and three bugs stand between it and an engine.** Handicap
+  stones are placed straight onto the board in `go_game.gd:46-48` and never enter
+  `game.moves`, while `choose_move` issues `clear_board` every turn (line 43) and replays
+  only `moves` — so the engine would analyse a board with no handicap stones on it, on the
+  game's primary difficulty axis. `set_position` (puzzles, lessons) never reaches GTP at
+  all. And `_command` blocks on `get_line()` (line 81), which would freeze the main thread
+  for the length of a real search, despite the interface being built to `await`.
+- **Two test hooks live in shipping code**: `Autopilot` is an autoload (inert without the
+  command-line flag) and `GoMatch.THINK_DELAY_FAST` shortens the opponent's pause under it.
+- **The UI is still positioned by hand.** A project-wide Theme now carries the font, and
+  `UiKit` centralises label and panel construction, but the coordinates are still literals
+  rather than containers. Good enough that text fits; not yet the container layout
+  `godot-ui-control` describes.
+- **`GtpOpponent` replays the whole game on every move.** Correct, but it must track an
+  index before a real engine is attached.
+- **Dialogue JSON is untyped.** Guarded by validation tests over every graph, not by types.
+- **The heuristic AI recomputes empty regions every move.** Fine on 9x9; will need caching
+  at 19x19.
+- **NPC schedules are groundwork only.** `wanders` works; time-block movement is not wired.
+- 7 of the 12 characters are placed on Steenbeek maps; only the Bondszaal is still unbuilt.
+
+**Known bugs**
+- ~~On a map narrower than the viewport the camera shows blank space at the edges.~~ Fixed in
+  M14 phase 3: small maps are centred and a backdrop sits behind the tiles.
+- Tree canopies do not occlude the player; entities Y-sort among themselves but not against
+  tile props.
+- The title screen's save summary was moved and given a shadow, but still sits over busy
+  title art.
+- The crowd window in the ceremony is a static strip; the onlookers do not react.
+- Portrait expressions (neutral / happy / annoyed) exist for every character but most
+  dialogue nodes do not choose one, so the neutral face is used more than it should be.
+
+---
+
+## After the slice
+
+Most of this table is now done. What is left has moved to **`ROADMAP.md`**, which is
+the authoritative list of unbuilt work; this is kept only to show what was outstanding
+at the end of the slice and what became of it.
+
+| Next | State |
+|---|---|
+| The attic, Onderbrug, the quay, the Bondszaal | **Built** (M14, M19) |
+| Beginner Cup tournament | **Built** (M19) |
+| Lesson/puzzle library | **Built** (M21) — eleven lessons, eight puzzles, a study desk |
+| Audio | **Built** (M11, M16, M17) |
+| NPC schedules | Still open. `idle` works; time-block movement does not, and now that days pass it is what would make one day differ from another |
+| 13×13 + the club ladder | Still open, and now the natural next board size — the rank system it was meant to exercise exists |
+| KataGo/GTP integration | Still declined; the condition has not changed (see the debt list) |
+| The exam | Still open, and the most valuable single item left. Act 2 has no ending |

@@ -1,0 +1,138 @@
+[
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "interact",
+  "note": "New Game"
+ },
+ {
+  "wait": 2.6
+ },
+ {
+  "tap": "interact",
+  "times": 14,
+  "gap": 0.9,
+  "note": "Hana's address"
+ },
+ {
+  "wait": 1.2
+ },
+ {
+  "tap": "interact",
+  "note": "accept the name"
+ },
+ {
+  "wait": 3.2
+ },
+ {
+  "advance": 30
+ },
+ {
+  "walk_to": [
+   6,
+   7
+  ],
+  "note": "out of the attic"
+ },
+ {
+  "walk_to": [
+   6,
+   8
+  ],
+  "timeout": 3
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "walk_to": [
+   14,
+   9
+  ]
+ },
+ {
+  "walk_to": [
+   14,
+   8
+  ],
+  "timeout": 3
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "talk_to": "wren"
+ },
+ {
+  "advance": 40
+ },
+ {
+  "talk_to": "kesh"
+ },
+ {
+  "advance": 12
+ },
+ {
+  "wait": 1.2,
+  "shot": "nigiri_with_board"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.4
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.6,
+  "shot": "match_begins"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.35,
+  "shot": "stone_landing"
+ },
+ {
+  "tap": "move_left",
+  "times": 2
+ },
+ {
+  "tap": "move_up",
+  "times": 2
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "tap": "move_right",
+  "times": 3
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "tap": "move_down",
+  "times": 3
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.6,
+  "shot": "midgame"
+ }
+]

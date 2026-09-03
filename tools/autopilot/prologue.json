@@ -1,0 +1,98 @@
+[
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "interact",
+  "note": "New Game"
+ },
+ {
+  "wait": 2.6,
+  "shot": "cold_open"
+ },
+ {
+  "tap": "interact",
+  "times": 14,
+  "gap": 0.9,
+  "note": "Hana's address"
+ },
+ {
+  "wait": 1.2,
+  "shot": "name_prompt"
+ },
+ {
+  "tap": "interact",
+  "note": "accept the name"
+ },
+ {
+  "wait": 2.0,
+  "shot": "name_accepted"
+ },
+ {
+  "wait": 2.6,
+  "shot": "steenbeek"
+ },
+ {
+  "advance": 24,
+  "note": "the board in your room"
+ },
+ {
+  "walk_to": [
+   6,
+   7
+  ],
+  "note": "out of the attic"
+ },
+ {
+  "walk_to": [
+   6,
+   8
+  ],
+  "timeout": 3
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "wait": 0.5,
+  "shot": "carrying_the_board"
+ },
+ {
+  "walk_to": [
+   10,
+   17
+  ],
+  "note": "into the park"
+ },
+ {
+  "talk_to": "pip"
+ },
+ {
+  "wait": 0.5,
+  "shot": "pip_spots_the_board"
+ },
+ {
+  "advance": 12,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0,
+  "note": "I don't know what it is"
+ },
+ {
+  "advance": 18,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.4,
+  "shot": "capture_go_offered"
+ },
+ {
+  "choose": 0,
+  "note": "go on then"
+ },
+ {
+  "wait": 2.4,
+  "shot": "first_ever_game"
+ }
+]

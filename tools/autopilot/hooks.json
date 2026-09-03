@@ -1,0 +1,76 @@
+[
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue from the invited save"
+ },
+ {
+  "wait": 2.2
+ },
+ {
+  "walk_to": [
+   13,
+   9
+  ]
+ },
+ {
+  "walk_to": [
+   13,
+   8
+  ],
+  "timeout": 4,
+  "note": "down the steps into De Ketel"
+ },
+ {
+  "wait": 2.2
+ },
+ {
+  "walk_to": [
+   9,
+   3
+  ],
+  "note": "under the hooks"
+ },
+ {
+  "face": [
+   9,
+   2
+  ]
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 3.5,
+  "shot": "a_hooks"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 3.5,
+  "shot": "b_your_card"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 3.5,
+  "shot": "c_how_it_moves"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 3.5,
+  "shot": "d_stones_count"
+ }
+]

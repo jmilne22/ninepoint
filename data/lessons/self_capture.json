@@ -1,0 +1,36 @@
+{
+"id": "self_capture",
+"title": "You May Not Fill Your Own",
+"teacher": "wren",
+"size": 7,
+"intro": [
+ "One more rule, and it is a rule about what you are not allowed to do.",
+ "You may not play a stone that would have no liberties the moment it lands. Filling in your own last breath is simply not a legal move."
+],
+"steps": [
+ {
+  "board": [".......", "..OOO..", "..O.O..", "..OOO..", ".......", ".......", "......."],
+  "to_move": "black",
+  "instruction": "Try to play black in the middle of that white ring. Go on -- the game will stop you.",
+  "accept": "illegal_attempt",
+  "points": [[3, 2]],
+  "show_liberties": true,
+  "explanation": "Refused. A black stone there would be surrounded on all four sides with nowhere to breathe, so it cannot be played at all. That single empty point is an eye, and it belongs to White."
+ },
+ {
+  "board": ["..XXX..", ".XOOOX.", ".XO.OX.", ".XOOOX.", "..XXX..", ".......", "......."],
+  "to_move": "black",
+  "instruction": "Same eye, but now White is surrounded too. Play in the eye.",
+  "accept": "points",
+  "points": [[3, 2]],
+  "show_liberties": true,
+  "target": [[2, 1], [3, 1], [4, 1], [2, 2], [4, 2], [2, 3], [3, 3], [4, 3]],
+  "hint": "It is legal this time. Ask yourself what is different.",
+  "explanation": "Legal, because it captured. The rule is not 'never fill your own last liberty' -- it is 'not unless the move takes something off the board first'. Captures are resolved before your own stones are checked, and that exception is the hinge that the whole of life and death turns on."
+ }
+],
+"outro": [
+ "Liberties, capture, and no self-capture. That is the rulebook, near enough.",
+ "What is left is territory and counting, and Hana at the club is better at explaining those than I am."
+]
+}

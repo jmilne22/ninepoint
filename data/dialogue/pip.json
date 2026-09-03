@@ -1,0 +1,210 @@
+{
+ "id": "pip",
+ "nodes": {
+  "start": {
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "match_pip_capture_done"
+      ],
+      [
+       "flag",
+       "pip_played"
+      ]
+     ],
+     "goto": "after"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "match_pip_capture_done"
+      ]
+     ],
+     "goto": "offer_real"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "pip_taught_capture"
+      ]
+     ],
+     "goto": "capture_offer"
+    },
+    {
+     "if": [
+      [
+       "has_item",
+       "old_goban"
+      ]
+     ],
+     "goto": "spots_the_board"
+    },
+    {
+     "goto": "first"
+    }
+   ]
+  },
+  "first": {
+   "portrait": "happy",
+   "text": [
+    "HELLO. Sorry. Hello. Are you going down to De Ketel? You are, aren't you, you've got the walk.",
+    "Pip. Eighteen kyu. Which is better than twenty and worse than everything else.",
+    "I mostly play here in the park because the stone tables are free and Bertie shouts at me for free as well."
+   ],
+   "goto": "offer"
+  },
+  "offer": {
+   "text": [
+    "Do you want a quick one? Unrated, nothing counts, I promise to attempt at least one ladder."
+   ],
+   "choices": [
+    {
+     "text": "Go on then.",
+     "actions": [
+      [
+       "set_flag",
+       "pip_played",
+       true
+      ]
+     ],
+     "exit": {
+      "type": "start_match",
+      "profile": "pip_9x9",
+      "context": "pip_casual",
+      "unrated": true,
+      "intro": "Park rules. Nothing counts."
+     }
+    },
+    {
+     "text": "Later -- I'm heading down to De Ketel.",
+     "goto": "later"
+    }
+   ]
+  },
+  "later": {
+   "text": [
+    "Right! Yes! Good luck! Ask for Wren, she's nice, don't ask Kesh anything you don't want an answer to."
+   ]
+  },
+  "after": {
+   "portrait": "happy",
+   "text": [
+    "That was a GREAT game. I'm not being polite, I genuinely enjoy losing, it's the main thing I do.",
+    "The ladder didn't work again. Bertie says the ladder never works and I keep proving him right."
+   ],
+   "goto": "again"
+  },
+  "again": {
+   "text": [
+    "Another?"
+   ],
+   "choices": [
+    {
+     "text": "Sure.",
+     "exit": {
+      "type": "start_match",
+      "profile": "pip_9x9",
+      "context": "pip_casual",
+      "unrated": true,
+      "intro": "Park rules. Nothing counts."
+     }
+    },
+    {
+     "text": "Not right now.",
+     "goto": "later"
+    }
+   ]
+  },
+  "capture_go": {
+   "portrait": "happy",
+   "text": [
+    "OH. You've been getting the rules off Wren, haven't you. She does that. She's very good at it.",
+    "Right -- then you want Capture Go. Seven by seven, no counting, no territory, none of the frightening bits.",
+    "First one to take a single stone wins. That's the whole game. It's how everybody starts and it's still how I play, honestly."
+   ],
+   "goto": "capture_offer"
+  },
+  "capture_offer": {
+   "text": [
+    "One rule to start with, and it's the only one you need: if you can take a stone of mine off the board, you win. First capture. That's the game.",
+    "Seven by seven, no counting, nothing frightening. Ready?"
+   ],
+   "choices": [
+    {
+     "text": "Go on then.",
+     "exit": {
+      "type": "start_match",
+      "profile": "pip_capture",
+      "context": "pip_capture",
+      "unrated": true
+     }
+    },
+    {
+     "text": "Explain it once more.",
+     "goto": "explain_again"
+    }
+   ]
+  },
+  "offer_real": {
+   "portrait": "happy",
+   "text": [
+    "THAT'S IT. That's the whole engine of the game, that bit -- counting the breaths and getting there first.",
+    "Everything else is that, further ahead, with more stones.",
+    "Down the three steps, under the sign with the kettle on it. Ask for Wren, she's the patient one. Don't ask Kesh anything you don't want a straight answer to."
+   ],
+   "goto": "offer"
+  },
+  "spots_the_board": {
+   "portrait": "happy",
+   "text": [
+    "-- is that a GOBAN?",
+    "Sorry. Hello. Hello! It's just that you are carrying a goban down a public street and nobody does that, and I have been sitting here for an hour with nobody to play.",
+    "Pip. Eighteen kyu. Where did you get it?"
+   ],
+   "goto": "explain_ignorance"
+  },
+  "explain_ignorance": {
+   "text": [
+    "So -- what will you tell him?"
+   ],
+   "choices": [
+    {
+     "text": "It was in my room. I don't know what it is.",
+     "goto": "delighted"
+    },
+    {
+     "text": "A goban? Is that what this is?",
+     "goto": "delighted"
+    }
+   ]
+  },
+  "delighted": {
+   "portrait": "happy",
+   "actions": [
+    [
+     "set_flag",
+     "pip_taught_capture",
+     true
+    ]
+   ],
+   "text": [
+    "You don't -- you don't know what it IS.",
+    "Right. Sit down. Sit down, put it on the table, this is the best thing that has happened to me this month.",
+    "It's Go. Two of us, black and white, we take turns putting stones on the crossings. That's it. That's the whole movement.",
+    "And I am not going to explain the rest, because explaining it is how people get bored. We'll play instead."
+   ],
+   "goto": "capture_offer"
+  },
+  "explain_again": {
+   "text": [
+    "Stones don't move once they're down. A stone needs an empty crossing next to it to breathe. Fill the last one and it comes off the board.",
+    "Take one of mine and you've won. Right?"
+   ],
+   "goto": "capture_offer"
+  }
+ }
+}

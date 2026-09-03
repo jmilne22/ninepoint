@@ -1,0 +1,12 @@
+[
+ {"wait": 0.8},
+ {"tap": "move_down"},
+ {"tap": "interact", "note": "Continue from the league_ready save"},
+ {"wait": 2.2},
+ {"walk_to": [23, 7], "note": "back to the hall"},
+ {"wait": 1.6},
+ {"walk_to": [10, 3], "note": "stand under the league board"},
+ {"wait": 0.8, "shot": "a_under_the_board"},
+ {"tap": "interact"},
+ {"wait": 1.5, "shot": "b_league_table"}
+]

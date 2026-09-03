@@ -1,0 +1,17 @@
+[
+ {"wait": 0.8},
+ {"tap": "move_down"},
+ {"tap": "interact", "note": "Continue from the cup_day save"},
+ {"wait": 2.2, "shot": "a_on_the_day"},
+ {"walk_to": [9, 3], "note": "to the front"},
+ {"face": [9, 2]},
+ {"tap": "interact"},
+ {"wait": 1.4, "shot": "b_the_draw"},
+ {"tap": "interact"},
+ {"wait": 0.8},
+ {"talk_to": "marguerite"},
+ {"advance": 6, "stop_at_choice": true},
+ {"wait": 0.4, "shot": "c_board_ready"},
+ {"choose": 0, "note": "Play the round."},
+ {"wait": 3.5, "shot": "d_round_one_board"}
+]

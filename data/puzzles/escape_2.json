@@ -1,0 +1,51 @@
+{
+ "id": "escape_2",
+ "title": "Four Stones",
+ "teacher": "kesh",
+ "size": 9,
+ "to_move": "black",
+ "kind": "escape",
+ "liberties": 3,
+ "escape_at": [
+  6,
+  4
+ ],
+ "board": [
+  ".........",
+  ".........",
+  ".........",
+  "..OOOO...",
+  ".OXXXX...",
+  "..OOOO...",
+  ".........",
+  ".........",
+  "........."
+ ],
+ "goal": "Black to play. Rather more to lose this time.",
+ "hint": "The end of the wall. Same move as always.",
+ "solutions": [
+  [
+   6,
+   4
+  ]
+ ],
+ "target": [
+  [
+   2,
+   4
+  ],
+  [
+   3,
+   4
+  ],
+  [
+   4,
+   4
+  ],
+  [
+   5,
+   4
+  ]
+ ],
+ "explanation": "Four stones saved by the same move that saves one. Big groups do not need clever answers -- they need you to notice in time."
+}

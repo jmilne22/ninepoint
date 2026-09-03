@@ -1,0 +1,218 @@
+{
+ "id": "joos",
+ "nodes": {
+  "start": {
+   "branches": [
+    {
+     "if": [
+      [
+       "not_flag",
+       "knows_the_rules"
+      ]
+     ],
+     "goto": "no_rules"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "joos_played"
+      ]
+     ],
+     "goto": "again"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "enrolled"
+      ]
+     ],
+     "goto": "papers"
+    },
+    {
+     "goto": "cold"
+    }
+   ]
+  },
+  "no_rules": {
+   "text": [
+    "You don't play.",
+    "No. Don't sit down. I'm not teaching you -- I did that once and it took a year.",
+    "Wren, down at De Ketel. She's got the patience for it. Come back when you know what a liberty is."
+   ]
+  },
+  "cold": {
+   "text": [
+    "The old man has set a board on an upturned crate under the last arch of the viaduct, out of the rain. He is playing both sides of it himself and losing interest in both.",
+    "You want something, or are you just wet?"
+   ],
+   "goto": "rank_question"
+  },
+  "rank_question": {
+   "text": [
+    "Joos. That's the whole of it. No surname worth writing down."
+   ],
+   "choices": [
+    {
+     "text": "What rank are you?",
+     "goto": "no_rank"
+    },
+    {
+     "text": "Do you play for money?",
+     "goto": "coins"
+    },
+    {
+     "text": "Nothing. Sorry.",
+     "goto": "shrug"
+    }
+   ]
+  },
+  "no_rank": {
+   "text": [
+    "I don't know.",
+    "Nobody's ever written it down. There was no club when I started and there was no card, and by the time there were both I couldn't see the point of either.",
+    "The people up at Essenveld will tell you I'm four kyu because I'm not on their list. Then they sit down here and I give them five stones."
+   ],
+   "goto": "offer"
+  },
+  "coins": {
+   "text": [
+    "For coins. Not enough of them to matter and not so few that anybody plays carelessly.",
+    "You keep yours. You'd only be paying me to watch you find out."
+   ],
+   "goto": "offer"
+  },
+  "shrug": {
+   "text": [
+    "Mm.",
+    "The board's here most evenings. So am I. It's dry under the arch and it's free to sit."
+   ]
+  },
+  "offer": {
+   "text": [
+    "Sit down, then. Nine stones -- you'll want all nine and you'll still lose, and that is fine, that's what they're for."
+   ],
+   "choices": [
+    {
+     "text": "Nine stones. All right.",
+     "actions": [
+      [
+       "set_flag",
+       "joos_played",
+       true
+      ]
+     ],
+     "exit": {
+      "type": "start_match",
+      "profile": "joos_9x9",
+      "context": "joos_arch",
+      "unrated": true,
+      "intro": "Nine stones. One on every point on the board."
+     }
+    },
+    {
+     "text": "Another time.",
+     "goto": "shrug"
+    }
+   ]
+  },
+  "again": {
+   "branches": [
+    {
+     "if": [
+      [
+       "beat",
+       "joos"
+      ]
+     ],
+     "goto": "beaten"
+    },
+    {
+     "goto": "rematch"
+    }
+   ]
+  },
+  "rematch": {
+   "text": [
+    "Back again. Good. Most of them aren't."
+   ],
+   "choices": [
+    {
+     "text": "Again, then.",
+     "exit": {
+      "type": "start_match",
+      "profile": "joos_9x9",
+      "context": "joos_arch",
+      "unrated": true,
+      "intro": "Nine stones again. Do something else with them."
+     }
+    },
+    {
+     "text": "Just passing.",
+     "goto": "shrug"
+    }
+   ]
+  },
+  "beaten": {
+   "text": [
+    "You took one off me. On nine stones, but you took it.",
+    "Don't tell them up the hill. They'll want to put it on a list."
+   ],
+   "choices": [
+    {
+     "text": "Again.",
+     "exit": {
+      "type": "start_match",
+      "profile": "joos_9x9",
+      "context": "joos_arch",
+      "unrated": true,
+      "intro": "Nine stones. Try to need fewer of them."
+     }
+    },
+    {
+     "text": "Not today.",
+     "goto": "shrug"
+    }
+   ]
+  },
+  "papers": {
+   "text": [
+    "So they've enrolled you. Card and everything.",
+    "That's not nothing -- warm room, somebody who'll go through your games with you. Take it while they're offering.",
+    "Only don't let them tell you the card is the rank. The card is the card. The rank is what happens at the table."
+   ],
+   "goto": "rank_question"
+  },
+  "post_match": {
+   "branches": [
+    {
+     "if": [
+      [
+       "beat",
+       "joos"
+      ]
+     ],
+     "goto": "post_win"
+    },
+    {
+     "goto": "post_loss"
+    }
+   ]
+  },
+  "post_win": {
+   "text": [
+    "Hm.",
+    "You waited. That's the whole of it -- you sat there with nine stones and you didn't try to be clever with any of them until I gave you a reason.",
+    "Nobody teaches that. It just stops being frightening one day."
+   ]
+  },
+  "post_loss": {
+   "text": [
+    "Nine stones and you gave me six of them back.",
+    "It's not the fighting. You can fight. It's that you fought where there was nothing to win, and I let you, because it was quieter over here.",
+    "Come back. It's dry under the arch."
+   ]
+  }
+ }
+}

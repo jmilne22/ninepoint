@@ -1,0 +1,6 @@
+# Godot's import cache and derived data. Everything else in this repo is source.
+.godot/
+
+# Local tooling, not the game: vendored third-party skills and their lock file.
+.claude/
+skills-lock.json

@@ -1,0 +1,38 @@
+{
+ "id": "capture_3",
+ "title": "The Whole Chain",
+ "teacher": "wren",
+ "size": 9,
+ "to_move": "black",
+ "kind": "capture",
+ "board": [
+  ".........",
+  ".XXXX....",
+  ".XOOX....",
+  ".X.XX....",
+  ".........",
+  ".........",
+  ".........",
+  ".........",
+  "........."
+ ],
+ "goal": "Black to play. Take the white stones.",
+ "hint": "Two stones sharing one liberty. Find the point they are both relying on.",
+ "solutions": [
+  [
+   2,
+   3
+  ]
+ ],
+ "target": [
+  [
+   2,
+   2
+  ],
+  [
+   3,
+   2
+  ]
+ ],
+ "explanation": "Two stones, one liberty, and both come off together. A chain is captured whole -- which is why a big group on few liberties is far more dangerous to own than a small one."
+}

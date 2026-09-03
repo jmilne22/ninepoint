@@ -1,0 +1,232 @@
+{
+ "id": "wren",
+ "nodes": {
+  "start": {
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "kesh_match_done"
+      ],
+      [
+       "flag",
+       "knows_the_rules"
+      ],
+      [
+       "not_flag",
+       "lesson_ko_done"
+      ]
+     ],
+     "goto": "offer_ko"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "kesh_match_done"
+      ],
+      [
+       "beat",
+       "kesh"
+      ]
+     ],
+     "goto": "after_win"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "kesh_match_done"
+      ]
+     ],
+     "goto": "after_loss"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "wren_told_about_cup"
+      ]
+     ],
+     "goto": "repeat"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "wren_asked_experience"
+      ]
+     ],
+     "goto": "cup"
+    },
+    {
+     "goto": "first"
+    }
+   ]
+  },
+  "first": {
+   "portrait": "happy",
+   "text": [
+    "Oh -- hello! Sorry, I didn't hear the door. Are you new? You look new. I don't mean that badly.",
+    "I'm Wren. I'm twenty kyu, which sounds impressive until you learn that twenty kyu is the bottom of the ladder and I'm holding it up."
+   ],
+   "goto": "ask_experience"
+  },
+  "cup": {
+   "text": [
+    "There's a beginner tournament in six weeks. The Cup. Marguerite runs it and she is terrifying about pairings.",
+    "Everyone here is getting ready for it. That's why the tables are all out.",
+    "If you're going to enter you should get a rank first, and for that you need to actually play somebody."
+   ],
+   "goto": "point_at_kesh",
+   "actions": [
+    [
+     "set_flag",
+     "wren_knows_you_can_play",
+     true
+    ]
+   ]
+  },
+  "point_at_kesh": {
+   "actions": [
+    [
+     "set_flag",
+     "wren_told_about_cup",
+     true
+    ]
+   ],
+   "text": [
+    "That's Kesh over there, by the window. Twelve kyu. She'll play anyone, immediately, and she remembers every result.",
+    "She's not mean about it. She's just... keeping a list."
+   ],
+   "goto": "offer_help"
+  },
+  "offer_help": {
+   "text": [
+    "Do you want me to explain how a game ends? People find that bit odd at first."
+   ],
+   "choices": [
+    {
+     "text": "Yes, please.",
+     "goto": "explain"
+    },
+    {
+     "text": "I'll work it out.",
+     "goto": "decline"
+    }
+   ]
+  },
+  "explain": {
+   "text": [
+    "When neither of you can find a move worth playing, you both pass. That's it. Nobody dies, nobody wins on time.",
+    "Then you count: your surrounded empty points, plus any stones you captured. Highest total wins.",
+    "White gets a few extra points for going second. Komi. It's five and a half on a small board, so there are no draws."
+   ],
+   "goto": "sign_off"
+  },
+  "decline": {
+   "portrait": "happy",
+   "text": [
+    "Good. That's the right attitude and I don't have it."
+   ],
+   "goto": "sign_off"
+  },
+  "sign_off": {
+   "text": [
+    "Go on. She's already looking at you."
+   ]
+  },
+  "repeat": {
+   "text": [
+    "Kesh is by the window. She's been waiting since you walked in, she just won't say so."
+   ]
+  },
+  "after_win": {
+   "portrait": "happy",
+   "text": [
+    "You BEAT her? On your first game here?",
+    "I have played Kesh eleven times. Would you like to guess my record. Go on, guess it.",
+    "Sorry. I'm genuinely pleased. She'll want a rematch within the hour, you understand that."
+   ]
+  },
+  "after_loss": {
+   "text": [
+    "Ah. Yes. She does that.",
+    "For what it's worth you had a real position in the bottom left and then you tried to save everything at once.",
+    "That's the whole of my Go knowledge, by the way. You can have it."
+   ]
+  },
+  "ask_experience": {
+   "actions": [
+    [
+     "set_flag",
+     "wren_asked_experience",
+     true
+    ]
+   ],
+   "text": [
+    "Have you played before? Be honest, nobody here minds either way."
+   ],
+   "choices": [
+    {
+     "text": "Never. I don't know the rules at all.",
+     "if": [
+      [
+       "not_flag",
+       "knows_the_rules"
+      ]
+     ],
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "liberties",
+      "track": true
+     }
+    },
+    {
+     "text": "I know how the stones move.",
+     "goto": "cup"
+    },
+    {
+     "text": "A bit. Remind me of the capturing rule.",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "capture"
+     }
+    }
+   ]
+  },
+  "taught": {
+   "portrait": "happy",
+   "text": [
+    "There. That is the whole rulebook, near enough -- liberties, capture, and no filling in your own last one.",
+    "Everything else people say about Go is a consequence of those three things, said at greater length."
+   ],
+   "goto": "cup"
+  },
+  "offer_ko": {
+   "text": [
+    "Oh -- before you go. I told you that was the whole rulebook and it was very slightly a lie.",
+    "There is one more rule and I left it out because it is the strange one and I did not want to frighten you off. Can I show you now?"
+   ],
+   "choices": [
+    {
+     "text": "Go on.",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "ko"
+     }
+    },
+    {
+     "text": "Another time.",
+     "goto": "ko_later"
+    }
+   ]
+  },
+  "ko_later": {
+   "text": [
+    "That's fair. It's not one you need until it happens to you, and then you'll want it badly."
+   ]
+  }
+ }
+}

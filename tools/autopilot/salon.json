@@ -1,0 +1,53 @@
+[
+ {
+  "note": "the salon and the lobby"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue"
+ },
+ {
+  "wait": 2.0,
+  "shot": "a_loaded"
+ },
+ {
+  "walk_to": [
+   10,
+   6
+  ]
+ },
+ {
+  "wait": 0.4,
+  "shot": "b_de_ketel_day"
+ },
+ {
+  "time": "night"
+ },
+ {
+  "wait": 0.5,
+  "shot": "c_de_ketel_night"
+ },
+ {
+  "walk_to": [
+   9,
+   3
+  ]
+ },
+ {
+  "wait": 0.3,
+  "shot": "d_the_hooks"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5,
+  "shot": "e_hooks_text"
+ }
+]

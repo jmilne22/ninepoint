@@ -1,0 +1,70 @@
+{
+ "id": "ko",
+ "title": "You May Not Take It Straight Back",
+ "teacher": "wren",
+ "size": 9,
+ "intro": [
+  "There is one more rule and I put it off because it is the strange one.",
+  "Sometimes a capture leaves a position where the other player could immediately capture back, and then you could capture back, and so on until one of you died of old age. So there is a rule against it, and it is called ko."
+ ],
+ "steps": [
+  {
+   "board": [
+    ".OX......",
+    "O.OX.....",
+    ".OX......",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "black",
+   "instruction": "That single white stone has one liberty. Take it.",
+   "accept": "capture",
+   "show_liberties": true,
+   "target": [
+    [
+     2,
+     1
+    ]
+   ],
+   "hint": "The empty point beside it.",
+   "explanation": "One stone captured. Now look at the stone you just played -- it has one liberty of its own, and White would very much like to take it back the same way. This shape is a ko."
+  },
+  {
+   "board": [
+    ".XO......",
+    "X.XO.....",
+    ".XO......",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "black",
+   "pre": [
+    1,
+    1
+   ],
+   "instruction": "White has just taken your stone. Take it straight back.",
+   "accept": "illegal_attempt",
+   "points": [
+    [
+     2,
+     1
+    ]
+   ],
+   "show_liberties": true,
+   "hint": "Try it. The game will refuse you.",
+   "explanation": "Refused. You may not recreate the position that was on the board a moment ago. You have to play somewhere else first -- and if that somewhere else is a threat White must answer, you get to come back and take the ko after all. That is a ko fight, and it is the only part of Go that feels like an argument."
+  }
+ ],
+ "outro": [
+  "Play elsewhere, then take it back. That is the whole rule.",
+  "Kesh loves ko. I find it stressful and I lose them, so do not take my word for how to win one -- only for what is and is not allowed."
+ ]
+}

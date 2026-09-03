@@ -1,0 +1,39 @@
+{
+ "id": "hana",
+ "intro": [
+  "Before you go. Look at it with me for a moment -- the game is only half of it."
+ ],
+ "outro": [
+  "Good. Don't try to remember all of it. Remember one thing and mean it."
+ ],
+ "lines": {
+  "good_capture": [
+   "Move {move}. {stones} stones. Do you know why it worked? Sit with that before you answer."
+  ],
+  "good_save": [
+   "Move {move}. You got the group out. What did you see there that you had not been seeing?"
+  ],
+  "atari_ignored": [
+   "Move {move}. This group has one liberty. Look at it. Now -- what were you thinking about instead?",
+   "Move {move}. {liberty} was empty. I want you to tell me what you were looking at when you played {played}."
+  ],
+  "died_savable": [
+   "Move {move}. {save} would have saved it. You had seen the danger by then, I think, and answered the wrong half of it."
+  ],
+  "own_eye_filled": [
+   "Move {move}. You filled your own eye. How many eyes does a group need? And how many did you have?"
+  ],
+  "self_atari": [
+   "Move {move}. {stones} stones, one liberty. Ask yourself what you expected to happen next -- not what did happen, what you expected."
+  ],
+  "capture_missed": [
+   "Move {move}. {stones} stones of mine on one liberty. You were looking at the other side of the board. Was it bigger?"
+  ],
+  "first_line_early": [
+   "Move {move}. The first line, this early. How many points does the edge enclose? Count them. That is the whole lesson."
+  ],
+  "ladder_failed": [
+   "Move {move}. You ran, and kept running. A ladder is the one thing in Go you can read to the end with certainty. Why didn't you?"
+  ]
+ }
+}

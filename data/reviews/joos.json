@@ -1,0 +1,16 @@
+{
+ "id": "joos",
+ "intro": [],
+ "outro": ["Mm."],
+ "lines": {
+  "good_capture": ["{stones} stones. Good."],
+  "good_save": ["You got out. Good."],
+  "atari_ignored": ["Move {move}. One liberty. You didn't look."],
+  "died_savable": ["{save}. That was the move."],
+  "own_eye_filled": ["Your own eye. Move {move}."],
+  "self_atari": ["Move {move}. You did that to yourself."],
+  "capture_missed": ["{liberty} was free. All game."],
+  "first_line_early": ["Move {move}. The edge. Too early."],
+  "ladder_failed": ["It was never going to work. Count them."]
+ }
+}

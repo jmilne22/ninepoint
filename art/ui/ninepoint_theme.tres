@@ -1,0 +1,11 @@
+; The project-wide theme. Set as gui/theme/custom in project.godot, so every
+; Control gets the bitmap font without a single per-label override.
+[gd_resource type="Theme" load_steps=2 format=3]
+
+[ext_resource type="FontFile" path="res://art/ui/ninepoint_font.fnt" id="1_font"]
+
+[resource]
+default_font = ExtResource("1_font")
+default_font_size = 9
+Label/colors/font_color = Color(0.078431, 0.070588, 0.101961, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0)

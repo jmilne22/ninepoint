@@ -1,0 +1,35 @@
+{
+ "id": "nadia",
+ "lines": {
+  "you_captured": [
+   "That is a fair trade for you, I think."
+  ],
+  "you_captured_big": [
+   "I had counted those as mine. That was careless counting."
+  ],
+  "i_captured": [
+   "That is the standard sequence, page forty."
+  ],
+  "i_captured_big": [
+   "I would rather have won it on points, but I will take it."
+  ],
+  "ko": [
+   "Ko. Count your threats before you start this, not during."
+  ],
+  "i_atari": [
+   "Atari, and I would rather you had seen it coming."
+  ],
+  "you_edge_early": [
+   "Corner, side, centre. Hana taught me that in this room."
+  ],
+  "winning": [
+   "I am ahead by about eight, if you are counting. You should be counting."
+  ],
+  "losing": [
+   "You are ahead. That is not in the book either."
+  ],
+  "level": [
+   "Close. Count it now, while it is still simple."
+  ]
+ }
+}

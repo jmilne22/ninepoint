@@ -1,0 +1,148 @@
+{
+ "id": "orla",
+ "nodes": {
+  "start": {
+   "branches": [
+    {
+     "if": [
+      [
+       "played_at_least",
+       "orla",
+       3
+      ],
+      [
+       "not_flag",
+       "arc_orla_3"
+      ]
+     ],
+     "goto": "orla_stage_2"
+    },
+    {
+     "if": [
+      [
+       "played_at_least",
+       "orla",
+       6
+      ],
+      [
+       "not_flag",
+       "arc_orla_6"
+      ]
+     ],
+     "goto": "orla_stage_3"
+    },
+    {
+     "if": [
+      [
+       "beat",
+       "orla"
+      ]
+     ],
+     "goto": "after_win"
+    },
+    {
+     "if": [
+      [
+       "lost_to",
+       "orla"
+      ]
+     ],
+     "goto": "after_loss"
+    },
+    {
+     "goto": "first"
+    }
+   ]
+  },
+  "first": {
+   "text": [
+    "Orla Finn. Four kyu.",
+    "You'll have been told I'm top of the lower league. I am. I'm not going to be interesting about it.",
+    "You'll get four stones from me and you should take them. People who refuse handicap stones are wasting a game to protect a feeling."
+   ],
+   "goto": "offer"
+  },
+  "offer": {
+   "text": [
+    "Do you want a league game? It goes on the board either way."
+   ],
+   "choices": [
+    {
+     "text": "Yes. Let's play.",
+     "exit": {
+      "type": "start_match",
+      "profile": "orla_9x9",
+      "context": "league_orla"
+     }
+    },
+    {
+     "text": "Not now.",
+     "goto": "later"
+    }
+   ]
+  },
+  "later": {
+   "text": [
+    "Right."
+   ]
+  },
+  "after_win": {
+   "portrait": "annoyed",
+   "text": [
+    "Mm.",
+    "Right. Now it's a game. Same time tomorrow and no stones."
+   ],
+   "goto": "offer"
+  },
+  "after_loss": {
+   "text": [
+    "You had it in the bottom left and then you took the safe side. The safe side was eight points smaller.",
+    "That's the whole gap between us, more or less. It isn't reading. It's that I count and you don't. Yet."
+   ],
+   "goto": "offer"
+  },
+  "post_match": {
+   "branches": [
+    {
+     "if": [
+      [
+       "beat",
+       "orla"
+      ]
+     ],
+     "goto": "after_win"
+    },
+    {
+     "goto": "after_loss"
+    }
+   ]
+  },
+  "orla_stage_3": {
+   "actions": [
+    [
+     "set_flag",
+     "arc_orla_6"
+    ]
+   ],
+   "text": [
+    "Right. Sit down, I am going to be uncharacteristically forthcoming and then never again.",
+    "Top of the lower league is not a talent. It is that I play everybody, I keep the record, and I do not stop when I am losing.",
+    "That is the whole of it. I have been waiting for somebody to work it out on their own rather than asking me, and you did not ask, so."
+   ],
+   "goto": "post_match"
+  },
+  "orla_stage_2": {
+   "actions": [
+    [
+     "set_flag",
+     "arc_orla_3"
+    ]
+   ],
+   "text": [
+    "Three games. You have stopped playing the safe side.",
+    "I said the gap between us was counting, not reading. I am revising that. It was nerve."
+   ],
+   "goto": "post_match"
+  }
+ }
+}

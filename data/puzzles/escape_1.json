@@ -1,0 +1,43 @@
+{
+ "id": "escape_1",
+ "title": "Get Out",
+ "teacher": "kesh",
+ "size": 9,
+ "to_move": "black",
+ "kind": "escape",
+ "liberties": 3,
+ "escape_at": [
+  4,
+  4
+ ],
+ "board": [
+  ".........",
+  ".........",
+  ".........",
+  "..OO.....",
+  ".OXX.....",
+  "..OO.....",
+  ".........",
+  ".........",
+  "........."
+ ],
+ "goal": "Black to play. Those two stones have one liberty. Save them.",
+ "hint": "There is exactly one empty point touching them. It leads somewhere.",
+ "solutions": [
+  [
+   4,
+   4
+  ]
+ ],
+ "target": [
+  [
+   2,
+   4
+  ],
+  [
+   3,
+   4
+  ]
+ ],
+ "explanation": "Out from one liberty to three. The move works because the point you played had empty points of its own -- running into a gap that is itself surrounded buys you nothing at all."
+}

@@ -1,0 +1,14 @@
+[
+ {"wait": 0.8},
+ {"tap": "move_down"},
+ {"tap": "interact", "note": "Continue from the league_ready save"},
+ {"wait": 2.2, "shot": "a_study_hall"},
+ {"talk_to": "ilse"},
+ {"advance": 10, "stop_at_choice": true},
+ {"choose": 0, "note": "Yes. Let's play."},
+ {"wait": 2.5, "shot": "b_setup_explanation"},
+ {"tap": "interact"},
+ {"wait": 2.0, "shot": "c_board_with_stones"},
+ {"tap": "interact"},
+ {"wait": 1.5, "shot": "d_board_settled"}
+]

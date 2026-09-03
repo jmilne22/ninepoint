@@ -1,0 +1,21 @@
+{
+ "id": "wren",
+ "intro": ["Oh -- do you want to go through it? I'll try. I might be wrong about all of it."],
+ "outro": ["That's all I've got, sorry. Hana would see about nine more things."],
+ "unqualified": [
+  "Oh -- no. No, I can't tell you what you did wrong, I'm twenty kyu.",
+  "I'd just make something up and say it confidently, and then you'd believe me, and that would be worse than saying nothing.",
+  "Ask Hana. She watches everyone's games. It's slightly unnerving."
+ ],
+ "lines": {
+  "good_capture": ["Move {move}! {stones} stones. That was lovely, actually. I didn't see it coming at all."],
+  "good_save": ["Move {move}. You got out! I thought that group was gone. I'd already felt bad about it."],
+  "atari_ignored": ["Move {move} -- sorry -- this group only had one liberty here. I nearly said something. I wasn't sure if I was allowed."],
+  "died_savable": ["Move {move}. I think {save} might have saved it? Don't take my word for it."],
+  "own_eye_filled": ["Move {move}. That was your own eye, I'm fairly sure. Sorry."],
+  "self_atari": ["Move {move}. {stones} stones on one liberty. I do that constantly, if it helps."],
+  "capture_missed": ["Move {move}. You could have taken {stones} of mine here. I was very quiet about it."],
+  "first_line_early": ["Move {move}, on the edge. Wren-from-last-spring did that every single game."],
+  "ladder_failed": ["Move {move}. The ladder. Pip does this too. I don't think either of you counts them first."]
+ }
+}

@@ -1,0 +1,48 @@
+{
+ "id": "pip",
+ "lines": {
+  "you_captured": [
+   "Oh, GOOD. No -- bad. Bad for me. Good move though.",
+   "You took them! You just took them!"
+  ],
+  "you_captured_big": [
+   "ALL of them? All of them. Right.",
+   "That is the most stones anyone has taken off me this week and I want you to know it was close."
+  ],
+  "i_captured": [
+   "HA! Yes! Sorry. Yes.",
+   "Got one! I got one."
+  ],
+  "i_captured_big": [
+   "That's -- hang on, that's loads. That's LOADS.",
+   "I did not expect that to work. It worked."
+  ],
+  "ko": [
+   "Ooh, ko. That's the one where you can't take it back straight away.",
+   "Ko! I love ko. I'm terrible at ko."
+  ],
+  "i_atari": [
+   "ATARI!",
+   "Atari! You're allowed to say it. Everyone says it.",
+   "That's atari, that is. I'm saying it in case you missed it."
+  ],
+  "you_atari": [
+   "Oh no. Oh, that's atari, isn't it. That's atari on me."
+  ],
+  "i_edge_early": [
+   "I always do this. Bertie shouts at me for it."
+  ],
+  "winning": [
+   "Am I winning? I think I'm winning. Don't tell me if I'm not.",
+   "This is going well and I am now going to ruin it."
+  ],
+  "losing": [
+   "You're miles ahead. It's fine. I'm learning.",
+   "I'm going to try a ladder. It won't work. I know it won't work."
+  ],
+  "level": [
+   "Level, this. Genuinely no idea what's happening.",
+   "This is a GREAT game. I don't understand any of it."
+  ]
+ }
+}

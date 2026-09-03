@@ -1,0 +1,142 @@
+{
+ "id": "connection",
+ "title": "Cut, and Do Not Be Cut",
+ "teacher": "kesh",
+ "size": 9,
+ "intro": [
+  "I cut. It is the first thing anybody says about how I play and I have stopped pretending it is not true.",
+  "So: two stones that are touching are one group and share their liberties. Two stones that are nearly touching are two groups, and two groups are much easier to kill than one."
+ ],
+ "steps": [
+  {
+   "board": [
+    ".........",
+    ".........",
+    "....O....",
+    "...X.X...",
+    "....O....",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "black",
+   "instruction": "Those two black stones are not connected. Join them.",
+   "accept": "points",
+   "points": [
+    [
+     4,
+     3
+    ]
+   ],
+   "connects": [
+    [
+     3,
+     3
+    ],
+    [
+     5,
+     3
+    ]
+   ],
+   "show_liberties": true,
+   "target": [
+    [
+     3,
+     3
+    ],
+    [
+     5,
+     3
+    ]
+   ],
+   "hint": "The gap between them.",
+   "explanation": "One group of three, sharing every liberty. Before that move there were two groups of one, and White was a single stone away from having a free attack on either of them."
+  },
+  {
+   "board": [
+    ".........",
+    ".........",
+    ".........",
+    "...O.O...",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "black",
+   "instruction": "Now the same shape, the other way round. Cut them apart.",
+   "accept": "points",
+   "points": [
+    [
+     4,
+     3
+    ]
+   ],
+   "liberties_after": 2,
+   "show_liberties": true,
+   "target": [
+    [
+     3,
+     3
+    ],
+    [
+     5,
+     3
+    ]
+   ],
+   "hint": "Exactly where you would have connected.",
+   "explanation": "The cutting point and the connecting point are the same point. That is worth sitting with: every time you see a gap in your own shape you are looking at a move your opponent wants."
+  },
+  {
+   "board": [
+    ".........",
+    ".........",
+    ".........",
+    "...O.....",
+    "..X.X....",
+    "...O.....",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "black",
+   "instruction": "White is one move from splitting you. Do not let them.",
+   "accept": "points",
+   "points": [
+    [
+     3,
+     4
+    ]
+   ],
+   "connects": [
+    [
+     2,
+     4
+    ],
+    [
+     4,
+     4
+    ]
+   ],
+   "show_liberties": true,
+   "target": [
+    [
+     2,
+     4
+    ],
+    [
+     4,
+     4
+    ]
+   ],
+   "hint": "Between your own two stones.",
+   "explanation": "Connected, and now it is one group with six liberties instead of two groups with three each. Nothing was captured and nothing looks different -- which is why beginners never play this move and why it is often the best one on the board."
+  }
+ ],
+ "outro": [
+  "Connected groups are boring and they live. Cut groups are exciting and they die.",
+  "I will still cut you. But now you know what I am doing, which is most of the way to stopping me."
+ ]
+}

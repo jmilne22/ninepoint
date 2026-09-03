@@ -1,0 +1,29 @@
+{
+ "id": "tomas",
+ "lines": {
+  "you_captured": [
+   "Aye. That's yours."
+  ],
+  "you_captured_big": [
+   "Well. There goes the afternoon."
+  ],
+  "i_captured": [
+   "Mm. Another cup?"
+  ],
+  "i_captured_big": [
+   "That's the lot of them. Sorry."
+  ],
+  "ko": [
+   "Ko. Settle in."
+  ],
+  "winning": [
+   "I'm ahead. Now the endgame, that's where I'll take it."
+  ],
+  "losing": [
+   "You're ahead. Good, good. Now the endgame."
+  ],
+  "level": [
+   "Level. Nice game, this."
+  ]
+ }
+}

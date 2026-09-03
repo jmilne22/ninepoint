@@ -1,0 +1,32 @@
+{
+ "id": "marguerite",
+ "lines": {
+  "you_captured": [
+   "Recorded."
+  ],
+  "you_captured_big": [
+   "That is a substantial capture and I will not pretend otherwise."
+  ],
+  "i_captured": [
+   "Thank you."
+  ],
+  "i_captured_big": [
+   "That group had been in difficulty for some time."
+  ],
+  "ko": [
+   "Ko. The rule is that you may not repeat the position. It is not negotiable."
+  ],
+  "i_atari": [
+   "Atari, formally."
+  ],
+  "winning": [
+   "I am ahead. Orthodox, but it works."
+  ],
+  "losing": [
+   "You are ahead. Noted, and not resented."
+  ],
+  "level": [
+   "Level. Play it out."
+  ]
+ }
+}

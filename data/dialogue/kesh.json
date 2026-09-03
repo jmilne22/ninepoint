@@ -1,0 +1,308 @@
+{
+ "id": "kesh",
+ "nodes": {
+  "start": {
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "enrolled"
+      ]
+     ],
+     "goto": "at_institute"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "kesh_match_done"
+      ]
+     ],
+     "goto": "post_match"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "wren_told_about_cup"
+      ]
+     ],
+     "goto": "challenge"
+    },
+    {
+     "goto": "cold_open"
+    }
+   ]
+  },
+  "cold_open": {
+   "portrait": "annoyed",
+   "text": [
+    "You're new. Wren's already talking at you, so you'll know about the Cup by now.",
+    "Come back when she's finished. Then we'll play."
+   ]
+  },
+  "challenge": {
+   "text": [
+    "Kesh. Twelve kyu, and I'd like that on the record before we start.",
+    "Nine by nine, even game. We'll do it properly -- nigiri. I take a handful of stones, you call odd or even, and whoever's right picks their colour.",
+    "Black moves first, which is worth about five and a half points, which is exactly why White gets five and a half points of komi. That's the whole of the arithmetic."
+   ],
+   "goto": "offer"
+  },
+  "offer": {
+   "text": [
+    "So. Are we playing, or are we going to talk about playing?"
+   ],
+   "choices": [
+    {
+     "text": "Let's play.",
+     "actions": [
+      [
+       "set_flag",
+       "kesh_challenge_accepted",
+       true
+      ]
+     ],
+     "exit": {
+      "type": "start_match",
+      "profile": "kesh_first",
+      "context": "kesh_first",
+      "intro": ""
+     }
+    },
+    {
+     "text": "Give me a minute.",
+     "goto": "wait"
+    }
+   ]
+  },
+  "wait": {
+   "portrait": "annoyed",
+   "text": [
+    "Take two. The board isn't going anywhere and neither, apparently, are you."
+   ]
+  },
+  "post_match": {
+   "branches": [
+    {
+     "if": [
+      [
+       "unranked"
+      ]
+     ],
+     "goto": "first_rating"
+    },
+    {
+     "goto": "post_match_result"
+    }
+   ]
+  },
+  "beaten": {
+   "portrait": "annoyed",
+   "actions": [
+    [
+     "set_flag",
+     "kesh_lost_once",
+     true
+    ]
+   ],
+   "text": [
+    "Right.",
+    "I know exactly where that went wrong for me and I am not going to tell you, because you'll only do it again.",
+    "That was a real win. I'm saying that once and then I'm going to go and be quietly furious by the kettle.",
+    "Hana was watching, by the way. She watches everything. Go and talk to her -- she'll have something for you."
+   ],
+   "goto": "after_result"
+  },
+  "beaten_twice": {
+   "portrait": "annoyed",
+   "text": [
+    "Twice. Twice! Fine. You're not a beginner any more, you're a problem.",
+    "Again. Now."
+   ],
+   "goto": "after_result"
+  },
+  "won": {
+   "actions": [
+    [
+     "set_flag",
+     "kesh_won_once",
+     true
+    ]
+   ],
+   "text": [
+    "That's the game. You know where it went now, so I'm not going to say it twice.",
+    "Which is what everyone does at your strength, by the way. It's what I did for a year.",
+    "Hana was watching from the counter. She always is. Go and speak to her, she likes a fresh disaster."
+   ],
+   "goto": "after_result"
+  },
+  "rematch_offer": {
+   "text": [
+    "Another? Say the word. I've got all afternoon and a long memory."
+   ],
+   "choices": [
+    {
+     "text": "Again.",
+     "exit": {
+      "type": "start_match",
+      "profile": "kesh_9x9",
+      "context": "kesh_rematch",
+      "intro": "Rematch. Same board, same colours."
+     }
+    },
+    {
+     "text": "Later.",
+     "goto": "later"
+    }
+   ]
+  },
+  "later": {
+   "text": [
+    "Later, then. I'll be here. Obviously I'll be here."
+   ]
+  },
+  "first_rating": {
+   "actions": [
+    [
+     "rank",
+     "22k"
+    ],
+    [
+     "set_flag",
+     "ranked_by_club"
+    ],
+    [
+     "toast",
+     "The club has you on the ladder at 22 kyu."
+    ]
+   ],
+   "text": [
+    "Hold on. Before you go anywhere -- that was a rated game, so it goes on the hooks. Tomas writes them up whether you ask him to or not.",
+    "Twenty-two kyu. Everyone starts there and everyone resents it. It isn't an insult, it's a starting position."
+   ],
+   "goto": "post_match_result"
+  },
+  "post_match_result": {
+   "branches": [
+    {
+     "if": [
+      [
+       "beat",
+       "kesh"
+      ],
+      [
+       "flag_at_least",
+       "record_kesh_win",
+       2
+      ]
+     ],
+     "goto": "beaten_twice"
+    },
+    {
+     "if": [
+      [
+       "beat",
+       "kesh"
+      ]
+     ],
+     "goto": "beaten"
+    },
+    {
+     "goto": "won"
+    }
+   ]
+  },
+  "at_institute": {
+   "text": [
+    "You came. I said you would and Wren said you wouldn't, so I have won something already this week.",
+    "I enrolled the same day. Bottom of the lower league, same as you, which means the board has us next to each other where everyone can see.",
+    "I am going to be above you on it. I want that said out loud at the start so there is no confusion later."
+   ],
+   "goto": "institute_offer"
+  },
+  "institute_offer": {
+   "text": [
+    "League game? It counts here. That is the entire appeal."
+   ],
+   "choices": [
+    {
+     "text": "It counts. Go on.",
+     "exit": {
+      "type": "start_match",
+      "profile": "kesh_9x9",
+      "context": "league_kesh"
+     }
+    },
+    {
+     "text": "Later.",
+     "goto": "later"
+    }
+   ]
+  },
+  "offer_escape": {
+   "text": [
+    "Hold on. Before anything else -- I cut you in that game and you let the pieces die, and that is the single thing standing between you and being a nuisance to me.",
+    "A group on one liberty is not dead. It is nearly dead. Ten minutes and you will never lose one of those again."
+   ],
+   "choices": [
+    {
+     "text": "Show me.",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "escape"
+     }
+    },
+    {
+     "text": "Not now.",
+     "goto": "rematch_offer"
+    }
+   ]
+  },
+  "offer_connection": {
+   "text": [
+    "Right. You can run. Now the half that stops you having to.",
+    "I cut. Everyone tells you that like it is a warning. It is actually an instruction -- watch where I do it and you will know where your own shape is thin."
+   ],
+   "choices": [
+    {
+     "text": "Show me.",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "connection"
+     }
+    },
+    {
+     "text": "Not now.",
+     "goto": "rematch_offer"
+    }
+   ]
+  },
+  "after_result": {
+   "branches": [
+    {
+     "if": [
+      [
+       "not_flag",
+       "lesson_escape_done"
+      ]
+     ],
+     "goto": "offer_escape"
+    },
+    {
+     "if": [
+      [
+       "not_flag",
+       "lesson_connection_done"
+      ]
+     ],
+     "goto": "offer_connection"
+    },
+    {
+     "goto": "rematch_offer"
+    }
+   ]
+  }
+ }
+}

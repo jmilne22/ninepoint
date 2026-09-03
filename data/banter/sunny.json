@@ -1,0 +1,37 @@
+{
+ "id": "sunny",
+ "lines": {
+  "you_captured": [
+   "Ooh! Nice.",
+   "That was GOOD. Do it again."
+  ],
+  "you_captured_big": [
+   "WOW. Okay. Okay okay okay. Hang on.",
+   "You're the first person to do that to me this month!"
+  ],
+  "i_captured": [
+   "Got them!",
+   "Mine. Sorry!"
+  ],
+  "i_captured_big": [
+   "I saw that four moves ago and I've been WAITING.",
+   "That's the whole thing! Did you see it coming? I did."
+  ],
+  "ko": [
+   "KO! I'm really good at ko. Mum says I shouldn't say that."
+  ],
+  "i_atari": [
+   "Atari! Atari atari atari.",
+   "That one's nearly dead!"
+  ],
+  "winning": [
+   "I'm winning. You can resign if you want, Mum says I have to offer."
+  ],
+  "losing": [
+   "You're winning! That's exciting. I'm going to think for ages now."
+  ],
+  "level": [
+   "This is getting complicated. That's the good bit."
+  ]
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "id": "live_2",
+ "title": "The Vital Point",
+ "teacher": "hana",
+ "size": 9,
+ "to_move": "black",
+ "kind": "live",
+ "alive_at": [
+  1,
+  1
+ ],
+ "board": [
+  "OOOOOOO..",
+  "OXXXXXO..",
+  "OX...XO..",
+  "OXXXXXO..",
+  "OOOOOOO..",
+  ".........",
+  ".........",
+  ".........",
+  "........."
+ ],
+ "goal": "Black to play, and surrounded. Live anyway.",
+ "hint": "White wants this point too. Get there first.",
+ "solutions": [
+  [
+   3,
+   2
+  ]
+ ],
+ "target": [
+  [
+   1,
+   1
+  ]
+ ],
+ "explanation": "The point that kills and the point that lives are the same point. That is what a vital point is, and why life and death is usually a race for one intersection."
+}

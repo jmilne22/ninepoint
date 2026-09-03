@@ -1,0 +1,116 @@
+[
+ {
+  "wait": 1.0,
+  "shot": "title_with_save"
+ },
+ {
+  "tap": "move_down",
+  "note": "select Continue"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.8,
+  "shot": "loaded_from_save"
+ },
+ {
+  "talk_to": "kesh"
+ },
+ {
+  "wait": 0.5,
+  "shot": "kesh_after_a_win"
+ },
+ {
+  "advance": 20,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.3,
+  "shot": "kesh_rematch_offer"
+ },
+ {
+  "choose": 1,
+  "note": "not right now"
+ },
+ {
+  "advance": 10
+ },
+ {
+  "wait": 0.4,
+  "shot": "after_kesh_win_path"
+ },
+ {
+  "talk_to": "hana"
+ },
+ {
+  "wait": 0.4,
+  "shot": "hana_after_win"
+ },
+ {
+  "advance": 20,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0,
+  "note": "show me the problem"
+ },
+ {
+  "wait": 1.8,
+  "shot": "puzzle_board"
+ },
+ {
+  "tap": "move_left",
+  "times": 3
+ },
+ {
+  "tap": "interact",
+  "note": "a wrong answer first"
+ },
+ {
+  "wait": 1.6,
+  "shot": "puzzle_wrong"
+ },
+ {
+  "tap": "move_right",
+  "times": 4
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "wait": 0.3,
+  "shot": "puzzle_cursor_on_answer"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.2,
+  "shot": "puzzle_solved"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.2,
+  "shot": "back_in_club"
+ },
+ {
+  "tap": "menu"
+ },
+ {
+  "wait": 0.4,
+  "shot": "pause_menu"
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.8,
+  "shot": "saved"
+ }
+]

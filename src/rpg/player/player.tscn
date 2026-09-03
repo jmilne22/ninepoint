@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/rpg/player/player.gd" id="1_player"]
+[ext_resource type="Script" path="res://src/rpg/components/character_sprite.gd" id="2_sprite"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(9, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_probe"]
+size = Vector2(14, 14)
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 1
+motion_mode = 1
+script = ExtResource("1_player")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+script = ExtResource("2_sprite")
+
+[node name="Body" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Probe" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+monitoring = true
+
+[node name="Shape" type="CollisionShape2D" parent="Probe"]
+shape = SubResource("RectangleShape2D_probe")

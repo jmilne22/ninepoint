@@ -1,0 +1,40 @@
+{
+ "id": "default",
+ "intro": ["Let's look at it again while it's fresh."],
+ "outro": ["That's the game. Again whenever you like."],
+ "unqualified": [
+  "You want me to tell you what went wrong? I've no idea. I was busy playing it.",
+  "Ask somebody with a card on the wall. I'd only be guessing."
+ ],
+ "lines": {
+  "good_capture": [
+   "Move {move}. {stones} stones in one go. You saw that before I did.",
+   "Move {move}. That was {stones} stones off the board and it wasn't luck. Remember the shape."
+  ],
+  "good_save": [
+   "Move {move}. One liberty left, and you got the group out into open space. That's the whole skill, that is."
+  ],
+  "atari_ignored": [
+   "Move {move}. This group had one liberty. One. {liberty} was empty and yours for the taking, and you played {played} instead.",
+   "Move {move}. Look at it. One liberty, and you went off to {played}. It came off the board a few moves later."
+  ],
+  "died_savable": [
+   "Move {move}. {save} saves this group -- it was still there for you. You played {played}, and that was that."
+  ],
+  "own_eye_filled": [
+   "Move {move}. You filled in your own eye. A group wants two of those to live, and you'd just gone from one to none."
+  ],
+  "self_atari": [
+   "Move {move}. You put {stones} of your own stones onto a single liberty. Nobody made you do that."
+  ],
+  "capture_missed": [
+   "Move {move}. {stones} of mine, sitting on one liberty, and {liberty} stayed empty. I kept expecting you to take them."
+  ],
+  "first_line_early": [
+   "Move {move}, on the first line, that early. The edge gives you almost nothing. Corner, then side, then the middle."
+  ],
+  "ladder_failed": [
+   "Move {move}. You ran, I followed, you ran again. A ladder only works if it runs into something of yours -- read it to the end before you start."
+  ]
+ }
+}

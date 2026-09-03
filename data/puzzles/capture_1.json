@@ -1,0 +1,23 @@
+{
+"id": "capture_1",
+"title": "One Liberty",
+"teacher": "hana",
+"size": 9,
+"to_move": "black",
+"board": [
+ ".........",
+ ".........",
+ ".........",
+ "....XXX..",
+ "...XOOX..",
+ "...XO....",
+ "....XX...",
+ ".........",
+ "........."
+],
+"goal": "Black to play. Capture the white stones.",
+"hint": "Count the white group's liberties. How many empty points is it still touching?",
+"solutions": [[5, 5]],
+"target": [[4, 4], [5, 4], [4, 5]],
+"explanation": "The white group was touching exactly one empty point -- it was in atari. Filling that point takes the whole group off the board, however many stones it holds. Before every move you make, count the liberties of anything you care about."
+}

@@ -1,0 +1,56 @@
+[
+ {
+  "wait": 0.8,
+  "shot": "title"
+ },
+ {
+  "tap": "interact",
+  "note": "New Game"
+ },
+ {
+  "wait": 1.8,
+  "shot": "board_fades_up"
+ },
+ {
+  "wait": 1.2,
+  "shot": "hana_speaks"
+ },
+ {
+  "tap": "interact",
+  "times": 2,
+  "gap": 1.1
+ },
+ {
+  "wait": 0.6,
+  "shot": "second_line"
+ },
+ {
+  "tap": "interact",
+  "times": 8,
+  "gap": 0.8
+ },
+ {
+  "wait": 1.0,
+  "shot": "name_prompt"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.2,
+  "shot": "name_accepted"
+ },
+ {
+  "wait": 2.4,
+  "shot": "steenbeek"
+ },
+ {
+  "tap": "interact",
+  "times": 12,
+  "gap": 0.35
+ },
+ {
+  "wait": 0.6,
+  "shot": "after_intro"
+ }
+]

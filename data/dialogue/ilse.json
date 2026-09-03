@@ -1,0 +1,148 @@
+{
+ "id": "ilse",
+ "nodes": {
+  "start": {
+   "branches": [
+    {
+     "if": [
+      [
+       "played_at_least",
+       "ilse",
+       3
+      ],
+      [
+       "not_flag",
+       "arc_ilse_3"
+      ]
+     ],
+     "goto": "ilse_stage_2"
+    },
+    {
+     "if": [
+      [
+       "played_at_least",
+       "ilse",
+       6
+      ],
+      [
+       "not_flag",
+       "arc_ilse_6"
+      ]
+     ],
+     "goto": "ilse_stage_3"
+    },
+    {
+     "if": [
+      [
+       "beat",
+       "ilse"
+      ]
+     ],
+     "goto": "after_win"
+    },
+    {
+     "if": [
+      [
+       "lost_to",
+       "ilse"
+      ]
+     ],
+     "goto": "after_loss"
+    },
+    {
+     "goto": "first"
+    }
+   ]
+  },
+  "first": {
+   "text": [
+    "Ilse Brandt, nine kyu. You are the one Hana brought in, so you will not have read anything yet.",
+    "I have read all of it. Four books on the opening and two on the endgame, and I am nine kyu, which I would like you to think about carefully before you decide reading is the answer.",
+    "The sequences are correct. I am the part that goes wrong."
+   ],
+   "goto": "offer"
+  },
+  "offer": {
+   "text": [
+    "Do you want a league game? It goes on the board either way."
+   ],
+   "choices": [
+    {
+     "text": "Yes. Let's play.",
+     "exit": {
+      "type": "start_match",
+      "profile": "ilse_9x9",
+      "context": "league_ilse"
+     }
+    },
+    {
+     "text": "Not now.",
+     "goto": "later"
+    }
+   ]
+  },
+  "later": {
+   "text": [
+    "Fine. I will be here. Page ninety-one."
+   ]
+  },
+  "after_win": {
+   "portrait": "annoyed",
+   "text": [
+    "You went outside the book. There is no follow-up written for that, because it is not good.",
+    "It also beat me. I am recording both of those facts and I have not reconciled them."
+   ],
+   "goto": "offer"
+  },
+  "after_loss": {
+   "text": [
+    "That was the standard sequence, and it worked, and I will take no credit for it.",
+    "Read the first forty pages. Then come back and beat me with something that is not in them."
+   ],
+   "goto": "offer"
+  },
+  "post_match": {
+   "branches": [
+    {
+     "if": [
+      [
+       "beat",
+       "ilse"
+      ]
+     ],
+     "goto": "after_win"
+    },
+    {
+     "goto": "after_loss"
+    }
+   ]
+  },
+  "ilse_stage_3": {
+   "actions": [
+    [
+     "set_flag",
+     "arc_ilse_6"
+    ]
+   ],
+   "text": [
+    "Six now. I have read four books on the opening and two on the endgame and I am nine kyu, and you have read nothing.",
+    "I have decided the books are not the problem. I read them the way you would read a timetable -- to know what happens, not to work out why.",
+    "So. From now on I am going to try to be wrong on purpose, occasionally, and see what happens. Do not congratulate me, it is humiliating."
+   ],
+   "goto": "post_match"
+  },
+  "ilse_stage_2": {
+   "actions": [
+    [
+     "set_flag",
+     "arc_ilse_3"
+    ]
+   ],
+   "text": [
+    "Three games. I have been keeping the record, obviously, and I have noticed something and I would rather say it than keep noticing it.",
+    "You play moves that are not in any book, and roughly half of them are better than the book. I do not know what to do with that."
+   ],
+   "goto": "post_match"
+  }
+ }
+}

@@ -1,0 +1,53 @@
+; Ninepoint -- a Go RPG. See ARCHITECTURE.md.
+config_version=5
+
+[application]
+
+config/name="Ninepoint"
+config/description="A top-down RPG about learning to play Go."
+run/main_scene="res://src/ui/title_screen.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+config/icon="res://art/ui/icon.png"
+
+[autoload]
+
+EventBus="*res://src/autoload/event_bus.gd"
+GameState="*res://src/autoload/game_state.gd"
+SaveSystem="*res://src/autoload/save_system.gd"
+SceneRouter="*res://src/autoload/scene_router.gd"
+MatchBridge="*res://src/autoload/match_bridge.gd"
+Quests="*res://src/quest/quest_tracker.gd"
+GameInput="*res://src/autoload/game_input.gd"
+Autopilot="*res://src/autoload/autopilot.gd"
+Audio="*res://src/autoload/audio.gd"
+
+[display]
+
+window/size/viewport_width=384
+window/size/viewport_height=216
+window/size/window_width_override=1152
+window/size/window_height_override=648
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+; Integer scaling only: a fractional upscale of a 384x216 framebuffer smears
+; every pixel and every glyph edge.
+window/stretch/scale_mode="integer"
+
+[gui]
+
+theme/custom="res://art/ui/ninepoint_theme.tres"
+theme/default_font_antialiasing=0
+theme/default_font_subpixel_positioning=0
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/canvas_textures/default_texture_filter=0
+2d/snap/snap_2d_transforms_to_pixel=true
+2d/snap/snap_2d_vertices_to_pixel=true
+environment/defaults/default_clear_color=Color(0.078, 0.071, 0.102, 1)
+
+[physics]
+
+2d/default_gravity=0.0

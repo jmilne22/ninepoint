@@ -1,0 +1,97 @@
+{
+ "id": "capture",
+ "title": "Capture",
+ "teacher": "wren",
+ "size": 7,
+ "intro": [
+  "When a chain's last liberty is filled, it comes off the board. That is a capture, and it is the only way a stone ever leaves.",
+  "A chain down to one liberty is said to be in atari. Say it out loud once and you will never forget it."
+ ],
+ "steps": [
+  {
+   "board": [
+    "..X....",
+    "..OX...",
+    "..X....",
+    ".......",
+    ".......",
+    ".......",
+    "......."
+   ],
+   "to_move": "black",
+   "instruction": "The white stone has one liberty left. Take it.",
+   "accept": "capture",
+   "show_liberties": true,
+   "target": [
+    [
+     2,
+     1
+    ]
+   ],
+   "hint": "Put your cursor on the white stone and look at where the ring is.",
+   "explanation": "Filling the last liberty lifts the stone off the board. It is now a prisoner, and at the end of the game it will be worth a point."
+  },
+  {
+   "board": [
+    ".......",
+    "...XX..",
+    "..XOOX.",
+    "..XO...",
+    "...X...",
+    ".......",
+    "......."
+   ],
+   "to_move": "black",
+   "instruction": "Three white stones this time, and still one liberty between them. Take all three.",
+   "accept": "capture",
+   "show_liberties": true,
+   "target": [
+    [
+     3,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     3,
+     3
+    ]
+   ],
+   "hint": "A chain shares its liberties. Find the single empty point they are all relying on.",
+   "explanation": "Chains are captured whole. It makes no difference whether it is one stone or twenty -- fill the last liberty and every stone in the chain comes off together. This is why a big chain with few liberties is far more dangerous to own than a small one with many."
+  },
+  {
+   "board": [
+    ".......",
+    "...X...",
+    "..XOX..",
+    "..XOX..",
+    ".......",
+    ".......",
+    "......."
+   ],
+   "to_move": "black",
+   "instruction": "Two white stones, one liberty. Finish it.",
+   "accept": "capture",
+   "show_liberties": true,
+   "target": [
+    [
+     3,
+     2
+    ],
+    [
+     3,
+     3
+    ]
+   ],
+   "hint": "Look underneath.",
+   "explanation": "You have now captured a stone, a chain of three, and a chain of two. That is the whole of capturing. Everything harder in Go is this move, seen further ahead."
+  }
+ ],
+ "outro": [
+  "Good. You know how to take stones off the board.",
+  "The fastest way to get comfortable with it is a game where capturing is the only thing that matters -- Capture Go. Pip plays it in the park, endlessly, and loses cheerfully. Go and find him."
+ ]
+}

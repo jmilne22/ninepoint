@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/rpg/npc/npc.gd" id="1_npc"]
+[ext_resource type="Script" path="res://src/rpg/components/character_sprite.gd" id="2_sprite"]
+[ext_resource type="Script" path="res://src/rpg/components/interactable.gd" id="3_inter"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_npc"]
+size = Vector2(9, 6)
+
+[node name="Npc" type="CharacterBody2D"]
+collision_layer = 1
+collision_mask = 1
+motion_mode = 1
+script = ExtResource("1_npc")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+script = ExtResource("2_sprite")
+
+[node name="Body" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_npc")
+
+[node name="Interact" type="Area2D" parent="."]
+script = ExtResource("3_inter")
+
+[node name="Shape" type="CollisionShape2D" parent="Interact"]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_npc")

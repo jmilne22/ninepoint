@@ -1,0 +1,212 @@
+{
+ "name": "The Bondszaal",
+ "size": [
+  20,
+  14
+ ],
+ "tile_size": 16,
+ "legend": {
+  "^": "roof_ridge",
+  "#": "roof_slate",
+  "R": "roof_rust",
+  "~": "roof_eave",
+  "C": "chimney",
+  "W": "wall_plaster",
+  "w": "wall_plaster_win",
+  "B": "wall_base",
+  "D": "door_wood",
+  "d": "door_club",
+  "F": "door_glass",
+  "S": "sign_hanging",
+  "A": "awning",
+  "P": "pavement",
+  "K": "kerb",
+  "c": "cobble_a",
+  "v": "cobble_b",
+  "g": "grass_a",
+  "h": "grass_b",
+  "j": "grass_c",
+  "f": "grass_flowers",
+  "T": "tree_tl",
+  "t": "tree_tr",
+  "U": "tree_bl",
+  "u": "tree_br",
+  "H": "hedge",
+  "-": "fence_h",
+  "|": "fence_post",
+  "b": "bench",
+  "s": "stone_table",
+  "n": "noticeboard",
+  "L": "lamp_post",
+  "p": "planter",
+  "o": "post_box",
+  "x": "void",
+  "e": "bush",
+  "r": "gravel",
+  "z": "drain",
+  "a": "asphalt",
+  "=": "tram_rail_h",
+  "!": "tram_rail_v",
+  "q": "puddle",
+  "%": "cobble_wet",
+  ":": "canal",
+  ";": "quay_edge",
+  "J": "bollard",
+  "y": "bike_rack",
+  "l": "tram_pole",
+  "m": "wall_brick",
+  "0": "wall_brick_win",
+  "_": "wall_brick_base",
+  "&": "graffiti",
+  "5": "shutter",
+  "6": "shutter_sign",
+  "(": "arch_left",
+  ")": "arch_right",
+  "7": "arch_shade",
+  "8": "neon_sign",
+  "9": "snack_window",
+  "<": "stairs_down",
+  "+": "concrete",
+  "*": "glass_curtain",
+  "$": "stove",
+  "?": "hooks",
+  ",": "floor_concrete",
+  "1": "floor_wood_a",
+  "2": "floor_wood_b",
+  "3": "floor_mat",
+  "4": "rug",
+  "I": "wall_int",
+  "i": "wall_int_base",
+  "N": "wall_int_win",
+  "V": "shelf_books",
+  "O": "counter",
+  "G": "go_table",
+  "E": "go_table_empty",
+  "X": "chair",
+  "Y": "kifu_board",
+  "Q": "plant_int",
+  "Z": "kettle_table",
+  "M": "door_int"
+ },
+ "ground": [
+  "IIIIIIIIIIIIIIIIIIII",
+  "IIININIIIIIIIININIII",
+  "iiiiiiiiiYYiiiiiiiii",
+  "i21212121212121212Vi",
+  "iO21212121212121212i",
+  "i212X212X212X212X21i",
+  "i121G121G121E121E12i",
+  "i212X212X212X212X21i",
+  "i121X121X121X121X12i",
+  "i212E212E212E212E21i",
+  "i121X121X121X121X12i",
+  "i21212121212121212Qi",
+  "i121212121212121212i",
+  "iiiiiiiiiMMiiiiiiiii"
+ ],
+ "decor": [
+  "                    ",
+  "                    ",
+  "                    ",
+  "                    ",
+  "                    ",
+  "                    ",
+  "                    ",
+  "                    ",
+  "                    ",
+  "                    ",
+  "                    ",
+  "                    ",
+  "                    ",
+  "                    "
+ ],
+ "solid": [
+  "11111111111111111111",
+  "11111111111111111111",
+  "11111111111111111111",
+  "10000000000000000011",
+  "11000000000000000001",
+  "10001000100010001001",
+  "10001000100010001001",
+  "10001000100010001001",
+  "10001000100010001001",
+  "10001000100010001001",
+  "10001000100010001001",
+  "10000000000000000011",
+  "10000000000000000001",
+  "11111111100111111111"
+ ],
+ "spawns": {
+  "from_tram": [
+   9,
+   12
+  ],
+  "front": [
+   9,
+   3
+  ]
+ },
+ "warps": [
+  {
+   "tile": [
+    9,
+    13
+   ],
+   "map": "ketelsteeg",
+   "spawn": "from_tram",
+   "prompt": "Tram 4, back to Steenbeek"
+  },
+  {
+   "tile": [
+    10,
+    13
+   ],
+   "map": "ketelsteeg",
+   "spawn": "from_tram",
+   "prompt": "Tram 4, back to Steenbeek"
+  }
+ ],
+ "signs": [
+  {
+   "tile": [
+    9,
+    2
+   ],
+   "text": "__CUP_BOARD__"
+  },
+  {
+   "tile": [
+    10,
+    2
+   ],
+   "text": "__CUP_BOARD__"
+  },
+  {
+   "tile": [
+    1,
+    4
+   ],
+   "text": "THE VERHAVEN GO FEDERATION. A hired room, four times a year, and a cupboard the rest of it. The urn is municipal and so is the tea."
+  },
+  {
+   "tile": [
+    18,
+    3
+   ],
+   "text": "Bound volumes of every result the federation has recorded since 1954. Somebody's first game is in here and they are dead now."
+  }
+ ],
+ "npcs": [
+  {
+   "id": "marguerite",
+   "tile": [
+    2,
+    4
+   ],
+   "dir": "right",
+   "idle": "tend"
+  }
+ ],
+ "music": "institute",
+ "indoors": true
+}

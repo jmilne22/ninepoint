@@ -1,0 +1,128 @@
+{
+ "id": "escape",
+ "title": "Run",
+ "teacher": "kesh",
+ "size": 9,
+ "intro": [
+  "Right. You know how a group dies. Now the other half of it, which nobody teaches you because it is less satisfying.",
+  "A group on one liberty is not dead. It is *nearly* dead. The difference is whether there is anywhere left to run to."
+ ],
+ "steps": [
+  {
+   "board": [
+    ".........",
+    ".........",
+    "..O......",
+    ".OX......",
+    "..O......",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "black",
+   "instruction": "That black stone has one liberty. Play it, and get out.",
+   "accept": "points",
+   "points": [
+    [
+     3,
+     3
+    ]
+   ],
+   "liberties_after": 3,
+   "show_liberties": true,
+   "target": [
+    [
+     2,
+     3
+    ]
+   ],
+   "hint": "There is exactly one empty point touching it. Go there.",
+   "explanation": "One stone, one liberty, and now it is two stones with three. Extending does not just add a stone -- it moves the group into space that was not surrounded yet, and takes that space with it."
+  },
+  {
+   "board": [
+    ".........",
+    ".........",
+    ".........",
+    "..OO.....",
+    ".OXX.....",
+    "..OO.....",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "black",
+   "instruction": "Two stones this time, and still one liberty. Same idea.",
+   "accept": "points",
+   "points": [
+    [
+     4,
+     4
+    ]
+   ],
+   "liberties_after": 3,
+   "show_liberties": true,
+   "target": [
+    [
+     2,
+     4
+    ],
+    [
+     3,
+     4
+    ]
+   ],
+   "hint": "Look at where the wall stops.",
+   "explanation": "Three liberties again. Notice what did the work: the point you played had empty points of its own. Running into a gap that is itself surrounded buys you nothing."
+  },
+  {
+   "board": [
+    ".........",
+    ".........",
+    ".........",
+    "..OOOO...",
+    ".OXXXX...",
+    "..OOOO...",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "black",
+   "instruction": "Four stones now. Considerably more to lose.",
+   "accept": "points",
+   "points": [
+    [
+     6,
+     4
+    ]
+   ],
+   "liberties_after": 3,
+   "show_liberties": true,
+   "target": [
+    [
+     2,
+     4
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     4,
+     4
+    ],
+    [
+     5,
+     4
+    ]
+   ],
+   "hint": "The end of the wall, same as before.",
+   "explanation": "Four stones is worth more than one, and the move that saves them is exactly the same move. Big groups do not need clever answers. They need you to notice in time."
+  }
+ ],
+ "outro": [
+  "That is the whole of it. Count the liberties, and if it is one, look for the way out before you look for anything else.",
+  "I lose games to people who see the atari and then spend the move somewhere more interesting. Do not be that."
+ ]
+}

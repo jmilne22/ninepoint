@@ -1,0 +1,32 @@
+{
+ "id": "dov",
+ "lines": {
+  "you_captured": [
+   "Two off. So that's -- hold on. Sorry."
+  ],
+  "you_captured_big": [
+   "Seven, eight, nine. Nine stones. That changes the count considerably."
+  ],
+  "i_captured": [
+   "Three. Plus the two from before. Five."
+  ],
+  "i_captured_big": [
+   "Eleven, twelve, thirteen. Thirteen. I'll want to write that down."
+  ],
+  "ko": [
+   "Ko. That's a complication and I'll lose count."
+  ],
+  "i_atari": [
+   "Atari. One liberty. I count them out loud, I'm told it's irritating."
+  ],
+  "winning": [
+   "I make it about six ahead. Six and a half with the komi."
+  ],
+  "losing": [
+   "You're ahead by -- eleven? Twelve. Twelve."
+  ],
+  "level": [
+   "Level. I've counted it three times and I keep getting level."
+  ]
+ }
+}

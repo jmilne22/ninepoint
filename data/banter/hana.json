@@ -1,0 +1,32 @@
+{
+ "id": "hana",
+ "lines": {
+  "you_captured": [
+   "Good. Do you know why it worked?"
+  ],
+  "you_captured_big": [
+   "That is a large group. What told you it was going to die?"
+  ],
+  "i_captured": [
+   "Take a moment. What was the move that lost those?"
+  ],
+  "i_captured_big": [
+   "Do not look at where they came off. Look at where it started."
+  ],
+  "ko": [
+   "A ko. Count what you have to threaten with before you take it again."
+  ],
+  "you_edge_early": [
+   "The first line, this early. How many points does the edge enclose?"
+  ],
+  "winning": [
+   "I am ahead. That is not the interesting part -- where is the game still open?"
+  ],
+  "losing": [
+   "You are ahead. Now: what would you play if you were me?"
+  ],
+  "level": [
+   "Even, near enough. Take your time. There is a move here."
+  ]
+ }
+}

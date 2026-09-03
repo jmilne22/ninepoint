@@ -1,0 +1,291 @@
+[
+ {
+  "note": "the review: play Kesh badly on purpose, then be told about it"
+ },
+ {
+  "wait": 1.0
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue from the lost_to_kesh save"
+ },
+ {
+  "wait": 2.2,
+  "shot": "a_de_ketel"
+ },
+ {
+  "note": "Kesh wanders, so close the distance before trying to talk"
+ },
+ {
+  "walk_to": [
+   12,
+   9
+  ]
+ },
+ {
+  "walk_to": [
+   14,
+   8
+  ],
+  "timeout": 5
+ },
+ {
+  "wait": 0.6
+ },
+ {
+  "talk_to": "kesh"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "talk_to": "kesh",
+  "note": "retry: she may have drifted a tile"
+ },
+ {
+  "advance": 14,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.3,
+  "shot": "b_rematch_offer"
+ },
+ {
+  "choose": 0,
+  "note": "Again."
+ },
+ {
+  "wait": 3.2,
+  "shot": "c_board"
+ },
+ {
+  "note": "nine stones down already; poke around the centre and lose things"
+ },
+ {
+  "tap": "move_up"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.9
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.9
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.9
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.9
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.9
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.9
+ },
+ {
+  "tap": "move_up"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.9
+ },
+ {
+  "tap": "move_up"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.9
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.9
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.9
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.9
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.9
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.9
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.9
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.9
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.9
+ },
+ {
+  "tap": "move_up"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.9
+ },
+ {
+  "tap": "move_up"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.9
+ },
+ {
+  "wait": 1.0,
+  "shot": "d_played_out"
+ },
+ {
+  "tap": "go_resign"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "tap": "go_resign"
+ },
+ {
+  "wait": 1.4,
+  "shot": "e_result"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "note": "the review runs before the world comes back"
+ },
+ {
+  "wait": 2.0,
+  "shot": "f_review_intro"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.0,
+  "shot": "g_review_1"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.0,
+  "shot": "h_review_2"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.0,
+  "shot": "i_review_3"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.0,
+  "shot": "j_review_outro"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.6,
+  "shot": "k_back_in_the_salon"
+ }
+]

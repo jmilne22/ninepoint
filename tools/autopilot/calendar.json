@@ -1,0 +1,21 @@
+[
+ {"wait": 0.8},
+ {"tap": "move_down"},
+ {"tap": "interact", "note": "Continue from the invited save"},
+ {"wait": 2.2, "shot": "a_street_afternoon"},
+ {"walk_to": [5, 9]},
+ {"walk_to": [5, 8], "timeout": 3, "note": "up to the attic"},
+ {"wait": 1.6},
+ {"walk_to": [3, 7], "note": "along the floor"},
+ {"walk_to": [3, 5], "note": "up beside the bed"},
+ {"face": [2, 5], "note": "turn to the bed"},
+ {"wait": 0.5},
+ {"tap": "interact"},
+ {"advance": 4, "stop_at_choice": true},
+ {"wait": 0.5, "shot": "b_the_bed_asks"},
+ {"choose": 0, "note": "Sleep."},
+ {"wait": 1.8, "shot": "c_next_morning"},
+ {"walk_to": [6, 7], "note": "down to the door"},
+ {"walk_to": [6, 8], "timeout": 4, "note": "out to the street"},
+ {"wait": 2.0, "shot": "d_street_morning"}
+]

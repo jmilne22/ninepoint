@@ -1,0 +1,32 @@
+{
+ "id": "bertie",
+ "lines": {
+  "you_captured": [
+   "Hah! Well."
+  ],
+  "you_captured_big": [
+   "Sit down, sit down. That was a proper move."
+  ],
+  "i_captured": [
+   "Corner, side, centre, lad."
+  ],
+  "i_captured_big": [
+   "Forty years, that shape. Forty years."
+  ],
+  "ko": [
+   "Ko. Count your threats, that's the whole of it."
+  ],
+  "you_edge_early": [
+   "First line! What did I tell you. Corner, side, centre."
+  ],
+  "winning": [
+   "I'm ahead. I'm territorial, see. I won't fight you, I'll out-count you."
+  ],
+  "losing": [
+   "You're ahead. Doesn't mean much yet."
+  ],
+  "level": [
+   "Level. Proverbs won't help either of us now."
+  ]
+ }
+}

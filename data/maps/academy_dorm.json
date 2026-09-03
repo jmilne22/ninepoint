@@ -1,0 +1,167 @@
+{
+ "name": "Essenveld Instituut -- Your Room",
+ "size": [
+  12,
+  10
+ ],
+ "tile_size": 16,
+ "legend": {
+  "^": "roof_ridge",
+  "#": "roof_slate",
+  "R": "roof_rust",
+  "~": "roof_eave",
+  "C": "chimney",
+  "W": "wall_plaster",
+  "w": "wall_plaster_win",
+  "B": "wall_base",
+  "D": "door_wood",
+  "d": "door_club",
+  "F": "door_glass",
+  "S": "sign_hanging",
+  "A": "awning",
+  "P": "pavement",
+  "K": "kerb",
+  "c": "cobble_a",
+  "v": "cobble_b",
+  "g": "grass_a",
+  "h": "grass_b",
+  "j": "grass_c",
+  "f": "grass_flowers",
+  "T": "tree_tl",
+  "t": "tree_tr",
+  "U": "tree_bl",
+  "u": "tree_br",
+  "H": "hedge",
+  "-": "fence_h",
+  "|": "fence_post",
+  "b": "bench",
+  "s": "stone_table",
+  "n": "noticeboard",
+  "L": "lamp_post",
+  "p": "planter",
+  "o": "post_box",
+  "x": "void",
+  "e": "bush",
+  "r": "gravel",
+  "z": "drain",
+  "a": "asphalt",
+  "=": "tram_rail_h",
+  "!": "tram_rail_v",
+  "q": "puddle",
+  "%": "cobble_wet",
+  ":": "canal",
+  ";": "quay_edge",
+  "J": "bollard",
+  "y": "bike_rack",
+  "l": "tram_pole",
+  "m": "wall_brick",
+  "0": "wall_brick_win",
+  "_": "wall_brick_base",
+  "&": "graffiti",
+  "5": "shutter",
+  "6": "shutter_sign",
+  "(": "arch_left",
+  ")": "arch_right",
+  "7": "arch_shade",
+  "8": "neon_sign",
+  "9": "snack_window",
+  "<": "stairs_down",
+  "+": "concrete",
+  "*": "glass_curtain",
+  "$": "stove",
+  "?": "hooks",
+  ",": "floor_concrete",
+  "1": "floor_wood_a",
+  "2": "floor_wood_b",
+  "3": "floor_mat",
+  "4": "rug",
+  "I": "wall_int",
+  "i": "wall_int_base",
+  "N": "wall_int_win",
+  "V": "shelf_books",
+  "O": "counter",
+  "G": "go_table",
+  "E": "go_table_empty",
+  "X": "chair",
+  "Y": "kifu_board",
+  "Q": "plant_int",
+  "Z": "kettle_table",
+  "M": "door_int"
+ },
+ "ground": [
+  "IIIIIIIIIIII",
+  "IIIINIINIIII",
+  "iiiiiiiiiiii",
+  "iVV1111111Qi",
+  "i1111111111i",
+  "i11111111X1i",
+  "i1Z111111G1i",
+  "i1Z11111111i",
+  "i1111111111i",
+  "iiiiiMiiiiii"
+ ],
+ "decor": [
+  "            ",
+  "            ",
+  "            ",
+  "            ",
+  "            ",
+  "            ",
+  "            ",
+  "            ",
+  "            ",
+  "            "
+ ],
+ "solid": [
+  "111111111111",
+  "111111111111",
+  "111111111111",
+  "111000000011",
+  "100000000001",
+  "100000000101",
+  "101000000101",
+  "101000000001",
+  "100000000001",
+  "111110111111"
+ ],
+ "spawns": {
+  "from_hall": [
+   5,
+   8
+  ],
+  "bed": [
+   3,
+   6
+  ]
+ },
+ "warps": [
+  {
+   "tile": [
+    5,
+    9
+   ],
+   "map": "academy_hall",
+   "spawn": "from_dorm",
+   "prompt": "Down to the hall"
+  }
+ ],
+ "signs": [
+  {
+   "tile": [
+    9,
+    6
+   ],
+   "text": "__DESK__The board from your old room, on a desk that is exactly the right size for it. Somebody has put it there deliberately."
+  },
+  {
+   "tile": [
+    2,
+    6
+   ],
+   "text": "__BED__A bed. Institute issue. You will be glad of it."
+  }
+ ],
+ "npcs": [],
+ "music": "",
+ "indoors": true
+}

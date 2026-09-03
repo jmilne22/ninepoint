@@ -1,0 +1,199 @@
+{
+ "name": "Onderbrug",
+ "size": [
+  24,
+  12
+ ],
+ "tile_size": 16,
+ "legend": {
+  "^": "roof_ridge",
+  "#": "roof_slate",
+  "R": "roof_rust",
+  "~": "roof_eave",
+  "C": "chimney",
+  "W": "wall_plaster",
+  "w": "wall_plaster_win",
+  "B": "wall_base",
+  "D": "door_wood",
+  "d": "door_club",
+  "F": "door_glass",
+  "S": "sign_hanging",
+  "A": "awning",
+  "P": "pavement",
+  "K": "kerb",
+  "c": "cobble_a",
+  "v": "cobble_b",
+  "g": "grass_a",
+  "h": "grass_b",
+  "j": "grass_c",
+  "f": "grass_flowers",
+  "T": "tree_tl",
+  "t": "tree_tr",
+  "U": "tree_bl",
+  "u": "tree_br",
+  "H": "hedge",
+  "-": "fence_h",
+  "|": "fence_post",
+  "b": "bench",
+  "s": "stone_table",
+  "n": "noticeboard",
+  "L": "lamp_post",
+  "p": "planter",
+  "o": "post_box",
+  "x": "void",
+  "e": "bush",
+  "r": "gravel",
+  "z": "drain",
+  "a": "asphalt",
+  "=": "tram_rail_h",
+  "!": "tram_rail_v",
+  "q": "puddle",
+  "%": "cobble_wet",
+  ":": "canal",
+  ";": "quay_edge",
+  "J": "bollard",
+  "y": "bike_rack",
+  "l": "tram_pole",
+  "m": "wall_brick",
+  "0": "wall_brick_win",
+  "_": "wall_brick_base",
+  "&": "graffiti",
+  "5": "shutter",
+  "6": "shutter_sign",
+  "(": "arch_left",
+  ")": "arch_right",
+  "7": "arch_shade",
+  "8": "neon_sign",
+  "9": "snack_window",
+  "<": "stairs_down",
+  "+": "concrete",
+  "*": "glass_curtain",
+  "$": "stove",
+  "?": "hooks",
+  ",": "floor_concrete",
+  "1": "floor_wood_a",
+  "2": "floor_wood_b",
+  "3": "floor_mat",
+  "4": "rug",
+  "I": "wall_int",
+  "i": "wall_int_base",
+  "N": "wall_int_win",
+  "V": "shelf_books",
+  "O": "counter",
+  "G": "go_table",
+  "E": "go_table_empty",
+  "X": "chair",
+  "Y": "kifu_board",
+  "Q": "plant_int",
+  "Z": "kettle_table",
+  "M": "door_int"
+ },
+ "ground": [
+  "mmmmmmmmmmmmmmmmmmmmmmmm",
+  "mmmmmmm&mmmmmmmmmmmmmmmm",
+  "mmm()mmmmm()mm&mm()mmmmm",
+  "___77_____77_____77_____",
+  "m7L777777L777777L777777m",
+  "m77777777777777E7777777m",
+  "m7777G777777q777777G777m",
+  "77777777777777777777777m",
+  "77777q77777G77777777777m",
+  "m7777777777777777777q77m",
+  "__%__%__%__%__%__%__%___",
+  "mmmmmmmmmmmmmmmmmmmmmmmm"
+ ],
+ "decor": [
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        ",
+  "                        "
+ ],
+ "solid": [
+  "111111111111111111111111",
+  "111111111111111111111111",
+  "111111111111111111111111",
+  "111001111100111110011111",
+  "101000000100000010000001",
+  "100000000000000100000001",
+  "100001000000000000010001",
+  "000000000000000000000001",
+  "000000000001000000000001",
+  "100000000000000000000001",
+  "110110110110110110110111",
+  "111111111111111111111111"
+ ],
+ "spawns": {
+  "from_street": [
+   1,
+   7
+  ],
+  "arch": [
+   18,
+   7
+  ]
+ },
+ "warps": [
+  {
+   "tile": [
+    0,
+    7
+   ],
+   "map": "ketelsteeg",
+   "spawn": "from_arch",
+   "prompt": "Out to Ketelsteeg"
+  },
+  {
+   "tile": [
+    0,
+    8
+   ],
+   "map": "ketelsteeg",
+   "spawn": "from_arch",
+   "prompt": "Out to Ketelsteeg"
+  }
+ ],
+ "signs": [
+  {
+   "tile": [
+    5,
+    6
+   ],
+   "text": "A board on an upturned crate, the lines worn pale in the middle where sixty years of hands have rested."
+  },
+  {
+   "tile": [
+    11,
+    8
+   ],
+   "text": "Coins on the corner of the crate, held down by a stone. Nobody counts them until the game is over."
+  },
+  {
+   "tile": [
+    2,
+    4
+   ],
+   "text": "One lamp per arch, and the furthest one has been out for years. Everybody sits where they can see; the man at the far end sits where he cannot be seen."
+  }
+ ],
+ "npcs": [
+  {
+   "id": "joos",
+   "tile": [
+    19,
+    7
+   ],
+   "dir": "up",
+   "idle": "watch"
+  }
+ ],
+ "music": "theme_arches",
+ "indoors": false
+}

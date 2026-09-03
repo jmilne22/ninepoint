@@ -1,0 +1,36 @@
+{
+ "id": "orla",
+ "lines": {
+  "you_captured": [
+   "Mm."
+  ],
+  "you_captured_big": [
+   "Right. That's a real move.",
+   "Now it's a game."
+  ],
+  "i_captured": [
+   "Thank you."
+  ],
+  "i_captured_big": [
+   "That group was never alive. You knew that, I think."
+  ],
+  "ko": [
+   "Ko."
+  ],
+  "i_atari": [
+   "Short."
+  ],
+  "you_edge_early": [
+   "The edge is worth nothing yet."
+  ],
+  "winning": [
+   "I'm ahead. It's early."
+  ],
+  "losing": [
+   "You're ahead. Say nothing, keep playing."
+  ],
+  "level": [
+   "Level. Good."
+  ]
+ }
+}

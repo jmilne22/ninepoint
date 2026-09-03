@@ -1,0 +1,38 @@
+{
+ "id": "live_1",
+ "title": "Make It Two",
+ "teacher": "hana",
+ "size": 9,
+ "to_move": "black",
+ "kind": "live",
+ "alive_at": [
+  0,
+  0
+ ],
+ "board": [
+  "XXXXX....",
+  "X...X....",
+  "XXXXX....",
+  ".........",
+  ".........",
+  ".........",
+  ".........",
+  ".........",
+  "........."
+ ],
+ "goal": "Black to play. Make this group impossible to kill.",
+ "hint": "Three empty points in a row. Divide them.",
+ "solutions": [
+  [
+   2,
+   1
+  ]
+ ],
+ "target": [
+  [
+   0,
+   0
+  ]
+ ],
+ "explanation": "Two eyes. White cannot play in either -- each would be a stone with no liberties -- and cannot fill both, because filling one is illegal while the other stands. That is what alive means."
+}

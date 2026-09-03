@@ -1,0 +1,90 @@
+{
+ "id": "nadia",
+ "nodes": {
+  "start": {
+   "branches": [
+    {
+     "if": [
+      [
+       "beat",
+       "nadia"
+      ]
+     ],
+     "goto": "after_win"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "enrolled"
+      ]
+     ],
+     "goto": "senior"
+    },
+    {
+     "goto": "stranger"
+    }
+   ]
+  },
+  "stranger": {
+   "text": [
+    "Two kyu. I have the book with me if you want to see the standard sequence. I always have the book with me."
+   ]
+  },
+  "senior": {
+   "text": [
+    "Nadia Ferreira, two kyu, fourth year. I sit in on the beginners' classes and I am not embarrassed about it.",
+    "Hana taught me corner-side-centre in this room eleven years ago and I still count it out on my fingers in real games.",
+    "That is not a confession. That is the advice."
+   ],
+   "goto": "offer"
+  },
+  "offer": {
+   "text": [
+    "I will give you stones. As many as it takes to make it a real game -- there is no dignity in a close loss."
+   ],
+   "choices": [
+    {
+     "text": "Please.",
+     "exit": {
+      "type": "start_match",
+      "profile": "nadia_9x9",
+      "context": "league_nadia"
+     }
+    },
+    {
+     "text": "Another time.",
+     "goto": "later"
+    }
+   ]
+  },
+  "later": {
+   "text": [
+    "The book will still be here. So, unfortunately, will page forty."
+   ]
+  },
+  "after_win": {
+   "portrait": "happy",
+   "text": [
+    "You beat me with fewer stones than last time. That is the only measurement that means anything and you should write it down."
+   ],
+   "goto": "offer"
+  },
+  "post_match": {
+   "branches": [
+    {
+     "if": [
+      [
+       "beat",
+       "nadia"
+      ]
+     ],
+     "goto": "after_win"
+    },
+    {
+     "goto": "senior"
+    }
+   ]
+  }
+ }
+}

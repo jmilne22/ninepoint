@@ -1,0 +1,41 @@
+{
+ "id": "capture_2",
+ "title": "Which Group Is In Trouble",
+ "teacher": "hana",
+ "size": 9,
+ "to_move": "black",
+ "board": [
+  ".........",
+  ".........",
+  "...XXX...",
+  "..XOOOX..",
+  "...XX....",
+  ".........",
+  ".......O.",
+  ".......O.",
+  "........."
+ ],
+ "goal": "Black to play. Capture the white stones that cannot get away.",
+ "hint": "There are two white groups on the board. Count the liberties of each before you touch a stone.",
+ "solutions": [
+  [
+   5,
+   4
+  ]
+ ],
+ "target": [
+  [
+   3,
+   3
+  ],
+  [
+   4,
+   3
+  ],
+  [
+   5,
+   3
+  ]
+ ],
+ "explanation": "The three stones in the middle were down to a single liberty; the pair on the right had four and was never in danger. Reading a position starts with asking which groups are short of liberties -- not which ones look surrounded."
+}
