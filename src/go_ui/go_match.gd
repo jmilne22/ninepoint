@@ -7,6 +7,9 @@ extends Control
 const THINK_DELAY := 0.35
 const THINK_DELAY_FAST := 0.05
 
+## How long the last word before the count stays up. See _opponent_turn.
+const PASS_BEAT := 1.1
+
 
 func _think_delay() -> float:
     return THINK_DELAY_FAST if Autopilot.active else THINK_DELAY
@@ -330,6 +333,16 @@ func _opponent_turn() -> void:
             game.pass_turn()
             Audio.play("pass")
             _set_message("%s passes." % request.opponent_name)
+            _react()
+            # A pass that ends the game is followed immediately by the counting
+            # screen, which writes its own message over this one -- so what they
+            # said about stopping would never be on screen long enough to read.
+            # Not _think_delay(): under autopilot that is 0.05s, and a beat
+            # nobody can screenshot is a beat nobody can check.
+            if game.state == GoGame.State.SCORING:
+                board_view.queue_redraw()
+                _refresh()
+                await get_tree().create_timer(PASS_BEAT).timeout
         "resign":
             game.resign(GoBoard.opponent(player_color))
             _set_message(profile.on_resign if profile.on_resign != "" \
@@ -638,6 +651,9 @@ func _input_board(event: InputEvent) -> bool:
             Audio.play("pass")
             _answered(-1)
             _set_message("You pass.")
+            # They have something to say about it, and it is the only warning a
+            # beginner gets that passing does not end a game on its own.
+            _react()
             _refresh()
     elif event.is_action_pressed("go_resign"):
         if phase == Phase.PLAYING and _awaiting == &"move":

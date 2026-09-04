@@ -31,6 +31,15 @@ static func events(game: GoGame, speaker: int) -> PackedStringArray:
     var mover := int(last.get("color", GoBoard.EMPTY))
     var mine := mover == speaker
     var point := int(last.get("point", -1))
+
+    # A pass is an event. It used to be the one thing that happened at the board
+    # and produced no tag at all, which left the match scene saying "Tomas
+    # passes." in the same flat words whoever was sitting there -- and left the
+    # player who passed first with nothing but silence to explain why the game
+    # was still going.
+    if point == GoGame.PASS:
+        out.append("i_pass" if mine else "you_pass")
+        return out
     if point < 0:
         return out
 

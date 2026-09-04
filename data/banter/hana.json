@@ -27,6 +27,14 @@
   ],
   "level": [
    "Even, near enough. Take your time. There is a move here."
+  ],
+  "i_pass": [
+   "I pass. There is nothing left that changes anything.",
+   "Nothing more. Shall we count it together?"
+  ],
+  "you_pass": [
+   "Are you sure? Count the edges once more before we stop.",
+   "Good. Knowing when it is over is most of the endgame."
   ]
  }
 }

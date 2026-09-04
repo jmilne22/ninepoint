@@ -39,6 +39,14 @@
   ],
   "level": [
    "Oh, this is close. I'm enjoying it and I'm terrified."
+  ],
+  "i_pass": [
+   "I can't see anything else worth playing. Pass?",
+   "I think that's it! Sorry, I mean -- I pass."
+  ],
+  "you_pass": [
+   "Oh -- are we counting? I never know when to stop either.",
+   "Right. Um. Hold on, let me look at it properly."
   ]
  }
 }

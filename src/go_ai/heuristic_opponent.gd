@@ -1,8 +1,9 @@
 ## The shipped opponent: a move-scoring policy tuned by OpponentProfile.
 ##
 ## It is not strong. It is *legible* -- it captures when it can, saves stones in
-## atari, avoids self-atari and its own eyes, prefers the third line early, and
-## refuses to fill its own settled territory. Different profiles genuinely play
+## atari, avoids self-atari and its own eyes, prefers the third line early,
+## refuses to fill settled territory on either side of the board, and stops when
+## there is nothing left to play for. Different profiles genuinely play
 ## differently, and none of them get worse because the human "levelled up".
 class_name HeuristicOpponent
 extends GoOpponent
@@ -13,7 +14,11 @@ const ATARI_WEIGHT := 5.0
 const CONNECT_WEIGHT := 1.5
 const CONTACT_WEIGHT := 1.2
 const SELF_ATARI_PENALTY := 20.0
-const PASS_THRESHOLD := 2.0
+
+## The lead, as a share of the board's points, past which a game is not in
+## doubt. Only read when the opponent has already passed: see the mercy rule in
+## choose_move(). ~15 points on 9x9, ~30 on 13x13.
+const MERCY_SHARE := 0.18
 
 ## How wide a weak player's shortlist gets. A 20 kyu does not play a random point
 ## on the board; they play the fourth-best move, confidently. mistake_rate scales
@@ -39,7 +44,15 @@ func setup(p: OpponentProfile, game: GoGame) -> void:
 func choose_move(game: GoGame) -> Dictionary:
     var color := game.to_move
     var board := game.board
-    var candidates := _candidates(game, color)
+    # Once per move, never per candidate: both of these walk the whole board.
+    var settled := GoEndgame.settled_points(board, color)
+    var candidates := _candidates(game, color, settled)
+
+    # Nothing contested is left, so the game is over. This is the whole of the
+    # pass rule, and it does not need the opponent's permission -- the old one
+    # fired only in reply to a pass, so against anybody who kept playing the
+    # opponent filled the dame, then its own territory, then invaded settled
+    # areas and died there, one stone at a time, until no legal move remained.
     if candidates.is_empty():
         return GoOpponent.pass_move()
 
@@ -47,25 +60,29 @@ func choose_move(game: GoGame) -> Dictionary:
         if _area_lead(board, color, game.komi) < -profile.resign_threshold:
             return GoOpponent.resign_move()
 
+    # The mercy rule. They have stopped and the game is not in doubt, so counting
+    # it is the courtesy. In a CLOSE game it plays on instead: the points that are
+    # left are real, and passing them back was what made a margin mean nothing.
+    var last := game.last_move()
+    if not last.is_empty() and int(last["point"]) == GoGame.PASS:
+        if absf(_area_lead(board, color, game.komi)) > MERCY_SHARE * float(board.cells.size()):
+            return GoOpponent.pass_move()
+
     var book := _book_move(game, color, candidates)
     if book >= 0:
         return GoOpponent.point_move(book)
 
+    # How much of the board is still anybody's. The positional term fades with
+    # it: the third line is worth four points on an empty board and nothing at
+    # all once the boundaries are drawn -- see _score_move.
+    var openness := GoEndgame.openness(board, settled)
+
     var ranked: Array = []
     for i in candidates:
-        ranked.append({"point": i, "score": _score_move(game, i, color)})
+        ranked.append({"point": i, "score": _score_move(game, i, color, openness)})
     ranked.sort_custom(func(a, b): return a["score"] > b["score"])
 
-    var chosen: Dictionary = _pick(ranked)
-    var best: int = int(chosen["point"])
-    var best_score: float = float(chosen["score"])
-
-    # If the opponent has passed and nothing here is worth much, pass back.
-    var last := game.last_move()
-    if not last.is_empty() and last["point"] == GoGame.PASS and best_score < PASS_THRESHOLD:
-        return GoOpponent.pass_move()
-
-    return GoOpponent.point_move(best)
+    return GoOpponent.point_move(int(_pick(ranked)["point"]))
 
 
 ## The corner star points, in order, while the book is still open. Ilse does not
@@ -103,14 +120,16 @@ func _pick(ranked: Array) -> Dictionary:
 
 # --- candidate generation ----------------------------------------------------
 
-func _candidates(game: GoGame, color: int) -> PackedInt32Array:
+func _candidates(game: GoGame, color: int, settled: Dictionary) -> PackedInt32Array:
     var board := game.board
-    var own_territory := _own_small_territory(board, color)
     var out := PackedInt32Array()
     for i in game.legal_moves(color):
         if board.is_eye_like(i, color):
             continue
-        if own_territory.has(i):
+        # Somebody's finished ground, on either side of the board. Filling your
+        # own hands a point back every time under Japanese scoring; walking into
+        # theirs is a stone that dies where it stands.
+        if settled.has(i):
             continue
         var probe := board.duplicate_board()
         var taken := probe.place(i, color)
@@ -120,22 +139,9 @@ func _candidates(game: GoGame, color: int) -> PackedInt32Array:
     return out
 
 
-## Empty regions enclosed solely by `color` and small enough to be settled.
-func _own_small_territory(board: GoBoard, color: int) -> Dictionary:
-    var limit: int = maxi(8, board.cells.size() / 4)
-    var out := {}
-    for region in GoScoring.empty_regions(board):
-        var borders: Dictionary = region["borders"]
-        var pts: PackedInt32Array = region["points"]
-        if borders.size() == 1 and borders.has(color) and pts.size() <= limit:
-            for p in pts:
-                out[p] = true
-    return out
-
-
 # --- move scoring ------------------------------------------------------------
 
-func _score_move(game: GoGame, i: int, color: int) -> float:
+func _score_move(game: GoGame, i: int, color: int, openness: float = 1.0) -> float:
     var board := game.board
     var enemy := GoBoard.opponent(color)
     var aggr: float = profile.aggression if profile != null else 1.0
@@ -213,8 +219,12 @@ func _score_move(game: GoGame, i: int, color: int) -> float:
     score += CONNECT_WEIGHT * float(friends)
     score += CONTACT_WEIGHT * float(foes) * aggr
 
-    # Position: the third line is worth more than the first.
-    score += _line_value(board, i) * terr
+    # Position: the third line is worth more than the first -- while there is
+    # still a board to divide. It fades as the board fills, because it is an
+    # opening heuristic and it used to be applied to the whole game: an isolated
+    # first-line point scored -4 for the entire endgame, which is exactly the
+    # endgame, and refusing to play it left real points on the board.
+    score += _line_value(board, i) * terr * openness
 
     # One ply of safety: do not leave the new chain short of liberties.
     if depth >= 1:
@@ -273,7 +283,7 @@ func _line_value(board: GoBoard, i: int) -> float:
         _: return 2.0
 
 
-## Crude area balance from `color`'s point of view, used only for resignation.
+## Crude area balance from `color`'s point of view: resignation and the mercy rule.
 func _area_lead(board: GoBoard, color: int, komi: float) -> float:
     var s := GoScoring.score(board, {}, {GoBoard.BLACK: 0, GoBoard.WHITE: 0}, komi, GoScoring.Rule.CHINESE)
     var mine: float = s["black"] if color == GoBoard.BLACK else s["white"]

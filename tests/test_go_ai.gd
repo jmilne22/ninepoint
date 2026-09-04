@@ -44,6 +44,7 @@ static func run(t: TestKit) -> void:
     _test_plausible_mistakes(t)
     _test_reading_depth(t)
     _test_styles(t)
+    _test_endgame(t)
     _test_rank_maths(t)
 
 
@@ -175,6 +176,243 @@ static func _play_and_record(p: OpponentProfile) -> PackedInt32Array:
         else:
             game.play(mv["point"])
     return out
+
+
+## Where the opponent stops, and what it refuses to play on the way there.
+##
+## Before M29 it passed only in reply to a pass, and only when its best move
+## scored under a threshold -- so against anybody who kept playing it filled the
+## dame, then its own territory, then invaded settled ground and died there one
+## stone at a time. A 13x13 self-play ran to 298 moves and three games in
+## twenty-four never ended at all.
+static func _test_endgame(t: TestKit) -> void:
+    t.section("ai: the endgame")
+
+    # The opening is not territory. An empty region borders one colour from the
+    # first move onwards, and on a handicap board it does so before either
+    # player has moved -- read as "settled" that is the whole board, and the
+    # opponent passes on move two. What stops it is the size of the region, so
+    # these two are the cap being asked the easiest question there is.
+    var opening := GoGame.new(9, 5.5, 0)
+    opening.play(opening.board.idx(4, 4))
+    var first := HeuristicOpponent.new()
+    first.setup(_profile(), opening)
+    t.eq(str(first.choose_move(opening)["type"]), "move",
+        "one stone on the board is not a settled position")
+
+    var handi := GoGame.new(9, 0.5, 5)
+    var second := HeuristicOpponent.new()
+    second.setup(_profile(), handi)
+    t.eq(str(second.choose_move(handi)["type"]), "move",
+        "and neither are five handicap stones with White still to play")
+
+    # Black's four-point corner, walled off and alive. Neither player has any
+    # business inside it: Black would be handing back a point a move under
+    # Japanese scoring, White would be feeding stones to a wall that holds.
+    var sealed := GoGame.new(9, 5.5, 0)
+    sealed.set_position(GoBoard.from_ascii("""
+        ..X......
+        ..X......
+        XXX......
+        .........
+        ....O....
+        .........
+        .........
+        .........
+        ....O....
+    """).cells, GoBoard.BLACK)
+    var inside := [sealed.board.idx(0, 0), sealed.board.idx(1, 0),
+        sealed.board.idx(0, 1), sealed.board.idx(1, 1)]
+    for colour in [GoBoard.BLACK, GoBoard.WHITE]:
+        var settled: Dictionary = GoEndgame.settled_points(sealed.board, int(colour))
+        for p in inside:
+            t.ok(settled.has(p), "the walled corner is settled, seen from %s"
+                % GoBoard.color_name(colour))
+
+    var never_inside := true
+    for n in 30:
+        var g := GoGame.new(9, 5.5, 0)
+        g.set_position(sealed.board.cells, GoBoard.BLACK if n % 2 == 0 else GoBoard.WHITE)
+        var ai := HeuristicOpponent.new()
+        ai.setup(_profile("heuristic", 700 + n), g)
+        var mv: Dictionary = ai.choose_move(g)
+        if str(mv["type"]) == "move" and inside.has(int(mv["point"])):
+            never_inside = false
+    t.ok(never_inside, "and neither colour plays a stone into it, in 30 tries")
+
+    # A wall on one liberty is not a wall. The three-point corner below is
+    # enclosed by Black and by nobody else, and Black's stones are alive by every
+    # other measure -- but the stone at the top of the wall has one liberty, and
+    # it is inside the region it is supposed to be enclosing.
+    #
+    # The first position written for this had Black outnumbered as well, so the
+    # dead-wall clause was answering and the atari clause was never asked. It
+    # passed, and it was measuring the wrong thing: deleting the clause it named
+    # broke nothing.
+    var breached := GoGame.new(9, 5.5, 0)
+    breached.set_position(GoBoard.from_ascii("""
+        ..XO.....
+        .XO......
+        X........
+        .........
+        .........
+        .........
+        .........
+        .........
+        .........
+    """).cells, GoBoard.BLACK)
+    t.eq(breached.board.chain_at(breached.board.idx(2, 0))["liberties"].size(), 1,
+        "the wall stone really is in atari")
+    t.eq(GoEndgame.settled_points(breached.board, GoBoard.BLACK).size(), 0,
+        "a region whose wall is in atari is not settled")
+
+    # And a wall the scorer already reads as dead is not enclosing anything --
+    # the four points inside are a life-and-death problem, not territory.
+    var doomed := GoGame.new(9, 5.5, 0)
+    doomed.set_position(GoBoard.from_ascii("""
+        ..XO.....
+        ..XO.....
+        XXXO.....
+        OOOO.....
+        .........
+        .........
+        .........
+        .........
+        .........
+    """).cells, GoBoard.BLACK)
+    var white_view: Dictionary = GoEndgame.settled_points(doomed.board, GoBoard.WHITE)
+    for p in [doomed.board.idx(0, 0), doomed.board.idx(1, 0),
+            doomed.board.idx(0, 1), doomed.board.idx(1, 1)]:
+        t.ok(not white_view.has(p),
+            "a dead wall encloses nothing, so the eyespace is still there to be taken")
+
+    # And the cap on your own territory. Black is alive in the corner with two
+    # eyes, so both eyes are settled and White has nothing else to play except
+    # the sixty-six empty points that are "enclosed by White and nobody else" --
+    # which is not territory, it is the rest of the board.
+    #
+    # The first position written for this had a dead Black group in the corner,
+    # so White always had its eyespace to play in and passed nothing up. Same
+    # mistake as the atari one above: the test agreed with the code for a reason
+    # that had nothing to do with the clause it was named after.
+    var wide := GoGame.new(9, 5.5, 0)
+    wide.set_position(GoBoard.from_ascii("""
+        .X.XO....
+        XXXXO....
+        OOOOO....
+        .........
+        .........
+        .........
+        .........
+        .........
+        .........
+    """).cells, GoBoard.WHITE)
+    var eyes := [wide.board.idx(0, 0), wide.board.idx(2, 0)]
+    var white_ground: Dictionary = GoEndgame.settled_points(wide.board, GoBoard.WHITE)
+    for e in eyes:
+        t.ok(white_ground.has(e), "Black's two eyes are settled, and White knows it")
+    t.ok(not white_ground.has(wide.board.idx(8, 8)),
+        "but the open board is not White's territory just because only White is near it")
+    var reader := HeuristicOpponent.new()
+    reader.setup(_profile(), wide)
+    t.eq(str(reader.choose_move(wide)["type"]), "move",
+        "so there is still a game on, and White plays it")
+
+    # The mercy rule, both directions. The opponent has stopped; whether there is
+    # anything left to settle decides whether stopping too is courtesy or a
+    # forfeit of the points that make the count mean something.
+    var decided := GoGame.new(9, 5.5, 0)
+    decided.set_position(GoBoard.from_ascii("""
+        XXXXXXXXX
+        XXXXXXXXX
+        XXXXXXXXX
+        .........
+        .........
+        .........
+        .........
+        ....O....
+        .........
+    """).cells, GoBoard.BLACK)
+    decided.pass_turn()
+    var loser := HeuristicOpponent.new()
+    loser.setup(_profile(), decided)
+    t.eq(str(loser.choose_move(decided)["type"]), "pass",
+        "they passed and the game is not in doubt, so it counts rather than plays on")
+
+    var close := GoGame.new(9, 5.5, 0)
+    close.set_position(GoBoard.from_ascii("""
+        XXXXXXXXX
+        .........
+        .........
+        .........
+        .........
+        .........
+        .........
+        .........
+        OOOOOOOOO
+    """).cells, GoBoard.BLACK)
+    close.pass_turn()
+    var contender := HeuristicOpponent.new()
+    contender.setup(_profile(), close)
+    t.eq(str(contender.choose_move(close)["type"]), "move",
+        "they passed in a close game, so the points that are left still get played")
+
+    # The positional term is an opening heuristic and it used to be applied to
+    # the whole game: the third line scored +4 and the first line -4 on move 150
+    # exactly as on move 1. It fades with the open board instead now, which is
+    # what lets the last boundary points be worth taking. Reaching into
+    # _score_move is deliberate -- the fade only changes the ORDER of candidates,
+    # never whether there are any, so choose_move cannot show it, and a break of
+    # this clause left every other assertion in this file green.
+    var late := GoGame.new(9, 5.5, 0)
+    late.set_position(GoBoard.from_ascii("""
+        .........
+        .XXXXXXX.
+        .X.....X.
+        .XOOOOOX.
+        .XO...OX.
+        .XOOOOOX.
+        .X.....X.
+        .XXXXXXX.
+        .........
+    """).cells, GoBoard.BLACK)
+    var scorer := HeuristicOpponent.new()
+    scorer.setup(_profile(), late)
+    var edge: int = late.board.idx(0, 4)
+    var centre: int = late.board.idx(4, 4)
+    var open_gap := 0.0
+    var closed_gap := 0.0
+    for n in 8:
+        open_gap += scorer._score_move(late, centre, GoBoard.BLACK, 1.0) \
+            - scorer._score_move(late, edge, GoBoard.BLACK, 1.0)
+        closed_gap += scorer._score_move(late, centre, GoBoard.BLACK, 0.1) \
+            - scorer._score_move(late, edge, GoBoard.BLACK, 0.1)
+    t.ok(closed_gap < open_gap,
+        "the first line stops being a mistake once there is no board left to divide")
+
+    # The regression guard for the 477-move game. Both board sizes, because the
+    # bigger board is where it was worst: 1.76 moves per point at 13x13.
+    for board in [9, 13]:
+        var size: int = int(board)
+        for n in 3:
+            var game := GoGame.new(size, 5.5, 0)
+            var a := OpponentFactory.create(_profile("heuristic", 31 + n), game)
+            var b := OpponentFactory.create(_profile("heuristic", 91 + n), game)
+            var cap: int = int(float(size * size) * 1.4)
+            var guard: int = size * size * 6
+            while game.state == GoGame.State.PLAYING and guard > 0:
+                guard -= 1
+                var who: GoOpponent = a if game.to_move == GoBoard.BLACK else b
+                var mv: Dictionary = who.choose_move(game)
+                match str(mv["type"]):
+                    "pass": game.pass_turn()
+                    "resign": game.resign(game.to_move)
+                    _: game.play(int(mv["point"]))
+            t.eq(game.state, GoGame.State.SCORING,
+                "%dx%d self-play %d stops on its own" % [size, size, n])
+            t.ok(game.moves.size() < cap,
+                "%dx%d self-play %d finished in %d moves, under %d"
+                    % [size, size, n, game.moves.size(), cap])
 
 
 static func _test_rank_maths(t: TestKit) -> void:

@@ -27,6 +27,14 @@
   ],
   "level": [
    "Level. Proverbs won't help either of us now."
+  ],
+  "i_pass": [
+   "That's the lot. Count it up.",
+   "Pass. There's nothing on the board worth the walk."
+  ],
+  "you_pass": [
+   "Stopping, are we.",
+   "Count it first. Then stop."
   ]
  }
 }

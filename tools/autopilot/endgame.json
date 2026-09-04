@@ -1,0 +1,217 @@
+[
+ {
+  "save": "league_ready",
+  "note": "the state this script needs; run_game.sh builds it before launching"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue from the league_ready save"
+ },
+ {
+  "wait": 2.2
+ },
+ {
+  "talk_to": "ilse"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0,
+  "note": "Yes. Let's play."
+ },
+ {
+  "wait": 2.5
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.0,
+  "shot": "a_board"
+ },
+ {
+  "tap": "interact",
+  "note": "one stone of our own, so the game is under way"
+ },
+ {
+  "wait": 1.6,
+  "shot": "b_one_stone"
+ },
+ {
+  "tap": "go_pass",
+  "note": "M29: passing does not end a game on its own. Ilse plays on, because the points that are left are still worth having -- and she says so."
+ },
+ {
+  "wait": 1.2,
+  "shot": "c_passed_once"
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "shot": "d01_after_pass_03"
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "shot": "d03_after_pass_05"
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "shot": "d05_after_pass_07"
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "shot": "d07_after_pass_09"
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "shot": "d09_after_pass_11"
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "shot": "d11_after_pass_13"
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "shot": "d13_after_pass_15"
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "shot": "d15_after_pass_17"
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "shot": "d17_after_pass_19"
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "shot": "d19_after_pass_21"
+ },
+ {
+  "wait": 1.5,
+  "shot": "e_where_it_ended"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.0,
+  "shot": "f_after_carry_on"
+ }
+]

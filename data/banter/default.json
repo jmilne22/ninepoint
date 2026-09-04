@@ -36,6 +36,14 @@
   "level": [
    "Close, this.",
    "Nothing in it yet."
+  ],
+  "i_pass": [
+   "That's me finished. Shall we count it?",
+   "Nothing left I want. I'll pass."
+  ],
+  "you_pass": [
+   "Already?",
+   "Right -- you're stopping there."
   ]
  }
 }

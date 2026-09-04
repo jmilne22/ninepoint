@@ -43,6 +43,14 @@
   "level": [
    "Level, this. Genuinely no idea what's happening.",
    "This is a GREAT game. I don't understand any of it."
+  ],
+  "i_pass": [
+   "PASS! That's the whole board! I love the end bit.",
+   "Nothing left! Pass!"
+  ],
+  "you_pass": [
+   "Wait, are you stopping? There's loads left!",
+   "Passing! Very grown-up of you."
   ]
  }
 }

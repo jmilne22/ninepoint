@@ -27,6 +27,14 @@
   ],
   "level": [
    "Level. Play it out."
+  ],
+  "i_pass": [
+   "I pass. We can count.",
+   "Nothing outstanding. Pass."
+  ],
+  "you_pass": [
+   "Passing. Noted.",
+   "You may. It doesn't end the game on its own."
   ]
  }
 }

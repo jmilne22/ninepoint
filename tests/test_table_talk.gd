@@ -16,6 +16,7 @@ static func run(t: TestKit) -> void:
     _test_captures(t)
     _test_atari(t)
     _test_perspective(t)
+    _test_passing(t)
     _test_voices(t)
     _test_cooldown(t)
 
@@ -75,6 +76,36 @@ static func _test_perspective(t: TestKit) -> void:
     t.ok(white_view.has("you_captured"), "from White's side the player took them")
     t.ok(black_view.has("i_captured"), "from Black's side they were taken by me")
     t.ok(not black_view.has("you_captured"), "and the two readings do not overlap")
+
+
+## A pass is an event, and until M29 it was the only thing that happened at the
+## board and produced no tag at all -- so the match scene said "Ilse passes." in
+## the same flat words whoever was sitting there, and the player who passed first
+## got silence where the one warning that a pass does not end a game belongs.
+static func _test_passing(t: TestKit) -> void:
+    t.section("table talk: passing")
+    var g := GoGame.new(9, 5.5, 0)
+    g.play(g.board.idx(4, 4))
+    g.pass_turn()
+    t.ok(Array(GoTableTalk.events(g, GoBoard.WHITE)).has("i_pass"),
+        "White passed, so White has something to say about passing")
+    t.ok(Array(GoTableTalk.events(g, GoBoard.BLACK)).has("you_pass"),
+        "and from the other side of the board it is the opponent who stopped")
+
+    g.pass_turn()
+    t.ok(Array(GoTableTalk.events(g, GoBoard.WHITE)).has("you_pass"),
+        "the second pass belongs to Black, and the tags swap with it")
+
+    # Resignation is not a pass. It ends the game and the scene says so itself.
+    var quit_game := GoGame.new(9, 5.5, 0)
+    quit_game.play(quit_game.board.idx(4, 4))
+    quit_game.resign(GoBoard.WHITE)
+    t.eq(GoTableTalk.events(quit_game, GoBoard.WHITE).size(), 0,
+        "resigning produces no table talk at all")
+
+    var tomas := TableTalkVoice.load_voice("tomas")
+    t.ok(tomas.speak(PackedStringArray(["i_pass"]), 60) != "",
+        "and somebody who stops playing says why")
 
 
 static func _test_voices(t: TestKit) -> void:

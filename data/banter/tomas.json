@@ -24,6 +24,14 @@
   ],
   "level": [
    "Level. Nice game, this."
+  ],
+  "i_pass": [
+   "That's it, I think. Shall we count?",
+   "I'll pass. Leave it as it is."
+  ],
+  "you_pass": [
+   "Ah -- finished?",
+   "Take your time. It's not going anywhere."
   ]
  }
 }
