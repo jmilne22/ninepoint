@@ -93,6 +93,28 @@
     {
      "if": [
       [
+       "rated_wins_at_least",
+       3
+      ],
+      [
+       "not_flag",
+       "match_tomas_thirteen_done"
+      ]
+     ],
+     "goto": "offer_thirteen"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "match_tomas_thirteen_done"
+      ]
+     ],
+     "goto": "thirteen_again"
+    },
+    {
+     "if": [
+      [
        "beat",
        "tomas"
       ]
@@ -124,12 +146,70 @@
   "post_match": {
    "branches": [
     {
-     "goto": "regular"
+     "goto": "regular_word"
     }
    ]
   },
   "taught": {
    "goto": "after_lesson"
+  },
+  "offer_thirteen": {
+   "text": [
+    "Three rated games won. That's three people who sat down expecting to beat you and went home not having. I keep the cards, I notice.",
+    "There's a board under the coats at the back table. Thirteen lines. Nine by nine you can hold in your head -- thirteen you have to count, and counting is the only thing I actually know.",
+    "Same rule as ever. One game. It goes on the hooks like the rest."
+   ],
+   "choices": [
+    {
+     "text": "Get the coats off it.",
+     "exit": {
+      "type": "start_match",
+      "profile": "tomas_13x13",
+      "context": "tomas_thirteen",
+      "intro": "Thirteen lines. Count twice and play once."
+     }
+    },
+    {
+     "text": "Nine is still enough.",
+     "goto": "regular_word"
+    }
+   ]
+  },
+  "thirteen_again": {
+   "text": [
+    "Back table's still up. Thirteen. One a day and I do mean it."
+   ],
+   "choices": [
+    {
+     "text": "Thirteen, then.",
+     "exit": {
+      "type": "start_match",
+      "profile": "tomas_13x13",
+      "context": "tomas_thirteen",
+      "intro": "Thirteen again. The corners are still the cheap part."
+     }
+    },
+    {
+     "text": "Not today.",
+     "goto": "regular_word"
+    }
+   ]
+  },
+  "regular_word": {
+   "branches": [
+    {
+     "if": [
+      [
+       "beat",
+       "tomas"
+      ]
+     ],
+     "goto": "beaten"
+    },
+    {
+     "goto": "won"
+    }
+   ]
   }
  }
 }

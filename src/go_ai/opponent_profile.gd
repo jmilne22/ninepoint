@@ -10,6 +10,18 @@ extends Resource
 ## has never had one written down; the label is withheld, not invented.
 const RANK_WITHHELD := "?"
 
+## Where a person's profile for a given board lives.
+##
+## The filename is the convention -- `<id>_9x9`, `<id>_13x13`, or `<id>_<variant>`
+## for a game arranged rather than sized, like `_exam` and `_first`. Three places
+## used to interpolate `"%s_9x9.tres"` inline, which was fine while nine was the
+## only board and became a silent lie the moment it was not. Stated once, here,
+## and mirrored once in tools/gen_content.py, which writes the files.
+static func path_for(npc_id: String, board: int = 9, variant: String = "") -> String:
+    var suffix := variant if variant != "" else "%dx%d" % [board, board]
+    return "res://data/opponents/%s_%s.tres" % [npc_id, suffix]
+
+
 @export var id: StringName = &""
 @export var display_name: String = "Opponent"
 ## Realistic rank label, e.g. "12k", "4k", "1d". Never "easy"/"hard".

@@ -116,6 +116,13 @@ func _layout() -> void:
     var span: float = minf(size.x, size.y)
     # Leave a wooden margin wide enough to letter the coordinates onto.
     _cell = floorf((span - 30.0) / float(n - 1))
+    # The margin has to hold the widest row number, and _cell shrinks as the
+    # board grows while "13" does not. Re-fit only when the number is what is
+    # forcing the margin: at nine lines the margin has always come from the cell
+    # size and this leaves that board pixel-for-pixel where it was.
+    var floor_pad := _label_width(str(n)) + 4.0
+    if _cell * 0.72 < floor_pad:
+        _cell = floorf((span - 4.0 - floor_pad * 2.0) / float(n - 1))
     var used := _cell * float(n - 1)
     _origin = Vector2(
         floorf((size.x - used) * 0.5),
@@ -161,7 +168,7 @@ func _draw() -> void:
     _layout()
     var n := game.size()
     var used := _cell * float(n - 1)
-    var pad := _cell * 0.72
+    var pad := _margin(n)
 
     draw_rect(Rect2(_origin - Vector2(pad, pad) - Vector2(2, 2),
         Vector2(used + pad * 2 + 4, used + pad * 2 + 4)), C_BOARD_EDGE)
@@ -217,8 +224,25 @@ func _draw() -> void:
             draw_line(o, o - Vector2(0, corner.y * r * 0.45), C_CURSOR, 1.5)
 
 
+## How much wood to leave, in pixels. 0.72 of a cell is what it has always been
+## and is what a 9x9 gets; the floor is the width of the widest row number plus
+## a little air, because the numbers are drawn at a fixed FONT_SIZE and do not
+## shrink with the board. At 13x13 the old margin was 9 px and "13" is 11 px
+## wide, so the label was drawn from the left edge of the wood and finished on
+## top of the first column of stones.
+func _margin(n: int) -> float:
+    return maxf(_cell * 0.72, _label_width(str(n)) + 4.0)
+
+
+func _label_width(text: String) -> float:
+    var f: Font = FONT
+    return f.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, FONT_SIZE).x
+
+
 ## Lettered onto the wooden margin, not outside the board where the dark
-## background swallows them.
+## background swallows them. Row numbers are right-aligned to the grid so that
+## "13" and "9" end in the same place -- ragged on the left, which is how a
+## column of numbers is meant to read anyway.
 func _draw_coordinates(n: int, _used: float, pad: float) -> void:
     var font: Font = FONT
     var letters := "ABCDEFGHJKLMNOPQRSTUVWXYZ"
@@ -228,8 +252,9 @@ func _draw_coordinates(n: int, _used: float, pad: float) -> void:
         draw_string(font, Vector2(x - 3.0, _origin.y - pad + 7.0), letters[i],
             HORIZONTAL_ALIGNMENT_LEFT, -1, FONT_SIZE, col)
         var y := _origin.y + i * _cell
-        draw_string(font, Vector2(_origin.x - pad + 1.0, y + 4.0), str(n - i),
-            HORIZONTAL_ALIGNMENT_LEFT, -1, FONT_SIZE, col)
+        var label := str(n - i)
+        draw_string(font, Vector2(_origin.x - 3.0 - _label_width(label), y + 4.0),
+            label, HORIZONTAL_ALIGNMENT_LEFT, -1, FONT_SIZE, col)
 
 
 ## Small open circles on each liberty, plus a count. Deliberately drawn over the

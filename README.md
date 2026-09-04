@@ -110,7 +110,10 @@ teaches them properly; Kesh challenges you; Hana tells you she teaches at the Es
 Instituut, two tram stops north (Hikaru no Go).
 **Act 2, the Essenveld Instituut** -- enrol at the bottom of the lower league, take classes,
 play whoever is sitting at a board, and climb a table that is nothing but your own results
-(Yu-Gi-Oh! Tag Force / the insei programme).
+(Yu-Gi-Oh! Tag Force / the insei programme). Win three rated games and the board gets
+bigger: Tomas keeps a 13x13 under the coats at the back table of De Ketel, and there is
+another in the study hall. A stone of handicap buys less on a wider board, so the same gap
+that gave you two on 9x9 gives you three.
 
 There is no relationship system. The game tracks your **record** against each person.
 

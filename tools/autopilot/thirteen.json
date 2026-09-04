@@ -1,0 +1,87 @@
+[
+ {
+  "save": "thirteen_ready",
+  "note": "three rated games won, in the study hall in the afternoon -- the state Kesh reads before she mentions the bigger board"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue from the thirteen_ready save"
+ },
+ {
+  "wait": 2.2,
+  "shot": "a_study_hall"
+ },
+ {
+  "talk_to": "kesh"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.6,
+  "shot": "b_she_mentions_thirteen"
+ },
+ {
+  "advance": 30,
+  "stop_at_choice": true,
+  "note": "run to the choice and stop ON it -- a tap budget that merely happens to end near the list picks whatever was highlighted, which is how the first cut of this script played a 9x9 and photographed it confidently"
+ },
+ {
+  "wait": 0.8,
+  "shot": "c_the_choice"
+ },
+ {
+  "choose": 1,
+  "note": "Thirteen. -- 0 is the 9x9 league game, 2 is Later"
+ },
+ {
+  "wait": 3.0,
+  "shot": "d_setup_explanation"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.4,
+  "shot": "e_thirteen_with_handicap_stones"
+ },
+ {
+  "wait": 2.0,
+  "shot": "f_board_and_coordinates"
+ },
+ {
+  "tap": "move_left",
+  "times": 14,
+  "note": "clamp into a corner and count out -- move_cursor clamps, so this lands on the same point whatever the cursor started on"
+ },
+ {
+  "tap": "move_up",
+  "times": 14
+ },
+ {
+  "tap": "move_down",
+  "times": 1
+ },
+ {
+  "tap": "move_right",
+  "times": 1
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "tap": "interact",
+  "note": "B12 -- second line in the corner, the last point a heuristic wants, so the square is reliably empty and the shot proves the cursor maps to the right intersection on a 13-line grid"
+ },
+ {
+  "wait": 3.0,
+  "shot": "g_a_move_played"
+ }
+]

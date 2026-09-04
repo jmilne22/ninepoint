@@ -605,7 +605,10 @@ func _start_cup_round() -> void:
 
     var opponent_id := str(state["next_opponent"])
     var npc_path := "res://data/npcs/%s.tres" % opponent_id
-    var profile_path := "res://data/opponents/%s_9x9.tres" % opponent_id
+    # The Cup is a 9x9 section. GAME_DESIGN section 8 wants a 13x13 one beside
+    # it; when it exists, the section decides this argument and nothing else
+    # in the round has to change.
+    var profile_path := OpponentProfile.path_for(opponent_id, 9)
     if opponent_id == "" or not ResourceLoader.exists(npc_path) \
             or not ResourceLoader.exists(profile_path):
         push_error("World: no Cup opponent for '%s'" % opponent_id)
@@ -690,9 +693,9 @@ func _start_exam_round() -> void:
     var npc_path := "res://data/npcs/%s.tres" % opponent_id
     # An exam is even -- no stones, whatever the gap. `_exam` profiles exist for
     # exactly that; the _9x9 fallback keeps a round playable if one is missing.
-    var profile_path := "res://data/opponents/%s_exam.tres" % opponent_id
+    var profile_path := OpponentProfile.path_for(opponent_id, 9, "exam")
     if not ResourceLoader.exists(profile_path):
-        profile_path = "res://data/opponents/%s_9x9.tres" % opponent_id
+        profile_path = OpponentProfile.path_for(opponent_id, 9)
     if opponent_id == "" or not ResourceLoader.exists(npc_path) \
             or not ResourceLoader.exists(profile_path):
         push_error("World: no exam opponent for '%s'" % opponent_id)

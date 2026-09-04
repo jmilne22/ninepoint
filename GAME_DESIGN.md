@@ -417,7 +417,7 @@ Placing changes your rank and unlocks the 13×13 section of the club.
 | Chapter | Board | Player rank arc | Gate |
 |---|---|---|---|
 | 1 Arrival | 9×9 | unranked → 22k | Vertical slice |
-| 2 The Hooks | 9×9 → 13×13 | 22k → 17k | Win 3 rated games |
+| 2 The Hooks | 9×9 → 13×13 | 22k → 17k | Win 3 rated games — **built (M28)** |
 | 3 Beginner Cup | 13×13 | 17k → 14k | Enter tournament |
 | 4 The Park Crowd | 13×13 | 14k → 10k | Beat Bertie at 4 stones |
 | 5 Kesh, Even | 19×19 | 10k → 8k | Rival match, no handicap |
@@ -425,6 +425,11 @@ Placing changes your rank and unlocks the 13×13 section of the club.
 
 Each rank step is gated on the human actually winning games at the appropriate handicap.
 The game will not hand out a rank for time served.
+
+**Chapter 2's gate is real.** Three rated games won opens a 13×13 -- Tomás's back table at
+De Ketel and the board in the study hall -- through the `rated_wins_at_least` condition,
+counted off the record rather than kept in a flag. Chapters 3 and up are still a sketch: the
+Cup runs one 9×9 section, and §8's 13×13 section is unbuilt.
 
 ## 10. Tone and content
 

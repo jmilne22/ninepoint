@@ -120,7 +120,12 @@ Rule of thumb: if two systems need to talk, they do it through `EventBus` or thr
 ```gdscript
 # rpg side (an NPC's dialogue action):
 var req := MatchRequest.new()
-req.opponent_profile = load("res://data/opponents/kesh_9x9.tres")
+# The filename carries the board: <id>_9x9, <id>_13x13, or <id>_<variant> for a
+# game arranged rather than sized (_exam, _first, _teaching, _capture). Nothing
+# builds that string inline -- OpponentProfile.path_for(id, board, variant) is
+# where the convention lives, because a MatchRequest carries no size of its own
+# and the profile is the only place a board is chosen.
+req.opponent_profile = load(OpponentProfile.path_for("kesh", 9))
 req.context_id       = "kesh_first_match"
 MatchBridge.start_match(req)          # suspends the world, routes to the match scene
 

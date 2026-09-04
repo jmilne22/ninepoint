@@ -4,7 +4,7 @@ Everything below is outstanding as of the current build. It is ordered by what
 would most improve the game, not by what is easiest. `MILESTONES.md` records what
 was built and how it was verified; this file records what has not been.
 
-The build is green: `tools/test.sh` runs 5824 checks, `tools/check_lessons.py`
+The build is green: `tools/test.sh` runs 5864 checks, `tools/check_lessons.py`
 reports no problems, and the game is playable from the cold open to the exam and
 the Cup.
 
@@ -111,66 +111,46 @@ dark, so the map has three people in it at the hours anybody would be there and 
 the hours they would not -- population from the schedule rather than from a route it can
 never have.
 
-## 5. Beyond 9×9
+## 5. Beyond 9×9 — 13×13 built (M28), 19×19 still promised
 
-Every board in the game is 9×9, except Pip's 7×7 Capture Go. The title refers to
-the nine star points of a 19×19 — *the shape you grow into* — and there is
-nothing to grow into. 13×13 is the real next step, and it is also where the
-heuristic starts to run out.
+**13×13 exists and two people will sit down over one.** Tomás opens the back table at De
+Ketel and Kesh the board in the study hall, both on the chapter-2 gate GAME_DESIGN §9 always
+specified — three rated games won — read off the record by a `rated_wins_at_least` condition
+rather than stored behind a flag. `tomas_13x13` and `kesh_13x13` are generated profiles; the
+board, the handicap (three stones on 13×13 where the same gap gives two on 9×9), the star
+points, the coordinates and the review all work at the new size, and were looked at rather
+than reasoned about.
 
-GAME_DESIGN §8 and §9 already say what should happen: the Cup "played on 9×9 or
-13×13 depending on the section entered", placing unlocks the 13×13 section of the
-club, and the chapter table moves 9→13 at chapter 2 and 13→19 at chapter 5. The
-intent is written. What is missing is the work, and what is in the way has never
-been written down.
+**The hazard this section recorded was not waiting at a new board size. It was already
+happening.** `GoRating._effective_strength()` priced a handicap stone at one rank — the 19×19
+convention — while `GoRank.ranks_per_stone()` handed the stones out at three a stone on 9×9.
+So a 22 kyu who beat a 4 kyu on the five stones the game itself dealt them was credited with
+having beaten a 9 kyu, and had been since handicap games existed. Pillar 5 says the table is
+honest; it was not, and it was not honest about 9×9. Fixed, with the failing assertions
+watched to go red first. The lesson is the one M27 wrote down: **verify documented debt
+rather than repeating it** — this file was confident and wrong about which tense the bug was
+in.
 
-**The fiction has promised 19×19 twice already**, which is what makes this a gap
-rather than a preference. The board the last tenant left is described in
-`intro.json` as "a grid of lines cut into the top -- nineteen one way, nineteen the
-other": the player owns a 19×19 board from the first minute of the game and never
-plays a game on one. And the closing line of Act 2, Hana's `exam_word_passed`, is
-"Nineteen by nineteen is a different game and you know almost nothing about it.
-Isn't that good?" -- the game ends by naming the board it does not have.
+**Still open, and deliberately:**
 
-**What already exists**, so nobody rebuilds it: the rules layer is size-generic
-throughout and simply never called above 9. `GoGame.handicap_points()` switches the
-star points at 13 (`e = 2 if size < 13 else 3`) and places up to nine stones;
-`default_komi()` returns 6.5 at ≥19; `GoRank.ranks_per_stone()` returns 3, 2 or 1
-by board and `max_handicap()` goes 5 → 9; `handicap_between()` *defaults* to
-`board_size = 19`. `tests/test_go_rules.gd` already asserts nine stones on a 19×19
-at the 4-4 points, and `HeuristicOpponent._book_move()` takes its corner book from
-`handicap_points(game.size(), 4)`, so the opening book scales on its own.
-
-**What is in the way**, in the order it would bite:
-
-- **Profile filenames encode the board size, and the tournaments interpolate them.**
-  `world.gd` builds `"res://data/opponents/%s_9x9.tres" % opponent_id` for both Cup
-  and exam rounds, and `go_match.gd` falls back to `kesh_9x9.tres`. A 13×13 section
-  means a second profile per person and a convention in which `_9x9` stops meaning
-  "the profile for this person" -- and `tests/test_data.gd`'s `REACHED_BY_EVENT`
-  allow-list is written in those same names.
-- **Rank arithmetic does not know the board.** `GoRating.performance()` reads
-  `handicap` and `handicap_taken` off each record and never `board_size`, though the
-  field is stored on every one. Three stones is three ranks on 9×9 and nine ranks on
-  19×19 by `ranks_per_stone`, so the first record at a new size mis-rates the player
-  with no error and no failing test. Pillar 5 is that the table is honest; this is
-  the line it stops being honest at. Along with the profile names above, it is one
-  of the two places a bigger board goes quietly wrong rather than merely missing.
-- **Screen space, which is why 13 comes before 19.** The viewport is 384×216 and
-  `GoBoardView` derives its cell size from the panel it is handed
-  (`_cell = floorf((span - 30.0) / float(n - 1))`). At 19×19 that is about 8 px a
-  cell and a stone roughly 7 px across, against an art direction of a 9 px native
-  font and integer scaling only; 13×13 is about 12 px. The board is meant to be the
-  one saturated object on screen, and at 19×19 it stops being legible well before it
-  stops working.
-- **The AI and the review have never been run at either size.** `_score_move()`
-  flood-fills chains per candidate and probes a worst reply, over 361 points instead
-  of 81 and across a game four or five times as long, with weights tuned at 81
-  points (`CAPTURE_WEIGHT`, `PASS_THRESHOLD`, the territory limit
-  `maxi(8, cells / 4)`); `GoReview` replays every move through fourteen detectors.
-  That is a measurement nobody has taken, not a known failure -- and it is the sort
-  of thing this project has twice found out about by running it rather than by
-  reasoning about it.
+- **The Cup has no 13×13 section.** GAME_DESIGN §8 wants one. The plumbing is ready --
+  `OpponentProfile.path_for(id, board, variant)` is where the Cup round chooses its profile
+  and takes a board argument it currently always passes 9 to -- but the Cup is Act 2's
+  ending and a second field and draw is its own piece of work.
+- **19×19, which the fiction has promised twice** and still does: the board in `intro.json`
+  is "nineteen one way, nineteen the other", and Hana's `exam_word_passed` closes the act by
+  naming it. Screen space is the reason it is not next. At the 192-px match panel a 19×19
+  gets 8-px cells against a 9-px font, where 13×13 gets 13. The board is meant to be the one
+  saturated object on screen and at 19 it stops being legible before it stops working.
+- **The AI's endgame is worse on a bigger board, and now measured.** Kesh self-plays a
+  9×9 out in 139 moves and a 13×13 in 477 — 1.7 moves a point against 2.8. Move time is not
+  the problem (mean 1.2 ms, worst 2.3 ms at 13×13); the filling is. It is the same weak
+  endgame §8 already lists, larger, and it wants the mercy rule that item asks for.
+- **`MISTAKE_BREADTH` makes a profile mean something different on a bigger board.** It turns
+  `mistake_rate` into a rank window over a candidate list that is 169 long instead of 81, so
+  the same numbers describe a different player at 13×13. `resign_threshold` had the same
+  shape and was fixed — it is scaled by area in `gen_content.py` — but the shortlist width
+  was left alone, because unlike resignation nobody has measured what it should be.
 
 ## 6. ~~The tutorial~~ — built (M27)
 
