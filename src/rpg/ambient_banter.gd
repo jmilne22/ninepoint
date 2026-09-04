@@ -9,8 +9,12 @@ const GAP_MAX := 13.0
 
 var _lines: Array = []
 var _npcs: Array = []
+var _bubble: NinePatchRect
 var _label: Label
 var _timer := 2.0
+
+const BUBBLE_W := 136
+const BUBBLE_INNER_W := BUBBLE_W - 12
 
 
 func setup(lines: Array, npcs: Array) -> void:
@@ -18,26 +22,30 @@ func setup(lines: Array, npcs: Array) -> void:
     _npcs = npcs
     if _lines.is_empty():
         return
-    _label = Label.new()
+    # Overheard lines travel across every surface in a map: pale pavement,
+    # dark water, purple roofs. An outline alone disappears against the busy
+    # ones, so give the words the same small dark frame used by the title card.
+    _bubble = UiKit.panel(self, Rect2(Vector2.ZERO, Vector2(BUBBLE_W, 28)), true)
+    _bubble.name = "OverheardBubble"
+    _bubble.mouse_filter = Control.MOUSE_FILTER_IGNORE
+    _bubble.visible = false
+    _bubble.z_index = 6
+
+    _label = UiKit.label(_bubble, Vector2(6, 6), BUBBLE_INNER_W, UiKit.PAPER)
     _label.name = "Overheard"
-    _label.visible = false
     _label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-    _label.add_theme_font_size_override("font_size", 9)
-    _label.add_theme_color_override("font_color", Color("f2e9d8"))
     _label.add_theme_color_override("font_outline_color", Color("14121a"))
-    _label.add_theme_constant_override("outline_size", 2)
-    _label.z_index = 6
-    add_child(_label)
+    _label.add_theme_constant_override("outline_size", 1)
 
 
 func _process(delta: float) -> void:
-    if _label == null:
+    if _bubble == null:
         return
     _timer -= delta
     if _timer > 0.0:
         return
-    if _label.visible:
-        _label.visible = false
+    if _bubble.visible:
+        _bubble.visible = false
         _timer = randf_range(GAP_MIN, GAP_MAX)
         return
     var entry: Dictionary = _lines[randi() % _lines.size()]
@@ -46,8 +54,11 @@ func _process(delta: float) -> void:
         _timer = 1.0
         return
     _label.text = str(entry.get("text", ""))
-    _label.position = npc.position + Vector2(-62, -38)
-    _label.visible = _label.text != ""
+    var text_h: int = maxi(UiKit.LINE_H, UiKit.text_height(_label.text, BUBBLE_INNER_W))
+    _label.size.y = text_h
+    _bubble.size.y = text_h + 12
+    _bubble.position = npc.position + Vector2(-BUBBLE_W * 0.5, -_bubble.size.y - 10)
+    _bubble.visible = _label.text != ""
     _timer = SHOW_FOR
 
 
