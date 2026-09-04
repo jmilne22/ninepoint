@@ -1986,7 +1986,7 @@ screen space rather than plumbing. And the tournament routing is still in `world
 is **591** lines — three more than it was. ROADMAP §8 says so rather than this milestone
 pretending it shrank.
 
-## M34 — The week has a shape  [done]
+## M34 — The week has a shape  [done; ROADMAP §3 stays open]
 
 `ROADMAP.md` §3's second bullet was the only item in the section still marked *half done*, and
 the highest-ranked open item in the file. Its own diagnosis was the ticket: *"What the term
@@ -2090,8 +2090,17 @@ screenshot of the middle of the room under the caption *"an Essenveld student on
 stool"*. Exit 0, no script errors. This is the M16/M27/M32/M33 disease and the cure was the same
 one every time: open the PNGs. The script now walks to (16, 6) and the note records why.
 
-**Deliberately not done.** The day axis has exactly one user. `"days"` is general and club night
-is the only thing spending it, which is the right size for one milestone and is also why the term
-is not yet full — one recurring night is a shape, not a week. Written up in `ROADMAP.md` §8 rather
-than left for the next session to rediscover. 19×19 and `MISTAKE_BREADTH` are both still open in
-§5 and neither was touched.
+**Deliberately not done, and §3 stays open because of it.** The day axis has exactly one user:
+`"days"` is general and club night is the only thing spending it. That is the right size for one
+milestone, and it is also why the term is not yet full — one recurring night is a shape, not a
+week.
+
+**This milestone does not close `ROADMAP.md` §3.** The first draft of this entry said it did, and
+recorded the leftover in **§8** as though it were debt M34 created. That was wrong twice over: the
+bullet is about *content*, so one day in seven does not finish it; and a leftover filed under
+technical debt is a leftover hidden from whoever next opens `ROADMAP.md` to choose what to build.
+It is back in §3, which reads **half done** — the hours (M30), then the mechanism and one instance
+(M34) — and what remains is occasions: a second recurring day that is a different *kind* of day,
+not a second club night.
+
+19×19 and `MISTAKE_BREADTH` are both still open in §5 and neither was touched.

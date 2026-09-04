@@ -94,9 +94,22 @@ was written and `check_load.gd` loaded it faithfully every time.
   and the study hall -- the two rooms Act 1 and Act 2 run through -- are staffed at every
   hour, because a room that empties is an hour the player cannot spend and therefore an
   hour they cannot get past.
-- ~~**More to do per day.**~~ **Done (M34).** The half M30 left was the diagnosis in the
-  paragraph below: not hours to spend, but *days that differ from each other*. The reason none
-  did was structural and nobody had looked for it -- `GameState.day` was read in four places
+- **More to do per day.** **Still half done -- the mechanism is built (M34), the content is one
+  night.** M30 did the hours; M34 found why no day differed from another and fixed *that*, then
+  spent the result on a single Wednesday. **The bullet is about content and one day in seven is
+  not the term.** What is left is more days that differ, and it is the largest open item in this
+  file for the second milestone running.
+
+  Be careful with the shape of what is missing, because this bullet has now been misread twice.
+  It is not more hours (rated play is unbounded -- see below) and it is no longer the plumbing
+  either. It is **occasions**: a second recurring day that is a different *kind* of day rather
+  than a second club night, and reasons to be somewhere on it. The first draft of this entry
+  recorded the leftover in §8 as though it were technical debt M34 created. It is not; it is the
+  half of this bullet M34 did not do, and filing it under debt would have hidden it from the next
+  person choosing what to build.
+
+  The half M34 did do. The diagnosis was in the paragraph below -- not hours to spend, but
+  *days that differ from each other* -- and the reason none did was structural and nobody had looked for it -- `GameState.day` was read in four places
   (`EXAM_DAY`, `CUP_DAY`, the HUD line, and the study desk's puzzle rotation), and **schedules
   keyed on the hour and nothing else**. M26 built half a calendar and the half it built was the
   clock: the hour decided who was in the room and the day decided nothing at all.
@@ -489,7 +502,7 @@ Owned by a parallel effort; listed here for completeness.
   malformed one surfaces as a `push_error` at run time, in front of the player.
 - **Two test hooks ship in production code**: the `Autopilot` autoload and
   `GoMatch.THINK_DELAY_FAST`. The first grew a `day` step in M34, beside its `time` step.
-- **Three things M34 left behind:**
+- **Two things M34 left behind:**
   - **`world.gd` cannot be reached by any test**, and this is the §8 bug above wearing its
     fourth costume. The M34 bug *was* in `world.gd` -- it never connected `day_changed`, so a
     day could turn with yesterday's people still in the room -- and no test in this project
@@ -502,9 +515,10 @@ Owned by a parallel effort; listed here for completeness.
     already records the cost of, and the copy in the test is the one that would go on passing.
     M33 showed the fix -- derive it -- but there is no pure module to derive it *from* here, so
     it wants one, or it wants the assertion inverted.
-  - **The day axis has exactly one user.** `"days"` is a general mechanism and club night is
-    the only thing that spends it. That is the right size for one milestone and it is also the
-    reason the term is not yet full: one recurring night is a shape, not a week.
+  - ~~The day axis has exactly one user.~~ **Moved to §3, where it belongs.** It is content
+    rather than debt -- the unfinished half of "More to do per day" -- and recording it here
+    would have let a closed-looking §3 hide it from whoever reads this file to pick the next
+    thing to build.
 - **`GtpOpponent` is unwired**, with four known bugs between it and an engine -- the count
   said three and then listed four:
   handicap stones never enter `game.moves`, `choose_move` issues `clear_board`

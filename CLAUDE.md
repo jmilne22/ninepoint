@@ -652,10 +652,12 @@ No engine, and the seam for one is `GoEvaluator` — see the debt list before re
   errand that has an hour attached -- Nadia is in the classroom until dusk and gone at night.
   M34 closed the bullet by finding the structural half nobody had looked for: **the day was
   read in four places and decided nothing**, so schedules had an hour axis and no day axis.
-  They have both now, and club night spends it. What is left is that **the axis has one user** --
-  a general mechanism with a single Wednesday on it. One recurring night is a shape, not a
-  week, and the next thing to differ wants to be a different *kind* of day rather than a
-  second club. `ROADMAP.md` §3 is closed; the leftover is in §8.
+  They have both now, and club night spends it. **§3 is still open**, and deliberately so: the
+  bullet is about content and the axis has exactly one user -- a general mechanism with a single
+  Wednesday on it. One recurring night is a shape, not a week, and the next thing to differ wants
+  to be a different *kind* of day rather than a second club. It stays in `ROADMAP.md` §3 rather
+  than §8: it is the unfinished half of a content item, not debt M34 created, and filing it under
+  debt would hide it from whoever reads that file to choose what to build next.
 - **The curriculum runs to competence but stops before judgement.** Thirteen lessons:
   liberties, capture, self-capture, ko (Wren); escape, connection (Kesh); openings,
   two eyes, life and death, the capturing race, false eyes (Hana's class); ladders
