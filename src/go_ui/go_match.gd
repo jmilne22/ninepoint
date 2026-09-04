@@ -371,9 +371,8 @@ func _await_move() -> Dictionary:
 ## most moves produce nothing at all, which is the point: somebody who remarks on
 ## everything is a tutorial rather than a person.
 ##
-## Reactions are to OUTCOMES only. What the player should have played instead is
-## GoReview's job after the game, and saying it here would spoil the one thing
-## the review has to offer.
+## Reactions are to OUTCOMES only: what happened, never what should have been
+## played instead.
 func _react() -> void:
     if voice == null:
         return
@@ -492,11 +491,6 @@ func _finish() -> void:
         "RE": str(game.result.get("text", "")),
     })
     res.summary = str(game.result.get("text", ""))
-    # Read back before the game object goes away. MatchResult is the only thing
-    # the world learns from a match, so what the review found travels in it.
-    res.findings = GoReview.findings(game, player_color, request.player_strength)
-    res.final_cells = game.board.cells.duplicate()
-    res.moves = game.moves.duplicate()
 
     var headline := "You win" if res.player_won else "You lose"
     if res.winner == GoBoard.EMPTY:
