@@ -142,10 +142,12 @@ in.
   naming it. Screen space is the reason it is not next. At the 192-px match panel a 19×19
   gets 8-px cells against a 9-px font, where 13×13 gets 13. The board is meant to be the one
   saturated object on screen and at 19 it stops being legible before it stops working.
-- **The AI's endgame is worse on a bigger board, and now measured.** Kesh self-plays a
-  9×9 out in 139 moves and a 13×13 in 477 — 1.7 moves a point against 2.8. Move time is not
-  the problem (mean 1.2 ms, worst 2.3 ms at 13×13); the filling is. It is the same weak
-  endgame §8 already lists, larger, and it wants the mercy rule that item asks for.
+- ~~**The AI's endgame is worse on a bigger board, and now measured.**~~ **Fixed (M29).**
+  It was worse there because it was wrong everywhere: the opponent only ever passed in reply
+  to a pass, so it filled the dame, then its own territory, then invaded settled ground until
+  no legal move was left. 13×13 self-play went from 1.76 moves a point to 0.92 and from three
+  games in twenty-four that never ended to none. Move time was never the problem and still is
+  not — worst 4.4 ms at 13×13, against 4.1 before.
 - **`MISTAKE_BREADTH` makes a profile mean something different on a bigger board.** It turns
   `mistake_rate` into a rank window over a candidate list that is 169 long instead of 81, so
   the same numbers describe a different player at 13×13. `resign_threshold` had the same
@@ -284,9 +286,13 @@ Owned by a parallel effort; listed here for completeness.
 - **The exam list and the Cup draw are the same tile** -- two pairs of paper
   pinned to the same wall of the Bondszaal, with nothing but the panel header to
   tell them apart once you press [Space].
-- **The AI's endgame is weak.** It stops playing once only first-line points
-  remain, so a human who passes wins by a margin that means nothing. It wants a
-  mercy rule and a better endgame before it is a satisfying opponent above ~15k.
+- ~~**The AI's endgame is weak.**~~ **Fixed (M29)** — `GoEndgame` decides which ground is
+  finished, the pass rule is the absence of a contested point rather than a score under a
+  threshold, and the mercy rule stops a decided game instead of a cheap one. What is left is
+  the *middlegame*: it still plays every point on the board at roughly the same strength and
+  cannot tell a ten-point move from a two-point one, which is judgement, which is §7's engine
+  question. A human who passes early is now played out rather than passed back at, and the
+  margin means what it says.
 - **`check_load.gd` never opens a `.json` file.** Its `EXTS` is `gd/tscn/tres/fnt`, so the
   load gate walks `res://data` and skips every dialogue graph, lesson, puzzle, banter file
   and review voice in it. Those are validated only where a specific test happens to walk

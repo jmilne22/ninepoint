@@ -151,6 +151,8 @@ python3 tools/check_lessons.py                   # verify every taught position 
 python3 tools/check_melody.py                    # does each track's wav match its note list?
 godot --headless --path . --script res://tools/review_distribution.gd   # is the review useful?
 godot --headless --path . --script res://tools/review_distribution.gd -- 13   # ...on the bigger board
+godot --headless --path . --script res://tools/ai_endgame.gd     # where does the opponent stop?
+godot --headless --path . --script res://tools/ai_endgame.gd -- 13
 tools/check_audio.sh                             # is the music actually coming out? (needs a display)
 python3 tools/gen_maps.py                        # rebuild the maps from their generators
 python3 tools/gen_content.py                     # rebuild NpcData / OpponentProfile / quests
@@ -177,7 +179,9 @@ at night, Molenpark and the arches trading their two regulars),
 `cup_round` (from the `cup_day` save: read the draw and play a round),
 `lessons` (Wren teaches ko, and closes it in her own words rather than the Cup speech),
 `taught` (Bertie's ladders, and the post-lesson beat that used to be silent),
-`thirteen` (Kesh over thirteen lines, from the `thirteen_ready` save).
+`thirteen` (Kesh over thirteen lines, from the `thirteen_ready` save),
+`endgame` (pass, and keep passing: the opponent plays on while the points are worth
+having and stops when they are not).
 Screenshots land in `/tmp/ninepoint-shots` (override with `OUT=`). **`run_game.sh` needs a
 script argument** — it runs on a hidden display, so without one there is nothing to see; it
 will tell you to use `play.sh`. `DISPLAY_NUM=0` runs it on the real display instead, which is
@@ -248,8 +252,10 @@ src/go/        pure rules: board, game, scoring, ranks, rating (your rank, deriv
                the record and stored nowhere), nigiri/handicap, lessons, SGF,
                table talk (what just happened, as tags a person could react to),
                review (what happened in a finished game, from the rules alone)
-src/go_ai/     GoOpponent interface, the heuristic AI (style as well as strength:
-               the chase, the cut, the book), a GTP adapter for KataGo
+src/go_ai/     GoOpponent interface, GoEndgame (which ground is finished, and the
+               opinion a two-ply reader is entitled to about it), the heuristic AI
+               (style as well as strength: the chase, the cut, the book),
+               a GTP adapter for KataGo
 src/go_ui/     board view, match scene, puzzle scene, lesson runner, review screen,
                nigiri ceremony
 src/rpg/       world, player, NPCs, maps, components (Warp, Interactable,
@@ -418,6 +424,17 @@ opponent in the game over the lesson bed. Four themes ship an intro sting named 
 found by convention rather than configuration. The review drops back to the quiet bed on
 purpose: the fight is over and that is the part where you think.
 
+**A game ends where a game of Go ends.** The opponent passes when nothing contested is
+left — `GoEndgame` decides which empty points are somebody's finished ground, and a point
+inside one is not a candidate, on either side of the board. So it no longer fills the dame,
+then its own territory, then invades a settled corner and dies there one stone at a time,
+which is what a 13×13 used to look like for three hundred moves. When the opponent has
+passed and the game is decided by more than `MERCY_SHARE` of the board it counts rather
+than plays on; when the game is *close* it plays the points that are left, because passing
+them back is what made a margin mean nothing. Passing is also a thing a person does now:
+`i_pass` / `you_pass` are table-talk tags, and the first time a beginner passes, whoever is
+across the board tells them the game is not over.
+
 **Act 2 ends.** The top four of the lower league sit a qualifying exam on day `EXAM_DAY` —
 three rounds, a round robin, even games, top two through — and the league board's promise
 since M13 finally decides something. Failing it is an ending too, and Hana has the word on
@@ -484,10 +501,15 @@ No engine, and the seam for one is `GoEvaluator` — see the debt list before re
   outright that they know. A lesson ends on `taught_<lesson>`, falling back to `taught` --
   `World._post_lesson` tries the specific node first, which is how one teacher closes two
   different lessons without one running on into the other's speech.
-- **The AI's endgame is weak** — it stops playing once only first-line points remain, so a
-  human who passes wins by a margin that means nothing. Needs a mercy rule and a better
-  endgame before it is satisfying above ~15k. Its *style* is no longer the problem: profiles
-  differ in how they blunder, how deep they read, and what they are drawn to.
+- **The AI's *middlegame* is weak, and that is now the honest version of the sentence.**
+  M29 fixed the endgame: `GoEndgame` says which ground is finished, the pass rule is the
+  absence of a contested point rather than a score under a threshold, and a decided game
+  stops. Self-play went from 1.76 moves a point to 0.92 at 13×13, and the waste — stones
+  played onto a point somebody already owned — from 87 a game to 3.6. What is left is that
+  it cannot tell a ten-point move from a two-point one, which is judgement rather than
+  plumbing, and is the same engine question `GoEvaluator` asks two bullets up. Its *style*
+  is not the problem either: profiles differ in how they blunder, how deep they read, and
+  what they are drawn to.
 - Audio has never been *heard* by an assistant, and the machine checks are worth stating
   precisely, because the loose version of this sentence claimed more than they do. Checked:
   that each track's wav **agrees with the note list that produced it** (`tools/check_melody.py`

@@ -1350,3 +1350,131 @@ file with `thirteen` in its name. The script now runs to the choice with
 `advance: 30, stop_at_choice`, and places its one stone by clamping into a corner and
 counting out, because `move_cursor` clamps and a count from a wall cannot drift. A file name
 is a claim; the panel is the result.
+
+---
+
+## M29 — The endgame  [done]
+
+Three documents said the same sentence -- ROADMAP §5, ROADMAP §8 and CLAUDE.md's known
+gaps -- and none of them said it precisely: *the AI's endgame is weak, it stops playing
+once only first-line points remain, so a human who passes wins by a margin that means
+nothing.* Half of that was true and the more expensive half was missing.
+
+**What was actually wrong.** `choose_move()` passed only when the opponent had *just*
+passed **and** its best move scored under a threshold. So against anybody who kept
+playing it never stopped at all: it filled the dame, then its own territory, then played
+single stones into settled enemy areas where they died, one after another, until no legal
+non-eye move remained. `_candidates()` refused its own settled regions up to
+`maxi(8, cells / 4)` points and never refused the opponent's, which is that invasion loop
+in one line. And `_line_value()` -- third line +4, first line −4 -- is an opening
+heuristic that was being applied to move 150 exactly as to move 1, which is the half the
+documents did record.
+
+**Measured before anything was changed**, with `tools/ai_endgame.gd`, which is new
+because M28 measured these numbers by hand and left nothing to re-run them with. 24
+self-play games a pairing. "Wasted" is a stone played onto a point that
+`GoScoring.territory_map()` already gave to somebody -- deliberately *not* the opponent's
+own idea of settled, because a policy that grades its own homework stops playing pointless
+moves at the moment it redefines pointless.
+
+| 9×9 | moves | worst | per point | wasted | ended in passes | worst move |
+|---|---|---|---|---|---|---|
+| kesh vs kesh | 96.3 → **79.8** | 145 → **99** | 1.19 → **0.99** | 10.7 → **3.9** | 24/24 → 24/24 | 1.72 → 1.87 ms |
+| wren vs kesh | 138.2 → **76.8** | 486 → **92** | 1.71 → **0.95** | 42.7 → **4.8** | 21/24 → **24/24** | 1.48 → 2.00 ms |
+| random vs kesh | 98.6 → **93.7** | 122 → **126** | 1.22 → **1.16** | 14.3 → **12.8** | 24/24 → 24/24 | 1.51 → 2.14 ms |
+
+| 13×13 | moves | worst | per point | wasted | ended in passes | worst move |
+|---|---|---|---|---|---|---|
+| kesh vs kesh | 297.9 → **156.2** | 1014 → **177** | 1.76 → **0.92** | 87.3 → **3.6** | 21/24 → **24/24** | 4.00 → 3.98 ms |
+| wren vs kesh | 334.2 → **159.2** | 1014 → **189** | 1.98 → **0.94** | 124.0 → **4.3** | 20/24 → **24/24** | 4.12 → 4.41 ms |
+| random vs kesh | 193.9 → **188.9** | 262 → **224** | 1.15 → **1.12** | 22.6 → **24.4** | 24/24 → 24/24 | 7.50 → 5.56 ms |
+
+The 1014s are the guard, not a game: three 13×13 pairings in twenty-four never ended.
+The random pairing barely moves and should not -- half of that waste is the random player's
+own, and it is in the table as the control that says so.
+
+**What was built:**
+
+- **`GoEndgame`** (`src/go_ai/go_endgame.gd`), pure and static: which empty points belong
+  to somebody and are finished with. A region qualifies when it is enclosed by exactly one
+  colour, is small enough for that to mean something, and has walls that are neither in
+  atari nor already judged dead by `GoScoring.estimate_dead()`. It is in `src/go_ai/` and
+  not `src/go/` because "small enough to be sure of" is an opinion a two-ply reader holds,
+  and `src/go/` may only contain things that are true.
+- **Two caps, and they are different on purpose.** Their ground stops being settled past
+  `maxi(8, cells / 4)`, because being wrong there only means declining to invade and an
+  invasion is exactly the judgement this reader does not have. Your own stops at `cells / 2`
+  -- not a judgement about points, since filling your own territory is wrong at any size,
+  but the bound that stops "enclosed by one colour" from meaning "the open board, and only
+  I have a stone near it".
+- **The pass rule is now the absence of a candidate.** `choose_move()` already passed when
+  `_candidates()` came back empty; with settled ground filtered out of it on both sides,
+  "nothing contested is left" *is* a pass, and it needs nobody's permission. That single
+  change is what ends the 477-move game.
+- **The mercy rule** replaces the old score threshold. When the opponent has passed and
+  `_area_lead()` says the game is decided by more than `MERCY_SHARE` (0.18) of the board,
+  it counts rather than plays on. When the game is *close* it plays on, because those
+  points are real and passing them back was the whole of "a margin that means nothing".
+- **The positional term fades** with the share of the board still in dispute, so the first
+  line stops being a mistake once there is no board left to divide.
+- **A pass is an event.** `GoTableTalk.events()` returned early on any move with no point,
+  so the one thing that happens at the board and produces no tag was passing. It emits
+  `i_pass` / `you_pass` now, nine banter files have lines for them, and the match scene
+  reacts to the player's pass as well as the opponent's -- which is the only warning a
+  beginner gets that passing does not end a game on its own. A pass that *does* end the
+  game holds for `PASS_BEAT` before the counting screen writes over what they said.
+
+**Done when:** `tools/test.sh` green at **5961 / 0** (from 5864), `check_lessons.py` clean,
+`gen_content.py` and `gen_maps.py` byte-identical -- this was a policy change and no
+generated file moved. `review_distribution.gd` re-run at both sizes: 60/60 reviewed, 60/60
+opened with something the player did, 60/60 with two or more findings, nothing above 40%.
+
+**Ten deliberate breaks, and four of them exposed the tests rather than the code.** Each
+guard was reverted on purpose and the suite re-run:
+
+| broken | result |
+|---|---|
+| no cap on your own territory | 2 failed |
+| settled points not filtered from candidates | 1 failed (the self-play length) |
+| atari clause out of the wall test | 1 failed |
+| dead clause out of the wall test | 4 failed |
+| no cap on an enemy enclosure | 12 failed |
+| mercy rule removed / firing always | 1 failed each way |
+| nothing ever settled | 11 failed |
+| the positional term never fades | 1 failed |
+| a pass produces no tag | 4 failed |
+
+The first pass of that table had **four rows reading "0 failed"**, and they are the part
+worth keeping:
+
+- The test named *"a region whose wall is in atari is not settled"* was passing because the
+  wall was also **outnumbered**, so the dead clause was answering and the atari clause was
+  never asked. Deleting the clause the test was named after broke nothing.
+- The test named *"a dead wall encloses nothing"* asserted the settled set was **empty**,
+  when the position also contained a sixty-five point region that legitimately belonged to
+  White. It failed for a real reason the first time it ran -- and the real reason was a
+  **bug**: the opponent called a wide-open board its own territory whenever the other
+  player's last stones were walled in, and passed with sixty-five points empty. That is
+  what `territory_cap` is for, and it exists because a test was written badly enough to
+  find it.
+- The *"no cap on your own territory"* test passed under the break because the dead group
+  in its corner always left White something else to play. It needed a Black group that was
+  **alive**, so that the open board is the only thing left to refuse.
+- The guard against reading the opening as territory (`both colours have a stone on the
+  board`) turned out to be **dead code** -- `territory_cap` already refuses a region that
+  large -- so it was deleted rather than kept as a clause that is never wrong and never
+  right either. Its two tests stay, guarding the cap.
+
+**Looked at, not reasoned about.** `tools/autopilot/endgame.json` (new): start a league
+game, play one stone, then pass and keep passing. Frame 3 is Ilse answering the pass --
+"Already?" -- at move 5, with the game still going and her reply already on the board.
+Frame 10 is move 33 and she is still playing. Frame 11 is **move 37: "Nothing left I want.
+I'll pass."** -- the mercy rule, in her own words, with the right-hand column and the bottom
+rows of the board still empty, in a game that was sixty-eight points decided. She stopped
+because it was over, not because the board was full. The count that follows is a real count.
+
+**And the script's own first cut lied in exactly the way this file keeps warning about.**
+Three frames named `e_counting`, `f_result` and `g_review` were the same result card,
+because the burst of passes ran eight passes past the end of the game and `go_pass` accepts
+the count. The shots are named after the pass they follow now, which is a fact rather than
+a prediction.

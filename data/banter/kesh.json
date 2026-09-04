@@ -43,6 +43,14 @@
   "level": [
    "Close. Good.",
    "This is the interesting part, don't rush it."
+  ],
+  "i_pass": [
+   "Done. Count it.",
+   "There's nothing left. Pass."
+  ],
+  "you_pass": [
+   "Already? All right.",
+   "You're sure? Look at the edges again."
   ]
  }
 }

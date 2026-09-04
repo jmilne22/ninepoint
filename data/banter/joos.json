@@ -24,6 +24,14 @@
   ],
   "level": [
    "Keep going."
+  ],
+  "i_pass": [
+   "Pass.",
+   "Done."
+  ],
+  "you_pass": [
+   "Hm.",
+   "Early."
   ]
  }
 }
