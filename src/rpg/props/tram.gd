@@ -7,11 +7,16 @@
 ## Deliberately no collision. It is scenery on the far track, and it y-sorts
 ## against the player like everything else in Entities, so walking south of the
 ## rails puts you in front of it.
+##
+## It is also the tram you board: the stop asks it to `arrive()` and the scene
+## changes once it has pulled up, so the thing that passes and the thing that
+## carries you are one vehicle rather than two.
 class_name Tram
 extends Node2D
 
 const SPRITE := "res://art/props/tram.png"
-const WIDTH := 48.0
+const WIDTH := 96.0
+const HEIGHT := 36.0
 ## Below this a "run of rails" is a decoration, not a route.
 const MIN_RUN := 10
 const CROSS_TIME := 6.5
@@ -52,7 +57,7 @@ func _ready() -> void:
     _sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
     # Base at the node's y, so Entities' y-sort puts the player in front of it
     # from the pavement south of the tracks.
-    _sprite.position = Vector2(-WIDTH * 0.5, -18.0)
+    _sprite.position = Vector2(-WIDTH * 0.5, -HEIGHT)
     add_child(_sprite)
     visible = false
     # The first one comes soon after you arrive on the street. A first wait
@@ -88,6 +93,24 @@ func _cross() -> void:
     var bell := create_tween()
     bell.tween_interval(CROSS_TIME * 0.42)
     bell.tween_callback(_ring)
+
+
+## Pull in from the east and stop with the door at `stop_x`, then wait a beat.
+## Awaited by the stop; the caller changes scene afterwards, which frees this
+## node, so nothing here may run after the await returns.
+func arrive(stop_x: float) -> void:
+    _crossing = true
+    _going_east = false
+    position.x = _right + WIDTH
+    _sprite.flip_h = true
+    visible = true
+    Audio.play_at("amb_tram", self, 0.03, -7.0, 360.0)
+    var tw := create_tween()
+    tw.tween_property(self, "position:x", stop_x, 2.4) \
+        .set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+    await tw.finished
+    _ring()
+    await get_tree().create_timer(0.8).timeout
 
 
 func _ring() -> void:

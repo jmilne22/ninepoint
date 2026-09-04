@@ -2,7 +2,7 @@
 
 Same idiom as gen_tiles.py -- deterministic pixels through tools/png.py, one
 light direction (top-left), palette only. These are standalone images rather
-than atlas cells because a tram is three tiles long and would burn three atlas
+than atlas cells because a tram is six tiles long and would burn three atlas
 slots that no map ever places.
 """
 import os
@@ -24,40 +24,52 @@ def prop(name):
 
 @prop("tram")
 def _():
-    """A Verhaven tram, side on, 48x18, facing right.
+    """A Verhaven tram, side on, 96x36, facing right.
 
-    Rust red and cream, because the palette's warm accents were already the
-    right colours for a city that is wet most of the time. It is drawn facing
-    right and flipped in code for the other direction, so the two passes are
-    the same vehicle rather than two.
+    Six tiles long and two people tall. It was 48x18 -- smaller than the
+    16 px character standing next to it -- and read as a toy. Rust red and
+    cream, drawn facing right and flipped in code for the other direction.
     """
-    w, h = 48, 18
+    w, h = 96, 36
     im = Img(w, h)
 
-    # the pole to the overhead line, which is most of what says "tram"
-    im.vline(30, 0, 4, rgb("ink2"))
-    im.set(31, 1, rgb("ink3"))
+    # the pantograph to the overhead line, which is most of what says "tram"
+    im.rect(44, 0, 10, 2, rgb("ink2"))
+    im.vline(48, 2, 6, rgb("ink2"))
+    im.vline(49, 2, 6, rgb("ink3"))
 
-    im.rect(1, 4, w - 2, 12, rgb("rust1"))          # body
-    im.frame(1, 4, w - 2, 12, rgb("ink0"))          # outline
-    im.hline(2, 4, w - 4, rgb("rust2"))             # lit top edge, light top-left
-    im.hline(2, 14, w - 4, rgb("rust0"))            # shaded bottom
+    im.rect(2, 8, w - 4, 22, rgb("rust1"))          # body
+    im.frame(2, 8, w - 4, 22, rgb("ink0"))          # outline
+    im.hline(3, 9, w - 6, rgb("rust2"))             # lit top edge, light top-left
+    im.hline(3, 10, w - 6, rgb("rust2"))
+    im.hline(3, 28, w - 6, rgb("rust0"))            # shaded bottom
+    im.hline(3, 27, w - 6, rgb("rust0"))
+    im.hline(3, 20, w - 6, rgb("paper1"))           # the cream waist band
+    im.hline(3, 21, w - 6, rgb("paper0"))
 
     # window band. The gaps are the pillars between them.
-    for x in range(4, w - 6, 7):
-        im.rect(x, 6, 5, 5, rgb("blue1"))
-        im.hline(x, 6, 5, rgb("blue2"))
-        im.set(x, 10, rgb("blue0"))
+    for x in range(8, w - 16, 12):
+        im.rect(x, 12, 8, 7, rgb("blue1"))
+        im.hline(x, 12, 8, rgb("blue2"))
+        im.hline(x, 18, 8, rgb("blue0"))
+        im.vline(x, 12, 7, rgb("blue2"))
+
+    # the door, two thirds of the way along
+    im.rect(66, 12, 7, 16, rgb("rust0"))
+    im.vline(69, 12, 16, rgb("ink1"))
+    im.rect(67, 13, 5, 6, rgb("blue1"))
 
     # the front: a destination blind and a lamp
-    im.rect(w - 8, 6, 5, 3, rgb("paper1"))
-    im.hline(w - 8, 6, 5, rgb("paper0"))
-    im.set(w - 3, 12, rgb("gold3"))
-    im.set(w - 4, 12, rgb("gold2"))
+    im.rect(w - 14, 12, 9, 5, rgb("paper1"))
+    im.hline(w - 14, 12, 9, rgb("paper0"))
+    im.rect(w - 6, 23, 2, 2, rgb("gold3"))
+    im.set(w - 7, 24, rgb("gold2"))
 
-    im.hline(2, 15, w - 4, rgb("ink1"))             # skirt
-    for wx in (7, 14, 33, 40):                      # wheels
-        im.rect(wx, 16, 3, 2, rgb("ink0"))
+    im.hline(3, 29, w - 6, rgb("ink1"))             # skirt
+    im.rect(2, 30, w - 4, 2, rgb("ink1"))
+    for wx in (12, 24, 62, 74):                     # wheels, two bogies
+        im.rect(wx, 31, 6, 5, rgb("ink0"))
+        im.rect(wx + 1, 32, 4, 3, rgb("ink2"))
     return im
 
 

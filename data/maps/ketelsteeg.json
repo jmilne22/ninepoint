@@ -270,28 +270,6 @@
    "map": "quay",
    "spawn": "from_park",
    "prompt": "Down to the water"
-  },
-  {
-   "tile": [
-    0,
-    10
-   ],
-   "map": "academy_hall",
-   "spawn": "from_tram",
-   "prompt": "Tram 4, northbound",
-   "required_flag": "invited_to_institute",
-   "blocked_text": "Tram 4 goes north to Essenveld. Nothing up there for you yet."
-  },
-  {
-   "tile": [
-    0,
-    11
-   ],
-   "map": "bondszaal",
-   "spawn": "from_tram",
-   "prompt": "Tram 4, southbound",
-   "required_flag": "ranked_by_club",
-   "blocked_text": "Tram 4 goes south to the Bondszaal. Nothing down there for somebody with no rank."
   }
  ],
  "signs": [
@@ -300,7 +278,8 @@
     1,
     9
    ],
-   "text": "TRAM 4 -- ESSENVELD, 2 STOPS. The Instituut is listed underneath in smaller letters, as though it would rather not be found."
+   "prompt": "Tram 4",
+   "text": "__TRAM__{\"routes\": [{\"label\": \"North, to Essenveld.\", \"map\": \"academy_hall\", \"spawn\": \"from_tram\", \"flag\": \"invited_to_institute\", \"refused\": \"Tram 4 goes north to the Instituut. Nobody up there is expecting you yet.\"}, {\"label\": \"South, to the Bondszaal.\", \"map\": \"bondszaal\", \"spawn\": \"from_tram\", \"flag\": \"ranked_by_club\", \"refused\": \"Tram 4 goes south to the federation hall. Nothing down there for somebody with no rank.\"}]}"
   },
   {
    "tile": [

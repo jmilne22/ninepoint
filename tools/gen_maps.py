@@ -229,19 +229,19 @@ def ketelsteeg():
              "prompt": "Down to the water"},
             {"tile": [quay_steps + 1, 19], "map": "quay", "spawn": "from_park",
              "prompt": "Down to the water"},
-            # The northbound tram. Shut until Hana has told the player to enrol.
-            {"tile": [0, 10], "map": "academy_hall", "spawn": "from_tram",
-             "prompt": "Tram 4, northbound", "required_flag": "invited_to_institute",
-             "blocked_text": "Tram 4 goes north to Essenveld. Nothing up there for you yet."},
-            # Trams run both ways. South is the federation hall, and it is worth
-            # nothing until somebody has written a rank beside the player's name
-            # -- which is exactly what Marguerite tells them at the desk.
-            {"tile": [0, 11], "map": "bondszaal", "spawn": "from_tram",
-             "prompt": "Tram 4, southbound", "required_flag": "ranked_by_club",
-             "blocked_text": "Tram 4 goes south to the Bondszaal. Nothing down there for somebody with no rank."},
         ],
         "signs": [
-            {"tile": [1, 9], "text": "TRAM 4 -- ESSENVELD, 2 STOPS. The Instituut is listed underneath in smaller letters, as though it would rather not be found."},
+            # The tram stop, at the pole. A sign with a prompt rather than a
+            # walk-on warp at the map's edge: you press [Space] and choose a
+            # direction, and the tram that passes is the tram you board.
+            {"tile": [1, 9], "prompt": "Tram 4", "text": "__TRAM__" + json.dumps({"routes": [
+                {"label": "North, to Essenveld.", "map": "academy_hall", "spawn": "from_tram",
+                 "flag": "invited_to_institute",
+                 "refused": "Tram 4 goes north to the Instituut. Nobody up there is expecting you yet."},
+                {"label": "South, to the Bondszaal.", "map": "bondszaal", "spawn": "from_tram",
+                 "flag": "ranked_by_club",
+                 "refused": "Tram 4 goes south to the federation hall. Nothing down there for somebody with no rank."},
+            ]})},
             {"tile": [3, 9], "text": "STEENBEEK BEGINNER CUP -- entries at the Bondszaal, by tram. All ranks 15k and below."},
             {"tile": [home_door, 8], "text": "A stationer's, shuttered since before you came. Your stairs are the door beside it, and the landlord's cat owns the landing."},
             {"tile": [ketel_steps + 2, 8], "text": "DE KETEL. Three steps down. The bar is Tomas's and so is the back room, which has had a board in it for sixty years."},

@@ -65,7 +65,6 @@ static func build_warps(map: MapData, parent: Node2D) -> void:
         warp.name = "Warp_%s_%d_%d" % [str(w.get("map", "")), int(tile[0]), int(tile[1])]
         warp.target_map = str(w.get("map", ""))
         warp.target_spawn = str(w.get("spawn", ""))
-        warp.prompt = str(w.get("prompt", ""))
         warp.required_flag = str(w.get("required_flag", ""))
         warp.blocked_text = str(w.get("blocked_text", ""))
         var shape := CollisionShape2D.new()

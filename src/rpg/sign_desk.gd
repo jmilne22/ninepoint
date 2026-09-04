@@ -68,6 +68,9 @@ func read(text: String) -> void:
     if text.begins_with("__BED__"):
         await offer_sleep(text.trim_prefix("__BED__"))
         return
+    if text.begins_with("__TRAM__"):
+        await tram_stop(text.trim_prefix("__TRAM__"))
+        return
     await narrate([text])
 
 
@@ -150,6 +153,44 @@ func study_desk(prose: String) -> void:
         _player.input_locked = false
         return
     MatchBridge.start_puzzle(puzzle, _player.global_position)
+
+
+# --- the tram stop -------------------------------------------------------------
+
+## Tram 4. The stop is a thing you press [Space] at, with the destinations as
+## choices, and a refusal is spoken in the box rather than toasted.
+##
+## It used to be two walk-on warps at the far edge of the map with a prompt
+## nothing displayed, while a decorative tram trundled past every forty seconds
+## for the player to wait for. `spec` is JSON: {"routes": [{"label", "map",
+## "spawn", "flag", "refused"}]}, written by tools/gen_maps.py.
+func tram_stop(spec: String) -> void:
+    var parsed = JSON.parse_string(spec)
+    if not (parsed is Dictionary):
+        push_error("SignDesk: bad tram stop spec: %s" % spec)
+        return
+    var routes: Array = parsed.get("routes", [])
+    var choices: Array = []
+    for i in routes.size():
+        choices.append({"text": str(routes[i].get("label", "?")), "exit": {"type": "ride", "route": i}})
+    choices.append({"text": "Not now.", "goto": "no"})
+    var exit := await _choose(["Tram 4. The stop at the end of the street."], choices,
+        "You let it go.")
+    if str(exit.get("type", "")) != "ride":
+        _player.input_locked = false
+        return
+    var route: Dictionary = routes[int(exit.get("route", 0))]
+    var flag := str(route.get("flag", ""))
+    if flag != "" and not GameState.has_flag(flag):
+        await narrate([str(route.get("refused", "Not that way. Not yet."))])
+        return
+    # Board it: the tram that passes is the tram you take. Everything after the
+    # await is the scene change, which frees the world this desk belongs to.
+    _player.clear_target()
+    var tram = _player.get_parent().get_node_or_null("Tram")
+    if tram != null:
+        await tram.arrive(_player.global_position.x)
+    SceneRouter.go_to_map(str(route.get("map", "")), str(route.get("spawn", "")))
 
 
 # --- the bed -----------------------------------------------------------------

@@ -4,9 +4,7 @@ extends Area2D
 
 @export var target_map: String = ""
 @export var target_spawn: String = ""
-@export var prompt: String = ""
-## When set, the doorway stays shut until this flag is true. Used to keep the
-## northbound tram out of Steenbeek closed until Act 1 has actually finished.
+## When set, the doorway stays shut until this flag is true.
 @export var required_flag: String = ""
 @export_multiline var blocked_text: String = ""
 
