@@ -395,6 +395,28 @@ hour and delete the person from the game at every one of them. Trust it.
 
 ---
 
+## Before you call it done — sweep the documents
+
+A task is not finished when the code works. **Every time**, before committing, walk the
+documents and ask what each of them now says that is no longer true. This is the same
+discipline as "pull `main` first" and it fails the same way: nothing errors, nothing warns,
+and the file quietly becomes a liar that the next session reads as fact.
+
+| file | what goes stale |
+|---|---|
+| `ROADMAP.md` | the check count on line 7; an item you just built and left listed as outstanding; new debt you created or found |
+| `MILESTONES.md` | the new `## M<n>` entry: what was built, **`Done when:` with the check count and its predecessor**, the deliberate-breaks table, and what you actually looked at |
+| `CLAUDE.md` | the command block, the autopilot script list, "Current state", the known-gaps list |
+| `README.md` | controls, the vertical slice, the layout tree — it is the only document written for somebody who wants to *play* it |
+| `ARCHITECTURE.md` | module boundaries, the seams, and any format it prints verbatim |
+| `GAME_DESIGN.md` | only when a pillar, the cast or the teaching order moved |
+
+Two habits that catch most of it: **grep for the numbers** (`grep -rn "<old check count>" --include=*.md .`),
+and **read the paragraph you are about to leave alone** rather than the one you changed --
+M31 found `ARCHITECTURE.md` §8 still printing a save schema with a `relationships` field in
+it, from a system that was removed several milestones earlier, and `README.md` pointing at a
+`src/save/` that has never existed.
+
 ## Current state
 
 Playable start to finish: cold open → name → **the attic** → Ketelsteeg → Capture Go → rules
