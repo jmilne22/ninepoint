@@ -52,8 +52,7 @@ const FIELDS := {BEGINNERS: FIELD_BEGINNERS, OPEN: FIELD_OPEN}
 ## ending Act 2 has.
 const CEILING := "15k"
 
-## The id of the player's own row, the way LeagueTable.PLAYER_ID and
-## HooksLadder.PLAYER_ID are. On the pure module, so a test can reach it: the
+## The id of the player's own row, the way LeagueTable.PLAYER_ID is. On the pure module, so a test can reach it: the
 ## panel is a CanvasLayer that touches autoloads and therefore does not compile
 ## in a `--script` run at all.
 const PLAYER_ID := "player"

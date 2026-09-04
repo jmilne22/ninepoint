@@ -108,7 +108,7 @@ func pixel_size() -> Vector2:
 ## `--script` run -- which is how the entire suite runs, so anything put on it is
 ## unreachable from every test in the project, silently. ROADMAP.md section 8
 ## keeps a list of the times that has cost a milestone; this is the boundary
-## LeagueTable/LeagueBoard and HooksLadder/HooksBoard already draw.
+## LeagueTable/LeagueBoard already draws.
 ##
 ## "blocks" is matched against the hour, "days" against the weekday and
 ## "weather" against the sky. Absent or empty means always, for all three, which

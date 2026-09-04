@@ -19,7 +19,6 @@ var pause_menu: PauseMenu
 var league_board: LeagueBoard
 var cup_board: CupBoard
 var exam_board: ExamBoard
-var hooks_board: HooksBoard
 ## Everything you read on a wall or sit down at. See src/rpg/sign_desk.gd.
 var sign_desk: SignDesk
 var entities: Node2D
@@ -157,11 +156,8 @@ func _build_ui() -> void:
     exam_board = ExamBoard.new()
     exam_board.name = "ExamBoard"
     add_child(exam_board)
-    hooks_board = HooksBoard.new()
-    hooks_board.name = "HooksBoard"
-    add_child(hooks_board)
     sign_desk = SignDesk.new(player, dialogue, league_board, cup_board,
-        exam_board, hooks_board,
+        exam_board,
         func(v: bool) -> void: _talking = v,
         _start_class)
     pause_menu = PauseMenu.new()

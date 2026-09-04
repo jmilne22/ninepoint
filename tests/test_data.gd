@@ -1327,10 +1327,6 @@ static func _test_items_round_trip(t: TestKit) -> void:
     for item in wanted.keys():
         t.ok(given.has(item),
             "item '%s' is given by some dialogue (%s)" % [item, wanted[item]])
-    # The desk reads the borrowed book by naming it in GDScript, which is the one
-    # place outside a graph that an item id is written down.
-    t.ok(given.has(SignDesk.BORROWED_BOOK),
-        "the item SignDesk reads at the study desk is one somebody lends you")
 
 
 ## Quest steps that can never be reached are a quest that stops.
@@ -1402,8 +1398,8 @@ static func _test_quest_targets(t: TestKit) -> void:
 ##
 ## It used to show `active_quest_ids()[0]` against the order DirAccess handed
 ## back the .tres files, so which objective the player could see was decided by
-## filename. `page_forty` starts days after `enrolment` and sorts after it, so it
-## was invisible for as long as the older quest ran -- found by opening a
+## filename. A quest started after `enrolment` that sorted after it was invisible
+## for as long as the older quest ran -- found by opening a
 ## screenshot, which is how all of these are found, and guarded here so it stays
 ## found.
 static func _test_journal_order(t: TestKit) -> void:
@@ -1415,19 +1411,19 @@ static func _test_journal_order(t: TestKit) -> void:
     # id would look unknown. Load it the way the game does, once.
     if quests.quests.is_empty():
         quests._load_all()
-    t.ok(quests.quests.has("page_forty"), "the tracker knows the quest exists")
+    t.ok(quests.quests.has("beginner_cup"), "the tracker knows the quest exists")
     state.reset()
     t.eq(quests.active_quest_ids(), [], "nothing started")
     t.eq(quests.journal_quest_id(), "", "and nothing in the journal")
     state.set_quest("enrolment", 1, false)
-    state.set_quest("page_forty", 0, false)
+    state.set_quest("beginner_cup", 0, false)
     var active: Array = quests.active_quest_ids()
     t.eq(active.size(), 2, "both are running")
-    t.eq(str(active[active.size() - 1]), "page_forty",
+    t.eq(str(active[active.size() - 1]), "beginner_cup",
         "the one taken on later is last")
-    t.eq(quests.journal_quest_id(), "page_forty",
+    t.eq(quests.journal_quest_id(), "beginner_cup",
         "and is the one the journal shows")
-    state.set_quest("page_forty", 3, true)
+    state.set_quest("beginner_cup", 0, true)
     t.eq(quests.active_quest_ids(), ["enrolment"],
         "and finishing it hands the journal back to the older one")
 
@@ -1436,7 +1432,7 @@ static func _test_journal_order(t: TestKit) -> void:
     # started in, so the broken version -- ordering by the .tres filenames --
     # passes the assertions above by coincidence.
     state.reset()
-    state.set_quest("page_forty", 0, false)
+    state.set_quest("beginner_cup", 0, false)
     state.set_quest("enrolment", 1, false)
     active = quests.active_quest_ids()
     t.eq(str(active[active.size() - 1]), "enrolment",

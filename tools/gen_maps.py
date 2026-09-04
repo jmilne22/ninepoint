@@ -700,7 +700,7 @@ def de_ketel():
              "prompt": "Ketelsteeg"},
         ],
         "signs": [
-            {"tile": [9, 2], "text": "__HOOKS__THE HOOKS -- one brass hook per regular, strongest at the top, and nobody asks to see a certificate."},
+            {"tile": [9, 2], "text": "A row of brass hooks on the back wall. Coats, mostly, and one umbrella nobody has claimed."},
             {"tile": [18, 4], "text": "A coal stove, lit from October to April whatever the weather does. The chair nearest it is not yours and everybody knows whose it is."},
             {"tile": [1, 5], "text": "The rate is chalked on a slate: two-fifty an hour, board and stones included. Under it a kettle, a tin of biscuits, and an honesty box. The biscuits are gone."},
             {"tile": [1, 4], "text": "Pinned to the counter, in Tomas's handwriting: CLUB NIGHT -- TUESDAY, FROM EIGHT. Underneath, smaller: all comers, no cards, the hooks count everything."},

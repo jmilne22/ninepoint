@@ -24,7 +24,6 @@ func _initialize() -> void:
         "league": LeagueTests, "content data": GoDataTests,
         "ambience": WorldAmbienceTests, "match music": MatchMusicTests,
         "exam": ExamTests,
-        "hooks": HooksTests,
         "save": SaveTests,
         "rating": RatingTests, "cup": CupTests, "table talk": TableTalkTests,
     }
