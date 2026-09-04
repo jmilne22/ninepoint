@@ -199,6 +199,12 @@ func _start_class() -> void:
 
 
 ## The teacher says something after a lesson, so it does not end in mid-air.
+##
+## `taught_<lesson>` first, then `taught`. Wren is why: she teaches the rulebook
+## and, much later, ko, and one `taught` node was closing both -- so finishing ko
+## ran on into the Cup speech and "That's Kesh over there, by the window", to a
+## player who had already played her. A teacher with one thing to say still says
+## it from `taught`; a teacher whose lessons want different words names them.
 func _post_lesson(lesson_id: String) -> void:
     var lesson := GoLessonData.load_lesson(lesson_id)
     if lesson == null or lesson.teacher == "":
@@ -209,7 +215,7 @@ func _post_lesson(lesson_id: String) -> void:
     await get_tree().create_timer(0.25).timeout
     player.face_towards(npc.global_position)
     npc.look_at_point(player.global_position)
-    await _talk(npc, "taught")
+    await _talk(npc, "taught_%s" % lesson_id, "taught")
 
 
 ## The hour turned while the world was still standing, so the people in it may
@@ -473,7 +479,10 @@ func _play_graph(path: String, speaker: Dictionary) -> Dictionary:
     return exit
 
 
-func _talk(npc: Npc, start_node: String = "start") -> void:
+## `fallback` is the node to enter when `start_node` resolves to nothing. It
+## exists for _post_lesson, which asks for a beat named after the specific lesson
+## and settles for the teacher's general one -- see the comment there.
+func _talk(npc: Npc, start_node: String = "start", fallback: String = "") -> void:
     if _talking or npc.data == null:
         npc.release()
         return
@@ -490,7 +499,10 @@ func _talk(npc: Npc, start_node: String = "start") -> void:
             "portrait": npc.data.portrait_texture(),
             "rank": npc.data.rank_label,
         }
-        exit = await dialogue.run(graph, speaker, start_node)
+        var entry := start_node
+        if fallback != "" and graph.resolve(entry) == "":
+            entry = fallback
+        exit = await dialogue.run(graph, speaker, entry)
 
     npc.release()
     EventBus.dialogue_finished.emit(npc.npc_id)

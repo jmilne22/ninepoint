@@ -4,7 +4,7 @@ Everything below is outstanding as of the current build. It is ordered by what
 would most improve the game, not by what is easiest. `MILESTONES.md` records what
 was built and how it was verified; this file records what has not been.
 
-The build is green: `tools/test.sh` runs 5525 checks, `tools/check_lessons.py`
+The build is green: `tools/test.sh` runs 5824 checks, `tools/check_lessons.py`
 reports no problems, and the game is playable from the cold open to the exam and
 the Cup.
 
@@ -172,67 +172,63 @@ at the 4-4 points, and `HeuristicOpponent._book_move()` takes its corner book fr
   of thing this project has twice found out about by running it rather than by
   reasoning about it.
 
-## 6. The tutorial
+## 6. ~~The tutorial~~ — built (M27)
 
-Eleven lessons exist and the machinery around them was written when there were
-three. M21 grew the curriculum and did not revisit the rulebook track, the
-`knows_the_rules` flag or the post-lesson beat, and none of what that left behind
-was written down until now.
+Eleven lessons existed and the machinery around them was written when there were three.
+M21 grew the curriculum and did not revisit it; M27 did. All seven items below are closed.
 
-- **`self_capture` is reachable from one dialogue choice.** In Wren's
-  `ask_experience`, only "Never. I don't know the rules at all." carries
-  `"track": true`, which queues `MatchBridge.TUTORIAL_TRACK` -- liberties, capture,
-  self-capture. "A bit. Remind me of the capturing rule." starts `capture` alone,
-  and `finish_lesson` sets `knows_the_rules` anyway, and Wren's `taught` node still
-  says "liberties, capture, and no filling in your own last one" to a player who was
-  never shown the third one. `start` never returns to `ask_experience`, so it is
-  skipped for the life of that save.
-- **`knows_the_rules` is doing two jobs and doing neither.**
-  `MatchBridge.finish_lesson` sets it whenever any lesson completes with an empty
-  queue, so Bertie's ladders or Tomas's counting or a class at the Institute all
-  count as having been taught the rules. Meanwhile "I know how the stones move" --
-  a player stating outright that they know them -- sets only
-  `wren_knows_you_can_play`, which nothing reads. That player finds the study desk
-  refusing them in their own attic ("You still do not know what any of it is for"),
-  Joos on his `no_rules` branch, Bertie and Tomas both locked, and the ko lesson
-  never offered, until an unrelated lesson from Kesh retroactively unlocks all four.
-  The flag wants splitting: what you have been taught, and what you have said.
-- **Four of the eleven lessons end in silence.** `World._post_lesson()` exists so a
-  lesson "does not end in mid-air" -- it looks up `lesson.teacher` and opens that
-  person's `taught` node. Only `wren.json` and `hana.json` have one. Kesh (`escape`,
-  `connection`), Bertie (`ladders`) and Tomas (`counting`) do not, so
-  `resolve("taught")` returns `""`, `DialogueBox.run` emits `end` without showing a
-  box, and the teacher says nothing about what she has just taught you. This is the
-  rule 6 failure shape one seam over, and `tests/test_data.gd` refuses a
-  `start_match` with no `post_match` while having no lesson equivalent.
-- **The ko lesson replays the pre-Kesh Cup speech.** Wren's `taught` ends
-  `"goto": "cup"`, which runs on into `point_at_kesh` -- "That's Kesh over there, by
-  the window. Twelve kyu. She'll play anyone." `offer_ko` is gated on
-  `kesh_match_done`, so ko is only ever taught after that game has been played. One
-  `taught` node is being asked to close two different lessons.
-- **A lesson cannot be re-taken.** The study desk repeats puzzles once all eight are
-  solved and the class board repeats its last class; the rulebook repeats never,
-  because `wren_asked_experience` closes `ask_experience` permanently. A beginner who
-  has forgotten what a liberty is has nowhere to go, and the desk -- the one place in
-  the game built for revision -- hands out problems only.
-- **`tools/autopilot/tutorial.json` drives a menu item deleted in M12.** It opens
-  `move_down` + `interact` under the note "select Learn to play", against a title
-  screen whose items are New Game / Continue / Quit. It now selects **Continue**,
-  loading whatever is in slot 1, then spends twelve more `interact` taps writing
-  twelve screenshots named `lesson_intro`, `step1_liberties`, `step2_corner` of the
-  overworld -- or, with no save at all, of the title screen with a disabled item
-  under the cursor. Exit 0, no script errors: section 8's lesson, sitting inside the
-  harness that exists to catch it. It is also the only script that needs a save and
-  declares none. `lessons.json` is the working replacement, and CLAUDE.md still
-  advertises `tutorial` as a script you can run.
-- **Nothing asserts a lesson or a puzzle is reachable.** `tests/test_data.gd`
-  checks that every `exit` names a real lesson and a real puzzle, and has the reverse
-  check -- with a written allow-list -- for opponent profiles only. Four lessons
-  (`self_capture`, `openings`, `two_eyes`, `life_and_death`) and all eight puzzles
-  are named nowhere but a GDScript constant: `MatchBridge.TUTORIAL_TRACK`,
-  `World.CLASS_TRACK`, `World.PUZZLE_TRACK`. A typo in one of those is silent at run
-  time, which is the failure section 2 has already paid for once with
-  `hana_teaching`.
+- ~~**`self_capture` is reachable from one dialogue choice.**~~ Both rulebook entries now
+  carry `"track": true`, so asking Wren to remind you of the capturing rule teaches the
+  rest of the rulebook after it, which is what her closing line always claimed. The guard
+  is general rather than specific: `tests/test_data.gd` requires *any* `start_lesson` exit
+  naming a lesson in `MatchBridge.TUTORIAL_TRACK` to carry the track, because entering the
+  rulebook part-way and not finishing it is the bug rather than that one node being wrong.
+- ~~**`knows_the_rules` is doing two jobs and doing neither.**~~ Split. `finish_lesson` sets
+  it only when every lesson in `TUTORIAL_TRACK` has its `lesson_<id>_done` flag, or when
+  `said_knows_the_rules` is set -- the player telling Wren they know how the stones move,
+  which is now taken at their word instead of setting a flag nothing read. The old
+  behaviour was worse than this file recorded: `kesh.json`'s `offer_escape` is not gated on
+  the flag, so one lesson from Kesh retroactively unlocked the study desk, Joos, Bertie and
+  Tomas at once. `wren_knows_you_can_play` is retired; it had zero readers and was set by
+  the `cup` node on every path through it, including paths where the player said nothing.
+- ~~**Four of the eleven lessons end in silence.**~~ `World._post_lesson()` now enters
+  `taught_<lesson>` and falls back to `taught`. Kesh has a close for each of her two
+  lessons; Bertie and Tomas needed one line each, because **the writing already existed**
+  in nodes called `after_lesson`, reachable from `start` and therefore playing one
+  conversation late. `tests/test_data.gd` now requires every lesson's teacher to have one
+  of the two nodes -- the `start_match`/`post_match` rule one seam over.
+- ~~**The ko lesson replays the pre-Kesh Cup speech.**~~ The per-lesson node is what fixes
+  this: ko ends on `taught_ko` and stops there. `taught` also branches on
+  `wren_told_about_cup` now, so a *refresher* does not replay a speech about a tournament
+  the player entered days ago either.
+- ~~**A lesson cannot be re-taken.**~~ Wren offers the rulebook again, from `repeat` and
+  from both game offers, so it is reachable at every stage of a save. Deliberately on her
+  and not at the study desk: GAME_DESIGN is explicit that there is no menu item because
+  being taught by somebody is the point, and the desk keeps handing out problems.
+- ~~**`tools/autopilot/tutorial.json` drives a menu item deleted in M12.**~~ Deleted, and
+  the CLAUDE.md line that advertised it with it.
+
+  **And its replacement had the same disease.** `lessons.json` -- written to replace it --
+  moved the board cursor three squares left and never moved it vertically at all, so it
+  could not reach the answer on step 1 of the ko lesson. It sat on step 1 for the life of
+  the file while writing screenshots called `ko_taken`, `step_two_intro` and `refused`,
+  exiting 0 with no script errors every time. Found by opening the PNGs, which is the only
+  way any of these are ever found. It now navigates by clamping into the corner and
+  counting out, so it cannot drift no matter where the cursor starts.
+- ~~**Nothing asserts a lesson or a puzzle is reachable.**~~ `tests/test_data.gd` now checks
+  both directions for lessons and puzzles, with the same written allow-list idiom as
+  `REACHED_BY_EVENT`, and reads the three GDScript tracks off the script rather than naming
+  them (an autoload is not resolvable as a plain identifier in a `--script` run). A fourth
+  check closes the asymmetry §8 recorded: every dialogue node must be reachable from an
+  entry point. `pip.json`'s `capture_go` is on that allow-list rather than fixed -- see §8.
+
+**Verification.** 5525 -> 5824 checks, 0 failed. Every new guard was confirmed to *fail*
+when the thing it guards was broken on purpose -- Bertie's `taught` node deleted, an id in
+`PUZZLE_TRACK` typo'd, an orphan node added to `joos.json`, `pip.json` dropped from the
+orphan allow-list, `self_capture` dropped from the track allow-list, and the `track` flag
+removed from Wren's capture choice. Two autopilot runs screenshotted and looked at: Wren
+closing ko in her own words, and Bertie closing ladders with a paragraph that had never
+once played at the moment it was written for.
 
 ## 7. The review
 
@@ -311,6 +307,12 @@ Owned by a parallel effort; listed here for completeness.
 - **The AI's endgame is weak.** It stops playing once only first-line points
   remain, so a human who passes wins by a margin that means nothing. It wants a
   mercy rule and a better endgame before it is a satisfying opponent above ~15k.
+- **`check_load.gd` never opens a `.json` file.** Its `EXTS` is `gd/tscn/tres/fnt`, so the
+  load gate walks `res://data` and skips every dialogue graph, lesson, puzzle, banter file
+  and review voice in it. Those are validated only where a specific test happens to walk
+  them -- `test_data.gd` covers dialogue, lessons, puzzles and maps, and nothing at all
+  covers `data/reviews/`, where three of the eight voice files are named by no test. A
+  malformed one surfaces as a `push_error` at run time, in front of the player.
 - **Two test hooks ship in production code**: the `Autopilot` autoload and
   `GoMatch.THINK_DELAY_FAST`.
 - **`GtpOpponent` is unwired**, with three known bugs between it and an engine:

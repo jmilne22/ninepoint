@@ -127,6 +127,9 @@
      "goto": "regular"
     }
    ]
+  },
+  "taught": {
+   "goto": "after_lesson"
   }
  }
 }

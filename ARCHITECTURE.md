@@ -137,6 +137,26 @@ Consequences: the Go board can be launched standalone from the editor for testin
 can be developed against a fake result; and swapping the AI or the board renderer touches
 nothing else.
 
+**Coming back from a lesson or a match, the world re-enters the graph at a fixed node**, and
+in both directions the failure is silent rather than loud: `DialogueGraph.resolve()` returns
+`""` for a node that does not exist, and `DialogueBox.run` then emits `end` without ever
+showing a box. So a missing node is a beat that stops happening, with no error and no
+failing test.
+
+| Coming back from | World enters | If it is missing |
+|---|---|---|
+| a match | `post_match` | the opponent says nothing about the game |
+| a lesson | `taught_<lesson>`, falling back to `taught` | the teacher says nothing about what they just taught |
+
+`taught_<lesson>` exists because one teacher may give several lessons that want different
+closing words — Wren teaches the rulebook and, much later, ko, and a single `taught` node
+closing both sent anyone finishing ko back through a speech about a game they had already
+played. A teacher with one thing to say still says it from `taught`.
+
+`tests/test_data.gd` enforces both rows: a graph with a `start_match` exit must have a
+`post_match`, and every lesson's `teacher` must have one of its two nodes. Both rules exist
+because the shape had already cost silent bugs — see MILESTONES M24 and M27.
+
 ## 5. Opponent interface (built for KataGo later)
 
 ```gdscript

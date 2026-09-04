@@ -13,6 +13,10 @@ static func run(t: TestKit) -> void:
     _test_schedules(t)
     _test_dialogue_branches(t)
     _test_lessons(t)
+    _test_lessons_have_a_close(t)
+    _test_lessons_and_puzzles_reachable(t)
+    _test_no_orphan_nodes(t)
+    _test_rulebook_exits_carry_the_track(t)
 
 
 static func _list(dir_path: String, ext: String) -> PackedStringArray:
@@ -109,6 +113,34 @@ static func _test_dialogue_exits(t: TestKit) -> void:
         if starts_a_match:
             t.ok(nodes.has("post_match"),
                 "%s offers a game, so it has a post_match node" % path)
+
+
+## Entering the rulebook anywhere must teach the rest of it.
+##
+## `track` is what queues the remainder of MatchBridge.TUTORIAL_TRACK after the
+## lesson named. Wren's "A bit. Remind me of the capturing rule." started
+## `capture` without it, so `self_capture` was never queued -- and then
+## finish_lesson declared the rules known and Wren's closing line said she had
+## taught "liberties, capture, and no filling in your own last one", one third of
+## which had not happened. A rulebook lesson offered without `track` is that bug.
+static func _test_rulebook_exits_carry_the_track(t: TestKit) -> void:
+    t.section("the rulebook is taught whole")
+    var track := _script_const("res://src/autoload/match_bridge.gd", "TUTORIAL_TRACK")
+    t.ok(track.size() > 0, "the tutorial track is readable")
+    for path in _list("res://data/dialogue", ".json"):
+        var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
+        if not (parsed is Dictionary):
+            continue
+        var nodes: Dictionary = parsed.get("nodes", {})
+        for key in nodes.keys():
+            for exit in _exits(nodes[key]):
+                if str(exit.get("type", "")) != "start_lesson":
+                    continue
+                if not track.has(str(exit.get("lesson", ""))):
+                    continue
+                t.ok(bool(exit.get("track", false)),
+                    "%s: '%s' teaches rulebook lesson '%s', so it carries the whole track"
+                        % [path, key, str(exit["lesson"])])
 
 
 ## The reverse direction: a profile nothing can reach is a file that loads, is
@@ -437,3 +469,160 @@ static func _test_lessons(t: TestKit) -> void:
                             "%s: the refusal is what completes the step" % where)
                 _:
                     t.ok(g.legal_moves().size() > 0, "%s: some legal move exists" % where)
+
+
+## Every lesson's teacher must have something to say when it ends.
+##
+## World._post_lesson() enters `taught_<lesson>`, falling back to `taught`. If
+## neither exists, DialogueGraph.resolve() returns "" and DialogueBox.run emits
+## `end` without ever showing a box -- the teacher simply says nothing, with no
+## error and no failing test. Four of eleven lessons shipped like that: Kesh's
+## escape and connection, Bertie's ladders and Tomas's counting.
+##
+## This is the same rule as the `start_match` / `post_match` check above, one
+## seam over. That one exists because the shape had already cost three silent
+## bugs; this one exists because it then cost four more.
+static func _test_lessons_have_a_close(t: TestKit) -> void:
+    t.section("every lesson is closed by its teacher")
+    for path in _list("res://data/lessons", ".json"):
+        var lesson_id := path.get_file().trim_suffix(".json")
+        var l := GoLessonData.load_lesson(lesson_id)
+        if l == null:
+            continue
+        t.ok(l.teacher != "", "%s names a teacher" % lesson_id)
+        if l.teacher == "":
+            continue
+        var graph_path := "res://data/dialogue/%s.json" % l.teacher
+        t.ok(FileAccess.file_exists(graph_path),
+            "%s: teacher '%s' has a dialogue graph" % [lesson_id, l.teacher])
+        if not FileAccess.file_exists(graph_path):
+            continue
+        var parsed = JSON.parse_string(FileAccess.get_file_as_string(graph_path))
+        if not (parsed is Dictionary):
+            continue
+        var nodes: Dictionary = parsed.get("nodes", {})
+        t.ok(nodes.has("taught_%s" % lesson_id) or nodes.has("taught"),
+            "%s: %s has a 'taught_%s' or 'taught' node to end it on"
+                % [lesson_id, l.teacher, lesson_id])
+
+
+## The tracks are GDScript constants, so a typo in one is silent at run time --
+## the same failure hana_teaching cost when nothing checked the reverse direction
+## for opponent profiles. These are the only names by which four lessons and all
+## eight puzzles are reached at all.
+## The tracks are GDScript constants, so a typo in one is silent at run time --
+## the same failure hana_teaching cost when nothing checked the reverse direction
+## for opponent profiles. These are the only names by which four lessons and all
+## eight puzzles are reached at all.
+##
+## Read off the script rather than named directly: MatchBridge is an autoload,
+## and an autoload is not resolvable as a plain identifier in a `--script` run --
+## the same reason dialogue_graph.gd looks its own up by path.
+static func _script_const(path: String, name: String) -> Array:
+    var s := load(path) as GDScript
+    if s == null:
+        return []
+    return s.get_script_constant_map().get(name, [])
+
+
+## Lessons and puzzles reached by a GDScript constant rather than by dialogue.
+## A written list, for the reason REACHED_BY_EVENT is one: a thing reachable only
+## from code should be a decision somebody made, not an oversight nobody noticed.
+const LESSONS_REACHED_BY_TRACK := ["self_capture", "openings", "two_eyes", "life_and_death"]
+const PUZZLES_REACHED_BY_TRACK := ["capture_1", "capture_2", "capture_3", "capture_4",
+                                   "escape_1", "escape_2", "live_1", "live_2"]
+
+
+static func _test_lessons_and_puzzles_reachable(t: TestKit) -> void:
+    t.section("every lesson and puzzle can be reached")
+    # Forwards: a constant naming a file that does not exist is a lesson or a
+    # class that silently does nothing when the player asks for it.
+    const BRIDGE := "res://src/autoload/match_bridge.gd"
+    const WORLD := "res://src/rpg/world.gd"
+    var tracks := {
+        "MatchBridge.TUTORIAL_TRACK": _script_const(BRIDGE, "TUTORIAL_TRACK"),
+        "World.CLASS_TRACK": _script_const(WORLD, "CLASS_TRACK"),
+    }
+    for track_name in tracks:
+        var ids: Array = tracks[track_name]
+        t.ok(ids.size() > 0, "%s is readable and not empty" % track_name)
+        for lesson_id in ids:
+            t.ok(FileAccess.file_exists("res://data/lessons/%s.json" % lesson_id),
+                "%s names a real lesson ('%s')" % [track_name, lesson_id])
+    var puzzle_tracks := {
+        "World.PUZZLE_TRACK": _script_const(WORLD, "PUZZLE_TRACK"),
+        "World.EXAM_PAPER": _script_const(WORLD, "EXAM_PAPER"),
+    }
+    for track_name in puzzle_tracks:
+        var ids: Array = puzzle_tracks[track_name]
+        t.ok(ids.size() > 0, "%s is readable and not empty" % track_name)
+        for puzzle_id in ids:
+            t.ok(FileAccess.file_exists("res://data/puzzles/%s.json" % puzzle_id),
+                "%s names a real puzzle ('%s')" % [track_name, puzzle_id])
+
+    # Backwards: a lesson or puzzle nothing names is a file that loads, is never
+    # wrong, and never happens.
+    var named_lessons := {}
+    var named_puzzles := {}
+    for path in _list("res://data/dialogue", ".json"):
+        var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
+        if not (parsed is Dictionary):
+            continue
+        var nodes: Dictionary = parsed.get("nodes", {})
+        for key in nodes.keys():
+            for exit in _exits(nodes[key]):
+                if exit.has("lesson"):
+                    named_lessons[str(exit["lesson"])] = true
+                if exit.has("puzzle"):
+                    named_puzzles[str(exit["puzzle"])] = true
+    for path in _list("res://data/lessons", ".json"):
+        var lesson_id := path.get_file().trim_suffix(".json")
+        t.ok(named_lessons.has(lesson_id) or LESSONS_REACHED_BY_TRACK.has(lesson_id),
+            "lesson %s is reachable: some dialogue teaches it, or a track lists it" % lesson_id)
+    for path in _list("res://data/puzzles", ".json"):
+        var puzzle_id := path.get_file().trim_suffix(".json")
+        t.ok(named_puzzles.has(puzzle_id) or PUZZLES_REACHED_BY_TRACK.has(puzzle_id),
+            "puzzle %s is reachable: some dialogue sets it, or a track lists it" % puzzle_id)
+
+
+## Nodes no path can arrive at. _test_dialogue checks that every `goto` resolves;
+## nothing checked the other direction, which is how pip.json's `capture_go` -- a
+## whole written paragraph where Pip works out you have been getting the rules off
+## Wren -- has sat unreachable since the prologue.
+##
+## Entry points are `start` plus the nodes the world enters graphs at directly.
+const GRAPH_ENTRIES := ["start", "post_match", "taught"]
+
+## Written down rather than fixed: the intended entry condition for this one is
+## not obvious from the file, so it wants whoever wrote the prologue rather than a
+## guess from whoever next runs the tests. ROADMAP section 8.
+const KNOWN_ORPHANS := {"res://data/dialogue/pip.json": ["capture_go"]}
+
+
+static func _test_no_orphan_nodes(t: TestKit) -> void:
+    t.section("every dialogue node can be reached")
+    for path in _list("res://data/dialogue", ".json"):
+        var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
+        if not (parsed is Dictionary):
+            continue
+        var nodes: Dictionary = parsed.get("nodes", {})
+        var seen := {}
+        var queue: Array = []
+        for entry in GRAPH_ENTRIES:
+            if nodes.has(entry):
+                queue.append(entry)
+        # Plus any per-lesson close, which World._post_lesson enters by name.
+        for key in nodes.keys():
+            if str(key).begins_with("taught_"):
+                queue.append(str(key))
+        while not queue.is_empty():
+            var id: String = queue.pop_back()
+            if seen.has(id) or not nodes.has(id):
+                continue
+            seen[id] = true
+            for target in _gotos(nodes[id]):
+                queue.append(target)
+        var allowed: Array = KNOWN_ORPHANS.get(path, [])
+        for key in nodes.keys():
+            t.ok(seen.has(key) or allowed.has(str(key)),
+                "%s: '%s' is reachable from an entry point" % [path, key])

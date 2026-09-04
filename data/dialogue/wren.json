@@ -79,14 +79,7 @@
     "Everyone here is getting ready for it. That's why the tables are all out.",
     "If you're going to enter you should get a rank first, and for that you need to actually play somebody."
    ],
-   "goto": "point_at_kesh",
-   "actions": [
-    [
-     "set_flag",
-     "wren_knows_you_can_play",
-     true
-    ]
-   ]
+   "goto": "point_at_kesh"
   },
   "point_at_kesh": {
    "actions": [
@@ -140,6 +133,16 @@
   "repeat": {
    "text": [
     "Kesh is by the window. She's been waiting since you walked in, she just won't say so."
+   ],
+   "choices": [
+    {
+     "text": "Right.",
+     "goto": "repeat_end"
+    },
+    {
+     "text": "Could you go over the rules again?",
+     "goto": "refresher"
+    }
    ]
   },
   "after_win": {
@@ -187,24 +190,33 @@
     },
     {
      "text": "I know how the stones move.",
-     "goto": "cup"
+     "goto": "knows_already"
     },
     {
      "text": "A bit. Remind me of the capturing rule.",
      "exit": {
       "type": "start_lesson",
-      "lesson": "capture"
+      "lesson": "capture",
+      "track": true
      }
     }
    ]
   },
   "taught": {
-   "portrait": "happy",
-   "text": [
-    "There. That is the whole rulebook, near enough -- liberties, capture, and no filling in your own last one.",
-    "Everything else people say about Go is a consequence of those three things, said at greater length."
-   ],
-   "goto": "cup"
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "wren_told_about_cup"
+      ]
+     ],
+     "goto": "taught_again"
+    },
+    {
+     "goto": "taught_first"
+    }
+   ]
   },
   "offer_ko": {
    "text": [
@@ -263,6 +275,10 @@
      }
     },
     {
+     "text": "Could you go over the rules again?",
+     "goto": "refresher"
+    },
+    {
      "text": "Another time.",
      "goto": "offer_later"
     }
@@ -282,6 +298,10 @@
       "context": "wren_club",
       "intro": "Wren again. She has the black bowl before you sit down."
      }
+    },
+    {
+     "text": "Could you go over the rules again?",
+     "goto": "refresher"
     },
     {
      "text": "Not today.",
@@ -322,6 +342,83 @@
     "I WON. Sorry. Sorry. I won.",
     "That is my second win this year and the first one was because somebody's tram was leaving.",
     "Play me again in a bit, would you? While I still have the nerve."
+   ]
+  },
+  "knows_already": {
+   "actions": [
+    [
+     "set_flag",
+     "said_knows_the_rules",
+     true
+    ],
+    [
+     "set_flag",
+     "knows_the_rules",
+     true
+    ]
+   ],
+   "text": [
+    "Oh, good -- then I won't do the whole liberties speech at you. People's eyes go glassy and I never know whether to stop.",
+    "Ask me if you ever want it. I am extremely happy to do the whole liberties speech at you."
+   ],
+   "goto": "cup"
+  },
+  "taught_first": {
+   "portrait": "happy",
+   "text": [
+    "There. That is the whole rulebook, near enough -- liberties, capture, and no filling in your own last one.",
+    "Everything else people say about Go is a consequence of those three things, said at greater length."
+   ],
+   "goto": "cup"
+  },
+  "taught_again": {
+   "portrait": "happy",
+   "text": [
+    "That's the lot. Same three rules as last time, which is the nice thing about them.",
+    "No, I don't mind. I have explained liberties more often than I have won games and I know which one I am better at."
+   ]
+  },
+  "taught_ko": {
+   "text": [
+    "That's it. You may not take it straight back -- you have to go and do something else first, and hope it is annoying enough that they answer it.",
+    "That is genuinely the whole rule. It has a long name and a short meaning, like most of this."
+   ]
+  },
+  "refresher": {
+   "text": [
+    "Of course. Which bit has gone?"
+   ],
+   "choices": [
+    {
+     "text": "All of it. Start again.",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "liberties",
+      "track": true
+     }
+    },
+    {
+     "text": "Just the capturing rule.",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "capture",
+      "track": true
+     }
+    },
+    {
+     "text": "It's coming back to me.",
+     "goto": "refresher_no"
+    }
+   ]
+  },
+  "refresher_no": {
+   "text": [
+    "It does that. It goes and then it comes back and then one day it stops going."
+   ]
+  },
+  "repeat_end": {
+   "text": [
+    "Go on, then."
    ]
   }
  }

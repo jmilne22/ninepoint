@@ -303,6 +303,20 @@
      "goto": "rematch_offer"
     }
    ]
+  },
+  "taught_escape": {
+   "text": [
+    "Right. So it was never dead, it was just badly. There is a difference and it is worth about twenty points a game to you.",
+    "Next time I cut you, run. Do not sit there counting. You can count afterwards, at length, in your own time."
+   ],
+   "goto": "rematch_offer"
+  },
+  "taught_connection": {
+   "text": [
+    "Good. Now you know both halves, which means I have to find a new way to beat you and that is genuinely irritating.",
+    "I am not being modest. I have one idea and I have just given you it."
+   ],
+   "goto": "rematch_offer"
   }
  }
 }

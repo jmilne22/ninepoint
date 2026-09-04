@@ -1,0 +1,222 @@
+[
+ {
+  "save": "invited",
+  "note": "Day 1 afternoon on Ketelsteeg -- Bertie is on his bench at the park end"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue from the invited save"
+ },
+ {
+  "wait": 2.2,
+  "shot": "a_ketelsteeg"
+ },
+ {
+  "walk_to": [
+   15,
+   12
+  ]
+ },
+ {
+  "walk_to": [
+   17,
+   15
+  ],
+  "timeout": 6,
+  "note": "the stone tables, beside Bertie at (17,16)"
+ },
+ {
+  "wait": 1.0,
+  "shot": "b_at_the_bench"
+ },
+ {
+  "talk_to": "bertie"
+ },
+ {
+  "advance": 16,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.6,
+  "shot": "c_offer_ladders"
+ },
+ {
+  "choose": 0,
+  "note": "Sit down."
+ },
+ {
+  "wait": 3.0,
+  "shot": "d_ladders_intro"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.0,
+  "shot": "e_step_one"
+ },
+ {
+  "tap": "move_left",
+  "times": 8
+ },
+ {
+  "tap": "move_up",
+  "times": 8
+ },
+ {
+  "tap": "move_right",
+  "times": 2
+ },
+ {
+  "tap": "move_down",
+  "times": 3
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.0,
+  "shot": "f_step_one_done"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.5
+ },
+ {
+  "tap": "move_left",
+  "times": 8
+ },
+ {
+  "tap": "move_up",
+  "times": 8
+ },
+ {
+  "tap": "move_right",
+  "times": 3
+ },
+ {
+  "tap": "move_down",
+  "times": 1
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.0,
+  "shot": "g_step_two_done"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.5
+ },
+ {
+  "tap": "move_left",
+  "times": 8
+ },
+ {
+  "tap": "move_up",
+  "times": 8
+ },
+ {
+  "tap": "move_right",
+  "times": 3
+ },
+ {
+  "tap": "move_down",
+  "times": 4
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.0,
+  "shot": "h_step_three_done"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.5
+ },
+ {
+  "tap": "move_left",
+  "times": 8
+ },
+ {
+  "tap": "move_up",
+  "times": 8
+ },
+ {
+  "tap": "move_right",
+  "times": 4
+ },
+ {
+  "tap": "move_down",
+  "times": 4
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.0,
+  "shot": "i_step_four_done"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.5,
+  "shot": "j_outro"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.5
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.5
+ },
+ {
+  "note": "lesson ends -> World._post_lesson -> bertie 'taught' -> after_lesson"
+ },
+ {
+  "wait": 4.0,
+  "shot": "k_bertie_closes_the_lesson"
+ },
+ {
+  "note": "THE FIX: this beat was written and never played -- taught did not exist"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.2,
+  "shot": "l_close_two"
+ }
+]

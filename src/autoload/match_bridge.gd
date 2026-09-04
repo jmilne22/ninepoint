@@ -192,8 +192,30 @@ func finish_lesson(lesson_id: String, completed: bool) -> void:
         await SceneRouter.go_to(LESSON_SCENE)
         return
     if completed and lesson_queue.is_empty():
-        GameState.set_flag("knows_the_rules", true)
+        _refresh_knows_the_rules()
     await _return_to_world()
+
+
+## `knows_the_rules` gates the study desk, Joos, Bertie, Tomas and Wren's ko
+## lesson. It used to be set by *any* lesson finishing with an empty queue, so
+## Bertie's ladders or Tomas's counting or a class at the Instituut all declared
+## the rulebook taught -- a flag measuring something far broader than its own
+## name, which is why it was never wrong and never right either. The worst of it
+## was Kesh: `offer_escape` is not gated on this flag, so one lesson from her
+## retroactively unlocked the study desk, Joos, Bertie and Tomas at once.
+##
+## Two questions, kept apart: what you have been *taught*, and what you have
+## *said*. A player who tells Wren they know how the stones move is taken at
+## their word -- every reader of this flag is asking "can this person sit at a
+## board", not "did they sit through the tutorial".
+func _refresh_knows_the_rules() -> void:
+    if GameState.has_flag("said_knows_the_rules"):
+        GameState.set_flag("knows_the_rules", true)
+        return
+    for l in TUTORIAL_TRACK:
+        if not GameState.has_flag("lesson_%s_done" % l):
+            return
+    GameState.set_flag("knows_the_rules", true)
 
 
 func finish_puzzle(puzzle_id: String, solved: bool) -> void:
