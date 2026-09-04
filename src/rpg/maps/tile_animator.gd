@@ -8,7 +8,6 @@
 ## city's windows came out black). Cycling cells by tile *name* instead costs a
 ## handful of set_cell calls a second and touches neither.
 ##
-## Like Ambient and Soundscape it reads GameState.time_block and never writes it.
 class_name TileAnimator
 extends Node2D
 
@@ -21,8 +20,6 @@ extends Node2D
 ##   phase     "wave" staggers cells along the diagonal, so water travels;
 ##             anything else gets a random offset so two tables do not tick
 ##             together.
-##   blocks    hours this runs in. Empty means always.
-##   when_wet  only while it is raining.
 ##   people    NPCs the map needs first -- the board in your own attic is not a
 ##             game in progress. Soundscape gates the stone clicks the same way.
 const ANIMATIONS := {
@@ -34,13 +31,9 @@ const ANIMATIONS := {
         "frames": ["canal", "canal_f1", "canal_f2"],
         "hold": [0.50, 0.50, 0.50], "phase": "wave",
     },
-    "puddle": {
-        "frames": ["puddle", "puddle_f1"],
-        "hold": [1.30, 0.30], "when_wet": true,
-    },
     "neon_sign": {
         "frames": ["neon_sign", "neon_sign_f1"],
-        "hold": [4.50, 0.16], "blocks": ["dusk", "night"], "sync": true,
+        "hold": [4.50, 0.16], "sync": true,
     },
     "stove": {
         "frames": ["stove", "stove_f1"],
@@ -50,10 +43,7 @@ const ANIMATIONS := {
         "frames": ["go_table", "go_table_f1", "go_table_f2"],
         "hold": [22.0, 22.0, 22.0], "people": 2,
     },
-    # The machines in the wassalon, and the only animation in the game that
-    # runs at every hour of every day: "open till two" is the whole of what
-    # that room is, so a machine that stops when the light goes would be
-    # saying the opposite of the sign on the door.
+    # The machines in the wassalon.
     "washer": {
         "frames": ["washer", "washer_f1"],
         "hold": [1.60, 1.60],
@@ -76,9 +66,6 @@ func setup(map: MapData, ground: TileMapLayer) -> void:
         return
     for tile_name in ANIMATIONS:
         _collect(tile_name, ANIMATIONS[tile_name])
-    _refresh_active()
-    EventBus.time_block_changed.connect(func(_b: String) -> void: _refresh_active())
-    EventBus.weather_changed.connect(func(_w: bool) -> void: _refresh_active())
 
 
 func _collect(tile_name: String, spec: Dictionary) -> void:
@@ -120,7 +107,7 @@ func _collect(tile_name: String, spec: Dictionary) -> void:
         if wave:
             phase.append(float((cell.x + cell.y) % coords.size()) * (total / coords.size()))
         elif bool(spec.get("sync", false)):
-            # Ambient runs the neon's *glow* off the same hold times. Both start
+            # Every neon cell shares one clock, so the tubes blink together. Both start
             # at t = 0 when the map loads, so a zero phase keeps the tube and the
             # light it throws going out together.
             phase.append(0.0)
@@ -130,41 +117,12 @@ func _collect(tile_name: String, spec: Dictionary) -> void:
 
     _anims.append({
         "cells": cells, "coords": coords, "hold": hold, "total": total,
-        "phase": phase, "last": last, "t": 0.0, "active": true,
-        "blocks": spec.get("blocks", []), "when_wet": bool(spec.get("when_wet", false)),
+        "phase": phase, "last": last, "t": 0.0,
     })
-
-
-## Whether each animation is allowed at the current hour and weather. When one
-## is not, every one of its cells is parked on frame 0 -- a neon tube that stops
-## flickering must stop lit, not on whichever frame it happened to be showing.
-func _refresh_active() -> void:
-    var wet := GameState.is_wet() and not _map.indoors
-    for a in _anims:
-        var blocks: Array = a["blocks"]
-        var ok := blocks.is_empty() or blocks.has(GameState.time_block)
-        if a["when_wet"] and not wet:
-            ok = false
-        a["active"] = ok
-        if not ok:
-            _park(a)
-
-
-func _park(a: Dictionary) -> void:
-    var cells: Array = a["cells"]
-    var last: PackedInt32Array = a["last"]
-    var coords: Array = a["coords"]
-    for i in cells.size():
-        if last[i] != 0:
-            last[i] = 0
-            _layer.set_cell(cells[i], 0, coords[0])
-    a["last"] = last
 
 
 func _process(delta: float) -> void:
     for a in _anims:
-        if not a["active"]:
-            continue
         a["t"] = fmod(float(a["t"]) + delta, float(a["total"]))
         var cells: Array = a["cells"]
         var coords: Array = a["coords"]

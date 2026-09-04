@@ -6,34 +6,6 @@
     {
      "if": [
       [
-       "on_map",
-       "ketelsteeg"
-      ],
-      [
-       "market_day"
-      ],
-      [
-       "weather_is",
-       "wet"
-      ]
-     ],
-     "goto": "market_wet"
-    },
-    {
-     "if": [
-      [
-       "on_map",
-       "ketelsteeg"
-      ],
-      [
-       "market_day"
-      ]
-     ],
-     "goto": "market_dry"
-    },
-    {
-     "if": [
-      [
        "ranked"
       ],
       [
@@ -337,27 +309,6 @@
     "Top hook.",
     "Sixty years that wall's been there and I have seen four people on that hook. Two of them were Joos, twice, with a gap in between I am not going to explain.",
     "Doesn't mean you're the strongest in the room. Means you beat everyone above you on the way up, which is a different sentence and a better one."
-   ]
-  },
-  "market_dry": {
-   "portrait": "happy",
-   "text": [
-    "Saturday. I buy the week in on a Saturday -- coffee, bread, the good jenever, and whatever the fish stall has not sold.",
-    "You look surprised to see me above ground. I do have a life above ground. It is mostly this."
-   ],
-   "goto": "market_word"
-  },
-  "market_wet": {
-   "portrait": "neutral",
-   "text": [
-    "Saturday, and look at it. Half the stalls have not bothered and I do not blame them.",
-    "You get the fish either way. The fish does not care."
-   ],
-   "goto": "market_word"
-  },
-  "market_word": {
-   "text": [
-    "Come down tonight if you want a board. The bar opens at two and I will be behind it by three, complaining about the prices."
    ]
   }
  }

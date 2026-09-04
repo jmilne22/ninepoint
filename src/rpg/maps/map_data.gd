@@ -26,9 +26,8 @@ var routes: Array = []
 ## Track name for this map, matched against audio/<name>.wav. "" is silence.
 var music: String = ""
 ## What plays here after dark. "" keeps `music` at every hour.
-var music_night: String = ""
 ## Indoors takes the hour much more gently and never gets rained on: inside a
-## room the lights are simply on. Ambient reads this.
+## room the lights are simply on. Soundscape reads this.
 var indoors: bool = false
 
 
@@ -58,7 +57,6 @@ static func load_map(map_id: String) -> MapData:
     m.npcs = parsed.get("npcs", [])
     m.routes = parsed.get("routes", [])
     m.music = str(parsed.get("music", ""))
-    m.music_night = str(parsed.get("music_night", ""))
     m.indoors = bool(parsed.get("indoors", false))
     return m
 
@@ -99,36 +97,3 @@ func spawn_position(spawn_name: String) -> Vector2:
 
 func pixel_size() -> Vector2:
     return Vector2(width * tile_size, height * tile_size)
-
-
-## Is this NPC entry standing here at this hour, on this day?
-##
-## The whole of the schedule rule, and it lives here rather than in MapBuilder
-## because MapBuilder reads autoloads and therefore does not compile in a
-## `--script` run -- which is how the entire suite runs, so anything put on it is
-## unreachable from every test in the project, silently. ROADMAP.md section 8
-## keeps a list of the times that has cost a milestone; this is the boundary
-## LeagueTable/LeagueBoard already draws.
-##
-## "blocks" is matched against the hour, "days" against the weekday and
-## "weather" against the sky. Absent or empty means always, for all three, which
-## is the same reading TileAnimator and Soundscape give the key -- so every map
-## entry written before any of the axes existed keeps working untouched. All
-## three must pass: club night is the evening hours *and* Tuesday, not a third
-## kind of rule, and a wet day under the arches is not a fourth.
-##
-## There is no default argument on purpose. A defaulted axis is an axis a caller
-## can forget, and forgetting it here does not error -- it silently returns the
-## wrong roster, which is how M34's day axis nearly shipped reading nothing.
-static func is_present(spec: Dictionary, block: String, weekday: String,
-                       weather: String) -> bool:
-    var blocks: Array = spec.get("blocks", [])
-    if not blocks.is_empty() and not blocks.has(block):
-        return false
-    var days: Array = spec.get("days", [])
-    if not days.is_empty() and not days.has(weekday):
-        return false
-    var skies: Array = spec.get("weather", [])
-    if not skies.is_empty() and not skies.has(weather):
-        return false
-    return true

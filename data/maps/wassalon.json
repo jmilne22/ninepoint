@@ -191,23 +191,16 @@
     6
    ],
    "dir": "up",
-   "idle": "watch",
-   "blocks": [
-    "morning",
-    "afternoon"
-   ]
+   "idle": "watch"
   },
   {
    "id": "dov",
    "tile": [
-    10,
-    6
+    9,
+    4
    ],
-   "dir": "up",
-   "idle": "tend",
-   "blocks": [
-    "dusk"
-   ]
+   "dir": "down",
+   "idle": "tend"
   },
   {
    "id": "moss",
@@ -216,14 +209,7 @@
     6
    ],
    "dir": "up",
-   "idle": "watch",
-   "blocks": [
-    "afternoon",
-    "dusk"
-   ],
-   "weather": [
-    "wet"
-   ]
+   "idle": "watch"
   }
  ],
  "music": "",

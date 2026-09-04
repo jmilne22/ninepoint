@@ -307,7 +307,7 @@
     3,
     9
    ],
-   "text": "STEENBEEK BEGINNER CUP -- entries at the Bondszaal. All ranks 15k and below. Pinned beside it, curling at one corner: DE KETEL -- CLUB NIGHT TUESDAY, FROM EIGHT. And under that, newer: MARKET -- SATURDAY MORNINGS, KETELSTEEG."
+   "text": "STEENBEEK BEGINNER CUP -- entries at the Bondszaal, by tram. All ranks 15k and below."
   },
   {
    "tile": [
@@ -353,14 +353,7 @@
     16
    ],
    "dir": "down",
-   "idle": "wander",
-   "blocks": [
-    "morning",
-    "afternoon"
-   ],
-   "weather": [
-    "dry"
-   ]
+   "idle": "wander"
   },
   {
    "id": "bertie",
@@ -369,29 +362,7 @@
     16
    ],
    "dir": "right",
-   "idle": "tend",
-   "blocks": [
-    "morning",
-    "afternoon"
-   ],
-   "weather": [
-    "dry"
-   ]
-  },
-  {
-   "id": "tomas",
-   "tile": [
-    10,
-    9
-   ],
-   "dir": "down",
-   "idle": "tend",
-   "blocks": [
-    "morning"
-   ],
-   "days": [
-    "saturday"
-   ]
+   "idle": "tend"
   }
  ],
  "routes": [
@@ -423,6 +394,5 @@
   }
  ],
  "music": "theme_street",
- "music_night": "theme_night",
  "indoors": false
 }

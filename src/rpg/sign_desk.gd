@@ -130,7 +130,7 @@ func next_puzzle() -> String:
     for puzzle in PUZZLE_TRACK:
         if not GameState.has_flag("%s_solved" % puzzle):
             return puzzle
-    return PUZZLE_TRACK[GameState.day % PUZZLE_TRACK.size()]
+    return PUZZLE_TRACK[GameState.match_records.size() % PUZZLE_TRACK.size()]
 
 
 func study_desk(prose: String) -> void:
@@ -149,61 +149,11 @@ func study_desk(prose: String) -> void:
     if str(exit.get("type", "")) != "study":
         _player.input_locked = false
         return
-    # Studying alone is free. It is the one thing in the game that costs no hours,
-    # because an evening spent on problems is not what a day is for spending.
     MatchBridge.start_puzzle(puzzle, _player.global_position)
 
 
 # --- the bed -----------------------------------------------------------------
 
-## The bed is the only thing that moves the calendar, so it asks first: a night
-## lost to a mistimed [Space] would be a real one.
+## Nothing in the game runs on a clock, so the bed is furniture.
 func offer_sleep(prose: String) -> void:
-    var left := GameState.SLOTS_PER_DAY - GameState.slots_used
-    var state := "Today is gone." if left <= 0 else (
-        "There is still the rest of today." if left > 1 else "There is an hour left in today.")
-    var choices: Array = [{"text": "Sleep.", "exit": {"type": "sleep"}}]
-    # A fortnight is still a dozen keypresses, and nobody should spend them one
-    # at a time. Once there is a fixed thing to wait for, you can wait for it.
-    # (This was the plaster over a six-week term with four days in it; M26 cut
-    # the term to fit, so it is now a convenience rather than a cover-up.)
-    #
-    # There are two fixed things now, and only the nearer one may be offered: a
-    # bed that offers to sleep past an exam you are entered for is a bed that can
-    # lose you the term while you are looking at a menu.
-    var to_exam := GameState.EXAM_DAY - GameState.day
-    var to_cup := GameState.CUP_DAY - GameState.day
-    var exam_pending: bool = GameState.has_flag("exam_entered") \
-        and not GameState.has_flag("exam_finished")
-    if exam_pending and to_exam > 0:
-        choices.append({"text": "Sleep until the exam (%d days)." % to_exam,
-                        "exit": {"type": "sleep_until_exam"}})
-    elif GameState.has_flag("cup_entered") and to_cup > 0:
-        choices.append({"text": "Sleep until the Cup (%d days)." % to_cup,
-                        "exit": {"type": "sleep_until_cup"}})
-    choices.append({"text": "Not yet.", "goto": "not_yet"})
-    var exit := await _choose([prose.strip_edges(), state], choices,
-        "You leave it for now.")
-    var kind := str(exit.get("type", ""))
-    if kind != "sleep" and kind != "sleep_until_cup" and kind != "sleep_until_exam":
-        _player.input_locked = false
-        return
-    # Turn the day over first, then hand the player back: unlocking here let the
-    # keypress that chose "Sleep" read the bed sign again on the way out.
-    _player.input_locked = false
-    GameState.sleep()
-    if kind == "sleep_until_cup":
-        while GameState.day < GameState.CUP_DAY:
-            GameState.sleep()
-        EventBus.toast.emit("The last week of term. Day %d -- the Cup." % GameState.day)
-        return
-    if kind == "sleep_until_exam":
-        while GameState.day < GameState.EXAM_DAY:
-            GameState.sleep()
-        EventBus.toast.emit("The last week of term. Day %d -- the exam." % GameState.day)
-        return
-    var days := GameState.days_until_cup()
-    if days > 0 and GameState.has_flag("wren_told_about_cup"):
-        EventBus.toast.emit("Day %d. %d days to the Cup." % [GameState.day, days])
-    else:
-        EventBus.toast.emit("Day %d." % GameState.day)
+    await narrate([prose.strip_edges(), "Not now."])

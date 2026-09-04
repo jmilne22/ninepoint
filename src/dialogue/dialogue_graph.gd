@@ -132,40 +132,6 @@ static func _check_one(c: Array) -> bool:
             # tracks instead of affection, so it is what an arc advances on.
             var record: Dictionary = _state().head_to_head(str(c[1]))
             return int(record["wins"]) + int(record["losses"]) >= int(c[2])
-        "weekday_is":
-            # The calendar, readable by a graph at last. Until M35 the only
-            # environmental condition in this list was `on_map`, so club night's
-            # own dialogue was gated on being in De Ketel and nothing else -- it
-            # read correctly only because the map schedule was the one thing
-            # putting those two women in the room. Reschedule either of them and
-            # the club-night voice plays on an ordinary Tuesday, with nothing
-            # failing anywhere. A schedule the graphs cannot see is a schedule
-            # every line about it is guessing at.
-            return _state().weekday() == str(c[1])
-        "club_night":
-            # Zero-argument on purpose. A graph could say
-            # ["weekday_is", "tuesday"] and it would work today and be a lie the
-            # next time the night moves -- which it just did, Wednesday to
-            # Tuesday, because Wednesday put the term's second club night on the
-            # exam. Asking GameState which night it is means the JSON never
-            # holds a copy of the answer. This is the CLUB_NIGHT_GUESTS mistake
-            # ROADMAP section 8 already records, declined one file earlier.
-            return _state().is_club_night()
-        "market_day":
-            # The same, for the other weekly occasion.
-            return _state().is_market_day()
-        "block_is":
-            # The hour, for the same reason. Absent from this list since M26.
-            return str(_state().time_block) == str(c[1])
-        "weather_is":
-            # "wet" or "dry". Derived from the day and stored nowhere, so a line
-            # about the rain is true because it is raining rather than because a
-            # flag somewhere says it was, once.
-            return _state().weather() == str(c[1])
-        "day_at_least":
-            # A term date rather than a weekday: the run-up to the exam and the
-            # Cup are the two things in the fortnight that happen once.
-            return int(_state().day) >= int(c[1])
         "beat":
             return _state().head_to_head(str(c[1]))["wins"] > 0
         "lost_to":

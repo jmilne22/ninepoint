@@ -2,7 +2,7 @@
 ##
 ## It finds its own route: the longest unbroken run of tram_rail_h on the ground
 ## layer is the track, so this needs no map data at all -- the same trick
-## Ambient uses to find the lamps and Soundscape uses to find the stove.
+## Soundscape uses to find the stove.
 ##
 ## Deliberately no collision. It is scenery on the far track, and it y-sorts
 ## against the player like everything else in Entities, so walking south of the

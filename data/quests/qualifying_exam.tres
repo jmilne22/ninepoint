@@ -9,7 +9,7 @@ id = &"qualifying_exam"
 title = "The Qualifying Exam"
 summary = "Top four of the lower league sit it, top two pass, and Marguerite says that is the entire system. It is brutal and it is fair and those are not in tension."
 steps = [{
-"journal": "Sleep until the last week of term.",
+"journal": "Tell Marguerite you are ready to sit it.",
 "advance_on": {"type": "flag", "key": "exam_started"}
 }, {
 "journal": "Sit Marguerite's problem paper at the Bondszaal.",
@@ -18,6 +18,6 @@ steps = [{
 "journal": "Read the exam list, then see Marguerite.",
 "advance_on": {"type": "flag", "key": "read_exam_board"}
 }, {
-"journal": "Play your three rounds. One a day.",
+"journal": "Play your three rounds.",
 "advance_on": {"type": "flag", "key": "exam_finished"}
 }]

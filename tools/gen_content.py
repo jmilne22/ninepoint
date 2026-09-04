@@ -195,7 +195,7 @@ steps = [{steps}]
 # fixed nothing. Both quests are generated now.
 QUESTS = [
     dict(id="first_stones", title="First Stones",
-         summary="You have just moved to Steenbeek. There is a salon three steps below the pavement and a tournament in a fortnight.",
+         summary="You have just moved to Steenbeek. There is a salon three steps below the pavement and a tournament at the Bondszaal.",
          steps=[
              ('"journal": "Find De Ketel, further along Ketelsteeg."',
               '"advance_on": {"type": "enter_map", "map": "de_ketel"}'),
@@ -209,26 +209,26 @@ QUESTS = [
               '"advance_on": {"type": "puzzle", "id": "capture_1"}'),
          ]),
     dict(id="beginner_cup", title="The Beginner Cup",
-         summary="Four rounds, one a day, in a hired room at the Bondszaal. Two sections: beginners', fifteen kyu and below on nine lines with no handicap, and open, no ceiling at all on thirteen.",
+         summary="Four rounds in a hired room at the Bondszaal. Two sections: beginners', fifteen kyu and below on nine lines with no handicap, and open, no ceiling at all on thirteen.",
          steps=[
-             ('"journal": "Sleep until the last week of term."',
+             ('"journal": "Tell Marguerite at the Bondszaal you are ready to play."',
               '"advance_on": {"type": "flag", "key": "cup_started"}'),
              ('"journal": "Read the draw at the Bondszaal, then see Marguerite."',
               '"advance_on": {"type": "flag", "key": "read_cup_board"}'),
-             ('"journal": "Play your four rounds. One a day."',
+             ('"journal": "Play your four rounds."',
               '"advance_on": {"type": "flag", "key": "cup_finished"}'),
          ]),
 
     dict(id="qualifying_exam", title="The Qualifying Exam",
          summary="Top four of the lower league sit it, top two pass, and Marguerite says that is the entire system. It is brutal and it is fair and those are not in tension.",
          steps=[
-             ('"journal": "Sleep until the last week of term."',
+             ('"journal": "Tell Marguerite you are ready to sit it."',
               '"advance_on": {"type": "flag", "key": "exam_started"}'),
              ('"journal": "Sit Marguerite\'s problem paper at the Bondszaal."',
               '"advance_on": {"type": "flag", "key": "exam_paper_done"}'),
              ('"journal": "Read the exam list, then see Marguerite."',
               '"advance_on": {"type": "flag", "key": "read_exam_board"}'),
-             ('"journal": "Play your three rounds. One a day."',
+             ('"journal": "Play your three rounds."',
               '"advance_on": {"type": "flag", "key": "exam_finished"}'),
          ]),
 

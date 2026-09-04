@@ -92,8 +92,6 @@ func slot_info(slot: int) -> Dictionary:
         "status": "ok",
         "player_name": str(d.get("player_name", "?")),
         "rank": GoRank.to_string_rank(int(d.get("rank_strength", -1))),
-        "day": int(d.get("day", 1)),
-        "time_block": str(d.get("time_block", "afternoon")),
         "place": _place_name(str(d.get("current_map", ""))),
         "minutes": int(float(d.get("playtime", 0.0)) / 60.0),
         "saved_at": str(d.get("saved_at", "")),

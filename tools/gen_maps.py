@@ -242,50 +242,17 @@ def ketelsteeg():
         ],
         "signs": [
             {"tile": [1, 9], "text": "TRAM 4 -- ESSENVELD, 2 STOPS. The Instituut is listed underneath in smaller letters, as though it would rather not be found."},
-            {"tile": [3, 9], "text": "STEENBEEK BEGINNER CUP -- entries at the Bondszaal. All ranks 15k and below. Pinned beside it, curling at one corner: DE KETEL -- CLUB NIGHT TUESDAY, FROM EIGHT. And under that, newer: MARKET -- SATURDAY MORNINGS, KETELSTEEG."},
+            {"tile": [3, 9], "text": "STEENBEEK BEGINNER CUP -- entries at the Bondszaal, by tram. All ranks 15k and below."},
             {"tile": [home_door, 8], "text": "A stationer's, shuttered since before you came. Your stairs are the door beside it, and the landlord's cat owns the landing."},
             {"tile": [ketel_steps + 2, 8], "text": "DE KETEL. Three steps down. The bar is Tomas's and so is the back room, which has had a board in it for sixty years."},
             {"tile": [wash_door - 1, 8], "text": "WASSALON -- open till two. The warmest room on Ketelsteeg, and nobody minds if you only sit."},
             {"tile": [wash_door + 3, 8], "text": "A hatch in the wall with a fryer behind it and no name over it. Open when the wassalon is, which is to say later than anything else on this street."},
             {"tile": [29, 8], "text": "Under the viaduct the brick is black with a century of smoke. Somebody has chalked a 3-4 point on it, and somebody else has chalked the answer."},
         ],
-        # Molenpark is a daylight place: both of these move to the arches at
-        # dusk, which is where the same two men play the same game in the cold
-        # for money. "blocks" is read by MapBuilder.build_npcs the way
-        # TileAnimator and Soundscape read it -- absent means always.
         "npcs": [
-            # "weather" is the third axis and reads exactly like the other two:
-            # absent means always, and all three must pass. Molenpark is stone
-            # tables in the open, so the two of them are here on dry mornings
-            # and afternoons and under the arches on wet ones -- see onderbrug
-            # below, where the matching wet-weather pair keeps them findable at
-            # every hour of every kind of day.
-            {"id": "pip", "tile": [10, 16], "dir": "down", "idle": "wander",
-             "blocks": ["morning", "afternoon"], "weather": ["dry"]},
-            # "Four kyu, forty years, one park bench." He was under the viaduct,
-            # which contradicted his own opening line and left the ladders and
-            # nets lesson with nowhere to be taught. He sits at the stone table.
-            {"id": "bertie", "tile": [17, 16], "dir": "right", "idle": "tend",
-             "blocks": ["morning", "afternoon"], "weather": ["dry"]},
-            # --- market day, Saturday morning. The second weekly occasion and
-            # deliberately not a second club night: that one is a room filling
-            # after dark, this is a street filling in the daylight.
-            #
-            # Tomas because his mornings were already free and nobody had
-            # noticed: De Ketel is shut until the afternoon and Wren is the
-            # anchor who keeps it staffed, so the man who owns the bar had three
-            # hours a week doing nothing and a week's supplies to buy. It is a
-            # pure addition -- he is already on the "off at some hour" list, and
-            # he stands on no other map at this hour, so no guarantee moves.
-            #
-            # No "weather" key on purpose. The market happens in the drizzle,
-            # which is what makes day 6 (wet) and day 13 (dry) two different
-            # Saturdays rather than the same one twice.
-            # (10, 9) is pavement. Not the y=10 row: that is a crowd route, and
-            # a passer-by has no pathfinding at all, so a man standing on it is
-            # a man being walked through all morning.
-            {"id": "tomas", "tile": [10, 9], "dir": "down", "idle": "tend",
-             "blocks": ["morning"], "days": [MARKET_DAY]},
+            {"id": "pip", "tile": [10, 16], "dir": "down", "idle": "wander"},
+            # "Four kyu, forty years, one park bench." He sits at the stone table.
+            {"id": "bertie", "tile": [17, 16], "dir": "right", "idle": "tend"},
         ],
         # Two pavements, and nobody walks the tram tracks between them. The
         # ends sit off the grid on purpose: a pedestrian who pops into being
@@ -295,7 +262,6 @@ def ketelsteeg():
             {"path": [[-2, 14], [35, 14]], "rate": 13.0},
         ],
         "music": "theme_street",
-        "music_night": "theme_night",
         "indoors": False,
     }
 
@@ -420,38 +386,12 @@ def wassalon():
             {"tile": [14, 7], "text": "A second board, propped against the wall where the bench does not reach. The lines have been redrawn in biro by somebody who cared and could not draw straight."},
             {"tile": [12, 2], "text": "Under the window onto Ketelsteeg. The neon over the snack window reads backwards through the glass from in here, and the tram goes past twice while you watch."},
         ],
-        # Nobody's job is to be here, so nobody is here at every hour. Abel has
-        # nowhere else to be, Dov comes when the machines are free, and Moss
-        # comes in out of the rain -- which is the weather axis doing something
-        # the weekday axis could not, and deliberately not a third weekly
-        # occasion: club night and market day are the two the city has, and a
-        # third would dilute both.
-        #
-        # Late at night there is nobody in here at all, and the machines are
-        # still going. That is the frame this room was built for; it is the
-        # quay's job done warm instead of cold.
-        #
-        # They stand BESIDE the folding table at (11,5) rather than under it.
-        #
-        # The reason it matters was a real bug and it was not in this file:
-        # signs were built with interact_priority 1 and NPCs left theirs at 0,
-        # so wherever a person and a readable object were both inside the
-        # probe, [Space] read the object. Standing at the board and being
-        # handed a paragraph about the board is how that looked. Npc now sets
-        # priority 2 and the person wins, which is the actual fix.
-        #
-        # The placement stays anyway: it is the better picture, because on a
-        # wet afternoon the two of them flank the way in to the board instead
-        # of queueing on one tile.
+        # They stand BESIDE the folding table at (11,5) rather than under it,
+        # flanking the way in to the board instead of queueing on one tile.
         "npcs": [
-            {"id": "abel", "tile": [10, 6], "dir": "up", "idle": "watch",
-             "blocks": ["morning", "afternoon"]},
-            {"id": "dov", "tile": [10, 6], "dir": "up", "idle": "tend",
-             "blocks": ["dusk"]},
-            # Two hours and one sky. Moss is the only one of the three who is
-            # here for a reason he would admit to.
-            {"id": "moss", "tile": [12, 6], "dir": "up", "idle": "watch",
-             "blocks": ["afternoon", "dusk"], "weather": ["wet"]},
+            {"id": "abel", "tile": [10, 6], "dir": "up", "idle": "watch"},
+            {"id": "dov", "tile": [9, 4], "dir": "down", "idle": "tend"},
+            {"id": "moss", "tile": [12, 6], "dir": "up", "idle": "watch"},
         ],
         # No routes: it is a room. And no music, which is what makes
         # Soundscape choose amb_room -- the attic's precedent, and the reason
@@ -521,35 +461,10 @@ def onderbrug():
             {"tile": [11, 8], "text": "Coins on the corner of the crate, held down by a stone. Nobody counts them until the game is over."},
             {"tile": [2, 4], "text": "One lamp per arch, and the furthest one has been out for years. Everybody sits where they can see; the man at the far end sits where he cannot be seen."},
         ],
-        # The arches are the night half of the city and now read as it. Joos is
-        # only ever here after dark -- a man with no card and no papers is not
-        # under a viaduct at nine in the morning, and making him permanent was
-        # always the flatter reading of him. Pip and Bertie come down from the
-        # park when the light goes, which is the same two men playing the same
-        # game somewhere colder, and it gives this map the population it could
-        # never have from a crowd route (walled at both ends -- see below).
+        # The arches are the other half of the city: a man with no card and no
+        # papers, under a viaduct, and nobody else.
         "npcs": [
-            {"id": "joos", "tile": [19, 7], "dir": "up", "idle": "watch",
-             "blocks": ["dusk", "night"]},
-            {"id": "pip", "tile": [5, 7], "dir": "up", "idle": "wander",
-             "blocks": ["dusk", "night"]},
-            {"id": "bertie", "tile": [11, 7], "dir": "down", "idle": "tend",
-             "blocks": ["dusk", "night"]},
-            # And the same two men, here in the daylight, because it is raining
-            # and Molenpark is stone tables in the open. This is the half of the
-            # pair that makes the park's "weather": ["dry"] safe: between them
-            # the two entries cover every hour of every kind of day, which is
-            # what the schedule cover test in tests/test_data.gd checks and what
-            # a single day-restricted entry can never do.
-            #
-            # It is also the first time a schedule has *moved* somebody rather
-            # than added them. That was not expressible before M35: the old
-            # guard discounted every restricted entry, so taking a person out of
-            # a room on a condition failed the findability check by construction.
-            {"id": "pip", "tile": [5, 7], "dir": "up", "idle": "wander",
-             "blocks": ["morning", "afternoon"], "weather": ["wet"]},
-            {"id": "bertie", "tile": [11, 7], "dir": "down", "idle": "tend",
-             "blocks": ["morning", "afternoon"], "weather": ["wet"]},
+            {"id": "joos", "tile": [19, 7], "dir": "up", "idle": "watch"},
         ],
         # No crowd route: validate() rejected every one tried here, because the
         # arches are walled at both ends and there is nowhere for a passer-by
@@ -610,16 +525,7 @@ def quay():
             {"tile": [12, 4], "text": "A bench facing the water. It is the only place in Steenbeek where nobody will ask you how the game went."},
             {"tile": [5, 6], "text": "A mooring bollard, worn smooth. The water is the colour of the sky, which today is the colour of the water."},
         ],
-        # The quay was 364 tiles, two signs and nobody -- the map GAME_DESIGN
-        # says you come to after losing, with no one to have lost to. Orla walks
-        # home this way at dusk. She is on the off-hours list either way (she
-        # goes home; she is a student and not a fixture), so this gives her a
-        # third hour without giving her a fourth, and gives the map an hour when
-        # there is a reason to walk down the steps.
-        "npcs": [
-            {"id": "orla", "tile": [13, 5], "dir": "down", "idle": "watch",
-             "blocks": ["dusk"]},
-        ],
+        "npcs": [],
         "music": "theme_quay",
         "indoors": False,
     }
@@ -703,7 +609,7 @@ def de_ketel():
             {"tile": [9, 2], "text": "A row of brass hooks on the back wall. Coats, mostly, and one umbrella nobody has claimed."},
             {"tile": [18, 4], "text": "A coal stove, lit from October to April whatever the weather does. The chair nearest it is not yours and everybody knows whose it is."},
             {"tile": [1, 5], "text": "The rate is chalked on a slate: two-fifty an hour, board and stones included. Under it a kettle, a tin of biscuits, and an honesty box. The biscuits are gone."},
-            {"tile": [1, 4], "text": "Pinned to the counter, in Tomas's handwriting: CLUB NIGHT -- TUESDAY, FROM EIGHT. Underneath, smaller: all comers, no cards, the hooks count everything."},
+            {"tile": [1, 4], "text": "Pinned to the counter, in Tomas's handwriting: ALL COMERS. ASK. Underneath, smaller: the board is free, the tea is not."},
         ],
         # Kesh and Hana are the two people the setting says cross between the
         # Instituut and the salon, and until M26 that was expressed by placing
@@ -716,36 +622,9 @@ def de_ketel():
         "npcs": [
             {"id": "wren", "tile": [6, 8], "dir": "right", "idle": "study"},
             # Kesh does not sit still anywhere, which is most of what she is.
-            {"id": "kesh", "tile": [14, 7], "dir": "left", "idle": "wander",
-             "blocks": ["afternoon", "dusk", "night"]},
-            # Hana has been watching you since you came down the steps.
-            {"id": "hana", "tile": [3, 3], "dir": "down", "idle": "watch",
-             "blocks": ["afternoon", "dusk", "night"]},
-            # Tomas owns this room and the bar above it, is named on the sign
-            # outside, and until now stood on no map in the game. The bar is
-            # shut in the morning, so the back room is empty but for Wren --
-            # worth walking into once.
-            {"id": "tomas", "tile": [2, 6], "dir": "right", "idle": "tend",
-             "blocks": ["afternoon", "dusk", "night"]},
-            # --- club night. "days" is read by MapBuilder.build_npcs exactly as
-            # "blocks" is, and all three axes must pass, so these two are here on
-            # Tuesday evening and on no other night of the week. (Tuesday since
-            # M35: Wednesday put the second of the term's two club nights on
-            # EXAM_DAY, with both of these women sitting the exam that day.)
-            #
-            # Nadia and Orla because they are the only two people in the game who
-            # are nowhere at all at night: the Instituut has shut and neither has
-            # anywhere to be, so coming down to the salon costs nobody their own
-            # place and puts nobody on two maps at one hour. It is also the
-            # crossing the setting is built on -- an Essenveld student on a De
-            # Ketel stool, where the hooks count the game and the league does not.
-            #
-            # Sunny is nowhere at night too and is deliberately not here. She is
-            # nine.
-            {"id": "nadia", "tile": [16, 5], "dir": "left", "idle": "study",
-             "blocks": ["night"], "days": [CLUB_NIGHT]},
-            {"id": "orla", "tile": [5, 10], "dir": "right", "idle": "watch",
-             "blocks": ["night"], "days": [CLUB_NIGHT]},
+            {"id": "kesh", "tile": [14, 7], "dir": "left", "idle": "wander"},
+            # Tomas owns this room and the bar above it.
+            {"id": "tomas", "tile": [2, 6], "dir": "right", "idle": "tend"},
         ],
         "music": "theme_club",
         "indoors": True,
@@ -956,25 +835,11 @@ def academy_study():
         "warps": [{"tile": [door_x, 7], "map": "academy_hall", "spawn": "from_study",
                    "prompt": "Back to the hall"}],
         "signs": [{"tile": [1, 6], "text": "A kettle, a tin, and a handwritten note: THE BISCUITS ARE FOR EVERYONE WHICH MEANS THEY ARE NOT ALL FOR YOU."}],
-        # The study hall empties as the day goes on, which is what a study hall
-        # does. Ilse is unscheduled and is the anchor that keeps the room -- and
-        # therefore Act 2's league -- playable at every hour; she is also
-        # exactly the person who would still be here at midnight, out of a book.
-        #
-        # Kesh and Orla share a schedule on purpose: they are a "converse" pair
-        # and NpcIdle.find_peer() would otherwise leave one of them talking to
-        # nobody.
+        # The three students you can play any time. Kesh is at De Ketel.
         "npcs": [
-            # Kesh and Orla are three tiles apart across a board, so they are
-            # talking to each other. NpcIdle runs both ends off one clock.
-            {"id": "kesh", "tile": [12, 8], "dir": "up", "idle": "converse:orla",
-             "blocks": ["morning", "afternoon"]},
             {"id": "ilse", "tile": [6, 6], "dir": "right", "idle": "study"},
-            # Sunny is nine. She is not at the Instituut after dark.
-            {"id": "sunny", "tile": [18, 6], "dir": "left", "idle": "wander",
-             "blocks": ["morning", "afternoon"]},
-            {"id": "orla", "tile": [12, 11], "dir": "up", "idle": "converse:kesh",
-             "blocks": ["morning", "afternoon"]},
+            {"id": "sunny", "tile": [18, 6], "dir": "left", "idle": "wander"},
+            {"id": "orla", "tile": [12, 11], "dir": "up", "idle": "watch"},
         ],
         "music": "theme_institute",
         "indoors": True,
@@ -1023,14 +888,9 @@ def academy_class():
             {"tile": [8, 2], "text": "__CLASS_BOARD__"},
             {"tile": [9, 2], "text": "__CLASS_BOARD__"},
         ],
-        # Hana teaches in the daylight half of the city and drinks in the other
-        # one; this is the map that says the first half. Nadia stays on into the
-        # dusk with her joseki book, because of course she does.
         "npcs": [
-            {"id": "hana", "tile": [12, 3], "dir": "down", "idle": "watch",
-             "blocks": ["morning", "afternoon"]},
-            {"id": "nadia", "tile": [4, 5], "dir": "right", "idle": "study",
-             "blocks": ["morning", "afternoon", "dusk"]},
+            {"id": "hana", "tile": [12, 3], "dir": "down", "idle": "watch"},
+            {"id": "nadia", "tile": [4, 5], "dir": "right", "idle": "study"},
         ],
         "music": "theme_institute",
         "indoors": True,
@@ -1097,35 +957,8 @@ def solid_mask(grid, extra_walkable=frozenset()):
     return rows
 
 
-## The hours of the day, and the only strings an NPC's "blocks" may contain.
-## Mirrors GameState.BLOCKS; validate() is what keeps the two honest.
-BLOCKS = ["morning", "afternoon", "dusk", "night"]
-
-## The days of the week, and the only strings an NPC's "days" may contain.
-## Mirrors GameState.WEEKDAYS, and validate() keeps the two honest for the same
-## reason it does the hours -- with seven wrong answers available instead of
-## three, and "tues"/"weds" sitting right there to be typed.
-WEEKDAYS = ["monday", "tuesday", "wednesday", "thursday",
-            "friday", "saturday", "sunday"]
-
-## Mirrors GameState.WEATHER. Two values, which is exactly why it needs
-## validating: with only two available, a typo is not a wrong answer that shows
-## up as odd behaviour, it is an entry that matches neither sky and deletes the
-## person from every day of the game.
-WEATHER = ["dry", "wet"]
-
-## Tuesday, and it was Wednesday until M35 worked out that day 1 is a Monday, so
-## Wednesday fell on days 3 and 10 -- and EXAM_DAY is 10. Mirrors
-## GameState.CLUB_NIGHT.
-CLUB_NIGHT = "tuesday"
-
-## Mirrors GameState.MARKET_DAY. Saturday morning on Ketelsteeg.
-MARKET_DAY = "saturday"
-
-
 def validate(name, data):
-    """Every place a person can stand must actually be standable, and every
-    hour they claim to stand there must be an hour that exists."""
+    """Every place a person can stand must actually be standable."""
     solid = data["solid"]
     problems = []
 
@@ -1139,30 +972,6 @@ def validate(name, data):
         x, y = npc["tile"]
         if not walkable(x, y):
             problems.append("%s: npc '%s' at %d,%d is solid" % (name, npc["id"], x, y))
-        # A schedule is only as good as its spelling. GameState.BLOCKS is
-        # morning/afternoon/dusk/night, but GAME_DESIGN says "Morning /
-        # Afternoon / Evening", so "evening" is the word somebody will reach
-        # for -- and MapBuilder would then match it against nothing and drop
-        # the person from the game at every hour, silently, which is the exact
-        # shape of bug this project keeps a list of.
-        for b in npc.get("blocks", []):
-            if b not in BLOCKS:
-                problems.append("%s: npc '%s' has unknown block '%s' (want %s)"
-                                % (name, npc["id"], b, "/".join(BLOCKS)))
-        # The same trap one axis over, and a wider one: a misspelt weekday
-        # removes the person on all seven days rather than on one, and a
-        # schedule that hides somebody can hide a quest step.
-        for d in npc.get("days", []):
-            if d not in WEEKDAYS:
-                problems.append("%s: npc '%s' has unknown day '%s' (want %s)"
-                                % (name, npc["id"], d, "/".join(WEEKDAYS)))
-        # And the third axis. Two legal values means a typo here matches
-        # nothing at all, on either kind of day -- the same silent deletion as
-        # the two above, reached from the narrowest vocabulary in the file.
-        for w_ in npc.get("weather", []):
-            if w_ not in WEATHER:
-                problems.append("%s: npc '%s' has unknown weather '%s' (want %s)"
-                                % (name, npc["id"], w_, "/".join(WEATHER)))
     for w in data["warps"]:
         x, y = w["tile"]
         if solid[y][x] != "0":

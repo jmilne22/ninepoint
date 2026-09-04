@@ -11,12 +11,6 @@ signal map_changed(map_path: String, spawn_name: String)
 signal interaction_available(text: String)
 signal interaction_cleared()
 signal toast(text: String)
-## The hour changed, because the day was spent down to it. Ambient listens;
-## nothing reaches into the scene tree to repaint the light.
-signal time_block_changed(block: String)
-## A new day of term. The Cup is CUP_DAY, and this is what counts towards it.
-signal day_changed(day: int)
-signal weather_changed(raining: bool)
 
 # --- progression
 signal flag_changed(key: String, value: Variant)

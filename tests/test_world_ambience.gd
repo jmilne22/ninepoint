@@ -21,7 +21,7 @@ const AudioScript := preload("res://src/autoload/audio.gd")
 ## It is read off the directory now rather than retyped, because the failure
 ## mode of a hand-kept copy is that the *test* goes on passing: a map missing
 ## from the list is not checked and nothing says so. That is the shape ROADMAP
-## section 8 records for LESSONS_REACHED_BY_TRACK and CLUB_NIGHT_GUESTS, and
+## section 8 records for LESSONS_REACHED_BY_TRACK, and
 ## the fix is M30's -- derive it. M36's wassalon was the eleventh map and would
 ## have been the second Bondszaal.
 static func _maps() -> Array:
@@ -57,15 +57,6 @@ static func _tile_exists(name: String) -> bool:
 
 static func _test_tiles_exist(t: TestKit) -> void:
     t.section("ambience: every tile named is in the atlas")
-    for name in Ambient.LIGHT_SOURCES:
-        t.ok(_tile_exists(name), "light source '%s' is a real tile" % name)
-    for name in Ambient.GLOW_SCALE:
-        t.ok(Ambient.LIGHT_SOURCES.has(name),
-            "glow scale '%s' names a light source" % name)
-    for name in Ambient.FLICKER:
-        # A flicker on a tile that throws no light does exactly nothing.
-        t.ok(Ambient.LIGHT_SOURCES.has(name),
-            "flicker '%s' names a light source" % name)
     for name in Soundscape.SOUND_SOURCES:
         t.ok(_tile_exists(name), "sound source '%s' is a real tile" % name)
     for name in Soundscape.BED_CANAL_TILES:

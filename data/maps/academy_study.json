@@ -169,19 +169,6 @@
  ],
  "npcs": [
   {
-   "id": "kesh",
-   "tile": [
-    12,
-    8
-   ],
-   "dir": "up",
-   "idle": "converse:orla",
-   "blocks": [
-    "morning",
-    "afternoon"
-   ]
-  },
-  {
    "id": "ilse",
    "tile": [
     6,
@@ -197,11 +184,7 @@
     6
    ],
    "dir": "left",
-   "idle": "wander",
-   "blocks": [
-    "morning",
-    "afternoon"
-   ]
+   "idle": "wander"
   },
   {
    "id": "orla",
@@ -210,11 +193,7 @@
     11
    ],
    "dir": "up",
-   "idle": "converse:kesh",
-   "blocks": [
-    "morning",
-    "afternoon"
-   ]
+   "idle": "watch"
   }
  ],
  "music": "theme_institute",

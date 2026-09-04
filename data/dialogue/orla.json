@@ -15,18 +15,6 @@
     {
      "if": [
       [
-       "on_map",
-       "de_ketel"
-      ],
-      [
-       "club_night"
-      ]
-     ],
-     "goto": "club_night"
-    },
-    {
-     "if": [
-      [
        "played_at_least",
        "orla",
        3
@@ -128,18 +116,6 @@
      "if": [
       [
        "on_map",
-       "de_ketel"
-      ],
-      [
-       "club_night"
-      ]
-     ],
-     "goto": "club_night_after"
-    },
-    {
-     "if": [
-      [
-       "on_map",
        "quay"
       ]
      ],
@@ -224,49 +200,6 @@
    "text": [
     "That one goes nowhere. No board, no card, no record.",
     "Which is the only reason I played it, so do not read anything into me being pleasant about it."
-   ]
-  },
-  "club_night": {
-   "portrait": "neutral",
-   "text": [
-    "Top of the lower league, and down here I am a card on a hook like everybody else.",
-    "That is the point of it. Up there I am a row in a table. In here I am whoever I beat last."
-   ],
-   "choices": [
-    {
-     "text": "Then let's find out.",
-     "goto": "club_night_offer"
-    },
-    {
-     "text": "Another time.",
-     "goto": "club_night_later"
-    }
-   ]
-  },
-  "club_night_offer": {
-   "portrait": "neutral",
-   "text": [
-    "Stones on the board. If you take my hook I will want it back on Saturday."
-   ],
-   "exit": {
-    "type": "start_match",
-    "profile": "orla_9x9",
-    "context": "club_orla",
-    "unrated": true,
-    "intro": "She takes black without being asked and then puts it back."
-   }
-  },
-  "club_night_later": {
-   "portrait": "neutral",
-   "text": [
-    "Suit yourself. The stove end is warmer."
-   ]
-  },
-  "club_night_after": {
-   "portrait": "neutral",
-   "text": [
-    "That goes on a hook and nowhere else. No table, no row, no position.",
-    "I would rather lose that one than the other kind, and I am aware of how that sounds."
    ]
   }
  }

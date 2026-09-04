@@ -23,15 +23,7 @@ SAVE_SYSTEM = os.path.join(os.path.dirname(__file__), "..", "src", "autoload", "
 
 
 def _const(name, path=GAME_STATE):
-    """Read a day constant out of GameState rather than repeating it here.
-
-    These presets used to carry literal day numbers -- 42, 41, 38, 36 -- against
-    a six-week term. M26 cut the term to a fortnight and none of them would have
-    errored: `exam_ready` at day 36 against EXAM_DAY = 10 is simply a save
-    twenty-six days past the exam, and a screenshot of the wrong starting state
-    looks exactly as confident as one of the right state. So the days are
-    derived, and the next rescale is one constant instead of eight literals.
-    """
+    """Read an int constant out of a script rather than repeating it here."""
     src = open(path, encoding="utf-8").read()
     m = re.search(r"^const %s\s*:=\s*(\d+)" % re.escape(name), src, re.M)
     if not m:
@@ -94,8 +86,6 @@ def _handicap_fields(player_strength, opponent_strength, board=9):
     return {"handicap": stones, "handicap_taken": stones, "komi": 0.5}
 
 
-CUP_DAY = _const("CUP_DAY")
-EXAM_DAY = _const("EXAM_DAY")
 
 
 def _rated_wins(n):
@@ -201,7 +191,6 @@ STATES = {
         "won": True,
         "map": "academy_study",
         "spawn": "from_hall",
-        "time_block": "afternoon",
         "records": [
             {"context_id": "kesh_first", "npc_id": "kesh", "player_won": False,
              "margin": 12.5, "by_resignation": False, "board_size": 9,
@@ -262,7 +251,6 @@ STATES = {
         "won": False,
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": CUP_DAY,
     },
     # Past the ceiling and nothing entered: the state the second section exists
     # for. Thirteen kyu is too strong for the beginners' section, which used to
@@ -283,7 +271,6 @@ STATES = {
         "records": _rated_wins(6),
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": CUP_DAY - 2,
     },
     # Under the ceiling and past the three-rated-wins gate: the only state in
     # which both sections are open at once, and therefore the only one in which
@@ -302,7 +289,6 @@ STATES = {
         "records": _rated_wins(4),
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": CUP_DAY - 2,
     },
     # Past the ceiling, standing in the Instituut hall rather than at the
     # federation: this is where the greeting line fires, and the greeting line is
@@ -321,7 +307,6 @@ STATES = {
         "records": _rated_wins(6),
         "map": "academy_hall",
         "spawn": "from_tram",
-        "day": CUP_DAY - 2,
     },
     # Cup day, entered in the open section, standing in the Bondszaal: four
     # rounds on thirteen lines against the club and the Instituut at once.
@@ -341,7 +326,6 @@ STATES = {
         "records": _rated_wins(6),
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": CUP_DAY,
     },
     # Two days out, enrolled, and third in the lower league on three wins -- inside the
     # four, standing at the federation desk, with nothing entered yet. This is the
@@ -379,7 +363,6 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": EXAM_DAY - 2,
     },
     # The same record, on the day itself, entered and started: the paper and then
     # the rounds. Slots are untouched so a round can actually be sat.
@@ -418,7 +401,6 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": EXAM_DAY,
     },
     # One win and three losses: sixth of seven, outside the four, and told so.
     # Act 2's other ending has to be played rather than reasoned about.
@@ -460,7 +442,6 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": EXAM_DAY,
     },
     # Paper sat, round one won, round two waiting -- the state the exam
     # actually spends most of its time in, and the one where the review screen
@@ -508,7 +489,6 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": EXAM_DAY + 1,
     },
     # All three rounds won: first of four, and through.
     "exam_passed": {
@@ -565,7 +545,6 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": EXAM_DAY + 3,
     },
     # All three lost: Act 2's other ending, which has to be seen too.
     "exam_failed": {
@@ -622,7 +601,6 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": EXAM_DAY + 3,
     },
     # Two rounds down, the last one to play. The only state in which finishing a
     # game *ends Act 2*, which is the transition nothing had ever driven: the
@@ -676,7 +654,6 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": EXAM_DAY + 2,
     },
     "beat_kesh": {
         "rank_strength": 8,               # 22 kyu
@@ -738,11 +715,8 @@ def build(name, slot=1, who="Ro", minutes=None):
             "handicap_taken": 0, "komi": 5.5, "move_count": 48, "unrated": False,
             "opponent_strength": 18, "summary": st["summary"],
         }],
-        "day": st.get("day", 1),
-        "slots_used": 0,
         # A preset may name its hour: schedules decide who is standing in the
         # room, so "afternoon" is a default rather than a fact about every state.
-        "time_block": st.get("time_block", "afternoon"),
         "current_map": st.get("map", "de_ketel"),
         "spawn_point": st.get("spawn", "from_street"),
         "return_position": [0, 0],
