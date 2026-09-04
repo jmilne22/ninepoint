@@ -182,6 +182,7 @@ python3 tools/gen_maps.py                        # rebuild the maps from their g
 python3 tools/gen_content.py                     # rebuild NpcData / OpponentProfile / quests
 python3 tools/gen_props.py                       # art/props/ — the tram, the "..." bubble
 python3 tools/make_test_save.py invited          # a save in a hard-to-reach state
+python3 tools/make_test_save.py invited 2 Ada 42 # ...in slot 2, as Ada, at 42 minutes
                                                 # also: league_ready thirteen_ready cup_ready
                                                 # hooks_ready
                                                 # cup_day exam_ready
@@ -208,14 +209,23 @@ at night, Molenpark and the arches trading their two regulars),
 `endgame` (pass, and keep passing: the opponent plays on while the points are worth
 having and stops when they are not),
 `hooks` (Tomas writes your card, and the wall at the back of De Ketel puts a 22 kyu
-above an 18 kyu because they were beaten).
+above an 18 kyu because they were beaten),
+`saves` (three playthroughs in three slots: load one that is not the newest, save over
+another, and be asked twice before either is lost).
 Screenshots land in `/tmp/ninepoint-shots` (override with `OUT=`). **`run_game.sh` needs a
 script argument** — it runs on a hidden display, so without one there is nothing to see; it
 will tell you to use `play.sh`. `DISPLAY_NUM=0` runs it on the real display instead, which is
 the quickest way to watch a script rather than reconstruct it from PNGs afterwards, and
 `SAVE=<preset>` regenerates save slot 1 first. Better still, a script **declares its own**
 starting state with a top-level `{"save": "<preset>"}` entry, which `run_game.sh` builds
-before launching; `SAVE=` on the command line overrides it.
+before launching; `SAVE=` on the command line overrides it. A screen that lists more than
+one slot declares them slot by slot --
+`{"save": {"1": {"preset": "exam_ready", "name": "Ada", "minutes": 42}, "2": "hooks_ready"}}`
+-- and either form **clears the slots it does not name**, and stamps the ones it does a
+minute apart in slot order so `newest_slot()` has no tie to break. `{"save": {}}` is the
+empty declaration: no slots at all, which is what a script that starts from New Game wants,
+because New Game takes the first *empty* slot and would otherwise write into whatever the
+last run left behind.
 
 **Three rules for writing autopilot scripts, all learned the same night:**
 
@@ -391,7 +401,11 @@ Playable start to finish: cold open → name → **the attic** → Ketelsteeg �
 lessons → nigiri → Kesh → a rank → capture puzzle → the tram north → enrol → league board →
 a class → the Beginner Cup at the Bondszaal. Ten maps, fifteen characters, two board sizes,
 four hours of the day and weather, and a term that ends. Two progressions running at once:
-the league board above ground and the hooks below it.
+the league board above ground and the hooks below it. **Three of them can run at once**:
+`SaveSystem` has taken a slot since M9 and M31 gave the player the way in and out of them --
+Load Game on the title, Save to slot in the pause menu, one `SaveSlots` panel shared by both,
+and deleting behind a card that answers only to [Del]. New Game takes an empty slot without
+asking and asks only when all three are full.
 
 **See `ROADMAP.md` for what is not built.** The short version: the term is a fortnight and
 holds about four days of content, so it is no longer overstating itself, but filling it is
@@ -578,6 +592,15 @@ No engine, and the seam for one is `GoEvaluator` — see the debt list before re
   walled at both ends and there is nowhere for anyone to be coming from.
 - Two test hooks ship in production code: the `Autopilot` autoload and
   `GoMatch.THINK_DELAY_FAST`.
+- **A bare autoload name in a test file types the singleton as `Node` for the whole run.**
+  `GameState.BLOCKS` in `test_data.gd` was compiled before the autoload's script reached the
+  global cache, so the analyser settled on plain `Node` and kept that answer for everything
+  after it -- including `save_system.gd`, whose `GameState.to_dict()` then failed inside the
+  suite while working perfectly in the game. It had killed `test_data._test_dialogue_branches`
+  outright since that test was written: thirteen assertions that never ran, under a green
+  report. In a test, fetch the autoload with `root.get_node("GameState")` into an **untyped**
+  local; annotating it `: Node` is the same bug written by hand, and is why
+  `ExamBoard.summary()` at `test_exam.gd:135` is still dead.
 - **A green autopilot run is not evidence the script did what it says.** `slice_full` had not
   been playing its match in three runs out of five since M16 — it still wrote all nineteen
   screenshots and exited 0, because `_talk_to` pressed [Space] at where a wandering NPC used

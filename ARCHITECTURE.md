@@ -235,18 +235,29 @@ Maps are `TileMapLayer`-based with a `YSort` entity layer; every map exposes nam
 
 ## 8. Save format
 
-`user://save_1.json` — plain JSON, versioned, human-readable for debugging:
+`user://save_1.json` .. `user://save_3.json` — plain JSON, versioned, human-readable for
+debugging. These are the real keys, which is `GameState.to_dict()` and nothing else:
 
 ```json
-{ "version": 1, "saved_at": "...", "playtime": 0.0,
-  "map": "res://src/rpg/maps/go_club.tscn", "spawn": "from_street",
-  "player": { "rank": "22k", "name": "..." },
-  "flags": {...}, "quests": {...}, "relationships": {"kesh": 3},
-  "inventory": [...], "time_block": "afternoon",
-  "match_records": [ {"opponent":"kesh","won":false,"margin":8.5} ] }
+{ "version": 1, "saved_at": "2026-09-04T12:00:00", "playtime": 640.0,
+  "player_name": "Ro", "rank_strength": 8,
+  "flags": {...}, "quests": {"first_stones": {"step": 2, "done": false}},
+  "inventory": ["old_goban"],
+  "match_records": [ {"npc_id": "kesh", "player_won": false, "margin": 8.5, ...} ],
+  "day": 7, "slots_used": 1, "time_block": "dusk",
+  "current_map": "de_ketel", "spawn_point": "from_street",
+  "return_position": [12, 8], "has_return_position": true }
 ```
+
 Saving is `GameState.to_dict()`; loading is `GameState.from_dict()` then `SceneRouter` opens
-the map at the spawn point. No node paths are serialised.
+the map at the spawn point, or drops the player back on `return_position` when a match
+interrupted them there. No node paths are serialised. `current_map` is a map **id**, not a
+scene path — every map is data, and `MapData` resolves it.
+
+Which of the three slots a run belongs to is `GameState.active_slot`, and it is deliberately
+**not** in the file: the path is the slot's identity, and a number written inside would
+disagree with it the first time somebody copied one. `SaveSlots` (`src/ui/save_slots.gd`) is
+the one panel that lists them, shared by the title screen and the pause menu.
 
 ## 9. Testing
 
