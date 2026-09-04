@@ -14,7 +14,12 @@ var _label: Label
 var _timer := 2.0
 
 const BUBBLE_W := 136
-const BUBBLE_INNER_W := BUBBLE_W - 12
+const BUBBLE_MIN_W := 48
+const BUBBLE_PAD := 6
+## Keep the bottom of the bubble above an NPC's head, rather than over its
+## sprite. The label used to be only one line high; a framed line needs this
+## extra clearance.
+const BUBBLE_CLEARANCE := 24
 
 
 func setup(lines: Array, npcs: Array) -> void:
@@ -31,7 +36,8 @@ func setup(lines: Array, npcs: Array) -> void:
     _bubble.visible = false
     _bubble.z_index = 6
 
-    _label = UiKit.label(_bubble, Vector2(6, 6), BUBBLE_INNER_W, UiKit.PAPER)
+    _label = UiKit.label(_bubble, Vector2(BUBBLE_PAD, BUBBLE_PAD),
+        BUBBLE_W - BUBBLE_PAD * 2, UiKit.PAPER)
     _label.name = "Overheard"
     _label.mouse_filter = Control.MOUSE_FILTER_IGNORE
     _label.add_theme_color_override("font_outline_color", Color("14121a"))
@@ -54,10 +60,20 @@ func _process(delta: float) -> void:
         _timer = 1.0
         return
     _label.text = str(entry.get("text", ""))
-    var text_h: int = maxi(UiKit.LINE_H, UiKit.text_height(_label.text, BUBBLE_INNER_W))
+    # Hug short lines instead of drawing a fixed, character-covering banner.
+    # Longer prose wraps at the same compact maximum width.
+    var measured: Vector2 = UiKit.FONT.get_string_size(_label.text,
+        HORIZONTAL_ALIGNMENT_LEFT, -1, UiKit.FONT_SIZE)
+    var bubble_w: int = clampi(int(ceil(measured.x)) + BUBBLE_PAD * 2,
+        BUBBLE_MIN_W, BUBBLE_W)
+    var inner_w := bubble_w - BUBBLE_PAD * 2
+    _label.size.x = inner_w
+    var text_h: int = maxi(UiKit.LINE_H, UiKit.text_height(_label.text, inner_w))
     _label.size.y = text_h
+    _bubble.size.x = bubble_w
     _bubble.size.y = text_h + 12
-    _bubble.position = npc.position + Vector2(-BUBBLE_W * 0.5, -_bubble.size.y - 10)
+    _bubble.position = npc.position + Vector2(-_bubble.size.x * 0.5,
+        -_bubble.size.y - BUBBLE_CLEARANCE)
     _bubble.visible = _label.text != ""
     _timer = SHOW_FOR
 
