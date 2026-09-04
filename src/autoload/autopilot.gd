@@ -48,7 +48,8 @@ func _run() -> void:
 
 func _do(step: Dictionary) -> void:
     if step.has("katago_trial"):
-        await _start_katago_trial()
+        var trial_profile := str(step["katago_trial"]) if step["katago_trial"] is String else ""
+        await _start_katago_trial(trial_profile, bool(step.get("katago_direct", false)))
     if step.has("match_move"):
         var xy: Array = step["match_move"]
         await _play_match_point(Vector2i(int(xy[0]), int(xy[1])), float(step.get("timeout", 30.0)))
@@ -100,12 +101,21 @@ func _do(step: Dictionary) -> void:
 
 
 ## This route exists only in autoplay scripts. No world interaction, profile,
-## or character can reach it, which keeps the shipped cast on heuristic play.
-func _start_katago_trial() -> void:
-    var profile := load("res://tools/fixtures/katago_trial_9x9.tres") as OpponentProfile
+## or character can reach it, which keeps this visual verification route out of
+## the shipped world flow.
+func _start_katago_trial(profile_path: String = "", direct: bool = false) -> void:
+    var selected_path := profile_path if profile_path != "" else "res://tools/fixtures/katago_trial_9x9.tres"
+    var profile := load(selected_path) as OpponentProfile
     if profile == null:
         push_error("KataGo trial fixture profile could not be loaded.")
         return
+    # Character profiles normally enter through handicap/nigiri presentation.
+    # The visual probe isolates the board match itself, so it pins colour only
+    # in this development-only duplicate; rank and Human-SL style stay intact.
+    if direct:
+        profile = profile.duplicate(true) as OpponentProfile
+        profile.colour_rule = "player_black"
+        profile.handicap = 0
     var request := MatchRequest.new()
     request.profile = profile
     request.context_id = "dev_katago_trial"

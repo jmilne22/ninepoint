@@ -16,3 +16,6 @@ __pycache__/
 /packaging/katago/bin/
 /packaging/katago/lib/
 /packaging/katago/models/
+
+# Runtime KataGo protocol/search diagnostics; generated on every engine run.
+gtp_logs/
