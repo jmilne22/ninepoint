@@ -3,6 +3,17 @@ class_name GoDataTests
 extends RefCounted
 
 
+## The GameState autoload, fetched rather than named.
+##
+## A bare `GameState.x` here is compiled before the autoload's script is in the
+## global cache, so the analyser types the singleton as plain Node -- and keeps
+## that answer for everything compiled afterwards, including production code.
+## It is why `state.reset()` below had never once run, and why it took the save
+## suite down with it when that suite arrived in M31.
+static func _state():
+    return (Engine.get_main_loop() as SceneTree).root.get_node("GameState")
+
+
 static func run(t: TestKit) -> void:
     _test_dialogue(t)
     _test_dialogue_exits(t)
@@ -310,7 +321,7 @@ const ALWAYS_STAFFED := ["de_ketel", "academy_study"]
 
 static func _test_schedules(t: TestKit) -> void:
     t.section("nobody is scheduled out of the game")
-    var blocks: Array = GameState.BLOCKS
+    var blocks: Array = _state().BLOCKS
     var seen := {}          # npc_id -> { block: true }
     var staffed := {}       # map_id -> { block: true }
     for path in _list("res://data/maps", ".json"):
@@ -353,7 +364,7 @@ static func _test_schedules(t: TestKit) -> void:
 
 static func _test_dialogue_branches(t: TestKit) -> void:
     t.section("dialogue branching")
-    var state: Node = (Engine.get_main_loop() as SceneTree).root.get_node("GameState")
+    var state = _state()
     var kesh := DialogueGraph.load_graph("res://data/dialogue/kesh.json")
     t.ok(kesh != null, "kesh's graph loads")
     if kesh == null:

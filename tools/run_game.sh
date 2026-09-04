@@ -56,22 +56,22 @@ trap cleanup INT TERM
 # out of bounds and the walk silently fails. It only ever "worked" when chained
 # after a run that happened to leave the player on the street. An explicit SAVE=
 # on the command line still wins.
-if [ -z "$SAVE" ]; then
-  SAVE=$(python3 -c "
-import json,sys
-try:
-    for step in json.load(open(sys.argv[1])):
-        if isinstance(step, dict) and 'save' in step:
-            print(step['save']); break
-except Exception:
-    pass
-" "$1" 2>/dev/null)
-fi
-
 if [ -n "$SAVE" ]; then
   echo "regenerating save slot 1 as '$SAVE'"
   python3 tools/make_test_save.py "$SAVE" >/dev/null || {
     echo "no such preset '$SAVE' -- see tools/make_test_save.py STATES" >&2; exit 2; }
+else
+  # The script's own {"save": ...} entry, read and built by the fixture tool so
+  # the shape of that entry is described in one place. A script may declare one
+  # preset or a slot-by-slot set; either way the slots it does not name are
+  # cleared, because a screen that lists all three would otherwise show the
+  # previous run's leftovers. Silent no-op when a script declares nothing.
+  MADE=$(python3 tools/make_test_save.py --script "$1") || {
+    echo "bad save declaration in '$1' -- see tools/make_test_save.py STATES" >&2; exit 2; }
+  if [ -n "$MADE" ]; then
+    echo "regenerating saves declared by $(basename "$1"):"
+    echo "$MADE" | sed "s|^|  |"
+  fi
 fi
 
 if ! xdpyinfo -display ":$DISPLAY_NUM" >/dev/null 2>&1; then

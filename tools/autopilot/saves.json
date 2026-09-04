@@ -1,0 +1,71 @@
+[
+ {"save": {"1": {"preset": "exam_ready", "name": "Ada", "minutes": 42},
+           "2": {"preset": "thirteen_ready", "name": "Bo", "minutes": 18},
+           "3": {"preset": "hooks_ready", "name": "Cass", "minutes": 6}},
+  "note": "three playthroughs at three ranks, in three places, at two hours -- so a row that came back as the wrong slot is obvious rather than plausible"},
+
+ {"wait": 1.0},
+ {"shot": "a_title", "note": "four items now: New Game, Continue, Load Game, Quit"},
+
+ {"tap": "interact", "note": "New Game -- with all three slots taken it has to ask"},
+ {"wait": 0.6},
+ {"shot": "b_new_game_asks"},
+ {"tap": "cancel"},
+ {"wait": 0.4},
+
+ {"tap": "move_down", "times": 2, "note": "Load Game"},
+ {"tap": "interact"},
+ {"wait": 0.6},
+ {"shot": "c_three_slots", "note": "name, rank, minutes, and the day/hour/place underneath"},
+
+ {"tap": "move_up", "note": "off the newest slot and onto Bo in slot 2"},
+ {"wait": 0.3},
+ {"shot": "d_cursor_on_two"},
+ {"tap": "interact"},
+ {"wait": 2.6},
+ {"shot": "e_loaded", "note": "the study hall in daylight, not slot 3's De Ketel at night"},
+
+ {"tap": "menu"},
+ {"wait": 0.5},
+ {"shot": "f_pause", "note": "the status line says Bo, so slot 2 is what loaded"},
+
+ {"tap": "move_down", "times": 2, "note": "Save to slot..."},
+ {"tap": "interact"},
+ {"wait": 0.5},
+ {"shot": "g_save_list"},
+
+ {"tap": "move_down", "note": "slot 3, which has Cass in it"},
+ {"tap": "interact"},
+ {"wait": 0.5},
+ {"shot": "h_overwrite_confirm", "note": "saving over somebody else's game asks first"},
+ {"tap": "interact"},
+ {"wait": 0.8},
+ {"shot": "i_saved_to_three", "note": "the status names the slot"},
+
+ {"tap": "move_down", "note": "Back to title"},
+ {"tap": "interact"},
+ {"wait": 2.2},
+
+ {"tap": "move_down", "times": 2},
+ {"tap": "interact"},
+ {"wait": 0.6},
+ {"shot": "j_list_after_save", "note": "slot 3 is Bo now, and Cass is gone"},
+
+ {"tap": "delete_save"},
+ {"wait": 0.5},
+ {"shot": "k_delete_confirm"},
+
+ {"tap": "interact", "note": "the accept key must do nothing here"},
+ {"wait": 0.5},
+ {"shot": "l_space_does_not_delete", "note": "the same card, still up"},
+
+ {"tap": "delete_save"},
+ {"wait": 0.5},
+ {"shot": "m_slot_three_empty"},
+
+ {"tap": "cancel"},
+ {"wait": 0.5},
+ {"shot": "n_title_after_delete", "note": "the summary line follows the delete"},
+
+ {"quit": true}
+]

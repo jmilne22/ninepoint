@@ -4,7 +4,7 @@ Everything below is outstanding as of the current build. It is ordered by what
 would most improve the game, not by what is easiest. `MILESTONES.md` records what
 was built and how it was verified; this file records what has not been.
 
-The build is green: `tools/test.sh` runs 6114 checks, `tools/check_lessons.py`
+The build is green: `tools/test.sh` runs 6193 checks, `tools/check_lessons.py`
 reports no problems, and the game is playable from the cold open to the exam and
 the Cup.
 
@@ -351,6 +351,28 @@ Owned by a parallel effort; listed here for completeness.
   cannot tell a ten-point move from a two-point one, which is judgement, which is §7's engine
   question. A human who passes early is now played out rather than passed back at, and the
   margin means what it says.
+- ~~**Three save slots, and no way to see any of them.**~~ **Fixed (M31).** `SaveSystem` had
+  taken a slot since M9 -- `SLOT_COUNT := 3`, `save_game(slot)`, `load_game(slot)`, and a
+  `delete_save(slot)` with no caller anywhere in the project -- and the two places the game
+  used it collapsed all three back onto one: the pause menu wrote the literal `save_game(1)`
+  and the title screen read `newest_slot()`. A second playthrough destroyed the first,
+  silently, and nothing could be thrown away. Now a shared `SaveSlots` panel lists who is in
+  each slot and where they are, reached from **Load Game** on the title and **Save to slot**
+  in the pause menu, with deleting behind a card that answers only to [Del] and never to the
+  accept key. New Game still takes an empty slot without asking and asks only when all three
+  are full: the cold open is the point of the cold open.
+- ~~**A bare autoload name in a test typed the singleton as `Node` for the whole run.**~~
+  **Fixed (M31).** `test_data.gd` said `GameState.BLOCKS`, which the analyser resolves before
+  the autoload's script is in the global cache, so it settled on plain `Node` and kept that
+  answer for everything compiled after it -- including `save_system.gd`, whose
+  `GameState.to_dict()` then failed at run time inside the suite while working perfectly in
+  the game. It had been quietly killing `_test_dialogue_branches` since that test was written:
+  thirteen assertions that had never once executed, and a green report. Fetch the autoload
+  (`root.get_node("GameState")`) into an **untyped** local instead; a `: Node` annotation is
+  the same bug by hand.
+- **`ExamBoard.summary()` is called on the class in `test_exam.gd:135`** and it is not static,
+  so that one assertion has never run -- the same shape of dead test the bullet above
+  describes, found while chasing it and left for whoever touches the exam next.
 - **`check_load.gd` never opens a `.json` file.** Its `EXTS` is `gd/tscn/tres/fnt`, so the
   load gate walks `res://data` and skips every dialogue graph, lesson, puzzle, banter file
   and review voice in it. Those are validated only where a specific test happens to walk

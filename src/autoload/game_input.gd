@@ -13,6 +13,14 @@ const ACTIONS := {
     "go_pass": [KEY_P],
     "go_resign": [KEY_R],
     "go_confirm": [KEY_SPACE, KEY_ENTER, KEY_KP_ENTER],
+    # Deleting a save is the only irreversible thing outside the board, so it
+    # gets its own action rather than riding on `interact` -- the same reason
+    # `go_resign` exists. D is also `move_right`: harmless, because the slot
+    # panel is the only place that reads `delete_save` and it has nothing to
+    # move right to, and everywhere else `delete_save` goes unread. It has to
+    # be a named action either way: the autopilot sends InputEventAction, so a
+    # raw keycode check would make deleting undriveable and unverifiable.
+    "delete_save": [KEY_DELETE, KEY_D],
     "debug_screenshot": [KEY_F12],
 }
 

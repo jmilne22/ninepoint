@@ -2,17 +2,27 @@
 playing (beating the rival, for instance) can still be exercised in the real game.
 
     python3 tools/make_test_save.py beat_kesh
+    python3 tools/make_test_save.py beat_kesh 2 Ada 42   # slot, name, minutes
+    python3 tools/make_test_save.py --script tools/autopilot/saves.json
+
+The last form builds whatever the script's own {"save": ...} entry declares --
+one preset, or a slot-by-slot set for a screen that lists more than one -- and
+clears the slots it does not name. A screen that reads all three slots inherits
+the last run's leftovers otherwise, which is the same fault the per-script save
+was introduced to fix.
 """
 import json
 import os
 import re
 import sys
+import time
 
 GAME_STATE = os.path.join(os.path.dirname(__file__), "..", "src", "autoload", "game_state.gd")
 GO_RANK = os.path.join(os.path.dirname(__file__), "..", "src", "go", "go_rank.gd")
+SAVE_SYSTEM = os.path.join(os.path.dirname(__file__), "..", "src", "autoload", "save_system.gd")
 
 
-def _const(name):
+def _const(name, path=GAME_STATE):
     """Read a day constant out of GameState rather than repeating it here.
 
     These presets used to carry literal day numbers -- 42, 41, 38, 36 -- against
@@ -22,10 +32,10 @@ def _const(name):
     looks exactly as confident as one of the right state. So the days are
     derived, and the next rescale is one constant instead of eight literals.
     """
-    src = open(GAME_STATE, encoding="utf-8").read()
+    src = open(path, encoding="utf-8").read()
     m = re.search(r"^const %s\s*:=\s*(\d+)" % re.escape(name), src, re.M)
     if not m:
-        raise SystemExit("make_test_save: no `const %s` in %s" % (name, GAME_STATE))
+        raise SystemExit("make_test_save: no `const %s` in %s" % (name, path))
     return int(m.group(1))
 
 
@@ -643,12 +653,26 @@ STATES = {
 }
 
 
-def build(name, slot=1):
+SLOT_COUNT = _const("SLOT_COUNT", SAVE_SYSTEM)
+USER_DIR = os.path.expanduser("~/.local/share/godot/app_userdata/Ninepoint")
+
+
+def slot_path(slot):
+    return os.path.join(USER_DIR, "save_%d.json" % slot)
+
+
+def clear_all():
+    for slot in range(1, SLOT_COUNT + 1):
+        if os.path.exists(slot_path(slot)):
+            os.remove(slot_path(slot))
+
+
+def build(name, slot=1, who="Ro", minutes=None):
     st = STATES[name]
     save = {
         "version": 1,
         "saved_at": "2026-09-03T12:00:00",
-        "player_name": "Ro",
+        "player_name": who,
         "rank_strength": st["rank_strength"],
         "flags": st["flags"],
         "quests": st["quests"],
@@ -671,15 +695,64 @@ def build(name, slot=1):
         "spawn_point": st.get("spawn", "from_street"),
         "return_position": [0, 0],
         "has_return_position": False,
-        "playtime": 640.0,
+        "playtime": 640.0 if minutes is None else float(minutes) * 60.0,
     }
-    d = os.path.expanduser("~/.local/share/godot/app_userdata/Ninepoint")
-    os.makedirs(d, exist_ok=True)
-    path = os.path.join(d, "save_%d.json" % slot)
+    os.makedirs(USER_DIR, exist_ok=True)
+    path = slot_path(slot)
     json.dump(save, open(path, "w"), indent=2)
     return path
 
 
+def build_declared(decl):
+    """Build the slots a `{"save": ...}` entry declares, and clear the rest.
+
+    A string is the one-slot form every script used before M31. A dict maps a
+    slot number to a preset, or to {"preset", "name", "minutes"} where the
+    screen under test needs the three rows to look like three different people
+    rather than three copies of Ro at 10 min.
+    """
+    clear_all()
+    if isinstance(decl, str):
+        return [build(decl)]
+    built = []
+    for slot in sorted(decl, key=int):
+        spec = decl[slot]
+        if isinstance(spec, str):
+            spec = {"preset": spec}
+        built.append(build(spec["preset"], int(slot),
+                           spec.get("name", "Ro"), spec.get("minutes")))
+    # Stamped a minute apart in slot order, so the highest-numbered slot is the
+    # one most recently played. Three files written inside the same second give
+    # `SaveSystem.newest_slot()` a tie to break arbitrarily, and it feeds both
+    # Continue and where the list opens its cursor -- so the whole run walks the
+    # wrong rows and screenshots them just as confidently.
+    now = int(time.time())
+    for i, path in enumerate(built):
+        stamp = now - 60 * (len(built) - 1 - i)
+        os.utime(path, (stamp, stamp))
+    return built
+
+
+def declared_by(script_path):
+    """The `save` entry of an autopilot script, or None if it declares none."""
+    for step in json.load(open(script_path, encoding="utf-8")):
+        if isinstance(step, dict) and "save" in step:
+            return step["save"]
+    return None
+
+
 if __name__ == "__main__":
-    which = sys.argv[1] if len(sys.argv) > 1 else "beat_kesh"
-    print(build(which))
+    args = sys.argv[1:]
+    if args and args[0] == "--script":
+        declared = declared_by(args[1])
+        if declared is None:
+            sys.exit(0)
+        for made in build_declared(declared):
+            print(made)
+    else:
+        which = args[0] if args else "beat_kesh"
+        slot = int(args[1]) if len(args) > 1 else 1
+        who = args[2] if len(args) > 2 else "Ro"
+        mins = args[3] if len(args) > 3 else None
+        clear_all()
+        print(build(which, slot, who, mins))

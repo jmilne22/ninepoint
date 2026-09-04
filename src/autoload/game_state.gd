@@ -58,6 +58,11 @@ var has_return_position: bool = false
 var playtime: float = 0.0
 var started: bool = false
 
+## Which save slot this playthrough belongs to. Deliberately not serialised: the
+## file's path is its own identity, and a slot number written inside the file
+## would disagree with it the moment somebody copied one.
+var active_slot: int = 1
+
 
 func _process(delta: float) -> void:
     if started:
@@ -80,6 +85,8 @@ func reset() -> void:
     has_return_position = false
     playtime = 0.0
     started = true
+    # active_slot is left alone on purpose: from_dict() calls reset() first, so
+    # clearing it here would wipe the slot the loader has just chosen.
 
 
 # --- the calendar ------------------------------------------------------------
@@ -307,8 +314,10 @@ func from_dict(d: Dictionary) -> void:
     time_block = str(d.get("time_block", "afternoon"))
     current_map = str(d.get("current_map", DEFAULT_MAP))
     spawn_point = str(d.get("spawn_point", "start"))
+    # Indexed unguarded until M31: a short or malformed array crashed the load,
+    # which now matters because the player can point the loader at any slot.
     var rp: Array = d.get("return_position", [0, 0])
-    return_position = Vector2(float(rp[0]), float(rp[1]))
+    return_position = Vector2(float(rp[0]), float(rp[1])) if rp.size() >= 2 else Vector2.ZERO
     has_return_position = bool(d.get("has_return_position", false))
     playtime = float(d.get("playtime", 0.0))
     started = true

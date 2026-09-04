@@ -1,5 +1,9 @@
 [
  {
+  "save": {},
+  "note": "no slots at all. This script starts from New Game, and New Game now takes the first empty slot -- so without this it saves into whatever the last run left behind, and the shot at the end names a different slot every time"
+ },
+ {
   "wait": 0.8,
   "shot": "title"
  },

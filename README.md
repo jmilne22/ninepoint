@@ -40,8 +40,26 @@ That's it. Godot 4.7 is required; on this machine it lives at `~/.local/bin/godo
 | Arrow keys or WASD | walk |
 | Space (or Enter / E / Z) | talk, read, advance dialogue |
 | Up / Down then Space | pick a dialogue choice |
-| Tab | menu — save game, back to title |
+| Tab | menu — save game, save to another slot, back to title |
 | Esc | back out of a menu |
+
+**Saves**
+
+There are three slots. The title screen offers **Continue** (the one you played most
+recently) and **Load Game** (pick any of them); the pause menu's *Save game* writes back to
+the slot you are playing, and *Save to slot…* puts it wherever you like.
+
+| | |
+|---|---|
+| Up / Down then Space | pick a slot |
+| Del (or D) | delete the highlighted slot |
+| Esc | back out |
+
+Deleting asks first, and the confirmation answers only to **Del** — Space will not do it, on
+purpose. Saving over somebody else's game asks too; saving over your own does not.
+
+**New Game** takes the first empty slot and goes straight into the opening. It only asks
+where to put you when all three slots are full.
 
 **At the board**
 
@@ -99,6 +117,7 @@ python3 tools/gen_maps.py           # rebuild the town from its placement script
 python3 tools/gen_content.py        # rebuild NPC / opponent / quest resources
 python3 tools/gen_tileset_resource.py   # rebuild the Godot TileSet from the atlas manifest
 python3 tools/make_test_save.py beat_kesh   # a save in a hard-to-reach state, for testing
+python3 tools/make_test_save.py beat_kesh 2 Ada 42   # ...in slot 2, as Ada, at 42 minutes
 ```
 
 ## Structure
@@ -122,7 +141,8 @@ There is no relationship system. The game tracks your **record** against each pe
 Title → New Game → leave your room on Ketelsteeg → walk down into De Ketel →
 Wren asks whether you have played, and teaches you if not → she explains the Beginner Cup →
 Kesh challenges you to 9×9 and you settle the colours by nigiri → play a real game of Go →
-win or lose, her dialogue changes → Hana sets you a capture problem → solve it → save.
+win or lose, her dialogue changes → Hana sets you a capture problem → solve it → save it
+into one of the three slots.
 
 ## Layout
 
@@ -132,7 +152,8 @@ src/academy/ the Instituut league: standings computed only from games played
 src/go_ai/   opponent interface, the shipped heuristic AI, a GTP adapter for KataGo
 src/go_ui/   board view, match scene, puzzle scene
 src/rpg/     town, player, NPCs, maps
-src/dialogue/ src/quest/ src/save/ src/ui/ src/autoload/
+src/club/    the De Ketel hooks: a ladder counting every game, not only the rated ones
+src/dialogue/ src/quest/ src/ui/ src/autoload/   (SaveSystem lives in src/autoload/)
 data/        maps, dialogue, NPCs, opponents, quests, puzzles -- all of it data
 art/         generated pixel art
 audio/       generated sound effects and music

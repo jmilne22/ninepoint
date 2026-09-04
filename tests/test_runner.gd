@@ -25,6 +25,7 @@ func _initialize() -> void:
         "ambience": WorldAmbienceTests, "match music": MatchMusicTests,
         "exam": ExamTests,
         "hooks": HooksTests,
+        "save": SaveTests,
         "go review": GoReviewTests, "rating": RatingTests, "progress": GoProgressTests, "cup": CupTests, "table talk": TableTalkTests,
     }
     for name in suites:

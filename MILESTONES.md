@@ -1589,3 +1589,114 @@ presses. Every shot after the second was named for a beat that had not happened 
 called `i_the_wall`, was Tomás still talking. Exit 0, 0 script errors, eleven confident PNGs.
 It advances generously with `stop_at_choice` now, and the names were checked against the
 images rather than against the intent.
+
+## M31 — Three saves, and the way in and out of them  [done]
+
+`SaveSystem` has taken a slot since M9. `SLOT_COUNT := 3`, `path_for(slot)`, `save_game(slot)`,
+`load_game(slot)`, `slot_summary(slot)`, and a `delete_save(slot)` with **no caller anywhere in
+the project**. Then the two places the game actually used any of it collapsed all three back
+onto one: `pause_menu.gd` wrote the literal `save_game(1)`, and the title screen read
+`newest_slot()`. So the player had one save, a second playthrough destroyed the first without
+saying so, and nothing could be thrown away. A constant that said three where the player had
+one, for twenty-two milestones.
+
+**The panel is one component, not two lists.** `SaveSlots` (`src/ui/save_slots.gd`, 270 lines)
+is raised by the title screen and by the pause menu, in three modes -- LOAD, SAVE, NEW -- and
+it is one component because the title and the pause menu ask the same question of the same
+three files, and a second copy of that question is a second copy to keep in step. It lists
+what is actually in each slot: name, rank, minutes, and underneath, the day, the hour and the
+place, read from the map's own `"name"` so there is no second table of place names to drift.
+`SaveSystem.slot_info()` is the one parser; `slot_summary()` is now written on top of it
+rather than beside it.
+
+Three decisions in it, each of which could have gone the other way:
+
+- **New Game does not ask when it does not have to.** It takes the first empty slot and goes
+  straight into Hana's cold open, exactly as before. Only with all three taken does it open
+  the panel. The opening is the one place the game is allowed to be a cold open, and a menu
+  in front of it every time is a tax on the common case to cover the rare one.
+- **Deleting answers only to [Del], never to the accept key.** It is the resign guard's shape
+  (`go_match.gd:609`) for the resign guard's reason: while the card is up, every other key is
+  swallowed, so an arrow cannot move a cursor behind it and a mistyped Space cannot throw a
+  playthrough away. `delete_save` is a named input action rather than a raw keycode check
+  because the autopilot sends `InputEventAction` -- a raw check would make the delete flow
+  undriveable, and an undriveable flow is an unverified one.
+- **Saving over the slot the run already lives in is not an overwrite.** Asking every time
+  would train the player to dismiss the card, and a card that is always dismissed is not a
+  guard. `SAVE` on the active slot goes straight through; every other occupied slot asks.
+
+**`active_slot` is not in the save file.** The path is the slot's identity; a number written
+inside would disagree with it the first time somebody copied one. `reset()` therefore leaves
+it alone, and needs a comment saying so, because `from_dict()` calls `reset()` first and would
+otherwise wipe the slot the loader had just chosen.
+
+**The menus grew, and the harness navigates them by counting.** `autopilot.gd` can only send
+named actions, so every script drives a menu as N × `move_down` then `interact`. New Game and
+Continue stay at title indices 0 and 1; "Save game" stays at pause index 1 **and stays a save
+with no further prompt**, because `slice_full`, `joos`, `win_path` and `exam_final` all end on
+one `move_down` and an `interact` and expect a file afterwards. Everything new went on the end.
+
+**Done when:** `tools/test.sh` **6193 / 0** (from 6114), `check_lessons.py` clean, and the
+fourteen frames below opened one at a time.
+
+**Six deliberate breaks, each reverted and the suite re-run:**
+
+| broken | result |
+|---|---|
+| `delete_save` returns true without removing | 10 failed |
+| every `save_game` writes slot 1 | 27 failed |
+| a corrupt file reads back as `ok` | 2 failed |
+| the `return_position` size guard removed | 2 failed |
+| `from_dict` drops `match_records` | 2 failed |
+| `first_empty_slot` always says 1 | 3 failed |
+
+The fourth of those is the one worth keeping, because it reported **nought failed** twice
+before it reported two, and the first explanation of why was wrong.
+
+An out-of-bounds array read in GDScript does not return a wrong answer. It abandons the
+function it is in -- here `from_dict`, at the `return_position` line -- and hands the caller a
+null, so `load_game` still returned true and `return_position` still held the `Vector2.ZERO`
+that `reset()` had put there four lines earlier. Every field the test looked at was written
+*before* the bad line, so the guarded and unguarded versions were identical to it. The test
+now puts `has_return_position` and `playtime` in the malformed file, which `from_dict` reads
+**after** the position, and asserts them: with the guard they arrive, without it the function
+never gets that far. The guard was doing something the whole time; the test was looking in the
+place where it made no difference.
+
+The first attempt at a fix -- calling `load_game` from its own frame so a crash costs one
+assertion rather than every assertion after it -- was aimed at the wrong mechanism, and is
+kept anyway: a test whose only failure mode is not running is not a test, and that stays true
+whichever function the error abandons.
+
+**A bare autoload name in a test file typed the singleton as `Node` for the entire run.** The
+new suite passed 64/0 on its own and failed under `test_runner.gd`, with
+`save_system.gd:50`'s `GameState.to_dict()` -- untouched production code that works in the
+game -- reporting *"Nonexistent function 'to_dict' in base 'Node'"*. The cause was one line in
+a different file: `test_data.gd` said `GameState.BLOCKS`, which the analyser resolves before
+the autoload's script is in the global cache, so it settled on plain `Node` and kept that
+answer for everything compiled afterwards. It had been killing `_test_dialogue_branches`
+outright since that test was written -- thirteen assertions that had never once executed,
+under a green report -- which is why fixing it moved `content data` from 4471 to 4484 checks.
+Fetch the autoload into an **untyped** local; `: Node` is the same bug written by hand, and is
+why `ExamBoard.summary()` at `test_exam.gd:135` is still dead. It is in `ROADMAP.md` §8.
+
+**Looked at, not reasoned about.** `tools/autopilot/saves.json`, from a three-slot fixture:
+Ada at 8k on day 8 in the Bondszaal, Bo at 18k in the Study Hall, Cass at 22k in De Ketel at
+night. Frame 2 is New Game refusing to guess with all three taken. Frame 3 is the list, cursor
+on slot 3 because it is the newest. Frame 6 is the pause menu after loading slot 2 and it says
+**Bo 18K** -- the proof that a *chosen* slot loaded rather than the newest. Frame 8 asks
+before writing over Cass; frame 11 asks before deleting; **frame 12 is frame 11 again**,
+because between them the script presses the accept key and nothing happens, which is the whole
+point of the guard. Frame 13 has slot 3 reading `empty`, and frame 14 has the title's summary
+line following the delete to Bo rather than describing a file that is gone.
+
+**And the first cut of that script lied, in the way this file keeps writing down.** All three
+fixture files were written inside the same second, so `newest_slot()` had a tie and broke it
+arbitrarily at slot 1 -- and it feeds both Continue and where the list opens its cursor, so
+every `move_down` afterwards landed on a row the script had not meant. The run was exit 0, 0
+script errors, fourteen confident PNGs of the wrong rows: frame 6 said Cass where the note
+said Bo, and only opening it caught that. The fixture stamps the slots a minute apart in slot
+order now. The same fault has a second face: `slice_full` declares no save and starts from New
+Game, which now takes the first *empty* slot -- so it silently began saving into slot 2
+because the previous run had left slot 1 occupied. It carries `{"save": {}}` now, the empty
+declaration, which clears all three.

@@ -5,7 +5,10 @@ extends CanvasLayer
 signal opened()
 signal closed()
 
-const ITEMS := ["Resume", "Save game", "Back to title"]
+## "Save game" stays at index 1 and stays a save with no further prompt: four
+## autopilot scripts end on one move_down and an interact, and expect a file to
+## exist afterwards. Anything new goes after it.
+const ITEMS := ["Resume", "Save game", "Save to slot...", "Back to title"]
 
 var open: bool = false
 
@@ -13,6 +16,7 @@ var _root: Control
 var _labels: Array[Label] = []
 var _index := 0
 var _status: Label
+var _slots: SaveSlots
 
 
 func _ready() -> void:
@@ -30,8 +34,8 @@ func _ready() -> void:
     panel.texture = load("res://art/ui/panel.png")
     for m in ["left", "top", "right", "bottom"]:
         panel.set("patch_margin_%s" % m, 6)
-    panel.position = Vector2(112, 52)
-    panel.size = Vector2(160, 112)
+    panel.position = Vector2(112, 46)
+    panel.size = Vector2(160, 124)
     panel.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
     _root.add_child(panel)
 
@@ -46,12 +50,16 @@ func _ready() -> void:
         y += 18
 
     _status = Label.new()
-    _status.position = Vector2(14, 76)
-    _status.size = Vector2(132, 30)
+    _status.position = Vector2(14, 92)
+    _status.size = Vector2(132, 26)
     _status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     _status.add_theme_font_size_override("font_size", 9)
     _status.add_theme_color_override("font_color", Color("#6b6577"))
     panel.add_child(_status)
+
+    _slots = SaveSlots.new()
+    _slots.chosen.connect(_on_slot_chosen)
+    _root.add_child(_slots)
 
     _root.visible = false
 
@@ -74,6 +82,7 @@ func show_menu() -> void:
 
 func close() -> void:
     open = false
+    _slots.close()
     _root.visible = false
     closed.emit()
 
@@ -87,7 +96,7 @@ func _refresh() -> void:
 
 
 func _input(event: InputEvent) -> void:
-    if not open:
+    if not open or _slots.visible:
         return
     if event.is_action_pressed("move_down"):
         _index = (_index + 1) % ITEMS.size()
@@ -112,11 +121,23 @@ func _activate() -> void:
         0:
             close()
         1:
-            if SaveSystem.save_game(1):
-                _status.text = "Saved."
-                EventBus.toast.emit("Game saved.")
-            else:
-                _status.text = "Could not save."
+            _save_to(GameState.active_slot)
         2:
+            _slots.open(SaveSlots.Mode.SAVE, GameState.active_slot - 1)
+        3:
             close()
             SceneRouter.go_to("res://src/ui/title_screen.tscn")
+
+
+func _on_slot_chosen(slot: int) -> void:
+    _save_to(slot)
+
+
+func _save_to(slot: int) -> void:
+    if SaveSystem.save_game(slot):
+        # Naming the slot is the only place the silent choice New Game made is
+        # ever shown to the player.
+        _status.text = "Saved to slot %d." % slot
+        EventBus.toast.emit("Game saved to slot %d." % slot)
+    else:
+        _status.text = "Could not save."
