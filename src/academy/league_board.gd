@@ -17,6 +17,9 @@ var _footer: Label
 
 const COL_X := [10, 26, 150, 208, 238, 268]
 const COL_W := [16, 124, 56, 28, 28, 28]
+## The unplayed summary is six wrapped lines at the board's 304 px text width.
+## Keep one pixel-font line per row, plus the panel's lower breathing room.
+const FOOTER_H := UiKit.LINE_H * 6
 
 
 func _ready() -> void:
@@ -35,7 +38,9 @@ func _build() -> void:
     dim.set_anchors_preset(Control.PRESET_FULL_RECT)
     _root.add_child(dim)
 
-    var panel := UiKit.panel(_root, Rect2(30, 12, 324, 192))
+    # The initial standing is the board's longest footer. The old 192 px card
+    # gave its six lines 62 px, so the final line landed on the frame.
+    var panel := UiKit.panel(_root, Rect2(30, 8, 324, 200))
     _header = UiKit.label(panel, Vector2(10, 8), 304, UiKit.GOLD)
     _header.text = "ESSENVELD INSTITUUT -- LOWER LEAGUE"
 
@@ -56,8 +61,8 @@ func _build() -> void:
             row.append(cell)
         _cells.append(row)
 
-    # Four lines now: the standing, the rule, and whether you are meeting it.
-    _footer = UiKit.label(panel, Vector2(10, 126), 304, UiKit.INK_SOFT, 62)
+    # The standing, the rule, and whether you are meeting the exam cut.
+    _footer = UiKit.label(panel, Vector2(10, 126), 304, UiKit.INK_SOFT, FOOTER_H)
 
 
 func show_board() -> void:
