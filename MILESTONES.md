@@ -1,5 +1,10 @@
 # NINEPOINT — Milestones
 
+This is the append-only history of shipped work and its verification evidence. It is **not**
+the current backlog: use `WORKBOARD.md` to select or update active work, and `ROADMAP.md` for
+the product rationale behind it. Older entries may describe systems later changed or removed;
+the latest relevant milestone and the current design documents win.
+
 Rule for every milestone: **run the real game, interact with it, screenshot it, read the error
 log, fix, run again.** A milestone is not done because the project opens.
 

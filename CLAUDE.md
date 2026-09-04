@@ -145,7 +145,7 @@ git checkout -b <branch>                 # work goes on a branch, never on main
 ```
 
 If they differ, you are not on the head of `main` and **everything downstream of that is
-suspect** — most of all `ROADMAP.md`, which is how you choose what to build. Building an
+suspect** — most of all `WORKBOARD.md`, which is how you choose what to build. Building an
 item that was finished and merged two days ago costs a whole session and looks exactly
 like working: the tests pass, the docs sweep cleanly, and the diff conflicts with somebody
 else's merged milestone at the very end. A `git pull` that says `Already up to date.` is
@@ -167,7 +167,7 @@ the local number, they would have described somebody else's milestone as part of
 Nothing errored and nothing warned. `git status` will not catch it either: it reports
 against the remote-tracking branch, which is only as fresh as your last fetch.
 
-The same applies before reading `ROADMAP.md` to pick an item. Deciding what to build
+The same applies before reading `WORKBOARD.md` to pick an item. Deciding what to build
 next out of a two-merge-old file is how the same thing gets built twice — and you find
 out at the end of the session, not the start.
 
@@ -353,7 +353,8 @@ and the file quietly becomes a liar that the next session reads as fact.
 
 | file | what goes stale |
 |---|---|
-| `ROADMAP.md` | the check count on line 7; an item you just built and left listed as outstanding; new debt you created or found |
+| `WORKBOARD.md` | ticket status, owner/branch, dependencies, acceptance evidence, and newly discovered work |
+| `ROADMAP.md` | the product rationale or trade-off behind a ticket that changed direction |
 | `MILESTONES.md` | the new `## M<n>` entry: what was built, **`Done when:` with the check count and its predecessor**, the deliberate-breaks table, and what you actually looked at |
 | `CLAUDE.md` | the command block, the autopilot script list, "Current state", the known-gaps list |
 | `README.md` | controls, the vertical slice, the layout tree — it is the only document written for somebody who wants to *play* it |
@@ -365,6 +366,25 @@ and **read the paragraph you are about to leave alone** rather than the one you 
 M31 found `ARCHITECTURE.md` §8 still printing a save schema with a `relationships` field in
 it, from a system that was removed several milestones earlier, and `README.md` pointing at a
 `src/save/` that has never existed.
+
+## Work selection
+
+`WORKBOARD.md` is the soft Jira-like source of truth. Before any non-trivial implementation:
+
+1. Sync and prove `HEAD` matches `origin/main` as above.
+2. Open `WORKBOARD.md`; take one `READY` ticket only. Do not start `NEEDS DECISION` or
+   `BLOCKED` work as though it were ready.
+3. Mark it `DOING` with your owner/branch, then implement against its scope and acceptance
+   criteria. If the work changes the product direction, update `ROADMAP.md` too.
+4. When it is verified, record the evidence and mark it `SHIPPED`. Add a milestone entry only
+   for a release-sized piece of work; milestone numbers are history, not issue IDs.
+
+Tiny fixes and documentation-only changes do not need a ticket, but they must reconcile any
+ticket they affect. A new feature, debt item, or defect gets a board ID before implementation.
+
+`MILESTONES.md` is deliberately historical: a `[done]` entry means that work shipped then; it
+does not mean its system still exists after a later cut. `ROADMAP.md` explains the work; it
+does not declare its live status.
 
 ## Current state
 
