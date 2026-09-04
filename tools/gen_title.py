@@ -65,8 +65,11 @@ def build(out_dir):
     for x in range(0, W, 26):
         im.vline(x, 174, H - 174, rgb("ink0"))
 
-    # --- the board, in true perspective: a trapezoid receding from the viewer
-    cx = 190
+    # --- the board, in true perspective: a trapezoid receding from the viewer.
+    # It deliberately sits on the right half: title_screen.gd reserves the
+    # left third for the poster card, rather than laying lettering on skyline
+    # noise and asking a player to read through it.
+    cx = 260
     rows_y, rows_hw = [], []
     y, gap = 116.0, 5.0
     for i in range(9):

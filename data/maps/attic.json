@@ -191,6 +191,13 @@
     },
     {
      "tile": [
+      7,
+      5
+     ],
+     "name": "prop_papers"
+    },
+    {
+     "tile": [
       8,
       5
      ],
@@ -208,6 +215,13 @@
       5
      ],
      "name": "prop_satchel"
+    },
+    {
+     "tile": [
+      7,
+      5
+     ],
+     "name": "prop_papers"
     }
    ]
   }

@@ -27,10 +27,19 @@ func _ready() -> void:
     art.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
     add_child(art)
 
+    # A title card needs a quiet place for type. The old screen put its title,
+    # subtitle and save menu straight on the skyline and then placed the board
+    # underneath them; it made the most important screen read like a debug
+    # overlay. The illustration now belongs to the right, the information to
+    # this framed left column.
+    UiKit.panel(self, Rect2(12, 12, 142, 192), true)
+
     var title := Label.new()
-    title.position = Vector2(18, 14)
+    title.position = Vector2(24, 26)
+    title.size = Vector2(118, 24)
     title.text = "NINEPOINT"
-    title.add_theme_font_size_override("font_size", 27)
+    title.add_theme_font_override("font", UiKit.FONT)
+    title.add_theme_font_size_override("font_size", 21)
     title.add_theme_color_override("font_color", Color("#f2d791"))
     title.add_theme_color_override("font_shadow_color", Color("#14121a"))
     title.add_theme_constant_override("shadow_offset_x", 2)
@@ -38,8 +47,10 @@ func _ready() -> void:
     add_child(title)
 
     var sub := Label.new()
-    sub.position = Vector2(21, 46)
-    sub.text = "Verhaven, and the people who play there"
+    sub.position = Vector2(25, 55)
+    sub.size = Vector2(116, UiKit.LINE_H)
+    sub.text = "Verhaven plays Go."
+    sub.add_theme_font_override("font", UiKit.FONT)
     sub.add_theme_font_size_override("font_size", 9)
     sub.add_theme_color_override("font_color", Color("#ddd0b8"))
     sub.add_theme_color_override("font_shadow_color", Color("#14121a"))
@@ -47,10 +58,12 @@ func _ready() -> void:
     sub.add_theme_constant_override("shadow_offset_y", 1)
     add_child(sub)
 
-    var y := 130
+    var y := 94
     for item in ITEMS:
         var l := Label.new()
-        l.position = Vector2(22, y)
+        l.position = Vector2(25, y)
+        l.size = Vector2(110, UiKit.LINE_H)
+        l.add_theme_font_override("font", UiKit.FONT)
         l.add_theme_font_size_override("font_size", 9)
         l.add_theme_color_override("font_shadow_color", Color("#14121a"))
         l.add_theme_constant_override("shadow_offset_x", 1)
@@ -63,7 +76,10 @@ func _ready() -> void:
     # Built once and driven by _refresh(): deleting the newest save used to
     # leave this line describing a file that no longer existed.
     _info = Label.new()
-    _info.position = Vector2(128, 188)
+    _info.position = Vector2(25, 169)
+    _info.size = Vector2(110, 24)
+    _info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+    _info.add_theme_font_override("font", UiKit.FONT)
     _info.add_theme_font_size_override("font_size", 9)
     _info.add_theme_color_override("font_color", Color("#f2e9d8"))
     _info.add_theme_color_override("font_shadow_color", Color("#14121a"))

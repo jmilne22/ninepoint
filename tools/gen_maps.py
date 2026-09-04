@@ -1056,13 +1056,19 @@ def validate(name, data):
 def presence_states(name, data):
     """Small persistent changes: the city notices progress, never the clock."""
     base_tiles = {
-        "attic": [{"tile": [6, 5], "name": "prop_satchel"}],
-        "ketelsteeg": [{"tile": [15, 10], "name": "prop_satchel"}],
-        "de_ketel": [{"tile": [7, 11], "name": "prop_cups"}],
+        "attic": [{"tile": [6, 5], "name": "prop_satchel"},
+                  {"tile": [7, 5], "name": "prop_papers"}],
+        "ketelsteeg": [{"tile": [15, 10], "name": "prop_satchel"},
+                        {"tile": [6, 10], "name": "prop_satchel"},
+                        {"tile": [17, 11], "name": "prop_chalk"},
+                        {"tile": [18, 17], "name": "prop_cups"}],
+        "de_ketel": [{"tile": [7, 11], "name": "prop_cups"},
+                     {"tile": [12, 10], "name": "prop_papers"}],
         "wassalon": [{"tile": [2, 7], "name": "prop_laundry"}],
         "onderbrug": [{"tile": [14, 9], "name": "prop_rope"}],
         "quay": [{"tile": [8, 5], "name": "prop_rope"}],
-        "academy_hall": [{"tile": [7, 5], "name": "prop_papers"}],
+        "academy_hall": [{"tile": [7, 5], "name": "prop_papers"},
+                         {"tile": [14, 8], "name": "prop_satchel"}],
         "academy_study": [{"tile": [10, 8], "name": "prop_papers"}],
         "academy_class": [{"tile": [8, 6], "name": "prop_papers"}],
         "academy_dorm": [{"tile": [5, 6], "name": "prop_satchel"}],
