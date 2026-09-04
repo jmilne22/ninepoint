@@ -68,7 +68,7 @@ Nadia · Orla · Sunny
 | `attic` | over the shuttered stationer's. **The game starts here**, at the board the last tenant left. The study desk sets puzzles |
 | `ketelsteeg` | your street: tram rails, brick, the snack window, **the tram stop at the west end** |
 | `wassalon` | the laundrette, three doors east. The city's third register: no board on the wall, no card, nothing written down. Abel, Dov and Moss |
-| `de_ketel` | the salon, three steps below the pavement. Tomás owns it. Wren teaches the rules, Kesh is the rival, Tomás has the 13×13 under the coats |
+| `de_ketel` | the salon, three steps below the pavement. Wren teaches and hosts safe practice; Kesh is the first rated rival; Tomás has the 13×13 under the coats |
 | `onderbrug` | the viaduct arches, east: a board on a crate and Joos |
 | Molenpark | the park end of Ketelsteeg — stone tables, Pip and Bertie |
 | `quay` | grey water, one bench, south past the park. Nobody lives there |
@@ -93,9 +93,10 @@ The player begins knowing **nothing**.
    (`data/dialogue/intro.json`; gives item `old_goban`, flag `carrying_board`).
 2. **Pip** in Molenpark sees the board and teaches **Capture Go** (`pip_capture`, 7×7,
    `capture_goal = 1`). The player's first game, before any rules screen.
-3. **Wren** at De Ketel teaches the rules — liberties, capture, self-capture — and mentions
-   the Cup. Optional; she asks whether you have played.
-4. **Kesh** challenges you to 9×9. Colours by **nigiri**. Win or lose, she gives you 22 kyu
+3. **Wren** at De Ketel teaches the rules — liberties, capture, self-capture — then gives a
+   short, optional opening plan and hosts the first proper 9×9. It is normal Go (passing and
+   scoring) but explicitly unrated; one gentle observation at a time keeps it a practice game.
+4. **Kesh** challenges you to the first **rated** 9×9. Colours by **nigiri**. Win or lose, she gives you 22 kyu
    (`first_rating`: `rank`, `ranked_by_club`, `invited_to_institute`, starts `enrolment`) and
    tells you Hana teaches at the Instituut.
 
@@ -364,7 +365,8 @@ it, from a system that was removed several milestones earlier, and `README.md` p
 ## Current state
 
 Playable start to finish: cold open → name → the attic → Ketelsteeg → Capture Go with Pip →
-Wren's rules → nigiri → Kesh → a rank → the tram north → Hana's problem → enrol → the league
+Wren's rules and opening plan → Wren's unrated first full game → nigiri → Kesh's rated game →
+a rank → the tram north → Hana's problem → enrol → the league
 board → a class → league games → the exam → the Cup. Eleven maps, fifteen characters, each on
 exactly one map. Two board sizes. Four quests. Three save slots.
 

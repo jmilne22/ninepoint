@@ -46,6 +46,7 @@ var phase: int = Phase.SETUP
 
 var setup: GoMatchSetup
 var _last_message := ""
+var _guidance_index := 0
 
 ## Per-state input, keyed by phase. Set in _enter_phase, cleared on exit.
 var _awaiting: StringName = &""
@@ -223,13 +224,15 @@ func _run() -> void:
     if game.capture_goal > 0:
         intro = "Capture Go. First to take %s wins." % (
             "a stone" if game.capture_goal == 1 else "%d stones" % game.capture_goal)
-    _set_message(intro)
+    var stakes := "Practice game — unrated." if request.unrated else "Rated game — result enters your record."
+    _set_message("%s\n%s" % [stakes, intro])
     _refresh()
     await get_tree().create_timer(0.6).timeout
 
     phase = Phase.PLAYING
     _refresh()
     while game.state == GoGame.State.PLAYING:
+        _refresh_guidance()
         if game.to_move == player_color:
             _refresh()
             await _ask(&"move")
@@ -242,6 +245,19 @@ func _run() -> void:
     if game.state == GoGame.State.SCORING:
         await _scoring_phase()
     await _finish()
+
+
+## Wren's first proper game asks for one observation at a time. The thresholds
+## are deliberately broad: a goal must never become a prescribed joseki.
+func _refresh_guidance() -> void:
+    if request.guidance.is_empty() or _guidance_index >= request.guidance.size():
+        return
+    var thresholds := [0, 4, 10]
+    var threshold: int = int(thresholds[_guidance_index]) if _guidance_index < thresholds.size() else 16
+    if game.move_number() < threshold:
+        return
+    _set_message("Practice goal: %s" % request.guidance[_guidance_index])
+    _guidance_index += 1
 
 
 # --- setup: who takes black --------------------------------------------------
@@ -659,6 +675,3 @@ func _input_board(event: InputEvent) -> bool:
     else:
         return false
     return true
-
-
-

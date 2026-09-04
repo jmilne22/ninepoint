@@ -8,7 +8,7 @@ signal closed()
 ## "Save game" stays at index 1 and stays a save with no further prompt: four
 ## autopilot scripts end on one move_down and an interact, and expect a file to
 ## exist afterwards. Anything new goes after it.
-const ITEMS := ["Resume", "Save game", "Save to slot...", "Back to title"]
+const ITEMS := ["Resume", "Save game", "Save to slot...", "Trainer Card", "Back to title"]
 
 var open: bool = false
 
@@ -17,6 +17,7 @@ var _labels: Array[Label] = []
 var _index := 0
 var _status: Label
 var _slots: SaveSlots
+var _card: Control
 
 
 func _ready() -> void:
@@ -34,8 +35,8 @@ func _ready() -> void:
     panel.texture = load("res://art/ui/panel.png")
     for m in ["left", "top", "right", "bottom"]:
         panel.set("patch_margin_%s" % m, 6)
-    panel.position = Vector2(112, 46)
-    panel.size = Vector2(160, 124)
+    panel.position = Vector2(112, 36)
+    panel.size = Vector2(160, 144)
     panel.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
     _root.add_child(panel)
 
@@ -50,7 +51,7 @@ func _ready() -> void:
         y += 18
 
     _status = Label.new()
-    _status.position = Vector2(14, 92)
+    _status.position = Vector2(14, 108)
     _status.size = Vector2(132, 26)
     _status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     _status.add_theme_font_size_override("font_size", 9)
@@ -60,6 +61,11 @@ func _ready() -> void:
     _slots = SaveSlots.new()
     _slots.chosen.connect(_on_slot_chosen)
     _root.add_child(_slots)
+
+    _card = Control.new()
+    _card.set_anchors_preset(Control.PRESET_FULL_RECT)
+    _card.visible = false
+    _root.add_child(_card)
 
     _root.visible = false
 
@@ -98,6 +104,11 @@ func _refresh() -> void:
 func _input(event: InputEvent) -> void:
     if not open or _slots.visible:
         return
+    if _card != null and _card.visible:
+        if event.is_action_pressed("interact") or event.is_action_pressed("cancel"):
+            _card.visible = false
+            get_viewport().set_input_as_handled()
+        return
     if event.is_action_pressed("move_down"):
         _index = (_index + 1) % ITEMS.size()
         Audio.play("ui_move")
@@ -125,6 +136,8 @@ func _activate() -> void:
         2:
             _slots.open(SaveSlots.Mode.SAVE, GameState.active_slot - 1)
         3:
+            _show_trainer_card()
+        4:
             close()
             SceneRouter.go_to("res://src/ui/title_screen.tscn")
 
@@ -141,3 +154,28 @@ func _save_to(slot: int) -> void:
         EventBus.toast.emit("Game saved to slot %d." % slot)
     else:
         _status.text = "Could not save."
+
+
+func _show_trainer_card() -> void:
+    _card.visible = true
+    for child in _card.get_children():
+        child.queue_free()
+    var dim := ColorRect.new()
+    dim.color = Color(0.08, 0.07, 0.1, 0.6)
+    dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+    _card.add_child(dim)
+    var panel := UiKit.panel(_card, Rect2(40, 20, 304, 176))
+    var rated_wins := 0
+    var rated_losses := 0
+    for record in GameState.match_records:
+        if record is Dictionary and not bool(record.get("unrated", false)):
+            if bool(record.get("player_won", false)): rated_wins += 1
+            else: rated_losses += 1
+    var kesh := GameState.head_to_head("kesh")
+    var concepts: Array[String] = []
+    for lesson in ["liberties", "capture", "self_capture", "openings", "escape", "connection"]:
+        if GameState.has_flag("lesson_%s_done" % lesson): concepts.append(lesson.replace("_", " "))
+    var goal := Quests.journal_line(Quests.journal_quest_id())
+    var body := "%s\n\nRank  %s\n22k → 1k → 1d\nRated record  %d–%d\nKesh  %d–%d\n\nRecently taught: %s\n\nNext: %s\n\n[Space / Esc] close" % [GameState.player_name, GameState.rank_label(), rated_wins, rated_losses, int(kesh["wins"]), int(kesh["losses"]), ", ".join(concepts) if not concepts.is_empty() else "Capture Go", goal]
+    var label := UiKit.label(panel, Vector2(10, 10), 284, UiKit.INK, 154)
+    label.text = body

@@ -92,17 +92,17 @@
  "ground": [
   "IIIIIIIIIIIIIIIIIIIIIIII",
   "IIINIIINIIIIIIIINIIINIII",
-  "iVViiiiiiiiiiiiiiiiiiVVi",
-  "i1121121121121121121121i",
-  "i1211X11211X11211X11211i",
-  "i2112G12112G12112G12112i",
-  "iZ121X21121X21121X2112Qi",
-  "i1211211211211211211211M",
-  "i2112112112112112112112i",
-  "i1121X21121X21121X21121i",
-  "i1211E11211E11211E11211i",
-  "i2112X12112X12112X12112i",
-  "i1121121121121121121121i",
+  "iVViiiiiiiYYiiiiiiiiiVVi",
+  "i,,,,,,,,,,,,,,,,,,,,,,i",
+  "i,,,,X,,,,,X,,,,,X,,,,,i",
+  "i,,,,G,,,,,G,,,,,G,,,,,i",
+  "iZ,,,X,,,,,X,,,,,X,,,,Qi",
+  "i,,,,,,,,,,,,,,,,,,,,,,M",
+  "i,,,,,,,,,,,,,,,,,,,,,,i",
+  "i,,,,X,,,,,X,,,,,X,,,,,i",
+  "i,,,,E,,,,,E,,,,,E,,,,,i",
+  "i,,,,X,,,,,X,,,,,X,,,,,i",
+  "i,,,,,,,,,,,,,,,,,,,,,,i",
   "iiiiiiiiiiiiiiiiiiiiiiii"
  ],
  "decor": [
@@ -165,6 +165,27 @@
     6
    ],
    "text": "A kettle, a tin, and a handwritten note: THE BISCUITS ARE FOR EVERYONE WHICH MEANS THEY ARE NOT ALL FOR YOU."
+  },
+  {
+   "tile": [
+    10,
+    2
+   ],
+   "text": "LOWER LEAGUE \u2014 PAIRINGS / RESULTS. Tables 1\u20136 are numbered in pencil. Play here when a result is meant to count."
+  },
+  {
+   "tile": [
+    5,
+    5
+   ],
+   "text": "Table 1. A neat card: PRACTICE / REVIEW."
+  },
+  {
+   "tile": [
+    11,
+    5
+   ],
+   "text": "Table 2. A neat card: LEAGUE GAMES."
   }
  ],
  "npcs": [

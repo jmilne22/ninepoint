@@ -1,14 +1,32 @@
 {
  "id": "openings",
- "title": "Corner, Side, Centre",
- "teacher": "hana",
+ "title": "First Moves: Corners and Urgency",
+ "teacher": "wren",
  "size": 9,
  "intro": [
-  "Everyone begins in the middle. It is the biggest empty space and it looks like the most important one, and it is neither.",
-  "I am not going to tell you why. You are going to count.",
-  "Three walls, three times. Each one encloses exactly nine points. Put the last stone in each and watch how many it took."
+  "For your first full game, start near a corner. Do not play the first line early: it has no room to breathe or grow.",
+  "Make nearby stones help each other. If a stone is in atari, or a cut is urgent, that comes before opening plans.",
+  "Here is why corners are a useful beginning. Three walls, three times: count what the board gives you for free."
  ],
  "steps": [
+  {
+   "board": [".........", ".........", ".........", ".........", ".........", ".........", ".........", ".........", "........."],
+   "to_move": "black",
+   "instruction": "Choose a useful first move: near a corner, not on the edge.",
+   "accept": "points",
+   "points": [[2, 2], [6, 2], [2, 6], [6, 6]],
+   "hint": "The four points a short step in from each corner are all good beginner starts.",
+   "explanation": "Good. It has room to extend, and the nearby edges can become two walls later. It is a plan, not a promise: answer an urgent atari or cut first."
+  },
+  {
+   "board": ["....O....", ".........", ".........", ".........", ".........", ".........", ".........", ".........", "........."],
+   "to_move": "black",
+   "instruction": "That white stone on the first line is an early mistake: choose a stronger opening point instead.",
+   "accept": "points",
+   "points": [[2, 2], [6, 2], [2, 6], [6, 6]],
+   "hint": "Leave the first line alone for now. Pick a point near a corner with room on both sides.",
+   "explanation": "Exactly. First-line stones have very little room to make territory. Later, they can matter for saving a group or finishing a boundary; opening priorities are not emergencies."
+  },
   {
    "board": [
     ".........",
@@ -22,7 +40,7 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "A corner wall, one stone short. Finish it -- the gap is on the top edge.",
+   "instruction": "A corner wall, one stone short. Finish it -- the gap is on the top edge. Corners are an efficient place to begin.",
    "accept": "points",
    "points": [
     [
@@ -98,7 +116,7 @@
   }
  ],
  "outro": [
-  "Corner, then side, then centre. Not because it is elegant. Because in the corner the board builds two of your walls for nothing, and in the middle it builds none of them.",
-  "That is the whole of opening theory for today. Everything else anyone tells you about the opening is a footnote to that count."
+  "So: open near a corner, avoid the first line early, and make nearby stones work together. When a stone is in atari or a cut is open, answer that urgent problem first.",
+  "Corners, sides, influence, and the whole board can wait for Hana's class. For now, this is enough to start a real game."
  ]
 }

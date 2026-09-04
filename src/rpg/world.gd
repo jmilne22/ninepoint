@@ -512,6 +512,8 @@ func _start_match(exit: Dictionary, npc: Npc) -> void:
     req.portrait_path = "res://art/portraits/%s.png" % npc.data.portrait_id
     req.intro_line = str(exit.get("intro", ""))
     req.unrated = bool(exit.get("unrated", false))
+    for prompt in exit.get("guidance", []):
+        req.guidance.append(str(prompt))
     req.player_strength = GameState.rank_strength
     player.input_locked = true
     MatchBridge.start_match(req, player.global_position)

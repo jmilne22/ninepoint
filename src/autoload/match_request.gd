@@ -13,6 +13,9 @@ var portrait_path: String = ""
 var intro_line: String = ""
 var unrated: bool = false
 var allow_undo: bool = false
+## Gentle, optional goals for a first full game. They describe what to notice,
+## never a move the player is required to make.
+var guidance: Array[String] = []
 ## How strong the human is right now, so the setup can work out the handicap.
 var player_strength: int = -1
 ## Set by the match scene once colours are settled; carried back for dialogue.
