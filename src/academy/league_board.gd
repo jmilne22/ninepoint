@@ -84,11 +84,10 @@ func show_board() -> void:
             row[c].add_theme_color_override("font_color",
                 UiKit.GOLD if mine else UiKit.INK)
 
-    # Four lines exactly. The blank line this used to carry cost a whole line of
-    # a card that is already the full height of the panel, and the qualification
-    # sentence is the one that has to be on screen.
-    _footer.text = "%s\nThe qualifying exam is at the end of term. Entry is by league position. %s" % [
-        LeagueTable.summary(rows), _exam_line(rows)]
+    # The standing, the rank rule, and the exam rule. The card is already the
+    # full height of the panel, so nothing here may run to a fifth line.
+    _footer.text = "%s\n%s\nThe top four sit the qualifying exam at the Bondszaal. %s" % [
+        LeagueTable.summary(rows), GoRankLadder.explain(), _exam_line(rows)]
     GameState.set_flag("read_league_board", true)
     open = true
     _root.visible = true

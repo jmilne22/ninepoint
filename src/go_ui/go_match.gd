@@ -479,7 +479,7 @@ func _finish() -> void:
     res.handicap = game.handicap
     # In a handicap game the stones belong to whoever is Black. Which side that
     # was is the difference between beating a 1 dan and being given five stones
-    # by one, and GoRating cannot tell them apart afterwards without this.
+    # by one, and the rank ladder cannot tell them apart afterwards without this.
     res.handicap_taken = game.handicap if player_color == GoBoard.BLACK else 0
     res.komi = game.komi
     res.move_count = game.move_number()

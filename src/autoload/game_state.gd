@@ -152,27 +152,23 @@ func record_match(result: MatchResult) -> void:
         bump_flag("cup_rounds_played", 1)
     if result.context_id.begins_with(Exam.CONTEXT_PREFIX):
         bump_flag("exam_rounds_played", 1)
-    _recompute_rank()
+    _step_rank(result.to_dict())
 
 
-## Rank follows the record, and is never set by anything else once there are
-## enough games to say. Below GoRating.PROVISIONAL_GAMES it returns -1 and the
-## provisional rank the club gave you stands -- which is why Kesh's 22k survives
-## the two games after she hands it over.
-func _recompute_rank() -> void:
-    var derived := GoRating.performance(match_records)
-    if derived < 0 or derived == rank_strength:
-        return
+## Rank follows the record one step at a time -- GoRankLadder has the rule. An
+## unranked player's games move nothing: Kesh hands out the first rank herself.
+func _step_rank(record: Dictionary) -> void:
     var was := rank_strength
+    var now := GoRankLadder.step(was, record)
+    if now == was:
+        return
     var old_label := rank_label()
-    rank_strength = derived
+    rank_strength = now
     EventBus.rank_changed.emit(old_label, rank_label())
-    if was < 0:
-        EventBus.toast.emit("The club has you at %s." % rank_label())
-    elif derived > was:
+    if now > was:
         EventBus.toast.emit("Rank up: %s." % rank_label())
     else:
-        EventBus.toast.emit("Rank: %s." % rank_label())
+        EventBus.toast.emit("Rank down: %s." % rank_label())
 
 
 func head_to_head(npc_id: String) -> Dictionary:
