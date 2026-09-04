@@ -140,6 +140,30 @@ behind it, and his games are `unrated` so `LeagueTable` never sees them.
 
 ---
 
+## Before you start
+
+**Pull `main` first. Every time, before touching anything.**
+
+```bash
+git checkout main && git pull            # or: git fetch origin main:main
+git checkout -b <branch>                 # work goes on a branch, never on main
+```
+
+This is not housekeeping. Several sessions have worked in this tree and the merges
+happen on GitHub, so a local `main` goes stale without ever saying so.
+
+What it actually cost, exactly: when M30 was branched, local `main` sat at the PR #2
+merge while `origin/main` had already taken PR #3 — M29. So `git log main..hooks-ladder`
+reported **three** commits, one of them a milestone that had shipped a week earlier, as
+though the branch contained it. The PR was right only because `gh` compares against
+`origin/main` rather than the local copy; had anybody sized or described the work from
+the local number, they would have described somebody else's milestone as part of theirs.
+Nothing errored and nothing warned. `git status` will not catch it either: it reports
+against the remote-tracking branch, which is only as fresh as your last fetch.
+
+The same applies before reading `ROADMAP.md` to pick an item. Deciding what to build
+next out of a two-merge-old file is how the same thing gets built twice.
+
 ## Commands
 
 ```bash
