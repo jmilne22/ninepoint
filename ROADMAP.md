@@ -18,7 +18,10 @@ collapsed to one line each. Read `MILESTONES.md` M37 for why.
 
 ## 1. The engine — ENG-01 through ENG-04
 
-The one open decision, and the top of this file now that the cuts are made.
+**Decision (season-finale foundation):** ship a bundled KataGo integration for Linux x64.
+`packaging/katago-linux-x64.json` is the release manifest for the verified binary,
+normal and human-style models/configuration, checksums, licences and arguments. The
+first engine-backed play target remains 9x9 and 13x13; 19x19 remains an ending horizon.
 
 **What it buys.** The heuristic opponent (`src/go_ai/heuristic_opponent.gd`, with
 `GoEndgame` deciding when it stops) plays plausibly and blunders on a ranked shortlist,

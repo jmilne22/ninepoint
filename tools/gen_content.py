@@ -4,6 +4,7 @@ Godot resources are generated from one table here so a character's rank cannot
 say 12k in their NpcData and 8k in their OpponentProfile.
 """
 import os
+import re
 
 here = os.path.dirname(os.path.abspath(__file__))
 root = os.path.join(here, "..")
@@ -74,6 +75,21 @@ CAST = [
 ]
 
 SPRITE_DIR = "res://art/sprites"
+KATAGO_COMMAND = "res://packaging/katago/katago-gtp.sh"
+KATAGO_MODEL = "res://packaging/katago/models/kata1-b18c384nbt-s9996604416-d4316597426.bin.gz"
+KATAGO_HUMAN_MODEL = "res://packaging/katago/models/b18c384nbt-humanv0.bin.gz"
+KATAGO_CONFIG_DIR = "res://packaging/katago/config"
+
+
+def human_profile(c):
+    """KataGo Human-SL has 20k..9d profiles; Abel's 21k maps to 20k."""
+    strength = c.get("strength")
+    if strength is None:
+        rank = c["rank"]
+        n = int(rank[:-1])
+        strength = 30 - n if rank.endswith("k") else 29 + n
+    strength = max(10, min(38, strength))
+    return "%dk" % (30 - strength) if strength < 30 else "%dd" % (strength - 29)
 
 
 def _resign_for(points, board):
@@ -103,7 +119,7 @@ id = &"{pid}"
 display_name = "{name}"
 rank_label = "{rank}"
 strength_override = {strength}
-engine = "heuristic"
+engine = "gtp"
 board_size = {board}
 komi = {komi}
 handicap = {handicap}
@@ -118,9 +134,12 @@ ladder_happy = {ladder}
 cut_bias = {cut}
 book_moves = {book}
 rng_seed = 0
-gtp_command = ""
-gtp_args = PackedStringArray()
-gtp_time_per_move = 1.0
+gtp_command = "{gtp_command}"
+gtp_args = PackedStringArray("gtp", "-config", "{{config}}", "-model", "{{model}}", "-human-model", "{human_model}")
+gtp_time_per_move = 2.0
+gtp_startup_timeout = 12.0
+gtp_model_path = "{model}"
+gtp_config_path = "{config}"
 theme = "{theme}"
 on_resign = "{on_resign}"
 """.format(pid=pid, name=c["name"], rank=c["rank"], board=board, komi=komi,
@@ -131,7 +150,9 @@ on_resign = "{on_resign}"
            book=c.get("book", 0),
            colour_rule=colour_rule, capture_goal=capture_goal,
            theme=c.get("theme", "") if theme is None else theme,
-           on_resign=c.get("on_resign", ""))
+           on_resign=c.get("on_resign", ""), gtp_command=KATAGO_COMMAND,
+           model=KATAGO_MODEL, human_model=KATAGO_HUMAN_MODEL,
+           config="%s/human_%s.cfg" % (KATAGO_CONFIG_DIR, human_profile(c)))
 
 
 def npc_tres(c):
@@ -263,6 +284,15 @@ def build():
     q_dir = os.path.join(root, "data", "quests")
     for d in (op_dir, npc_dir, q_dir):
         os.makedirs(d, exist_ok=True)
+    # Keep rank/config selection generated with the profiles. The config is a
+    # fast common Human-SL base plus exactly one profile override, so variants
+    # cannot silently drift to the old 5k trial setting.
+    config_dir = os.path.join(root, "packaging", "katago", "config")
+    base_path = os.path.join(config_dir, "gtp_human_fast.cfg")
+    base = open(base_path).read()
+    for rank in sorted({human_profile(c) for c in CAST}):
+        configured = re.sub(r"(?m)^humanSLProfile\s*=.*$", "humanSLProfile = preaz_%s" % rank, base)
+        open(os.path.join(config_dir, "human_%s.cfg" % rank), "w").write(configured)
     n = 0
     for c in CAST:
         # Everybody plays by_rank: the gap decides. GoMatchSetup falls back to

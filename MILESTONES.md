@@ -2544,3 +2544,26 @@ found by opening the PNGs.
 - `GtpOpponent` is still unwired. The review is gone until it is not — ROADMAP §1.
 - `world.gd` is over the line-count convention; the tram stop went into `SignDesk`.
 - Save files are version 2; a version 1 file loads and its calendar keys are ignored.
+
+---
+
+## M39 — KataGo calibration and cast release
+
+- Replaced the KataGo UI fixture's numeric phase check with `GoMatch.is_player_turn_ready()`.
+  The fixture now waits for actual player input availability rather than mistaking the
+  preparation/intro phase for a playable turn.
+- Inspected the player-black UI trial through preparation, two KataGo replies, resignation
+  result and return to the world. It recorded engine startup, two legal replies, result/SGF
+  data, shutdown and no fallback.
+- Completed the Linux x64 Eigen-AVX2 calibration. Its persistent report is
+  `user://katago-calibration.json` (28/28 profiles passed): sampled normal replies peaked at
+  649 ms on 7x7, 1042 ms on 9x9 and 1518 ms on 13x13; no sampled profile made a pass move,
+  resigned or fell back. Startup (maximum 7105 ms) is preparation-only and is not measured against the
+  two-second reply gate.
+- Promoted the cast in release order: beginner (Abel, Wren, Dov, Pip, Moss, Kesh), club
+  (Ilse, Tomas, Sunny, Bertie, Orla), then advanced (Nadia, Marguerite, Joos, Hana). All
+  retain the 8-visit Human-SL configuration because every profile met the legal-reply,
+  no-fallback and sub-two-second conditions.
+
+**Verification:** UI trial — **4 inspected screens, 0 script errors**; `tools/test.sh` —
+**12341 passed, 0 failed**; `python3 tools/check_lessons.py` — **0 problems**;

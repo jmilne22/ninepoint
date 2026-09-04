@@ -112,6 +112,8 @@ kyu. Nothing in the game makes your stones stronger. The only thing that improve
 
 ```bash
 tools/test.sh                       # compile check + headless suite (Go rules, AI, content)
+tools/setup_katago.sh               # download + checksum-verify Linux x64 KataGo for local play
+tools/setup_katago.sh --verify      # check the local KataGo package without downloading
 tools/run_game.sh tools/autopilot/slice_full.json   # drive the whole slice, screenshot each beat
 tools/run_game.sh tools/autopilot/win_path.json     # load a save, take the rival's win branch, do the puzzle
 python3 tools/build_assets.py       # regenerate all art and audio, deterministically

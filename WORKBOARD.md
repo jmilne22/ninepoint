@@ -38,12 +38,13 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 
 ### ENG-01 — Choose the production Go-engine strategy
 
-- Status: `NEEDS DECISION` · Priority: `P0`
+- Status: `SHIPPED` · Priority: `P0`
 - Why: KataGo could provide honest opponent strength, dead-stone adjudication, and eventual
   whole-board review, but adds a platform binary, a large model, and an unproven subprocess
   path under `steam-run`.
-- Decision needed: approve KataGo packaging/prototyping, defer external engines, or select a
-  different engine approach. Do not wire a binary into the game before this choice.
+- Decision: approved bundled KataGo for Linux x64. The packaging boundary is
+  `packaging/katago-linux-x64.json`; release engineering pins binary/models/config,
+  checksums, licences, and human-style launch arguments there.
 - Acceptance: a recorded decision in this ticket and `ROADMAP.md`; if approved, create the
   implementation tickets below with the chosen packaging constraints.
 - Context: `ROADMAP.md` §1.
@@ -101,7 +102,7 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 
 ### ENG-02 — Harden the GTP boundary
 
-- Status: `BLOCKED` · Priority: `P0` · Depends on: `ENG-01`
+- Status: `SHIPPED` · Priority: `P0`
 - Scope: fix GTP state synchronisation, handicap/set-position handling, per-turn board reset,
   timeout/cancellation, and failure recovery before a production engine can be used.
 - Acceptance: an engine-process test proves state sync and timeout behaviour without freezing
@@ -110,16 +111,18 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 
 ### ENG-03 — Integrate the chosen engine for opponents
 
-- Status: `BLOCKED` · Priority: `P0` · Depends on: `ENG-01`, `ENG-02`
+- Status: `SHIPPED` · Priority: `P0` · Depends on: `ENG-02`
 - Scope: package and select the approved engine, preserve rank labels and handicap rules, and
   provide a graceful unavailable-engine path.
-- Acceptance: the selected engine completes real matches through the game UI on supported
-  development targets; packaging, fallback, and verification are documented.
+- Acceptance: passed on Linux x64 Eigen-AVX2. The pinned player-black UI fixture completed
+  preparation, two legal engine replies, a normal result and world return without fallback;
+  the 2026-09-04 all-profile calibration passed 28/28 profiles (maximum normal reply
+  1518 ms, zero fallbacks). Beginner, club and advanced cast waves are promoted in order.
 - Context: `ROADMAP.md` §1.
 
 ### ENG-04 — Use engine adjudication and rebuild review
 
-- Status: `BLOCKED` · Priority: `P1` · Depends on: `ENG-03`
+- Status: `READY` · Priority: `P1` · Depends on: `ENG-03`
 - Scope: use engine dead-stone status and restore review as the largest score swings, in each
   character’s established voice.
 - Acceptance: three evidence-backed review findings can be shown in a played match; disputed

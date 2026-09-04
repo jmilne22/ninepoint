@@ -9,3 +9,10 @@ skills-lock.json
 # `git status` after any generator and churned in every commit.
 __pycache__/
 *.pyc
+
+# Downloaded by tools/setup_katago.sh from the pinned release manifest. They are
+# verified local build inputs, not Git objects (the binary/models exceed GitHub's
+# normal file-size limit).
+/packaging/katago/bin/
+/packaging/katago/lib/
+/packaging/katago/models/

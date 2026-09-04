@@ -41,7 +41,7 @@ var _overlay_text: Label
 ## enter/exit and its own input handling, as godot-gdscript-patterns teaches,
 ## but held in one scene rather than four State nodes -- there is nothing here
 ## that needs per-frame update or physics.
-enum Phase { SETUP, INTRO, PLAYING, SCORING, CONFIRM, DONE }
+enum Phase { SETUP, PREPARING, INTRO, PLAYING, SCORING, CONFIRM, DONE }
 var phase: int = Phase.SETUP
 
 var setup: GoMatchSetup
@@ -51,6 +51,22 @@ var _guidance_index := 0
 ## Per-state input, keyed by phase. Set in _enter_phase, cleared on exit.
 var _awaiting: StringName = &""
 var _answer: Variant = null
+
+
+## Whether a player may submit a board move right now. Kept public for the
+## development autopilot so it does not need to duplicate phase enum values.
+func is_player_turn_ready() -> bool:
+    return game != null and phase == Phase.PLAYING and _awaiting == &"move" \
+        and game.to_move == player_color
+
+
+func _exit_tree() -> void:
+    # Covers scene return, a preparation cancellation, and application-driven
+    # scene changes. GtpOpponent.shutdown is deliberately idempotent.
+    if opponent != null:
+        opponent.shutdown()
+    if profile != null and phase == Phase.PREPARING:
+        KataGoService.cancel(profile)
 
 
 func _ready() -> void:
@@ -207,11 +223,21 @@ func _run() -> void:
     if not is_inside_tree():
         return
 
+    var warmed: GtpOpponent = await _prepare_opponent()
+    if not is_inside_tree() or phase == Phase.DONE:
+        return
+
     # Only now do the colours, the stones and the komi exist.
     game = GoGame.new(setup.board_size, setup.komi, setup.handicap)
     game.capture_goal = profile.capture_goal
     player_color = setup.player_color
-    opponent = OpponentFactory.create(profile, game)
+    if profile.engine == "gtp" and warmed == null:
+        # A failed warmup is a match-long decision: do not repeatedly start an
+        # unavailable binary between player moves.
+        opponent = HeuristicOpponent.new()
+        opponent.setup(profile, game)
+    else:
+        opponent = OpponentFactory.create(profile, game, warmed)
     voice = TableTalkVoice.load_voice(request.npc_id)
     board_view.set_game(game)
     board_view.interactive = true
@@ -380,10 +406,10 @@ func _opponent_turn() -> void:
 
 
 func _await_move() -> Dictionary:
-    var move = opponent.choose_move(game)
-    if move is Dictionary:
-        return move
-    return await move
+    # `await` accepts an immediate Dictionary from the local opponents and a
+    # coroutine from GTP. Calling first to inspect its type is not safe: Godot
+    # reports an error as soon as an async override is invoked without await.
+    return await opponent.choose_move(game)
 
 
 ## What the opponent says about the move that was just played -- theirs or the
@@ -528,9 +554,58 @@ func _finish() -> void:
 
     await _ask(&"dismiss")
     opponent.shutdown()
-    # Not awaited: finishing the match frees this scene, and awaiting our own
-    # destruction leaves a dead coroutine behind.
-    MatchBridge.finish_match(res)
+    if request.context_id == "dev_katago_trial":
+        var engine := {
+            "started": false,
+            "fallback": true,
+            "legal_replies": 0,
+            "shutdown": false,
+        }
+        if opponent is GtpOpponent:
+            var gtp := opponent as GtpOpponent
+            engine = {
+                "started": gtp.engine_started,
+                "fallback": gtp.fallback_used,
+                "legal_replies": gtp.legal_reply_count,
+                "shutdown": gtp.shutdown_complete,
+            }
+        MatchBridge.record_dev_trial(res, engine)
+    # MatchBridge owns the scene change. Awaiting it is necessary for the
+    # coroutine to begin; it does not await this scene's destruction.
+    await MatchBridge.finish_match(res)
+
+
+## Model loading is deliberately visible and cancellable. Once it completes,
+## turns retain the ordinary thinking presentation and the strict per-command
+## deadline in GtpOpponent.
+func _prepare_opponent() -> GtpOpponent:
+    if profile.engine != "gtp":
+        return null
+    KataGoService.prewarm(profile)
+    phase = Phase.PREPARING
+    board_view.interactive = false
+    _set_message("Preparing %s" % request.opponent_name)
+    _hints.text = "Esc: cancel"
+    _refresh()
+    while is_inside_tree():
+        var state := KataGoService.state_for(profile)
+        if state == "ready":
+            return KataGoService.take_ready(profile)
+        if state == "failed":
+            # The factory starts a contained GTP adapter only for an actual
+            # lease. Failure here intentionally becomes the local opponent for
+            # this match, without exposing an engine error to the player.
+            KataGoService.cancel(profile)
+            return null
+        if _awaiting == &"prepare" and _answer == false:
+            KataGoService.cancel(profile)
+            phase = Phase.DONE
+            await MatchBridge.cancel_match()
+            return null
+        _awaiting = &"prepare"
+        await get_tree().process_frame
+    KataGoService.cancel(profile)
+    return null
 
 
 # --- presentation ------------------------------------------------------------
@@ -557,6 +632,9 @@ func _refresh() -> void:
         return
 
     match phase:
+        Phase.PREPARING:
+            _turn.text = "Preparing opponent"
+            _hints.text = "Esc: cancel"
         Phase.PLAYING:
             var who := "Your move" if game.to_move == player_color else "%s is thinking" % request.opponent_name
             _turn.text = "%s (%s)" % [who, GoBoard.color_name(game.to_move)]
@@ -591,6 +669,8 @@ func _unhandled_input(event: InputEvent) -> void:
     match phase:
         Phase.SETUP:
             handled = _input_setup(event)
+        Phase.PREPARING:
+            handled = _input_preparing(event)
         Phase.CONFIRM:
             handled = _input_confirm(event)
         Phase.DONE:
@@ -605,6 +685,13 @@ func _unhandled_input(event: InputEvent) -> void:
 ## of the way.
 func _input_setup(_event: InputEvent) -> bool:
     return false
+
+
+func _input_preparing(event: InputEvent) -> bool:
+    if event.is_action_pressed("cancel"):
+        _answered(false)
+        return true
+    return event is InputEventKey and event.pressed
 
 
 ## R sits one key away from P, and resignation is the only irreversible thing on

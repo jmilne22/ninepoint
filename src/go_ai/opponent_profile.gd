@@ -42,8 +42,7 @@ static func path_for(npc_id: String, board: int = 9, variant: String = "") -> St
 
 ## How the colours are decided. "by_rank" is the honest default: a handicap if
 ## the ranks warrant one, nigiri if they do not. See GoMatchSetup.
-@export_enum("by_rank", "nigiri", "player_black", "player_white")
-var colour_rule: String = "by_rank"
+@export_enum("by_rank", "nigiri", "player_black", "player_white") var colour_rule: String = "by_rank"
 
 ## Capture Go: first to take this many stones wins, and scoring never happens.
 ## 0 is a normal game. Used by the tutorial -- see GAME_DESIGN.md.
@@ -78,6 +77,12 @@ var colour_rule: String = "by_rank"
 @export var gtp_command: String = ""
 @export var gtp_args: PackedStringArray = PackedStringArray()
 @export var gtp_time_per_move: float = 1.0
+## Startup happens behind the preparation card, so it may be longer than a turn.
+@export var gtp_startup_timeout: float = 12.0
+## Pinned package assets. Arguments may use {model} and {config}; keeping them
+## separate means character profiles select a human style without hiding rank.
+@export var gtp_model_path: String = ""
+@export var gtp_config_path: String = ""
 
 @export_group("Flavour")
 ## Which track plays while you are sitting across from them. "" means the game

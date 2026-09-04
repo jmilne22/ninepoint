@@ -1,0 +1,12 @@
+[
+  {"katago_trial": true},
+  {"wait": 1.0, "shot": "a_introduction"},
+  {"match_move": [2, 2]},
+  {"match_move": [6, 2]},
+  {"match_wait_player": true},
+  {"wait": 0.3, "shot": "b_two_katago_turns"},
+  {"match_resign": true},
+  {"wait": 0.5, "shot": "c_result"},
+  {"tap": "interact"},
+  {"wait": 1.0, "trial_assert": true, "shot": "d_return_world"}
+]
