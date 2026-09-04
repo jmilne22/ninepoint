@@ -4,8 +4,8 @@ A top-down 2D RPG about learning to play **Go (baduk)**, in Godot 4.7 / GDScript
 Original setting and characters — nothing is borrowed from any existing game's world,
 cast, art or branding. Combat does not exist; encounters are games of Go.
 
-~12,800 lines GDScript in `src/` (17,200 with tests and tools), ~6,800 lines Python
-tooling, 6,114 headless tests.
+~13,250 lines GDScript in `src/` (18,150 with tests and tools), ~7,000 lines Python
+tooling, 6,306 headless tests.
 
 ---
 
@@ -188,6 +188,7 @@ python3 tools/make_test_save.py invited 2 Ada 42 # ...in slot 2, as Ada, at 42 m
                                                 # cup_day exam_ready
                                                 # exam_day exam_round2 exam_passed exam_failed
                                                 # exam_missed beat_kesh lost_to_kesh
+                                                # book_ready book_held book_won
 ```
 
 Autopilot scripts in `tools/autopilot/`: `opening`, `prologue`, `slice_full`, `institute`,
@@ -211,7 +212,11 @@ having and stops when they are not),
 `hooks` (Tomas writes your card, and the wall at the back of De Ketel puts a 22 kyu
 above an 18 kyu because they were beaten),
 `saves` (three playthroughs in three slots: load one that is not the newest, save over
-another, and be asked twice before either is lost).
+another, and be asked twice before either is lost),
+`book` / `book_read` / `book_back` (the borrowed joseki book: Nadia lends it and Ilse sees
+you carrying it; the attic desk reads page forty and Joos looks at it under the arch; you
+give it back, and then talk to her again -- that last frame is the only visible proof
+`take_item` did anything, because there is no inventory screen).
 Screenshots land in `/tmp/ninepoint-shots` (override with `OUT=`). **`run_game.sh` needs a
 script argument** — it runs on a hidden display, so without one there is nothing to see; it
 will tell you to use `play.sh`. `DISPLAY_NUM=0` runs it on the real display instead, which is
@@ -422,8 +427,10 @@ it, from a system that was removed several milestones earlier, and `README.md` p
 Playable start to finish: cold open → name → **the attic** → Ketelsteeg → Capture Go → rules
 lessons → nigiri → Kesh → a rank → capture puzzle → the tram north → enrol → league board →
 a class → the Beginner Cup at the Bondszaal. Ten maps, fifteen characters, two board sizes,
-four hours of the day and weather, and a term that ends. Two progressions running at once:
-the league board above ground and the hooks below it. **Three of them can run at once**:
+four hours of the day and weather, and a term that ends. Six quests, five of which are some
+form of *play games and win* and one of which -- `page_forty` -- is a book you borrow and
+give back. Two progressions running at once: the league board above ground and the hooks
+below it. **Three of them can run at once**:
 `SaveSystem` has taken a slot since M9 and M31 gave the player the way in and out of them --
 Load Game on the title, Save to slot in the pause menu, one `SaveSlots` panel shared by both,
 and deleting behind a card that answers only to [Del]. New Game takes an empty slot without
@@ -453,6 +460,19 @@ stones, so a handicap that was two becomes three. Profiles are named `<id>_<boar
 `gen_content.py` mirrors it, and `resign_threshold` scales with the board's area because it
 is an absolute point count that was tuned at 81 of them. 19x19 is still only in the fiction:
 at the 192-px match panel it draws 8-px cells against a 9-px font.
+
+**A borrowed thing is a quest.** `page_forty` (M32) is the first quest that is not *play
+games and win*: Ilse Brandt sends everybody who loses to her to read the first forty pages,
+Nadia Ferreira is the only person who has page forty, and the two lines had sat in two files
+since M21 without being connected. Borrow it, read it at the attic desk (free, like a
+problem), beat Ilse with something that is not in it, hand it back. The point is that the
+book does not work -- Ilse has read all of it and is nine kyu -- so Pillar 1 is argued by two
+characters instead of asserted. `give` gained an opposite (`take`, and `GameState.take_item`)
+because a borrowed thing that cannot be handed back is not borrowed, and the journal stopped
+choosing which quest to display **by filename**: `Hud` read `active_quest_ids()[0]` against a
+directory listing, so a quest started later than an unfinished one never appeared at all. It
+is `QuestTracker.journal_quest_id()` now -- last started, and in the tracker rather than the
+Hud so a test can reach it.
 
 **Days pass, and people have somewhere to be.** A day holds `SLOTS_PER_DAY` hours; a rated
 game or a class costs one, and lessons, puzzles and unrated games are free — the distinction
@@ -565,8 +585,11 @@ No engine, and the seam for one is `GoEvaluator` — see the debt list before re
   until you open the graphs: four students reach `offer` from `start` on every visit and six
   more people have rematch nodes, so **rated play was already unbounded**. What was missing
   was days that *differ*, not hours to spend. M30 answered that with a second thing that
-  moves while you play (the hooks), two more classes and four more puzzles; what is still
-  thin is reasons to be in a particular place at a particular hour. `ROADMAP.md` §3.
+  moves while you play (the hooks), two more classes and four more puzzles; M32 added the
+  first quest that is not a game (`page_forty`, the borrowed book) and, with it, the first
+  errand that has an hour attached -- Nadia is in the classroom until dusk and gone at night.
+  One errand is not a term. What is still thin is reasons to be in a particular place at a
+  particular hour, and there are now three of them. `ROADMAP.md` §3.
 - **The curriculum runs to competence but stops before judgement.** Thirteen lessons:
   liberties, capture, self-capture, ko (Wren); escape, connection (Kesh); openings,
   two eyes, life and death, the capturing race, false eyes (Hana's class); ladders

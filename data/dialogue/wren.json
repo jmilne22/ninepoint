@@ -6,6 +6,19 @@
     {
      "if": [
       [
+       "has_item",
+       "joseki_book"
+      ],
+      [
+       "not_flag",
+       "wren_saw_the_book"
+      ]
+     ],
+     "goto": "the_book"
+    },
+    {
+     "if": [
+      [
        "flag",
        "kesh_match_done"
       ],
@@ -419,6 +432,22 @@
   "repeat_end": {
    "text": [
     "Go on, then."
+   ]
+  },
+  "the_book": {
+   "portrait": "happy",
+   "text": [
+    "Is that a book? Can I -- sorry. Can I look at it?",
+    "Right. Right, so that's a corner, and those are numbered, so you play them in that order, and then... and then it just stops. Why does it stop there? Nothing's finished.",
+    "No, don't tell me. I'd rather find out by losing. That's the only way anything's stuck yet.",
+    "It's nice that it exists though. It means somebody worked all this out already and wrote it down, and one day I'll be able to read it, and that's a genuinely lovely thing to know about a Tuesday."
+   ],
+   "actions": [
+    [
+     "set_flag",
+     "wren_saw_the_book",
+     true
+    ]
    ]
   }
  }

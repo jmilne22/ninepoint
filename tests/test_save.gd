@@ -34,6 +34,7 @@ static func run(t: TestKit) -> void:
     _test_counting(t)
     _test_delete(t)
     _test_short_return_position(t)
+    _test_borrowing(t)
     _restore(backup)
     _gs.reset()
 
@@ -269,3 +270,40 @@ static func _test_short_return_position(t: TestKit) -> void:
     t.ok(_gs.has_return_position, "from_dict carries on past it rather than stopping there")
     t.eq(_gs.playtime, 99.0, "so the fields written after it are read as well")
     t.eq(_gs.current_map, _gs.DEFAULT_MAP, "missing fields take their defaults")
+
+
+## Giving something back.
+##
+## `give_item` shipped in M6 with no opposite, so until M32 a borrowed object
+## could only ever accumulate: Nadia's "thank you for bringing it back" would
+## have played with the book still in the player's inventory, and the graph
+## branch that reads `has_item` would have gone on saying she wanted it.
+static func _test_borrowing(t: TestKit) -> void:
+    t.section("borrowing")
+    _gs.reset()
+    var lost: Array = []
+    var bus := (Engine.get_main_loop() as SceneTree).root.get_node("EventBus")
+    var listener := func(item_id: String) -> void: lost.append(item_id)
+    bus.item_lost.connect(listener)
+
+    t.ok(not _gs.take_item("joseki_book"), "taking what nobody holds does nothing")
+    t.eq(lost.size(), 0, "and says nothing about it")
+
+    _gs.give_item("joseki_book", "Nadia's joseki book")
+    t.ok(_gs.has_item("joseki_book"), "lent")
+    t.ok(_gs.take_item("joseki_book"), "and handed back")
+    t.ok(not _gs.has_item("joseki_book"), "so it is no longer carried")
+    t.eq(lost, ["joseki_book"], "the bus is told exactly once")
+
+    # The bug this guards is the one M31 found in from_dict: a field written
+    # before the interesting line looks identical whether the line ran or not.
+    _gs.give_item("old_goban")
+    _gs.take_item("joseki_book")
+    t.ok(_ss.save_game(2), "a save after giving something back")
+    _gs.give_item("joseki_book")
+    t.ok(_ss.load_game(2), "and read back")
+    t.ok(not _gs.has_item("joseki_book"), "the returned item does not come back with it")
+    t.ok(_gs.has_item("old_goban"), "and what is still carried does")
+
+    bus.item_lost.disconnect(listener)
+    _gs.reset()

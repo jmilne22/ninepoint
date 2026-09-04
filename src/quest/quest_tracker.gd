@@ -53,12 +53,33 @@ func journal_line(quest_id: String) -> String:
     return q.journal_for(GameState.quest_step(quest_id))
 
 
+## Started and unfinished, **in the order they were started**.
+##
+## Deliberately walks `GameState.quests` rather than `quests`: the latter is
+## whatever order DirAccess handed the .tres files back in, so the journal was
+## picking what to display by filename. `page_forty` starts days after
+## `enrolment` and sorts after it either way, so a quest taken on later than
+## another was invisible for as long as the older one ran. GameState's dictionary
+## is insertion-ordered and is saved and reloaded in that order, so this survives
+## a save; the tracker's own dictionary never could.
 func active_quest_ids() -> Array:
     var out := []
-    for qid in quests.keys():
-        if GameState.quest_step(qid) >= 0 and not GameState.quest_done(qid):
+    for qid in GameState.quests.keys():
+        if quests.has(qid) and not GameState.quest_done(qid) \
+                and GameState.quest_step(qid) >= 0:
             out.append(qid)
     return out
+
+
+## The one the journal shows: the last quest started that is still running.
+##
+## There is one line of journal and the thing you took on most recently is the
+## thing you are doing. It lives here rather than in the Hud so that it can be
+## tested -- the Hud has no suite, and this was a real bug found by opening a
+## screenshot.
+func journal_quest_id() -> String:
+    var active := active_quest_ids()
+    return "" if active.is_empty() else str(active[active.size() - 1])
 
 
 func _advance_on(event: Dictionary) -> void:

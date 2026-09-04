@@ -1,0 +1,120 @@
+[
+ {
+  "save": "book_held",
+  "note": "at the desk, at night, with the book"
+ },
+ {
+  "wait": 1.0
+ },
+ {
+  "tap": "move_down",
+  "note": "Continue"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.0
+ },
+ {
+  "time": "night"
+ },
+ {
+  "wait": 0.4,
+  "shot": "a_attic_at_night"
+ },
+ {
+  "face": [
+   9,
+   4
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true,
+  "note": "the desk's prose paginates before the options appear"
+ },
+ {
+  "wait": 0.6,
+  "shot": "b_the_desk_offers_the_book",
+  "note": "'Read the page she marked.' is the has_item branch"
+ },
+ {
+  "choose": 1
+ },
+ {
+  "wait": 0.4,
+  "shot": "c_page_forty"
+ },
+ {
+  "advance": 8
+ },
+ {
+  "wait": 0.4,
+  "shot": "d_read"
+ },
+ {
+  "walk_to": [
+   6,
+   7
+  ]
+ },
+ {
+  "walk_to": [
+   6,
+   8
+  ],
+  "timeout": 3
+ },
+ {
+  "wait": 1.8,
+  "shot": "e_ketelsteeg_at_night"
+ },
+ {
+  "walk_to": [
+   20,
+   10
+  ]
+ },
+ {
+  "walk_to": [
+   30,
+   9
+  ]
+ },
+ {
+  "walk_to": [
+   30,
+   8
+  ],
+  "timeout": 3
+ },
+ {
+  "wait": 1.8,
+  "shot": "f_onderbrug"
+ },
+ {
+  "walk_to": [
+   18,
+   7
+  ]
+ },
+ {
+  "talk_to": "joos"
+ },
+ {
+  "wait": 0.4,
+  "shot": "g_joos_and_the_book"
+ },
+ {
+  "advance": 12,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.4,
+  "shot": "h_margins"
+ }
+]

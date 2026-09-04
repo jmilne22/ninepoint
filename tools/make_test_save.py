@@ -164,6 +164,112 @@ STATES = {
     # Enrolled, with enough rated games behind the rank that GoRating owns it.
     # Use this to watch handicap stones appear and then thin out as the record
     # improves -- the thing no amount of unit testing will show you.
+    # --- the borrowed book (M32) -----------------------------------------
+    #
+    # Three states rather than one, because the quest is four days long and the
+    # harness cannot win a game of Go: `book_ready` is before the book is lent,
+    # `book_held` is carrying it, and `book_won` has beaten Ilse and owes it
+    # back. The win lives in the record where a real one would.
+    "book_ready": {
+        "rank_strength": 8,
+        "flags": {
+            "opening_seen": True, "intro_seen": True, "carrying_board": True,
+            "pip_taught_capture": True, "match_pip_capture_done": True,
+            "wren_told_about_cup": True, "kesh_match_done": True,
+            "match_kesh_first_done": True, "record_kesh_loss": 3,
+            "hana_offered_puzzle": True, "capture_1_solved": True,
+            "club_member": True, "invited_to_institute": True,
+            "knows_the_rules": True, "lesson_capture_done": True,
+            "enrolled": True, "read_league_board": True,
+            "record_ilse_loss": 1, "ilse_match_done": True,
+            "match_league_ilse_done": True,
+            "ilse_sent_you_for_the_book": True,
+        },
+        "quests": {"first_stones": {"step": 6, "done": True},
+                   "enrolment": {"step": 4, "done": False},
+                   "page_forty": {"step": 0, "done": False}},
+        "map": "academy_class",
+        "spawn": "from_hall",
+        "time_block": "afternoon",
+        "records": [
+            {"context_id": "league_ilse", "npc_id": "ilse", "player_won": False,
+             "margin": 21.5, "by_resignation": False, "board_size": 9,
+             **_handicap_fields(8, 21), "move_count": 74,
+             "unrated": False, "opponent_strength": 21,
+             "summary": "White wins by 21.5"},
+        ],
+    },
+
+    "book_held": {
+        "rank_strength": 8,
+        "flags": {
+            "opening_seen": True, "intro_seen": True, "carrying_board": True,
+            "pip_taught_capture": True, "match_pip_capture_done": True,
+            "wren_told_about_cup": True, "kesh_match_done": True,
+            "match_kesh_first_done": True, "record_kesh_loss": 3,
+            "hana_offered_puzzle": True, "capture_1_solved": True,
+            "club_member": True, "invited_to_institute": True,
+            "knows_the_rules": True, "lesson_capture_done": True,
+            "enrolled": True, "read_league_board": True,
+            "record_ilse_loss": 1, "ilse_match_done": True,
+            "match_league_ilse_done": True,
+            "ilse_sent_you_for_the_book": True, "borrowed_the_book": True,
+        },
+        "quests": {"first_stones": {"step": 6, "done": True},
+                   "enrolment": {"step": 4, "done": False},
+                   "page_forty": {"step": 1, "done": False}},
+        "inventory": ["old_goban", "joseki_book"],
+        "map": "attic",
+        "spawn": "desk",
+        # Night, because the desk and the arches are the two places this state
+        # is for and Joos is only under the viaduct after dark.
+        "time_block": "night",
+        "records": [
+            {"context_id": "league_ilse", "npc_id": "ilse", "player_won": False,
+             "margin": 21.5, "by_resignation": False, "board_size": 9,
+             **_handicap_fields(8, 21), "move_count": 74,
+             "unrated": False, "opponent_strength": 21,
+             "summary": "White wins by 21.5"},
+        ],
+    },
+
+    "book_won": {
+        "rank_strength": 8,
+        "flags": {
+            "opening_seen": True, "intro_seen": True, "carrying_board": True,
+            "pip_taught_capture": True, "match_pip_capture_done": True,
+            "wren_told_about_cup": True, "kesh_match_done": True,
+            "match_kesh_first_done": True, "record_kesh_loss": 3,
+            "hana_offered_puzzle": True, "capture_1_solved": True,
+            "club_member": True, "invited_to_institute": True,
+            "knows_the_rules": True, "lesson_capture_done": True,
+            "enrolled": True, "read_league_board": True,
+            "record_ilse_loss": 1, "ilse_match_done": True,
+            "match_league_ilse_done": True,
+            "ilse_sent_you_for_the_book": True, "borrowed_the_book": True,
+            "read_page_forty": True, "record_ilse_win": 1,
+        },
+        "quests": {"first_stones": {"step": 6, "done": True},
+                   "enrolment": {"step": 4, "done": False},
+                   "page_forty": {"step": 3, "done": False}},
+        "inventory": ["old_goban", "joseki_book"],
+        "map": "academy_class",
+        "spawn": "from_hall",
+        "time_block": "afternoon",
+        "records": [
+            {"context_id": "league_ilse", "npc_id": "ilse", "player_won": False,
+             "margin": 21.5, "by_resignation": False, "board_size": 9,
+             **_handicap_fields(8, 21), "move_count": 74,
+             "unrated": False, "opponent_strength": 21,
+             "summary": "White wins by 21.5"},
+            {"context_id": "league_ilse", "npc_id": "ilse", "player_won": True,
+             "margin": 2.5, "by_resignation": False, "board_size": 9,
+             **_handicap_fields(8, 21), "move_count": 96,
+             "unrated": False, "opponent_strength": 21,
+             "summary": "Black wins by 2.5"},
+        ],
+    },
+
     "league_ready": {
         "rank_strength": 8,
         "flags": {
@@ -676,7 +782,9 @@ def build(name, slot=1, who="Ro", minutes=None):
         "rank_strength": st["rank_strength"],
         "flags": st["flags"],
         "quests": st["quests"],
-        "inventory": [],
+        # A preset may carry things: `page_forty` is about an object, and a
+        # save that starts mid-quest has to be holding it.
+        "inventory": st.get("inventory", []),
         # dict.get evaluates its default eagerly, so a state that supplies its
         # own records must not have the Kesh one built for it -- it reads "won"
         # and "summary", which such a state has no reason to carry.

@@ -215,13 +215,24 @@ location, schedule (time-block → location + position), dialogue graph path, op
     "challenge": { "action":{"type":"start_match","profile":"kesh_9x9","context":"kesh_first"} }
 } }
 ```
-Node kinds: `text`, `choices`, `branch` (conditions), `action` (set flag, give item, start
-match, start puzzle, advance quest, change relationship), `goto`, `end`. Conditions read
-`GameState` only — dialogue never queries the world directly.
+Node kinds: `text`, `choices`, `branch` (conditions), `action` (set flag, bump flag, give an
+item, **take one back**, set rank, start a quest, toast), `exit` (start match, start puzzle,
+start lesson, a Cup or exam round, the problem paper), `goto`, `end`. Conditions read
+`GameState` only — dialogue never queries the world directly. There is no relationship
+action; that system was removed, and this line claimed one for several milestones after it.
+
+`take` is the opposite of `give` and arrived with it in M32, because a borrowed thing that
+cannot be handed back is not borrowed. There is no item *registry* — `GameState.inventory` is
+a bare `Array[String]` — so an id exists only because two files spell it the same way, and
+`tests/test_data.gd` is what makes that true: every `take` and every `has_item` in the graphs
+must name something some `give` actually hands over.
 
 **Quests** (`QuestData.tres`): ordered steps, each with a completion condition (flag set,
-match finished with context, puzzle solved, location entered) and an optional journal line.
-`QuestTracker` listens on `EventBus` and advances steps; NPC dialogue branches on quest step.
+match finished with context, puzzle solved, lesson finished, somebody talked to, location
+entered) and a journal line. `QuestTracker` listens on `EventBus` and advances steps; NPC
+dialogue branches on quest step. Only the **current** step is ever tested, so the events are
+strictly ordered and one fired out of turn is lost. Which quest the journal displays is
+`QuestTracker.journal_quest_id()` — the last one started that is still running.
 
 ## 7. Scenes and reuse
 

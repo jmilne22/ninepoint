@@ -130,6 +130,11 @@ const PUZZLE_TRACK := ["capture_1", "capture_2", "capture_3", "escape_1",
                        "escape_2", "live_1", "capture_4", "live_2",
                        "capture_5", "escape_3", "live_3", "connect_1"]
 
+## Nadia's joseki book, while it is yours to carry. The id is written once here
+## and once in her dialogue; `tests/test_data.gd` checks that every `take` and
+## every `has_item` in the graphs names something a `give` actually hands over.
+const BORROWED_BOOK := "joseki_book"
+
 
 func next_puzzle() -> String:
     for puzzle in PUZZLE_TRACK:
@@ -148,16 +153,44 @@ func study_desk(prose: String) -> void:
     var lines: Array = [prose.strip_edges()]
     lines.append("You could sit down with a problem." if not solved_all
         else "You have done all of them. You could do one again -- it is not the same twice, because you are not.")
-    var exit := await _choose(lines, [
-        {"text": "Set a problem.", "exit": {"type": "study"}},
-        {"text": "Leave it.", "goto": "no"},
-    ], "The stones stay in the bowl.")
+    var choices: Array = [{"text": "Set a problem.", "exit": {"type": "study"}}]
+    # The borrowed book is read here rather than anywhere it is carried, because
+    # a desk is where you read things and carrying it home is what borrowing is.
+    if GameState.has_item(BORROWED_BOOK):
+        lines.append("Nadia's book is on the desk where you put it down.")
+        choices.append({"text": "Read the page she marked.",
+                        "exit": {"type": "book"}})
+    choices.append({"text": "Leave it.", "goto": "no"})
+    var exit := await _choose(lines, choices, "The stones stay in the bowl.")
+    if str(exit.get("type", "")) == "book":
+        await read_the_book()
+        return
     if str(exit.get("type", "")) != "study":
         _player.input_locked = false
         return
     # Studying alone is free. It is the one thing in the game that costs no hours,
     # because an evening spent on problems is not what a day is for spending.
     MatchBridge.start_puzzle(puzzle, _player.global_position)
+
+
+## Page forty, which Ilse sends you to and Nadia has.
+##
+## Prose in the margins rather than a position on a board, and deliberately: a
+## taught position has to survive `tools/check_lessons.py`, which can only guard
+## a claim the rules can decide, and a joseki is whole-board judgement. What the
+## page is actually for is that it does not help, which is the argument the whole
+## quest is made of and needs no diagram.
+func read_the_book() -> void:
+    var lines: Array = [
+        "Page forty is a corner sequence eleven moves long, drawn small, with every move numbered.",
+        "In the margin, in pencil, in a hand that is not Nadia's: \"why?\" -- and under it, in Nadia's: \"because it is even, and I have never once got an even corner out of it.\"",
+    ]
+    if not GameState.has_flag("read_page_forty"):
+        lines.append("You read it four times. You could play it now, on an empty board, without the book. That is not the same as knowing what it is for.")
+    else:
+        lines.append("It says the same thing it said last time. That is rather the trouble with it.")
+    GameState.set_flag("read_page_forty", true)
+    await narrate(lines)
 
 
 # --- the hooks ---------------------------------------------------------------

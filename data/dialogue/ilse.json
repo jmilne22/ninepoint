@@ -34,6 +34,28 @@
     {
      "if": [
       [
+       "has_item",
+       "joseki_book"
+      ],
+      [
+       "beat",
+       "ilse"
+      ]
+     ],
+     "goto": "won_with_the_book"
+    },
+    {
+     "if": [
+      [
+       "has_item",
+       "joseki_book"
+      ]
+     ],
+     "goto": "carrying_it"
+    },
+    {
+     "if": [
+      [
        "beat",
        "ilse"
       ]
@@ -97,12 +119,46 @@
   "after_loss": {
    "text": [
     "That was the standard sequence, and it worked, and I will take no credit for it.",
-    "Read the first forty pages. Then come back and beat me with something that is not in them."
+    "Read the first forty pages. Then come back and beat me with something that is not in them.",
+    "Ferreira has the book. She is in the classroom and she will lend it to anybody, which is not the same as it doing them any good."
    ],
-   "goto": "offer"
+   "goto": "offer",
+   "actions": [
+    [
+     "quest_start",
+     "page_forty"
+    ],
+    [
+     "set_flag",
+     "ilse_sent_you_for_the_book",
+     true
+    ]
+   ]
   },
   "post_match": {
    "branches": [
+    {
+     "if": [
+      [
+       "has_item",
+       "joseki_book"
+      ],
+      [
+       "beat",
+       "ilse"
+      ]
+     ],
+     "goto": "won_with_the_book"
+    },
+    {
+     "if": [
+      [
+       "has_item",
+       "joseki_book"
+      ]
+     ],
+     "goto": "carrying_it"
+    },
     {
      "if": [
       [
@@ -143,6 +199,22 @@
     "You play moves that are not in any book, and roughly half of them are better than the book. I do not know what to do with that."
    ],
    "goto": "post_match"
+  },
+  "carrying_it": {
+   "text": [
+    "You have got her book. Page forty, presumably, because that is the one she marks.",
+    "Read it properly. Not the sequence -- the reason the sequence stops where it stops. That is the part I could never do and it is the only part that is worth anything."
+   ],
+   "goto": "offer"
+  },
+  "won_with_the_book": {
+   "portrait": "annoyed",
+   "text": [
+    "You beat me while carrying four hundred pages of correct play, and you did not use one of them.",
+    "I have been reading for eleven years and losing for eleven years and I have just watched somebody do it with the book shut, in the bag, on the floor.",
+    "Give it back to her. I mean that kindly. It is not doing you any harm, but it did not do that."
+   ],
+   "goto": "offer"
   }
  }
 }

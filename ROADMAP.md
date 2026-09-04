@@ -4,7 +4,7 @@ Everything below is outstanding as of the current build. It is ordered by what
 would most improve the game, not by what is easiest. `MILESTONES.md` records what
 was built and how it was verified; this file records what has not been.
 
-The build is green: `tools/test.sh` runs 6193 checks, `tools/check_lessons.py`
+The build is green: `tools/test.sh` runs 6306 checks, `tools/check_lessons.py`
 reports no problems, and the game is playable from the cold open to the exam and
 the Cup.
 
@@ -121,8 +121,36 @@ was written and `check_load.gd` loaded it faithfully every time.
   rank, because the card says your rank and the hook says where you sit, and the room does
   not care what the card says until you have beaten somebody in it.
 
-  Still unbuilt: **fetch-with-meaning** quests (return Nadia's joseki book). Five quests
-  ship now -- `first_stones`, `enrolment`, `the_hooks`, `qualifying_exam`, `beginner_cup`.
+- ~~**Quests with meaning: the fetch.**~~ **Built (M32).** `page_forty`, and it is the first
+  quest in the game that is not *play games and win*. Ilse Brandt has told anybody who lost
+  to her to read the first forty pages since M21, and Nadia Ferreira has said she always has
+  the book with her since the same milestone, and the two lines had never been connected.
+  Now Ilse sends you, Nadia lends it, the desk in the attic reads it, and you give it back.
+
+  The point of it is that the book does not work. Ilse has read all of it and is nine kyu and
+  says so unprompted; the win that ends the quest is not made of anything on page forty, and
+  Nadia -- who is two kyu and honest -- is the one who says so. That is Pillar 1 argued by two
+  characters rather than asserted in a design document, which is the only form of it the
+  player ever meets.
+
+  It also crosses the canal, which is what makes it a *Ninepoint* fetch rather than a fetch:
+  an Essenveld object carried down to De Ketel and under the arches, where Wren cannot read it
+  and Joos will not.
+
+  Six quests ship now -- `first_stones`, `enrolment`, `the_hooks`, `page_forty`,
+  `qualifying_exam`, `beginner_cup`.
+
+  **What it dragged into the light, which is the part worth keeping.** `GameState` could
+  `give_item` and had no opposite, so "return the book" would have played the thank-you with
+  the book still in the bag. And the journal was choosing which quest to display by
+  **filename**: `Hud.refresh` read `active_quest_ids()[0]` against the order DirAccess handed
+  the `.tres` files back in, so a quest taken on later than an unfinished one was invisible
+  for as long as the older one ran. `page_forty` starts days after `enrolment` and would never
+  once have appeared. Nothing errored; it was found by opening a screenshot of the objective
+  line. The order is now "last started", it lives in `QuestTracker.journal_quest_id()` rather
+  than in the Hud so that a test can reach it, and the test asserts the pair in **both**
+  orders -- the first version of it passed against the broken code, because these two quests
+  happen to sort alphabetically into the order they are started in.
 
 ## 4. The thin places
 
@@ -324,6 +352,34 @@ Owned by a parallel effort; listed here for completeness.
     events and not on derived numbers. The order itself stays derived and stored nowhere,
     and this is the same pattern as `won_a_league_game` -- but it is still state that could
     disagree with `HooksLadder` if the roster ever changed underneath it.
+
+- **`src/rpg/sign_desk.gd` is 299 lines** against a convention of ~300 -- M32's, and the only
+  thing it left behind. It was 273 and the borrowed book took the rest of the room. The next
+  thing added to the desk splits the file, and the seam is already visible: the boards on
+  walls (`__LEAGUE_BOARD__`, `__CUP_BOARD__`, `__EXAM_BOARD__`, `__CLASS_BOARD__`,
+  `__HOOKS__`) against the furniture you sit at (the desk and the bed).
+
+- **Nothing relates a quest's steps to the hours the people in them are standing somewhere**,
+  and this is **older than it first looked** -- the first draft of this bullet said M32 had
+  introduced it, which is the tense mistake section 5 above already records this file making.
+
+  It has been true since schedules landed in M26. `first_stones` step 3 -- *"Hana, who
+  teaches at the Instituut, was watching. Speak to her"* -- advances on a flag set by talking
+  to Hana **at De Ketel**, and she is not at De Ketel in the morning. That is Act 1 and it is
+  mandatory. `page_forty` is only the second instance and the milder one: Nadia is in the
+  classroom for three hours of four, and the quest is optional.
+
+  `tests/test_data.gd` asserts that every character is findable at *some* hour and that De
+  Ketel and the study hall are staffed at all four. It does not ask where a quest step
+  expects to find somebody, so a step that needs a particular person in a particular room is
+  checked by nothing. Neither case deadlocks today. The guard that would keep it that way is
+  the one that does not exist.
+
+  Related, and found while checking the above: `World._start_class` is gated on `can_act()`
+  rather than on Hana being in the room, so a class can be taken at dusk, when she is not in
+  the classroom -- the lesson runs and `_post_lesson` then finds no teacher and closes in
+  silence. That is the M27 silent-close bug reachable through the clock rather than through a
+  missing node.
 
 - **`LeagueTable.current_rows()` reads `GameState`.** `standings()` is still pure
   and takes everything it needs; the convenience exists because the board, the

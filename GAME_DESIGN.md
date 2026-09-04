@@ -392,8 +392,8 @@ renderer as real matches. The study desk at home replays any puzzle already unlo
 
 ## 7. Quests
 
-Quests are data. **Five ship**: `first_stones` (below), `enrolment` ("The Lower League"),
-`the_hooks`, `qualifying_exam` and `beginner_cup`. The first is the one worth reading in full, because it
+Quests are data. **Six ship**: `first_stones` (below), `enrolment` ("The Lower League"),
+`the_hooks`, `page_forty`, `qualifying_exam` and `beginner_cup`. The first is the one worth reading in full, because it
 is the shape the other three follow:
 
 **"First Stones"** *(Q_FIRST_STONES)*
@@ -417,7 +417,12 @@ game played in the room -- the park, the arches and the back table -- and are a 
 hooks. The same two people can be in a different order on each, which is the argument the
 city is built on, expressed as two data structures with no code in common.
 
-Still unbuilt: *fetch-with-meaning* quests (return Nadia's joseki book after using it).
+The **fetch** is built too, and it is `page_forty` (M32). Ilse tells everybody who loses to
+her to read the first forty pages; Nadia is the only person who has page forty. You borrow the
+book, read it at the desk in the attic, beat Ilse with something that is not in it, and give
+it back. It is a key item in the P1 sense -- a narrative key, and emphatically not a modifier:
+the whole argument of the quest is that the book does not work, which Ilse demonstrates by
+having read all of it and being nine kyu, and Nadia concedes when you hand it over.
 
 ## 8. Tournaments (post-slice design)
 
