@@ -25,6 +25,8 @@ static func run(t: TestKit) -> void:
     _test_the_wassalon(t)
     _test_conditions_are_known(t)
     _test_dialogue_branches(t)
+    _test_post_match_reacts_to_the_result(t)
+    _test_writing_rules(t)
     _test_lessons(t)
     _test_lessons_have_a_close(t)
     _test_lessons_and_puzzles_reachable(t)
@@ -534,24 +536,25 @@ static func _test_dialogue_branches(t: TestKit) -> void:
 
     state.set_flag("kesh_match_done", true)
     state.set_flag("record_kesh_loss", 1)
+    state.set_flag("last_result", "loss")
     t.eq(kesh.resolve("post_match"), "first_rating",
-        "an unranked player is put on the club ladder after their first rated game")
+        "an unranked player is given a rank after their first rated game")
     state.set_rank("22k")
-    t.eq(kesh.resolve("start"), "won", "after a loss she talks you through it")
-    t.eq(kesh.resolve("post_match"), "won", "and the post-match entry point agrees")
+    t.eq(kesh.resolve("post_match"), "won", "after a loss she talks you through it")
 
-    state.set_flag("record_kesh_loss", 0)
     state.set_flag("record_kesh_win", 1)
+    state.set_flag("last_result", "win")
     t.eq(kesh.resolve("post_match"), "beaten", "after a win she is a great deal less pleased")
     state.set_flag("record_kesh_win", 2)
     t.eq(kesh.resolve("post_match"), "beaten_twice", "twice beaten is a different conversation again")
+    # The bug this whole rewrite was for: a loss after a win is still a loss.
+    state.set_flag("last_result", "loss")
+    t.eq(kesh.resolve("post_match"), "won", "a loss after two wins is still a loss")
 
     var hana := DialogueGraph.load_graph("res://data/dialogue/hana.json")
     state.reset()
     state.set_rank("22k")
-    t.eq(hana.resolve("start"), "too_early", "Hana wants to watch a game first")
-    state.set_flag("kesh_match_done", true)
-    t.eq(hana.resolve("start"), "first", "after a game she has something to teach")
+    t.eq(hana.resolve("start"), "first", "Hana sets a problem the first time")
     state.set_flag("hana_offered_puzzle", true)
     t.eq(hana.resolve("start"), "puzzle_again", "and will set the problem again")
     state.set_flag("capture_1_solved", true)
@@ -563,8 +566,81 @@ static func _test_dialogue_branches(t: TestKit) -> void:
     t.eq(wren.resolve("start"), "first", "Wren introduces herself")
     state.set_flag("kesh_match_done", true)
     state.set_flag("record_kesh_win", 1)
-    t.eq(wren.resolve("start"), "after_win", "and reacts to you beating Kesh")
+    t.eq(wren.resolve("start"), "kesh_word", "and reacts to you beating Kesh")
     state.reset()
+
+
+## After a game, the person you played reacts to the game you just played.
+##
+## Every post_match used to branch on `beat`, meaning "ever beaten": after one
+## win against anybody, every later game -- including the ones they won --
+## played their "you got me" line. This runs each graph both ways and requires
+## two different, non-empty answers.
+static func _test_post_match_reacts_to_the_result(t: TestKit) -> void:
+    t.section("post_match follows the last result")
+    var state = _state()
+    for path in _list("res://data/dialogue", ".json"):
+        var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
+        if not (parsed is Dictionary):
+            continue
+        var nodes: Dictionary = parsed.get("nodes", {})
+        if not nodes.has("post_match"):
+            continue
+        var who := path.get_file().trim_suffix(".json")
+        var graph := DialogueGraph.load_graph(path)
+        state.reset()
+        state.set_rank("22k")
+        state.set_flag("%s_match_done" % who, true)
+        state.set_flag("record_%s_win" % who, 1)
+        state.set_flag("record_%s_loss" % who, 1)
+        state.set_flag("last_result", "win")
+        var won := graph.resolve("post_match")
+        state.set_flag("last_result", "loss")
+        var lost := graph.resolve("post_match")
+        t.ok(won != "", "%s: post_match says something after a win" % who)
+        t.ok(lost != "", "%s: post_match says something after a loss" % who)
+        t.ok(won != lost, "%s: a win and a loss are different conversations" % who)
+    state.reset()
+
+
+## The writing rules a machine can check. The rest is in data/dialogue/VOICES.md.
+##
+## Two lines a node and 110 characters a line is the dialogue box: 288 px at
+## six px a glyph is four rows, and a third line of prose is the third row of
+## the second page. The banned words are the calendar, which no longer exists,
+## and the two systems that were cut; the banned phrases are the tics that made
+## fifteen people sound like one person.
+const BANNED_WORDS := ["monday", "tuesday", "wednesday", "thursday", "friday",
+    "saturday", "sunday", "fortnight", "week", "hooks", "club night", "market"]
+const BANNED_PHRASES := ["the whole of", "not going anywhere", "starting position", "which is"]
+
+
+static func _test_writing_rules(t: TestKit) -> void:
+    t.section("dialogue writing rules")
+    for path in _list("res://data/dialogue", ".json"):
+        var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
+        if not (parsed is Dictionary):
+            continue
+        var nodes: Dictionary = parsed.get("nodes", {})
+        for key in nodes.keys():
+            var node: Dictionary = nodes[key]
+            var lines: Array = node.get("text", [])
+            t.ok(lines.size() <= 2, "%s: '%s' says at most two things (%d)" % [path, key, lines.size()])
+            for line in lines:
+                var text := str(line)
+                t.ok(text.length() <= 110,
+                    "%s: '%s' line fits the box (%d chars)" % [path, key, text.length()])
+                var low := text.to_lower()
+                for w in BANNED_WORDS:
+                    t.ok(low.find(w) < 0, "%s: '%s' does not mention '%s'" % [path, key, w])
+                for p in BANNED_PHRASES:
+                    t.ok(low.find(p) < 0, "%s: '%s' avoids '%s'" % [path, key, p])
+            # Narration is the narrator's. A person does not describe themselves
+            # in the third person mid-sentence.
+            if str(node.get("speaker", "")) != "narrator" and not path.ends_with("intro.json"):
+                for line in lines:
+                    t.ok(not str(line).begins_with("The old man"),
+                        "%s: '%s' is speech, not narration" % [path, key])
 
 
 ## Lessons are the part of this game that is most expensive to get wrong: a step
@@ -756,17 +832,12 @@ static func _test_lessons_and_puzzles_reachable(t: TestKit) -> void:
 
 
 ## Nodes no path can arrive at. _test_dialogue checks that every `goto` resolves;
-## nothing checked the other direction, which is how pip.json's `capture_go` -- a
-## whole written paragraph where Pip works out you have been getting the rules off
-## Wren -- has sat unreachable since the prologue.
+## this checks the other direction.
 ##
 ## Entry points are `start` plus the nodes the world enters graphs at directly.
 const GRAPH_ENTRIES := ["start", "post_match", "taught"]
 
-## Written down rather than fixed: the intended entry condition for this one is
-## not obvious from the file, so it wants whoever wrote the prologue rather than a
-## guess from whoever next runs the tests. ROADMAP section 8.
-const KNOWN_ORPHANS := {"res://data/dialogue/pip.json": ["capture_go"]}
+const KNOWN_ORPHANS := {}
 
 
 static func _test_no_orphan_nodes(t: TestKit) -> void:

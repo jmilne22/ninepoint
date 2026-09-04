@@ -6,21 +6,8 @@
     {
      "if": [
       [
-       "has_item",
-       "joseki_book"
-      ],
-      [
-       "not_flag",
-       "wren_saw_the_book"
-      ]
-     ],
-     "goto": "the_book"
-    },
-    {
-     "if": [
-      [
        "flag",
-       "kesh_match_done"
+       "wren_match_done"
       ],
       [
        "flag",
@@ -38,22 +25,9 @@
       [
        "flag",
        "kesh_match_done"
-      ],
-      [
-       "beat",
-       "kesh"
       ]
      ],
-     "goto": "after_win"
-    },
-    {
-     "if": [
-      [
-       "flag",
-       "kesh_match_done"
-      ]
-     ],
-     "goto": "after_loss"
+     "goto": "regular"
     },
     {
      "if": [
@@ -81,99 +55,10 @@
   "first": {
    "portrait": "happy",
    "text": [
-    "Oh -- hello! Sorry, I didn't hear the door. Are you new? You look new. I don't mean that badly.",
-    "I'm Wren. I'm twenty kyu, which sounds impressive until you learn that twenty kyu is the bottom of the ladder and I'm holding it up."
+    "Oh! Hello. Sorry, I didn't hear the door. Are you new? You look new. I don't mean that badly.",
+    "I'm Wren. I'm the one everybody here beats, so I'm the one who explains things."
    ],
    "goto": "ask_experience"
-  },
-  "cup": {
-   "text": [
-    "There's a beginner tournament in a fortnight. The Cup. Marguerite runs it and she is terrifying about pairings.",
-    "Everyone here is getting ready for it. That's why the tables are all out.",
-    "If you're going to enter you should get a rank first, and for that you need to actually play somebody."
-   ],
-   "goto": "point_at_kesh"
-  },
-  "point_at_kesh": {
-   "actions": [
-    [
-     "set_flag",
-     "wren_told_about_cup",
-     true
-    ]
-   ],
-   "text": [
-    "That's Kesh over there, by the window. Twelve kyu. She'll play anyone, immediately, and she remembers every result.",
-    "She's not mean about it. She's just... keeping a list."
-   ],
-   "goto": "offer_help"
-  },
-  "offer_help": {
-   "text": [
-    "Do you want me to explain how a game ends? People find that bit odd at first."
-   ],
-   "choices": [
-    {
-     "text": "Yes, please.",
-     "goto": "explain"
-    },
-    {
-     "text": "I'll work it out.",
-     "goto": "decline"
-    }
-   ]
-  },
-  "explain": {
-   "text": [
-    "When neither of you can find a move worth playing, you both pass. That's it. Nobody dies, nobody wins on time.",
-    "Then you count: your surrounded empty points, plus any stones you captured. Highest total wins.",
-    "White gets a few extra points for going second. Komi. It's five and a half on a small board, so there are no draws."
-   ],
-   "goto": "sign_off"
-  },
-  "decline": {
-   "portrait": "happy",
-   "text": [
-    "Good. That's the right attitude and I don't have it."
-   ],
-   "goto": "sign_off"
-  },
-  "sign_off": {
-   "text": [
-    "Go on. She's already looking at you."
-   ]
-  },
-  "repeat": {
-   "text": [
-    "Kesh is by the window. She's been waiting since you walked in, she just won't say so."
-   ],
-   "choices": [
-    {
-     "text": "Right.",
-     "goto": "repeat_end"
-    },
-    {
-     "text": "Could you go over the rules again?",
-     "goto": "refresher"
-    }
-   ]
-  },
-  "after_win": {
-   "portrait": "happy",
-   "text": [
-    "You BEAT her? On your first game here?",
-    "I have played Kesh eleven times. Would you like to guess my record. Go on, guess it.",
-    "Sorry. I'm genuinely pleased. She'll want a rematch within the hour, you understand that."
-   ],
-   "goto": "offer_game"
-  },
-  "after_loss": {
-   "text": [
-    "Ah. Yes. She does that.",
-    "For what it's worth you had a real position in the bottom left and then you tried to save everything at once.",
-    "That's the whole of my Go knowledge, by the way. You can have it."
-   ],
-   "goto": "offer_game"
   },
   "ask_experience": {
    "actions": [
@@ -184,11 +69,11 @@
     ]
    ],
    "text": [
-    "Have you played before? Be honest, nobody here minds either way."
+    "Have you played before? Be honest, nobody minds."
    ],
    "choices": [
     {
-     "text": "Never. I don't know the rules at all.",
+     "text": "Never. I don't know the rules.",
      "if": [
       [
        "not_flag",
@@ -202,11 +87,11 @@
      }
     },
     {
-     "text": "I know how the stones move.",
+     "text": "I know how the stones work.",
      "goto": "knows_already"
     },
     {
-     "text": "A bit. Remind me of the capturing rule.",
+     "text": "A bit. Remind me how capturing works.",
      "exit": {
       "type": "start_lesson",
       "lesson": "capture",
@@ -214,6 +99,24 @@
      }
     }
    ]
+  },
+  "knows_already": {
+   "actions": [
+    [
+     "set_flag",
+     "said_knows_the_rules",
+     true
+    ],
+    [
+     "set_flag",
+     "knows_the_rules",
+     true
+    ]
+   ],
+   "text": [
+    "Oh, good. Then I'll skip the speech. Ask me if you ever want it, I do like giving it."
+   ],
+   "goto": "cup"
   },
   "taught": {
    "branches": [
@@ -231,170 +134,91 @@
     }
    ]
   },
-  "offer_ko": {
-   "text": [
-    "Oh -- before you go. I told you that was the whole rulebook and it was very slightly a lie.",
-    "There is one more rule and I left it out because it is the strange one and I did not want to frighten you off. Can I show you now?"
-   ],
-   "choices": [
-    {
-     "text": "Go on.",
-     "exit": {
-      "type": "start_lesson",
-      "lesson": "ko"
-     }
-    },
-    {
-     "text": "Another time.",
-     "goto": "ko_later"
-    }
-   ]
-  },
-  "ko_later": {
-   "text": [
-    "That's fair. It's not one you need until it happens to you, and then you'll want it badly."
-   ]
-  },
-  "offer_game": {
-   "branches": [
-    {
-     "if": [
-      [
-       "flag",
-       "wren_match_done"
-      ]
-     ],
-     "goto": "offer_rematch"
-    },
-    {
-     "goto": "offer_first"
-    }
-   ]
-  },
-  "offer_first": {
-   "text": [
-    "Can I ask you something and you promise not to be kind about it.",
-    "Would you play me? I am twenty kyu and I have been twenty kyu for a year, and everybody here is lovely about it in a way I have started to find unbearable.",
-    "You are about my strength. That is not an insult, it is the entire appeal."
-   ],
-   "choices": [
-    {
-     "text": "Let's play.",
-     "exit": {
-      "type": "start_match",
-      "profile": "wren_9x9",
-      "context": "wren_club",
-      "intro": "Wren Calloway, twenty kyu. She has moved the bowls twice."
-     }
-    },
-    {
-     "text": "Could you go over the rules again?",
-     "goto": "refresher"
-    },
-    {
-     "text": "Another time.",
-     "goto": "offer_later"
-    }
-   ]
-  },
-  "offer_rematch": {
-   "text": [
-    "Again? Yes. Yes, obviously again.",
-    "I have started writing them down. I am not keeping score, I am keeping -- a record. Kesh has ruined me."
-   ],
-   "choices": [
-    {
-     "text": "Set them up.",
-     "exit": {
-      "type": "start_match",
-      "profile": "wren_9x9",
-      "context": "wren_club",
-      "intro": "Wren again. She has the black bowl before you sit down."
-     }
-    },
-    {
-     "text": "Could you go over the rules again?",
-     "goto": "refresher"
-    },
-    {
-     "text": "Not today.",
-     "goto": "offer_later"
-    }
-   ]
-  },
-  "offer_later": {
-   "text": [
-    "No, that's fine. That's completely fine. I'll be here, doing this."
-   ]
-  },
-  "post_match": {
-   "branches": [
-    {
-     "if": [
-      [
-       "beat",
-       "wren"
-      ]
-     ],
-     "goto": "wren_lost"
-    },
-    {
-     "goto": "wren_won"
-    }
-   ]
-  },
-  "wren_lost": {
-   "text": [
-    "You got me. You got me in the bottom right and I saw it coming for about four moves and played somewhere else anyway.",
-    "That was genuinely good. I am saying that as a person who has just lost, so you can take it seriously."
-   ]
-  },
-  "wren_won": {
-   "portrait": "happy",
-   "text": [
-    "I WON. Sorry. Sorry. I won.",
-    "That is my second win this year and the first one was because somebody's tram was leaving.",
-    "Play me again in a bit, would you? While I still have the nerve."
-   ]
-  },
-  "knows_already": {
-   "actions": [
-    [
-     "set_flag",
-     "said_knows_the_rules",
-     true
-    ],
-    [
-     "set_flag",
-     "knows_the_rules",
-     true
-    ]
-   ],
-   "text": [
-    "Oh, good -- then I won't do the whole liberties speech at you. People's eyes go glassy and I never know whether to stop.",
-    "Ask me if you ever want it. I am extremely happy to do the whole liberties speech at you."
-   ],
-   "goto": "cup"
-  },
   "taught_first": {
    "portrait": "happy",
    "text": [
-    "There. That is the whole rulebook, near enough -- liberties, capture, and no filling in your own last one.",
-    "Everything else people say about Go is a consequence of those three things, said at greater length."
+    "That's the rulebook, near enough. Liberties, capture, and don't fill in your own last one.",
+    "Everything else is those three, said at length."
    ],
    "goto": "cup"
   },
   "taught_again": {
    "portrait": "happy",
    "text": [
-    "That's the lot. Same three rules as last time, which is the nice thing about them.",
-    "No, I don't mind. I have explained liberties more often than I have won games and I know which one I am better at."
+    "Same three rules as last time. Sorry, I do go on."
    ]
   },
   "taught_ko": {
    "text": [
-    "That's it. You may not take it straight back -- you have to go and do something else first, and hope it is annoying enough that they answer it.",
-    "That is genuinely the whole rule. It has a long name and a short meaning, like most of this."
+    "That's ko. You can't take it straight back. Go and do something else first, then come back for it."
+   ]
+  },
+  "cup": {
+   "actions": [
+    [
+     "set_flag",
+     "wren_told_about_cup",
+     true
+    ]
+   ],
+   "text": [
+    "There's a beginners' tournament at the Bondszaal, the Cup. You need a rank to enter. You get one by playing.",
+    "That's Kesh by the window. She'll play anyone, and she remembers every result."
+   ],
+   "goto": "offer_help"
+  },
+  "offer_help": {
+   "text": [
+    "Do you want me to explain how a game ends? People find that bit odd."
+   ],
+   "choices": [
+    {
+     "text": "Yes, please.",
+     "goto": "explain"
+    },
+    {
+     "text": "I'll work it out.",
+     "goto": "decline"
+    }
+   ]
+  },
+  "explain": {
+   "text": [
+    "When neither of you wants to play a move, you both pass. Then you count your empty points and your captures.",
+    "White gets a few extra points for going second. Highest total wins."
+   ],
+   "goto": "sign_off"
+  },
+  "decline": {
+   "portrait": "happy",
+   "text": [
+    "Good. That's the right attitude, and I don't have it."
+   ],
+   "goto": "sign_off"
+  },
+  "sign_off": {
+   "text": [
+    "Go on. She's already looking at you."
+   ]
+  },
+  "repeat": {
+   "text": [
+    "Kesh is by the window. She's been waiting since you came in, she just won't say so."
+   ],
+   "choices": [
+    {
+     "text": "Right.",
+     "goto": "repeat_end"
+    },
+    {
+     "text": "Could you go over the rules again?",
+     "goto": "refresher"
+    }
+   ]
+  },
+  "repeat_end": {
+   "text": [
+    "Go on, then."
    ]
   },
   "refresher": {
@@ -426,28 +250,158 @@
   },
   "refresher_no": {
    "text": [
-    "It does that. It goes and then it comes back and then one day it stops going."
+    "It does that. It goes, and then one day it stops going."
    ]
   },
-  "repeat_end": {
-   "text": [
-    "Go on, then."
+  "regular": {
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "wren_match_done"
+      ]
+     ],
+     "goto": "offer_rematch"
+    },
+    {
+     "if": [
+      [
+       "beat",
+       "kesh"
+      ],
+      [
+       "not_flag",
+       "wren_said_kesh"
+      ]
+     ],
+     "goto": "kesh_word"
+    },
+    {
+     "goto": "offer_first"
+    }
    ]
   },
-  "the_book": {
+  "kesh_word": {
    "portrait": "happy",
-   "text": [
-    "Is that a book? Can I -- sorry. Can I look at it?",
-    "Right. Right, so that's a corner, and those are numbered, so you play them in that order, and then... and then it just stops. Why does it stop there? Nothing's finished.",
-    "No, don't tell me. I'd rather find out by losing. That's the only way anything's stuck yet.",
-    "It's nice that it exists though. It means somebody worked all this out already and wrote it down, and one day I'll be able to read it, and that's a genuinely lovely thing to know about a Tuesday."
-   ],
    "actions": [
     [
      "set_flag",
-     "wren_saw_the_book",
+     "wren_said_kesh",
      true
     ]
+   ],
+   "text": [
+    "You beat Kesh? I've played her eleven times. Don't ask my record.",
+    "She'll want a rematch. She won't say so."
+   ],
+   "goto": "offer_first"
+  },
+  "offer_first": {
+   "text": [
+    "Would you play me? I've been the same rank for a year and everyone here is lovely about it.",
+    "Lovely is worse. You're about my strength, so it'd be a real game."
+   ],
+   "choices": [
+    {
+     "text": "Let's play.",
+     "exit": {
+      "type": "start_match",
+      "profile": "wren_9x9",
+      "context": "wren_club",
+      "intro": "Wren. She has moved the bowls twice."
+     }
+    },
+    {
+     "text": "Could you go over the rules again?",
+     "goto": "refresher"
+    },
+    {
+     "text": "Another time.",
+     "goto": "offer_later"
+    }
+   ]
+  },
+  "offer_rematch": {
+   "text": [
+    "Again? Yes. Obviously yes.",
+    "I've started writing them down. Not a score, a record. Kesh has ruined me."
+   ],
+   "choices": [
+    {
+     "text": "Set them up.",
+     "exit": {
+      "type": "start_match",
+      "profile": "wren_9x9",
+      "context": "wren_club",
+      "intro": "Wren again. She has the black bowl before you sit down."
+     }
+    },
+    {
+     "text": "Could you go over the rules again?",
+     "goto": "refresher"
+    },
+    {
+     "text": "Not today.",
+     "goto": "offer_later"
+    }
+   ]
+  },
+  "offer_later": {
+   "text": [
+    "That's fine. That's completely fine. I'll be here."
+   ]
+  },
+  "offer_ko": {
+   "text": [
+    "Oh, before you go. I said that was the whole rulebook, and it was very slightly a lie.",
+    "There's one more rule, the strange one. Ko."
+   ],
+   "choices": [
+    {
+     "text": "Go on.",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "ko"
+     }
+    },
+    {
+     "text": "Another time.",
+     "goto": "ko_later"
+    }
+   ]
+  },
+  "ko_later": {
+   "text": [
+    "That's fair. You don't need it until it happens to you, and then you want it badly."
+   ]
+  },
+  "post_match": {
+   "branches": [
+    {
+     "if": [
+      [
+       "won_last"
+      ]
+     ],
+     "goto": "wren_lost"
+    },
+    {
+     "goto": "wren_won"
+    }
+   ]
+  },
+  "wren_lost": {
+   "text": [
+    "You got me. I saw it coming for four moves and played somewhere else anyway.",
+    "That was good. I'm saying that as the person who just lost, so you can believe it."
+   ]
+  },
+  "wren_won": {
+   "portrait": "happy",
+   "text": [
+    "I won. Sorry. Sorry. I WON.",
+    "Play me again in a bit? While I still have the nerve."
    ]
   }
  }

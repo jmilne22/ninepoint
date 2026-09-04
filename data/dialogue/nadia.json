@@ -6,55 +6,11 @@
     {
      "if": [
       [
-       "has_item",
-       "joseki_book"
-      ],
-      [
-       "beat",
-       "ilse"
-      ]
-     ],
-     "goto": "give_it_back"
-    },
-    {
-     "if": [
-      [
-       "has_item",
-       "joseki_book"
-      ]
-     ],
-     "goto": "still_reading"
-    },
-    {
-     "if": [
-      [
        "flag",
-       "ilse_sent_you_for_the_book"
-      ],
-      [
-       "not_flag",
-       "returned_the_book"
+       "nadia_match_done"
       ]
      ],
-     "goto": "lend"
-    },
-    {
-     "if": [
-      [
-       "flag",
-       "returned_the_book"
-      ]
-     ],
-     "goto": "after_the_book"
-    },
-    {
-     "if": [
-      [
-       "beat",
-       "nadia"
-      ]
-     ],
-     "goto": "after_win"
+     "goto": "again"
     },
     {
      "if": [
@@ -72,20 +28,25 @@
   },
   "stranger": {
    "text": [
-    "Two kyu. I have the book with me if you want to see the standard sequence. I always have the book with me."
+    "Nadia Ferreira. I sit in on the beginners' classes. Enrol at the desk first, and then I'll give you a game."
    ]
   },
   "senior": {
    "text": [
-    "Nadia Ferreira, two kyu, fourth year. I sit in on the beginners' classes and I am not embarrassed about it.",
-    "Hana taught me corner-side-centre in this room eleven years ago and I still count it out on my fingers in real games.",
-    "That is not a confession. That is the advice."
+    "Nadia Ferreira, fourth year. I sit in on the beginners' classes, and I'm not embarrassed about it.",
+    "Hana taught me corner, side, centre in this room. I still count it on my fingers."
+   ],
+   "goto": "offer"
+  },
+  "again": {
+   "text": [
+    "Back. Fewer stones this time, if the gap says so."
    ],
    "goto": "offer"
   },
   "offer": {
    "text": [
-    "I will give you stones. As many as it takes to make it a real game -- there is no dignity in a close loss."
+    "I'll give you stones. As many as it takes to make it a real game."
    ],
    "choices": [
     {
@@ -104,104 +65,35 @@
   },
   "later": {
    "text": [
-    "The book will still be here. So, unfortunately, will page forty."
+    "I'll be here. I'm always here."
    ]
-  },
-  "after_win": {
-   "portrait": "happy",
-   "text": [
-    "You beat me with fewer stones than last time. That is the only measurement that means anything and you should write it down."
-   ],
-   "goto": "offer"
   },
   "post_match": {
    "branches": [
     {
      "if": [
       [
-       "beat",
-       "nadia"
+       "won_last"
       ]
      ],
      "goto": "after_win"
     },
     {
-     "goto": "senior"
+     "goto": "after_loss"
     }
    ]
   },
-  "lend": {
-   "text": [
-    "Brandt sent you. She sends everybody, and she has never once sent them for the right reason.",
-    "Here. Take it -- the whole thing, not a photocopy of page forty, because page forty on its own is where people go wrong.",
-    "I want it back before the exam. Not because I will read it. Because I will want to be holding it."
-   ],
-   "actions": [
-    [
-     "give",
-     "joseki_book",
-     "Nadia's joseki book"
-    ],
-    [
-     "set_flag",
-     "borrowed_the_book",
-     true
-    ]
-   ]
-  },
-  "still_reading": {
-   "text": [
-    "You still have it. Good -- that means you have not finished with it, which is the correct state to be in.",
-    "Page forty is the one she means. It is even. I have never once got an even corner out of it."
-   ],
-   "goto": "offer"
-  },
-  "give_it_back": {
+  "after_win": {
    "portrait": "happy",
    "text": [
-    "You beat her.",
-    "She will have told you it was not the book. She is right, and she will still tell you to read the first forty pages of the next one."
-   ],
-   "choices": [
-    {
-     "text": "Here. Thank you.",
-     "actions": [
-      [
-       "take",
-       "joseki_book"
-      ],
-      [
-       "set_flag",
-       "returned_the_book",
-       true
-      ]
-     ],
-     "goto": "handed_back"
-    },
-    {
-     "text": "Another day or two.",
-     "goto": "keep_it"
-    }
+    "You beat me. With stones, but you beat me, and next time there'll be fewer of them."
    ]
   },
-  "handed_back": {
+  "after_loss": {
    "text": [
-    "Which page was it?",
-    "No -- do not answer. It was not a page. It never is, and I have six books and eleven years of knowing that and I still ask.",
-    "Thank you for bringing it back. Most of them do not."
+    "The stones are there to be used. You spent two of them on nothing.",
+    "Next time, count what each one is worth before you move it."
    ]
-  },
-  "keep_it": {
-   "text": [
-    "Keep it. I know where you sit."
-   ]
-  },
-  "after_the_book": {
-   "text": [
-    "It is back on the shelf where I can see it, which is what it is for.",
-    "Brandt has started telling people to read the first forty pages of the endgame one. I am not lending that one out."
-   ],
-   "goto": "offer"
   }
  }
 }

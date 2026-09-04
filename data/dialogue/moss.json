@@ -4,16 +4,26 @@
   "start": {
    "branches": [
     {
-     "if": [["rank_at_most", "15k"]],
+     "if": [
+      [
+       "rank_at_least",
+       "14k"
+      ],
+      [
+       "not_flag",
+       "moss_said_outgrown"
+      ]
+     ],
      "goto": "outgrown"
     },
     {
-     "if": [["beat", "moss"]],
-     "goto": "after_win"
-    },
-    {
-     "if": [["lost_to", "moss"]],
-     "goto": "after_loss"
+     "if": [
+      [
+       "flag",
+       "moss_match_done"
+      ]
+     ],
+     "goto": "again"
     },
     {
      "goto": "first"
@@ -22,20 +32,28 @@
   },
   "first": {
    "text": [
-    "Moss Lindqvist. Sixteen kyu, and before you ask -- yes, three years running.",
-    "I am in here because it is raining and this is the warmest room on the street. I want that on the record before you decide anything about me.",
-    "Sixteen kyu is the ceiling of this section and I am under it, which is the whole trick. I am not proud of it."
+    "Moss Lindqvist. Sixteen kyu, three years running, and the ceiling of the section is fifteen.",
+    "That's the trick. I'm not proud of it."
    ],
    "goto": "gate"
   },
   "gate": {
    "branches": [
     {
-     "if": [["not_flag", "knows_the_rules"]],
+     "if": [
+      [
+       "not_flag",
+       "knows_the_rules"
+      ]
+     ],
      "goto": "no_rules"
     },
     {
-     "if": [["unranked"]],
+     "if": [
+      [
+       "unranked"
+      ]
+     ],
      "goto": "no_card"
     },
     {
@@ -45,28 +63,29 @@
   },
   "no_rules": {
    "text": [
-    "You do not know the rules and you want me to teach you them. No.",
-    "I have a reputation in this city and it is a bad one, and it is not going to be improved by being kind to a beginner in a laundrette. Go down the steps at De Ketel. They are better people than me down there."
+    "You don't know the rules, and you want me to teach them. No. Wren does that, down the steps."
    ]
   },
   "no_card": {
    "text": [
-    "You have no card. Then there is nothing to play for, and I do not play for nothing.",
-    "That is the least likeable sentence I have said this week and I stand by it. Tomas writes the cards. Get one, and then I will know what beating you is worth."
+    "No rank? Then there's nothing to play for, and I don't play for nothing. Kesh, at De Ketel, will give you one."
    ]
   },
   "outgrown": {
+   "actions": [
+    [
+     "set_flag",
+     "moss_said_outgrown"
+    ]
+   ],
    "text": [
-    "Look at you. You are out of the section.",
-    "Fifteen kyu and below, it says on the noticeboard, and you are above it, and you got there in a fortnight while I have been under the ceiling for three years.",
-    "I am not going to pretend that is pleasant. Sit down anyway."
+    "Look at you. Out of the section already. I've spent three years staying under it."
    ],
    "goto": "gate"
   },
   "offer": {
    "text": [
-    "One game, and it counts. On your card and on mine.",
-    "You are wondering why a man who has spent three years staying under a ceiling would want a game that could move him. So am I. Sit down."
+    "One game, and it counts. On your card and on mine."
    ],
    "choices": [
     {
@@ -75,7 +94,7 @@
       "type": "start_match",
       "profile": "moss_9x9",
       "context": "wassalon_moss",
-      "intro": "He clears the folding table with his forearm, which is the only fast thing he does all evening."
+      "intro": "He clears the folding table with his forearm, the only fast thing he does all evening."
      }
     },
     {
@@ -86,33 +105,39 @@
   },
   "later": {
    "text": [
-    "Then we have nothing to talk about, and I say that with no ill feeling at all.",
-    "Come back when you want one that counts. That is the only kind I am any use for."
+    "Then we've nothing to talk about, and I mean that kindly. Come back when you want one that counts."
    ]
   },
-  "after_win": {
+  "again": {
    "text": [
-    "There. Now it says something different about both of us.",
-    "I will see you at the Bondszaal. I would wish you luck, except that I have played you now and I know exactly what you do."
+    "Again? It still counts."
    ],
-   "goto": "offer"
-  },
-  "after_loss": {
-   "text": [
-    "Sixteen kyu. Still. You may look it up in a fortnight and it will still say sixteen kyu.",
-    "I am not being modest. I am telling you what a rank is for. It is a record, and mine is an accurate record of a man who stopped trying."
-   ],
-   "goto": "offer"
+   "goto": "gate"
   },
   "post_match": {
    "branches": [
     {
-     "if": [["beat", "moss"]],
+     "if": [
+      [
+       "won_last"
+      ]
+     ],
      "goto": "after_win"
     },
     {
      "goto": "after_loss"
     }
+   ]
+  },
+  "after_win": {
+   "text": [
+    "There. Now the record says something different about both of us.",
+    "See you at the Bondszaal."
+   ]
+  },
+  "after_loss": {
+   "text": [
+    "Still sixteen kyu. That's not modesty. A rank is a record, and mine is accurate."
    ]
   }
  }

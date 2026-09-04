@@ -133,9 +133,17 @@ static func _check_one(c: Array) -> bool:
             var record: Dictionary = _state().head_to_head(str(c[1]))
             return int(record["wins"]) + int(record["losses"]) >= int(c[2])
         "beat":
+            # Ever beaten. For greetings only: a post_match node that reads
+            # this plays the "you got me" line after every later game the
+            # person wins, which is exactly what happened for thirty milestones.
             return _state().head_to_head(str(c[1]))["wins"] > 0
         "lost_to":
             return _state().head_to_head(str(c[1]))["losses"] > 0
+        "won_last":
+            # The game just played, whoever it was against.
+            return str(_state().get_flag("last_result", "")) == "win"
+        "lost_last":
+            return str(_state().get_flag("last_result", "")) == "loss"
         _:
             push_warning("DialogueGraph: unknown condition '%s'" % op)
             return false

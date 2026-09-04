@@ -6,15 +6,6 @@
     {
      "if": [
       [
-       "on_map",
-       "quay"
-      ]
-     ],
-     "goto": "quay"
-    },
-    {
-     "if": [
-      [
        "played_at_least",
        "orla",
        3
@@ -24,7 +15,7 @@
        "arc_orla_3"
       ]
      ],
-     "goto": "orla_stage_2"
+     "goto": "stage_2"
     },
     {
      "if": [
@@ -38,25 +29,16 @@
        "arc_orla_6"
       ]
      ],
-     "goto": "orla_stage_3"
+     "goto": "stage_3"
     },
     {
      "if": [
       [
-       "beat",
-       "orla"
+       "flag",
+       "orla_match_done"
       ]
      ],
-     "goto": "after_win"
-    },
-    {
-     "if": [
-      [
-       "lost_to",
-       "orla"
-      ]
-     ],
-     "goto": "after_loss"
+     "goto": "again"
     },
     {
      "goto": "first"
@@ -65,15 +47,20 @@
   },
   "first": {
    "text": [
-    "Orla Finn. Four kyu.",
-    "You'll have been told I'm top of the lower league. I am. I'm not going to be interesting about it.",
-    "You'll get four stones from me and you should take them. People who refuse handicap stones are wasting a game to protect a feeling."
+    "Orla Finn. Top of the lower league, and I'm not going to be interesting about it.",
+    "You'll get stones from me. Take them. Refusing stones wastes a game to protect a feeling."
+   ],
+   "goto": "offer"
+  },
+  "again": {
+   "text": [
+    "Again. Good."
    ],
    "goto": "offer"
   },
   "offer": {
    "text": [
-    "Do you want a league game? It goes on the board either way."
+    "League game? It goes on the board either way."
    ],
    "choices": [
     {
@@ -95,37 +82,12 @@
     "Right."
    ]
   },
-  "after_win": {
-   "portrait": "annoyed",
-   "text": [
-    "Mm.",
-    "Right. Now it's a game. Same time tomorrow and no stones."
-   ],
-   "goto": "offer"
-  },
-  "after_loss": {
-   "text": [
-    "You had it in the bottom left and then you took the safe side. The safe side was eight points smaller.",
-    "That's the whole gap between us, more or less. It isn't reading. It's that I count and you don't. Yet."
-   ],
-   "goto": "offer"
-  },
   "post_match": {
    "branches": [
     {
      "if": [
       [
-       "on_map",
-       "quay"
-      ]
-     ],
-     "goto": "quay_after"
-    },
-    {
-     "if": [
-      [
-       "beat",
-       "orla"
+       "won_last"
       ]
      ],
      "goto": "after_win"
@@ -135,21 +97,19 @@
     }
    ]
   },
-  "orla_stage_3": {
-   "actions": [
-    [
-     "set_flag",
-     "arc_orla_6"
-    ]
-   ],
+  "after_win": {
+   "portrait": "annoyed",
    "text": [
-    "Right. Sit down, I am going to be uncharacteristically forthcoming and then never again.",
-    "Top of the lower league is not a talent. It is that I play everybody, I keep the record, and I do not stop when I am losing.",
-    "That is the whole of it. I have been waiting for somebody to work it out on their own rather than asking me, and you did not ask, so."
-   ],
-   "goto": "post_match"
+    "Mm. Right. Now it's a game. Next time, fewer stones."
+   ]
   },
-  "orla_stage_2": {
+  "after_loss": {
+   "text": [
+    "You had the bottom left and took the safe side. The safe side was eight points smaller.",
+    "That's the gap between us. Not reading. Counting."
+   ]
+  },
+  "stage_2": {
    "actions": [
     [
      "set_flag",
@@ -157,50 +117,21 @@
     ]
    ],
    "text": [
-    "Three games. You have stopped playing the safe side.",
-    "I said the gap between us was counting, not reading. I am revising that. It was nerve."
+    "Three games. You've stopped playing the safe side. I said the gap was counting. It was nerve."
    ],
-   "goto": "post_match"
+   "goto": "offer"
   },
-  "quay": {
-   "text": [
-    "Oh. Hello.",
-    "I walk back this way. It is twenty minutes longer and I do it every day, and if you tell anybody at the Instituut I will deny it.",
-    "There is nothing to look at. That is what it is for."
+  "stage_3": {
+   "actions": [
+    [
+     "set_flag",
+     "arc_orla_6"
+    ]
    ],
-   "choices": [
-    {
-     "text": "Play one? Out here.",
-     "exit": {
-      "type": "start_match",
-      "profile": "orla_9x9",
-      "context": "orla_quay",
-      "unrated": true,
-      "intro": "On the bench, then. This one is not going anywhere near the board on the wall."
-     }
-    },
-    {
-     "text": "Sit for a bit.",
-     "goto": "quay_sit"
-    },
-    {
-     "text": "I'll leave you to it.",
-     "goto": "later"
-    }
-   ]
-  },
-  "quay_sit": {
    "text": [
-    "You lost today. I can tell from here, and I am not going to ask about it.",
-    "Everybody at that place thinks the answer to a bad game is another game. Sometimes the answer is a bench and forty minutes.",
-    "Then another game. But not the same evening."
-   ]
-  },
-  "quay_after": {
-   "text": [
-    "That one goes nowhere. No board, no card, no record.",
-    "Which is the only reason I played it, so do not read anything into me being pleasant about it."
-   ]
+    "Top of the league isn't a talent. I play everybody, and I don't stop when it's going badly."
+   ],
+   "goto": "offer"
   }
  }
 }

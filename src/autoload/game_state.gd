@@ -135,6 +135,10 @@ func set_quest(quest_id: String, step: int, done: bool = false) -> void:
 func record_match(result: MatchResult) -> void:
     match_records.append(result.to_dict())
     # Flags dialogue and quests can branch on without knowing about MatchResult.
+    # What just happened, for the conversation that follows it. Overwritten
+    # by every game; the cumulative counters below are for greetings.
+    set_flag("last_result", "win" if result.player_won else "loss")
+    set_flag("last_by_resignation", result.by_resignation)
     if result.npc_id != "":
         bump_flag("record_%s_%s" % [result.npc_id, "win" if result.player_won else "loss"], 1)
         set_flag("%s_match_done" % result.npc_id, true)
