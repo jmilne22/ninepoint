@@ -94,6 +94,8 @@ static func _test_engine_profiles(t: TestKit) -> void:
     t.section("engine-backed opponent profiles")
     var profiles := _list("res://data/opponents", ".tres")
     t.ok(profiles.size() > 0, "there are opponent profiles to validate")
+    var styles := {}
+    var config_styles := {}
     for path in profiles:
         var profile := load(path) as OpponentProfile
         t.ok(profile != null, "%s loads as an opponent profile" % path)
@@ -106,7 +108,22 @@ static func _test_engine_profiles(t: TestKit) -> void:
             "%s allows preparation to cover model startup" % path)
         t.ok(FileAccess.file_exists(profile.gtp_command), "%s has its launcher" % path)
         t.ok(FileAccess.file_exists(profile.gtp_model_path), "%s has its normal model" % path)
-        t.ok(FileAccess.file_exists(profile.gtp_config_path), "%s has its Human-SL rank config" % path)
+        t.ok(profile.gtp_style in ["steady", "balanced", "fighting"],
+            "%s has a valid readable GTP temperament" % path)
+        var strength := clampi(profile.strength(), 10, 38)
+        var rank := "%dk" % (30 - strength) if strength < 30 else "%dd" % (strength - 29)
+        var expected_config := "res://packaging/katago/config/human_%s_%s.cfg" % [rank, profile.gtp_style]
+        t.eq(profile.gtp_config_path, expected_config,
+            "%s selects the matching Human-SL rank/style config" % path)
+        t.ok(FileAccess.file_exists(profile.gtp_config_path), "%s has its Human-SL rank/style config" % path)
+        styles[profile.gtp_style] = true
+        var config_key := profile.gtp_config_path
+        if not config_styles.has(config_key):
+            config_styles[config_key] = profile.gtp_style
+        t.eq(config_styles[config_key], profile.gtp_style,
+            "%s only shares a config with the same intended temperament" % path)
+    for style in ["steady", "balanced", "fighting"]:
+        t.ok(styles.has(style), "the cast represents the %s temperament" % style)
 
 
 static func _gotos(node: Dictionary) -> PackedStringArray:

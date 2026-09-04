@@ -100,6 +100,7 @@ func _exercise(profile: OpponentProfile, path: String) -> Dictionary:
         result = "two passes"
     var row := {
         "profile": str(profile.id), "path": path, "rank": profile.rank_label,
+        "style": profile.gtp_style,
         "board_size": game.size(), "capture_goal": profile.capture_goal,
         "startup_ms": opponent.startup_ms, "move_latencies_ms": latencies,
         "legal_replies": opponent.legal_reply_count, "passes": passes,
