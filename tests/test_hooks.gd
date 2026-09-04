@@ -41,6 +41,7 @@ static func run(t: TestKit) -> void:
     _test_climbing(t)
     _test_refusals(t)
     _test_unrated_counts(t)
+    _test_a_cup_round_moves_a_hook(t)
     _test_summary(t)
     _test_roster_loads(t)
 
@@ -121,6 +122,33 @@ static func _test_unrated_counts(t: TestKit) -> void:
     t.eq(HooksLadder.position(bench), 3, "and so does the bench in the park")
     t.eq(HooksLadder.taken(bench), 1,
         "beating Pip afterwards takes nothing; he was already below you")
+
+
+## The deliberate asymmetry with LeagueTable, asserted so that nobody "fixes" it
+## later by symmetry. The league had to learn to ignore a Cup round, because a
+## tournament at the Bondszaal is not a fixture in the Instituut's term. The
+## hooks must not learn the same lesson: the docstring on HooksLadder says they
+## count everything that happened at a table -- "a league fixture, an exam round,
+## it makes no difference to a hook" -- and a Cup round is a game of Go that
+## Tomas lost, which is the only fact a brass hook has ever been interested in.
+static func _test_a_cup_round_moves_a_hook(t: TestKit) -> void:
+    t.section("hooks: a tournament game is still a game")
+    var cup := [{"npc_id": "tomas", "player_won": true, "unrated": false,
+                 "context_id": CupDraw.context_for(0)}]
+    var rows := _order(cup)
+    var mine := HooksLadder.position(rows)
+    var theirs := 0
+    for i in rows.size():
+        if str(rows[i]["id"]) == "tomas":
+            theirs = i + 1
+    t.ok(mine < theirs, "beating Tomas in the Cup takes his hook")
+    t.eq(HooksLadder.taken(rows), 1, "and counts as a card taken")
+
+    # The league's exclusion and the hooks' inclusion are the same two facts read
+    # by two systems that are supposed to disagree.
+    var plain := _order([_game("tomas", true)])
+    t.eq(HooksLadder.position(plain), mine,
+        "the hook does not care whether it was a Tuesday or a tournament")
 
 
 static func _test_summary(t: TestKit) -> void:

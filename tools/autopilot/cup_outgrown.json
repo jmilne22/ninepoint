@@ -1,0 +1,43 @@
+[
+ {
+  "save": "outgrown",
+  "note": "Thirteen kyu, in the Instituut hall, where the greeting branch fires."
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue from the outgrown save"
+ },
+ {
+  "wait": 3.0,
+  "shot": "a_the_hall"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "wait": 3.0,
+  "shot": "b_too_strong",
+  "note": "the sentence that used to be the whole of it"
+ },
+ {
+  "advance": 1
+ },
+ {
+  "wait": 3.0,
+  "shot": "c_the_other_door",
+  "note": "THE frame: it is not being thrown out of something, it is the open section"
+ },
+ {
+  "advance": 1
+ },
+ {
+  "wait": 3.0,
+  "shot": "d_the_desk_is_here"
+ }
+]

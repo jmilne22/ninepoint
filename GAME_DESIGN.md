@@ -426,10 +426,29 @@ having read all of it and being nine kyu, and Nadia concedes when you hand it ov
 
 ## 8. Tournaments (post-slice design)
 
-The Steenbeek Beginner Cup: 4 rounds, McMahon-ish pairing against NPCs near your rank,
-one game per in-game day, played on 9×9 or 13×13 depending on the section entered.
-Between rounds you may study, review with Hana, or scout opponents in the café.
-Placing changes your rank and unlocks the 13×13 section of the club.
+The Steenbeek Cup: 4 rounds, McMahon-ish pairing, one game per in-game day, in a hired room
+at the Bondszaal. Between rounds you may study, review with Hana, or scout opponents in the
+café. Placing changes your rank the way every other result does -- through the record.
+
+**Two sections, and the difference between them is the argument.** The beginners' section
+has a **ceiling** -- fifteen kyu and below -- and therefore no handicap: everybody in it is
+within a few stones of everybody else, and the entry requirement does the work. The open
+section has **no ceiling** and hands out stones instead. Those are the two ways Go deals
+with a gap in strength, and the Cup runs one of each. Nine lines below the ceiling,
+thirteen above it.
+
+Which one you are in is decided by the rank on your card, at the registrar's desk, which is
+how a real event does it. The one exception is deliberate: a player still under the ceiling
+who has won three rated games may choose to **play up** into the open section. Marguerite
+will enter them, and will say first that it is four games against people who will beat you,
+and that some players learn more from that fortnight than from the year around it and some
+just lose four games. Both halves of that are true and the game does not decide which.
+
+The open field is the only place in Verhaven where the two Go cultures sit down at the same
+table with a result form on it: Kesh, Ilse, Tomás, Sunny and Orla, the Instituut and De
+Ketel in one column, because the Bondszaal is the federation and therefore neutral ground.
+Joos is not in it and cannot be -- the federation needs a rank written down, and he has
+never had one.
 
 ## 9. Progression map (full game sketch)
 
@@ -447,8 +466,14 @@ The game will not hand out a rank for time served.
 
 **Chapter 2's gate is real.** Three rated games won opens a 13×13 -- Tomás's back table at
 De Ketel and the board in the study hall -- through the `rated_wins_at_least` condition,
-counted off the record rather than kept in a flag. Chapters 3 and up are still a sketch: the
-Cup runs one 9×9 section, and §8's 13×13 section is unbuilt.
+counted off the record rather than kept in a flag.
+
+**Chapter 3's board is real too.** §8's open section is built (M33) and is played on
+thirteen lines, so the Cup is no longer a 9×9 event with a bigger board promised beside it.
+The same `rated_wins_at_least` gate that opens the club's 13×13 also opens the option of
+playing up into it, which is the two chapters meeting where the design always had them
+meet. What chapters 4 and up still are is a sketch: the rank arcs above 14k need an
+opponent ladder that runs past about 8 kyu, which is §9 of ROADMAP and the engine question.
 
 ## 10. Tone and content
 

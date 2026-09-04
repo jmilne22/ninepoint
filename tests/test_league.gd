@@ -98,6 +98,26 @@ static func _test_rematches(t: TestKit) -> void:
         if bool(r["is_player"]):
             t.eq(int(r["played"]), 0, "an exam round is not a league game")
 
+    # And the same for a Cup round, which was true and unguarded until the open
+    # section put four league members in the draw. A tournament game at the
+    # Bondszaal is not a fixture in the Instituut's term, and the standings the
+    # exam is decided on must not move because somebody entered a Cup.
+    var entered := [{"npc_id": "ilse", "player_won": true, "unrated": false,
+                     "context_id": CupDraw.context_for(0)}]
+    var played := LeagueTable.standings(entered, _roster(), "Ro", "22k")
+    var untouched := LeagueTable.standings([], _roster(), "Ro", "22k")
+    for r in played:
+        if bool(r["is_player"]):
+            t.eq(int(r["played"]), 0, "a Cup round is not a league game either")
+    # The whole table, not just the player's row: beating Ilse at the Bondszaal
+    # must not show up as a league defeat for Ilse.
+    t.eq(played.size(), untouched.size(), "and the Cup adds nobody to the table")
+    for i in played.size():
+        t.eq(str(played[i]["id"]), str(untouched[i]["id"]),
+            "the standings are unchanged at position %d" % (i + 1))
+        t.eq(int(played[i]["lost"]), int(untouched[i]["lost"]),
+            "%s has the same losses either way" % str(played[i]["id"]))
+
 
 static func _test_ordering(t: TestKit) -> void:
     t.section("league: ordering")

@@ -97,6 +97,23 @@ def _handicap_fields(player_strength, opponent_strength, board=9):
 CUP_DAY = _const("CUP_DAY")
 EXAM_DAY = _const("EXAM_DAY")
 
+
+def _rated_wins(n):
+    """A record with `n` rated wins in it, against the study hall.
+
+    Written rather than hand-listed because two presets want the same thing and
+    because `rated_wins_at_least` counts these: a preset that says it is past the
+    ceiling and carries no games is a save the dialogue conditions disagree with.
+    """
+    who = ["wren", "pip", "kesh", "ilse", "sunny", "orla"]
+    return [{
+        "context_id": "league_%s" % who[i % len(who)],
+        "npc_id": who[i % len(who)], "player_won": True, "margin": 6.5,
+        "by_resignation": False, "board_size": 9, "handicap": 0,
+        "handicap_taken": 0, "komi": 5.5, "move_count": 52, "unrated": False,
+        "opponent_strength": 12 + i, "summary": "Black wins by 6.5",
+    } for i in range(n)]
+
 STATES = {
     # Act 1 complete and invited east, for testing the Institute directly.
     "invited": {
@@ -395,6 +412,85 @@ STATES = {
                    "beginner_cup": {"step": 1, "done": False}},
         "summary": "White wins by 12.5",
         "won": False,
+        "map": "bondszaal",
+        "spawn": "from_tram",
+        "day": CUP_DAY,
+    },
+    # Past the ceiling and nothing entered: the state the second section exists
+    # for. Thirteen kyu is too strong for the beginners' section, which used to
+    # be the end of the conversation -- `cup_outgrown` said "I can no longer
+    # enter you" and offered nothing. Standing at the federation desk two days
+    # out, so Marguerite can be asked.
+    "open_ready": {
+        "rank_strength": 17,
+        "flags": {
+            "opening_seen": True, "intro_seen": True, "carrying_board": True,
+            "wren_told_about_cup": True, "kesh_match_done": True,
+            "match_kesh_first_done": True, "ranked_by_club": True,
+            "knows_the_rules": True, "club_member": True,
+            "invited_to_institute": True, "enrolled": True,
+        },
+        "quests": {"first_stones": {"step": 6, "done": True},
+                   "enrolment": {"step": 4, "done": True}},
+        "records": _rated_wins(6),
+        "map": "bondszaal",
+        "spawn": "from_tram",
+        "day": CUP_DAY - 2,
+    },
+    # Under the ceiling and past the three-rated-wins gate: the only state in
+    # which both sections are open at once, and therefore the only one in which
+    # Marguerite has to be asked rather than consulted. Eighteen kyu.
+    "playing_up": {
+        "rank_strength": 12,
+        "flags": {
+            "opening_seen": True, "intro_seen": True, "carrying_board": True,
+            "wren_told_about_cup": True, "kesh_match_done": True,
+            "match_kesh_first_done": True, "ranked_by_club": True,
+            "knows_the_rules": True, "club_member": True,
+            "invited_to_institute": True, "enrolled": True,
+        },
+        "quests": {"first_stones": {"step": 6, "done": True},
+                   "enrolment": {"step": 4, "done": True}},
+        "records": _rated_wins(4),
+        "map": "bondszaal",
+        "spawn": "from_tram",
+        "day": CUP_DAY - 2,
+    },
+    # Past the ceiling, standing in the Instituut hall rather than at the
+    # federation: this is where the greeting line fires, and the greeting line is
+    # the one that used to end the conversation.
+    "outgrown": {
+        "rank_strength": 17,
+        "flags": {
+            "opening_seen": True, "intro_seen": True, "carrying_board": True,
+            "wren_told_about_cup": True, "kesh_match_done": True,
+            "match_kesh_first_done": True, "ranked_by_club": True,
+            "knows_the_rules": True, "club_member": True,
+            "invited_to_institute": True, "enrolled": True,
+        },
+        "quests": {"first_stones": {"step": 6, "done": True},
+                   "enrolment": {"step": 4, "done": True}},
+        "records": _rated_wins(6),
+        "map": "academy_hall",
+        "spawn": "from_tram",
+        "day": CUP_DAY - 2,
+    },
+    # Cup day, entered in the open section, standing in the Bondszaal: four
+    # rounds on thirteen lines against the club and the Instituut at once.
+    "open_day": {
+        "rank_strength": 17,
+        "flags": {
+            "opening_seen": True, "intro_seen": True, "carrying_board": True,
+            "wren_told_about_cup": True, "kesh_match_done": True,
+            "match_kesh_first_done": True, "ranked_by_club": True,
+            "knows_the_rules": True, "club_member": True,
+            "invited_to_institute": True, "enrolled": True,
+            "cup_entered": True, "cup_started": True, "cup_section": "open",
+        },
+        "quests": {"first_stones": {"step": 6, "done": True},
+                   "enrolment": {"step": 4, "done": True},
+                   "beginner_cup": {"step": 1, "done": False}},
+        "records": _rated_wins(6),
         "map": "bondszaal",
         "spawn": "from_tram",
         "day": CUP_DAY,

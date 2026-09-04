@@ -87,10 +87,20 @@ src/
                         actually divides it: reading versus starting a match.
                         Anything that spends an hour stays in the World
 
-  academy/            THE INSTITUUT'S PROGRESSION
-    league_table.gd     pure: standings from the record, round robin, rated only
+  academy/            THE INSTITUUT'S PROGRESSION -- and the federation's events
+    league_table.gd     pure: standings from the record, round robin, rated only.
+                        Ignores exam AND Cup contexts: a tournament game is not
+                        a fixture in the term, and the open section put four
+                        league members in the draw
     league_board.gd     the panel on the hall wall
     exam.gd             pure: the qualifying exam, three rounds, top two through
+    cup_draw.gd         pure: the Cup. The two sections live here rather than on
+                        the panel -- which board, which field, which title, and
+                        the summary line the wall and Marguerite share. Pure is
+                        not a preference: cup_board.gd reads autoloads, so in a
+                        `--script` run it does not compile and its statics all
+                        return null, silently
+    cup_board.gd        the draw pinned up at the Bondszaal
 
   club/               DE KETEL'S PROGRESSION -- the other half of the argument
     hooks_ladder.gd     pure: seven name-cards on brass hooks, ordered by who has

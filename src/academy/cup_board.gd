@@ -6,11 +6,13 @@
 class_name CupBoard
 extends CanvasLayer
 
-## The beginners' section: fifteen kyu and below. Wren and Pip are the only two
-## in the club weak enough to enter; the rest came in off the street, which is
-## what a city tournament is for.
-const FIELD := ["wren", "pip", "abel", "dov", "moss"]
-const PLAYER_ID := "player"
+## Which section the player entered, and therefore which board they are playing
+## on. The vocabulary itself lives in CupDraw, which is pure and can be reasoned
+## about with the rest of the project deleted; this file reads a flag.
+static func section() -> String:
+    return CupDraw.section_of(str(GameState.get_flag("cup_section", "")))
+
+
 
 var open: bool = false
 
@@ -41,7 +43,9 @@ func _build() -> void:
 
     var panel := UiKit.panel(_root, Rect2(30, 12, 324, 192))
     _header = UiKit.label(panel, Vector2(10, 8), 304, UiKit.GOLD)
-    _header.text = "STEENBEEK BEGINNER CUP -- 15k AND BELOW"
+    # Filled in show_board(): which section is on the wall is a question about
+    # the save, and _build() runs once before there is one.
+    _header.text = CupDraw.title_for(CupDraw.BEGINNERS)
 
     var headings := ["", "NAME", "RANK", "P", "W", "L"]
     for c in headings.size():
@@ -50,7 +54,8 @@ func _build() -> void:
         if c >= 3:
             head.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 
-    for i in FIELD.size() + 1:
+    var widest: int = maxi(CupDraw.FIELD_BEGINNERS.size(), CupDraw.FIELD_OPEN.size())
+    for i in widest + 1:
         var row: Array[Label] = []
         for c in COL_X.size():
             var cell := UiKit.label(panel, Vector2(COL_X[c], 38 + i * 12),
@@ -65,12 +70,14 @@ func _build() -> void:
 
 ## The field as CupDraw wants it, player included, read from NpcData so the
 ## board and the opponents can never disagree about who is what rank.
-static func field() -> Array:
+static func field(section_id: String = "") -> Array:
+    var ids: Array = CupDraw.FIELDS.get(section_id if section_id != "" else section(),
+        CupDraw.FIELD_BEGINNERS)
     var out: Array = [{
-        "id": PLAYER_ID, "name": GameState.player_name,
+        "id": CupDraw.PLAYER_ID, "name": GameState.player_name,
         "rank_label": GameState.rank_label(),
     }]
-    for npc_id in FIELD:
+    for npc_id in ids:
         var path := "res://data/npcs/%s.tres" % npc_id
         if not ResourceLoader.exists(path):
             continue
@@ -81,8 +88,10 @@ static func field() -> Array:
 
 
 func show_board() -> void:
-    var state := CupDraw.run(field(), GameState.match_records, PLAYER_ID)
+    var section_id := section()
+    var state := CupDraw.run(field(section_id), GameState.match_records, CupDraw.PLAYER_ID)
     var rows: Array = state["rows"]
+    _header.text = CupDraw.title_for(section_id)
 
     for i in _cells.size():
         var row: Array = _cells[i]
@@ -103,31 +112,11 @@ func show_board() -> void:
             row[c].add_theme_color_override("font_color",
                 UiKit.GOLD if mine else UiKit.INK)
 
-    _footer.text = summary(state)
+    _footer.text = CupDraw.summary(state, section_id)
     GameState.set_flag("read_cup_board", true)
     open = true
     _root.visible = true
     Audio.play("ui_confirm")
-
-
-## The line the board and Marguerite both use, so they never disagree.
-static func summary(state: Dictionary) -> String:
-    var rows: Array = state["rows"]
-    var place := CupDraw.placing(rows, PLAYER_ID)
-    if bool(state["complete"]):
-        if place == 1:
-            return "Four rounds played. You won the Steenbeek Beginner Cup."
-        return "Four rounds played. You finished %d of %d." % [place, rows.size()]
-    var round_number: int = int(state["next_round"]) + 1
-    var who := str(state["next_opponent"])
-    for r in rows:
-        if str(r["id"]) == who:
-            who = str(r["name"])
-            break
-    if who == "":
-        return "Round %d of %d." % [round_number, CupDraw.ROUNDS]
-    return "Round %d of %d. You are drawn against %s.\nOne round a day; see Marguerite when you are ready." % [
-        round_number, CupDraw.ROUNDS, who]
 
 
 func close() -> void:

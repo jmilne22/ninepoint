@@ -1,0 +1,106 @@
+[
+ {
+  "save": "open_day",
+  "note": "Cup day, entered in the open section. run_game.sh builds it before launching."
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue from the open_day save"
+ },
+ {
+  "wait": 2.2,
+  "shot": "a_on_the_day"
+ },
+ {
+  "walk_to": [
+   9,
+   3
+  ],
+  "note": "to the front, where the draw hangs"
+ },
+ {
+  "face": [
+   9,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.4,
+  "shot": "b_the_open_draw",
+  "note": "THE frame: header must read OPEN SECTION, and the field must be Orla, Sunny, Tomas, Ilse, Kesh -- not Moss, Pip, Dov, Wren, Abel"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "advance": 4,
+  "stop_at_choice": true,
+  "note": "she runs two events off one desk, so this stops on 'which are you here about'"
+ },
+ {
+  "wait": 0.4,
+  "shot": "c_which_desk"
+ },
+ {
+  "choose": 1,
+  "note": "The Cup. -- NOT choice 0, which is the exam"
+ },
+ {
+  "advance": 4,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.4,
+  "shot": "d_board_ready"
+ },
+ {
+  "choose": 0,
+  "note": "Play the round."
+ },
+ {
+  "wait": 3.0,
+  "shot": "e_nigiri",
+  "note": "13k against Kesh's 12k is one rank, so by_rank falls through to nigiri -- an even game, correctly"
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.2
+ },
+ {
+  "wait": 1.8
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.0
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.6,
+  "shot": "f_thirteen_lines",
+  "note": "THE frame: count the lines. Thirteen, not nine, and the name across the board is the one the draw gave."
+ }
+]

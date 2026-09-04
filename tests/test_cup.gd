@@ -27,12 +27,98 @@ static func _all_rounds(won: bool) -> Array:
     return out
 
 
+## The open section's field, at the ranks the NpcData carries.
+static func _open_field() -> Array:
+    return [
+        {"id": "player", "name": "Ro", "rank_label": "15k"},
+        {"id": "kesh", "name": "Kesh Idowu", "rank_label": "12k"},
+        {"id": "ilse", "name": "Ilse Brandt", "rank_label": "9k"},
+        {"id": "tomas", "name": "Tomas Beir", "rank_label": "8k"},
+        {"id": "sunny", "name": "Sunny Achebe", "rank_label": "6k"},
+        {"id": "orla", "name": "Orla Finn", "rank_label": "4k"},
+    ]
+
+
 static func run(t: TestKit) -> void:
     _test_before_it_starts(t)
     _test_progress(t)
     _test_complete(t)
     _test_determinism(t)
     _test_no_rematches(t)
+    _test_sections(t)
+    _test_open_section_runs(t)
+
+
+## The two sections, and the fact that which one you are in is a question about
+## the save rather than about the code.
+static func _test_sections(t: TestKit) -> void:
+    t.section("cup: two sections")
+    t.eq(CupDraw.SECTIONS.size(), 2, "there are two sections and not three")
+    t.eq(CupDraw.board_for(CupDraw.BEGINNERS), 9, "the beginners play nine lines")
+    t.eq(CupDraw.board_for(CupDraw.OPEN), 13, "the open section plays thirteen")
+    # An unknown section must not silently become a 0x0 board.
+    t.eq(CupDraw.board_for("qualifying"), 9, "an unknown section falls back to nine")
+
+    # A save written before there were two sections carries no flag at all, and
+    # it is a beginners' entry. So is anything unrecognised.
+    t.eq(CupDraw.section_of(""), CupDraw.BEGINNERS,
+        "a save from before the open section existed is a beginners' entry")
+    t.eq(CupDraw.section_of("qualifying"), CupDraw.BEGINNERS,
+        "and so is a section nobody has heard of")
+    t.eq(CupDraw.section_of(CupDraw.OPEN), CupDraw.OPEN,
+        "but the open section survives the round trip")
+
+    t.ok(not CupDraw.FIELD_BEGINNERS.is_empty(), "the beginners' section has a field")
+    t.ok(not CupDraw.FIELD_OPEN.is_empty(), "the open section has a field")
+    for npc_id in CupDraw.FIELD_OPEN:
+        t.ok(not CupDraw.FIELD_BEGINNERS.has(npc_id),
+            "%s is in one section, not both" % npc_id)
+    # Joos has no card and no papers, so the federation cannot enter him. This is
+    # written down because it is a decision rather than an oversight.
+    t.ok(not CupDraw.FIELD_OPEN.has("joos"),
+        "Joos cannot be entered: the federation needs a rank written down")
+
+    # The profile the World will ask for at round one, at the section's own board
+    # size. A missing one is a push_error in front of the player.
+    for section_id in CupDraw.SECTIONS:
+        var board: int = CupDraw.board_for(section_id)
+        for npc_id in CupDraw.FIELDS[section_id]:
+            var path := OpponentProfile.path_for(npc_id, board)
+            t.ok(ResourceLoader.exists(path),
+                "%s has a profile for the %s section (%s)" % [npc_id, section_id, path])
+            var profile: OpponentProfile = load(path)
+            t.eq(int(profile.board_size), board,
+                "%s's %s profile is actually a %dx%d board" % [npc_id, section_id, board, board])
+
+
+## The open section is a tournament in its own right, not a relabelled one: the
+## same four rounds have to come out of a field of stronger people.
+static func _test_open_section_runs(t: TestKit) -> void:
+    t.section("cup: the open section runs")
+    var swept := CupDraw.run(_open_field(), _all_rounds(true), "player")
+    t.ok(bool(swept["complete"]), "four rounds finishes the open section")
+    t.eq(CupDraw.placing(swept["rows"], "player"), 1,
+        "winning all four wins it, even from the bottom of the field")
+
+    var lost := CupDraw.run(_open_field(), _all_rounds(false), "player")
+    t.ok(bool(lost["complete"]), "and losing all four finishes it too")
+    t.ok(CupDraw.placing(lost["rows"], "player") > 1, "without winning it")
+
+    # The weakest entrant meeting the strongest in round one would be a bad
+    # weekend; McMahon pairing on score is what stops it.
+    var first := CupDraw.run(_open_field(), [], "player")
+    t.eq(int(first["next_round"]), 0, "the open section starts at round one")
+    t.ok(str(first["next_opponent"]) != "", "with somebody to play")
+
+    # A reload is the same tournament, which is the whole reason CupDraw stores
+    # nothing -- asserted for the second field as well as the first.
+    var records := [_result(0, true), _result(1, false)]
+    var a := CupDraw.run(_open_field(), records, "player")
+    var b := CupDraw.run(_open_field(), records, "player")
+    t.eq(str(a["next_opponent"]), str(b["next_opponent"]),
+        "the open draw survives a save and a reload")
+    t.eq(str(CupDraw.title_for(CupDraw.OPEN)) != str(CupDraw.title_for(CupDraw.BEGINNERS)),
+        true, "and the wall says which section you are looking at")
 
 
 static func _test_before_it_starts(t: TestKit) -> void:
