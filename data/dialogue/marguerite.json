@@ -60,7 +60,8 @@
        "enrolled"
       ],
       [
-       "ranked"
+       "rank_at_least",
+       "14k"
       ],
       [
        "not_flag",
@@ -98,21 +99,18 @@
   },
   "who_are_you": {
    "text": [
-    "Entries for the Beginner Cup close on the Friday, fifteen kyu and below, and you are neither entered nor ranked. Come back when somebody has ranked you.",
-    "Rated games, against people who have a rank themselves. That is the whole of it -- there is no form for it and I cannot do it for you."
+    "The register is for students. Hana sends me hers, and you are not one of them yet."
    ]
   },
   "enrol": {
    "text": [
-    "I run the register, the league board, and the part of the exam nobody thanks me for.",
-    "Hana sent you. She sends me one a term and she is right about them roughly half the time, which is a better rate than anyone else here.",
-    "You go in at the bottom of the lower league. Everybody does. It is not an insult, it is a starting position -- I believe Kesh has already given you that speech."
+    "Hana sent you. Everybody goes in at the bottom of the lower league."
    ],
    "goto": "enrol_confirm"
   },
   "enrol_confirm": {
    "text": [
-    "Sign here. Then read the board, because I am not going to explain it twice."
+    "Sign here. Then read the board behind me."
    ],
    "choices": [
     {
@@ -143,15 +141,13 @@
   },
   "wait": {
    "text": [
-    "The desk is not going anywhere. Neither, evidently, are you."
+    "The desk will still be here."
    ]
   },
   "enrolled_explain": {
    "text": [
-    "Right. Three things and then you are on your own.",
-    "The board behind me is the lower league. It is your record and nothing else -- there is no allowance for effort, promise, or having had a difficult week.",
-    "The study hall is west. Anyone sitting at a board will play you; ask them. Classes are east, whenever Hana is in, which is most of the time.",
-    "The qualifying exam is at the end of term and entry is by league position. That is the entire system. It is brutal and it is fair and those are not in tension."
+    "The board is the lower league: your record and nothing else. The study hall is west, the classroom east.",
+    "The top four of the league sit the qualifying exam at the Bondszaal. That is the entire system."
    ]
   },
   "enrolled_chat": {
@@ -174,31 +170,130 @@
     }
    ]
   },
-  "cup_eligible": {
+  "enrolled_repeat": {
    "text": [
-    "Before you go. You are ranked, which makes you eligible for the Beginner Cup -- fifteen kyu and below, and you are comfortably below.",
-    "I have watched people at your strength decide they would rather enter next term, when they are readier. There is no readier. There is entered and not entered."
-   ],
-   "goto": "enrolled_chat",
+    "The board is behind me. Your position is on it. No, I won't tell you whether it's good."
+   ]
+  },
+  "cup_eligible": {
    "actions": [
     [
      "set_flag",
      "told_cup_eligible"
     ]
-   ]
+   ],
+   "text": [
+    "One thing. You have a rank, so you're eligible for the Beginner Cup: fifteen kyu and below, at the Bondszaal.",
+    "The southbound tram. Enter at the desk there. People wait until they feel readier. They never do."
+   ],
+   "goto": "enrolled_chat"
   },
   "cup_outgrown": {
-   "text": [
-    "You are past fifteen kyu, which means I can no longer enter you in the Beginner Cup. Every year somebody hears that as being thrown out of something.",
-    "It is not. It is the open section, which has no ceiling and is played on thirteen lines, and which you are now the weakest person eligible for. That is the correct direction of travel.",
-    "The desk is here when you want the form."
-   ],
-   "goto": "enrolled_chat",
    "actions": [
     [
      "set_flag",
      "told_cup_outgrown"
     ]
+   ],
+   "text": [
+    "You're past fifteen kyu, so the Beginner Cup is closed to you. The open section is not.",
+    "Thirteen lines, handicap by the gap, and the club and the Instituut in one draw. The Bondszaal desk."
+   ],
+   "goto": "enrolled_chat"
+  },
+  "exam_eligible": {
+   "actions": [
+    [
+     "set_flag",
+     "told_exam_eligible"
+    ]
+   ],
+   "text": [
+    "You're in the top four of the lower league, so you sit the qualifying exam. The Bondszaal, when you're ready.",
+    "It's a position on a board and it moves. Don't wait long."
+   ],
+   "goto": "enrolled_chat"
+  },
+  "league_offer": {
+   "text": [
+    "You've seen my name on the board. Yes, I play. Slow, orthodox, and I don't lose to beginners."
+   ],
+   "choices": [
+    {
+     "text": "The game.",
+     "exit": {
+      "type": "start_match",
+      "profile": "marguerite_9x9",
+      "context": "league_marguerite",
+      "intro": "League fixture. Sable, one dan."
+     }
+    },
+    {
+     "text": "Not today.",
+     "goto": "league_later"
+    }
+   ]
+  },
+  "league_later": {
+   "text": [
+    "The offer doesn't expire. I'm always at this desk."
+   ]
+  },
+  "post_match": {
+   "branches": [
+    {
+     "if": [
+      [
+       "won_last"
+      ]
+     ],
+     "goto": "league_beaten"
+    },
+    {
+     "goto": "league_won"
+    }
+   ]
+  },
+  "league_beaten": {
+   "text": [
+    "Well. That goes on the board, and I have to look at it every day.",
+    "Don't tell me it was luck. I dislike false modesty more than I dislike losing."
+   ]
+  },
+  "league_won": {
+   "text": [
+    "You played the top left properly. Nobody does. The rest we won't discuss."
+   ]
+  },
+  "bondszaal_desk": {
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "enrolled"
+      ]
+     ],
+     "goto": "which_desk"
+    },
+    {
+     "goto": "cup_desk"
+    }
+   ]
+  },
+  "which_desk": {
+   "text": [
+    "Two events, one desk. Which?"
+   ],
+   "choices": [
+    {
+     "text": "The exam.",
+     "goto": "exam_desk"
+    },
+    {
+     "text": "The Cup.",
+     "goto": "cup_desk"
+    }
    ]
   },
   "cup_desk": {
@@ -216,10 +311,19 @@
      "if": [
       [
        "flag",
+       "cup_started"
+      ]
+     ],
+     "goto": "cup_play"
+    },
+    {
+     "if": [
+      [
+       "flag",
        "cup_entered"
       ]
      ],
-     "goto": "cup_round"
+     "goto": "cup_ready"
     },
     {
      "if": [
@@ -264,14 +368,12 @@
   },
   "cup_refuse": {
    "text": [
-    "This is the federation, not the club. I need a rank on a card before I can put a name in a draw.",
-    "Get one written down and come back. It is not a high bar and I am not the one who set it."
+    "This is the federation. I need a rank on a card before I can put a name in a draw. Get one and come back."
    ]
   },
   "cup_enter": {
    "text": [
-    "The Beginner Cup. Fifteen kyu and below, four rounds, one a day, and no handicap inside the section -- that is what the ceiling is for.",
-    "You are eligible. Entries close on the Friday and I would rather not have this conversation twice."
+    "The Beginner Cup. Fifteen kyu and below, four rounds, no handicap. You're eligible."
    ],
    "choices": [
     {
@@ -305,41 +407,47 @@
     ]
    ],
    "text": [
-    "Entered. Your name goes on the board behind me with everybody else's.",
-    "Four rounds, the last week of term. Sleep until it, play them, and do not ask me who you have got -- it is on the board."
+    "Entered. Your name goes on the board behind me. Read the draw, and tell me when you're ready to play."
    ]
   },
   "cup_think": {
    "text": [
-    "Then think somewhere else, there is a queue behind you.",
-    "There is not a queue behind you. I would still rather you thought about it elsewhere."
+    "Then think somewhere else. There's no queue. I'd still rather you did."
    ]
   },
-  "cup_round": {
-   "branches": [
+  "cup_ready": {
+   "text": [
+    "You're entered. Ready to play? Once it starts, it runs."
+   ],
+   "choices": [
     {
-     "if": [
+     "text": "Ready.",
+     "actions": [
       [
-       "flag",
+       "set_flag",
        "cup_started"
+      ],
+      [
+       "toast",
+       "The Cup begins."
       ]
      ],
      "goto": "cup_play"
     },
     {
-     "goto": "cup_waiting"
+     "text": "Not yet.",
+     "goto": "cup_wait"
     }
    ]
   },
-  "cup_waiting": {
+  "cup_wait": {
    "text": [
-    "You are entered. The rounds are the last week of term and it is not the last week of term.",
-    "Go and get better in the meantime. That is not a joke, it is the only advice the federation gives."
+    "Go and get better in the meantime. That's the only advice the federation gives."
    ]
   },
   "cup_play": {
    "text": [
-    "Your board is ready. The draw is on the wall if you want to look at it first."
+    "Your board is ready. The draw is on the wall if you want to look first."
    ],
    "choices": [
     {
@@ -356,58 +464,71 @@
   },
   "cup_not_yet": {
    "text": [
-    "Then you are holding up a room of people. Briefly."
+    "Then you're holding up a room of people. Briefly."
    ]
   },
   "cup_over": {
    "text": [
-    "The Cup is finished and the result is on the board, where it will stay until somebody takes it down.",
-    "That is what a result is. Not a feeling about how it went."
+    "The Cup is finished, and the result is on the board. That's what a result is."
    ]
   },
-  "exam_eligible": {
+  "cup_choose": {
    "text": [
-    "One more thing, and then I have a register to close.",
-    "You are in the top four of the lower league. As of this morning, that means you sit the exam.",
-    "I am not congratulating you. It is a position on a board and it moves. Come to the Bondszaal in the last week of term and put your name down."
-   ],
-   "actions": [
-    [
-     "set_flag",
-     "told_exam_eligible"
-    ]
-   ],
-   "goto": "enrolled_chat"
-  },
-  "bondszaal_desk": {
-   "branches": [
-    {
-     "if": [
-      [
-       "flag",
-       "enrolled"
-      ]
-     ],
-     "goto": "which_desk"
-    },
-    {
-     "goto": "cup_desk"
-    }
-   ]
-  },
-  "which_desk": {
-   "text": [
-    "Two events, one desk, one of me. Which are you here about?"
+    "Two sections. The beginners' is yours by right. You've also won three rated games, so you may play up.",
+    "The open section: no ceiling, thirteen lines, handicap by the gap. Four people who will beat you."
    ],
    "choices": [
     {
-     "text": "The exam.",
-     "goto": "exam_desk"
+     "text": "The beginners' section.",
+     "goto": "cup_entered_confirm"
     },
     {
-     "text": "The Cup.",
-     "goto": "cup_desk"
+     "text": "The open section.",
+     "goto": "cup_entered_open"
+    },
+    {
+     "text": "I'll think about it.",
+     "goto": "cup_think"
     }
+   ]
+  },
+  "cup_enter_open": {
+   "text": [
+    "You're past fifteen kyu, so the beginners' section is closed. The open section: no ceiling, thirteen lines."
+   ],
+   "choices": [
+    {
+     "text": "Enter me.",
+     "goto": "cup_entered_open"
+    },
+    {
+     "text": "I'll think about it.",
+     "goto": "cup_think"
+    }
+   ]
+  },
+  "cup_entered_open": {
+   "actions": [
+    [
+     "set_flag",
+     "cup_entered"
+    ],
+    [
+     "set_flag",
+     "cup_section",
+     "open"
+    ],
+    [
+     "quest_start",
+     "beginner_cup"
+    ],
+    [
+     "toast",
+     "Entered: the Steenbeek Cup, open section."
+    ]
+   ],
+   "text": [
+    "Entered, open section. Your name goes under people who won't be pleased to see it. Tell me when you're ready."
    ]
   },
   "exam_desk": {
@@ -450,7 +571,7 @@
        "exam_entered"
       ]
      ],
-     "goto": "exam_waiting"
+     "goto": "exam_ready"
     },
     {
      "if": [
@@ -468,16 +589,13 @@
   },
   "exam_refuse": {
    "text": [
-    "The qualifying exam is for the top four of the lower league. You are not in the top four of the lower league.",
-    "I know how that sounds. It is also the entire rule, and it is the same rule for the four who are.",
-    "The study hall is open. Go and change the number."
+    "The exam is for the top four of the lower league. You're not in it. The study hall is open. Change the number."
    ]
   },
   "exam_enter": {
    "text": [
-    "The qualifying exam. Four sit it, three rounds, everybody plays everybody, and no handicap -- you are being measured, not accommodated.",
-    "The top two go through. I have run this eleven times and I have never once been thanked for the arithmetic.",
-    "There is a paper as well. Two positions, set by me, sat before the first round. It does not decide anything and I would still rather you did it properly."
+    "The qualifying exam. Four sit it, three rounds, no handicap, top two pass.",
+    "There's a paper first. Two positions, set by me. It decides nothing. It tells me what you can see."
    ],
    "choices": [
     {
@@ -506,27 +624,47 @@
     ]
    ],
    "text": [
-    "Down. The list goes up on the wall the morning it starts, with whoever is in the four on the day -- not whoever is in it now.",
-    "So there is no comfortable week between here and there. That is deliberate and it was not my idea, but I would have had it.",
-    "Sleep until the last week of term. Then the paper, then three mornings."
+    "Down. The list goes up with whoever is in the four on the day, not whoever was. Tell me when you're ready."
    ]
   },
   "exam_think": {
    "text": [
-    "You are in the four. Thinking about it does not keep you there.",
-    "The list is on the wall either way."
+    "You're in the four. Thinking about it doesn't keep you there."
    ]
   },
-  "exam_waiting": {
+  "exam_ready": {
    "text": [
-    "You are entered. The exam is the last week of term and it is not the last week of term.",
-    "Play league games. It is the same board you are being judged on."
+    "You're entered. Ready to sit it? The field is fixed the moment we start."
+   ],
+   "choices": [
+    {
+     "text": "Ready.",
+     "actions": [
+      [
+       "set_flag",
+       "exam_started"
+      ],
+      [
+       "toast",
+       "The exam begins."
+      ]
+     ],
+     "goto": "exam_paper_offer"
+    },
+    {
+     "text": "Not yet.",
+     "goto": "exam_wait"
+    }
+   ]
+  },
+  "exam_wait": {
+   "text": [
+    "Play league games. It's the same board you're being judged on."
    ]
   },
   "exam_paper_offer": {
    "text": [
-    "Paper first. Two positions, no hints, and no, I will not tell you which way up to hold it.",
-    "It does not decide anything. It tells me whether you can see what you are about to be asked to play."
+    "Paper first. Two positions, no hints."
    ],
    "choices": [
     {
@@ -543,12 +681,12 @@
   },
   "exam_paper_later": {
    "text": [
-    "The rounds do not start until it is done. That is not a threat, it is a running order."
+    "The rounds don't start until it's done. That's a running order, not a threat."
    ]
   },
   "exam_play": {
    "text": [
-    "Your board is ready. The list is on the wall if you want to see what you are walking into."
+    "Your board is ready. The list is on the wall."
    ],
    "choices": [
     {
@@ -565,7 +703,7 @@
   },
   "exam_not_yet": {
    "text": [
-    "Then somebody is sitting at a board waiting for you, which is the one discourtesy this room does not forgive."
+    "Somebody is sitting at a board waiting for you."
    ]
   },
   "exam_over": {
@@ -593,139 +731,14 @@
     ]
    ],
    "text": [
-    "You qualified. Here. It is a piece of card with a date on it and it is the only thing this building can actually give you.",
-    "It does not make you stronger. Nothing makes you stronger except the next game and the one after that.",
-    "But it says you were measured, in front of witnesses, and you held. Take it home and put it somewhere you will stop noticing it."
+    "You qualified. Here: a card with a date on it. It doesn't make you stronger.",
+    "It says you were measured, in front of witnesses, and you held."
    ]
   },
   "exam_failed": {
    "text": [
-    "You did not qualify. The result is on the wall and it will stay there until somebody takes it down.",
-    "I have watched people treat that as a verdict on themselves. It is a verdict on three games.",
-    "There is another term. There is always another term. That is the only genuinely kind thing about this place and I would not lean on it too hard."
-   ]
-  },
-  "league_offer": {
-   "text": [
-    "You have read the board, so you have seen my name on it. Yes, I play. I am on the table because I am in the league, not because I run it.",
-    "One dan. I am orthodox, I am slow, and I have not lost to a beginner in four years. Do you want the game or the sentence?"
-   ],
-   "choices": [
-    {
-     "text": "The game.",
-     "exit": {
-      "type": "start_match",
-      "profile": "marguerite_9x9",
-      "context": "league_marguerite",
-      "intro": "League fixture. Sable, one dan."
-     }
-    },
-    {
-     "text": "The sentence was plenty.",
-     "goto": "league_later"
-    }
-   ]
-  },
-  "league_later": {
-   "text": [
-    "Sensible. The offer does not expire; I am always at this desk and I am always this tedious about it."
-   ]
-  },
-  "post_match": {
-   "branches": [
-    {
-     "if": [
-      [
-       "beat",
-       "marguerite"
-      ]
-     ],
-     "goto": "league_beaten"
-    },
-    {
-     "goto": "league_won"
-    }
-   ]
-  },
-  "league_beaten": {
-   "text": [
-    "Well. That is going on the board and I am going to have to look at it every day.",
-    "Do not tell me it was luck. I dislike false modesty more than I dislike losing, and I dislike losing a great deal."
-   ]
-  },
-  "league_won": {
-   "text": [
-    "One dan is one dan. You will get there and it will be less interesting than you think.",
-    "You played the top left properly, which nobody does. The rest of it we will not discuss."
-   ]
-  },
-  "enrolled_repeat": {
-   "text": [
-    "The board is behind me. Your position is on it.",
-    "No, I will not tell you whether it is good. Look at it."
-   ]
-  },
-  "cup_choose": {
-   "text": [
-    "Two sections. Beginners', fifteen kyu and below, nine by nine, no handicap -- the ceiling does that job. Open, no ceiling, thirteen by thirteen, and you take the stones the gap says you take.",
-    "You are under the ceiling, so the beginners' is yours by right. You have also won three rated games, which is the only reason I am mentioning the other one.",
-    "Playing up is not brave and it is not a mistake. It is four games against people who will beat you, on a bigger board, with stones in your hand. Some people learn more from that fortnight than from the year around it. Some people just lose four games."
-   ],
-   "choices": [
-    {
-     "text": "The beginners' section.",
-     "goto": "cup_entered_confirm"
-    },
-    {
-     "text": "The open section.",
-     "goto": "cup_entered_open"
-    },
-    {
-     "text": "I'll think about it.",
-     "goto": "cup_think"
-    }
-   ]
-  },
-  "cup_enter_open": {
-   "text": [
-    "You are past fifteen kyu, so the beginners' section is closed to you. That is not a door shutting; there is another one and it is the one you wanted.",
-    "The open section. No ceiling, thirteen by thirteen, four rounds, one a day, and handicap by the gap -- open means open, so you will be given stones against some of them and you will be giving them to nobody.",
-    "The entry list is the club and the Instituut in the same column, which happens here and nowhere else in this city. Kesh Idowu. Ilse Brandt. Tomas Beir -- yes, that Tomas. Sunny Achebe. Orla Finn."
-   ],
-   "choices": [
-    {
-     "text": "Enter me.",
-     "goto": "cup_entered_open"
-    },
-    {
-     "text": "I'll think about it.",
-     "goto": "cup_think"
-    }
-   ]
-  },
-  "cup_entered_open": {
-   "actions": [
-    [
-     "set_flag",
-     "cup_entered"
-    ],
-    [
-     "set_flag",
-     "cup_section",
-     "open"
-    ],
-    [
-     "quest_start",
-     "beginner_cup"
-    ],
-    [
-     "toast",
-     "Entered: the Steenbeek Cup, open section."
-    ]
-   ],
-   "text": [
-    "Entered, open section. Your name goes on the board behind me under people who will not be pleased to see it there.",
-    "Four rounds, the last week of term. Sleep until it, play them, and do not ask me who you have got -- it is on the board."
+    "You didn't qualify. The result is on the wall.",
+    "It's a verdict on three games, not on you. There's another term."
    ]
   }
  }

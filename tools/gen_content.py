@@ -195,7 +195,7 @@ steps = [{steps}]
 # fixed nothing. Both quests are generated now.
 QUESTS = [
     dict(id="first_stones", title="First Stones",
-         summary="You have just moved to Steenbeek. There is a salon three steps below the pavement and a tournament in a fortnight.",
+         summary="You have just moved to Steenbeek. There is a salon three steps below the pavement and a tournament at the Bondszaal.",
          steps=[
              ('"journal": "Find De Ketel, further along Ketelsteeg."',
               '"advance_on": {"type": "enter_map", "map": "de_ketel"}'),
@@ -203,76 +203,41 @@ QUESTS = [
               '"advance_on": {"type": "flag", "key": "wren_told_about_cup"}'),
              ('"journal": "Kesh has challenged you to a 9x9 game. Play it."',
               '"advance_on": {"type": "match", "context": "kesh_first"}'),
-             ('"journal": "Hana, who teaches at the Instituut, was watching. Speak to her."',
-              '"advance_on": {"type": "flag", "key": "hana_offered_puzzle"}'),
-             ('"journal": "Solve Hana\'s capture problem."',
-              '"advance_on": {"type": "puzzle", "id": "capture_1"}'),
          ]),
     dict(id="beginner_cup", title="The Beginner Cup",
-         summary="Four rounds, one a day, in a hired room at the Bondszaal. Two sections: beginners', fifteen kyu and below on nine lines with no handicap, and open, no ceiling at all on thirteen.",
+         summary="Four rounds in a hired room at the Bondszaal. Two sections: beginners', fifteen kyu and below on nine lines with no handicap, and open, no ceiling at all on thirteen.",
          steps=[
-             ('"journal": "Sleep until the last week of term."',
+             ('"journal": "Tell Marguerite at the Bondszaal you are ready to play."',
               '"advance_on": {"type": "flag", "key": "cup_started"}'),
              ('"journal": "Read the draw at the Bondszaal, then see Marguerite."',
               '"advance_on": {"type": "flag", "key": "read_cup_board"}'),
-             ('"journal": "Play your four rounds. One a day."',
+             ('"journal": "Play your four rounds."',
               '"advance_on": {"type": "flag", "key": "cup_finished"}'),
          ]),
 
     dict(id="qualifying_exam", title="The Qualifying Exam",
          summary="Top four of the lower league sit it, top two pass, and Marguerite says that is the entire system. It is brutal and it is fair and those are not in tension.",
          steps=[
-             ('"journal": "Sleep until the last week of term."',
+             ('"journal": "Tell Marguerite you are ready to sit it."',
               '"advance_on": {"type": "flag", "key": "exam_started"}'),
              ('"journal": "Sit Marguerite\'s problem paper at the Bondszaal."',
               '"advance_on": {"type": "flag", "key": "exam_paper_done"}'),
              ('"journal": "Read the exam list, then see Marguerite."',
               '"advance_on": {"type": "flag", "key": "read_exam_board"}'),
-             ('"journal": "Play your three rounds. One a day."',
+             ('"journal": "Play your three rounds."',
               '"advance_on": {"type": "flag", "key": "exam_finished"}'),
          ]),
 
-    # The salon's own ladder. Deliberately not gated on a rank, a day or a
-    # class: the only way along it is to beat somebody who is currently better
-    # placed than you, which is Pillar 1 written as a quest.
-    dict(id="the_hooks", title="The Hooks",
-         summary="Seven name-cards on brass hooks at the back of De Ketel, in an order nobody at the Instituut has ever heard of. Tomas keeps it. Beating somebody moves it.",
-         steps=[
-             ('"journal": "Look at the hooks at the back of De Ketel."',
-              '"advance_on": {"type": "flag", "key": "read_the_hooks"}'),
-             ('"journal": "Beat somebody hanging above you, and take their hook."',
-              '"advance_on": {"type": "flag", "key": "took_a_hook"}'),
-             ('"journal": "Get inside the top three."',
-              '"advance_on": {"type": "flag", "key": "hooks_top_three"}'),
-             ('"journal": "Take the top hook. Somebody is up there and it is not you."',
-              '"advance_on": {"type": "flag", "key": "hooks_top"}'),
-         ]),
-
-    # The first quest in the game that is not "play games and win". Ilse and
-    # Nadia have been rhyming since M21 without being connected: Ilse tells you
-    # to read the first forty pages, and Nadia is the only person who has page
-    # forty. The point of it is that the book does not work -- Ilse has read all
-    # of it and is nine kyu -- so it is Pillar 1 argued by the two characters
-    # written to disagree about it, rather than asserted in a design document.
-    dict(id="page_forty", title="Page Forty",
-         summary="Ilse Brandt has read four books on the opening and two on the endgame and is nine kyu. She still says to read the first forty pages. Nadia Ferreira has the book.",
-         steps=[
-             ('"journal": "Borrow the joseki book from Nadia. The classroom, and not at night."',
-              '"advance_on": {"type": "flag", "key": "borrowed_the_book"}'),
-             ('"journal": "Read page forty. There is a desk in the attic."',
-              '"advance_on": {"type": "flag", "key": "read_page_forty"}'),
-             ('"journal": "Beat Ilse with something that is not in it."',
-              '"advance_on": {"type": "match", "context": "league_ilse", "won": true}'),
-             ('"journal": "Give Nadia her book back."',
-              '"advance_on": {"type": "flag", "key": "returned_the_book"}'),
-         ]),
-
     dict(id="enrolment", title="The Lower League",
-         summary="Hana teaches at the Essenveld Instituut, two stops north, where thirty people are trying to turn professional. They take beginners.",
+         summary="Hana teaches at the Essenveld Instituut, two stops north. They take beginners.",
          steps=[
-             ('"journal": "Take the northbound tram, to the Essenveld Instituut."',
+             ('"journal": "Take tram 4 north, from the stop at the west end of Ketelsteeg."',
               '"advance_on": {"type": "enter_map", "map": "academy_hall"}'),
-             ('"journal": "Ask for Marguerite at the desk."',
+             ('"journal": "Find Hana in the classroom, east of the hall."',
+              '"advance_on": {"type": "flag", "key": "hana_offered_puzzle"}'),
+             ('"journal": "Solve Hana\'s capture problem."',
+              '"advance_on": {"type": "puzzle", "id": "capture_1"}'),
+             ('"journal": "Ask for Marguerite at the desk in the hall."',
               '"advance_on": {"type": "flag", "key": "enrolled"}'),
              ('"journal": "Read the league board behind the desk."',
               '"advance_on": {"type": "flag", "key": "read_league_board"}'),

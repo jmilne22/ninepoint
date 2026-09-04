@@ -58,9 +58,8 @@ static func standings(records: Array, roster: Array, player_name: String,
     # rated game they had ever played counted, against a sort that leads on
     # wins -- so somebody who played twenty games and won eight finished above a
     # student who went five and nought. Pillar 1 forbids grinding past somebody
-    # stronger, and nothing noticed while the standings were read by a footer
-    # string. Rematches are still how rank moves; GoRating counts every one of
-    # them. They are not how the table moves.
+    # stronger. Rematches are still how rank moves; they are not how the table
+    # moves.
     var counted := {}
     for record in records:
         if bool(record.get("unrated", false)):
@@ -68,17 +67,11 @@ static func standings(records: Array, roster: Array, player_name: String,
         var opponent_id := str(record.get("npc_id", ""))
         if not by_id.has(opponent_id):
             continue        # a game against somebody outside the league
-        # The exam is played against league members and is not a league game.
-        # Without this, sitting round one against Ilse would rewrite the very
-        # standings that decided you were entitled to sit it.
-        if str(record.get("context_id", "")).begins_with(Exam.CONTEXT_PREFIX):
-            continue
-        # And the identical argument for the Cup, which was latent until the
-        # open section put four of this roster in the draw: a tournament game at
-        # the Bondszaal is not a fixture in the Instituut's term. It was safe
-        # only because no entrant had ever been a league member, which is not
-        # the same thing as being guarded.
-        if str(record.get("context_id", "")).begins_with(CupDraw.CONTEXT_PREFIX):
+        # Only a league fixture is a league fixture. The exam and the Cup are
+        # played against league members and are not; neither is a rematch with
+        # Kesh at De Ketel, which used to appear on the Instituut's board
+        # because she is on its roster.
+        if not str(record.get("context_id", "")).begins_with("league_"):
             continue
         if counted.has(opponent_id):
             continue

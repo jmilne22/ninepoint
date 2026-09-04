@@ -20,10 +20,6 @@
   "wait": 2.0
  },
  {
-  "time": "night",
-  "note": "Joos is only under the arches after dark (M26 schedules) and the 'invited' save starts in the afternoon. This has to come *after* Continue: GameState.load() writes time_block out of the save, so setting it before would simply be overwritten."
- },
- {
   "walk_to": [
    20,
    10
@@ -106,11 +102,15 @@
   "wait": 1.4
  },
  {
+  "wait": 0.6,
+  "shot": "f_post_match"
+ },
+ {
   "advance": 10
  },
  {
   "wait": 0.4,
-  "shot": "f_post_match"
+  "shot": "g_after"
  },
  {
   "tap": "menu"

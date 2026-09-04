@@ -141,7 +141,7 @@ func _headline(i: int) -> String:
 
 func _detail(i: int) -> String:
     var d := _info[i]
-    return "day %d, %s -- %s" % [d["day"], d["time_block"], d["place"]]
+    return str(d["place"])
 
 
 ## What a slot holds, said in one line, for the two confirm cards.

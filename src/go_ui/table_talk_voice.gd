@@ -1,6 +1,6 @@
 ## Picks what the opponent says about what just happened.
 ##
-## Same shape as GoReviewVoice: tags come from the rules, lines come from data,
+## Tags come from the rules, lines come from data,
 ## and a character who has no line for a tag simply says nothing -- which is how
 ## a 5 dan is stopped from crowing about a capture without special-casing her.
 class_name TableTalkVoice

@@ -15,7 +15,7 @@
        "arc_ilse_3"
       ]
      ],
-     "goto": "ilse_stage_2"
+     "goto": "stage_2"
     },
     {
      "if": [
@@ -29,47 +29,16 @@
        "arc_ilse_6"
       ]
      ],
-     "goto": "ilse_stage_3"
+     "goto": "stage_3"
     },
     {
      "if": [
       [
-       "has_item",
-       "joseki_book"
-      ],
-      [
-       "beat",
-       "ilse"
+       "flag",
+       "ilse_match_done"
       ]
      ],
-     "goto": "won_with_the_book"
-    },
-    {
-     "if": [
-      [
-       "has_item",
-       "joseki_book"
-      ]
-     ],
-     "goto": "carrying_it"
-    },
-    {
-     "if": [
-      [
-       "beat",
-       "ilse"
-      ]
-     ],
-     "goto": "after_win"
-    },
-    {
-     "if": [
-      [
-       "lost_to",
-       "ilse"
-      ]
-     ],
-     "goto": "after_loss"
+     "goto": "again"
     },
     {
      "goto": "first"
@@ -78,15 +47,20 @@
   },
   "first": {
    "text": [
-    "Ilse Brandt, nine kyu. You are the one Hana brought in, so you will not have read anything yet.",
-    "I have read all of it. Four books on the opening and two on the endgame, and I am nine kyu, which I would like you to think about carefully before you decide reading is the answer.",
-    "The sequences are correct. I am the part that goes wrong."
+    "Ilse Brandt. You're the one Hana brought in, so you won't have read anything yet.",
+    "I've read all of it. The sequences are correct. I am the part that goes wrong."
+   ],
+   "goto": "offer"
+  },
+  "again": {
+   "text": [
+    "Back. The sequence is the same as last time. I am hoping I am not."
    ],
    "goto": "offer"
   },
   "offer": {
    "text": [
-    "Do you want a league game? It goes on the board either way."
+    "A league game? It goes on the board either way."
    ],
    "choices": [
     {
@@ -105,34 +79,7 @@
   },
   "later": {
    "text": [
-    "Fine. I will be here. Page ninety-one."
-   ]
-  },
-  "after_win": {
-   "portrait": "annoyed",
-   "text": [
-    "You went outside the book. There is no follow-up written for that, because it is not good.",
-    "It also beat me. I am recording both of those facts and I have not reconciled them."
-   ],
-   "goto": "offer"
-  },
-  "after_loss": {
-   "text": [
-    "That was the standard sequence, and it worked, and I will take no credit for it.",
-    "Read the first forty pages. Then come back and beat me with something that is not in them.",
-    "Ferreira has the book. She is in the classroom and she will lend it to anybody, which is not the same as it doing them any good."
-   ],
-   "goto": "offer",
-   "actions": [
-    [
-     "quest_start",
-     "page_forty"
-    ],
-    [
-     "set_flag",
-     "ilse_sent_you_for_the_book",
-     true
-    ]
+    "Fine. I'll be here. Page ninety-one."
    ]
   },
   "post_match": {
@@ -140,30 +87,7 @@
     {
      "if": [
       [
-       "has_item",
-       "joseki_book"
-      ],
-      [
-       "beat",
-       "ilse"
-      ]
-     ],
-     "goto": "won_with_the_book"
-    },
-    {
-     "if": [
-      [
-       "has_item",
-       "joseki_book"
-      ]
-     ],
-     "goto": "carrying_it"
-    },
-    {
-     "if": [
-      [
-       "beat",
-       "ilse"
+       "won_last"
       ]
      ],
      "goto": "after_win"
@@ -173,21 +97,20 @@
     }
    ]
   },
-  "ilse_stage_3": {
-   "actions": [
-    [
-     "set_flag",
-     "arc_ilse_6"
-    ]
-   ],
+  "after_win": {
+   "portrait": "annoyed",
    "text": [
-    "Six now. I have read four books on the opening and two on the endgame and I am nine kyu, and you have read nothing.",
-    "I have decided the books are not the problem. I read them the way you would read a timetable -- to know what happens, not to work out why.",
-    "So. From now on I am going to try to be wrong on purpose, occasionally, and see what happens. Do not congratulate me, it is humiliating."
-   ],
-   "goto": "post_match"
+    "You went outside the book. There's no follow-up written for that, because it isn't good.",
+    "It also beat me. I'm recording both facts."
+   ]
   },
-  "ilse_stage_2": {
+  "after_loss": {
+   "text": [
+    "That was the standard sequence, and it worked. I take no credit for it.",
+    "Come back and beat me with something that isn't in a book."
+   ]
+  },
+  "stage_2": {
    "actions": [
     [
      "set_flag",
@@ -195,24 +118,20 @@
     ]
    ],
    "text": [
-    "Three games. I have been keeping the record, obviously, and I have noticed something and I would rather say it than keep noticing it.",
-    "You play moves that are not in any book, and roughly half of them are better than the book. I do not know what to do with that."
-   ],
-   "goto": "post_match"
-  },
-  "carrying_it": {
-   "text": [
-    "You have got her book. Page forty, presumably, because that is the one she marks.",
-    "Read it properly. Not the sequence -- the reason the sequence stops where it stops. That is the part I could never do and it is the only part that is worth anything."
+    "Three games. You play moves that aren't in any book, and half of them are better than the book."
    ],
    "goto": "offer"
   },
-  "won_with_the_book": {
-   "portrait": "annoyed",
+  "stage_3": {
+   "actions": [
+    [
+     "set_flag",
+     "arc_ilse_6"
+    ]
+   ],
    "text": [
-    "You beat me while carrying four hundred pages of correct play, and you did not use one of them.",
-    "I have been reading for eleven years and losing for eleven years and I have just watched somebody do it with the book shut, in the bag, on the floor.",
-    "Give it back to her. I mean that kindly. It is not doing you any harm, but it did not do that."
+    "Six. I've decided the books aren't the problem. I read them the way you'd read a timetable.",
+    "From now on I'm going to be wrong on purpose, sometimes, and see what happens."
    ],
    "goto": "offer"
   }

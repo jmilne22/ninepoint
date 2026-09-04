@@ -73,33 +73,6 @@ func _do(step: Dictionary) -> void:
         await get_tree().create_timer(seconds).timeout
         _send(str(step["hold"]), false)
         await get_tree().process_frame
-    if step.has("time"):
-        GameState.time_block = str(step["time"])
-        EventBus.time_block_changed.emit(GameState.time_block)
-        await get_tree().process_frame
-    # The other half of "time". A day is normally turned by sleeping, which costs
-    # a walk to a bed; this sets it directly so a script can show the same room on
-    # two different weekdays without a detour, exactly as "time" does for hours.
-    # It emits day_changed rather than writing quietly, because that signal is
-    # what rebuilds the population -- and a script that set the day without it
-    # would screenshot yesterday's room and look entirely confident about it.
-    if step.has("day"):
-        GameState.day = int(step["day"])
-        EventBus.day_changed.emit(GameState.day)
-        EventBus.weather_changed.emit(GameState.is_wet())
-        await get_tree().process_frame
-    # Forces the sky. The weather is derived from the day now, so a script that
-    # only wants a wet street can either sleep to a wet day or say so here; the
-    # override is what makes a script able to hold the day still and change one
-    # variable, which is the whole shape of a before/after screenshot pair.
-    # Passing null clears it and hands the day back its own weather.
-    if step.has("rain"):
-        if step["rain"] == null:
-            GameState.weather_override = ""
-        else:
-            GameState.weather_override = "wet" if bool(step["rain"]) else "dry"
-        EventBus.weather_changed.emit(GameState.is_wet())
-        await get_tree().process_frame
     if step.has("shot"):
         await _shot(str(step["shot"]))
     if step.has("note"):

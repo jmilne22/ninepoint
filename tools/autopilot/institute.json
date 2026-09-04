@@ -1,7 +1,7 @@
 [
  {
   "save": "invited",
-  "note": "inferred from what the script does (it starts by taking the northbound tram from Ketelsteeg), not from a note"
+  "note": "the state this script needs; run_game.sh builds it before launching"
  },
  {
   "wait": 0.8
@@ -11,10 +11,12 @@
  },
  {
   "tap": "interact",
-  "note": "Continue from the crafted save"
+  "note": "Continue from the save"
  },
  {
-  "wait": 2.2,
+  "wait": 2.2
+ },
+ {
   "shot": "in_steenbeek"
  },
  {
@@ -22,18 +24,37 @@
    1,
    10
   ],
-  "note": "to the tram stop"
+  "note": "to the stop at the west end"
  },
  {
-  "walk_to": [
-   0,
-   10
-  ],
-  "timeout": 3,
-  "note": "take the northbound tram"
+  "face": [
+   1,
+   9
+  ]
  },
  {
-  "wait": 2.0,
+  "tap": "interact"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.4,
+  "shot": "tram_stop"
+ },
+ {
+  "choose": 0,
+  "note": "North, to Essenveld. The tram pulls in, then the scene changes"
+ },
+ {
+  "wait": 1.6,
+  "shot": "tram_arriving"
+ },
+ {
+  "wait": 3.4
+ },
+ {
   "shot": "institute_hall"
  },
  {
@@ -63,12 +84,11 @@
    10,
    3
   ],
-  "note": "to the league board",
-  "timeout": 6
+  "timeout": 6,
+  "note": "to the league board"
  },
  {
-  "tap": "move_up",
-  "note": "face the board"
+  "tap": "move_up"
  },
  {
   "wait": 0.4,
@@ -104,12 +124,11 @@
    8,
    3
   ],
-  "note": "to the demonstration board",
-  "timeout": 6
+  "timeout": 6,
+  "note": "to the demonstration board"
  },
  {
-  "tap": "move_up",
-  "note": "face it"
+  "tap": "move_up"
  },
  {
   "tap": "interact"

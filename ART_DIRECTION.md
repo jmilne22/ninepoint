@@ -34,11 +34,10 @@ black and off-white stones — the one saturated, high-contrast object in the wo
 should always be able to find a board. The city is where you live; the board is where you
 *are*.
 
-The city is **vertical and layered by hour**. Daylight is the muted register above. Dusk is
-sodium gold on wet asphalt with the windows coming on. Night is ink and deep blue with neon
-at the snack window and the tram wires sparking. Rain can fall on any of them, desaturating
-everything and adding sheen. The board does not change: it is the one object that looks the
-same at two in the afternoon and two in the morning, and that is the point of it.
+The city is drawn at one hour: the muted daylight register above. It had four hours and
+rain from M16 to M36 (`Ambient`, a `CanvasModulate` and a glow per lit tile), cut in M37
+with the calendar. The tiles still carry their lit windows, the neon still faults and the
+snack window still glows in its own pixels; nothing tints the world over them.
 
 ## 2. Palette
 
@@ -120,7 +119,7 @@ Atlas rows, 16 per row, 90 tiles (`python3 tools/gen_tiles.py` prints the shape)
  4  the city: asphalt, puddle, tram rails, wet cobble, canal, quay, bollard, bike rack,
     tram pole, brick window, wet brick base, graffiti, shutter, dead sign, arch
  5  the city: arch, arch shade, neon, snack window, steps down, concrete, glass curtain,
-    the stove and the hooks at De Ketel, poured floor
+    the stove and the coat hooks at De Ketel, poured floor
  6  the wassalon: the washing machine, two frames. Enamel and a control panel, and a
     porthole that is the only warm thing in the tile -- it is a light source as well as
     an animation, because that room has no stove and no music and the machines have to
@@ -231,37 +230,10 @@ a small ring in the *opposite* stone colour; territory in scoring mode is shown 
   so the frame around a small room — and an unlit alley — reads as shadow rather than as a
   missing tile.
 
-## 7b. The hours
-
-`src/rpg/ambient.gd` owns the register. Two mechanisms, and no shaders:
-
-- A **`CanvasModulate`** takes the whole world down to the colour of the hour, from
-  `GameState.time_block`. Afternoon is pure white, so the city at the hour the game has
-  always been set in looks exactly as it did before there were hours at all.
-- One **additive glow** sits on every tile that lights itself — lamp posts, lit windows, the
-  snack window, the neon, De Ketel's stove, the Instituut's glass. Additive is the whole
-  trick: the modulate still multiplies the glow, so a lamp counts for nothing at noon and for
-  everything at night, and there is no second canvas to keep in step with the camera. Reach
-  is per source (`GLOW_SCALE`): a street lamp lights a junction, a window lights its own sill.
-- **Indoors takes the hour far more gently** (`MapData.indoors`, `INDOOR_TINTS`) and never
-  gets rained on. Inside a room the lights are simply on: De Ketel at eleven at night must
-  not be as blue as the street above it.
-- Rain is a `GPUParticles2D` drizzle on its own canvas layer, so it falls across the screen
-  rather than across the map. A second, sparser emitter throws splash back up at ground level:
-  rain you only ever see *falling* reads as a filter laid over the picture rather than as
-  weather landing on the street the player is standing in.
-- **Lights are not steady.** Each glow carries a phase and a small amplitude (`Ambient.FLICKER`):
-  street lamps hum at ±5%, the stove breathes harder, the windows do nothing at all. The neon
-  *faults* — mostly lit, occasionally not — and its timing is read from
-  `TileAnimator.ANIMATIONS["neon_sign"]["hold"]` so the tube and the light it throws go out
-  together. A lit blob over a dark tube is worse than neither. `apply()` still owns the base
-  strength and the animation only multiplies it, so a lamp counts for nothing at noon whatever
-  it is doing.
-
 ## 7c. Tiles that move
 
-`src/rpg/maps/tile_animator.gd`. Water, the canal, puddles in the rain, the neon, the stove and
-the go tables cycle through frames.
+`src/rpg/maps/tile_animator.gd`. Water, the canal, the neon, the stove, the washers and the go
+tables cycle through frames.
 
 Godot's TileSet animates a tile natively, but it wants the frames in **consecutive atlas cells**,
 and `gen_tiles.py` packs strictly `i % 16` with no way to control adjacency. Taking the native
@@ -282,10 +254,6 @@ The go table is the one that earns the most: its three frames are the *same game
 stones on it*, so a table in the corner of De Ketel is a game getting longer while you talk to
 somebody. Paired with the `stone_place` emitter in `Soundscape`, that is the whole of "somebody
 is playing over there", and it costs one row in a table.
-
-Ambient **reads** `time_block` and never writes it, and listens to
-`EventBus.time_block_changed` / `weather_changed`. The day counter, when it exists, will be
-what emits them.
 
 ## 8. If a generative image tool becomes available
 

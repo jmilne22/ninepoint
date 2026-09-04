@@ -23,15 +23,7 @@ SAVE_SYSTEM = os.path.join(os.path.dirname(__file__), "..", "src", "autoload", "
 
 
 def _const(name, path=GAME_STATE):
-    """Read a day constant out of GameState rather than repeating it here.
-
-    These presets used to carry literal day numbers -- 42, 41, 38, 36 -- against
-    a six-week term. M26 cut the term to a fortnight and none of them would have
-    errored: `exam_ready` at day 36 against EXAM_DAY = 10 is simply a save
-    twenty-six days past the exam, and a screenshot of the wrong starting state
-    looks exactly as confident as one of the right state. So the days are
-    derived, and the next rescale is one constant instead of eight literals.
-    """
+    """Read an int constant out of a script rather than repeating it here."""
     src = open(path, encoding="utf-8").read()
     m = re.search(r"^const %s\s*:=\s*(\d+)" % re.escape(name), src, re.M)
     if not m:
@@ -94,8 +86,6 @@ def _handicap_fields(player_strength, opponent_strength, board=9):
     return {"handicap": stones, "handicap_taken": stones, "komi": 0.5}
 
 
-CUP_DAY = _const("CUP_DAY")
-EXAM_DAY = _const("EXAM_DAY")
 
 
 def _rated_wins(n):
@@ -123,170 +113,17 @@ STATES = {
             "pip_taught_capture": True, "match_pip_capture_done": True,
             "wren_told_about_cup": True, "kesh_match_done": True,
             "match_kesh_first_done": True, "record_kesh_loss": 1,
-            "hana_offered_puzzle": True, "capture_1_solved": True,
-            "club_member": True, "invited_to_institute": True,
+            "invited_to_institute": True,
             "knows_the_rules": True, "lesson_capture_done": True,
             "ranked_by_club": True,
         },
-        "quests": {"first_stones": {"step": 6, "done": True},
+        "quests": {"first_stones": {"step": 3, "done": True},
                    "enrolment": {"step": 0, "done": False}},
         "summary": "White wins by 12.5",
         "won": False,
         "map": "ketelsteeg",
         "spawn": "from_ketel",
     },
-    # Standing in De Ketel with a card already on the hooks and two hooks
-    # already taken -- one of them under the arches, which is the whole point of
-    # the ladder and the one thing a screenshot of an empty wall cannot show.
-    # `tomas_wrote_card` is deliberately *not* set, so the run can watch him
-    # write it and start the quest.
-    "hooks_ready": {
-        "rank_strength": 8,
-        "flags": {
-            "opening_seen": True, "intro_seen": True, "carrying_board": True,
-            "pip_taught_capture": True, "match_pip_capture_done": True,
-            "wren_told_about_cup": True, "kesh_match_done": True,
-            "match_kesh_first_done": True, "record_kesh_loss": 1,
-            "record_wren_win": 1, "record_pip_win": 1,
-            "hana_offered_puzzle": True, "capture_1_solved": True,
-            "club_member": True, "invited_to_institute": True,
-            "knows_the_rules": True, "lesson_capture_done": True,
-            "ranked_by_club": True,
-        },
-        "quests": {"first_stones": {"step": 6, "done": True}},
-        "map": "de_ketel",
-        "spawn": "from_street",
-        # Tomas is behind the counter from the afternoon on; the bar is shut in
-        # the morning and this run needs him in the room.
-        "time_block": "night",
-        "records": [
-            {"context_id": "kesh_first", "npc_id": "kesh", "player_won": False,
-             "margin": 12.5, "by_resignation": False, "board_size": 9,
-             "handicap": 0, "handicap_taken": 0, "komi": 5.5, "move_count": 48,
-             "unrated": False, "opponent_strength": 18,
-             "summary": "White wins by 12.5"},
-            {"context_id": "wren_club", "npc_id": "wren", "player_won": True,
-             "margin": 6.5, "by_resignation": False, "board_size": 9,
-             **_handicap_fields(8, 10), "move_count": 66,
-             "unrated": False, "opponent_strength": 10,
-             "summary": "Black wins by 6.5"},
-            {"context_id": "pip_park", "npc_id": "pip", "player_won": True,
-             "margin": 2.5, "by_resignation": False, "board_size": 9,
-             **_handicap_fields(8, 12), "move_count": 71,
-             "unrated": True, "opponent_strength": 12,
-             "summary": "Black wins by 2.5"},
-        ],
-    },
-
-    # Enrolled, with enough rated games behind the rank that GoRating owns it.
-    # Use this to watch handicap stones appear and then thin out as the record
-    # improves -- the thing no amount of unit testing will show you.
-    # --- the borrowed book (M32) -----------------------------------------
-    #
-    # Three states rather than one, because the quest is four days long and the
-    # harness cannot win a game of Go: `book_ready` is before the book is lent,
-    # `book_held` is carrying it, and `book_won` has beaten Ilse and owes it
-    # back. The win lives in the record where a real one would.
-    "book_ready": {
-        "rank_strength": 8,
-        "flags": {
-            "opening_seen": True, "intro_seen": True, "carrying_board": True,
-            "pip_taught_capture": True, "match_pip_capture_done": True,
-            "wren_told_about_cup": True, "kesh_match_done": True,
-            "match_kesh_first_done": True, "record_kesh_loss": 3,
-            "hana_offered_puzzle": True, "capture_1_solved": True,
-            "club_member": True, "invited_to_institute": True,
-            "knows_the_rules": True, "lesson_capture_done": True,
-            "enrolled": True, "read_league_board": True,
-            "record_ilse_loss": 1, "ilse_match_done": True,
-            "match_league_ilse_done": True,
-            "ilse_sent_you_for_the_book": True,
-        },
-        "quests": {"first_stones": {"step": 6, "done": True},
-                   "enrolment": {"step": 4, "done": False},
-                   "page_forty": {"step": 0, "done": False}},
-        "map": "academy_class",
-        "spawn": "from_hall",
-        "time_block": "afternoon",
-        "records": [
-            {"context_id": "league_ilse", "npc_id": "ilse", "player_won": False,
-             "margin": 21.5, "by_resignation": False, "board_size": 9,
-             **_handicap_fields(8, 21), "move_count": 74,
-             "unrated": False, "opponent_strength": 21,
-             "summary": "White wins by 21.5"},
-        ],
-    },
-
-    "book_held": {
-        "rank_strength": 8,
-        "flags": {
-            "opening_seen": True, "intro_seen": True, "carrying_board": True,
-            "pip_taught_capture": True, "match_pip_capture_done": True,
-            "wren_told_about_cup": True, "kesh_match_done": True,
-            "match_kesh_first_done": True, "record_kesh_loss": 3,
-            "hana_offered_puzzle": True, "capture_1_solved": True,
-            "club_member": True, "invited_to_institute": True,
-            "knows_the_rules": True, "lesson_capture_done": True,
-            "enrolled": True, "read_league_board": True,
-            "record_ilse_loss": 1, "ilse_match_done": True,
-            "match_league_ilse_done": True,
-            "ilse_sent_you_for_the_book": True, "borrowed_the_book": True,
-        },
-        "quests": {"first_stones": {"step": 6, "done": True},
-                   "enrolment": {"step": 4, "done": False},
-                   "page_forty": {"step": 1, "done": False}},
-        "inventory": ["old_goban", "joseki_book"],
-        "map": "attic",
-        "spawn": "desk",
-        # Night, because the desk and the arches are the two places this state
-        # is for and Joos is only under the viaduct after dark.
-        "time_block": "night",
-        "records": [
-            {"context_id": "league_ilse", "npc_id": "ilse", "player_won": False,
-             "margin": 21.5, "by_resignation": False, "board_size": 9,
-             **_handicap_fields(8, 21), "move_count": 74,
-             "unrated": False, "opponent_strength": 21,
-             "summary": "White wins by 21.5"},
-        ],
-    },
-
-    "book_won": {
-        "rank_strength": 8,
-        "flags": {
-            "opening_seen": True, "intro_seen": True, "carrying_board": True,
-            "pip_taught_capture": True, "match_pip_capture_done": True,
-            "wren_told_about_cup": True, "kesh_match_done": True,
-            "match_kesh_first_done": True, "record_kesh_loss": 3,
-            "hana_offered_puzzle": True, "capture_1_solved": True,
-            "club_member": True, "invited_to_institute": True,
-            "knows_the_rules": True, "lesson_capture_done": True,
-            "enrolled": True, "read_league_board": True,
-            "record_ilse_loss": 1, "ilse_match_done": True,
-            "match_league_ilse_done": True,
-            "ilse_sent_you_for_the_book": True, "borrowed_the_book": True,
-            "read_page_forty": True, "record_ilse_win": 1,
-        },
-        "quests": {"first_stones": {"step": 6, "done": True},
-                   "enrolment": {"step": 4, "done": False},
-                   "page_forty": {"step": 3, "done": False}},
-        "inventory": ["old_goban", "joseki_book"],
-        "map": "academy_class",
-        "spawn": "from_hall",
-        "time_block": "afternoon",
-        "records": [
-            {"context_id": "league_ilse", "npc_id": "ilse", "player_won": False,
-             "margin": 21.5, "by_resignation": False, "board_size": 9,
-             **_handicap_fields(8, 21), "move_count": 74,
-             "unrated": False, "opponent_strength": 21,
-             "summary": "White wins by 21.5"},
-            {"context_id": "league_ilse", "npc_id": "ilse", "player_won": True,
-             "margin": 2.5, "by_resignation": False, "board_size": 9,
-             **_handicap_fields(8, 21), "move_count": 96,
-             "unrated": False, "opponent_strength": 21,
-             "summary": "Black wins by 2.5"},
-        ],
-    },
-
     "league_ready": {
         "rank_strength": 8,
         "flags": {
@@ -295,11 +132,11 @@ STATES = {
             "wren_told_about_cup": True, "kesh_match_done": True,
             "match_kesh_first_done": True, "record_kesh_loss": 3,
             "hana_offered_puzzle": True, "capture_1_solved": True,
-            "club_member": True, "invited_to_institute": True,
+            "invited_to_institute": True,
             "knows_the_rules": True, "lesson_capture_done": True,
             "enrolled": True, "read_league_board": True,
         },
-        "quests": {"first_stones": {"step": 6, "done": True},
+        "quests": {"first_stones": {"step": 3, "done": True},
                    "enrolment": {"step": 3, "done": False}},
         "summary": "White wins by 12.5",
         "won": False,
@@ -340,20 +177,19 @@ STATES = {
             "wren_told_about_cup": True, "kesh_match_done": True,
             "match_kesh_first_done": True, "record_kesh_loss": 1,
             "record_kesh_win": 1, "hana_offered_puzzle": True,
-            "capture_1_solved": True, "club_member": True,
+            "capture_1_solved": True,
             "invited_to_institute": True, "knows_the_rules": True,
             "lesson_capture_done": True, "lesson_liberties_done": True,
             "lesson_self_capture_done": True, "lesson_counting_done": True,
             "tomas_match_done": True, "enrolled": True, "read_league_board": True,
             "ranked_by_club": True,
         },
-        "quests": {"first_stones": {"step": 6, "done": True},
+        "quests": {"first_stones": {"step": 3, "done": True},
                    "enrolment": {"step": 3, "done": False}},
         "summary": "Black wins by 6.5",
         "won": True,
         "map": "academy_study",
         "spawn": "from_hall",
-        "time_block": "afternoon",
         "records": [
             {"context_id": "kesh_first", "npc_id": "kesh", "player_won": False,
              "margin": 12.5, "by_resignation": False, "board_size": 9,
@@ -388,9 +224,9 @@ STATES = {
             "match_kesh_first_done": True, "record_kesh_loss": 1,
             "ranked_by_club": True, "knows_the_rules": True,
             "hana_offered_puzzle": True, "capture_1_solved": True,
-            "club_member": True, "invited_to_institute": True,
+            "invited_to_institute": True,
         },
-        "quests": {"first_stones": {"step": 6, "done": True},
+        "quests": {"first_stones": {"step": 3, "done": True},
                    "enrolment": {"step": 0, "done": False}},
         "summary": "White wins by 12.5",
         "won": False,
@@ -405,16 +241,15 @@ STATES = {
             "wren_told_about_cup": True, "kesh_match_done": True,
             "match_kesh_first_done": True, "record_kesh_loss": 1,
             "ranked_by_club": True, "knows_the_rules": True,
-            "club_member": True, "invited_to_institute": True,
+            "invited_to_institute": True,
             "cup_entered": True, "cup_started": True,
         },
-        "quests": {"first_stones": {"step": 6, "done": True},
+        "quests": {"first_stones": {"step": 3, "done": True},
                    "beginner_cup": {"step": 1, "done": False}},
         "summary": "White wins by 12.5",
         "won": False,
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": CUP_DAY,
     },
     # Past the ceiling and nothing entered: the state the second section exists
     # for. Thirteen kyu is too strong for the beginners' section, which used to
@@ -427,15 +262,14 @@ STATES = {
             "opening_seen": True, "intro_seen": True, "carrying_board": True,
             "wren_told_about_cup": True, "kesh_match_done": True,
             "match_kesh_first_done": True, "ranked_by_club": True,
-            "knows_the_rules": True, "club_member": True,
+            "knows_the_rules": True,
             "invited_to_institute": True, "enrolled": True,
         },
-        "quests": {"first_stones": {"step": 6, "done": True},
+        "quests": {"first_stones": {"step": 3, "done": True},
                    "enrolment": {"step": 4, "done": True}},
         "records": _rated_wins(6),
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": CUP_DAY - 2,
     },
     # Under the ceiling and past the three-rated-wins gate: the only state in
     # which both sections are open at once, and therefore the only one in which
@@ -446,15 +280,14 @@ STATES = {
             "opening_seen": True, "intro_seen": True, "carrying_board": True,
             "wren_told_about_cup": True, "kesh_match_done": True,
             "match_kesh_first_done": True, "ranked_by_club": True,
-            "knows_the_rules": True, "club_member": True,
+            "knows_the_rules": True,
             "invited_to_institute": True, "enrolled": True,
         },
-        "quests": {"first_stones": {"step": 6, "done": True},
+        "quests": {"first_stones": {"step": 3, "done": True},
                    "enrolment": {"step": 4, "done": True}},
         "records": _rated_wins(4),
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": CUP_DAY - 2,
     },
     # Past the ceiling, standing in the Instituut hall rather than at the
     # federation: this is where the greeting line fires, and the greeting line is
@@ -465,15 +298,14 @@ STATES = {
             "opening_seen": True, "intro_seen": True, "carrying_board": True,
             "wren_told_about_cup": True, "kesh_match_done": True,
             "match_kesh_first_done": True, "ranked_by_club": True,
-            "knows_the_rules": True, "club_member": True,
+            "knows_the_rules": True,
             "invited_to_institute": True, "enrolled": True,
         },
-        "quests": {"first_stones": {"step": 6, "done": True},
+        "quests": {"first_stones": {"step": 3, "done": True},
                    "enrolment": {"step": 4, "done": True}},
         "records": _rated_wins(6),
         "map": "academy_hall",
         "spawn": "from_tram",
-        "day": CUP_DAY - 2,
     },
     # Cup day, entered in the open section, standing in the Bondszaal: four
     # rounds on thirteen lines against the club and the Instituut at once.
@@ -483,17 +315,16 @@ STATES = {
             "opening_seen": True, "intro_seen": True, "carrying_board": True,
             "wren_told_about_cup": True, "kesh_match_done": True,
             "match_kesh_first_done": True, "ranked_by_club": True,
-            "knows_the_rules": True, "club_member": True,
+            "knows_the_rules": True,
             "invited_to_institute": True, "enrolled": True,
             "cup_entered": True, "cup_started": True, "cup_section": "open",
         },
-        "quests": {"first_stones": {"step": 6, "done": True},
+        "quests": {"first_stones": {"step": 3, "done": True},
                    "enrolment": {"step": 4, "done": True},
                    "beginner_cup": {"step": 1, "done": False}},
         "records": _rated_wins(6),
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": CUP_DAY,
     },
     # Two days out, enrolled, and third in the lower league on three wins -- inside the
     # four, standing at the federation desk, with nothing entered yet. This is the
@@ -504,13 +335,13 @@ STATES = {
             "opening_seen": True, "intro_seen": True, "carrying_board": True,
             "wren_told_about_cup": True, "kesh_match_done": True,
             "match_kesh_first_done": True, "ranked_by_club": True,
-            "knows_the_rules": True, "club_member": True,
+            "knows_the_rules": True,
             "invited_to_institute": True, "enrolled": True,
             "read_league_board": True, "record_kesh_win": 1,
             "record_ilse_win": 1, "record_sunny_win": 1,
             "lesson_openings_done": True, "won_a_league_game": True,
         },
-        "quests": {"first_stones": {"step": 6, "done": True},
+        "quests": {"first_stones": {"step": 3, "done": True},
                    "enrolment": {"step": 4, "done": True}},
         "records": [
         {"context_id": "league_kesh", "npc_id": "kesh", "player_won": True,
@@ -531,7 +362,6 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": EXAM_DAY - 2,
     },
     # The same record, on the day itself, entered and started: the paper and then
     # the rounds. Slots are untouched so a round can actually be sat.
@@ -541,14 +371,14 @@ STATES = {
             "opening_seen": True, "intro_seen": True, "carrying_board": True,
             "wren_told_about_cup": True, "kesh_match_done": True,
             "match_kesh_first_done": True, "ranked_by_club": True,
-            "knows_the_rules": True, "club_member": True,
+            "knows_the_rules": True,
             "invited_to_institute": True, "enrolled": True,
             "read_league_board": True, "record_kesh_win": 1,
             "record_ilse_win": 1, "record_sunny_win": 1,
             "lesson_openings_done": True, "won_a_league_game": True,
             "exam_entered": True, "exam_started": True,
         },
-        "quests": {"first_stones": {"step": 6, "done": True},
+        "quests": {"first_stones": {"step": 3, "done": True},
                    "enrolment": {"step": 4, "done": True},
                    "qualifying_exam": {"step": 1, "done": False}},
         "records": [
@@ -570,7 +400,6 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": EXAM_DAY,
     },
     # One win and three losses: sixth of seven, outside the four, and told so.
     # Act 2's other ending has to be played rather than reasoned about.
@@ -580,13 +409,13 @@ STATES = {
             "opening_seen": True, "intro_seen": True, "carrying_board": True,
             "wren_told_about_cup": True, "kesh_match_done": True,
             "match_kesh_first_done": True, "ranked_by_club": True,
-            "knows_the_rules": True, "club_member": True,
+            "knows_the_rules": True,
             "invited_to_institute": True, "enrolled": True,
             "read_league_board": True, "record_kesh_win": 1,
             "record_ilse_loss": 1, "record_sunny_loss": 1, "record_orla_loss": 1,
             "lesson_openings_done": True, "won_a_league_game": True,
         },
-        "quests": {"first_stones": {"step": 6, "done": True},
+        "quests": {"first_stones": {"step": 3, "done": True},
                    "enrolment": {"step": 4, "done": True}},
         "records": [
         {"context_id": "league_kesh", "npc_id": "kesh", "player_won": True,
@@ -612,7 +441,6 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": EXAM_DAY,
     },
     # Paper sat, round one won, round two waiting -- the state the exam
     # actually spends most of its time in, and the one where the review screen
@@ -623,7 +451,7 @@ STATES = {
             "opening_seen": True, "intro_seen": True, "carrying_board": True,
             "wren_told_about_cup": True, "kesh_match_done": True,
             "match_kesh_first_done": True, "ranked_by_club": True,
-            "knows_the_rules": True, "club_member": True,
+            "knows_the_rules": True,
             "invited_to_institute": True, "enrolled": True,
             "read_league_board": True, "record_kesh_win": 1,
             "record_ilse_win": 1, "record_sunny_win": 1,
@@ -633,7 +461,7 @@ STATES = {
             "live_2_solved": True, "capture_4_solved": True,
             "exam_field": ["nadia", "player", "orla", "ilse"],
         },
-        "quests": {"first_stones": {"step": 6, "done": True},
+        "quests": {"first_stones": {"step": 3, "done": True},
                    "enrolment": {"step": 4, "done": True},
                    "qualifying_exam": {"step": 3, "done": False}},
         "records": [
@@ -660,7 +488,6 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": EXAM_DAY + 1,
     },
     # All three rounds won: first of four, and through.
     "exam_passed": {
@@ -669,7 +496,7 @@ STATES = {
             "opening_seen": True, "intro_seen": True, "carrying_board": True,
             "wren_told_about_cup": True, "kesh_match_done": True,
             "match_kesh_first_done": True, "ranked_by_club": True,
-            "knows_the_rules": True, "club_member": True,
+            "knows_the_rules": True,
             "invited_to_institute": True, "enrolled": True,
             "read_league_board": True, "record_kesh_win": 1,
             "record_ilse_win": 1, "record_sunny_win": 1,
@@ -680,7 +507,7 @@ STATES = {
             "exam_field": ["nadia", "player", "orla", "ilse"],
             "exam_finished": True, "exam_passed": True,
         },
-        "quests": {"first_stones": {"step": 6, "done": True},
+        "quests": {"first_stones": {"step": 3, "done": True},
                    "enrolment": {"step": 4, "done": True},
                    "qualifying_exam": {"step": 3, "done": True}},
         "records": [
@@ -717,7 +544,6 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": EXAM_DAY + 3,
     },
     # All three lost: Act 2's other ending, which has to be seen too.
     "exam_failed": {
@@ -726,7 +552,7 @@ STATES = {
             "opening_seen": True, "intro_seen": True, "carrying_board": True,
             "wren_told_about_cup": True, "kesh_match_done": True,
             "match_kesh_first_done": True, "ranked_by_club": True,
-            "knows_the_rules": True, "club_member": True,
+            "knows_the_rules": True,
             "invited_to_institute": True, "enrolled": True,
             "read_league_board": True, "record_kesh_win": 1,
             "record_ilse_win": 1, "record_sunny_win": 1,
@@ -737,7 +563,7 @@ STATES = {
             "exam_field": ["nadia", "player", "orla", "ilse"],
             "exam_finished": True, "exam_failed": True,
         },
-        "quests": {"first_stones": {"step": 6, "done": True},
+        "quests": {"first_stones": {"step": 3, "done": True},
                    "enrolment": {"step": 4, "done": True},
                    "qualifying_exam": {"step": 3, "done": True}},
         "records": [
@@ -774,7 +600,6 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": EXAM_DAY + 3,
     },
     # Two rounds down, the last one to play. The only state in which finishing a
     # game *ends Act 2*, which is the transition nothing had ever driven: the
@@ -786,7 +611,7 @@ STATES = {
             "opening_seen": True, "intro_seen": True, "carrying_board": True,
             "wren_told_about_cup": True, "kesh_match_done": True,
             "match_kesh_first_done": True, "ranked_by_club": True,
-            "knows_the_rules": True, "club_member": True,
+            "knows_the_rules": True,
             "invited_to_institute": True, "enrolled": True,
             "read_league_board": True, "record_kesh_win": 1,
             "record_ilse_win": 1, "record_sunny_win": 1,
@@ -796,7 +621,7 @@ STATES = {
             "live_2_solved": True, "capture_4_solved": True,
             "exam_field": ["nadia", "player", "orla", "ilse"],
         },
-        "quests": {"first_stones": {"step": 6, "done": True},
+        "quests": {"first_stones": {"step": 3, "done": True},
                    "enrolment": {"step": 4, "done": True},
                    "qualifying_exam": {"step": 3, "done": False}},
         "records": [
@@ -828,14 +653,14 @@ STATES = {
         ],
         "map": "bondszaal",
         "spawn": "from_tram",
-        "day": EXAM_DAY + 2,
     },
     "beat_kesh": {
         "rank_strength": 8,               # 22 kyu
         "flags": {
             "intro_seen": True, "wren_told_about_cup": True,
             "kesh_match_done": True, "match_kesh_first_done": True,
-            "record_kesh_win": 1,
+            "record_kesh_win": 1, "last_result": "win",
+            "ranked_by_club": True, "invited_to_institute": True,
         },
         "quests": {"first_stones": {"step": 3, "done": False}},
         "summary": "Black wins by 4.5",
@@ -846,7 +671,8 @@ STATES = {
         "flags": {
             "intro_seen": True, "wren_told_about_cup": True,
             "kesh_match_done": True, "match_kesh_first_done": True,
-            "record_kesh_loss": 1,
+            "record_kesh_loss": 1, "last_result": "loss",
+            "ranked_by_club": True, "invited_to_institute": True,
         },
         "quests": {"first_stones": {"step": 3, "done": False}},
         "summary": "White wins by 12.5",
@@ -890,11 +716,8 @@ def build(name, slot=1, who="Ro", minutes=None):
             "handicap_taken": 0, "komi": 5.5, "move_count": 48, "unrated": False,
             "opponent_strength": 18, "summary": st["summary"],
         }],
-        "day": st.get("day", 1),
-        "slots_used": 0,
         # A preset may name its hour: schedules decide who is standing in the
         # room, so "afternoon" is a default rather than a fact about every state.
-        "time_block": st.get("time_block", "afternoon"),
         "current_map": st.get("map", "de_ketel"),
         "spawn_point": st.get("spawn", "from_street"),
         "return_position": [0, 0],

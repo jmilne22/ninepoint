@@ -9,7 +9,6 @@ const DIALOGUE_SCENE := preload("res://src/ui/dialogue_box.gd")
 var map: MapData
 var player: Player
 var camera: Camera2D
-var ambient: Ambient
 var soundscape: Soundscape
 var animator: TileAnimator
 var crowd: CrowdSpawner
@@ -19,7 +18,6 @@ var pause_menu: PauseMenu
 var league_board: LeagueBoard
 var cup_board: CupBoard
 var exam_board: ExamBoard
-var hooks_board: HooksBoard
 ## Everything you read on a wall or sit down at. See src/rpg/sign_desk.gd.
 var sign_desk: SignDesk
 var entities: Node2D
@@ -38,10 +36,7 @@ func _ready() -> void:
     var ground := MapBuilder.build_layers(map, self)
     MapBuilder.build_collision(map, self)
 
-    # Light, movement and sound. All three read the map's own tiles and none of
-    # them ever writes the hour back -- GameState.time_block stays read-only
-    # here, as it has been since Ambient was written.
-    ambient = MapBuilder.build_ambient(map, self)
+    # Movement and sound. Both read the map's own tiles.
     animator = MapBuilder.build_animator(map, self, ground)
     soundscape = MapBuilder.build_soundscape(map, self)
 
@@ -61,34 +56,6 @@ func _ready() -> void:
     _build_ui()
 
     _apply_music()
-    EventBus.time_block_changed.connect(func(_b: String) -> void:
-        _apply_music()
-        _repopulate())
-    # The day turns as well as the hour, and until M34 nothing listened for it.
-    # Sleeping normally resets night -> morning, so the hour turn rebuilt the
-    # world by luck; sleeping while it is *already* morning (slots_used == 0)
-    # leaves the block unchanged, `_sync_time_block` returns without emitting,
-    # and the day advanced with yesterday's people still standing in the room.
-    # Harmless while nothing about who is in a room depended on the day. It stops
-    # being harmless one commit later, in build_npcs.
-    EventBus.day_changed.connect(func(_d: int) -> void:
-        _apply_music()
-        _repopulate())
-    # And the sky, since M35 made it a schedule axis rather than only a light.
-    #
-    # In normal play this is redundant: the weather is derived from `day`, so it
-    # cannot change without `day_changed` firing first and rebuilding the room.
-    # It is connected anyway, because the *other* writer is Autopilot's `rain`
-    # step -- and without this a script could change the sky, the sound and the
-    # tiles while leaving yesterday's roster standing, then photograph it. That
-    # is this file's own M34 bug wearing the next costume along, and the frame
-    # would look exactly as confident as a correct one.
-    #
-    # The redundant rebuild on sleep costs one extra pass over four NPCs, once a
-    # day, behind a toast. A rebuild too many is the cheap failure here; a
-    # rebuild too few is the one that has cost this project a milestone twice.
-    EventBus.weather_changed.connect(func(_w: bool) -> void:
-        _repopulate())
     EventBus.puzzle_finished.connect(_on_puzzle_finished)
     EventBus.map_changed.emit(map.id, GameState.spawn_point)
     await get_tree().process_frame
@@ -128,13 +95,8 @@ func _spawn_player() -> void:
     camera.make_current()
 
 
-## The street has two tracks and the hour picks one. Same key, same tempo, so
-## the swap does not announce itself.
 func _apply_music() -> void:
     var track := map.music
-    var after_dark := GameState.time_block == "dusk" or GameState.time_block == "night"
-    if after_dark and map.music_night != "":
-        track = map.music_night
     if track != "":
         Audio.play_music(track)
     else:
@@ -146,6 +108,7 @@ func _build_ui() -> void:
     hud.name = "Hud"
     add_child(hud)
     dialogue = DialogueBox.new()
+    dialogue.anchor = player
     dialogue.name = "DialogueBox"
     add_child(dialogue)
     league_board = LeagueBoard.new()
@@ -157,11 +120,8 @@ func _build_ui() -> void:
     exam_board = ExamBoard.new()
     exam_board.name = "ExamBoard"
     add_child(exam_board)
-    hooks_board = HooksBoard.new()
-    hooks_board.name = "HooksBoard"
-    add_child(hooks_board)
     sign_desk = SignDesk.new(player, dialogue, league_board, cup_board,
-        exam_board, hooks_board,
+        exam_board,
         func(v: bool) -> void: _talking = v,
         _start_class)
     pause_menu = PauseMenu.new()
@@ -231,23 +191,16 @@ func _next_class() -> String:
 
 func _start_class() -> void:
     var lesson := _next_class()
-    if not GameState.can_act():
-        EventBus.toast.emit("Hana has gone home. Sleep, and come to the morning class.")
-        return
-    # The board is on the wall at every hour; the teacher is not. Hana is in this
-    # room in the morning and the afternoon and at De Ketel after that, so at dusk
-    # this used to spend an hour on a lesson taught by nobody and then close in
-    # silence -- `_post_lesson` looks for the teacher, finds an empty room and
-    # returns. M27 fixed that silence when it came from a missing dialogue node;
-    # this is the same silence reached through the clock, and it has been here
-    # since schedules landed in M26.
+    # A class with nobody at the front used to spend an hour teaching an empty
+    # room and then close in silence, because `_post_lesson` looks for the
+    # teacher and finds nobody. The teacher is always in this room now; the
+    # guard stays because the silence it prevents is the kind nothing reports.
     var data := GoLessonData.load_lesson(lesson)
     if data != null and data.teacher != "" and _find_npc(data.teacher) == null:
-        EventBus.toast.emit("Nobody is at the front. Hana teaches in the morning and the afternoon.")
+        EventBus.toast.emit("Nobody is at the front.")
         return
     player.input_locked = true
     player.clear_target()
-    GameState.spend_slot()
     MatchBridge.start_lesson(lesson, player.global_position)
 
 
@@ -269,35 +222,6 @@ func _post_lesson(lesson_id: String) -> void:
     player.face_towards(npc.global_position)
     npc.look_at_point(player.global_position)
     await _talk(npc, "taught_%s" % lesson_id, "taught")
-
-
-## The hour turned while the world was still standing, so the people in it may
-## have changed. Sleeping is the one case that reaches here: every other way of
-## spending a slot goes through a match or a class, and SceneRouter.go_to() frees
-## the World and builds a fresh one on the far side, filtered on the way in.
-##
-## Guarded on `_talking`, because freeing somebody mid-sentence would be exactly
-## the failure this project keeps writing down -- not a crash, just a
-## conversation that stops happening and a box that never closes. The bed is the
-## only caller and nothing is open when it fires, but the guard is what makes
-## that true rather than merely currently-true.
-func _repopulate() -> void:
-    if _talking or SceneRouter.is_busy():
-        return
-    for n in npcs:
-        if n.idle != null:
-            # Otherwise a speech bubble is a child of a node about to be freed.
-            n.idle.release()
-        # Out of the tree *before* the new ones are built, not merely queued for
-        # it. queue_free() lands at the end of the frame, and Npc.find_peer()
-        # searches the "npc" group -- so an incoming Kesh would pair with the
-        # outgoing Orla and hold a reference to a node that is already going.
-        # "converse" would then stand there facing nobody, which is the shape of
-        # bug this file keeps a list of: no error, no crash, and one thing that
-        # stops happening.
-        entities.remove_child(n)
-        n.queue_free()
-    npcs = MapBuilder.build_npcs(map, entities, _on_talk_requested)
 
 
 func _find_npc(npc_id: String) -> Npc:
@@ -464,14 +388,6 @@ func _start_cup_round() -> void:
         GameState.set_flag("cup_finished", true)
         EventBus.toast.emit("The Cup is over.")
         return
-    # One round a day, which is how a weekend tournament runs and what stops the
-    # whole Cup being played in a single afternoon.
-    if int(GameState.get_flag("cup_round_day", 0)) == GameState.day:
-        EventBus.toast.emit("One round a day. Come back tomorrow.")
-        return
-    if not GameState.can_act():
-        EventBus.toast.emit("Too late in the day for a tournament game. Sleep.")
-        return
 
     var opponent_id := str(state["next_opponent"])
     var npc_path := "res://data/npcs/%s.tres" % opponent_id
@@ -495,7 +411,6 @@ func _start_cup_round() -> void:
     req.intro_line = "Round %d. Board %d. %dx%d." % [
         int(state["next_round"]) + 1, 1, board, board]
     req.player_strength = GameState.rank_strength
-    GameState.set_flag("cup_round_day", GameState.day)
     player.input_locked = true
     MatchBridge.start_match(req, player.global_position)
 
@@ -551,14 +466,6 @@ func _start_exam_round() -> void:
     if bool(state["complete"]):
         _exam_finished_check()
         return
-    # One round a day, the same rule the Cup runs on and the reason the last week
-    # of term is a week rather than an afternoon.
-    if int(GameState.get_flag("exam_round_day", 0)) == GameState.day:
-        EventBus.toast.emit("One round a day. Come back tomorrow.")
-        return
-    if not GameState.can_act():
-        EventBus.toast.emit("Too late in the day to sit a round. Sleep.")
-        return
 
     var opponent_id := str(state["next_opponent"])
     var npc_path := "res://data/npcs/%s.tres" % opponent_id
@@ -583,7 +490,6 @@ func _start_exam_round() -> void:
     req.intro_line = "Round %d of %d. Even game." % [
         int(state["next_round"]) + 1, Exam.ROUNDS]
     req.player_strength = GameState.rank_strength
-    GameState.set_flag("exam_round_day", GameState.day)
     player.input_locked = true
     MatchBridge.start_match(req, player.global_position)
 
@@ -606,11 +512,6 @@ func _start_match(exit: Dictionary, npc: Npc) -> void:
     req.portrait_path = "res://art/portraits/%s.png" % npc.data.portrait_id
     req.intro_line = str(exit.get("intro", ""))
     req.unrated = bool(exit.get("unrated", false))
-    # The day runs out. Park and arch games do not cost one, so there is always
-    # something left to do -- being out of hours must never mean being stuck.
-    if not req.unrated and not GameState.can_act():
-        EventBus.toast.emit("Not tonight. Sleep, and play it properly tomorrow.")
-        return
     req.player_strength = GameState.rank_strength
     player.input_locked = true
     MatchBridge.start_match(req, player.global_position)

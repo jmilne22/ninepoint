@@ -146,11 +146,15 @@ func _build_ui() -> void:
     _turn = _label(_panel, Vector2(76, 50), 92, 9, "#45404f")
 
     _captures = _label(_panel, Vector2(10, 74), 156, 9, "#2a2633")
-    _details = _label(_panel, Vector2(10, 84), 156, 9, "#6b6577")
+    # Rows measured against the font's 11 px line height: captures at 74, the
+    # details from 90, and the table talk's four rows from 132 to 176, the
+    # panel's inner edge. They used to overlap by a pixel at the top and sit on
+    # the frame at the bottom.
+    _details = _label(_panel, Vector2(10, 90), 156, 9, "#6b6577")
     _details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-    _details.size.y = 46
+    _details.size.y = 40
 
-    _message = _label(_panel, Vector2(10, 136), 156, 9, "#45404f")
+    _message = _label(_panel, Vector2(10, 132), 156, 9, "#45404f")
     _message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     _message.size.y = 44
 
@@ -371,9 +375,8 @@ func _await_move() -> Dictionary:
 ## most moves produce nothing at all, which is the point: somebody who remarks on
 ## everything is a tutorial rather than a person.
 ##
-## Reactions are to OUTCOMES only. What the player should have played instead is
-## GoReview's job after the game, and saying it here would spoil the one thing
-## the review has to offer.
+## Reactions are to OUTCOMES only: what happened, never what should have been
+## played instead.
 func _react() -> void:
     if voice == null:
         return
@@ -480,7 +483,7 @@ func _finish() -> void:
     res.handicap = game.handicap
     # In a handicap game the stones belong to whoever is Black. Which side that
     # was is the difference between beating a 1 dan and being given five stones
-    # by one, and GoRating cannot tell them apart afterwards without this.
+    # by one, and the rank ladder cannot tell them apart afterwards without this.
     res.handicap_taken = game.handicap if player_color == GoBoard.BLACK else 0
     res.komi = game.komi
     res.move_count = game.move_number()
@@ -492,11 +495,6 @@ func _finish() -> void:
         "RE": str(game.result.get("text", "")),
     })
     res.summary = str(game.result.get("text", ""))
-    # Read back before the game object goes away. MatchResult is the only thing
-    # the world learns from a match, so what the review found travels in it.
-    res.findings = GoReview.findings(game, player_color, request.player_strength)
-    res.final_cells = game.board.cells.duplicate()
-    res.moves = game.moves.duplicate()
 
     var headline := "You win" if res.player_won else "You lose"
     if res.winner == GoBoard.EMPTY:

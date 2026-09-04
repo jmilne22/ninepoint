@@ -6,72 +6,6 @@
     {
      "if": [
       [
-       "on_map",
-       "ketelsteeg"
-      ],
-      [
-       "market_day"
-      ],
-      [
-       "weather_is",
-       "wet"
-      ]
-     ],
-     "goto": "market_wet"
-    },
-    {
-     "if": [
-      [
-       "on_map",
-       "ketelsteeg"
-      ],
-      [
-       "market_day"
-      ]
-     ],
-     "goto": "market_dry"
-    },
-    {
-     "if": [
-      [
-       "ranked"
-      ],
-      [
-       "not_flag",
-       "tomas_wrote_card"
-      ]
-     ],
-     "goto": "wrote_card"
-    },
-    {
-     "if": [
-      [
-       "flag",
-       "hooks_top"
-      ],
-      [
-       "not_flag",
-       "tomas_said_top"
-      ]
-     ],
-     "goto": "hooks_top_word"
-    },
-    {
-     "if": [
-      [
-       "flag",
-       "took_a_hook"
-      ],
-      [
-       "not_flag",
-       "tomas_said_took"
-      ]
-     ],
-     "goto": "hooks_took_word"
-    },
-    {
-     "if": [
-      [
        "flag",
        "lesson_counting_done"
       ]
@@ -94,14 +28,13 @@
   },
   "first": {
    "text": [
-    "Bar's shut until the Cup's over -- I'm playing in it, which I regret already. Back room stays open. It always stays open.",
-    "You're the one Wren's teaching. Go and get taught, then come back and I'll show you the part nobody bothers with."
+    "Tomás. It's my bar. You're the one Wren's teaching. Get taught, then I'll show you how a game ends."
    ]
   },
   "offer_counting": {
    "text": [
-    "Right. You know how the stones work, so here is the thing that decides games, which nobody ever teaches because it is arithmetic and arithmetic is boring.",
-    "The end. Passing, counting, what a captured stone is actually worth. I have won three hundred games I had no business winning and every one of them was in the last twenty moves."
+    "You know how the stones work. Now the bit that decides games: the end.",
+    "Passing, counting, and what a captured stone is actually worth."
    ],
    "choices": [
     {
@@ -116,6 +49,14 @@
      "goto": "later"
     }
    ]
+  },
+  "later": {
+   "text": [
+    "Suit yourself. Back room's always open."
+   ]
+  },
+  "taught": {
+   "goto": "after_lesson"
   },
   "after_lesson": {
    "branches": [
@@ -135,8 +76,7 @@
   },
   "offer_game": {
    "text": [
-    "You've had the lesson. Now the other half of it, which is somebody making you do it under pressure.",
-    "One game. That's the rule and it has always been the rule -- one a day, and I mean it, because a man who plays four games a day is not thinking about any of them."
+    "You've had the lesson. Now somebody making you do it under pressure. One game."
    ],
    "choices": [
     {
@@ -145,7 +85,7 @@
       "type": "start_match",
       "profile": "tomas_9x9",
       "context": "tomas_club",
-      "intro": "One game. Back room rules -- it goes on the hooks."
+      "intro": "One game. Back room rules."
      }
     },
     {
@@ -179,51 +119,34 @@
      "goto": "thirteen_again"
     },
     {
-     "if": [
-      [
-       "beat",
-       "tomas"
-      ]
-     ],
-     "goto": "beaten"
+     "goto": "offer_again"
+    }
+   ]
+  },
+  "offer_again": {
+   "text": [
+    "Again? Count twice, play once."
+   ],
+   "choices": [
+    {
+     "text": "Again.",
+     "exit": {
+      "type": "start_match",
+      "profile": "tomas_9x9",
+      "context": "tomas_club",
+      "intro": "Back room rules."
+     }
     },
     {
-     "goto": "won"
+     "text": "Not today.",
+     "goto": "later"
     }
    ]
-  },
-  "beaten": {
-   "text": [
-    "Mm. You counted that better than I did, and I have been counting since before you were born.",
-    "That's the whole compliment. Don't wait for another one."
-   ]
-  },
-  "won": {
-   "text": [
-    "Good game. You were ahead in the middle and you gave it back a point at a time in the last thirty moves.",
-    "That's not a criticism, that's everybody. It's just that I stopped doing it, and that is the only reason I am eight kyu."
-   ]
-  },
-  "later": {
-   "text": [
-    "Suit yourself. Back room's always open."
-   ]
-  },
-  "post_match": {
-   "branches": [
-    {
-     "goto": "regular_word"
-    }
-   ]
-  },
-  "taught": {
-   "goto": "after_lesson"
   },
   "offer_thirteen": {
    "text": [
-    "Three rated games won. That's three people who sat down expecting to beat you and went home not having. I keep the cards, I notice.",
-    "There's a board under the coats at the back table. Thirteen lines. Nine by nine you can hold in your head -- thirteen you have to count, and counting is the only thing I actually know.",
-    "Same rule as ever. One game. It goes on the hooks like the rest."
+    "Three rated wins. There's a board under the coats at the back table. Thirteen lines.",
+    "Nine you can hold in your head. Thirteen you have to count."
    ],
    "choices": [
     {
@@ -236,14 +159,14 @@
      }
     },
     {
-     "text": "Nine is still enough.",
-     "goto": "regular_word"
+     "text": "Nine is enough.",
+     "goto": "offer_again"
     }
    ]
   },
   "thirteen_again": {
    "text": [
-    "Back table's still up. Thirteen. One a day and I do mean it."
+    "Back table's still up. Thirteen."
    ],
    "choices": [
     {
@@ -256,18 +179,21 @@
      }
     },
     {
+     "text": "Nine today.",
+     "goto": "offer_again"
+    },
+    {
      "text": "Not today.",
-     "goto": "regular_word"
+     "goto": "later"
     }
    ]
   },
-  "regular_word": {
+  "post_match": {
    "branches": [
     {
      "if": [
       [
-       "beat",
-       "tomas"
+       "won_last"
       ]
      ],
      "goto": "beaten"
@@ -277,87 +203,15 @@
     }
    ]
   },
-  "wrote_card": {
-   "actions": [
-    [
-     "set_flag",
-     "tomas_wrote_card",
-     true
-    ],
-    [
-     "quest_start",
-     "the_hooks"
-    ]
-   ],
+  "beaten": {
    "text": [
-    "Hold on. You've got a rank now, so you've got a card.",
-    "Back wall. Brass hooks, seven of them, and yours goes on the bottom one because that is where everybody's goes.",
-    "It is not the league. The league is a piece of paper in Essenveld with a woman standing next to it. This is a row of hooks, and it says who has beaten who in this room."
-   ],
-   "choices": [
-    {
-     "text": "How do I move up it?",
-     "goto": "hooks_rules"
-    },
-    {
-     "text": "Right.",
-     "goto": "hooks_rules"
-    }
+    "Mm. You counted that better than I did, and I've been counting since before you were born.",
+    "That's all the compliment you get."
    ]
   },
-  "hooks_rules": {
+  "won": {
    "text": [
-    "Beat somebody hanging above you and you take their hook. They shuffle down. That's it, that's the whole thing.",
-    "Losing costs you nothing, before you ask. A ladder where you can go backwards is a ladder nobody ever challenges up.",
-    "And every game counts. The park counts. Whatever happens under the arches counts, and I don't want to know the details."
-   ]
-  },
-  "hooks_took_word": {
-   "actions": [
-    [
-     "set_flag",
-     "tomas_said_took",
-     true
-    ]
-   ],
-   "text": [
-    "I moved your card up this morning. Somebody's is underneath it now who was above it last week.",
-    "They'll have noticed. That's the point of hooks rather than a spreadsheet -- you can see it from the door."
-   ]
-  },
-  "hooks_top_word": {
-   "actions": [
-    [
-     "set_flag",
-     "tomas_said_top",
-     true
-    ]
-   ],
-   "text": [
-    "Top hook.",
-    "Sixty years that wall's been there and I have seen four people on that hook. Two of them were Joos, twice, with a gap in between I am not going to explain.",
-    "Doesn't mean you're the strongest in the room. Means you beat everyone above you on the way up, which is a different sentence and a better one."
-   ]
-  },
-  "market_dry": {
-   "portrait": "happy",
-   "text": [
-    "Saturday. I buy the week in on a Saturday -- coffee, bread, the good jenever, and whatever the fish stall has not sold.",
-    "You look surprised to see me above ground. I do have a life above ground. It is mostly this."
-   ],
-   "goto": "market_word"
-  },
-  "market_wet": {
-   "portrait": "neutral",
-   "text": [
-    "Saturday, and look at it. Half the stalls have not bothered and I do not blame them.",
-    "You get the fish either way. The fish does not care."
-   ],
-   "goto": "market_word"
-  },
-  "market_word": {
-   "text": [
-    "Come down tonight if you want a board. The bar opens at two and I will be behind it by three, complaining about the prices."
+    "You were ahead in the middle and gave it back a point at a time at the end. That's everybody. I just stopped."
    ]
   }
  }

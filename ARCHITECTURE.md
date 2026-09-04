@@ -50,15 +50,10 @@ src/
     go_game.gd          game: move history, ko, passes, captures, komi, handicap, result
     go_scoring.gd       Japanese (territory) + Chinese (area) scoring, dead-stone heuristic
     go_zobrist.gd       position hashing (ko / superko / repetition)
-    go_sgf.gd           SGF export (debugging, reviews, kifu)
-    go_review.gd        picks the three things worth saying about a finished game
-    go_review_replay.gd     reading a game's positions back
-    go_review_detectors.gd        liberties and capture: what went wrong
-    go_review_detectors_good.gd   the four things it is pleased about
-    go_review_detectors_shape.gd  what only the whole game can show
-    go_evaluator.gd     how the game was going, in points -- the engine seam
-    go_progress.gd      the shipped answer: stones plus what you walled off
-    go_review_history.gd    what this player keeps doing, across games
+    go_sgf.gd           SGF export (the record of a game)
+    go_rank.gd          the kyu/dan scale, handicap between two ranks, ranks per stone
+    go_rank_ladder.gd   how a rank moves: one step, in the direction the result says
+    go_table_talk.gd    what just happened at the board, as tags a person could react to
 
   go_ai/              OPPONENTS — depend on go/ only
     go_opponent.gd      abstract interface: choose_move(game) -> Move  (async-capable)
@@ -72,26 +67,25 @@ src/
     go_match.*          the match scene: board, HUD, turn loop, pass/resign, scoring phase
     go_puzzle.*         puzzle scene reusing GoBoardView
     go_lesson.*         the tutorial runner, also reusing GoBoardView
-    go_review.*         the post-game review, ditto: your own game, replayed at you
-    go_replay.gd        a cursor over the game, so the board can be stepped through
-    go_review_voice.gd  which character says a finding, and in what words
+    nigiri_ceremony.*   choosing colours, as a set piece
+    table_talk_voice.gd which character says a table-talk tag, and in what words
 
   rpg/                THE WORLD
     player/             player character body, input, interaction ray
-    npc/                NPC body, schedule component, interact component
+    npc/                NPC body, idle behaviour, passers-by
     maps/               city exteriors, interiors, spawn points, doors
     components/         reusable: Interactable, Warp, Facing, CharacterSprite
+    props/tram.gd       the tram: passes on its own, and pulls in when you board it
     sign_desk.gd        everything you READ on a wall or SIT DOWN at -- the league,
-                        Cup and exam boards, the study desk, the hooks, the bed.
+                        Cup and exam boards, the study desk, the tram stop, the bed.
                         Split out of world.gd in M30 along the one seam that
-                        actually divides it: reading versus starting a match.
-                        Anything that spends an hour stays in the World
+                        actually divides it: reading versus starting a match
 
   academy/            THE INSTITUUT'S PROGRESSION -- and the federation's events
-    league_table.gd     pure: standings from the record, round robin, rated only.
-                        Ignores exam AND Cup contexts: a tournament game is not
-                        a fixture in the term, and the open section put four
-                        league members in the draw
+    league_table.gd     pure: standings from the record, round robin, league
+                        fixtures only. The exam, the Cup and a rematch at De
+                        Ketel are all played against league members and none
+                        of them is a fixture
     league_board.gd     the panel on the hall wall
     exam.gd             pure: the qualifying exam, three rounds, top two through
     cup_draw.gd         pure: the Cup. The two sections live here rather than on
@@ -102,21 +96,14 @@ src/
                         return null, silently
     cup_board.gd        the draw pinned up at the Bondszaal
 
-  club/               DE KETEL'S PROGRESSION -- the other half of the argument
-    hooks_ladder.gd     pure: seven name-cards on brass hooks, ordered by who has
-                        beaten who. Counts UNRATED games, which is why it is not a
-                        second LeagueTable roster. Only wins move a card and only
-                        upwards; a new card goes on the bottom hook, not at your rank
-    hooks_board.gd      the panel at the back of the salon
-
   dialogue/           dialogue graph runner + typewriter box (data-driven from JSON)
   quest/              quest definitions, tracker, objective evaluation
-  save/               serialisation of GameState to user:// slots
-  ui/                 title screen, pause, rank card, toasts
-  autoload/           GameState, SaveSystem, SceneRouter, EventBus, MatchBridge, Audio
+  ui/                 title screen, opening, dialogue box, HUD, pause, save slots
+  autoload/           GameState, SaveSystem, SceneRouter, EventBus, MatchBridge, Audio,
+                      GameInput, Autopilot
 
 data/
-  npcs/*.tres         NPCData resources (identity, rank, portrait, schedule, dialogue file)
+  npcs/*.tres         NPCData resources (identity, rank, portrait, dialogue file)
   opponents/*.tres    OpponentProfile resources (engine, strength knobs, board, komi, handicap)
   dialogue/*.json     dialogue graphs
   quests/*.tres       QuestData resources
@@ -133,10 +120,10 @@ tests/                headless test runner + suites
 | Autoload | Owns | Never does |
 |---|---|---|
 | `EventBus` | Global signals (`dialogue_started`, `match_finished`, `quest_advanced`, …) | Hold state |
-| `GameState` | Flags, player rank, relationship scores, quest progress, inventory, time-of-day, spawn target | Touch the scene tree, know about UI |
+| `GameState` | Flags, player rank, quest progress, inventory, the match record, spawn target | Touch the scene tree, know about UI |
 | `SaveSystem` | Serialise/deserialise `GameState` to `user://save_N.json`, slot metadata | Own gameplay state |
 | `SceneRouter` | Scene changes, fade transitions, "return here afterwards" stack | Know what a Go match is |
-| `MatchBridge` | The single seam between world and Go: takes a `MatchRequest`, pushes the match, puzzle, lesson or review scene, returns a `MatchResult` | Contain Go rules |
+| `MatchBridge` | The single seam between world and Go: takes a `MatchRequest`, pushes the match, puzzle or lesson scene, returns a `MatchResult` | Contain Go rules |
 | `Audio` | Buses, a pool of SFX voices, one music track; listens on `EventBus` for the sounds that belong to events rather than to callers | Decide when gameplay happens |
 
 Rule of thumb: if two systems need to talk, they do it through `EventBus` or through
@@ -160,10 +147,12 @@ MatchBridge.start_match(req)          # suspends the world, routes to the match 
 EventBus.match_finished.connect(func(result: MatchResult): ...)
 ```
 
-`MatchResult` carries: `context_id`, `winner`, `player_won`, `margin`, `by_resignation`,
-`board_size`, `handicap`, `komi`, `move_count`, `sgf`, and `findings` — what `GoReview`
-noticed in the game. The findings hold board positions and so are deliberately absent
-from `to_dict()`: they are for the screen that runs next, not for the save file.
+`MatchResult` carries: `context_id`, `npc_id`, `winner`, `player_won`, `margin`,
+`by_resignation`, `board_size`, `handicap`, `handicap_taken`, `komi`, `move_count`,
+`unrated`, `opponent_strength` and `sgf`. `GameState.record_match()` appends it to
+`match_records`, steps the rank through `GoRankLadder`, and sets `last_result` so the
+conversation that follows can branch on `won_last` / `lost_last` — the game just played,
+not the lifetime record, which is what `beat` / `lost_to` answer.
 
 Consequences: the Go board can be launched standalone from the editor for testing; the RPG
 can be developed against a fake result; and swapping the AI or the board renderer touches
@@ -213,16 +202,10 @@ because you levelled up"): `engine`, `rank_label`, `board_size`, `komi`, `handic
 
 ## 6. Data-driven content
 
-**NPCs** (`NPCData.tres`): id, display name, rank label, portrait, sprite palette id, home
-location, dialogue graph path, opponent profile. **Not the schedule** — this line claimed a
-`schedule (time-block → location + position)` field for several milestones and there has never
-been one. Where somebody stands is the *map's* business: `data/maps/*.json` gives each NPC entry
-an optional `"blocks"` (hours), `"days"` (weekdays) and `"weather"` (`"wet"`/`"dry"`),
-absent-or-empty meaning always for each, and **all three must pass**. The rule is
-`MapData.is_present(spec, block, weekday, weather)`, kept on that class because it is pure —
-`MapBuilder`, which applies it, reads autoloads and is unreachable from the suite. It takes no
-default argument on purpose: a defaulted axis is one a caller can forget, and forgetting it
-returns a wrong roster rather than an error.
+**NPCs** (`NPCData.tres`): id, display name, rank label, portrait, sprite palette id,
+dialogue graph path, opponent profile. Where somebody stands is the *map's* business:
+`data/maps/*.json` lists each map's people, and every person stands on exactly one map, all
+the time. There is no schedule; there was one from M26 to M36 and it was cut in M37.
 
 **Dialogue** (JSON graph):
 ```json
@@ -234,16 +217,17 @@ returns a wrong roster rather than an error.
 } }
 ```
 Node kinds: `text`, `choices`, `branch` (conditions), `action` (set flag, bump flag, give an
-item, **take one back**, set rank, start a quest, toast), `exit` (start match, start puzzle,
+item, take one back, set rank, start a quest, toast), `exit` (start match, start puzzle,
 start lesson, a Cup or exam round, the problem paper), `goto`, `end`. Conditions read
-`GameState` only — dialogue never queries the world directly. There is no relationship
-action; that system was removed, and this line claimed one for several milestones after it.
+`GameState` only — dialogue never queries the world directly.
 
-`take` is the opposite of `give` and arrived with it in M32, because a borrowed thing that
-cannot be handed back is not borrowed. There is no item *registry* — `GameState.inventory` is
-a bare `Array[String]` — so an id exists only because two files spell it the same way, and
-`tests/test_data.gd` is what makes that true: every `take` and every `has_item` in the graphs
-must name something some `give` actually hands over.
+The writing rules are in `data/dialogue/VOICES.md`, and the ones a machine can check are
+enforced by `tests/test_data.gd`: two lines a node, 110 characters a line, every line fits
+four rows beside a portrait, no calendar words, and none of the tics that made fifteen
+people sound like one. `tools/check_dialogue.py` prints a graph as a script a person can
+read. There is no item *registry* — `GameState.inventory` is a bare `Array[String]` — so an
+id exists only because two files spell it the same way, and `tests/test_data.gd` requires
+every `take` and every `has_item` to name something some `give` actually hands over.
 
 **Quests** (`QuestData.tres`): ordered steps, each with a completion condition (flag set,
 match finished with context, puzzle solved, lesson finished, somebody talked to, location
@@ -260,8 +244,11 @@ routinely holds two of these at once, and a person must outrank the furniture be
 `Warp` (area → target map + spawn point),
 `Facing` (which way a character is turned), `DialogueBox` (typewriter, portrait, choices),
 `GoBoardView` (stateless renderer of a GoGame). There is no `GridMover` and no
-`ScheduleComponent`; both were named here for several milestones and neither was ever built —
-movement lives on `Player`/`Npc` and the schedule is map data read through `MapData.is_present()`.
+`ScheduleComponent`; movement lives on `Player`/`Npc`, and there is no schedule.
+
+The tram stop is a sign whose text begins `__TRAM__` followed by JSON naming its routes;
+`SignDesk.tram_stop()` offers them as choices, refuses in the box when a route's flag is not
+set, asks the `Tram` prop to pull in, and only then changes scene.
 
 Maps are `TileMapLayer`-based with a `YSort` entity layer; every map exposes named
 `SpawnPoint` nodes so warps and save/load can place the player deterministically.
@@ -272,15 +259,17 @@ Maps are `TileMapLayer`-based with a `YSort` entity layer; every map exposes nam
 debugging. These are the real keys, which is `GameState.to_dict()` and nothing else:
 
 ```json
-{ "version": 1, "saved_at": "2026-09-04T12:00:00", "playtime": 640.0,
+{ "version": 2, "saved_at": "2026-09-04T12:00:00", "playtime": 640.0,
   "player_name": "Ro", "rank_strength": 8,
   "flags": {...}, "quests": {"first_stones": {"step": 2, "done": false}},
   "inventory": ["old_goban"],
   "match_records": [ {"npc_id": "kesh", "player_won": false, "margin": 8.5, ...} ],
-  "day": 7, "slots_used": 1, "time_block": "dusk",
   "current_map": "de_ketel", "spawn_point": "from_street",
   "return_position": [12, 8], "has_return_position": true }
 ```
+
+Version 2 (M37) dropped `day`, `slots_used` and `time_block` with the calendar; a version 1
+file loads, and the three keys are ignored.
 
 Saving is `GameState.to_dict()`; loading is `GameState.from_dict()` then `SceneRouter` opens
 the map at the spawn point, or drops the player back on `return_position` when a match

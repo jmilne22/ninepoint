@@ -192,69 +192,7 @@
     7
    ],
    "dir": "up",
-   "idle": "watch",
-   "blocks": [
-    "dusk",
-    "night"
-   ]
-  },
-  {
-   "id": "pip",
-   "tile": [
-    5,
-    7
-   ],
-   "dir": "up",
-   "idle": "wander",
-   "blocks": [
-    "dusk",
-    "night"
-   ]
-  },
-  {
-   "id": "bertie",
-   "tile": [
-    11,
-    7
-   ],
-   "dir": "down",
-   "idle": "tend",
-   "blocks": [
-    "dusk",
-    "night"
-   ]
-  },
-  {
-   "id": "pip",
-   "tile": [
-    5,
-    7
-   ],
-   "dir": "up",
-   "idle": "wander",
-   "blocks": [
-    "morning",
-    "afternoon"
-   ],
-   "weather": [
-    "wet"
-   ]
-  },
-  {
-   "id": "bertie",
-   "tile": [
-    11,
-    7
-   ],
-   "dir": "down",
-   "idle": "tend",
-   "blocks": [
-    "morning",
-    "afternoon"
-   ],
-   "weather": [
-    "wet"
-   ]
+   "idle": "watch"
   }
  ],
  "music": "theme_arches",

@@ -65,7 +65,6 @@ static func build_warps(map: MapData, parent: Node2D) -> void:
         warp.name = "Warp_%s_%d_%d" % [str(w.get("map", "")), int(tile[0]), int(tile[1])]
         warp.target_map = str(w.get("map", ""))
         warp.target_spawn = str(w.get("spawn", ""))
-        warp.prompt = str(w.get("prompt", ""))
         warp.required_flag = str(w.get("required_flag", ""))
         warp.blocked_text = str(w.get("blocked_text", ""))
         var shape := CollisionShape2D.new()
@@ -115,14 +114,6 @@ static func build_backdrop(map: MapData, parent: Node2D) -> void:
     parent.add_child(bg)
 
 
-static func build_ambient(map: MapData, parent: Node2D) -> Ambient:
-    var it := Ambient.new()
-    it.name = "Ambient"
-    parent.add_child(it)
-    it.setup(map)
-    return it
-
-
 static func build_animator(map: MapData, parent: Node2D, ground: TileMapLayer) -> TileAnimator:
     var it := TileAnimator.new()
     it.name = "TileAnimator"
@@ -149,23 +140,9 @@ static func build_crowd(map: MapData, parent: Node2D) -> CrowdSpawner:
     return it
 
 
-## Who is standing here *at this hour, on this day*. An entry with no "blocks"
-## and no "days" is somebody who is always here, which is the same reading
-## TileAnimator and Soundscape give the key -- absent or empty means always, so
-## every map that predates schedules keeps working untouched.
-##
-## The two keys are independent and both must pass: "blocks" is matched against
-## GameState.time_block and "days" against GameState.weekday(), so club night is
-## ["wednesday"] plus the evening hours rather than a third kind of rule.
-##
-## This is the whole of the schedule system on the engine side. Where somebody
-## is at a given hour is content, and it lives in tools/gen_maps.py.
 static func build_npcs(map: MapData, parent: Node2D, on_talk: Callable) -> Array[Npc]:
     var out: Array[Npc] = []
     for spec in map.npcs:
-        if not MapData.is_present(spec, GameState.time_block,
-                GameState.weekday(), GameState.weather()):
-            continue
         var npc: Npc = NPC_SCENE.instantiate()
         var tile: Array = spec.get("tile", [0, 0])
         npc.npc_id = str(spec.get("id", ""))

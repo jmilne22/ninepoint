@@ -8,7 +8,6 @@ var _prompt: Label
 var _toast: Label
 var _toast_panel: NinePatchRect
 var _rank: Label
-var _day: Label
 var _journal: Label
 var _toast_t := 0.0
 
@@ -40,22 +39,19 @@ func _ready() -> void:
     _toast = Label.new()
     _toast.position = Vector2(8, 4)
     _toast.size = Vector2(352, 12)
+    _toast.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     _toast.add_theme_font_size_override("font_size", 9)
     _toast.add_theme_color_override("font_color", Color("#f2d791"))
     _toast_panel.add_child(_toast)
 
     _rank = _make_label(root, Vector2(6, 202), 90, 9, Color("#ddd0b8"))
-    # Top left, under the toast and clear of the journal, which is right-aligned
-    # along the bottom and wraps into anything sharing its row. It says nothing
-    # at all until Wren has mentioned the Cup: a countdown to a thing the player
-    # has not heard of is a spoiler with a number on it.
-    _day = _make_label(root, Vector2(6, 26), 200, 9, Color("#e0cfa8"))
     # The journal wraps to two lines: quest lines are sentences, and a single
     # right-aligned line ran off the edge of the screen.
     _journal = _make_label(root, Vector2(100, 191), 278, 9, Color("#bda98c"))
     _journal.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
     _journal.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     _journal.size.y = 24
+    _journal.max_lines_visible = 2
     _journal.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 
     EventBus.interaction_available.connect(_on_prompt)
@@ -65,12 +61,10 @@ func _ready() -> void:
     EventBus.quest_advanced.connect(func(_q, _s, _j): refresh())
     # Completion is not an advance -- QuestTracker emits quest_completed instead
     # of quest_advanced for the last step, so without this the journal keeps
-    # displaying the final objective of a finished quest until a rank, a day or
-    # an hour happens to change. Every quest in the game ended that way; the exam
+    # displaying the final objective of a finished quest until a rank happened
+    # to change. Every quest in the game ended that way; the exam
     # made it visible because finishing it is the last thing that happens.
     EventBus.quest_completed.connect(func(_q): refresh())
-    EventBus.day_changed.connect(func(_d): refresh())
-    EventBus.time_block_changed.connect(func(_b): refresh())
     refresh()
 
 
@@ -96,78 +90,19 @@ func show_toast(text: String) -> void:
     if text.strip_edges() == "":
         return
     _toast.text = text
+    # Sized to the text: the southbound tram's refusal was 439 px wide on a
+    # 384 px screen, and the last three words were off the edge.
+    var h := UiKit.text_height(text, 352)
+    _toast.size.y = h
+    _toast_panel.size.y = h + 8
     _toast_panel.visible = true
     _toast_t = TOAST_TIME
 
 
 func refresh() -> void:
     _rank.text = "%s   %s" % [GameState.player_name, GameState.rank_label()]
-    _day.text = _day_line()
     # Which quest that is, is QuestTracker's decision and is tested there.
     _journal.text = Quests.journal_line(Quests.journal_quest_id())
-
-
-## "Day 3, afternoon" once there is a calendar worth showing, with the next fixed
-## date counted down beside it once somebody has told the player it exists.
-##
-## There are two of them now. Show whichever is nearer and still ahead, so the
-## line answers "how long have I got" rather than naming an event the player has
-## already sat.
-func _day_line() -> String:
-    # The weekday is abbreviated because the label is 200 px. Re-measured for
-    # M35 against the font's own advances rather than estimated: the longest
-    # line this can now produce is "Day 13, Sat afternoon   market day" at 184,
-    # and the longest it could produce before was 174. Spelling a weekday in
-    # full overruns it.
-    var here := "Day %d, %s %s" % [GameState.day, _short_weekday(), GameState.time_block]
-    var exam := GameState.days_until_exam()
-    if GameState.has_flag("exam_entered") and not GameState.has_flag("exam_finished"):
-        if exam <= 0:
-            return "%s   the exam" % here
-        return "%s   exam in %d" % [here, exam]
-    if not GameState.has_flag("wren_told_about_cup"):
-        # This returned "" outright until M35, so the whole calendar -- the day,
-        # the weekday, the hour -- was invisible for all of Act 1, which is
-        # where the rain and the first market day both fall. The *countdown*
-        # wants a player who has been told there is something to count down to;
-        # the date does not. Say the date, and the occasion if there is one.
-        return _with_occasion(here)
-    var days := GameState.days_until_cup()
-    if days <= 0:
-        return "%s   the Cup" % here
-    # A fixed date outranks a weekly one: the exam and the Cup have a deadline
-    # and the occasions come round again. Both together overrun the label.
-    return _with_occasion(here, "Cup in %d" % days)
-
-
-## Today's occasion, or "". One slot, never two -- and the rule for what goes in
-## it is the same rule the countdown above follows: say the thing the player can
-## still act on. Club night has not happened yet at any hour of its day, so it
-## shows all day. The market is a morning and is over by the afternoon, so
-## saying "market day" at dusk would be reporting the past.
-##
-## The two can never collide: Tuesday and Saturday.
-func _occasion() -> String:
-    if GameState.is_club_night():
-        return "club night"
-    if GameState.is_market_day() and GameState.time_block == "morning":
-        return "market day"
-    return ""
-
-
-func _with_occasion(here: String, fallback: String = "") -> String:
-    var occasion := _occasion()
-    if occasion != "":
-        return "%s   %s" % [here, occasion]
-    if fallback != "":
-        return "%s   %s" % [here, fallback]
-    return here
-
-
-## "wednesday" -> "Wed". The calendar has to be readable at a glance or a
-## schedule the player cannot see is indistinguishable from randomness.
-func _short_weekday() -> String:
-    return GameState.weekday().substr(0, 3).capitalize()
 
 
 func _process(delta: float) -> void:

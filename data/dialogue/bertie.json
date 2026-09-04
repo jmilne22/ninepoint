@@ -6,23 +6,6 @@
     {
      "if": [
       [
-       "on_map",
-       "onderbrug"
-      ],
-      [
-       "weather_is",
-       "wet"
-      ],
-      [
-       "flag",
-       "lesson_ladders_done"
-      ]
-     ],
-     "goto": "rain_bench"
-    },
-    {
-     "if": [
-      [
        "flag",
        "lesson_ladders_done"
       ]
@@ -45,14 +28,12 @@
   },
   "first": {
    "text": [
-    "Four kyu, forty years, one park bench.",
-    "Corner, side, centre. Learn it in that order and you'll save yourself a decade."
+    "Bertie. Forty years on this bench. Corner, side, centre. Learn it in that order."
    ]
   },
   "offer_ladders": {
    "text": [
-    "You've been watching Pip, then. He's been trying the same thing since he got here and it has never once worked, and I have never once managed to explain why.",
-    "Sit down. I'll show you the version that does work, and the ten seconds of counting that tells you which one you've got."
+    "You've watched Pip try that ladder. It never works. Sit down, and I'll show you one that does."
    ],
    "choices": [
     {
@@ -68,17 +49,19 @@
     }
    ]
   },
-  "after_lesson": {
-   "text": [
-    "Read it to the end. That's it. That's the whole of what I know that Pip doesn't.",
-    "Corner, side, centre, and read your ladders. Forty years and I could have had it on a postcard."
-   ],
-   "goto": "offer_game"
-  },
   "later": {
    "text": [
-    "I'll be on this bench. I am always on this bench."
+    "I'll be on this bench. I'm always on this bench."
    ]
+  },
+  "taught": {
+   "goto": "after_lesson"
+  },
+  "after_lesson": {
+   "text": [
+    "Read it to the end. That's all I know that Pip doesn't."
+   ],
+   "goto": "offer_game"
   },
   "offer_game": {
    "branches": [
@@ -98,9 +81,7 @@
   },
   "bench_first": {
    "text": [
-    "Right. Sit down. You've had the theory and the theory is worthless.",
-    "Four kyu, forty years, one park bench. I'm not going to fight you -- I'm going to out-count you, and you'll not notice until it's done.",
-    "Doesn't go on anybody's card. Nothing in this park does."
+    "Sit down. I won't fight you, I'll out-count you. Nothing here goes on a card."
    ],
    "choices": [
     {
@@ -110,7 +91,7 @@
       "profile": "bertie_9x9",
       "context": "bertie_park",
       "unrated": true,
-      "intro": "Stone table, four kyu, no card. He plays first and does not ask."
+      "intro": "Stone table, no card. He plays first and does not ask."
      }
     },
     {
@@ -121,8 +102,7 @@
   },
   "bench_again": {
    "text": [
-    "Again. You've got the taste for it now.",
-    "Same terms. Nothing written down, nothing owed."
+    "Again? Same terms. Nothing written down."
    ],
    "choices": [
     {
@@ -146,8 +126,7 @@
     {
      "if": [
       [
-       "beat",
-       "bertie"
+       "won_last"
       ]
      ],
      "goto": "bertie_lost"
@@ -159,24 +138,13 @@
   },
   "bertie_lost": {
    "text": [
-    "Hm. Well.",
-    "Forty years and the answer's still the same: somebody comes along who counts faster. Good. Go on then."
+    "Hm. Forty years, and somebody comes along who counts faster. Good. Go on, then."
    ]
   },
   "bertie_won": {
    "text": [
-    "Territory, see. You were busy having a lovely time in the middle and I was busy owning the edges.",
-    "Proverb for you: the corner is gold, the side is silver, the centre is grass. Doesn't always apply. Applied there."
-   ]
-  },
-  "taught": {
-   "goto": "after_lesson"
-  },
-  "rain_bench": {
-   "portrait": "neutral",
-   "text": [
-    "Stone tables are no use to anybody in this. Board gets wet, stones slide, and Pip blames the ladder.",
-    "So we come under here. Forty years and I have never once played in the rain by choice."
+    "Territory. You had a lovely time in the middle and I owned the edges.",
+    "Corner is gold, side is silver, centre is grass. Doesn't always apply. Did today."
    ]
   }
  }

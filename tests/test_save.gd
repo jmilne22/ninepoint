@@ -14,7 +14,7 @@ extends RefCounted
 ##
 ## A bare `GameState.reset()` inside a static function does not compile -- the
 ## autoload name resolves statically only far enough to read a const, which is
-## why `test_data.gd` can say `GameState.BLOCKS` and this cannot say
+## why a test can read `GameState.DEFAULT_MAP` and this cannot say
 ## `GameState.reset()`. Untyped on purpose: a `var x: Node` annotation would
 ## turn every call into "Nonexistent function in base 'Node'", which is exactly
 ## what has been quietly killing `test_data._test_dialogue_branches`.
@@ -70,13 +70,14 @@ static func _write_raw(slot: int, text: String) -> void:
 
 ## A playthrough distinctive enough that a slot which came back as the wrong one
 ## is obvious rather than plausible.
-static func _populate(who: String, rank: String, day: int) -> void:
+static func _populate(who: String, rank: String, games: int) -> void:
     _gs.reset()
     _gs.player_name = who
     _gs.set_rank(rank)
-    _gs.day = day
-    _gs.slots_used = 1
-    _gs.time_block = "dusk"
+    # `games` counts the kesh record appended below, so a slot's record length
+    # is distinctive on its own.
+    for i in games - 1:
+        _gs.match_records.append({"npc_id": "wren", "player_won": i % 2 == 0})
     _gs.current_map = "de_ketel"
     _gs.spawn_point = "from_street"
     _gs.set_flag("carrying_board", true)
@@ -126,15 +127,14 @@ static func _test_round_trip(t: TestKit) -> void:
     t.eq(_normal(_gs.to_dict()), before, "every field survives the round trip")
     t.eq(_gs.player_name, "Ada", "the name survives")
     t.eq(_gs.rank_label(), "12k", "the rank survives")
-    t.eq(_gs.day, 6, "the day survives")
-    t.eq(_gs.time_block, "dusk", "the hour survives")
+    t.eq(_gs.match_records.size(), 6, "the record survives")
     t.eq(_gs.current_map, "de_ketel", "the map survives")
     t.eq(_gs.spawn_point, "from_street", "the spawn survives")
     t.eq(_gs.get_flag("record_kesh_win"), 2, "a counted flag survives")
     t.ok(_gs.has_flag("carrying_board"), "a set flag survives")
     t.ok(_gs.has_item("old_goban"), "the inventory survives")
     t.eq(_gs.quest_step("first_stones"), 2, "the quest step survives")
-    t.eq(_gs.match_records.size(), 1, "the record survives")
+    t.eq(_gs.match_records.size(), 6, "the whole record survives")
     t.eq(_gs.return_position, Vector2(7, 9), "the position in the room survives")
     t.eq(_gs.active_slot, 2, "loading tells the game which slot it now lives in")
 
@@ -153,7 +153,7 @@ static func _test_slots_are_separate(t: TestKit) -> void:
         _gs.reset()
         t.ok(_ss.load_game(pair[0]), "slot %d reads back" % pair[0])
         t.eq(_gs.player_name, pair[1], "slot %d is its own game" % pair[0])
-        t.eq(_gs.day, pair[2], "slot %d kept its own day" % pair[0])
+        t.eq(_gs.match_records.size(), pair[2], "slot %d kept its own record" % pair[0])
 
     # The failure this is really watching for: a UI that collapses every slot
     # back onto slot 1, which is what the game did before M31.
@@ -174,8 +174,6 @@ static func _test_slot_info(t: TestKit) -> void:
     t.eq(info["status"], "ok", "a written slot reads as ok")
     t.eq(info["player_name"], "Ada", "it names the player")
     t.eq(info["rank"], "12k", "it gives the rank as a rank, not a number")
-    t.eq(info["day"], 6, "it gives the day")
-    t.eq(info["time_block"], "dusk", "it gives the hour")
     t.eq(info["place"], "De Ketel", "it names the place the way the map does")
     t.eq(info["minutes"], 2, "it gives the playtime in minutes")
     t.ok(str(info["saved_at"]) != "", "and when it was written")
@@ -200,7 +198,7 @@ static func _test_corrupt(t: TestKit) -> void:
     t.ok(not _ss.load_game(3), "loading it refuses")
     # Half-restoring a playthrough from a broken file is worse than refusing.
     t.eq(_gs.player_name, "Ada", "and leaves the running game exactly as it was")
-    t.eq(_gs.day, 6, "including the day")
+    t.eq(_gs.match_records.size(), 6, "including the record")
 
     t.ok(_ss.has_save(3), "a corrupt slot is still a slot")
     t.ok(_ss.delete_save(3), "so it can still be thrown away")

@@ -7,8 +7,7 @@
 ##
 ## The line this deliberately does not cross: these are OUTCOMES, not judgements.
 ## A capture landed, a group died, a ko started, the score swung. What the player
-## should have played instead is GoReview's job, and saying it here would spoil
-## the only thing the review has to offer -- something they had not already seen.
+## should have played instead is not said at the board.
 class_name GoTableTalk
 extends RefCounted
 

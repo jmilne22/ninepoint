@@ -1,27 +1,20 @@
 [
  {
   "save": "invited",
-  "note": "M36. Declares its own save per the rule. 'invited' starts on Ketelsteeg at from_ketel (13,9), knows_the_rules set and ranked -- both matter, because all three people in the wassalon refuse a game to somebody who does not play, and Moss refuses one to somebody with no card."
+  "note": "the state this script needs; run_game.sh builds it before launching"
  },
  {
-  "wait": 1.0
+  "wait": 0.8
  },
  {
   "tap": "move_down"
  },
  {
   "tap": "interact",
-  "note": "Continue"
+  "note": "Continue from the save"
  },
  {
-  "wait": 1.6
- },
- {
-  "day": 1,
-  "note": "Monday, and dry. Abel's hours are morning and afternoon in any weather, so this is the plain version of the room before the sky is touched."
- },
- {
-  "time": "afternoon"
+  "wait": 2.2
  },
  {
   "walk_to": [
@@ -45,44 +38,13 @@
  },
  {
   "wait": 0.4,
-  "shot": "a_the_sign_moved",
-  "note": "WASSALON -- open till two. It used to stand on the door tile itself, which is why there was never a door: a sign has to be solid and a warp has to be walkable. It is on the brick to the left of the glass now and still readable."
+  "shot": "a_the_sign"
  },
  {
   "tap": "interact"
  },
  {
   "wait": 0.6
- },
- {
-  "walk_to": [
-   25,
-   9
-  ]
- },
- {
-  "face": [
-   25,
-   8
-  ]
- },
- {
-  "tap": "interact"
- },
- {
-  "advance": 1,
-  "stop_at_choice": true
- },
- {
-  "wait": 0.4,
-  "shot": "b_snack_window",
-  "note": "the other facade on this street: art, a fryer emitter and a glow since M14, and nothing at all to read. The sign is on the brick UNDER the hatch, not on the hatch -- (25,7) has no walkable neighbour and a sign there can never be stood in front of."
- },
- {
-  "tap": "interact"
- },
- {
-  "wait": 0.8
  },
  {
   "walk_to": [
@@ -96,7 +58,7 @@
    8
   ],
   "timeout": 4,
-  "note": "through the glass door. This is the frame that proves the warp exists at all."
+  "note": "through the glass door"
  },
  {
   "wait": 1.6
@@ -109,8 +71,7 @@
  },
  {
   "wait": 1.8,
-  "shot": "c_the_room",
-  "note": "eleventh map. Five machines drawn and turning -- if any of them is a hole the TileSet resource was not rebuilt, which nothing in the project detects. The board on the folding table, the bench, the small ads, and Abel at (11,6)."
+  "shot": "b_the_room"
  },
  {
   "talk_to": "abel"
@@ -121,85 +82,52 @@
  },
  {
   "wait": 1.2,
-  "shot": "d_abel",
-  "note": "Abel Roos, 21 kyu. He has shipped complete since M24 and stood on no map: until now the player met him as a name in the Cup draw and a board across a table. He is also the first opponent at or below a starting player's own strength."
+  "shot": "c_abel"
  },
  {
   "advance": 20,
-  "stop_at_choice": true,
-  "note": "generous, and stop_at_choice does the stopping. A fixed budget that happens to land ON the choice card spends its last tap SELECTING the highlighted option -- which is 'Let's play', so the script declined a game and then started one. Exactly the failure CLAUDE.md rule 1 is about."
+  "stop_at_choice": true
  },
  {
   "wait": 0.3
  },
  {
   "choose": 1,
-  "note": "decline -- the game itself is wassalon_game.json"
+  "note": "decline; the game is wassalon_game.json"
  },
  {
-  "advance": 20,
-  "note": "close the box completely -- the next steps move the player, and a walk while the box is open silently does nothing"
+  "advance": 20
  },
  {
   "wait": 0.8,
-  "shot": "e_box_closed",
-  "note": "an explicit box-closed frame BEFORE any hour or sky is touched. World._repopulate() guards on _talking, so a rebuild behind an open card leaves yesterday's roster standing and the next screenshot is a confident lie. M34 shipped exactly that."
+  "shot": "d_box_closed"
  },
  {
-  "walk_to": [
-   10,
-   8
-  ],
-  "note": "straight down, out of the row the people are standing in"
+  "talk_to": "dov"
  },
  {
-  "walk_to": [
-   3,
-   8
-  ],
-  "note": "and left along row 8, which is clear wall to wall -- _walk_to has no pathfinding, so every leg has to be a straight line through empty floor"
+  "advance": 3,
+  "stop_at_choice": true
  },
  {
-  "rain": true,
-  "note": "force the sky with no day change: hold everything still and move one variable."
+  "wait": 0.8,
+  "shot": "e_dov"
  },
  {
-  "wait": 2.2
+  "advance": 20,
+  "stop_at_choice": true
  },
  {
-  "shot": "f_wet_afternoon",
-  "note": "same day, same hour, only the sky changed -- and there are TWO people in the room. Moss Lindqvist comes in out of the rain, which is what the warmest room on the street is for, and is the only one of the three whose entry carries a weather key."
+  "choose": 1
  },
  {
-  "time": "dusk"
- },
- {
-  "wait": 2.2
- },
- {
-  "shot": "g_wet_dusk",
-  "note": "Abel has gone and Dov Halevi has arrived; Moss is still here, because his hours are afternoon and dusk. Three people, three schedules, one room."
- },
- {
-  "rain": null,
-  "note": "clear the override; the day gets its own sky back"
- },
- {
-  "time": "night"
- },
- {
-  "wait": 2.4
- },
- {
-  "shot": "h_machines_and_nobody",
-  "note": "the frame the map exists for. Open till two: the machines run at every hour and there is nobody in the chair. No other room in the game is allowed to empty, and tests/test_data.gd now asserts this one does, on all fourteen weekday-and-sky combinations of night."
+  "advance": 20
  },
  {
   "walk_to": [
    7,
    8
-  ],
-  "note": "back along the same clear row to the mat"
+  ]
  },
  {
   "walk_to": [
@@ -210,7 +138,6 @@
  },
  {
   "wait": 1.8,
-  "shot": "i_back_on_the_street",
-  "note": "out through the same door, landing on the pavement at from_wassalon (22,9) and not inside the shopfront. Night on Ketelsteeg, so the neon is lit two tiles to the east."
+  "shot": "f_back_on_the_street"
  }
 ]

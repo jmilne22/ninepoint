@@ -9,6 +9,17 @@ signal finished(exit: Dictionary)
 
 const CHARS_PER_SECOND := 90.0
 const BOX_RECT := Rect2(4, 140, 376, 72)
+## The same box along the top edge, for when the people talking are standing
+## where the bottom one would cover them.
+const BOX_TOP_Y := 4.0
+## Text rect: 288 px beside a portrait (354 without one) by four rows of the
+## font's 11 px line height.
+const TEXT_H := 44
+
+## Whoever the box should keep on screen. The World sets it to the player: a
+## conversation happens where the player is standing, and a box that covers
+## both people talking is a box over the wrong third of the screen.
+var anchor: Node2D = null
 const EXPRESSIONS := {"neutral": 0, "happy": 1, "annoyed": 2}
 
 var running: bool = false
@@ -80,8 +91,10 @@ func _build() -> void:
     _text.add_theme_color_override("font_color", Color("#14121a"))
     _panel.add_child(_text)
 
+    # On the frame, outside the text rect, so a long fourth row cannot run
+    # into it.
     _more = Label.new()
-    _more.position = Vector2(354, 56)
+    _more.position = Vector2(364, 58)
     _more.text = "▼"
     _more.add_theme_font_size_override("font_size", 9)
     _more.add_theme_color_override("font_color", Color("#8a6023"))
@@ -95,7 +108,19 @@ func _build() -> void:
 
 
 func show_box() -> void:
+    _panel.position.y = BOX_TOP_Y if _anchor_is_low() else BOX_RECT.position.y
     _root.visible = true
+
+
+## Is the anchor standing in the bottom half of the screen, where the box goes?
+func _anchor_is_low() -> bool:
+    if anchor == null or not is_instance_valid(anchor):
+        return false
+    var cam := get_viewport().get_camera_2d()
+    if cam == null:
+        return false
+    var top := cam.get_screen_center_position().y - UiKit.VIEW.y * 0.5
+    return anchor.global_position.y - top > UiKit.VIEW.y * 0.55
 
 
 func hide_box() -> void:
@@ -124,7 +149,8 @@ func run(graph: DialogueGraph, speaker: Dictionary, start: String = "start") -> 
         _set_speaker(who, str(n.get("portrait", "neutral")))
 
         for line in n.get("text", []):
-            await _say(str(line))
+            for page in _pages(str(line)):
+                await _say(page)
 
         if n.has("choices"):
             var options: Array = []
@@ -180,6 +206,29 @@ func _set_speaker(who: Dictionary, expression: String) -> void:
     _text.position.x = 78 if tex != null else 12
     _text.size.x = 288 if tex != null else 354
     _choice_box.position.x = _text.position.x
+    _choice_box.size.x = _text.size.x
+
+
+## A line that would run past the fourth row is shown a sentence at a time.
+## The writing rules keep lines short enough that this rarely fires; it is here
+## so that when it does, the text is paged rather than drawn over the frame.
+func _pages(line: String) -> PackedStringArray:
+    var width := int(_text.size.x)
+    if UiKit.text_height(line, width) <= TEXT_H:
+        return PackedStringArray([line])
+    var pages := PackedStringArray()
+    var current := ""
+    for sentence in line.split(". "):
+        var piece := sentence if sentence.ends_with(".") else sentence + "."
+        var candidate := piece if current == "" else current + " " + piece
+        if current != "" and UiKit.text_height(candidate, width) > TEXT_H:
+            pages.append(current)
+            current = piece
+        else:
+            current = candidate
+    if current != "":
+        pages.append(current)
+    return pages
 
 
 func _say(line: String) -> void:
@@ -205,6 +254,7 @@ func _choose(options: Array) -> Dictionary:
     for o in options:
         var l := Label.new()
         l.text = "  " + str(o.get("text", "..."))
+        l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
         l.add_theme_font_size_override("font_size", 9)
         l.add_theme_color_override("font_color", Color("#45404f"))
         _choice_box.add_child(l)

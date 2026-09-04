@@ -4,12 +4,13 @@
   "start": {
    "branches": [
     {
-     "if": [["beat", "dov"]],
-     "goto": "after_win"
-    },
-    {
-     "if": [["lost_to", "dov"]],
-     "goto": "after_loss"
+     "if": [
+      [
+       "flag",
+       "dov_match_done"
+      ]
+     ],
+     "goto": "again"
     },
     {
      "goto": "first"
@@ -18,15 +19,19 @@
   },
   "first": {
    "text": [
-    "Dov Halevi. Nineteen kyu.",
-    "I count out loud. People find it irritating and I have decided not to stop."
+    "Dov Halevi. I count out loud. People find it irritating, and I've decided not to stop."
    ],
    "goto": "gate"
   },
   "gate": {
    "branches": [
     {
-     "if": [["not_flag", "knows_the_rules"]],
+     "if": [
+      [
+       "not_flag",
+       "knows_the_rules"
+      ]
+     ],
      "goto": "no_rules"
     },
     {
@@ -36,14 +41,13 @@
   },
   "no_rules": {
    "text": [
-    "You do not play. Then there is nothing here for me to count, and I am simply a man talking numbers to himself in a laundrette.",
-    "Which I am on most nights anyway. But I prefer an audience who can tell whether I am wrong."
+    "You don't play. Then there's nothing for me to count. Wren teaches, down the steps."
    ]
   },
   "offer": {
    "text": [
-    "A game, then. I will count the whole way through and you will find it irritating.",
-    "It is not to put you off. A game nobody counts is a game nobody learns anything from, and I have sat through a great many of those."
+    "A game? I'll count the whole way through, and you'll find it irritating.",
+    "A game nobody counts teaches nobody anything."
    ],
    "choices": [
     {
@@ -53,7 +57,7 @@
       "profile": "dov_9x9",
       "context": "wassalon_dov",
       "unrated": true,
-      "intro": "He sets his watch on the table beside the bowl and then does not look at it once."
+      "intro": "He sets his watch on the table beside the bowl and does not look at it once."
      }
     },
     {
@@ -64,32 +68,40 @@
   },
   "later": {
    "text": [
-    "Then I shall count the machines. Four of them, and the one on the end is thirty seconds behind the rest and has been all week."
+    "Then I'll count the machines. The one on the end is thirty seconds behind the rest."
    ]
   },
-  "after_win": {
+  "again": {
    "text": [
-    "Eleven. You were eleven ahead from about move forty, and you played the rest of it as though you were behind.",
-    "That is the expensive habit, and it is not reading. It is the not knowing."
+    "Again. I'll count quieter. I won't, but I'll try."
    ],
-   "goto": "offer"
-  },
-  "after_loss": {
-   "text": [
-    "Fourteen and a half. I said fourteen and a half at move sixty and it was fourteen and a half at the end.",
-    "Nobody ever believes me until the end, which is the only reason I keep doing it out loud."
-   ],
-   "goto": "offer"
+   "goto": "gate"
   },
   "post_match": {
    "branches": [
     {
-     "if": [["beat", "dov"]],
+     "if": [
+      [
+       "won_last"
+      ]
+     ],
      "goto": "after_win"
     },
     {
      "goto": "after_loss"
     }
+   ]
+  },
+  "after_win": {
+   "text": [
+    "You were ahead from move forty and played the rest as if you were behind.",
+    "That's the expensive habit. Not reading. Not knowing."
+   ]
+  },
+  "after_loss": {
+   "text": [
+    "I said the number at move sixty, and it was the number at the end.",
+    "Nobody believes me until the end. That's why I do it out loud."
    ]
   }
  }

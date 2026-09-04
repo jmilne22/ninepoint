@@ -1,7 +1,7 @@
 [
  {"save": {"1": {"preset": "exam_ready", "name": "Ada", "minutes": 42},
            "2": {"preset": "thirteen_ready", "name": "Bo", "minutes": 18},
-           "3": {"preset": "hooks_ready", "name": "Cass", "minutes": 6}},
+           "3": {"preset": "league_ready", "name": "Cass", "minutes": 6}},
   "note": "three playthroughs at three ranks, in three places, at two hours -- so a row that came back as the wrong slot is obvious rather than plausible"},
 
  {"wait": 1.0},

@@ -173,7 +173,7 @@
     9,
     2
    ],
-   "text": "__HOOKS__THE HOOKS -- one brass hook per regular, strongest at the top, and nobody asks to see a certificate."
+   "text": "A row of brass hooks on the back wall. Coats, mostly, and one umbrella nobody has claimed."
   },
   {
    "tile": [
@@ -194,7 +194,7 @@
     1,
     4
    ],
-   "text": "Pinned to the counter, in Tomas's handwriting: CLUB NIGHT -- TUESDAY, FROM EIGHT. Underneath, smaller: all comers, no cards, the hooks count everything."
+   "text": "Pinned to the counter, in Tomas's handwriting: ALL COMERS. ASK. Underneath, smaller: the board is free, the tea is not."
   }
  ],
  "npcs": [
@@ -214,26 +214,7 @@
     7
    ],
    "dir": "left",
-   "idle": "wander",
-   "blocks": [
-    "afternoon",
-    "dusk",
-    "night"
-   ]
-  },
-  {
-   "id": "hana",
-   "tile": [
-    3,
-    3
-   ],
-   "dir": "down",
-   "idle": "watch",
-   "blocks": [
-    "afternoon",
-    "dusk",
-    "night"
-   ]
+   "idle": "wander"
   },
   {
    "id": "tomas",
@@ -242,42 +223,7 @@
     6
    ],
    "dir": "right",
-   "idle": "tend",
-   "blocks": [
-    "afternoon",
-    "dusk",
-    "night"
-   ]
-  },
-  {
-   "id": "nadia",
-   "tile": [
-    16,
-    5
-   ],
-   "dir": "left",
-   "idle": "study",
-   "blocks": [
-    "night"
-   ],
-   "days": [
-    "tuesday"
-   ]
-  },
-  {
-   "id": "orla",
-   "tile": [
-    5,
-    10
-   ],
-   "dir": "right",
-   "idle": "watch",
-   "blocks": [
-    "night"
-   ],
-   "days": [
-    "tuesday"
-   ]
+   "idle": "tend"
   }
  ],
  "music": "theme_club",

@@ -1,7 +1,7 @@
 [
  {
   "save": {},
-  "note": "no slots at all. This script starts from New Game, and New Game now takes the first empty slot -- so without this it saves into whatever the last run left behind, and the shot at the end names a different slot every time"
+  "note": "no slots: New Game takes the first empty one"
  },
  {
   "wait": 0.8,
@@ -12,14 +12,13 @@
   "note": "New Game"
  },
  {
-  "wait": 2.6,
-  "note": "the cold open"
+  "wait": 2.6
  },
  {
   "tap": "interact",
   "times": 14,
   "gap": 0.8,
-  "note": "Hana's address"
+  "note": "the opening"
  },
  {
   "wait": 1.2
@@ -29,22 +28,20 @@
   "note": "accept the name"
  },
  {
-  "wait": 3.2,
-  "note": "arrive in Steenbeek"
+  "wait": 3.2
  },
  {
   "wait": 1.2
  },
  {
   "advance": 30,
-  "note": "the opening"
+  "note": "the board in the attic"
  },
  {
   "walk_to": [
    6,
    7
-  ],
-  "note": "out of the attic"
+  ]
  },
  {
   "walk_to": [
@@ -62,6 +59,69 @@
  },
  {
   "walk_to": [
+   10,
+   17
+  ],
+  "note": "into the park"
+ },
+ {
+  "talk_to": "pip"
+ },
+ {
+  "wait": 0.5,
+  "shot": "pip_spots_the_board"
+ },
+ {
+  "advance": 12,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0,
+  "note": "I don't know what it is"
+ },
+ {
+  "advance": 18,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.4,
+  "shot": "capture_go_offered"
+ },
+ {
+  "choose": 0,
+  "note": "go on then"
+ },
+ {
+  "wait": 2.4,
+  "shot": "first_ever_game"
+ },
+ {
+  "tap": "go_resign"
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "tap": "go_resign"
+ },
+ {
+  "wait": 1.0
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.4
+ },
+ {
+  "wait": 1.0,
+  "shot": "pip_after_the_capture_game"
+ },
+ {
+  "advance": 10
+ },
+ {
+  "walk_to": [
    14,
    9
   ]
@@ -72,7 +132,7 @@
    8
   ],
   "timeout": 3,
-  "note": "into the club"
+  "note": "into De Ketel"
  },
  {
   "wait": 1.6,
@@ -87,8 +147,7 @@
  },
  {
   "advance": 8,
-  "stop_at_choice": true,
-  "note": "Wren asks if you have played"
+  "stop_at_choice": true
  },
  {
   "wait": 0.3,
@@ -100,16 +159,14 @@
  },
  {
   "advance": 40,
-  "stop_at_choice": true,
-  "note": "through Wren, stopping at her offer"
+  "stop_at_choice": true
  },
  {
   "choose": 1,
-  "note": "'no thanks' -- both branches rejoin at sign_off"
+  "note": "I'll work it out"
  },
  {
-  "advance": 20,
-  "note": "finish with Wren"
+  "advance": 20
  },
  {
   "talk_to": "kesh"
@@ -124,15 +181,13 @@
  },
  {
   "wait": 2.6,
-  "note": "the ceremony plays"
+  "note": "the ceremony"
  },
  {
-  "tap": "interact",
-  "note": "call it"
+  "tap": "interact"
  },
  {
-  "wait": 4.5,
-  "note": "stones, count, verdict"
+  "wait": 4.5
  },
  {
   "tap": "interact"
@@ -228,60 +283,7 @@
   "tap": "interact"
  },
  {
-  "wait": 2.2,
-  "shot": "review",
-  "note": "the review sits between the result card and the town"
- },
- {
-  "tap": "interact"
- },
- {
-  "wait": 0.55
- },
- {
-  "tap": "interact"
- },
- {
-  "wait": 0.55
- },
- {
-  "tap": "interact"
- },
- {
-  "wait": 0.55
- },
- {
-  "tap": "interact"
- },
- {
-  "wait": 0.55
- },
- {
-  "tap": "interact"
- },
- {
-  "wait": 0.55
- },
- {
-  "tap": "interact"
- },
- {
-  "wait": 0.55
- },
- {
-  "tap": "interact"
- },
- {
-  "wait": 0.55
- },
- {
-  "tap": "interact"
- },
- {
-  "wait": 0.55
- },
- {
-  "wait": 1.6
+  "wait": 2.4
  },
  {
   "wait": 1.2,
@@ -290,16 +292,15 @@
  {
   "advance": 25,
   "stop_at_choice": true,
-  "note": "Kesh on the result"
+  "note": "Kesh: the rank, the result, then a lesson offer"
  },
  {
   "wait": 0.3,
-  "shot": "lesson_offer",
-  "note": "she offers a lesson first these days"
+  "shot": "lesson_offer"
  },
  {
   "choose": 1,
-  "note": "'Not now.' -- declines the lesson, goes to the rematch"
+  "note": "Not now"
  },
  {
   "advance": 6,
@@ -311,15 +312,80 @@
  },
  {
   "choose": 1,
-  "note": "'Later.' -- decline the rematch too"
+  "note": "Later"
  },
  {
-  "advance": 10,
-  "note": "finish the conversation"
+  "advance": 10
  },
  {
   "wait": 0.4,
   "shot": "after_kesh"
+ },
+ {
+  "walk_to": [
+   9,
+   12
+  ]
+ },
+ {
+  "walk_to": [
+   9,
+   13
+  ],
+  "timeout": 3,
+  "note": "out to the street"
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "walk_to": [
+   1,
+   10
+  ],
+  "note": "to the stop at the west end"
+ },
+ {
+  "face": [
+   1,
+   9
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.4,
+  "shot": "tram_stop"
+ },
+ {
+  "choose": 0,
+  "note": "North, to Essenveld. The tram pulls in, then the scene changes"
+ },
+ {
+  "wait": 1.6,
+  "shot": "tram_arriving"
+ },
+ {
+  "wait": 3.4
+ },
+ {
+  "shot": "institute_hall"
+ },
+ {
+  "walk_to": [
+   21,
+   7
+  ],
+  "timeout": 6,
+  "note": "east to the classroom"
+ },
+ {
+  "wait": 1.6
  },
  {
   "talk_to": "hana"
@@ -329,8 +395,12 @@
   "shot": "hana"
  },
  {
-  "advance": 20,
-  "note": "accept the problem"
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0,
+  "note": "Show me"
  },
  {
   "wait": 1.8,
@@ -353,8 +423,76 @@
   "tap": "interact"
  },
  {
-  "wait": 2.2,
-  "shot": "back_in_club"
+  "wait": 2.4
+ },
+ {
+  "wait": 0.4,
+  "shot": "hana_after_the_puzzle"
+ },
+ {
+  "advance": 10
+ },
+ {
+  "walk_to": [
+   1,
+   7
+  ]
+ },
+ {
+  "walk_to": [
+   0,
+   7
+  ],
+  "timeout": 3,
+  "note": "back to the hall"
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "wait": 0.3,
+  "shot": "marguerite"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0,
+  "note": "Sign"
+ },
+ {
+  "advance": 10
+ },
+ {
+  "wait": 0.4,
+  "shot": "enrolled"
+ },
+ {
+  "walk_to": [
+   10,
+   3
+  ],
+  "timeout": 6
+ },
+ {
+  "tap": "move_up"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.8,
+  "shot": "league_table"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
  },
  {
   "tap": "menu"

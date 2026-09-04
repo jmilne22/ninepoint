@@ -4,12 +4,13 @@
   "start": {
    "branches": [
     {
-     "if": [["beat", "abel"]],
-     "goto": "after_win"
-    },
-    {
-     "if": [["lost_to", "abel"]],
-     "goto": "after_loss"
+     "if": [
+      [
+       "flag",
+       "abel_match_done"
+      ]
+     ],
+     "goto": "again"
     },
     {
      "goto": "first"
@@ -18,15 +19,19 @@
   },
   "first": {
    "text": [
-    "Abel Roos. Twenty-one kyu, and I came across on the ferry this morning for this.",
-    "I have never played anybody I did not already know. So this is all quite a lot."
+    "Abel Roos. I came over on the ferry for the Cup. I've never played anybody I didn't already know."
    ],
    "goto": "gate"
   },
   "gate": {
    "branches": [
     {
-     "if": [["not_flag", "knows_the_rules"]],
+     "if": [
+      [
+       "not_flag",
+       "knows_the_rules"
+      ]
+     ],
      "goto": "no_rules"
     },
     {
@@ -36,15 +41,12 @@
   },
   "no_rules": {
    "text": [
-    "You don't play at all. Right.",
-    "Then no, and it isn't you. I have played four people in my life and I knew all four of them, and starting with somebody who doesn't know how the stones come off is not how I get to five.",
-    "There's a woman at the bar down the steps who teaches. Wren. Go and be taught, and then come back and I'll be nervous at you properly."
+    "You don't play at all? Then no, sorry. Wren, at the bar down the steps, teaches. Come back after."
    ]
   },
   "offer": {
    "text": [
-    "Would you -- sorry. Would you want a game?",
-    "It doesn't have to count. Nothing in here counts. That's rather the appeal of it."
+    "Would you... sorry. Would you want a game? Nothing in here counts. That's the appeal."
    ],
    "choices": [
     {
@@ -54,7 +56,7 @@
       "profile": "abel_9x9",
       "context": "wassalon_abel",
       "unrated": true,
-      "intro": "He puts the bowls out the wrong way round, swaps them, and then swaps them back."
+      "intro": "He puts the bowls out the wrong way round, swaps them, and swaps them back."
      }
     },
     {
@@ -65,32 +67,40 @@
   },
   "later": {
    "text": [
-    "Right. Yes. I'll be here -- I've another forty minutes on this machine and nowhere in this city to be."
+    "Right. I'll be here. Forty minutes left on this machine and nowhere to be."
    ]
   },
-  "after_win": {
+  "again": {
    "text": [
-    "You beat me. That's fine. That's what I came for, people who'd beat me.",
-    "Sorry. That came out sounding as though I'd planned it."
+    "Again? Yes. Please."
    ],
-   "goto": "offer"
-  },
-  "after_loss": {
-   "text": [
-    "I won. I genuinely do not know what to do with my face.",
-    "Would you play another? I'd like to find out whether that was me or whether that was you having a bad one."
-   ],
-   "goto": "offer"
+   "goto": "gate"
   },
   "post_match": {
    "branches": [
     {
-     "if": [["beat", "abel"]],
+     "if": [
+      [
+       "won_last"
+      ]
+     ],
      "goto": "after_win"
     },
     {
      "goto": "after_loss"
     }
+   ]
+  },
+  "after_win": {
+   "text": [
+    "You beat me. That's fine. That's what I came for, people who'd beat me.",
+    "Sorry. That came out as though I'd planned it."
+   ]
+  },
+  "after_loss": {
+   "text": [
+    "I won. I don't know what to do with my face.",
+    "Another? I want to know if that was me, or you having a bad one."
    ]
   }
  }

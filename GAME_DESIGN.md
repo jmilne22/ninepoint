@@ -15,15 +15,15 @@ Hana addresses you   You do not know what Go is.   Enrolled at the bottom of the
 directly, then asks  A board is left in your       lower league.
 your name.           room. Pip drags you into a      - classes (openings, and on)
    (Pokemon)         game. Wren teaches the          - the study hall: play anyone
-                     rules. Kesh challenges you.     - the league board: your record
-                     Hana teaches at the             - the qualifying exam (the goal)
-                     Instituut, two stops north.
+                     rules. Kesh challenges you      - the league board: your record
+                     and hands you a rank. Tram 4    - the qualifying exam (the goal)
+                     north, to the Instituut.
                           (Hikaru no Go)                  (Tag Force / insei)
 ```
 
 - **The opening** is the Pokemon position: somebody speaks to the player before the
   world exists and asks what to call them. Hana takes it, which means she is a
-  familiar face by the time you meet her in Act 1.
+  familiar face by the time you meet her at the Instituut.
 - **Act 1** starts from genuine zero. The intro narration no longer implies the player
   knows the rules -- there is a board in the room and no instructions. Pip in the park
   assumes you play, and teaches you **Capture Go** before anybody explains anything.
@@ -43,17 +43,12 @@ else -- no experience, no allowance for effort. It is the honest form of the pil
 section 2: the only way up is to win, and the only way to win is for the human to get
 better. `LeagueTable` computes it from `GameState.match_records` and has no other input.
 
-**Built:** the day counter. A day holds `SLOTS_PER_DAY` hours; a rated game or a class costs
-one, and lessons, puzzles and the unrated games in the park and under the arches are free --
-the distinction Go culture already draws, used as the economy. Spending an hour moves
-`time_block` through morning, afternoon, dusk and night, which changes the light, the sound,
-the crowd and — since M26 — who is standing in the room. Sleeping is the only thing that
-advances the day, so the player is never punished for sitting and thinking about a position.
-
-The term is a **fortnight**: the exam on day `EXAM_DAY` (10) and the Beginner Cup on
-`CUP_DAY` (14). It was six weeks until M26, which was four times the content that exists to
-fill it, and a term the player crosses with one keypress is a term that has overstated
-itself. Widen it again when there is something to widen it for.
+**There is no clock.** There was one from M19 to M36 — hours, days, a weekday, weather and
+schedules that moved people between rooms — and M37 cut all of it, because none of it was
+Go and all of it was complexity the player had to carry: a quest step could hide behind an
+hour, a room could be empty, and the after-game line could be about a game from last week.
+Everyone stands where they live. A game costs nothing but the game. The exam and the Cup
+start when you tell Marguerite you are ready.
 
 ## 1. Premise
 
@@ -76,9 +71,8 @@ rival who keeps finding you, and the slow, real business of getting better.
 
 The city is built on one opposition, and the player lives between its halves. Above ground,
 in daylight, the **Essenveld Instituut**: glass, timetables, a league board on the wall, an
-exam that culls you, and everything recorded. Below, after dark, **De Ketel** and
-**Onderbrug**: an hourly rate chalked on a slate, brass hooks with the regulars' cards on
-them, cash on the crate, and nobody asking to see your papers.
+exam that culls you, and everything recorded. Below, **De Ketel** and **Onderbrug**: an
+hourly rate chalked on a slate, cash on the crate, and nobody asking to see your papers.
 
 The Instituut says a rank is a document. Joos under the arches says a rank is what happens at
 the table. Both are telling the truth, which is what makes it a setting rather than a
@@ -102,7 +96,7 @@ Anything that would let a weaker human beat a stronger opponent by grinding is f
 | Unlocked opponents/locations | Access gating, not power. |
 | Relationships | Changes dialogue, lessons offered, and who will play you. |
 | Key items | A rank certificate, a tournament entry slip, a borrowed book. Narrative keys. |
-| Knowledge | Lessons, puzzles, proverbs, reviews. Lives in the human's head. |
+| Knowledge | Lessons, puzzles, proverbs. Lives in the human's head. |
 
 **Forbidden**
 Stat buffs, "critical reads", luck rolls that change the board, AI that secretly plays worse
@@ -124,13 +118,12 @@ you a proverb whether or not it applies. Pip attempts ladders that do not work. 
 A match should read as a conversation, and the post-game dialogue should refer to what happened.
 
 ### P4 — Compact and alive over large and empty
-One town, six locations, eight people who have somewhere to be at a given hour.
+One town, eleven rooms, fifteen people who are always where they live.
 Better a café whose owner remembers your last game than a continent of silent villagers.
 
 ### P5 — Losing is content
 This is a game about a beginner. The rival will beat you, probably several times.
-Defeat advances the story, unlocks a review with the teacher (built — see section 6),
-and never blocks progress. There is no game-over screen.
+Defeat advances the story and never blocks progress. There is no game-over screen.
 
 ## 3. Core loop
 
@@ -159,11 +152,11 @@ Compact, walkable, vertical: a street with rooms above it and rooms below it. Ni
 
 | Location | Role | Regulars |
 |---|---|---|
-| **The attic** (player's home) | Save point, sleep to advance day, study desk (puzzles) | — |
-| **De Ketel** | Rated games, lessons, the hooks | Tomás, Wren, Kesh, Hana |
-| **Onderbrug** (the arches) | Money games, blitz, night | Bertie, Pip, Joos |
-| **Molenpark** | Fast outdoor games, the stone tables, daylight | Bertie, Pip |
-| **Ketelsteeg** | The street: tram stop, noticeboard, snack window, the stationer's | — |
+| **The attic** (player's home) | The study desk (puzzles) | — |
+| **De Ketel** | Rated games, lessons, the rival | Tomás, Wren, Kesh |
+| **Onderbrug** (the arches) | Nine stones from a man with no card | Joos |
+| **Molenpark** | Fast outdoor games, the stone tables | Bertie, Pip |
+| **Ketelsteeg** | The street: the tram stop, noticeboard, snack window, the stationer's | — |
 | **The wassalon** | The laundrette. The city's third register: nothing at all is written down | Abel, Dov, Moss |
 | **The quay** | Grey water and one bench. Where you go after losing | — |
 | **Essenveld Instituut** | Classes, the internal league, the study hall | Hana, Marguerite, the students |
@@ -179,65 +172,15 @@ rated because the one person who wants a record is the one who has spent three y
 his.
 
 ### Schedules
-**Built (M26).** NPCs occupy different locations by time-of-day block. The blocks are
-`morning`, `afternoon`, `dusk`, `night` — `GameState.BLOCKS`, and note that there is no
-"evening": this paragraph said Morning / Afternoon / Evening for four milestones and
-`gen_maps.validate()` now rejects the word, because a misspelt block matches no hour and
-removes the person from the game at every one of them, silently.
 
-A map's NPC entry may carry `"blocks": ["dusk", "night"]`; absent or empty means always,
-the same reading `TileAnimator` and `Soundscape` give the key. `MapBuilder.build_npcs()`
-filters on it, and `World._repopulate()` rebuilds when the hour turns with the world still
-standing — which happens only when you sleep, since every other way of spending an hour
-goes through a scene change and gets a fresh world anyway.
-
-What it buys is the two Go cultures stated in section 1 as one person rather than two
-copies: Hana teaches at the Instituut in the daylight and is at De Ketel after dark; Kesh
-the same. Pip and Bertie are in Molenpark by day and under the arches at night, which
-finally populates a map that can never have a crowd (walled at both ends, so every route
-`validate()` was offered got rejected). The bar is shut in the morning and the study hall
-empties as the day goes on.
-
-Two people are unscheduled on purpose — Wren at De Ketel, Ilse in the study hall — because
-those two rooms are where Act 1 and Act 2 actually run, and a room that empties is a slot
-the player cannot spend, which is the one way a schedule can deadlock the game rather than
-merely inconvenience. `tests/test_data.gd` asserts both rooms are staffed at every hour,
-and that every character is findable at every hour unless they are on a written list of
-the five who are deliberately not.
-
-**Built (M34): the day as well as the hour. Built (M35): the sky as well as the day.** An entry
-may also carry `"days"`, matched against `GameState.weekday()`, and `"weather"`, matched against
-`GameState.weather()`, the way `"blocks"` is matched against `time_block` — and **all three must
-pass**. The week is seven days, `WEEKDAYS` mirrors `BLOCKS`, and a term is exactly two of them.
-The weather runs on a **five**-day cycle, and five rather than seven is the design: a cycle
-sharing a factor with the week is not a second axis, it is the weekday relabelled, and Saturday
-would be dry forever. The rule lives on `MapData.is_present()` because that class is pure; on
-`MapBuilder`, which reads autoloads, no test in the project could have reached it.
-
-A restricted entry adds and never guarantees — but the check is a **cover**, not an exclusion:
-every combination of hour, weekday and sky is walked, and a person must be somewhere in all of
-them. The earlier version discounted conditional entries entirely, which was sound and made a
-schedule that *removes* somebody impossible to write. A pair of entries that between them cover
-every combination now keeps its guarantee.
-
-What it buys is three kinds of day that differ:
-
-- **Rain.** Verhaven drizzles; now it does so in the game rather than only in the setting
-  document. Molenpark is open ground, so the two park regulars move under the viaduct arches when
-  it rains — the first schedule that moves somebody rather than adding them. **Day 1 is dry, and
-  must be**: Pip teaches Capture Go at the stone tables and that is the first game the player
-  plays.
-- **Club night at De Ketel on Tuesdays** — Nadia and Orla down from the Instituut, the only two
-  people who are nowhere at all at night. Six in the room rather than four, unrated, so it moves
-  the hooks and never the league. The two Go cultures meet officially at the Bondszaal and
-  unofficially here, which is the same opposition the city is built on seen from the other side.
-  Tuesday and not Wednesday because day 1 is a Monday, so Wednesday fell on days 3 and 10 — and
-  the exam is day 10.
-- **Market day on Ketelsteeg, Saturday mornings** — the daylight counterpart, and Tomás above
-  ground for once, buying the week in for a bar that does not open until two.
-
-Time advances when the player sleeps and on certain story beats — not on a real-time clock,
-so the player is never punished for thinking about a position.
+**Cut (M37).** From M26 to M36 a map's NPC entry could carry hours, weekdays and weather,
+and the same person stood in different rooms at different times. It was the largest source
+of complexity in the game and it decided nothing a player could act on: a quest step could
+hide behind an hour, and the tests needed a 56-combination cover just to prove nobody had
+been scheduled out of existence. Everyone now stands on one map, always. The one design
+consequence worth keeping: Hana cannot be both at De Ketel for Act 1 and in the classroom
+for Act 2, so Kesh hands out the first rank and the tram, and Hana meets you at the
+Instituut.
 
 ## 5. Cast
 
@@ -257,16 +200,19 @@ Ranks are real ranks; the ladder from 20k to 5d is the game's difficulty curve m
 | 2 | **Kesh Idowu** | 12k | Recurring rival | Sharp, impatient, competitive in a way she is slightly embarrassed by; keeps score of your meetings | Cuts first, counts never. Fast. Punishes loose shapes |
 | 3 | **Pip Arnesen** | 18k | Enthusiastic weaker player | Boundless, loud, wants to play *right now*, loses cheerfully | Attempts ladders. The ladders do not work. Attempts them again |
 | 4 | **Bertie Vale** | 4k | Older park player | Gruff, dry, generous underneath; deals in proverbs of variable relevance | Territorial, fast, solid. Will not fight you; will out-count you |
-| 5 | **Nadia Ferreira** | 2k | Club regular | Methodical, encyclopaedic, carries a joseki book she quotes at you | Opens by the book. Struggles when you leave the book |
+| 5 | **Nadia Ferreira** | 2k | Senior student | Methodical, polite, a little tired; sits in on the beginners' classes | Opens by the book. Struggles when you leave the book |
 | 6 | **Hana Oyelaran** | 5d | Club teacher | Patient, unhurried, asks questions instead of answering them | Teaching games at handicap; will not crush you, will not let you off |
-| 7 | **Tomás Beir** | 8k | Café owner | Easy, hospitable, plays exactly one game a day and means it | Loose, instinctive, surprisingly good endgame |
+| 7 | **Tomás Beir** | 8k | Bar owner | Gruff, practical, counts | Loose, instinctive, surprisingly good endgame |
 | 8 | **Marguerite Sable** | 1d | Tournament organiser | Brisk, fair, allergic to slow pairing | Precise, orthodox, low-risk |
 | 9 | **Joos** | `?` | The man at the arches | Laconic, unimpressed, will not discuss himself. No surname offered | Territorial and patient. Three dan behind a label he refuses to fill in |
 
 ### Player rank
-Starts **unranked**. After the first rated club game you are given a provisional rank
-(22k for the slice). Rank moves on rated results only — park blitz and café games are unrated,
-which is itself a piece of Go culture worth teaching.
+Starts **unranked**. After the first rated game Kesh gives you 22 kyu. After that the rank
+is a step ladder (`GoRankLadder`): beat somebody at or above your rank and it goes up one;
+lose to somebody at or below it and it goes down one; anything else changes nothing.
+Handicap is priced in at what the board says a stone is worth. Park and arch games are
+unrated and move nothing, which is itself a piece of Go culture worth teaching. It replaced
+a rolling performance rating under which three losses from 22 kyu were a promotion.
 
 ### The rival: Kesh Idowu
 Kesh is 12k and knows it. She meets you at the club the day you arrive, plays you at 9×9,
@@ -285,76 +231,22 @@ RPG world ──► challenge accepted ──► MatchConfig built from opponent
    │                                          │
    │                              play ──► two passes ──► mark dead ──► score
    │                                          │
-   └──────── MatchResult ◄──── the review ◄───┘
-      (winner, margin, resigned?, board size, handicap, komi, move count, findings)
+   └──────── MatchResult ◄────────────────────┘
+      (winner, margin, resigned?, board size, handicap, komi, move count)
 ```
-`MatchResult` is the *only* thing the RPG learns from a game. Dialogue, quests, rank and
-relationships all read from it. The Go board knows nothing about NPCs, quests or the town.
+`MatchResult` is the *only* thing the RPG learns from a game. Dialogue, quests and rank
+all read from it. The Go board knows nothing about NPCs, quests or the town.
 
 ### The review
 
-In Go the review is usually longer than the game, and it is where the learning actually
-happens. So a match does not end at the result card: the person you just played walks you
-back through your own board first.
-
-`GoReview` replays the finished game from its move list and reports what happened in it. It
-works in three layers, and the separation is the design:
-
-**What happened.** Fourteen detectors, each a fact about the board: a group left in atari
-and where its liberty was, a group that died when a move would have saved it, an eye you
-filled, stones you put on one liberty, a capture of theirs you never took, a group you kept
-feeding after it was lost, your own territory filled in at the end, a cut you answered
-somewhere else, a ladder you ran into, a game you should have stopped playing. And four that
-are not optional: a capture, a group you got out, an atari you answered, and the best move
-you played.
-
-**What it cost.** A `GoEvaluator` prices every finding in points, so the review can lead
-with the worst thing that happened rather than the thing whose detector happened to shout
-loudest. The shipped implementation, `GoProgress`, counts what a person counts — stones on
-the board, plus the empty points that only one colour has walled off — after every move.
-That curve also answers the question a beginner most wants answered and no single finding
-can: *where did the game turn?*
-
-**Who says it.** `GoReviewVoice` overlays a character's file on `default.json`, so Kesh is
-furious and precise, Hana asks rather than tells, and Joos manages four words.
-
-Four rules keep it a review rather than an audit:
-
-- **It always opens with something you did.** Not "when there is something to praise" —
-  always. P5 says losing is content, and a list of failures makes it punishment instead. The
-  compliment used to be conditional, which meant the bad games were the likeliest to open on
-  a criticism; measuring it found 44 of 60 games doing exactly that. `best_moment` is the
-  floor: every game contains a move after which you were better off.
-- **Only what you are ready to hear.** The gate holds back only the kinds that genuinely
-  need a stronger reader. It used to follow the lesson order, which was wrong — lessons are
-  ordered by what builds on what, a review by what you can act on tomorrow.
-- **One of each kind, at most three, told in the order they happened.** Four ignored ataris
-  are one mistake made four times, and the review says so rather than saying it four times.
-- **Only from somebody stronger — but refusing is not silence.** Wren is 20k and will not
-  tell you what you did wrong once you pass her. She will still tell you what was good, and
-  where the game turned, because neither of those needs authority she does not have.
-
-And then it does two things a list of sentences cannot. Each finding carries a **takeaway**,
-one portable sentence that is the rule rather than the voice, and the id of the lesson that
-covers it. And where a finding has a single right answer, the review **hands the position
-back as a puzzle** — the mistake you made ninety seconds ago, to solve now, which is the
-readiest a beginner ever is. The whole game is steppable with the arrow keys throughout,
-because "how did we get here" is the question actually being asked.
-
-Across games, `GoReviewHistory` reads the compact summary each match leaves in
-`GameState.match_records` and notices the pattern a single review cannot: that this is the
-third game running. `head_to_head` records your results; this records your play.
-
-None of this needs an engine. A group that had one liberty and died is a fact about the
-board rather than an opinion about it, and so is the arithmetic that says it cost eleven
-points — those are the mistakes that decide games at kyu strength. Judgement — *this move
-was worth four points rather than nine* — is what an engine would add, and it is a sentence
-no beginner can act on. `The Conquest of Go` bundles KataGo for exactly that and pays for it
-in hundreds of megabytes, a build per platform, and forum threads about the engine freezing;
-`GoEvaluator` is the seam where it could go later without touching a detector or a line of
-dialogue. The review also grows rarer as the player improves, because a clean game produces
-little to say, which makes it one more honest signal of the only progression this game
-believes in.
+**Cut (M37).** From M25 to M36 a match did not end at the result card: fifteen detectors,
+an evaluator that priced each finding in points, and a voice file per character replayed
+the game at the player. It was about 1,500 lines and eight data files, and it could say a
+group had one liberty and died but never what a move was worth — rules without judgement.
+A review that is any good needs an engine, and when the engine comes (ROADMAP §1) the
+review is the three biggest point swings in the game, which is what every real Go app
+shows and what none of the detectors could. Until then the person you played says two
+lines about the game you just played, and that is the whole post-mortem.
 
 ### Rules implemented (milestone 1)
 9×9; stone placement; liberties; capture; suicide illegal; ko (simple ko, with positional
@@ -432,43 +324,27 @@ renderer as real matches. The study desk at home replays any puzzle already unlo
 
 ## 7. Quests
 
-Quests are data. **Six ship**: `first_stones` (below), `enrolment` ("The Lower League"),
-`the_hooks`, `page_forty`, `qualifying_exam` and `beginner_cup`. The first is the one worth reading in full, because it
-is the shape the other three follow:
+Quests are data. **Four ship**: `first_stones` (below), `enrolment` ("The Lower League"),
+`qualifying_exam` and `beginner_cup`. The first is the one worth reading in full, because it
+is the shape the others follow:
 
-**"First Stones"** *(Q_FIRST_STONES)*
-1. Leave your room.
-2. Find De Ketel, further along Ketelsteeg.
-3. Speak to Wren inside — she explains the Beginner Cup.
-4. Speak to Kesh; accept her 9×9 challenge.
-5. Play the game. (Either result advances.)
-6. Speak to Hana, who has been watching, and solve her capture puzzle.
-→ Rewards: provisional rank 22k, De Ketel membership key item, Kesh relationship established.
+**"First Stones"**
+1. Find De Ketel, further along Ketelsteeg.
+2. Speak to Wren inside — she tells you about the Cup.
+3. Play Kesh's 9×9 game. (Either result advances.)
+→ Kesh gives you 22 kyu and starts `enrolment`: the tram north, Hana's capture problem,
+Marguerite's register, the league board, a class, a league win.
 
-Tournament arcs are built -- the Cup and the exam are both quests. The **ladder** quest is
-built too, and it is `the_hooks` (M30): seven name-cards on the brass hooks at the back of De
-Ketel, in an order derived from the record and stored nowhere. Beat somebody hanging above
-you and you take their hook. Losing costs nothing, so it can be challenged up freely; only
-wins move a card, so it cannot be ground.
-
-It is the counterweight to the league board, and it disagrees with it deliberately. The
-league counts rated games in a round robin and prints a document. The hooks count **every**
-game played in the room -- the park, the arches and the back table -- and are a row of brass
-hooks. The same two people can be in a different order on each, which is the argument the
-city is built on, expressed as two data structures with no code in common.
-
-The **fetch** is built too, and it is `page_forty` (M32). Ilse tells everybody who loses to
-her to read the first forty pages; Nadia is the only person who has page forty. You borrow the
-book, read it at the desk in the attic, beat Ilse with something that is not in it, and give
-it back. It is a key item in the P1 sense -- a narrative key, and emphatically not a modifier:
-the whole argument of the quest is that the book does not work, which Ilse demonstrates by
-having read all of it and being nine kyu, and Nadia concedes when you hand it over.
+Tournament arcs are built -- the Cup and the exam are both quests. Two more shipped and were
+cut in M37: `the_hooks`, a second progression at De Ketel that disagreed with the league on
+purpose, and `page_forty`, a borrowed book in a game with no inventory screen. One
+progression is enough for a player to read, and it is the league board.
 
 ## 8. Tournaments (post-slice design)
 
-The Steenbeek Cup: 4 rounds, McMahon-ish pairing, one game per in-game day, in a hired room
-at the Bondszaal. Between rounds you may study, review with Hana, or scout opponents in the
-café. Placing changes your rank the way every other result does -- through the record.
+The Steenbeek Cup: 4 rounds in a hired room at the Bondszaal, run round after round once
+you tell Marguerite you are ready. Placing changes your rank the way every other result
+does -- through the record.
 
 **Two sections, and the difference between them is the argument.** The beginners' section
 has a **ceiling** -- fifteen kyu and below -- and therefore no handicap: everybody in it is
@@ -480,9 +356,7 @@ thirteen above it.
 Which one you are in is decided by the rank on your card, at the registrar's desk, which is
 how a real event does it. The one exception is deliberate: a player still under the ceiling
 who has won three rated games may choose to **play up** into the open section. Marguerite
-will enter them, and will say first that it is four games against people who will beat you,
-and that some players learn more from that fortnight than from the year around it and some
-just lose four games. Both halves of that are true and the game does not decide which.
+will enter them, and will say first that it is four games against people who will beat you.
 
 The open field is the only place in Verhaven where the two Go cultures sit down at the same
 table with a result form on it: Kesh, Ilse, Tomás, Sunny and Orla, the Instituut and De
@@ -495,7 +369,7 @@ never had one.
 | Chapter | Board | Player rank arc | Gate |
 |---|---|---|---|
 | 1 Arrival | 9×9 | unranked → 22k | Vertical slice |
-| 2 The Hooks | 9×9 → 13×13 | 22k → 17k | Win 3 rated games — **built (M28)** |
+| 2 The back table | 9×9 → 13×13 | 22k → 17k | Win 3 rated games — **built (M28)** |
 | 3 Beginner Cup | 13×13 | 17k → 14k | Enter tournament |
 | 4 The Park Crowd | 13×13 | 14k → 10k | Beat Bertie at 4 stones |
 | 5 Kesh, Even | 19×19 | 10k → 8k | Rival match, no handicap |
@@ -505,7 +379,7 @@ Each rank step is gated on the human actually winning games at the appropriate h
 The game will not hand out a rank for time served.
 
 **Chapter 2's gate is real.** Three rated games won opens a 13×13 -- Tomás's back table at
-De Ketel and the board in the study hall -- through the `rated_wins_at_least` condition,
+De Ketel, which Kesh will also play you on -- through the `rated_wins_at_least` condition,
 counted off the record rather than kept in a flag.
 
 **Chapter 3's board is real too.** §8's open section is built (M33) and is played on
@@ -532,6 +406,5 @@ short enough to read on a dialogue box in three breaths.
 
 ## 12. Out of scope for v1
 
-Online play, real-time clocks, SGF import/export UI (games are recorded and the review
-reads them, but there is no kifu browser),
-a second town, romance systems, crafting.
+Online play, real-time clocks, SGF import/export UI (games are recorded, but there is no
+kifu browser), a second town, romance systems, crafting.

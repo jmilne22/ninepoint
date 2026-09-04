@@ -6,19 +6,12 @@
 class_name CrowdSpawner
 extends Node2D
 
-## How many may be on a map at once, by hour. Steenbeek empties after dark --
-## which is the point of Onderbrug being where it is.
-const DENSITY := {"morning": 3, "afternoon": 3, "dusk": 2, "night": 1}
+## How many may be on a map at once.
+const CAP := 3
 ## The street's default cast of nobodies. A route may name its own instead --
 ## the Instituut's hall gets students, and a dockworker in it would be a
 ## costume error nobody would be able to name but everybody would feel.
 const SHEETS := ["extra_commuter", "extra_shopper", "extra_docker", "extra_kid"]
-
-## What a market morning adds and what the drizzle takes away, outdoors only --
-## a room's population is not the weather's business, and the indoor maps have
-## no routes anyway.
-const MARKET_EXTRA := 3
-const WET_FEWER := 2
 
 var _map: MapData
 var _routes: Array = []
@@ -33,27 +26,10 @@ func setup(map: MapData) -> void:
         _timers.append(randf_range(1.0, float(r.get("rate", 12.0))))
 
 
-## How many may be on this map at this hour, on this kind of day.
-##
-## The two occasions pull in opposite directions and the street is where you can
-## see it: a market morning has more people on it than an ordinary one, and a wet
-## day has fewer. They compose rather than override, so a wet market day is a
-## thin market -- which is the honest answer and the one the half-empty stalls in
-## Tomas's own dialogue describe.
-func _cap() -> int:
-    var cap := int(DENSITY.get(GameState.time_block, 2))
-    if GameState.is_market_day() and GameState.time_block == "morning" \
-            and not _map.indoors:
-        cap += MARKET_EXTRA
-    if GameState.is_wet() and not _map.indoors:
-        cap = maxi(1, cap - WET_FEWER)
-    return cap
-
-
 func _process(delta: float) -> void:
     if _routes.is_empty():
         return
-    var cap := _cap()
+    var cap := CAP
     for i in _routes.size():
         _timers[i] -= delta
         if _timers[i] > 0.0:
