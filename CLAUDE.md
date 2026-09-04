@@ -351,8 +351,8 @@ hour and delete the person from the game at every one of them. Trust it.
 
 Playable start to finish: cold open → name → **the attic** → Ketelsteeg → Capture Go → rules
 lessons → nigiri → Kesh → a rank → capture puzzle → the tram north → enrol → league board →
-a class → the Beginner Cup at the Bondszaal. Ten maps, fifteen characters, four hours of the
-day and weather, and a term that ends.
+a class → the Beginner Cup at the Bondszaal. Ten maps, fifteen characters, two board sizes,
+four hours of the day and weather, and a term that ends.
 
 **See `ROADMAP.md` for what is not built.** The short version: the term is a fortnight and
 holds about four days of content, so it is no longer overstating itself, but filling it is
