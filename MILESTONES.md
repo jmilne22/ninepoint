@@ -1834,3 +1834,154 @@ stated plainly rather than glossed, the way the Hud's half of the journal bug wa
 `tools/check_lessons.py` can only guard a claim the rules can decide and a joseki is
 whole-board judgement, so a taught position here would have shipped unverified -- and the
 page is not supposed to help anyway, which needs no diagram.
+
+
+## M33 — The open section  [done]
+
+`ROADMAP.md` §5 listed the Cup's missing 13×13 section under "still open, and deliberately",
+and said the plumbing was ready. It was: `OpponentProfile.path_for(id, board, variant)` has
+taken a board argument since M28, and `src/rpg/world.gd` carried a comment written in advance
+of this milestone — *"when it exists, the section decides this argument and nothing else in
+the round has to change."* That turned out to be exactly true, and it is the least
+interesting half of what was here.
+
+**The other half is that improving locked you out of Act 2's ending.** `marguerite.json`'s
+`cup_outgrown`, shipping since M24: *"You are past fifteen kyu, which means you are too
+strong for the Beginner Cup and I can no longer enter you in it."* And then nothing. There
+was no other section to be entered in, so the reward for getting better was less game — P5
+upside down, in the one document the player actually reads, which is the dialogue.
+
+So: **two sections, and the difference between them is the argument.** The beginners' section
+has a ceiling — fifteen kyu and below — and therefore no handicap, because the entry
+requirement does that job. The open section has no ceiling and hands out stones instead.
+Those are the two ways Go deals with a gap in strength, and the Cup now runs one of each.
+Nine lines below the ceiling, thirteen above it.
+
+**The open field is the two Go cultures at one table**: Kesh, Ilse, Tomás, Sunny, Orla —
+the Instituut and De Ketel in one column, which happens at the Bondszaal and nowhere else,
+because the federation is neutral ground and the club is not. Joos is not in it and cannot
+be: no card, no papers, and the federation needs a rank written down. That is asserted in
+`test_cup.gd` rather than left as an omission somebody could later read as an oversight.
+
+**Playing up is a choice and it carries a warning.** A player still under the ceiling with
+three rated wins — the same `rated_wins_at_least` gate that opened the club's 13×13 in
+M28 — may enter the open section instead. Marguerite enters them, and says first that it is
+not brave and not a mistake, that it is four games against people who will beat you, and
+that some players learn more from that fortnight than from the year around it and some just
+lose four games. The game does not decide which; it is the only place both sections are
+offered at once.
+
+**Done when:** `tools/test.sh` **6397 / 0** (from 6306), `check_lessons.py` clean, and the
+frames below opened one at a time.
+
+**What it dragged into the light, and the first one is the milestone's real find.**
+
+**A `CanvasLayer` that reads an autoload cannot be tested at all.** The section vocabulary
+went onto `CupBoard` first, which is the obvious place — it is the Cup's panel. The suite
+runs as `--script`, where autoloads do not exist, so `cup_board.gd` fails to compile,
+`CupBoard` resolves to a bare `GDScript`, and **every static on it returns null while
+erroring into a log nobody greps.** The two new cup tests aborted at their first
+`CupBoard.` call: the suite reported **80** checks where it now reports 115, and passed. A
+test that does not run is worse than no test, because it is a claim.
+
+It surfaced only because the same commit's `test_data.gd` guard failed *loudly* for what
+looked like an unrelated reason — eleven profiles suddenly unreachable — and the
+investigation went one layer down instead of adding names to an allow-list, which would
+have "fixed" it and left the twenty dead assertions in place.
+
+Fixed by obeying a boundary that already existed rather than inventing one: the sections,
+`PLAYER_ID` and `summary()` moved to `CupDraw`, which is pure, exactly as `LeagueTable` is
+pure beside `LeagueBoard` and `HooksLadder` beside `HooksBoard`. `cup_board.gd` keeps one
+function that reads a flag. The cup suite went 72 → 115.
+
+This is the **third** costume of the same bug — `ExamBoard.summary()` at `test_exam.gd:135`
+is still dead for it, and the `GameState`-typed-as-`Node` bug from M31 is it again. Written
+up in `ROADMAP.md` §8 with the rule that would have caught it: **if a test names a class,
+check the class compiles without autoloads.**
+
+**`LeagueTable` excluded exam contexts and not Cup ones.** `league_table.gd` has skipped
+`Exam.CONTEXT_PREFIX` since M24 with a comment saying why — *"sitting round one against Ilse
+would rewrite the very standings that decided you were entitled to sit it."* The identical
+argument applies to a Cup round and there was no guard. It was safe only because no Cup
+entrant had ever been on the league roster, which is not the same thing as being guarded,
+and the open section puts four of them in the draw. One symmetric line, and a test that was
+watched to go red.
+
+**`HooksLadder` needed no such fix, and that is the interesting half.** Its docstring already
+says the hooks count everything that happened at a table — "a league fixture, an exam round,
+it makes no difference to a hook". A Cup win over Tomás moves a brass card, and should: the
+two progressions are supposed to disagree. Asserted in `test_hooks.gd` so that nobody
+"fixes" it later out of symmetry with the league.
+
+**The allow-list of profiles reached by an event is now derived.** `REACHED_BY_EVENT` in
+`test_data.gd` was a hand-typed list with `# CupBoard.FIELD` written beside it. ROADMAP §8
+already records what that shape costs — `LESSONS_REACHED_BY_TRACK` is a hand-kept copy of
+the track it guards, so adding a class means remembering two places and the copy in the test
+is the one that goes on passing. Five new entrants on a bigger board is exactly that trap.
+It reads `CupDraw.FIELDS` and `LeagueTable.ROSTER` now.
+
+**Two labels the second section made wrong.** `which_desk` offered "The Beginner Cup." when
+the desk now runs two of them, and the finished-Cup toast in `world.gd` hard-coded "You won
+the Steenbeek Beginner Cup" — it calls `CupDraw.summary()` now, which is the sentence the
+wall already uses, so there is one copy of it rather than two.
+
+**Six deliberate breaks, each reverted and the suite re-run:**
+
+| broken | result |
+|---|---|
+| the `CupDraw` exclusion dropped from `LeagueTable` | 6 failed |
+| a typo'd id in `FIELD_OPEN` | 1 failed |
+| `board_for` always returns 9 | 4 failed |
+| `ilse` dropped from `THIRTEEN_FIELD` and regenerated | 1 failed |
+| nothing writes `cup_section` for the open section | 1 failed |
+
+The third is worth reading. Making `board_for` lie produced four failures and **three of
+them were in a different suite**: `ilse_13x13`, `orla_13x13` and `sunny_13x13` became
+unreachable profiles, because the derived allow-list asks the section which board it plays
+on. A hand-written list would have reported one failure and hidden three.
+
+**A guard for the thing no other guard could see.** `_test_every_section_is_enterable` walks
+every dialogue graph for `["set_flag", "cup_section", …]` and requires each section CupDraw
+knows to be written by one, and requires nothing to write a section it does not know. A
+section nothing enters you in is a board size, a title, a field and five generated profiles
+that load, pass every other check in the project, and never once happen.
+
+**Looked at, not reasoned about.** Four scripts, four presets, twenty frames.
+
+`cup_outgrown.json` from the new `outgrown` preset, in the Instituut hall: the sentence that
+used to be the whole of it, and then *"It is not. It is the open section, which has no
+ceiling and is played on thirteen lines, and which you are now the weakest person eligible
+for."* `cup_playing_up.json` from `playing_up` — eighteen kyu, four rated wins — for the
+three-way choice that exists nowhere else. `cup_enter_open.json` from `open_ready` for the
+entry itself and the toast. `cup_open.json` from `open_day`: the draw on the wall reading
+**STEENBEEK CUP — OPEN SECTION** over Orla 4k, Sunny 6k, Tomás 8k, Ilse 9k, Kesh 12k and
+`> Ro` at 13k, and then a round played out to a board with **thirteen** lines on it, A–N,
+*"Round 1. Board 1. 13x13."*
+
+`cup.json` and `cup_round.json` were re-run unchanged afterwards, because a fix that closes
+the old section is worse than the dead end it opened. A 22 kyu still gets the beginners'
+section, the beginners' field, and nine lines.
+
+**Three things the frames caught that the suite could not.**
+
+`cup_open.json`'s first cut advanced into `which_desk` and pressed choice 0, which is *the
+exam*. The run was exit 0 with no script errors and a confident screenshot of Marguerite
+explaining the qualifying exam, filed under the name `d_round_one_board`. This is the M27
+and M32 disease for the third time and the cure was the same: open the PNGs. It carries the
+choice index and a note saying which one is the exam now.
+
+The presets that make the open section reachable are all `enrolled`, and an enrolled player
+at the Bondszaal gets the two-desk choice that `cup_day` never sees — so every existing Cup
+script had been exercising a path the new ones do not take.
+
+And a screenshot taken 1.4 s after a line begins is a screenshot of the typewriter still
+typing, which reads *exactly* like a card clipping its own text. Two frames were diagnosed
+as a layout bug before the wait was lengthened and the sentence finished itself. The
+pagination was fine; the ▼ was there all along.
+
+**Deliberately not done.** No 13×13 Cup for the *beginners'* section, and no second draw
+structure: `CupDraw` was not touched beyond gaining the vocabulary, because it already took
+a field and stored nothing, which is why a second section cost one argument. 19×19 is still
+screen space rather than plumbing. And the tournament routing is still in `world.gd`, which
+is **591** lines — three more than it was. ROADMAP §8 says so rather than this milestone
+pretending it shrank.

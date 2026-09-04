@@ -1,0 +1,72 @@
+[
+ {
+  "save": "open_ready",
+  "note": "Thirteen kyu, two days out, nothing entered: past the beginners' ceiling, which used to be a dead end."
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue from the open_ready save"
+ },
+ {
+  "wait": 2.2,
+  "shot": "a_at_the_federation"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "advance": 4,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 1.4,
+  "shot": "b_which_desk"
+ },
+ {
+  "choose": 1,
+  "note": "The Cup."
+ },
+ {
+  "wait": 1.4,
+  "shot": "c_past_the_ceiling",
+  "note": "THE frame: the beginners' section is closed, and the sentence does not stop there"
+ },
+ {
+  "advance": 1
+ },
+ {
+  "wait": 1.4,
+  "shot": "d_open_means_open",
+  "note": "no ceiling, thirteen lines, handicap by the gap"
+ },
+ {
+  "advance": 1
+ },
+ {
+  "wait": 1.4,
+  "shot": "e_the_entry_list",
+  "note": "the club and the Instituut in one column, which happens here and nowhere else"
+ },
+ {
+  "advance": 1,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 1.4,
+  "shot": "f_enter_me"
+ },
+ {
+  "choose": 0,
+  "note": "Enter me."
+ },
+ {
+  "wait": 1.8,
+  "shot": "g_entered"
+ }
+]

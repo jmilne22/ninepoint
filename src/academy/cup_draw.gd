@@ -12,6 +12,69 @@ class_name CupDraw
 extends RefCounted
 
 const ROUNDS := 4
+
+## The two sections, and the whole of the difference between them.
+##
+## The beginners' section has a **ceiling** -- fifteen kyu and below -- and
+## therefore no handicap: everybody in it is within a few stones of everybody
+## else and the entry requirement does the work. The open section has no ceiling
+## and hands out stones instead. Those are the two ways Go deals with a gap in
+## strength, and the Cup now runs one of each rather than asserting in a design
+## document that it could.
+const BEGINNERS := "beginners"
+const OPEN := "open"
+const SECTIONS := [BEGINNERS, OPEN]
+
+## Which board a section is played on. Written once, here: World reads it to
+## choose the opponent's profile and nothing else in a round has to know.
+const BOARD := {BEGINNERS: 9, OPEN: 13}
+
+## The beginners' section: fifteen kyu and below. Wren and Pip are the only two
+## in the club weak enough to enter; the rest came in off the street, which is
+## what a city tournament is for.
+const FIELD_BEGINNERS := ["wren", "pip", "abel", "dov", "moss"]
+
+## The open section: no ceiling, so for the first time the Instituut and De Ketel
+## register for the same event. The Bondszaal is the federation and therefore
+## neutral ground, which is the only place in the city these two halves meet
+## across a board with a result form on it.
+##
+## Joos is not here and cannot be: the federation needs a rank written down and
+## he has never had one. Bertie has never registered for anything either. Wren
+## and Pip are in the other section, where they belong.
+const FIELD_OPEN := ["kesh", "ilse", "tomas", "sunny", "orla"]
+
+const FIELDS := {BEGINNERS: FIELD_BEGINNERS, OPEN: FIELD_OPEN}
+
+## The rank at which the beginners' section closes. Marguerite reads it off the
+## card; `cup_outgrown` used to be the end of the conversation and is now a
+## redirection, because a player who improves must not be locked out of the only
+## ending Act 2 has.
+const CEILING := "15k"
+
+## The id of the player's own row, the way LeagueTable.PLAYER_ID and
+## HooksLadder.PLAYER_ID are. On the pure module, so a test can reach it: the
+## panel is a CanvasLayer that touches autoloads and therefore does not compile
+## in a `--script` run at all.
+const PLAYER_ID := "player"
+
+
+## Normalises whatever the save is carrying. A save written before there were two
+## sections carries no flag, and that is the beginners' section -- which is also
+## what an unrecognised value has to mean, because the alternative is a board
+## size of zero.
+static func section_of(name: String) -> String:
+    return name if SECTIONS.has(name) else BEGINNERS
+
+
+static func board_for(section_id: String) -> int:
+    return int(BOARD.get(section_id, BOARD[BEGINNERS]))
+
+
+static func title_for(section_id: String) -> String:
+    return "STEENBEEK CUP -- OPEN SECTION" if section_id == OPEN \
+        else "STEENBEEK BEGINNER CUP -- 15k AND BELOW"
+
 ## The context_id a round's game is recorded under, so the player's own results
 ## can be found again in GameState.match_records.
 const CONTEXT_PREFIX := "cup_r"
@@ -96,6 +159,30 @@ static func _player_outcome(records: Array, round_index: int) -> int:
 ## run(), so there is only one place pairings are decided.
 static func next_opponent(field: Array, player_records: Array, player_id: String) -> String:
     return str(run(field, player_records, player_id).get("next_opponent", ""))
+
+
+## The line the board and Marguerite both use, so they never disagree. The
+## section is an argument rather than a second copy of this function, for the
+## same reason: two of these would drift.
+static func summary(state: Dictionary, section_id: String = BEGINNERS) -> String:
+    var rows: Array = state["rows"]
+    var place := placing(rows, PLAYER_ID)
+    if bool(state["complete"]):
+        if place == 1:
+            if section_id == OPEN:
+                return "Four rounds played. You won the Steenbeek Cup, open section."
+            return "Four rounds played. You won the Steenbeek Beginner Cup."
+        return "Four rounds played. You finished %d of %d." % [place, rows.size()]
+    var round_number: int = int(state["next_round"]) + 1
+    var who := str(state["next_opponent"])
+    for r in rows:
+        if str(r["id"]) == who:
+            who = str(r["name"])
+            break
+    if who == "":
+        return "Round %d of %d." % [round_number, ROUNDS]
+    return "Round %d of %d. You are drawn against %s.\nOne round a day; see Marguerite when you are ready." % [
+        round_number, ROUNDS, who]
 
 
 ## Where the player finished, 1-based.

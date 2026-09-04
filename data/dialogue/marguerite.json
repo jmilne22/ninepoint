@@ -189,8 +189,9 @@
   },
   "cup_outgrown": {
    "text": [
-    "You are past fifteen kyu, which means you are too strong for the Beginner Cup and I can no longer enter you in it.",
-    "That is not a loss. It is the only compliment this desk is authorised to pay."
+    "You are past fifteen kyu, which means I can no longer enter you in the Beginner Cup. Every year somebody hears that as being thrown out of something.",
+    "It is not. It is the open section, which has no ceiling and is played on thirteen lines, and which you are now the weakest person eligible for. That is the correct direction of travel.",
+    "The desk is here when you want the form."
    ],
    "goto": "enrolled_chat",
    "actions": [
@@ -228,9 +229,33 @@
       [
        "rank_at_most",
        "15k"
+      ],
+      [
+       "rated_wins_at_least",
+       3
+      ]
+     ],
+     "goto": "cup_choose"
+    },
+    {
+     "if": [
+      [
+       "ranked"
+      ],
+      [
+       "rank_at_most",
+       "15k"
       ]
      ],
      "goto": "cup_enter"
+    },
+    {
+     "if": [
+      [
+       "ranked"
+      ]
+     ],
+     "goto": "cup_enter_open"
     },
     {
      "goto": "cup_refuse"
@@ -264,6 +289,11 @@
     [
      "set_flag",
      "cup_entered"
+    ],
+    [
+     "set_flag",
+     "cup_section",
+     "beginners"
     ],
     [
      "quest_start",
@@ -375,7 +405,7 @@
      "goto": "exam_desk"
     },
     {
-     "text": "The Beginner Cup.",
+     "text": "The Cup.",
      "goto": "cup_desk"
     }
    ]
@@ -633,6 +663,69 @@
    "text": [
     "The board is behind me. Your position is on it.",
     "No, I will not tell you whether it is good. Look at it."
+   ]
+  },
+  "cup_choose": {
+   "text": [
+    "Two sections. Beginners', fifteen kyu and below, nine by nine, no handicap -- the ceiling does that job. Open, no ceiling, thirteen by thirteen, and you take the stones the gap says you take.",
+    "You are under the ceiling, so the beginners' is yours by right. You have also won three rated games, which is the only reason I am mentioning the other one.",
+    "Playing up is not brave and it is not a mistake. It is four games against people who will beat you, on a bigger board, with stones in your hand. Some people learn more from that fortnight than from the year around it. Some people just lose four games."
+   ],
+   "choices": [
+    {
+     "text": "The beginners' section.",
+     "goto": "cup_entered_confirm"
+    },
+    {
+     "text": "The open section.",
+     "goto": "cup_entered_open"
+    },
+    {
+     "text": "I'll think about it.",
+     "goto": "cup_think"
+    }
+   ]
+  },
+  "cup_enter_open": {
+   "text": [
+    "You are past fifteen kyu, so the beginners' section is closed to you. That is not a door shutting; there is another one and it is the one you wanted.",
+    "The open section. No ceiling, thirteen by thirteen, four rounds, one a day, and handicap by the gap -- open means open, so you will be given stones against some of them and you will be giving them to nobody.",
+    "The entry list is the club and the Instituut in the same column, which happens here and nowhere else in this city. Kesh Idowu. Ilse Brandt. Tomas Beir -- yes, that Tomas. Sunny Achebe. Orla Finn."
+   ],
+   "choices": [
+    {
+     "text": "Enter me.",
+     "goto": "cup_entered_open"
+    },
+    {
+     "text": "I'll think about it.",
+     "goto": "cup_think"
+    }
+   ]
+  },
+  "cup_entered_open": {
+   "actions": [
+    [
+     "set_flag",
+     "cup_entered"
+    ],
+    [
+     "set_flag",
+     "cup_section",
+     "open"
+    ],
+    [
+     "quest_start",
+     "beginner_cup"
+    ],
+    [
+     "toast",
+     "Entered: the Steenbeek Cup, open section."
+    ]
+   ],
+   "text": [
+    "Entered, open section. Your name goes on the board behind me under people who will not be pleased to see it there.",
+    "Four rounds, the last week of term. Sleep until it, play them, and do not ask me who you have got -- it is on the board."
    ]
   }
  }

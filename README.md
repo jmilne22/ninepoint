@@ -140,6 +140,13 @@ bigger: Tomas keeps a 13x13 under the coats at the back table of De Ketel, and t
 another in the study hall. A stone of handicap buys less on a wider board, so the same gap
 that gave you two on 9x9 gives you three.
 
+The Steenbeek Cup runs two sections and your card decides which one you are in. The
+beginners' section is fifteen kyu and below, on 9x9, with no handicap -- the ceiling does
+that job. The open section has no ceiling, is played on 13x13, and hands out stones instead;
+it is where the club and the Instituut end up at the same table. If you are still under the
+ceiling but have won three rated games you may choose to play up into it, and the registrar
+will tell you exactly what that costs before she enters you.
+
 There is no relationship system. The game tracks your **record** against each person.
 
 ## The vertical slice
@@ -154,7 +161,8 @@ into one of the three slots.
 
 ```
 src/go/      pure Go rules, nigiri/handicap, lessons -- no engine coupling, unit tested
-src/academy/ the Instituut league: standings computed only from games played
+src/academy/ the Instituut league and the federation's events: standings and draws,
+             computed only from games played
 src/go_ai/   opponent interface, the shipped heuristic AI, a GTP adapter for KataGo
 src/go_ui/   board view, match scene, puzzle scene
 src/rpg/     town, player, NPCs, maps

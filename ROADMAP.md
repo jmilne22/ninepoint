@@ -4,7 +4,7 @@ Everything below is outstanding as of the current build. It is ordered by what
 would most improve the game, not by what is easiest. `MILESTONES.md` records what
 was built and how it was verified; this file records what has not been.
 
-The build is green: `tools/test.sh` runs 6306 checks, `tools/check_lessons.py`
+The build is green: `tools/test.sh` runs 6397 checks, `tools/check_lessons.py`
 reports no problems, and the game is playable from the cold open to the exam and
 the Cup.
 
@@ -192,10 +192,18 @@ in.
 
 **Still open, and deliberately:**
 
-- **The Cup has no 13×13 section.** GAME_DESIGN §8 wants one. The plumbing is ready --
-  `OpponentProfile.path_for(id, board, variant)` is where the Cup round chooses its profile
-  and takes a board argument it currently always passes 9 to -- but the Cup is Act 2's
-  ending and a second field and draw is its own piece of work.
+- ~~**The Cup has no 13×13 section.**~~ **Built (M33).** The open section: no ceiling,
+  thirteen lines, handicap by the gap, and a field that is the club and the Instituut in one
+  column -- Kesh, Ilse, Tomás, Sunny, Orla. Which section you are in is decided by the rank
+  on your card, except that a player still under the ceiling with three rated wins may
+  choose to play up, and Marguerite has an opinion about it.
+
+  The plumbing was ready exactly as this file said, and the round needed the one argument
+  the comment in `world.gd` had been predicting since M24. What was **not** ready was the
+  thing that made it worth doing: `marguerite.json`'s `cup_outgrown` told a player past
+  fifteen kyu that they were too strong for the Cup and offered them nothing, so improving
+  locked you out of the only ending Act 2 has. That is Pillar 5 upside down and it had been
+  shipping since M24.
 - **19×19, which the fiction has promised twice** and still does: the board in `intro.json`
   is "nineteen one way, nineteen the other", and Hana's `exam_word_passed` closes the act by
   naming it. Screen space is the reason it is not next. At the 192-px match panel a 19×19
@@ -328,7 +336,7 @@ Owned by a parallel effort; listed here for completeness.
 - ~~**`src/rpg/world.gd` is 700 lines**~~ **-- half paid (M30).** It was **745** by the
   time anybody re-measured it, which is the ordinary way a line in this file goes stale.
   `SignDesk` (`src/rpg/sign_desk.gd`) now owns everything you *read* or *sit at* -- the
-  three boards, the study desk, the hooks and the bed -- and `world.gd` is **577**. The
+  three boards, the study desk, the hooks and the bed -- and `world.gd` came out at **577**. The
   seam is "reading versus starting a match", which is where the two halves actually fall:
   `_start_cup_round`, `_start_exam_round` and the problem paper stay in the World because
   they route through MatchBridge and spend an hour. The class board is reached from the
@@ -338,7 +346,8 @@ Owned by a parallel effort; listed here for completeness.
   handed `set_talking` and the World's `_talking` stays the only copy, because two flags
   meaning the same thing is how `knows_the_rules` went wrong in M27.
 - **Three things M30 left behind**, written down here rather than discovered later:
-  - `world.gd` is **577** lines against a convention of ~300. `SignDesk` took the reading
+  - `world.gd` is **591** lines against a convention of ~300 (577 when M30 wrote this
+    line, 588 by the time M33 re-measured it, and three lines more for the section). `SignDesk` took the reading
     and the sitting-down; what is left is the tournament routing (`_start_cup_round`,
     `_start_exam_round`, the problem paper), which is a second component and was out of
     scope for a milestone whose subject was the term.
@@ -429,6 +438,26 @@ Owned by a parallel effort; listed here for completeness.
   thirteen assertions that had never once executed, and a green report. Fetch the autoload
   (`root.get_node("GameState")`) into an **untyped** local instead; a `: Node` annotation is
   the same bug by hand.
+- **A panel that touches an autoload cannot be tested at all, and this is the third shape
+  of the same bug.** `CupBoard` is a `CanvasLayer` that reads `GameState` and `Audio`, so in
+  a `--script` run -- which is how the whole suite runs -- it fails to compile, `CupBoard`
+  resolves to a bare `GDScript`, and **every static on it silently returns null**. M33 put
+  the two Cup sections on it first; the new assertions did not fail, they did not run, and
+  the suite went green with a `t.eq()` count eight higher than the assertions written.
+
+  Found because the same commit's `test_data.gd` guard failed loudly for an unrelated
+  reason and the investigation went one layer down. Fixed by moving the section vocabulary,
+  `PLAYER_ID` and `summary()` onto `CupDraw`, which is pure -- and that is the architectural
+  rule already (`LeagueTable` pure + `LeagueBoard` panel; `HooksLadder` pure + `HooksBoard`),
+  so the fix was to obey a boundary rather than to invent one.
+
+  **What is still open is the general case.** Nothing detects it. `ExamBoard.summary()`
+  below is the same disease diagnosed a milestone earlier and still untreated, and the
+  `GameState`-typed-as-`Node` entry two bullets down is the same disease again. Three
+  instances is a pattern, and the guard that would catch all three -- a suite that fails on
+  `SCRIPT ERROR: Invalid call` rather than counting the assertions that did run -- does not
+  exist. Until it does: **if a test names a class, check the class compiles without
+  autoloads.**
 - **`ExamBoard.summary()` is called on the class in `test_exam.gd:135`** and it is not static,
   so that one assertion has never run -- the same shape of dead test the bullet above
   describes, found while chasing it and left for whoever touches the exam next.

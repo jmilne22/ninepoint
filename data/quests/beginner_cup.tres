@@ -7,7 +7,7 @@
 script = ExtResource("1_script")
 id = &"beginner_cup"
 title = "The Beginner Cup"
-summary = "Fifteen kyu and below, four rounds, one a day, in a hired room at the Bondszaal. No handicap inside the section -- that is what the ceiling is for."
+summary = "Four rounds, one a day, in a hired room at the Bondszaal. Two sections: beginners', fifteen kyu and below on nine lines with no handicap, and open, no ceiling at all on thirteen."
 steps = [{
 "journal": "Sleep until the last week of term.",
 "advance_on": {"type": "flag", "key": "cup_started"}

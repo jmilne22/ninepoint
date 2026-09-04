@@ -18,6 +18,7 @@ static func run(t: TestKit) -> void:
     _test_dialogue(t)
     _test_dialogue_exits(t)
     _test_opponents_reachable(t)
+    _test_every_section_is_enterable(t)
     _test_resources(t)
     _test_puzzles(t)
     _test_maps(t)
@@ -184,13 +185,28 @@ static func _test_rulebook_exits_carry_the_track(t: TestKit) -> void:
 ## never wrong, and never happens. check_load.gd loads them all, which is exactly
 ## why hana_teaching survived unreferenced from the day it was written.
 ##
-## The allow-list is deliberately a list of names rather than a blanket rule for
-## anything a tournament might pick up by string interpolation: a profile reached
-## only through an event should be a decision somebody wrote down.
-const REACHED_BY_EVENT := [
-    "wren_9x9", "pip_9x9", "abel_9x9", "dov_9x9", "moss_9x9",     # CupBoard.FIELD
-    "kesh_exam", "ilse_exam", "sunny_exam", "orla_exam", "nadia_exam",  # the exam
-]
+## This is still not a blanket rule for anything a tournament might pick up by
+## string interpolation -- it names the two events that do it, and both of them
+## have to say which people and which board.
+##
+## It is **derived** rather than retyped, which is the one change from the hand
+## written list this replaces. ROADMAP section 8 records what the other shape
+## costs: LESSONS_REACHED_BY_TRACK is a hand-kept copy of the track it guards,
+## so adding a class means remembering two places, and the copy in the test is
+## the one that goes on passing. A second Cup section is exactly that trap --
+## five new entrants on a bigger board, against a list somebody would have had
+## to remember existed.
+static func _reached_by_event() -> Dictionary:
+    var out := {}
+    for section_id in CupDraw.SECTIONS:
+        var board: int = CupDraw.board_for(section_id)
+        for npc_id in CupDraw.FIELDS[section_id]:
+            out["%s_%dx%d" % [npc_id, board, board]] = true
+    for npc_id in LeagueTable.ROSTER:
+        if Exam.EXCLUDED.has(npc_id):
+            continue
+        out["%s_exam" % npc_id] = true
+    return out
 
 
 static func _test_opponents_reachable(t: TestKit) -> void:
@@ -205,9 +221,10 @@ static func _test_opponents_reachable(t: TestKit) -> void:
             for exit in _exits(nodes[key]):
                 if exit.has("profile"):
                     named[str(exit["profile"])] = true
+    var by_event := _reached_by_event()
     for path in _list("res://data/opponents", ".tres"):
         var id := path.get_file().trim_suffix(".tres")
-        t.ok(named.has(id) or REACHED_BY_EVENT.has(id),
+        t.ok(named.has(id) or by_event.has(id),
             "%s is reachable: some dialogue starts it, or an event draws it" % id)
     # And the exam's field must match the league roster it is drawn from, or the
     # generator will stop emitting a profile the world then asks for.
@@ -216,6 +233,41 @@ static func _test_opponents_reachable(t: TestKit) -> void:
             continue
         t.ok(ResourceLoader.exists("res://data/opponents/%s_exam.tres" % npc_id),
             "%s can be drawn in the exam and has an even-game profile" % npc_id)
+
+
+## A section nothing writes is a board size nobody can reach.
+##
+## CupDraw knows two sections and World reads one off a flag; the only thing that
+## ever *writes* that flag is a line in Marguerite's graph. That is one dialogue
+## edit away from a game with an open section in the code, a title for it, five
+## profiles generated for it, and no way into it -- which would load, pass every
+## other check in this file, and simply never happen. The same reverse-direction
+## argument as _reached_by_event() above.
+static func _test_every_section_is_enterable(t: TestKit) -> void:
+    t.section("both Cup sections can be entered")
+    var written := {}
+    for path in _list("res://data/dialogue", ".json"):
+        var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
+        if not (parsed is Dictionary):
+            continue
+        var nodes: Dictionary = parsed.get("nodes", {})
+        for key in nodes.keys():
+            var node = nodes[key]
+            if not (node is Dictionary):
+                continue
+            for action in node.get("actions", []):
+                if not (action is Array) or action.size() < 3:
+                    continue
+                if str(action[0]) == "set_flag" and str(action[1]) == "cup_section":
+                    written[str(action[2])] = "%s:%s" % [path.get_file(), key]
+    for section_id in CupDraw.SECTIONS:
+        t.ok(written.has(section_id),
+            "some dialogue enters the player in the '%s' section" % section_id)
+    # And nothing writes a section CupDraw has never heard of, which would land
+    # as a silent fall back to the beginners' board at round one.
+    for value in written.keys():
+        t.ok(CupDraw.SECTIONS.has(str(value)),
+            "'%s' is a section CupDraw knows (written at %s)" % [value, written[value]])
 
 
 static func _test_resources(t: TestKit) -> void:
@@ -328,7 +380,7 @@ static func _test_maps(t: TestKit) -> void:
 ## Who is deliberately not there at some hour, and why. A schedule that can hide
 ## somebody is a schedule that can hide a quest step, so the default is "present
 ## at every hour" and every exception is written down -- the same shape as
-## REACHED_BY_EVENT above, and for the same reason: an absence should be a
+## _reached_by_event() above, and for the same reason: an absence should be a
 ## decision somebody made rather than a schedule nobody re-read.
 const OFF_AT_SOME_HOUR := {
     "joos": "the arches after dark are the whole of him; unrated, so no quest needs him",
@@ -563,7 +615,7 @@ static func _script_const(path: String, name: String) -> Array:
 
 
 ## Lessons and puzzles reached by a GDScript constant rather than by dialogue.
-## A written list, for the reason REACHED_BY_EVENT is one: a thing reachable only
+## A written list, for the reason _reached_by_event() is derived: a thing reachable only
 ## from code should be a decision somebody made, not an oversight nobody noticed.
 const LESSONS_REACHED_BY_TRACK := ["self_capture", "openings", "two_eyes",
                                    "life_and_death", "capture_race", "false_eyes"]
@@ -720,7 +772,7 @@ const QUEST_EVENTS := ["flag", "talk", "match", "puzzle", "lesson", "enter_map"]
 
 ## Match contexts a quest may wait on that no dialogue exit names, because a
 ## tournament round picks its own. Empty, and deliberately a written list rather
-## than a blanket exemption -- the same idiom as REACHED_BY_EVENT above.
+## than a blanket exemption -- the same idiom as the allow-lists above.
 const QUEST_CONTEXTS_BY_EVENT: Array = []
 
 

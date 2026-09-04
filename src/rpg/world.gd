@@ -398,16 +398,15 @@ func _event_finished_check(result: MatchResult) -> void:
 
 
 func _cup_finished_check() -> void:
-    var state := CupDraw.run(CupBoard.field(), GameState.match_records, CupBoard.PLAYER_ID)
+    var section := CupBoard.section()
+    var state := CupDraw.run(CupBoard.field(section), GameState.match_records,
+        CupDraw.PLAYER_ID)
     if not bool(state["complete"]):
         return
     GameState.set_flag("cup_finished", true)
-    var place := CupDraw.placing(state["rows"], CupBoard.PLAYER_ID)
-    if place == 1:
-        EventBus.toast.emit("You won the Steenbeek Beginner Cup.")
-    else:
-        EventBus.toast.emit("The Cup is over. You finished %d of %d." % [
-            place, state["rows"].size()])
+    # The same sentence the wall gives, rather than a second copy of it that
+    # would have to be taught about the open section separately.
+    EventBus.toast.emit(CupDraw.summary(state, section))
 
 
 ## The exam's result is a fact about the record, so it is derived here rather
@@ -432,7 +431,10 @@ func _exam_finished_check() -> void:
 ## it is not knowable until the previous round has been played -- CupDraw works it
 ## out from the record, and this turns that answer into a game.
 func _start_cup_round() -> void:
-    var state := CupDraw.run(CupBoard.field(), GameState.match_records, CupBoard.PLAYER_ID)
+    var section := CupBoard.section()
+    var board := CupDraw.board_for(section)
+    var state := CupDraw.run(CupBoard.field(section), GameState.match_records,
+        CupDraw.PLAYER_ID)
     if bool(state["complete"]):
         GameState.set_flag("cup_finished", true)
         EventBus.toast.emit("The Cup is over.")
@@ -448,10 +450,10 @@ func _start_cup_round() -> void:
 
     var opponent_id := str(state["next_opponent"])
     var npc_path := "res://data/npcs/%s.tres" % opponent_id
-    # The Cup is a 9x9 section. GAME_DESIGN section 8 wants a 13x13 one beside
-    # it; when it exists, the section decides this argument and nothing else
-    # in the round has to change.
-    var profile_path := OpponentProfile.path_for(opponent_id, 9)
+    # The section decides the board and nothing else in the round knows there is
+    # more than one of them -- which is what the comment that used to sit here
+    # predicted, back when nine was the only answer.
+    var profile_path := OpponentProfile.path_for(opponent_id, board)
     if opponent_id == "" or not ResourceLoader.exists(npc_path) \
             or not ResourceLoader.exists(profile_path):
         push_error("World: no Cup opponent for '%s'" % opponent_id)
@@ -465,7 +467,8 @@ func _start_cup_round() -> void:
     req.opponent_name = data.display_name
     req.opponent_rank = data.rank_label
     req.portrait_path = "res://art/portraits/%s.png" % data.portrait_id
-    req.intro_line = "Round %d. Board %d." % [int(state["next_round"]) + 1, 1]
+    req.intro_line = "Round %d. Board %d. %dx%d." % [
+        int(state["next_round"]) + 1, 1, board, board]
     req.player_strength = GameState.rank_strength
     GameState.set_flag("cup_round_day", GameState.day)
     player.input_locked = true

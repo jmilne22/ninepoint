@@ -73,6 +73,13 @@ static func standings(records: Array, roster: Array, player_name: String,
         # standings that decided you were entitled to sit it.
         if str(record.get("context_id", "")).begins_with(Exam.CONTEXT_PREFIX):
             continue
+        # And the identical argument for the Cup, which was latent until the
+        # open section put four of this roster in the draw: a tournament game at
+        # the Bondszaal is not a fixture in the Instituut's term. It was safe
+        # only because no entrant had ever been a league member, which is not
+        # the same thing as being guarded.
+        if str(record.get("context_id", "")).begins_with(CupDraw.CONTEXT_PREFIX):
+            continue
         if counted.has(opponent_id):
             continue
         counted[opponent_id] = true

@@ -1,0 +1,22 @@
+[
+ {
+  "save": "playing_up",
+  "note": "Eighteen kyu with four rated wins: under the ceiling, and past the gate that opens the other section."
+ },
+ {"wait": 0.8},
+ {"tap": "move_down"},
+ {"tap": "interact", "note": "Continue from the playing_up save"},
+ {"wait": 2.2},
+ {"talk_to": "marguerite"},
+ {"advance": 4, "stop_at_choice": true},
+ {"choose": 1, "note": "The Cup."},
+ {"wait": 3.0, "shot": "a_two_sections"},
+ {"advance": 1},
+ {"wait": 3.0, "shot": "b_by_right"},
+ {"advance": 1},
+ {"wait": 3.0, "shot": "c_what_playing_up_costs",
+  "note": "THE frame: not brave, not a mistake, four games against people who will beat you"},
+ {"advance": 1, "stop_at_choice": true},
+ {"wait": 0.6, "shot": "d_three_choices",
+  "note": "beginners', open, or think about it -- the only place in the game both sections are offered"}
+]

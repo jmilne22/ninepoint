@@ -142,12 +142,25 @@ behind it, and his games are `unrated` so `LeagueTable` never sees them.
 
 ## Before you start
 
-**Pull `main` first. Every time, before touching anything.**
+**Pull `main` first, and then *prove* you are on its head. Every time, before touching
+anything.** Pulling is not the check; the check is that the two hashes match.
 
 ```bash
-git checkout main && git pull            # or: git fetch origin main:main
+git fetch origin
+git rev-parse HEAD origin/main           # THESE TWO MUST BE THE SAME HASH
 git checkout -b <branch>                 # work goes on a branch, never on main
 ```
+
+If they differ, you are not on the head of `main` and **everything downstream of that is
+suspect** — most of all `ROADMAP.md`, which is how you choose what to build. Building an
+item that was finished and merged two days ago costs a whole session and looks exactly
+like working: the tests pass, the docs sweep cleanly, and the diff conflicts with somebody
+else's merged milestone at the very end. A `git pull` that says `Already up to date.` is
+only as true as your last `fetch`, and `git pull` on a branch that is not `main` does not
+touch `main` at all.
+
+Do it **again before opening a PR**: `origin/main` can move while you work, and the branch
+you sized against a stale base is described wrongly in the PR body.
 
 This is not housekeeping. Several sessions have worked in this tree and the merges
 happen on GitHub, so a local `main` goes stale without ever saying so.
@@ -162,7 +175,8 @@ Nothing errored and nothing warned. `git status` will not catch it either: it re
 against the remote-tracking branch, which is only as fresh as your last fetch.
 
 The same applies before reading `ROADMAP.md` to pick an item. Deciding what to build
-next out of a two-merge-old file is how the same thing gets built twice.
+next out of a two-merge-old file is how the same thing gets built twice — and you find
+out at the end of the session, not the start.
 
 ## Commands
 
@@ -185,7 +199,9 @@ python3 tools/make_test_save.py invited          # a save in a hard-to-reach sta
 python3 tools/make_test_save.py invited 2 Ada 42 # ...in slot 2, as Ada, at 42 minutes
                                                 # also: league_ready thirteen_ready cup_ready
                                                 # hooks_ready
-                                                # cup_day exam_ready
+                                                # cup_day playing_up outgrown
+                                                # open_ready open_day
+                                                # exam_ready
                                                 # exam_day exam_round2 exam_passed exam_failed
                                                 # exam_missed beat_kesh lost_to_kesh
                                                 # book_ready book_held book_won
@@ -204,6 +220,10 @@ problem paper, a round, both verdicts, and the refusal shown to somebody who fin
 at night, Molenpark and the arches trading their two regulars),
 `cup` (the southbound tram, entering the Cup, and the draw),
 `cup_round` (from the `cup_day` save: read the draw and play a round),
+`cup_outgrown` / `cup_playing_up` / `cup_enter_open` / `cup_open` (the second section: the
+sentence that used to end the conversation for a player who got better, the only place both
+sections are offered at once, the entry itself, and then the open draw on the wall followed
+by a Cup round on thirteen lines),
 `lessons` (Wren teaches ko, and closes it in her own words rather than the Cup speech),
 `taught` (Bertie's ladders, and the post-lesson beat that used to be silent),
 `thirteen` (Kesh over thirteen lines, from the `thirteen_ready` save),
@@ -428,7 +448,8 @@ it, from a system that was removed several milestones earlier, and `README.md` p
 
 Playable start to finish: cold open → name → **the attic** → Ketelsteeg → Capture Go → rules
 lessons → nigiri → Kesh → a rank → capture puzzle → the tram north → enrol → league board →
-a class → the Beginner Cup at the Bondszaal. Ten maps, fifteen characters, two board sizes,
+a class → the Cup at the Bondszaal, in whichever of its two sections your card puts you in.
+Ten maps, fifteen characters, two board sizes,
 four hours of the day and weather, and a term that ends. Six quests, five of which are some
 form of *play games and win* and one of which -- `page_forty` -- is a book you borrow and
 give back. Two progressions running at once: the league board above ground and the hooks
@@ -462,6 +483,25 @@ stones, so a handicap that was two becomes three. Profiles are named `<id>_<boar
 `gen_content.py` mirrors it, and `resign_threshold` scales with the board's area because it
 is an absolute point count that was tuned at 81 of them. 19x19 is still only in the fiction:
 at the 192-px match panel it draws 8-px cells against a 9-px font.
+
+**The Cup has two sections, and they disagree about how to handle a gap in strength.** The
+beginners' section has a ceiling — fifteen kyu and below — and therefore no handicap, because
+the entry requirement does that job. The open section (M33) has no ceiling and hands out
+stones instead, on thirteen lines, against Kesh, Ilse, Tomás, Sunny and Orla: the Instituut
+and De Ketel in one column, which happens at the Bondszaal and nowhere else, because the
+federation is neutral ground. Joos cannot be entered — no card, no papers — and that is
+written down in a test rather than left to memory.
+
+Which section you are in is the rank on your card, read at the desk. The one exception is
+that a player still under the ceiling with three rated wins may **play up**, on the same
+`rated_wins_at_least` gate that opens the club's 13x13. Before M33 the ceiling was a wall:
+`cup_outgrown` told a player past fifteen kyu that they were too strong for the Cup and
+offered nothing else, so getting better took the ending of Act 2 away from you.
+
+The section vocabulary lives on **`CupDraw`**, which is pure, and not on `CupBoard`, which is
+a `CanvasLayer` that reads autoloads and therefore does not compile in a `--script` run at
+all — so anything put on it is unreachable from every test in the project, silently. See the
+debt list; that is the third time this has happened in a different costume.
 
 **A borrowed thing is a quest.** `page_forty` (M32) is the first quest that is not *play
 games and win*: Ilse Brandt sends everybody who loses to her to read the first forty pages,
@@ -544,7 +584,7 @@ since M13 finally decides something. Failing it is an ending too, and Hana has t
 both.
 
 **Games are reviewed, and the review is the teaching.** A match does not end at the result
-card. `GoReview` replays the game from its move list in three layers: **fourteen detectors**
+card. `GoReview` replays the game from its move list in three layers: **fifteen detectors**
 that report facts about the board, a **`GoEvaluator`** that prices each one in points, and
 **`GoReviewVoice`** that decides whose mouth it comes out of. `GoProgress` implements the
 evaluator by counting what a person counts — stones, plus the regions only one colour has
@@ -637,6 +677,13 @@ No engine, and the seam for one is `GoEvaluator` — see the debt list before re
 - Passers-by walk their route with no pathfinding at all, so `gen_maps.validate()` checks the
   whole segment is clear rather than just the ends. It is why Onderbrug has no crowd: it is
   walled at both ends and there is nowhere for anyone to be coming from.
+- **A `CanvasLayer` that reads an autoload is invisible to the test suite.** The suite runs
+  as `--script`, where autoloads do not exist, so such a script fails to compile, its
+  `class_name` resolves to a bare `GDScript`, and every static call on it returns null
+  without failing anything. M33 hit it, `ExamBoard.summary()` in `test_exam.gd:135` is the
+  same thing still open, and the `GameState`-typed-as-`Node` entry below is the same thing
+  a third time. Put anything a test needs on the **pure** half of the pair — that is what
+  `LeagueTable`/`LeagueBoard` and `HooksLadder`/`HooksBoard` are for. Nothing detects it.
 - Two test hooks ship in production code: the `Autopilot` autoload and
   `GoMatch.THINK_DELAY_FAST`.
 - **A bare autoload name in a test file types the singleton as `Node` for the whole run.**
