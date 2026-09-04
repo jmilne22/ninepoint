@@ -1,8 +1,9 @@
-# Ninepoint — what is left to do
+# Ninepoint — Product roadmap
 
-Everything below is outstanding as of the current build. It is ordered by what
-would most improve the game, not by what is easiest. `MILESTONES.md` records what
-was built and how it was verified; this file records what has not been.
+This document explains **why** future work matters and the trade-offs around it.
+`WORKBOARD.md` is the operational source of truth: it owns task status, priority,
+dependencies, and acceptance criteria. `MILESTONES.md` is the append-only delivery history.
+Do not select work from this document without checking its linked board ticket first.
 
 The build is green: `tools/test.sh` runs 11583 checks, `tools/check_lessons.py`
 reports no problems, and the game is playable from the cold open to the exam and
@@ -15,7 +16,7 @@ collapsed to one line each. Read `MILESTONES.md` M37 for why.
 
 ---
 
-## 1. The engine
+## 1. The engine — ENG-01 through ENG-04
 
 The one open decision, and the top of this file now that the cuts are made.
 
@@ -47,7 +48,7 @@ dead stones; then a review built from `kata-analyze` score deltas, three finding
 lines each in the voice sheet's register. Delete the heuristic and `GoEndgame` when the
 engine is the only opponent, not before.
 
-## 2. The thin places
+## 2. The thin places — WORLD-01 through WORLD-03
 
 - **The quay has nobody on it.** It had Orla at dusk from M30 to M36; with schedules
   gone it is two signs and a bench again. Either somebody lives there or it is cut.
@@ -56,7 +57,7 @@ engine is the only opponent, not before.
 - **The wassalon's three stand in the room together** at all times. It was built for one
   or two at a time. Fine, and the room is small for three people and a folding table.
 
-## 3. Beyond 9×9
+## 3. Beyond 9×9 — UI-01
 
 13×13 is built (M28): Tomás's back table opens on three rated wins, Kesh plays on it,
 and the Cup's open section is played on it. 19×19 is still only in the fiction — Hana's
@@ -65,7 +66,7 @@ and the Cup's open section is played on it. 19×19 is still only in the fiction 
 profile mean something different on a bigger board and nobody has measured what it
 should be; the engine makes the question go away.
 
-## 4. Content that is still thin
+## 4. Content that is still thin — CONTENT-01 through CONTENT-03
 
 - The curriculum runs to competence and stops before judgement: thirteen lessons,
   twelve puzzles, all decidable from the rules because `tools/check_lessons.py` can only
@@ -73,7 +74,7 @@ should be; the engine makes the question go away.
 - The study-hall students have three-game and six-game arcs and nothing after.
 - There is no ending after the exam except Hana's word and the Cup.
 
-## 5. Technical debt
+## 5. Technical debt — TECH-01 through TECH-10
 
 - **`world.gd` is 517 lines** against a convention of ~300. `SignDesk` took
   the reading and the sitting-down (and, in M37, the tram stop); what is left is the
@@ -117,7 +118,7 @@ should be; the engine makes the question go away.
 - Passers-by walk their route with no pathfinding, so `gen_maps.validate()` checks the
   whole segment is clear rather than just the ends.
 
-## 6. Closed, and worth one line each
+## 6. Closed context
 
 - ~~The exam~~ — built (M24). ~~Five opponents nobody can play~~ — built (M24).
 - ~~Fill the term~~ — closed (M35), then the term itself was cut (M37).

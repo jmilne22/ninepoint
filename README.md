@@ -19,8 +19,9 @@ person holding the controller.
 | [GAME_DESIGN.md](GAME_DESIGN.md) | Pillars, the town, the cast, how difficulty is expressed in Go's own terms |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | The one rule (the Go module knows nothing about the game), module boundaries, the world↔Go seam, the KataGo-ready opponent interface |
 | [ART_DIRECTION.md](ART_DIRECTION.md) | Palette, tiles, how a character stays consistent between sprite and portrait |
-| [MILESTONES.md](MILESTONES.md) | What is built, and how each piece was verified |
-| [ROADMAP.md](ROADMAP.md) | What is **not** built, in priority order |
+| [WORKBOARD.md](WORKBOARD.md) | **Current source of truth for agents:** ready work, blockers, priorities, and done criteria |
+| [ROADMAP.md](ROADMAP.md) | Product direction and trade-offs behind the current workboard |
+| [MILESTONES.md](MILESTONES.md) | Append-only history of what shipped and how it was verified |
 
 ## Playing it
 
