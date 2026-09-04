@@ -60,11 +60,20 @@ LEGEND = {
     "Y": "kifu_board", "Q": "plant_int", "Z": "kettle_table", "M": "door_int",
 }
 
-SOLID = set("^#R~CWwBDdFSAHT tUu|bsnLpoxeVOGEXYQZMI iN"
-            "m0_&56()89+*:;Jyl$?k".replace(" ", ""))
-# doors and walkable interior floor are handled explicitly below.
-# The road, the rails and the ground under the arches are walked on; the canal,
-# the quay lip and every piece of street furniture are not.
+# Solidity is a whitelist and not a blacklist: solid_mask() calls a tile
+# walkable if and only if its legend character is in here (or the caller passed
+# the tile in extra_walkable, which is how doors work). Everything else --
+# walls, roofs, furniture, the canal, the quay lip, every piece of street
+# furniture -- is solid by default, which is the safe direction: a new tile
+# nobody classified blocks the player rather than letting them walk into the
+# sea.
+#
+# There was a SOLID set above this line until M36 and it was read by NOTHING.
+# One definition, no references, in a file whose whole job is classifying
+# tiles -- so it looked exactly like the source of truth and was not one. It
+# was found by breaking it on purpose: adding a new tile to it and taking it
+# out again changed nothing either way. Do not reintroduce it; the list that
+# decides is the one below.
 WALKABLE_OVERRIDE = set("PKcvghjfrz1234" "a=!q%7<,")
 
 
