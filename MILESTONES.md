@@ -2175,7 +2175,7 @@ bar. And neither guest had a club-night `post_match`, so winning a club-night ga
 league-flavoured lines in a room whose whole point is that the league is not watching.
 
 **Done when:** `tools/test.sh` **6725 / 0** (from 6515), `check_lessons.py` clean, and the
-sixteen frames below opened one at a time.
+seventeen frames below opened one at a time.
 
 **Six deliberate breaks, each watched to go red and reverted:**
 
@@ -2210,6 +2210,18 @@ time. **Three frames were wrong and all three looked confident.**
 
 That is the M16/M27/M32/M33/M34 disease in its sixth costume and the cure was the same one every
 time: open the PNGs. A green run is not evidence; it was not evidence this time either.
+
+**One seam this milestone created and then closed.** `World` connects `time_block_changed` and
+`day_changed` and did **not** connect `weather_changed`. In normal play that is harmless — the
+sky is derived from `day`, so it cannot change without `day_changed` firing first and rebuilding
+the room. But M35 made weather a *schedule* axis, and the other writer is Autopilot's `rain`
+step: a script could change the sky, the sound and the puddles while leaving yesterday's roster
+standing, and photograph it. That is this file's own M34 bug wearing the next costume along, and
+the frame would have looked exactly as confident as a correct one. Connected, with a frame that
+proves it — `a2_rain_only_no_day_turn` holds the day and the hour still, forces the sky, and the
+park empties. The redundant rebuild on sleep costs one extra pass over four NPCs behind a toast;
+a rebuild too many is the cheap failure here and a rebuild too few has cost this project a
+milestone twice.
 
 **Corrected on the way, because this file has produced it twice before.** The audit that opened
 this milestone said no map used the `when_wet` tile key. Wrong — Ketelsteeg and Onderbrug have

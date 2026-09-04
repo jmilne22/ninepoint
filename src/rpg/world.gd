@@ -74,6 +74,21 @@ func _ready() -> void:
     EventBus.day_changed.connect(func(_d: int) -> void:
         _apply_music()
         _repopulate())
+    # And the sky, since M35 made it a schedule axis rather than only a light.
+    #
+    # In normal play this is redundant: the weather is derived from `day`, so it
+    # cannot change without `day_changed` firing first and rebuilding the room.
+    # It is connected anyway, because the *other* writer is Autopilot's `rain`
+    # step -- and without this a script could change the sky, the sound and the
+    # tiles while leaving yesterday's roster standing, then photograph it. That
+    # is this file's own M34 bug wearing the next costume along, and the frame
+    # would look exactly as confident as a correct one.
+    #
+    # The redundant rebuild on sleep costs one extra pass over four NPCs, once a
+    # day, behind a toast. A rebuild too many is the cheap failure here; a
+    # rebuild too few is the one that has cost this project a milestone twice.
+    EventBus.weather_changed.connect(func(_w: bool) -> void:
+        _repopulate())
     EventBus.puzzle_finished.connect(_on_puzzle_finished)
     EventBus.map_changed.emit(map.id, GameState.spawn_point)
     await get_tree().process_frame

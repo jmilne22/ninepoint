@@ -25,6 +25,20 @@
   "note": "Pip at (10,16) and Bertie at (17,16) at the stone tables. HUD: Day 1, Mon morning. No rain."
  },
  {
+  "rain": true,
+  "note": "force the sky with NO day change. This is the one seam World.weather_changed -> _repopulate exists for: without it the rain, the sound and the puddles all arrive and yesterday's roster stays standing."
+ },
+ {"wait": 2.2},
+ {
+  "shot": "a2_rain_only_no_day_turn",
+  "note": "same day, same hour, only the sky changed -- and the park has emptied. If this frame still had two men in it the connection would be missing and every other frame here would still look right."
+ },
+ {
+  "rain": null,
+  "note": "clear the override; the day gets its own weather back"
+ },
+ {"wait": 1.2},
+ {
   "day": 2,
   "note": "Tuesday, and wet, with the World still standing -- day_changed -> _repopulate. Same spot, same hour, one variable changed."
  },
