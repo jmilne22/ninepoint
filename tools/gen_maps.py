@@ -53,18 +53,27 @@ LEGEND = {
     "(": "arch_left", ")": "arch_right", "7": "arch_shade", "8": "neon_sign",
     "9": "snack_window", "<": "stairs_down", "+": "concrete", "*": "glass_curtain",
     # interior
-    "$": "stove", "?": "hooks", ",": "floor_concrete",
+    "$": "stove", "?": "hooks", ",": "floor_concrete", "k": "washer",
     "1": "floor_wood_a", "2": "floor_wood_b", "3": "floor_mat", "4": "rug",
     "I": "wall_int", "i": "wall_int_base", "N": "wall_int_win", "V": "shelf_books",
     "O": "counter", "G": "go_table", "E": "go_table_empty", "X": "chair",
     "Y": "kifu_board", "Q": "plant_int", "Z": "kettle_table", "M": "door_int",
 }
 
-SOLID = set("^#R~CWwBDdFSAHT tUu|bsnLpoxeVOGEXYQZMI iN"
-            "m0_&56()89+*:;Jyl$?".replace(" ", ""))
-# doors and walkable interior floor are handled explicitly below.
-# The road, the rails and the ground under the arches are walked on; the canal,
-# the quay lip and every piece of street furniture are not.
+# Solidity is a whitelist and not a blacklist: solid_mask() calls a tile
+# walkable if and only if its legend character is in here (or the caller passed
+# the tile in extra_walkable, which is how doors work). Everything else --
+# walls, roofs, furniture, the canal, the quay lip, every piece of street
+# furniture -- is solid by default, which is the safe direction: a new tile
+# nobody classified blocks the player rather than letting them walk into the
+# sea.
+#
+# There was a SOLID set above this line until M36 and it was read by NOTHING.
+# One definition, no references, in a file whose whole job is classifying
+# tiles -- so it looked exactly like the source of truth and was not one. It
+# was found by breaking it on purpose: adding a new tile to it and taking it
+# out again changed nothing either way. Do not reintroduce it; the list that
+# decides is the one below.
 WALKABLE_OVERRIDE = set("PKcvghjfrz1234" "a=!q%7<,")
 
 
@@ -107,7 +116,10 @@ def ketelsteeg():
     ground.set(ketel_steps, 8, "<")            # three steps down, and a double
     ground.set(ketel_steps + 1, 8, "<")        # width so it is not mean to aim at
     ground.set(ketel_steps, 7, "S")            # the hanging sign with the kettle
+    # Two tiles wide, for the reason the salon steps are: a door you have to
+    # stand on exactly one tile to find is a door most players never open.
     ground.set(wash_door, 8, "F")
+    ground.set(wash_door + 1, 8, "F")
     ground.set(wash_door + 3, 7, "9")          # the snack window
     ground.set(wash_door + 4, 7, "8")          # and the only neon on the street
 
@@ -169,6 +181,7 @@ def ketelsteeg():
     ground.set(30, 16, "e")
 
     walkable = {(ketel_steps, 8), (ketel_steps + 1, 8), (home_door + 1, 8),
+                (wash_door, 8), (wash_door + 1, 8),
                 (quay_steps, 19), (quay_steps + 1, 19)}
     solid = solid_mask(ground, extra_walkable=walkable)
 
@@ -188,6 +201,7 @@ def ketelsteeg():
             # Coming back off the southbound tram from Essenveld.
             "from_tram": [1, 10],
             "from_quay": [quay_steps, 18],
+            "from_wassalon": [wash_door, 9],
             "park": [18, 17],
         },
         "warps": [
@@ -197,6 +211,16 @@ def ketelsteeg():
              "prompt": "De Ketel"},
             {"tile": [home_door + 1, 8], "map": "attic", "spawn": "from_street",
              "prompt": "Up to your room"},
+            # The wassalon was a facade with a door, a sign, neon and no warp
+            # for thirty-five milestones -- the sign describing the room was
+            # standing on the tile that should have been the way into it, and
+            # a sign has to be solid where a warp has to be walkable, so the
+            # two could never have been the same tile. Ungated: the room is
+            # open from day one and asks nothing of anybody.
+            {"tile": [wash_door, 8], "map": "wassalon", "spawn": "from_street",
+             "prompt": "Wassalon"},
+            {"tile": [wash_door + 1, 8], "map": "wassalon", "spawn": "from_street",
+             "prompt": "Wassalon"},
             {"tile": [arch_x, 8], "map": "onderbrug", "spawn": "from_street",
              "prompt": "Onderbrug"},
             {"tile": [arch_x + 1, 8], "map": "onderbrug", "spawn": "from_street",
@@ -221,7 +245,8 @@ def ketelsteeg():
             {"tile": [3, 9], "text": "STEENBEEK BEGINNER CUP -- entries at the Bondszaal. All ranks 15k and below. Pinned beside it, curling at one corner: DE KETEL -- CLUB NIGHT TUESDAY, FROM EIGHT. And under that, newer: MARKET -- SATURDAY MORNINGS, KETELSTEEG."},
             {"tile": [home_door, 8], "text": "A stationer's, shuttered since before you came. Your stairs are the door beside it, and the landlord's cat owns the landing."},
             {"tile": [ketel_steps + 2, 8], "text": "DE KETEL. Three steps down. The bar is Tomas's and so is the back room, which has had a board in it for sixty years."},
-            {"tile": [wash_door, 8], "text": "WASSALON -- open till two. The warmest room on Ketelsteeg, and nobody minds if you only sit."},
+            {"tile": [wash_door - 1, 8], "text": "WASSALON -- open till two. The warmest room on Ketelsteeg, and nobody minds if you only sit."},
+            {"tile": [wash_door + 3, 8], "text": "A hatch in the wall with a fryer behind it and no name over it. Open when the wassalon is, which is to say later than anything else on this street."},
             {"tile": [29, 8], "text": "Under the viaduct the brick is black with a century of smoke. Somebody has chalked a 3-4 point on it, and somebody else has chalked the answer."},
         ],
         # Molenpark is a daylight place: both of these move to the arches at
@@ -319,9 +344,118 @@ def attic():
         "signs": [
             {"tile": [9, 4], "text": "__DESK__The board the last tenant left, on a desk exactly the right size for it. You have turned it over twice looking for instructions."},
             {"tile": [2, 5], "text": "__BED__A bed under the slope of the roof. You have hit your head on that roof twice."},
-            {"tile": [5, 1], "text": "The dormer looks out at the tram wires and, past them, the crane on the far quay. It rains against this window most nights."},
+            {"tile": [5, 2], "text": "Under the dormer, which looks out at the tram wires and, past them, the crane on the far quay. It rains against that window most nights."},
         ],
         "npcs": [],
+        "music": "",
+        "indoors": True,
+    }
+
+
+def wassalon():
+    """The laundrette, at street level, and the one room in the city that
+    keeps no record of anybody.
+
+    Verhaven is built on one opposition -- the Instituut above ground where
+    you are written down, De Ketel below it where nobody asks but the hooks
+    remember -- and this room is neither. It is the third register: the
+    ordinary city, where Go is a thing some people happen to do while their
+    washing goes round. That is why it has no board on the wall, no hooks, no
+    music, and why two of the three games played here are unrated.
+
+    It also has no stove. "The warmest room on Ketelsteeg" is the machines.
+    """
+    W, H = 16, 10
+    ground = Grid(W, H, ",")
+    decor = Grid(W, H, " ")
+
+    for y in (0, 1):
+        ground.row(y, 0, "I" * W)
+    ground.row(2, 0, "i" * W)
+    for y in range(3, H):
+        ground.set(0, y, "i")
+        ground.set(W - 1, y, "i")
+    ground.row(H - 1, 0, "i" * W)
+
+    # two windows onto Ketelsteeg. The neon is four tiles east of the door out
+    # there, so from in here it reads backwards through the glass.
+    for wx in (4, 5, 11, 12):
+        ground.set(wx, 1, "N")
+
+    ground.set(10, 2, "n")                     # the small ads, on the base row
+
+    # Five machines in a row. Ambient lights the portholes and Soundscape
+    # thins them to two emitters -- see the note on SOUND_SOURCES.
+    for mx in range(2, 7):
+        ground.set(mx, 3, "k")
+    ground.set(8, 3, "O")                      # the change machine
+    ground.set(14, 3, "Q")
+
+    # The board somebody left out on the folding table, and the chair that
+    # goes with it. Whoever is in the room sits below it, facing up.
+    ground.set(11, 4, "X")
+    ground.set(11, 5, "G")
+    ground.set(14, 7, "E")                     # a second board, nobody at it
+    ground.set(1, 7, "b")
+    ground.set(2, 7, "b")
+
+    door_x = 7
+    ground.set(door_x, H - 1, "M")
+    ground.row(H - 2, door_x - 1, "33")        # the mat, inside the door
+    solid = solid_mask(ground, extra_walkable={(door_x, H - 1)})
+
+    return {
+        "name": "Wassalon",
+        "size": [W, H], "tile_size": 16, "legend": LEGEND,
+        "ground": ground.out(), "decor": decor.out(), "solid": solid,
+        "spawns": {"from_street": [door_x, H - 2], "bench": [1, 8]},
+        "warps": [
+            {"tile": [door_x, H - 1], "map": "ketelsteeg", "spawn": "from_wassalon",
+             "prompt": "Out to Ketelsteeg"},
+        ],
+        "signs": [
+            {"tile": [4, 3], "text": "Five machines, and four of them going. The warm smell of somebody else's washing, which is the smell of being indoors when you did not have to be."},
+            {"tile": [10, 2], "text": "Small ads, four deep and none of them recent. ROOM TO LET. PIANO LESSONS. And underneath, in a hand that pressed hard: WILL PLAY ANYONE, ANY TIME -- and no name, and no way to reach them."},
+            {"tile": [11, 5], "text": "A folding table with a board on it. Somebody has left a game half-played and gone, and the stones have been moved since by people who were not playing."},
+            {"tile": [14, 7], "text": "A second board, propped against the wall where the bench does not reach. The lines have been redrawn in biro by somebody who cared and could not draw straight."},
+            {"tile": [12, 2], "text": "Under the window onto Ketelsteeg. The neon over the snack window reads backwards through the glass from in here, and the tram goes past twice while you watch."},
+        ],
+        # Nobody's job is to be here, so nobody is here at every hour. Abel has
+        # nowhere else to be, Dov comes when the machines are free, and Moss
+        # comes in out of the rain -- which is the weather axis doing something
+        # the weekday axis could not, and deliberately not a third weekly
+        # occasion: club night and market day are the two the city has, and a
+        # third would dilute both.
+        #
+        # Late at night there is nobody in here at all, and the machines are
+        # still going. That is the frame this room was built for; it is the
+        # quay's job done warm instead of cold.
+        #
+        # They stand BESIDE the folding table at (11,5) rather than under it.
+        #
+        # The reason it matters was a real bug and it was not in this file:
+        # signs were built with interact_priority 1 and NPCs left theirs at 0,
+        # so wherever a person and a readable object were both inside the
+        # probe, [Space] read the object. Standing at the board and being
+        # handed a paragraph about the board is how that looked. Npc now sets
+        # priority 2 and the person wins, which is the actual fix.
+        #
+        # The placement stays anyway: it is the better picture, because on a
+        # wet afternoon the two of them flank the way in to the board instead
+        # of queueing on one tile.
+        "npcs": [
+            {"id": "abel", "tile": [10, 6], "dir": "up", "idle": "watch",
+             "blocks": ["morning", "afternoon"]},
+            {"id": "dov", "tile": [10, 6], "dir": "up", "idle": "tend",
+             "blocks": ["dusk"]},
+            # Two hours and one sky. Moss is the only one of the three who is
+            # here for a reason he would admit to.
+            {"id": "moss", "tile": [12, 6], "dir": "up", "idle": "watch",
+             "blocks": ["afternoon", "dusk"], "weather": ["wet"]},
+        ],
+        # No routes: it is a room. And no music, which is what makes
+        # Soundscape choose amb_room -- the attic's precedent, and the reason
+        # the machines are audible at all.
         "music": "",
         "indoors": True,
     }
@@ -1037,6 +1171,23 @@ def validate(name, data):
         x, y = s_["tile"]
         if walkable(x, y):
             problems.append("%s: sign at %d,%d is on a walkable tile (unreadable)" % (name, x, y))
+        # ...and solid is only half of readable. The interaction probe is a
+        # 14x14 box thrown PROBE_REACH=12 px from the player's feet, so it
+        # reaches exactly one tile: a sign with no walkable orthogonal
+        # neighbour is a sign nobody can ever stand in front of. It is solid,
+        # it passes the check above, it builds an Interactable, and the probe
+        # never once overlaps it.
+        #
+        # Written because M36 wrote two of them in an afternoon -- and found a
+        # third that had been there since the attic was built in M14. The
+        # dormer sign sat on the upper wall course with the wall base below it
+        # and the floor below that, two tiles from anywhere a player can stand,
+        # which is the same "interactables go on the base row" fact the hooks
+        # at De Ketel had to learn separately.
+        elif not any(walkable(x + dx, y + dy)
+                     for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
+            problems.append("%s: sign at %d,%d has nowhere to stand and read it"
+                            % (name, x, y))
 
     # Crowd routes. A passer-by is launched down these with no pathfinding at
     # all, so the whole segment has to be clear, not just its ends -- two
@@ -1075,7 +1226,8 @@ def build():
     os.makedirs(out_dir, exist_ok=True)
     written = []
     maps = (("ketelsteeg", ketelsteeg), ("de_ketel", de_ketel),
-            ("attic", attic), ("onderbrug", onderbrug), ("quay", quay),
+            ("attic", attic), ("wassalon", wassalon),
+            ("onderbrug", onderbrug), ("quay", quay),
             ("academy_hall", academy_hall), ("academy_study", academy_study),
             ("academy_class", academy_class), ("academy_dorm", academy_dorm),
             ("bondszaal", bondszaal))

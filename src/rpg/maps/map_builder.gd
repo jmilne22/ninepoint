@@ -84,7 +84,7 @@ static func build_signs(map: MapData, parent: Node2D, on_read: Callable) -> void
         var area := Interactable.new()
         area.name = "Sign_%d_%d" % [int(tile[0]), int(tile[1])]
         area.prompt = str(s.get("prompt", "Read"))
-        area.interact_priority = 1
+        area.interact_priority = Interactable.PRIORITY_SIGN
         var shape := CollisionShape2D.new()
         var rect := RectangleShape2D.new()
         rect.size = Vector2(map.tile_size, map.tile_size)

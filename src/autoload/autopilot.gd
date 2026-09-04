@@ -349,11 +349,57 @@ func _talk_to(npc_id: String, timeout: float) -> void:
         # The box being open is the only honest test of "did we talk to them".
         # The interaction probe was the old one and it answers a different
         # question: whether somebody is standing there *now*.
+        #
+        # ...and "the box is open" is not sufficient either, which M36 found the
+        # same way M30 found the first half: by opening the screenshots. A sign
+        # runs the same box, so `talk_to abel` walking up to a person who
+        # happens to be standing under a readable object, pressing [Space] and
+        # getting the OBJECT counted as success -- and the rest of the script
+        # then advanced through a paragraph about a folding table under a shot
+        # captioned with the character's name. Exit 0, no script errors, nine
+        # confident PNGs, and the conversation had never happened. That is the
+        # M16 slice_full bug exactly, wearing the fix for the M16 slice_full bug.
+        #
+        # A narrated sign has no speaker, so the name plate is the thing that
+        # tells them apart.
         box = _dialogue_box()
         if box != null and box.running:
-            return
+            if _speaker_matches(box, target):
+                return
+            print("AUTOPILOT: [Space] beside '%s' opened something else -- '%s'"
+                % [npc_id, _speaker_of(box)])
+            # Close it before trying again, or the next attempt refuses to walk.
+            while box != null and box.running:
+                _send("interact", true)
+                await get_tree().process_frame
+                _send("interact", false)
+                await get_tree().create_timer(0.16).timeout
+                box = _dialogue_box()
     print("AUTOPILOT: talked to '%s' %d times and no conversation opened"
         % [npc_id, TALK_ATTEMPTS])
+
+
+## The name on the plate, or "" for a narrated sign, which has no speaker.
+func _speaker_of(box: Object) -> String:
+    var label = box.get("_name_label")
+    return "" if label == null else str(label.text)
+
+
+func _speaker_matches(box: Object, target: Node2D) -> bool:
+    var want := ""
+    var data = target.get("data")
+    if data != null:
+        want = str(data.display_name)
+    var got := _speaker_of(box)
+    if want == "":
+        # No NpcData to compare against: a speaker plate at all is still a much
+        # better answer than "a box is open", because a sign has none.
+        return got != ""
+    # The plate is "Abel Roos   21k" -- DialogueBox appends the rank -- so this
+    # is a prefix test and not an equality one. Written down because equality
+    # was the first version and it rejected the right person, which reads in the
+    # log exactly like the bug it was added to catch.
+    return got.begins_with(want)
 
 
 ## Taps through a conversation until the box closes, rather than guessing how

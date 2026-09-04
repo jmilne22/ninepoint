@@ -4,8 +4,8 @@ A top-down 2D RPG about learning to play **Go (baduk)**, in Godot 4.7 / GDScript
 Original setting and characters — nothing is borrowed from any existing game's world,
 cast, art or branding. Combat does not exist; encounters are games of Go.
 
-~13,250 lines GDScript in `src/` (18,150 with tests and tools), ~7,000 lines Python
-tooling, 6,306 headless tests.
+~13,700 lines GDScript in `src/` (19,400 with tests and tools), ~7,400 lines Python
+tooling, 7,081 headless tests.
 
 ---
 
@@ -65,7 +65,8 @@ below it, and Kesh is the one crossing.
 | Place | What it is |
 |---|---|
 | `attic` | over the shuttered stationer's. **The game starts here**, at the board the last tenant left |
-| `ketelsteeg` | your street: tram rails, brick, the wassalon, the snack window, the tram stop west |
+| `ketelsteeg` | your street: tram rails, brick, the snack window, the tram stop west |
+| `wassalon` | the laundrette, three doors east. Street level, and the city's **third** register: no board on the wall, no hooks, no card, nothing written down at all. Open till two, and empty at night with the machines still going |
 | `de_ketel` | the salon, three steps below the pavement. Tomás owns it. **The hooks** are here, and on Tuesdays the room fills |
 | `onderbrug` | the viaduct arches, east: crates for tables, three lamps, Bertie and Joos |
 | Molenpark | the park end of Ketelsteeg — stone tables, the old crowd, Pip |
@@ -133,6 +134,9 @@ Spine: arrive → enrol with Marguerite → read the board → take a class → 
 | `marguerite` | Marguerite Sable | 1d | hall — registrar, runs the league and the exam |
 | `hana` | Hana Oyelaran | 5d | De Ketel **and** classroom — the teacher; the mentor voice |
 | `joos` | Joos | **`?`** | Onderbrug — no card, no papers, 3d behind a withheld label |
+| `abel` | Abel Roos | 21k | the wassalon — off the ferry for the Cup; the weakest player in the game |
+| `dov` | Dov Halevi | 19k | the wassalon at dusk — counts out loud and will not stop |
+| `moss` | Moss Lindqvist | 16k | the wassalon when it rains — three years under the section ceiling, on purpose |
 
 Kesh and Hana deliberately appear in both places; the two Go cultures above are why.
 Joos is the counterweight to the Instituut: `rank_label = "?"`, with a real `strength_override`
@@ -245,7 +249,12 @@ an explicit *box closed* frame before each day turn, because `_repopulate()` gua
 and M34's final frame was a stale six-person room captioned "back to four"),
 `weather` (the same park dry and wet an hour apart, the two men who move under the arches when it
 rains and the empty arches on a dry morning, then market day on Ketelsteeg in both skies with
-Tomás out of his own bar).
+Tomás out of his own bar),
+`wassalon` / `wassalon_game` (the door that was a wall for thirty-five milestones, the room
+behind it, and the three Cup strangers who were always standing in it: the moved sign, the
+snack window's first sign, the same afternoon dry and wet with one person and then two, and
+night with nobody and the machines still turning -- then the one game in that room that counts,
+with `H2` on the panel and Moss's `post_match` at the end of it).
 Screenshots land in `/tmp/ninepoint-shots` (override with `OUT=`). **`run_game.sh` needs a
 script argument** — it runs on a hidden display, so without one there is nothing to see; it
 will tell you to use `play.sh`. `DISPLAY_NUM=0` runs it on the real display instead, which is
@@ -456,7 +465,9 @@ it, from a system that was removed several milestones earlier, and `README.md` p
 Playable start to finish: cold open → name → **the attic** → Ketelsteeg → Capture Go → rules
 lessons → nigiri → Kesh → a rank → capture puzzle → the tram north → enrol → league board →
 a class → the Cup at the Bondszaal, in whichever of its two sections your card puts you in.
-Ten maps, fifteen characters, two board sizes,
+Eleven maps and fifteen characters, **all fifteen of whom now stand somewhere** -- Abel, Dov
+and Moss shipped complete in M24 and stood on no map until the wassalon opened, so the Cup drew
+three names the player had never seen. Two board sizes,
 four hours of the day, a seven-day week with a club night and a market day in it, weather that
 actually falls, and a term that ends. Six quests, five of which are some
 form of *play games and win* and one of which -- `page_forty` -- is a book you borrow and
@@ -664,7 +675,9 @@ No engine, and the seam for one is `GoEvaluator` — see the debt list before re
   wait for 15k, which is now reachable but a long way up. `capture_missed` and `died_savable`
   used to wait too and no longer do — the gate was following the lesson order, which is
   ordered by what builds on what, when a review has to be ordered by what you can act on
-  tomorrow. What is left is content between 22k and 15k, not plumbing.
+  tomorrow. What is left is content between 22k and 15k, not plumbing — and M36 put three
+  opponents in exactly that band, at 21k, 19k and 16k, where the game previously ran 20k, 18k
+  and then straight to 12k.
 - **The review still has no engine, and the trade is now explicit.** It prices a mistake in
   points from settled territory, which is arithmetic and honest at kyu strength; it cannot say
   "this move was worth four rather than nine". `GoEvaluator` is the seam a `GtpEvaluator` would
@@ -742,6 +755,14 @@ No engine, and the seam for one is `GoEvaluator` — see the debt list before re
   same thing still open, and the `GameState`-typed-as-`Node` entry below is the same thing
   a third time. Put anything a test needs on the **pure** half of the pair — that is what
   `LeagueTable`/`LeagueBoard` and `HooksLadder`/`HooksBoard` are for. Nothing detects it.
+- **A check can pass by looking at the wrong thing, and M36 found four of them in an
+  afternoon.** Fixed: a sign had to be *solid* and nobody asked whether a player could stand
+  anywhere to read it (the attic dormer had been unreadable since M14); a sign outranked a
+  person in the interaction probe, so [Space] read the furniture behind whoever you were
+  talking to; `Autopilot._talk_to` treated any open dialogue box as proof it had talked to
+  somebody, and a sign runs the same box; and `gen_maps.SOLID` was read by nothing at all.
+  Still open: a positional sound (`washer`, `fryer`, `stove_crackle`) reaches no audibility
+  check, because `check_audio.sh` walks `MUSIC` and `BEDS` only.
 - Three test hooks ship in production code: the `Autopilot` autoload,
   `GoMatch.THINK_DELAY_FAST`, and `GameState.weather_override` (`""` derives, `"wet"`/`"dry"`
   forces; not saved, because a forced sky must not survive into a real playthrough).

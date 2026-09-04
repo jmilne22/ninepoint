@@ -1,0 +1,231 @@
+{
+ "name": "Wassalon",
+ "size": [
+  16,
+  10
+ ],
+ "tile_size": 16,
+ "legend": {
+  "^": "roof_ridge",
+  "#": "roof_slate",
+  "R": "roof_rust",
+  "~": "roof_eave",
+  "C": "chimney",
+  "W": "wall_plaster",
+  "w": "wall_plaster_win",
+  "B": "wall_base",
+  "D": "door_wood",
+  "d": "door_club",
+  "F": "door_glass",
+  "S": "sign_hanging",
+  "A": "awning",
+  "P": "pavement",
+  "K": "kerb",
+  "c": "cobble_a",
+  "v": "cobble_b",
+  "g": "grass_a",
+  "h": "grass_b",
+  "j": "grass_c",
+  "f": "grass_flowers",
+  "T": "tree_tl",
+  "t": "tree_tr",
+  "U": "tree_bl",
+  "u": "tree_br",
+  "H": "hedge",
+  "-": "fence_h",
+  "|": "fence_post",
+  "b": "bench",
+  "s": "stone_table",
+  "n": "noticeboard",
+  "L": "lamp_post",
+  "p": "planter",
+  "o": "post_box",
+  "x": "void",
+  "e": "bush",
+  "r": "gravel",
+  "z": "drain",
+  "a": "asphalt",
+  "=": "tram_rail_h",
+  "!": "tram_rail_v",
+  "q": "puddle",
+  "%": "cobble_wet",
+  ":": "canal",
+  ";": "quay_edge",
+  "J": "bollard",
+  "y": "bike_rack",
+  "l": "tram_pole",
+  "m": "wall_brick",
+  "0": "wall_brick_win",
+  "_": "wall_brick_base",
+  "&": "graffiti",
+  "5": "shutter",
+  "6": "shutter_sign",
+  "(": "arch_left",
+  ")": "arch_right",
+  "7": "arch_shade",
+  "8": "neon_sign",
+  "9": "snack_window",
+  "<": "stairs_down",
+  "+": "concrete",
+  "*": "glass_curtain",
+  "$": "stove",
+  "?": "hooks",
+  ",": "floor_concrete",
+  "k": "washer",
+  "1": "floor_wood_a",
+  "2": "floor_wood_b",
+  "3": "floor_mat",
+  "4": "rug",
+  "I": "wall_int",
+  "i": "wall_int_base",
+  "N": "wall_int_win",
+  "V": "shelf_books",
+  "O": "counter",
+  "G": "go_table",
+  "E": "go_table_empty",
+  "X": "chair",
+  "Y": "kifu_board",
+  "Q": "plant_int",
+  "Z": "kettle_table",
+  "M": "door_int"
+ },
+ "ground": [
+  "IIIIIIIIIIIIIIII",
+  "IIIINNIIIIINNIII",
+  "iiiiiiiiiiniiiii",
+  "i,kkkkk,O,,,,,Qi",
+  "i,,,,,,,,,,X,,,i",
+  "i,,,,,,,,,,G,,,i",
+  "i,,,,,,,,,,,,,,i",
+  "ibb,,,,,,,,,,,Ei",
+  "i,,,,,33,,,,,,,i",
+  "iiiiiiiMiiiiiiii"
+ ],
+ "decor": [
+  "                ",
+  "                ",
+  "                ",
+  "                ",
+  "                ",
+  "                ",
+  "                ",
+  "                ",
+  "                ",
+  "                "
+ ],
+ "solid": [
+  "1111111111111111",
+  "1111111111111111",
+  "1111111111111111",
+  "1011111010000011",
+  "1000000000010001",
+  "1000000000010001",
+  "1000000000000001",
+  "1110000000000011",
+  "1000000000000001",
+  "1111111011111111"
+ ],
+ "spawns": {
+  "from_street": [
+   7,
+   8
+  ],
+  "bench": [
+   1,
+   8
+  ]
+ },
+ "warps": [
+  {
+   "tile": [
+    7,
+    9
+   ],
+   "map": "ketelsteeg",
+   "spawn": "from_wassalon",
+   "prompt": "Out to Ketelsteeg"
+  }
+ ],
+ "signs": [
+  {
+   "tile": [
+    4,
+    3
+   ],
+   "text": "Five machines, and four of them going. The warm smell of somebody else's washing, which is the smell of being indoors when you did not have to be."
+  },
+  {
+   "tile": [
+    10,
+    2
+   ],
+   "text": "Small ads, four deep and none of them recent. ROOM TO LET. PIANO LESSONS. And underneath, in a hand that pressed hard: WILL PLAY ANYONE, ANY TIME -- and no name, and no way to reach them."
+  },
+  {
+   "tile": [
+    11,
+    5
+   ],
+   "text": "A folding table with a board on it. Somebody has left a game half-played and gone, and the stones have been moved since by people who were not playing."
+  },
+  {
+   "tile": [
+    14,
+    7
+   ],
+   "text": "A second board, propped against the wall where the bench does not reach. The lines have been redrawn in biro by somebody who cared and could not draw straight."
+  },
+  {
+   "tile": [
+    12,
+    2
+   ],
+   "text": "Under the window onto Ketelsteeg. The neon over the snack window reads backwards through the glass from in here, and the tram goes past twice while you watch."
+  }
+ ],
+ "npcs": [
+  {
+   "id": "abel",
+   "tile": [
+    10,
+    6
+   ],
+   "dir": "up",
+   "idle": "watch",
+   "blocks": [
+    "morning",
+    "afternoon"
+   ]
+  },
+  {
+   "id": "dov",
+   "tile": [
+    10,
+    6
+   ],
+   "dir": "up",
+   "idle": "tend",
+   "blocks": [
+    "dusk"
+   ]
+  },
+  {
+   "id": "moss",
+   "tile": [
+    12,
+    6
+   ],
+   "dir": "up",
+   "idle": "watch",
+   "blocks": [
+    "afternoon",
+    "dusk"
+   ],
+   "weather": [
+    "wet"
+   ]
+  }
+ ],
+ "music": "",
+ "indoors": true
+}

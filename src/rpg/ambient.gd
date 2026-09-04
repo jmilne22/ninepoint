@@ -53,6 +53,9 @@ const LIGHT_SOURCES := {
     "wall_brick_win": Color("#e0b25c"),
     "wall_int_win": Color("#f2d791"),
     "glass_curtain": Color("#a8cbe0"),
+    # The drum light. The wassalon is "the warmest room on Ketelsteeg" and it
+    # has no stove, so the machines have to be what says so.
+    "washer": Color("#f2d791"),
 }
 
 ## How far each kind of light throws, as a multiple of the base disc. A street
@@ -64,6 +67,9 @@ const GLOW_SCALE := {
     "neon_sign": 1.3,
     "stove": 1.6,
     "glass_curtain": 1.2,
+    # A porthole lights its own front and the floor in front of it. Sized
+    # like a window and not like a lamp, because there are five of them.
+    "washer": 1.1,
 }
 
 const GLOW_RADIUS := 24

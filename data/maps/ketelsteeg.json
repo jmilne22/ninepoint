@@ -71,6 +71,7 @@
   "$": "stove",
   "?": "hooks",
   ",": "floor_concrete",
+  "k": "washer",
   "1": "floor_wood_a",
   "2": "floor_wood_b",
   "3": "floor_mat",
@@ -97,7 +98,7 @@
   "xm0mmmm0mxm0mmmm0mxm0mmmm0mxmmmmmm",
   "xmmmmmmmmxmmmmmmmmxmmmmmmmmxm&mmmm",
   "xm0m6mm0mxm0mSmm0mxm0mmmm98xmm()mm",
-  "x___5D___x___<<___x___F____x__77__",
+  "x___5D___x___<<___x___FF___x__77__",
   "PlPnPPPPyPPPpPPPPPPPoPPPPPLPPPPPPP",
   "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
   "aaaaaaqaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -141,7 +142,7 @@
   "1111111111111111111111111111111111",
   "1111111111111111111111111111111111",
   "1111111111111111111111111111111111",
-  "1111101111111001111111111111110011",
+  "1111101111111001111111001111110011",
   "0101000010001000000010000010000000",
   "0000000000000000000000000000000000",
   "0000000000000000000000000000000000",
@@ -179,6 +180,10 @@
    16,
    18
   ],
+  "from_wassalon": [
+   22,
+   9
+  ],
   "park": [
    18,
    17
@@ -211,6 +216,24 @@
    "map": "attic",
    "spawn": "from_street",
    "prompt": "Up to your room"
+  },
+  {
+   "tile": [
+    22,
+    8
+   ],
+   "map": "wassalon",
+   "spawn": "from_street",
+   "prompt": "Wassalon"
+  },
+  {
+   "tile": [
+    23,
+    8
+   ],
+   "map": "wassalon",
+   "spawn": "from_street",
+   "prompt": "Wassalon"
   },
   {
    "tile": [
@@ -302,10 +325,17 @@
   },
   {
    "tile": [
-    22,
+    21,
     8
    ],
    "text": "WASSALON -- open till two. The warmest room on Ketelsteeg, and nobody minds if you only sit."
+  },
+  {
+   "tile": [
+    25,
+    8
+   ],
+   "text": "A hatch in the wall with a fryer behind it and no name over it. Open when the wassalon is, which is to say later than anything else on this street."
   },
   {
    "tile": [

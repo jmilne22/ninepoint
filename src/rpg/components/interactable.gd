@@ -11,6 +11,14 @@ signal interacted(by: Node)
 ## (Named to avoid Area2D's own `priority` property.)
 @export var interact_priority: int = 0
 
+## The ordering, named here rather than written as bare numbers at the two
+## places that set them -- which is how they came to be the wrong way round.
+## A sign was 1 and a person was the default 0, so a notice on the wall
+## outranked somebody standing in front of you whenever the probe held both.
+## Nothing errored: the dialogue box opens for either.
+const PRIORITY_SIGN := 1
+const PRIORITY_PERSON := 2
+
 var enabled: bool = true
 
 

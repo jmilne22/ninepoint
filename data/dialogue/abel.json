@@ -2,9 +2,95 @@
  "id": "abel",
  "nodes": {
   "start": {
+   "branches": [
+    {
+     "if": [["beat", "abel"]],
+     "goto": "after_win"
+    },
+    {
+     "if": [["lost_to", "abel"]],
+     "goto": "after_loss"
+    },
+    {
+     "goto": "first"
+    }
+   ]
+  },
+  "first": {
    "text": [
     "Abel Roos. Twenty-one kyu, and I came across on the ferry this morning for this.",
     "I have never played anybody I did not already know. So this is all quite a lot."
+   ],
+   "goto": "gate"
+  },
+  "gate": {
+   "branches": [
+    {
+     "if": [["not_flag", "knows_the_rules"]],
+     "goto": "no_rules"
+    },
+    {
+     "goto": "offer"
+    }
+   ]
+  },
+  "no_rules": {
+   "text": [
+    "You don't play at all. Right.",
+    "Then no, and it isn't you. I have played four people in my life and I knew all four of them, and starting with somebody who doesn't know how the stones come off is not how I get to five.",
+    "There's a woman at the bar down the steps who teaches. Wren. Go and be taught, and then come back and I'll be nervous at you properly."
+   ]
+  },
+  "offer": {
+   "text": [
+    "Would you -- sorry. Would you want a game?",
+    "It doesn't have to count. Nothing in here counts. That's rather the appeal of it."
+   ],
+   "choices": [
+    {
+     "text": "Let's play.",
+     "exit": {
+      "type": "start_match",
+      "profile": "abel_9x9",
+      "context": "wassalon_abel",
+      "unrated": true,
+      "intro": "He puts the bowls out the wrong way round, swaps them, and then swaps them back."
+     }
+    },
+    {
+     "text": "Another time.",
+     "goto": "later"
+    }
+   ]
+  },
+  "later": {
+   "text": [
+    "Right. Yes. I'll be here -- I've another forty minutes on this machine and nowhere in this city to be."
+   ]
+  },
+  "after_win": {
+   "text": [
+    "You beat me. That's fine. That's what I came for, people who'd beat me.",
+    "Sorry. That came out sounding as though I'd planned it."
+   ],
+   "goto": "offer"
+  },
+  "after_loss": {
+   "text": [
+    "I won. I genuinely do not know what to do with my face.",
+    "Would you play another? I'd like to find out whether that was me or whether that was you having a bad one."
+   ],
+   "goto": "offer"
+  },
+  "post_match": {
+   "branches": [
+    {
+     "if": [["beat", "abel"]],
+     "goto": "after_win"
+    },
+    {
+     "goto": "after_loss"
+    }
    ]
   }
  }

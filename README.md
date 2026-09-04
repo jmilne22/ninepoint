@@ -156,6 +156,14 @@ they move the brass hooks at the back of the room and never the league table. **
 market on Saturday mornings**, which is the one time you will meet Tomás outside his own bar.
 The noticeboard on Ketelsteeg says when both of them are.
 
+**The wassalon is open till two**, three doors east of the bar, and it is the one room in the
+city that keeps no record of anybody -- no board on the wall, no brass hooks, no card. Three
+people you will meet again at the Beginner Cup do their washing there: Abel at twenty-one kyu,
+who is the only player in Verhaven weaker than you when you start; Dov at nineteen, who counts
+out loud; and Moss at sixteen, who comes in when it rains. Two of them will play you for
+nothing, which costs no hour and goes on no record. Moss will not: his game counts, and he is
+the only one there who wants it to.
+
 There is no relationship system. The game tracks your **record** against each person.
 
 ## The vertical slice

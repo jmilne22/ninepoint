@@ -121,6 +121,10 @@ Atlas rows, 16 per row, 90 tiles (`python3 tools/gen_tiles.py` prints the shape)
     tram pole, brick window, wet brick base, graffiti, shutter, dead sign, arch
  5  the city: arch, arch shade, neon, snack window, steps down, concrete, glass curtain,
     the stove and the hooks at De Ketel, poured floor
+ 6  the wassalon: the washing machine, two frames. Enamel and a control panel, and a
+    porthole that is the only warm thing in the tile -- it is a light source as well as
+    an animation, because that room has no stove and no music and the machines have to
+    be what says it is warm
 ```
 
 **Whenever the atlas gains a row, `town_tileset.tres` must be regenerated and the PNG

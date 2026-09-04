@@ -2235,3 +2235,183 @@ pavement, lands on the crowd routes at y=10 and y=14 that `gen_maps.validate()` 
 clear. A decor layer with a schedule on it is a different milestone; the market is people,
 sound and crowd density. Nadia's and Orla's club-night games still set no flag and advance no
 quest, which was M34's choice and is unchanged.
+
+## M36 — The wassalon  [done; ROADMAP §4 closed]
+
+**The door was never missing.** `gen_maps.py` has set `door_glass` at (22,8) on Ketelsteeg
+since the setting pass, and then put the sign describing the room **on the same tile**.
+`validate()` requires a sign to be solid and a warp to be walkable, so those two could never
+have been one tile — the sign was the reason the door could not be a door. Moving it one tile
+left is the whole of the fix, and ROADMAP §4 had called it "a facade with a door, a sign, neon
+and no warp" for six milestones without anyone noticing that the door and the sign were the
+same problem.
+
+**And the room behind it was not new content so much as three people who were already
+standing somewhere with nowhere to stand.** Abel Roos (21k), Dov Halevi (19k) and Moss
+Lindqvist (16k) shipped complete in M24 — `NpcData`, `OpponentProfile`, a banter file, a
+sprite and portrait record in `tools/characters.py`, and a `data/dialogue/<id>.json` holding
+exactly one `start` node of self-introduction. Nothing reached them but
+`CupDraw.FIELD_BEGINNERS` interpolating their ids into a profile path. So the Beginner Cup,
+which is the ending of Act 2, drew a five-person field of which **three were names the player
+had never seen**, in a game whose whole argument is that an opponent is a person.
+
+All fifteen characters now stand on a map. Abel at 21k is also the first opponent at or below
+a starting player's own strength: the weakest person in the game was Wren at 20k.
+
+**The register.** The city is built on one opposition — the Instituut above ground where you
+are recorded, De Ketel below it where nobody asks but the hooks remember — and the wassalon is
+neither half of it. Street level, no board on the wall, no card, no table: the ordinary city,
+where Go is a thing some people do while their washing goes round. The sign has said so since
+M14 and nobody could get in to check.
+
+**Two of the three games are unrated and one is not, and that is the room.** Abel and Dov play
+for nothing — free, no hour, nothing kept but the head-to-head. `HooksLadder.ROSTER` does not
+contain any of the three, so no hook moves either. Moss plays one that counts, because he is
+the one person in a room that records nothing who wants it recorded: sixteen kyu, three years
+under the section ceiling, and not proud of it.
+
+The unrated part is a rule and not a flavour note. `rated_wins_at_least` counts every rated
+record in the save, so a rated 21 kyu on a doorstep is three farmed wins from opening 13×13
+and the Cup play-up — improving your record by beating somebody weaker, which is the M24
+league bug and which Pillar 1 forbids. `_test_the_wassalon` asserts it rather than leaving it
+to a comment, because "why is this game unrated?" is exactly the tidy-up a later session makes
+with every test green.
+
+**The schedule spends the weather axis, not the weekday one.** Abel is there every daylight
+hour, having nowhere else to be; Dov comes at dusk, when the machines are free; Moss comes in
+out of the rain, and says so in his first line. The weekday already carries club night and
+market day and a third weekly occasion would dilute both, whereas rain driving people into the
+warmest room on the street is the M35 axis doing something new — and it is the first use of
+`"weather"` on an **interior**, where the sky cannot be seen but the people who walked in out
+of it can.
+
+**And the room is empty at night, deliberately, with the machines still running.** Nothing
+anywhere in this project had ever asserted that a room *empties* — every guard in
+`test_data.gd` asserts somebody is somewhere — so `_test_the_wassalon` walks all fourteen
+weekday-and-sky combinations of `night` and requires nobody in any of them. It is one careless
+`"night"` away from being deleted with the suite green, which is how it is written down.
+
+### Four things it found, all the same shape: a check that passes because it is looking at the wrong thing
+
+**A sign only had to be solid.** `validate()` refused a sign on a walkable tile and never
+asked whether a player could stand anywhere to read it. The interaction probe is a 14×14 box
+thrown `PROBE_REACH` 12 px from the player's feet, so it reaches exactly one tile: a sign with
+no walkable orthogonal neighbour builds an `Interactable` the probe can never overlap. No
+prompt, no error, nothing to fail. Written into `gen_maps.validate()` and — separately —
+`_test_maps`, because the generator only ever protects the next map and this file protects the
+ten already here. It found one on the first run: **the attic dormer sign, unreadable since the
+attic was built in M14**, sitting on the upper wall course with the wall base below it and the
+floor below that. It has come down a row.
+
+**A notice outranked a person.** `MapBuilder` gave every sign `interact_priority = 1`; `Npc`
+left its own at the default `0`. So wherever the probe held a readable object and a human
+being — which is routine, the probe is 14 px and a tile is 16 — [Space] read the object.
+Standing in front of somebody and being handed a paragraph about the table behind them, with
+the dialogue box opening exactly as it should. The two numbers were bare literals in two
+files, which is how they came to be the wrong way round; they are
+`Interactable.PRIORITY_SIGN` and `PRIORITY_PERSON` now and their ordering is asserted. The
+before-and-after is on screen: the prompt over the same tile changed from `Read` to
+`Talk to Abel Roos`.
+
+**`Autopilot._talk_to` accepted any open box as proof it had talked to somebody.** M30 replaced
+the old interaction-probe test with "did the dialogue box open?", which was the right move and
+is still not sufficient, because a sign runs the same box. `talk_to abel` walked up, pressed
+[Space], got the folding table, and returned success; the script then advanced through a
+paragraph about furniture under a screenshot captioned with his name — the M16 `slice_full`
+bug wearing the fix for the M16 `slice_full` bug, at exit 0 with 0 script errors and nine
+confident PNGs. It reads the speaker plate now, which a narrated sign does not have. (First
+version compared the plate for equality and rejected the right person, because the plate is
+`Abel Roos   21k`; a false alarm in a check added to catch a silent failure reads in the log
+exactly like the thing it was added to catch.)
+
+**`SOLID` in `gen_maps.py` was read by nothing.** Found by breaking it on purpose: adding the
+new `washer` character to it and taking it out again changed no generated map and failed no
+check. `solid_mask()` consults only `WALKABLE_OVERRIDE` — a tile is walkable iff its legend
+character is on that whitelist and everything else is solid by default. One definition, no
+references, in the file whose job is classifying tiles, so it read as the source of truth
+while deciding nothing. Deleted, with a comment saying which list decides and not to
+reintroduce the other.
+
+### Built
+
+- **`wassalon`**, 16×10, `indoors`, the eleventh map. Five machines, a counter, a folding
+  table with a board on it, a second board propped against the wall, a bench, the small ads,
+  and two windows onto the street. `music: ""`, which is what makes `Soundscape._choose_bed()`
+  return `amb_room` — the attic's precedent, and the only *inhabited* interior in the game
+  with no score, so the machines are its whole voice.
+- **A `washer` tile**, two frames, in `tools/gen_tiles.py`; a `washer` entry in
+  `TileAnimator.ANIMATIONS` with no `blocks` gate, because "open till two" means the drums
+  turn at every hour; a `washer` sound in `gen_audio.py` (a motor on one note and the load
+  coming round twice, unevenly, for the reason `stove_crackle` uses uneven ticks); a
+  `Soundscape.SOUND_SOURCES` entry thinned to two emitters from five machines; and an
+  `Ambient.LIGHT_SOURCES` porthole, which is what makes the night frame.
+- **The Ketelsteeg door**, two tiles wide for the reason the salon steps are, the WASSALON
+  sign one tile left of it, and **a sign for the snack window** — art, a `fryer` emitter and a
+  glow since M14, on the one stretch of the largest map in the game that led nowhere.
+- **Three dialogue graphs** grown from one node each. Every offer is gated on
+  `knows_the_rules`, and that is Abel's own written line used as a condition rather than a
+  rail bolted on: *"I have never played anybody I did not already know."* Moss's is gated on
+  `ranked` as well, and he has a `rank_at_most` branch for a player who outgrows his section,
+  which is Marguerite's `cup_outgrown` seen from the other side.
+- **`WorldAmbienceTests.MAPS` derived** from `res://data/maps` instead of retyped.
+
+**Done when:** `tools/test.sh` **7081 / 0** (from 6725), `check_lessons.py` clean,
+`check_melody.py` clean, `gen_maps.py` / `gen_content.py` / `build_assets.py` regenerated and
+`validate()` green on all eleven maps.
+
+### Deliberate breaks, each reverted and re-run
+
+| broken | result |
+|---|---|
+| the wassalon door left out of `extra_walkable` | build refused: *warp to wassalon at 22,8 is solid* |
+| the WASSALON sign put back on the door tile | build refused: *sign at 22,8 is on a walkable tile* |
+| the snack-window sign put on the hatch itself | build refused: *sign at 25,7 has nowhere to stand and read it* |
+| the attic dormer sign put back where it was | build refused — **the M14 bug, reproduced on demand** |
+| Abel's hours misspelt `"mornin"` | build refused: *unknown block* |
+| Dov given a `"night"` hour | 14 failed — one per weekday and sky |
+| `abel` dropped from `OFF_AT_SOME_HOUR` | 1 failed |
+| Moss's `post_match` deleted | 2 failed (the exit rule, and the orphaned node) |
+| Moss's game made unrated | 1 failed |
+| Abel's game made rated | 1 failed |
+| `from_wassalon` dropped from Ketelsteeg's spawns | 1 failed |
+| `k` dropped from `SOLID` | **0 failed, and no map changed** — which is how `SOLID` was found to be dead |
+| the ambience map list retyped by hand without the new map | **0 failed**, 7077 green against 7080 — three checks silently not run, which is the entire argument for deriving it |
+
+### Looked at, not reasoned about
+
+`tools/autopilot/wassalon.json` (nine frames) and `wassalon_game.json` (seven), both declaring
+`{"save": "invited"}`.
+
+- The WASSALON sign readable from the pavement beside the glass door, and the snack-window
+  sign readable under the hatch — the two signs the new rule moved.
+- Frame 3, the room: five machines drawn and turning. If any of them were a hole the TileSet
+  resource had not been rebuilt, and **nothing in the project detects that** — the per-tile
+  assertion in `_test_maps` reads the manifest, not the `.tres`.
+- Frame 5, `e_box_closed`: an explicit box-closed frame before any hour or sky is touched,
+  because `World._repopulate()` guards on `_talking` and M34 shipped a stale roster behind an
+  open card. It is also the frame that shows the priority fix — the prompt reads
+  `Talk to Abel Roos` where it read `Read` an hour earlier.
+- Frames 6 and 7: the same day and the same hour with the sky forced, and **two** people in
+  the room instead of one; then dusk, and Abel replaced by Dov with Moss still there.
+- Frame 8: night, nobody, and the portholes lit. The frame the room was built for.
+- `wassalon_game`: the offer card with its two choices, `H2` and two black stones on the star
+  points against 16 kyu, the resignation, and Moss's `post_match` — the only visible proof
+  the graph re-enters.
+
+**Three script faults on the way, all of them the documented ones.** A blind `advance` past a
+choice accepted the rematch and turned every later frame into a second game. A fixed `advance`
+budget that lands *on* the choice card spends its last tap selecting the highlighted option,
+which is why the generous `advance: 20` + `stop_at_choice` form exists. And `_walk_to` has no
+pathfinding, so a diagonal walk across a room with two people standing in it walks into one of
+them and stops — every leg has to be a straight line through empty floor.
+
+### Left behind
+
+- The `go_table` at (11,5) will never make a sound: `Soundscape` gates `stone_place` on
+  `people >= 2` and the room holds one person most of the time. Correct, and worth knowing
+  before somebody "fixes" it.
+- `washer` is a positional emitter, so like `fryer` and `stove_crackle` it reaches no
+  audibility check at all — `tools/check_audio.sh` walks `MUSIC` and `BEDS`.
+- Four NPCs elsewhere still stand next to signs (Marguerite at two desks, Pip and Bertie under
+  the arches). With the priority fix that is no longer a bug and no assertion was added, since
+  a person at a crate with the crate's own sign above them is the intended picture.

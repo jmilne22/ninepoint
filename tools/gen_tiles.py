@@ -1152,6 +1152,59 @@ def _(im, s):
     im.vline(0, 0, TS, rgb("path1"))
 
 
+def _washer(im, s, frame=0):
+    """A front-loader. Enamel, a control panel, and a drum that is going round.
+
+    The only tile in the atlas whose animation exists to say a room is warm:
+    the wassalon has no music and no stove, so the machines are the whole of
+    its light and its noise.
+    """
+    im.rect(0, 0, TS, TS, rgb("paper1"))
+    im.hline(0, 0, TS, rgb("paper0"))          # light from the top-left, as ever
+    im.vline(0, 0, TS, rgb("paper0"))
+    im.hline(0, 15, TS, rgb("path0"))
+    im.vline(15, 0, TS, rgb("paper2"))
+
+    im.rect(1, 1, 14, 4, rgb("ink2"))          # the control panel
+    im.rect(2, 2, 3, 2, rgb("ink1"))           # the little window that counts down
+    im.set(3, 3, rgb("gold3") if frame == 0 else rgb("gold1"))
+    for dx in (8, 11):                         # two dials, one of them broken
+        im.set(dx, 2, rgb("path3"))
+        im.set(dx, 3, rgb("path0"))
+
+    im.rect(3, 6, 10, 9, rgb("ink1"))          # the porthole rim
+    im.set(3, 6, rgb("paper1"))                # knocked corners read as round
+    im.set(12, 6, rgb("paper1"))
+    im.set(3, 14, rgb("paper1"))
+    im.set(12, 14, rgb("paper1"))
+    im.rect(4, 7, 8, 7, rgb("blue0"))          # glass
+    im.rect(5, 8, 6, 5, rgb("blue1"))
+    im.set(5, 8, rgb("blue3"))                 # the one highlight on the glass
+    im.set(6, 8, rgb("blue2"))
+
+    # The load, which is the frame. It is warm in there and cold out here.
+    if frame == 0:
+        im.rect(6, 10, 4, 3, rgb("paper0"))
+        im.set(9, 9, rgb("paper2"))
+        im.set(6, 9, rgb("gold3"))
+    else:
+        im.rect(5, 9, 4, 3, rgb("paper1"))
+        im.set(9, 11, rgb("paper0"))
+        im.set(10, 9, rgb("gold3"))
+
+    im.set(13, 10, rgb("ink2"))                # the latch
+
+
+@tile("washer")
+def _(im, s):
+    _washer(im, s, 0)
+
+
+@tile("washer_f1")
+def _(im, s):
+    _washer(im, s, 1)
+
+
 def build(out_dir):
     cols = 16
     rows = (len(TILES) + cols - 1) // cols

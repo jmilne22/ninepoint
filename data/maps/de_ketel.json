@@ -71,6 +71,7 @@
   "$": "stove",
   "?": "hooks",
   ",": "floor_concrete",
+  "k": "washer",
   "1": "floor_wood_a",
   "2": "floor_wood_b",
   "3": "floor_mat",

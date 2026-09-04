@@ -155,7 +155,7 @@ later games are 19×19 against people who expect you to already know.
 
 ## 4. Steenbeek
 
-Compact, walkable, vertical: a street with rooms above it and rooms below it. Eight locations:
+Compact, walkable, vertical: a street with rooms above it and rooms below it. Nine locations:
 
 | Location | Role | Regulars |
 |---|---|---|
@@ -163,13 +163,20 @@ Compact, walkable, vertical: a street with rooms above it and rooms below it. Ei
 | **De Ketel** | Rated games, lessons, the hooks | Tomás, Wren, Kesh, Hana |
 | **Onderbrug** (the arches) | Money games, blitz, night | Bertie, Pip, Joos |
 | **Molenpark** | Fast outdoor games, the stone tables, daylight | Bertie, Pip |
-| **Ketelsteeg** | The street: tram stop, wassalon, noticeboard, the stationer's | — |
+| **Ketelsteeg** | The street: tram stop, noticeboard, snack window, the stationer's | — |
+| **The wassalon** | The laundrette. The city's third register: nothing at all is written down | Abel, Dov, Moss |
 | **The quay** | Grey water and one bench. Where you go after losing | — |
 | **Essenveld Instituut** | Classes, the internal league, the study hall | Hana, Marguerite, the students |
 | **Bondszaal** | The federation hall: tournaments and the exam | Marguerite |
 
-**Built:** all eight, plus the attic — Ketelsteeg (street + park end), De Ketel, Onderbrug,
-the quay, the Bondszaal and the four Instituut rooms. Ten maps.
+**Built:** all nine, plus the attic — Ketelsteeg (street + park end), the wassalon, De Ketel,
+Onderbrug, the quay, the Bondszaal and the four Instituut rooms. Eleven maps.
+
+The wassalon (M36) is the one location that is neither half of section 1's opposition. The
+Instituut records you and De Ketel remembers you; at street level, in the warm, nobody does
+either. Two of the three games played there are unrated for that reason, and the third is
+rated because the one person who wants a record is the one who has spent three years managing
+his.
 
 ### Schedules
 **Built (M26).** NPCs occupy different locations by time-of-day block. The blocks are
@@ -235,9 +242,11 @@ so the player is never punished for thinking about a position.
 ## 5. Cast
 
 The nine below are the original prototype cast and the table is kept at that size, because
-these are the nine the design was reasoned from. **Fifteen `NpcData` files ship and twelve
-of them stand on a map** -- the six added since are Ilse, Sunny and Orla in the study hall
-and Abel, Dov and Moss in the Cup field. `CLAUDE.md` carries the complete list with ranks
+these are the nine the design was reasoned from. **Fifteen `NpcData` files ship and all
+fifteen stand on a map** -- the six added since are Ilse, Sunny and Orla in the study hall
+and Abel, Dov and Moss in the wassalon. The last three stood nowhere until M36 and were
+reached only by the Cup draw interpolating their ids, so the tournament that ends Act 2 was
+introducing three strangers at the board. `CLAUDE.md` carries the complete list with ranks
 and locations; that is the one to read for who exists.
 
 Ranks are real ranks; the ladder from 20k to 5d is the game's difficulty curve made human.

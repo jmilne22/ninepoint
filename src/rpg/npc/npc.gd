@@ -46,6 +46,17 @@ func _ready() -> void:
     else:
         sprite.set_sheet(npc_id)
         push_warning("Npc: no NpcData for '%s'" % npc_id)
+    # A person outranks a notice. MapBuilder gives every sign PRIORITY_SIGN and
+    # this was left at the default 0, so wherever a readable object and a human
+    # being were both inside the probe -- which is a 14x14 box and routinely
+    # holds two things -- [Space] read the object. Standing in front of
+    # somebody and being handed a paragraph about the furniture behind them is
+    # the bug, and it is silent: the dialogue box opens either way.
+    #
+    # Found in M36, when the autopilot walked up to Abel in the wassalon and
+    # got the folding table he was standing beside, then advanced through it
+    # under a screenshot captioned with his name.
+    interactable.interact_priority = Interactable.PRIORITY_PERSON
     home_facing = facing
     sprite.face(facing)
     interactable.interacted.connect(_on_interacted)
