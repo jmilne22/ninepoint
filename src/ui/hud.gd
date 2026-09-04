@@ -39,6 +39,7 @@ func _ready() -> void:
     _toast = Label.new()
     _toast.position = Vector2(8, 4)
     _toast.size = Vector2(352, 12)
+    _toast.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     _toast.add_theme_font_size_override("font_size", 9)
     _toast.add_theme_color_override("font_color", Color("#f2d791"))
     _toast_panel.add_child(_toast)
@@ -50,6 +51,7 @@ func _ready() -> void:
     _journal.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
     _journal.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     _journal.size.y = 24
+    _journal.max_lines_visible = 2
     _journal.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 
     EventBus.interaction_available.connect(_on_prompt)
@@ -88,6 +90,11 @@ func show_toast(text: String) -> void:
     if text.strip_edges() == "":
         return
     _toast.text = text
+    # Sized to the text: the southbound tram's refusal was 439 px wide on a
+    # 384 px screen, and the last three words were off the edge.
+    var h := UiKit.text_height(text, 352)
+    _toast.size.y = h
+    _toast_panel.size.y = h + 8
     _toast_panel.visible = true
     _toast_t = TOAST_TIME
 

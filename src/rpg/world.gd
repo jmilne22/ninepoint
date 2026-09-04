@@ -108,6 +108,7 @@ func _build_ui() -> void:
     hud.name = "Hud"
     add_child(hud)
     dialogue = DialogueBox.new()
+    dialogue.anchor = player
     dialogue.name = "DialogueBox"
     add_child(dialogue)
     league_board = LeagueBoard.new()

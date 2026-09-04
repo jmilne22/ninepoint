@@ -630,6 +630,8 @@ static func _test_writing_rules(t: TestKit) -> void:
                 var text := str(line)
                 t.ok(text.length() <= 110,
                     "%s: '%s' line fits the box (%d chars)" % [path, key, text.length()])
+                t.ok(UiKit.text_height(text, 288) <= 44,
+                    "%s: '%s' line wraps to four rows beside a portrait" % [path, key])
                 var low := text.to_lower()
                 for w in BANNED_WORDS:
                     t.ok(low.find(w) < 0, "%s: '%s' does not mention '%s'" % [path, key, w])

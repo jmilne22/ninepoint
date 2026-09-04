@@ -146,11 +146,15 @@ func _build_ui() -> void:
     _turn = _label(_panel, Vector2(76, 50), 92, 9, "#45404f")
 
     _captures = _label(_panel, Vector2(10, 74), 156, 9, "#2a2633")
-    _details = _label(_panel, Vector2(10, 84), 156, 9, "#6b6577")
+    # Rows measured against the font's 11 px line height: captures at 74, the
+    # details from 90, and the table talk's four rows from 132 to 176, the
+    # panel's inner edge. They used to overlap by a pixel at the top and sit on
+    # the frame at the bottom.
+    _details = _label(_panel, Vector2(10, 90), 156, 9, "#6b6577")
     _details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-    _details.size.y = 46
+    _details.size.y = 40
 
-    _message = _label(_panel, Vector2(10, 136), 156, 9, "#45404f")
+    _message = _label(_panel, Vector2(10, 132), 156, 9, "#45404f")
     _message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     _message.size.y = 44
 
