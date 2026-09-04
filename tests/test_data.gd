@@ -20,6 +20,7 @@ static func run(t: TestKit) -> void:
     _test_opponents_reachable(t)
     _test_every_section_is_enterable(t)
     _test_resources(t)
+    _test_engine_profiles(t)
     _test_puzzles(t)
     _test_maps(t)
     _test_the_wassalon(t)
@@ -84,6 +85,28 @@ static func _test_dialogue(t: TestKit) -> void:
             var node: Dictionary = nodes[key]
             for target in _gotos(node):
                 t.ok(nodes.has(target), "%s: '%s' points at a node that exists ('%s')" % [path, key, target])
+
+
+## Character resources are generated from tools/gen_content.py. Keep the
+## rollout honest: no reachable or variant profile may quietly retain the old
+## heuristic as its primary engine, while GtpOpponent remains its safe fallback.
+static func _test_engine_profiles(t: TestKit) -> void:
+    t.section("engine-backed opponent profiles")
+    var profiles := _list("res://data/opponents", ".tres")
+    t.ok(profiles.size() > 0, "there are opponent profiles to validate")
+    for path in profiles:
+        var profile := load(path) as OpponentProfile
+        t.ok(profile != null, "%s loads as an opponent profile" % path)
+        if profile == null:
+            continue
+        t.eq(profile.engine, "gtp", "%s uses KataGo as its primary engine" % path)
+        t.ok(profile.gtp_time_per_move > 0.0 and profile.gtp_time_per_move <= 2.0,
+            "%s enforces the two-second turn limit" % path)
+        t.ok(profile.gtp_startup_timeout >= profile.gtp_time_per_move,
+            "%s allows preparation to cover model startup" % path)
+        t.ok(FileAccess.file_exists(profile.gtp_command), "%s has its launcher" % path)
+        t.ok(FileAccess.file_exists(profile.gtp_model_path), "%s has its normal model" % path)
+        t.ok(FileAccess.file_exists(profile.gtp_config_path), "%s has its Human-SL rank config" % path)
 
 
 static func _gotos(node: Dictionary) -> PackedStringArray:

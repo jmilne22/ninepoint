@@ -14,6 +14,9 @@ var pending_lesson: String = ""
 ## The remaining lessons of a run started from the title screen, in order.
 var lesson_queue: Array[String] = []
 var last_result: MatchResult = null
+## Evidence from the autopilot-only KataGo trial. It is deliberately separate
+## from saved match data and only populated by the dev fixture context.
+var dev_trial: Dictionary = {}
 ## The lesson just finished, so the world can let its teacher respond.
 var last_lesson: String = ""
 
@@ -21,10 +24,21 @@ var last_lesson: String = ""
 ## Leaves the world, plays a game, and comes back to the same spot.
 func start_match(request: MatchRequest, player_position: Vector2) -> void:
     pending_request = request
+    if request.context_id == "dev_katago_trial":
+        dev_trial.clear()
     GameState.return_position = player_position
     GameState.has_return_position = true
     EventBus.match_started.emit(request.context_id)
+    KataGoService.prewarm(request.profile)
     await SceneRouter.go_to(MATCH_SCENE)
+
+
+## Leaving during preparation is not a played game and must not create a record.
+func cancel_match() -> void:
+    if pending_request != null:
+        KataGoService.cancel(pending_request.profile)
+    pending_request = null
+    await _return_to_world()
 
 
 ## Called by the match scene when the game is over.
@@ -37,6 +51,19 @@ func finish_match(result: MatchResult) -> void:
     GameState.record_match(result)
     EventBus.match_finished.emit(result)
     await _return_to_world()
+
+
+func record_dev_trial(result: MatchResult, engine: Dictionary) -> void:
+    if result.context_id != "dev_katago_trial":
+        return
+    dev_trial = {
+        "engine": engine,
+        "has_sgf": not result.sgf.is_empty(),
+        "has_match_fields": result.board_size == 9 and result.move_count > 0
+            and result.context_id == "dev_katago_trial",
+        "result": result,
+    }
+    print("KATAGO TRIAL: recorded engine evidence")
 
 
 func start_puzzle(puzzle_id: String, player_position: Vector2) -> void:

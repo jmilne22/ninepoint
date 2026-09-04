@@ -29,3 +29,7 @@ fi
 echo "== test suites =="
 timeout 300 "$GODOT" --headless --path . --script res://tests/test_runner.gd 2>&1 \
   | grep -E "checks|passed,|FAIL"
+
+echo "== KataGo Linux integration gates =="
+timeout 90 "$GODOT" --headless --path . --script res://tools/katago_smoke.gd
+timeout 120 "$GODOT" --headless --path . --script res://tools/katago_service_test.gd

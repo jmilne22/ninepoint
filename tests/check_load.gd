@@ -6,7 +6,7 @@
 extends SceneTree
 
 const ROOTS := ["res://src", "res://tests", "res://data", "res://art"]
-const EXTS := ["gd", "tscn", "tres", "fnt"]
+const EXTS := ["gd", "tscn", "tres", "fnt", "json"]
 
 
 func _initialize() -> void:
@@ -42,12 +42,19 @@ func _walk(path: String, failures: Array[String]) -> int:
             var clean := name.trim_suffix(".remap")
             if EXTS.has(clean.get_extension()):
                 count += 1
-                var res = ResourceLoader.load(path.path_join(clean))
+                var full_path := path.path_join(clean)
+                if clean.get_extension() == "json":
+                    var parsed = JSON.parse_string(FileAccess.get_file_as_string(full_path))
+                    if not (parsed is Dictionary or parsed is Array):
+                        failures.append(full_path + " (invalid JSON)")
+                    name = d.get_next()
+                    continue
+                var res = ResourceLoader.load(full_path)
                 if res == null:
-                    failures.append(path.path_join(clean))
+                    failures.append(full_path)
                 elif res is GDScript and not (res as GDScript).can_instantiate() \
                         and (res as GDScript).get_instance_base_type() == "":
-                    failures.append(path.path_join(clean) + " (does not compile)")
+                    failures.append(full_path + " (does not compile)")
         name = d.get_next()
     d.list_dir_end()
     return count

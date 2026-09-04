@@ -2,6 +2,8 @@
 ##
 ## Inert unless the game is started with:
 ##   godot --path . -- --autopilot=res://tools/autopilot/<script>.json
+## `--katago-trial` is the one visible development route: it opens the same
+## fixture for manual play, without enabling automation.
 ## Used to verify milestones by playing them, not by asserting the code parses.
 extends Node
 
@@ -14,10 +16,15 @@ var _shot_index: int = 0
 
 func _ready() -> void:
     var script_path := ""
+    var manual_katago_trial := false
     for arg in OS.get_cmdline_user_args():
         if arg.begins_with("--autopilot="):
             script_path = arg.split("=", true, 1)[1]
+        elif arg == "--katago-trial":
+            manual_katago_trial = true
     if script_path == "":
+        if manual_katago_trial:
+            _start_katago_trial.call_deferred()
         return
     var parsed = JSON.parse_string(FileAccess.get_file_as_string(script_path))
     if not (parsed is Array):
@@ -40,6 +47,15 @@ func _run() -> void:
 
 
 func _do(step: Dictionary) -> void:
+    if step.has("katago_trial"):
+        await _start_katago_trial()
+    if step.has("match_move"):
+        var xy: Array = step["match_move"]
+        await _play_match_point(Vector2i(int(xy[0]), int(xy[1])), float(step.get("timeout", 30.0)))
+    if step.has("match_resign"):
+        await _resign_match(float(step.get("timeout", 30.0)))
+    if step.has("match_wait_player"):
+        await _wait_for_match_player_turn(float(step.get("timeout", 30.0)))
     if step.has("walk_to"):
         var dest: Array = step["walk_to"]
         await _walk_to_tile(Vector2i(int(dest[0]), int(dest[1])), float(step.get("timeout", 8.0)))
@@ -77,8 +93,92 @@ func _do(step: Dictionary) -> void:
         await _shot(str(step["shot"]))
     if step.has("note"):
         print("AUTOPILOT: %s" % str(step["note"]))
+    if step.has("trial_assert"):
+        _assert_katago_trial()
     if step.has("quit"):
         get_tree().quit()
+
+
+## This route exists only in autoplay scripts. No world interaction, profile,
+## or character can reach it, which keeps the shipped cast on heuristic play.
+func _start_katago_trial() -> void:
+    var profile := load("res://tools/fixtures/katago_trial_9x9.tres") as OpponentProfile
+    if profile == null:
+        push_error("KataGo trial fixture profile could not be loaded.")
+        return
+    var request := MatchRequest.new()
+    request.profile = profile
+    request.context_id = "dev_katago_trial"
+    request.npc_id = "katago_trial"
+    request.opponent_name = profile.display_name
+    request.opponent_rank = profile.rank_label
+    request.intro_line = "Development fixture: bundled KataGo Human SL trial."
+    request.unrated = true
+    request.player_strength = profile.strength()
+    await MatchBridge.start_match(request, Vector2(96, 96))
+
+
+func _match() -> Node:
+    var scene := get_tree().current_scene
+    return scene if scene != null and scene.get("game") != null and scene.get("opponent") != null else null
+
+
+func _play_match_point(xy: Vector2i, timeout: float) -> void:
+    var deadline := Time.get_ticks_msec() + int(timeout * 1000.0)
+    while Time.get_ticks_msec() < deadline:
+        var board_scene := _match()
+        if board_scene != null and board_scene.is_player_turn_ready():
+            var game: GoGame = board_scene.get("game")
+            var point := game.board.idx(xy.x, xy.y)
+            if game.is_legal(point):
+                board_scene._on_point_activated(point)
+                return
+            push_error("KataGo trial asked to play an illegal fixture point %s." % xy)
+            return
+        await get_tree().process_frame
+    push_error("KataGo trial timed out waiting for the player's turn.")
+
+
+func _resign_match(timeout: float) -> void:
+    var deadline := Time.get_ticks_msec() + int(timeout * 1000.0)
+    while Time.get_ticks_msec() < deadline:
+        var board_scene := _match()
+        if board_scene != null and board_scene.is_player_turn_ready():
+            _send("go_resign", true)
+            await get_tree().process_frame
+            _send("go_resign", false)
+            await get_tree().process_frame
+            _send("go_resign", true)
+            await get_tree().process_frame
+            _send("go_resign", false)
+            return
+        await get_tree().process_frame
+    push_error("KataGo trial timed out waiting to resign.")
+
+
+func _wait_for_match_player_turn(timeout: float) -> void:
+    var deadline := Time.get_ticks_msec() + int(timeout * 1000.0)
+    while Time.get_ticks_msec() < deadline:
+        var board_scene := _match()
+        if board_scene != null and board_scene.is_player_turn_ready():
+            return
+        await get_tree().process_frame
+    push_error("KataGo trial timed out waiting for the engine reply.")
+
+
+func _assert_katago_trial() -> void:
+    var evidence := MatchBridge.dev_trial
+    var engine: Dictionary = evidence.get("engine", {})
+    var ok := bool(engine.get("started", false)) \
+        and not bool(engine.get("fallback", true)) \
+        and int(engine.get("legal_replies", 0)) >= 2 \
+        and bool(engine.get("shutdown", false)) \
+        and bool(evidence.get("has_sgf", false)) \
+        and bool(evidence.get("has_match_fields", false))
+    if not ok:
+        push_error("KataGo trial assertions failed: %s" % evidence)
+    else:
+        print("KATAGO TRIAL: engine started, %d legal replies, normal result, shutdown confirmed" % int(engine["legal_replies"]))
 
 
 func _send(action: String, pressed: bool) -> void:

@@ -1,0 +1,21 @@
+{
+  "engine": "KataGo",
+  "platform": "linux-x64",
+  "backend": "eigen-avx2-cpu",
+  "status": "verified-development-package",
+  "binary": {
+    "path": "katago/bin/katago",
+    "archive_url": "https://github.com/lightvector/KataGo/releases/download/v1.15.0/katago-v1.15.0-eigenavx2-linux-x64.zip",
+    "version": "v1.15.0 (c560d38585b446bc93b0a62c77364bc8e7d266a4)",
+    "sha256": "622bd090ed90d49d794e3a9e0fc8e3d4fef76f4816108ea5b32aa63949e0f9cf"
+  },
+  "launcher": {"path": "katago/katago-gtp.sh", "sha256": "c4ccd499dc10b0a80d87b72a2ebdf1197c9d2b2a46a6ea0e42462c56de4fbd1a"},
+  "models": [
+    {"role": "normal", "path": "katago/models/kata1-b18c384nbt-s9996604416-d4316597426.bin.gz", "url": "https://media.katagotraining.org/uploaded/networks/models/kata1/kata1-b18c384nbt-s9996604416-d4316597426.bin.gz", "sha256": "9d7a6afed8ff5b74894727e156f04f0cd36060a24824892008fbb6e0cba51f1d"},
+    {"role": "human-style", "path": "katago/models/b18c384nbt-humanv0.bin.gz", "url": "https://github.com/lightvector/KataGo/releases/download/v1.15.0/b18c384nbt-humanv0.bin.gz", "sha256": "637746e44f0efe00ad1245a50aa9bbf0716efe364c43965ead97bd6835d84ab5"}
+  ],
+  "config": {"path": "katago/config/gtp_human_fast.cfg", "humanSLProfiles": "generated human_{rank}.cfg (20k..9d)"},
+  "launch": ["gtp", "-config", "{config}", "-model", "{model}", "-human-model", "{human-model}"],
+  "licenses": ["KataGo license: https://github.com/lightvector/KataGo/blob/master/LICENSE", "Network license: https://katagotraining.org/network_license/"],
+  "verification": "2026-09-04: `katago version` and a 9x9 GTP genmove smoke test passed on Linux x64."
+}
