@@ -79,6 +79,38 @@ was written and `check_load.gd` loaded it faithfully every time.
 
 ## 3. Fill the term
 
+**NOT DONE. Status as of M34 — read this before picking anything up.**
+
+| | |
+|---|---|
+| **Done** — NPC schedules, the hour axis | M26 |
+| **Done** — the ladder quest (`the_hooks`) | M30 |
+| **Done** — the fetch quest (`page_forty`) | M32 |
+| **Done** — more classes and puzzles (3→5 classes, 8→12 puzzles, the quay at dusk) | M30 |
+| **Done** — the day axis: `"days"` on a map NPC entry, `MapData.is_present()`, `World` rebuilding on `day_changed` | M34 |
+| **Done** — one instance of a day that differs: club night at De Ketel, Wednesdays | M34 |
+| **OPEN** — **more days that differ.** One recurring night is a shape, not a week | — |
+
+**The open part, stated precisely, because this bullet has been misread twice.**
+
+It is *not* more hours to spend: rated play is already unbounded — four students reach `offer`
+from `start` on every visit and six more people have rematch nodes. It is *not* the plumbing
+either; M34 built that and it is tested.
+
+It is **occasions**. The fortnight has one recurring event in it. What it wants is two or three
+more that differ in *kind* rather than a second club night — the shape of the week, not more of
+the same Wednesday. The mechanism to express any of them already exists: give a map's NPC entry
+a `"days"` key, and the guards in `tests/test_data.gd` will hold you to it.
+
+Whoever picks this up: the machinery is `GameState.WEEKDAYS` / `weekday()`,
+`MapData.is_present(spec, block, weekday)`, and `"days"` in `tools/gen_maps.py`. The one rule
+that matters is that **a day-restricted entry may never satisfy a safety guarantee** — the
+findability and always-staffed checks are computed from entries carrying no `"days"` key,
+because one day in seven is not a guarantee. Day-restrict Wren and De Ketel's staffing check
+fails, which is the point.
+
+---
+
 - ~~**NPC schedules.**~~ **Built (M26).** An NPC entry may carry `"blocks"`, the same key
   and the same "absent means always" reading `TileAnimator` and `Soundscape` already used;
   `MapBuilder.build_npcs()` filters on the hour and `World._repopulate()` rebuilds when the
