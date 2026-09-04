@@ -115,6 +115,18 @@ static func _check_one(c: Array) -> bool:
             # time it is asked, stored nowhere -- Rule 5 -- so a graph can read it
             # the way the noticeboard states it.
             return LeagueTable.current_position() <= int(c[1])
+        "rated_wins_at_least":
+            # The chapter-2 gate from GAME_DESIGN section 9: three rated games
+            # won and the bigger board opens. Counted off the record every time
+            # it is asked rather than stored behind a flag -- Rule 5, and the
+            # M27 lesson besides, since a flag called `won_enough` would start
+            # meaning whatever the next thing to set it happened to mean.
+            var rated_wins := 0
+            for r in _state().match_records:
+                if r is Dictionary and not bool(r.get("unrated", false)) \
+                        and bool(r.get("player_won", false)):
+                    rated_wins += 1
+            return rated_wins >= int(c[1])
         "played_at_least":
             # Games against somebody, win or lose. The record is what the game
             # tracks instead of affection, so it is what an arc advances on.

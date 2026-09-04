@@ -89,7 +89,7 @@ func _ready() -> void:
 
 func _debug_request() -> MatchRequest:
     var r := MatchRequest.new()
-    var path := "res://data/opponents/kesh_9x9.tres"
+    var path := OpponentProfile.path_for("kesh", 9)
     r.profile = load(path) if ResourceLoader.exists(path) else OpponentProfile.new()
     r.opponent_name = r.profile.display_name
     r.opponent_rank = r.profile.rank_label

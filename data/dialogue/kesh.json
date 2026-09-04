@@ -153,6 +153,21 @@
      }
     },
     {
+     "text": "Thirteen.",
+     "if": [
+      [
+       "rated_wins_at_least",
+       3
+      ]
+     ],
+     "exit": {
+      "type": "start_match",
+      "profile": "kesh_13x13",
+      "context": "kesh_thirteen",
+      "intro": "Thirteen again. I've been reading about corners."
+     }
+    },
+    {
      "text": "Later.",
      "goto": "later"
     }
@@ -220,7 +235,7 @@
     "I enrolled the same day. Bottom of the lower league, same as you, which means the board has us next to each other where everyone can see.",
     "I am going to be above you on it. I want that said out loud at the start so there is no confusion later."
    ],
-   "goto": "institute_offer"
+   "goto": "institute_gate"
   },
   "institute_offer": {
    "text": [
@@ -233,6 +248,21 @@
       "type": "start_match",
       "profile": "kesh_9x9",
       "context": "league_kesh"
+     }
+    },
+    {
+     "text": "Thirteen.",
+     "if": [
+      [
+       "rated_wins_at_least",
+       3
+      ]
+     ],
+     "exit": {
+      "type": "start_match",
+      "profile": "kesh_13x13",
+      "context": "kesh_thirteen",
+      "intro": "Thirteen. Don't be careful, be right."
      }
     },
     {
@@ -317,6 +347,35 @@
     "I am not being modest. I have one idea and I have just given you it."
    ],
    "goto": "rematch_offer"
+  },
+  "institute_gate": {
+   "branches": [
+    {
+     "if": [
+      [
+       "rated_wins_at_least",
+       3
+      ],
+      [
+       "not_flag",
+       "match_kesh_thirteen_done"
+      ]
+     ],
+     "goto": "thirteen_word"
+    },
+    {
+     "goto": "institute_offer"
+    }
+   ]
+  },
+  "thirteen_word": {
+   "portrait": "annoyed",
+   "text": [
+    "There's a thirteen-by-thirteen in the study hall now. Marguerite put it out weeks ago and nobody has touched it, because everyone here is extremely brave until the board gets bigger.",
+    "I've played four on it. Lost four. I'm telling you that before you find out, so it counts as honesty rather than as you catching me.",
+    "Nine by nine you can bluff -- there's nowhere to hide a mistake and nowhere to hide from one either. Thirteen has corners. You can be wrong in a corner for forty moves before anybody tells you."
+   ],
+   "goto": "institute_offer"
   }
  }
 }

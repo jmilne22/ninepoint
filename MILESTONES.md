@@ -1241,3 +1241,112 @@ allow-listed rather than fixed: the intended entry condition is not obvious from
 and it wants whoever wrote the prologue rather than a guess. And the audit turned up one
 new gap, recorded in ROADMAP §8 — `check_load.gd`'s `EXTS` is `gd/tscn/tres/fnt`, so the
 load gate walks `res://data` and opens none of the JSON in it.
+
+
+---
+
+## M28 — Thirteen by thirteen  [done]
+
+The title refers to the nine star points of a 19×19 -- *the shape you grow into* -- and for
+twenty-seven milestones there was nothing to grow into. Every board was 9×9 except Pip's
+7×7. `intro.json` describes the board the last tenant left as "nineteen one way, nineteen
+the other", so the player has owned a 19×19 since minute one and never played on one, and
+Hana closes Act 2 by naming the board the game does not have. GAME_DESIGN §9 puts chapter 2
+at 13×13 on a gate of three rated games won. The intent had been written for four
+milestones. This is the work.
+
+**The bug underneath it, which is the part worth keeping.** `GoRating._effective_strength()`
+priced a handicap stone at **one rank**. `GoRank.ranks_per_stone()` deals them out at
+**three a stone on 9×9**, two on 13×13, and one only at 19×19 -- the size the convention was
+written for and the one board this game does not have. So the rating read the stones back in
+a currency they were never paid in: a 22 kyu who beat Orla on the five stones the game
+itself handed them was credited with having beaten a 9 kyu, five ranks and a rank class out.
+Pillar 5 is that the table is honest, and it had not been since handicap games existed.
+
+ROADMAP §5 had this written down as a hazard *waiting* at a new board size -- "the first
+record at a new size mis-rates the player". It was wrong about the tense, and being wrong
+about the tense is what kept it in a list of future work for four milestones instead of on
+the bug pile. **Verify documented debt rather than repeating it**, which is the second time
+in two milestones that has paid: M27 found `knows_the_rules` was worse than this file said.
+
+Every new rating assertion was watched go red against the old arithmetic before the fix:
+`five stones from a 4 kyu on 9x9 is a 15 kyu performance, not a 5 kyu one  (got 25, want 15)`.
+
+**What was built:**
+
+- `GoRating` scales stones by `GoRank.ranks_per_stone(record.board_size)`. Records have
+  always carried `board_size`; it was simply never consulted. It defaults to 9 rather than
+  19 for a record without one, because 9×9 is the only board this game has ever recorded a
+  rated result on and the 19×19 default would reinstate the bug on exactly the old saves the
+  fix exists for.
+- `OpponentProfile.path_for(id, board, variant)`. Three places interpolated
+  `"%s_9x9.tres"` inline -- the Cup round, the exam and its fallback, and `go_match`'s debug
+  path. Fine while nine was the only board, a silent lie the moment it was not. Stated once
+  now, and mirrored once in `gen_content.py`, which writes the files.
+- `tomas_13x13` and `kesh_13x13`, generated. **Two people and not the cast**: a profile
+  nothing can reach fails `test_data.gd`'s reachability check, and the honest answer to that
+  is fewer profiles rather than a longer allow-list. The guard was seen to fail on both
+  before they were wired into dialogue.
+- `resign_threshold` scales with the board's area in `gen_content.py`. It is an absolute
+  point count tuned at 81 of them: Kesh giving up forty points behind is decisive on a 9×9
+  and a bad afternoon on a 13×13. Every zero stays zero, so `pip_capture` and everyone who
+  never resigns are byte-identical.
+- `rated_wins_at_least`, a dialogue condition counted off `match_records` every time it is
+  asked. A condition and not a flag: Rule 5 forbids the stored score, and M27's lesson is
+  that a flag whose name is narrower than what it measures passes for years and tells you
+  nothing.
+- Tomás offers the back table and Kesh the study-hall board, each with the `post_match`
+  node Rule 6 requires -- `tomas.json` is the graph that shipped a `start_match` without one
+  and lost the whole after-game beat in silence. Kesh's 13×13 is a **third choice on the
+  same menu as the nine**, deliberately: picking the size is the decision, and putting it
+  behind its own gate would take the league game away from anybody who said no once.
+- `thirteen_ready` in `make_test_save.py`, and `build()` now honours a preset's own
+  `time_block` -- schedules decide who is standing in the room, so the hour is part of the
+  state a preset declares rather than a constant.
+
+**The screen, which was the one real rendering defect.** Row numbers were drawn left-aligned
+from a fixed inset inside a margin of `_cell * 0.72`, and `_cell` shrinks as the board grows
+while "13" does not. At 13×13 the margin is 9 px and the label is 12, so it started at the
+left edge of the wood and finished on top of the first column of stones. Never seen at 9×9
+because those labels are one digit. The margin now has a floor of the widest row number plus
+air, and the numbers are right-aligned to the grid. **The 9×9 board is pixel-for-pixel where
+it was** -- cell 20, origin 16, margin 14.4 -- because the re-fit only fires when the label
+is what forces the margin, which at nine lines it never is. The single-digit labels sit
+4 px further right, which is the whole of the visible change.
+
+**The numbers, reported rather than asserted.** `tools/review_distribution.gd` takes a board
+size now (`-- 13`) and its own caveat still stands: three player models, every figure a
+lower bound on what a person triggers.
+
+| | 9×9 | 13×13 |
+|---|---|---|
+| games reviewed | 60/60 | 60/60 |
+| opened with something the player did | 60/60 | 60/60 |
+| two or more findings | 60/60 | 60/60 |
+| `best_moment` (random model, 22k) | 25 | 12 |
+| AI mean move time (kesh profile) | 0.58 ms | 1.17 ms |
+| AI worst move time | 1.26 ms | 2.31 ms |
+| self-play game length (kesh) | 139 moves | 477 moves |
+
+The review holds: it still opens with something the player did in every game, which is the
+floor it is not allowed to miss. Move time is not a problem at either size. **The self-play
+length is**, and it is the AI's known weak endgame showing up larger rather than anything
+new -- 1.7 moves a point at 9×9 against 2.8 at 13×13. It is not player-facing in the same
+way, because the AI passes back once the opponent has passed and nothing scores above
+`PASS_THRESHOLD`; it is still the argument for the mercy rule ROADMAP §8 asks for.
+
+**Done when:** `tools/test.sh` green at **5864 / 0** (up from 5824), `check_lessons.py`
+0 problems, `gen_maps.py` byte-identical, `gen_content.py` adding two files and changing
+none. Two autopilot runs screenshotted and *looked at*: `thirteen` for the new board and
+`handicap` to confirm the 9×9 did not move.
+
+**And the new script caught itself doing exactly what this document keeps warning about.**
+The first cut of `thirteen.json` exited 0 with seven screenshots and no script errors,
+having played a **9×9**. `advance: 8` happened to end its tap budget one line short of the
+choice, so `choose: 1` found no list to move in, and a later `tap: interact` selected
+option 0 -- the league game. Every frame looked confident. It was found by opening
+`05_e_thirteen_with_handicap_stones.png` and reading "9x9 Komi 0.5 H2" in the panel of a
+file with `thirteen` in its name. The script now runs to the choice with
+`advance: 30, stop_at_choice`, and places its one stone by clamping into a corner and
+counting out, because `move_cursor` clamps and a count from a wall cannot drift. A file name
+is a claim; the panel is the result.

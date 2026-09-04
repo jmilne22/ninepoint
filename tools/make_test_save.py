@@ -9,6 +9,7 @@ import re
 import sys
 
 GAME_STATE = os.path.join(os.path.dirname(__file__), "..", "src", "autoload", "game_state.gd")
+GO_RANK = os.path.join(os.path.dirname(__file__), "..", "src", "go", "go_rank.gd")
 
 
 def _const(name):
@@ -26,6 +27,61 @@ def _const(name):
     if not m:
         raise SystemExit("make_test_save: no `const %s` in %s" % (name, GAME_STATE))
     return int(m.group(1))
+
+
+def _rank_tables():
+    """`ranks_per_stone` and `max_handicap`, read out of GoRank rather than retyped.
+
+    Same reason as `_const` above, and the fault it prevents is worse: these
+    fixtures carried `handicap: 9` on a 9x9 board, which `max_handicap(9) = 5`
+    says is a position no game could ever have dealt. It errored nowhere, and a
+    save built from an impossible record screenshots exactly as confidently as
+    one built from a real one.
+    """
+    src = open(GO_RANK, encoding="utf-8").read()
+    try:
+        body = src[src.index("static func ranks_per_stone"):src.index("static func max_handicap")]
+    except ValueError:
+        raise SystemExit("make_test_save: GoRank has no ranks_per_stone/max_handicap")
+    steps = [(int(a), int(b)) for a, b in
+             re.findall(r"if board_size <= (\d+):\s*\n\s*return (\d+)", body)]
+    tail = re.findall(r"^\s*return (\d+)\s*$", body, re.M)
+    cap = re.search(r"return (\d+) if board_size <= (\d+) else (\d+)", src)
+    if not steps or not tail or not cap:
+        raise SystemExit("make_test_save: cannot read the rank tables out of %s" % GO_RANK)
+    return steps, int(tail[-1]), (int(cap.group(2)), int(cap.group(1)), int(cap.group(3)))
+
+
+_RPS_STEPS, _RPS_TAIL, _CAP = _rank_tables()
+
+
+def _ranks_per_stone(board):
+    for limit, value in _RPS_STEPS:
+        if board <= limit:
+            return value
+    return _RPS_TAIL
+
+
+def _max_handicap(board):
+    boundary, below, above = _CAP
+    return below if board <= boundary else above
+
+
+def _handicap_fields(player_strength, opponent_strength, board=9):
+    """The stones GoRank.handicap_between would actually have dealt, as record fields.
+
+    The player is the weaker side in every fixture that uses this, so the stones
+    they took are all the stones on the board. roundf() rounds half away from
+    zero; Python's round() does not, hence the floor.
+    """
+    diff = opponent_strength - player_strength
+    if diff <= 0:
+        return {"handicap": 0, "handicap_taken": 0, "komi": 5.5 if diff == 0 else 0.5}
+    stones = int((float(diff) / _ranks_per_stone(board)) + 0.5)
+    if stones <= 1:
+        return {"handicap": 0, "handicap_taken": 0, "komi": 0.5}
+    stones = min(stones, _max_handicap(board))
+    return {"handicap": stones, "handicap_taken": stones, "komi": 0.5}
 
 
 CUP_DAY = _const("CUP_DAY")
@@ -81,19 +137,68 @@ STATES = {
              "summary": "White wins by 12.5"},
             {"context_id": "league_kesh", "npc_id": "kesh", "player_won": False,
              "margin": 8.5, "by_resignation": False, "board_size": 9,
-             "handicap": 9, "handicap_taken": 9, "komi": 0.5, "move_count": 60,
+             **_handicap_fields(8, 18), "move_count": 60,
              "unrated": False, "opponent_strength": 18,
              "summary": "White wins by 8.5"},
             {"context_id": "league_kesh", "npc_id": "kesh", "player_won": True,
              "margin": 3.5, "by_resignation": False, "board_size": 9,
-             "handicap": 9, "handicap_taken": 9, "komi": 0.5, "move_count": 72,
+             **_handicap_fields(8, 18), "move_count": 72,
              "unrated": False, "opponent_strength": 18,
              "summary": "Black wins by 3.5"},
             {"context_id": "league_ilse", "npc_id": "ilse", "player_won": True,
              "margin": 1.5, "by_resignation": False, "board_size": 9,
-             "handicap": 9, "handicap_taken": 9, "komi": 0.5, "move_count": 80,
+             **_handicap_fields(8, 21), "move_count": 80,
              "unrated": False, "opponent_strength": 21,
              "summary": "Black wins by 1.5"},
+        ],
+    },
+    # Three rated games won, which is the chapter-2 gate in GAME_DESIGN section
+    # 9 and the condition Tomas and Kesh read before either of them mentions a
+    # thirteen. In the study hall, in the afternoon, because that is where Kesh
+    # is at that hour and the board has to be reachable without a tram ride.
+    "thirteen_ready": {
+        "rank_strength": 12,
+        "flags": {
+            "opening_seen": True, "intro_seen": True, "carrying_board": True,
+            "pip_taught_capture": True, "match_pip_capture_done": True,
+            "wren_told_about_cup": True, "kesh_match_done": True,
+            "match_kesh_first_done": True, "record_kesh_loss": 1,
+            "record_kesh_win": 1, "hana_offered_puzzle": True,
+            "capture_1_solved": True, "club_member": True,
+            "invited_to_institute": True, "knows_the_rules": True,
+            "lesson_capture_done": True, "lesson_liberties_done": True,
+            "lesson_self_capture_done": True, "lesson_counting_done": True,
+            "tomas_match_done": True, "enrolled": True, "read_league_board": True,
+            "ranked_by_club": True,
+        },
+        "quests": {"first_stones": {"step": 6, "done": True},
+                   "enrolment": {"step": 3, "done": False}},
+        "summary": "Black wins by 6.5",
+        "won": True,
+        "map": "academy_study",
+        "spawn": "from_hall",
+        "time_block": "afternoon",
+        "records": [
+            {"context_id": "kesh_first", "npc_id": "kesh", "player_won": False,
+             "margin": 12.5, "by_resignation": False, "board_size": 9,
+             "handicap": 0, "handicap_taken": 0, "komi": 5.5, "move_count": 48,
+             "unrated": False, "opponent_strength": 18,
+             "summary": "White wins by 12.5"},
+            {"context_id": "tomas_club", "npc_id": "tomas", "player_won": True,
+             "margin": 2.5, "by_resignation": False, "board_size": 9,
+             **_handicap_fields(12, 22), "move_count": 71,
+             "unrated": False, "opponent_strength": 22,
+             "summary": "Black wins by 2.5"},
+            {"context_id": "league_ilse", "npc_id": "ilse", "player_won": True,
+             "margin": 4.5, "by_resignation": False, "board_size": 9,
+             **_handicap_fields(12, 21), "move_count": 66,
+             "unrated": False, "opponent_strength": 21,
+             "summary": "Black wins by 4.5"},
+            {"context_id": "league_kesh", "npc_id": "kesh", "player_won": True,
+             "margin": 6.5, "by_resignation": False, "board_size": 9,
+             **_handicap_fields(12, 18), "move_count": 74,
+             "unrated": False, "opponent_strength": 18,
+             "summary": "Black wins by 6.5"},
         ],
     },
     # Ranked by the club and standing on Ketelsteeg, which is everything the
@@ -516,7 +621,9 @@ def build(name, slot=1):
         }],
         "day": st.get("day", 1),
         "slots_used": 0,
-        "time_block": "afternoon",
+        # A preset may name its hour: schedules decide who is standing in the
+        # room, so "afternoon" is a default rather than a fact about every state.
+        "time_block": st.get("time_block", "afternoon"),
         "current_map": st.get("map", "de_ketel"),
         "spawn_point": st.get("spawn", "from_street"),
         "return_position": [0, 0],

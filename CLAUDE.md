@@ -5,7 +5,7 @@ Original setting and characters — nothing is borrowed from any existing game's
 cast, art or branding. Combat does not exist; encounters are games of Go.
 
 ~12,100 lines GDScript in `src/` (15,700 with tests and tools), ~6,600 lines Python
-tooling, 5,525 headless tests.
+tooling, 5,864 headless tests.
 
 ---
 
@@ -150,12 +150,14 @@ python3 tools/build_assets.py                    # regenerate ALL art, audio and
 python3 tools/check_lessons.py                   # verify every taught position vs the rules
 python3 tools/check_melody.py                    # does each track's wav match its note list?
 godot --headless --path . --script res://tools/review_distribution.gd   # is the review useful?
+godot --headless --path . --script res://tools/review_distribution.gd -- 13   # ...on the bigger board
 tools/check_audio.sh                             # is the music actually coming out? (needs a display)
 python3 tools/gen_maps.py                        # rebuild the maps from their generators
 python3 tools/gen_content.py                     # rebuild NpcData / OpponentProfile / quests
 python3 tools/gen_props.py                       # art/props/ — the tram, the "..." bubble
 python3 tools/make_test_save.py invited          # a save in a hard-to-reach state
-                                                # also: league_ready cup_ready cup_day exam_ready
+                                                # also: league_ready thirteen_ready cup_ready
+                                                # cup_day exam_ready
                                                 # exam_day exam_round2 exam_passed exam_failed
                                                 # exam_missed beat_kesh lost_to_kesh
 ```
@@ -174,7 +176,8 @@ at night, Molenpark and the arches trading their two regulars),
 `cup` (the southbound tram, entering the Cup, and the draw),
 `cup_round` (from the `cup_day` save: read the draw and play a round),
 `lessons` (Wren teaches ko, and closes it in her own words rather than the Cup speech),
-`taught` (Bertie's ladders, and the post-lesson beat that used to be silent).
+`taught` (Bertie's ladders, and the post-lesson beat that used to be silent),
+`thirteen` (Kesh over thirteen lines, from the `thirteen_ready` save).
 Screenshots land in `/tmp/ninepoint-shots` (override with `OUT=`). **`run_game.sh` needs a
 script argument** — it runs on a hidden display, so without one there is nothing to see; it
 will tell you to use `play.sh`. `DISPLAY_NUM=0` runs it on the real display instead, which is
@@ -357,9 +360,24 @@ still the largest open item.
 
 **Rank follows results.** `GoRating.performance()` is a pure function of `GameState.match_records`
 — a performance rating over a rolling window of rated games, with handicap folded in, stored
-nowhere. Every profile is `by_rank`, so the stones thin out as the record improves and nigiri
+nowhere. **A stone is worth what the board says it is worth**: `GoRank.ranks_per_stone()` is
+three on 9x9, two on 13x13, one only at 19x19, and the rating reads them back at the same
+price the game dealt them at. It did not until M28, and a 22 kyu who beat a 4 kyu on five
+stones was credited with beating a 9 kyu — the one place Pillar 5's honest table was not.
+
+Every profile is `by_rank`, so the stones thin out as the record improves and nigiri
 becomes something climbed to rather than the default. Handicap is scaled to the board: three
 ranks to a stone on 9x9, capped at the board's own star points.
+
+**There are two board sizes.** 9x9 is the game; 13x13 opens once three rated games have been
+won — GAME_DESIGN §9's chapter-2 gate, read off the record by the `rated_wins_at_least`
+dialogue condition rather than stored in a flag. Tomás keeps a board under the coats at the
+back table and Kesh has the one in the study hall, and on 13x13 the same rank gap buys fewer
+stones, so a handicap that was two becomes three. Profiles are named `<id>_<board>` and
+`OpponentProfile.path_for(id, board, variant)` is the only place that convention is written;
+`gen_content.py` mirrors it, and `resign_threshold` scales with the board's area because it
+is an absolute point count that was tuned at 81 of them. 19x19 is still only in the fiction:
+at the 192-px match panel it draws 8-px cells against a 9-px font.
 
 **Days pass, and people have somewhere to be.** A day holds `SLOTS_PER_DAY` hours; a rated
 game or a class costs one, and lessons, puzzles and unrated games are free — the distinction

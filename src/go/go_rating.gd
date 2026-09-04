@@ -67,13 +67,26 @@ static func _recent_rated(records: Array, window: int) -> Array:
 
 
 ## What the opponent was worth *in that game*. Stones given away make an opponent
-## easier by exactly their number -- that is what a handicap is for -- and stones
-## taken make them harder by the same arithmetic.
+## easier -- that is what a handicap is for -- and stones taken make them harder
+## by the same arithmetic.
+##
+## A stone is not worth one rank. It is worth `GoRank.ranks_per_stone()` of them,
+## which is three on 9x9 and two on 13x13, and one only at 19x19 -- the size the
+## convention was written for and the one board this game does not have. Reading
+## the stones back at one rank each, as this did until M28, credits a 22 kyu who
+## beat a 4 kyu on the five stones the game itself handed them with having beaten
+## a 9 kyu. The rank has to be priced in the same currency it was paid in, or
+## Pillar 5's honest table is quietly generous to exactly the games where the
+## player had the most help.
 static func _effective_strength(record: Dictionary) -> float:
     var opponent := float(int(record.get("opponent_strength", 0)))
     var total := int(record.get("handicap", 0))
     var mine := int(record.get("handicap_taken", 0))
-    return opponent - float(mine) + float(total - mine)
+    # 9 rather than 19 for a record with no size on it: every rated game this
+    # game has ever written down was 9x9, and defaulting to the 19x19 convention
+    # would reinstate the bug on precisely the old saves it is being fixed for.
+    var per_stone := float(GoRank.ranks_per_stone(int(record.get("board_size", 9))))
+    return opponent + float(total - 2 * mine) * per_stone
 
 
 ## The one sentence Marguerite uses at the desk, so the game never has to explain

@@ -5,11 +5,11 @@ extends RefCounted
 
 
 static func _game(opponent_rank: String, won: bool, unrated := false,
-        handicap := 0, taken := 0) -> Dictionary:
+        handicap := 0, taken := 0, board := 9) -> Dictionary:
     return {
         "npc_id": "someone", "player_won": won, "unrated": unrated,
         "opponent_strength": GoRank.from_string(opponent_rank),
-        "handicap": handicap, "handicap_taken": taken,
+        "handicap": handicap, "handicap_taken": taken, "board_size": board,
     }
 
 
@@ -59,10 +59,11 @@ static func _test_even_field(t: TestKit) -> void:
 
 
 static func _test_handicap(t: TestKit) -> void:
-    t.section("rating: stones count")
+    t.section("rating: stones count, and a stone is worth what the board says")
     # Beating a 1 dan on nine stones is not a dan performance. The handicap is
-    # exactly the difference, which is what a handicap is for.
-    var with_stones := _repeat(_game("1d", true, false, 9, 9), 6)
+    # exactly the difference, which is what a handicap is for -- and on 19x19 the
+    # difference is one rank a stone, which is the convention everybody quotes.
+    var with_stones := _repeat(_game("1d", true, false, 9, 9, 19), 6)
     t.eq(GoRating.performance(with_stones), GoRank.from_string("1d") - 9 + int(GoRating.SPREAD / 2.0),
         "nine stones from a 1 dan is a 10 kyu game, won every time")
 
@@ -75,6 +76,30 @@ static func _test_handicap(t: TestKit) -> void:
     var giving := _repeat(_game("20k", true, false, 5, 0), 6)
     t.ok(GoRating.performance(giving) > GoRank.from_string("20k") + int(GoRating.SPREAD / 2.0),
         "beating a 20 kyu who was given five stones is worth more than beating a 20 kyu")
+
+    # And the part the one-rank-a-stone reading gets wrong. GoRank hands the
+    # stones out at ranks_per_stone(), so the rating has to read them back at the
+    # same price or the record says something the game never offered: five stones
+    # is the 9x9 cap and it is worth fifteen ranks there, not five.
+    var five_on_nine := _repeat(_game("4k", true, false, 5, 5, 9), 6)
+    t.eq(GoRating.performance(five_on_nine),
+        GoRank.from_string("4k") - 5 * GoRank.ranks_per_stone(9) + int(GoRating.SPREAD / 2.0),
+        "five stones from a 4 kyu on 9x9 is a 15 kyu performance, not a 5 kyu one")
+
+    # The identical record on a bigger board is worth more, because a stone buys
+    # less there. This is the whole reason the board has to be in the arithmetic.
+    var five_on_thirteen := _repeat(_game("4k", true, false, 5, 5, 13), 6)
+    t.ok(GoRating.performance(five_on_thirteen) > GoRating.performance(five_on_nine),
+        "the same five stones on 13x13 buy less, so winning anyway says more")
+    t.eq(GoRating.performance(five_on_thirteen),
+        GoRank.from_string("4k") - 5 * GoRank.ranks_per_stone(13) + int(GoRating.SPREAD / 2.0),
+        "and it prices them at 13x13's two ranks a stone, not 9x9's three")
+
+    # Giving them away is the same arithmetic with the sign turned round.
+    var giving_nine := _repeat(_game("20k", true, false, 5, 0, 9), 6)
+    t.eq(GoRating.performance(giving_nine),
+        GoRank.from_string("20k") + 5 * GoRank.ranks_per_stone(9) + int(GoRating.SPREAD / 2.0),
+        "and a 20 kyu given five stones on 9x9 is a 5 kyu opponent for the afternoon")
 
 
 static func _test_ignores(t: TestKit) -> void:
