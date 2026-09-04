@@ -4,7 +4,7 @@ Everything below is outstanding as of the current build. It is ordered by what
 would most improve the game, not by what is easiest. `MILESTONES.md` records what
 was built and how it was verified; this file records what has not been.
 
-The build is green: `tools/test.sh` runs 6725 checks, `tools/check_lessons.py`
+The build is green: `tools/test.sh` runs 7081 checks, `tools/check_lessons.py`
 reports no problems, and the game is playable from the cold open to the exam and
 the Cup.
 
@@ -132,23 +132,47 @@ have had since M16. The animation was never seen because **nothing in the game e
 rain** — `raining` had three readers and exactly one writer, the Autopilot test hook. It rains
 now, and the quay has two puddles of its own.
 
-## 4. The thin places
+## 4. ~~The thin places~~ — closed (M36)
 
-~~The quay is two signs and a bench.~~ **Half fixed (M30).** It was 364 tiles, two signs and
-nobody -- the map GAME_DESIGN says you come to after losing, with no one there to have lost
-to. Orla walks home that way at dusk, is a different person off the premises, and will play
-one on the bench that goes on no board and no card. She was already on the "off at some hour"
-list and still is: this gave her a third hour without giving her a fourth.
+**DONE.** All three are answered, and by three different means, which is the useful part of
+the entry: a thin place is not one problem.
 
-Ketelsteeg is still the largest map in the game and the wassalon is still a facade with a
-door, a sign, neon and no warp.
+~~The quay is two signs and a bench.~~ **Fixed (M30)** by *scheduling somebody into it*. It was
+364 tiles, two signs and nobody -- the map GAME_DESIGN says you come to after losing, with no
+one there to have lost to. Orla walks home that way at dusk, is a different person off the
+premises, and will play one on the bench that goes on no board and no card.
 
-Onderbrug is **half fixed**: it still cannot have a crowd (walled at both ends, so
-`gen_maps.validate()` rejects every route, which is the correct answer for a dead end under
-a viaduct) but it is no longer one man alone. Pip and Bertie come down from the park after
-dark, so the map has three people in it at the hours anybody would be there and nobody at
-the hours they would not -- population from the schedule rather than from a route it can
-never have.
+~~Onderbrug is one man alone.~~ **Fixed (M34/M35)** by *moving* people rather than adding
+them. It still cannot have a crowd -- walled at both ends, so `gen_maps.validate()` rejects
+every route, which is the correct answer for a dead end under a viaduct -- but Pip and Bertie
+come down from the park after dark and again when it rains, so the map is populated from the
+schedule rather than from a route it can never have.
+
+~~Ketelsteeg is the largest map in the game and the wassalon is a facade with a door, a sign,
+neon and no warp.~~ **Fixed (M36)**, and this one needed a *room* rather than a schedule.
+
+**What was actually wrong with the wassalon is worth keeping**, because it is not what this
+entry said for six milestones. The door was not missing. `gen_maps.py` set `door_glass` at
+(22,8) and had since the setting pass -- and then put the **sign describing the room on the
+same tile**. `validate()` requires a sign to be solid and a warp to be walkable, so the two
+could never have been the same tile, and the tile that already existed was the reason the
+warp could not. Moving the sign one tile left is the whole of the fix; the room behind it is
+the milestone.
+
+The other half of the sentence -- the largest map -- was the **snack window**: art since M14,
+a `fryer` emitter, an `Ambient` glow, and nothing to read, on the one stretch of Ketelsteeg
+that leads nowhere. It has a sign now, and the wassalon door in the middle of that stretch
+gives it somewhere to lead.
+
+**And the room is not a new place so much as a place three people were already standing in.**
+Abel Roos (21k), Dov Halevi (19k) and Moss Lindqvist (16k) shipped complete in M24 -- NpcData,
+OpponentProfile, banter, sprite, portrait -- and stood on no map, reached only by
+`CupDraw.FIELD_BEGINNERS` interpolating their ids. The Beginner Cup, which ends Act 2, drew a
+five-person field of which **three were names the player had never seen**. All fifteen
+characters in the game now stand somewhere.
+
+Abel at 21k is also the first opponent at or below a starting player's own strength; before
+this the weakest person in the game was Wren at 20k.
 
 ## 5. Beyond 9×9 — 13×13 built (M28), 19×19 still promised
 
@@ -460,6 +484,13 @@ Owned by a parallel effort; listed here for completeness.
     `--script` run. It was found by reading the wiring and confirmed by opening screenshots.
     The schedule *rule* was deliberately moved to `MapData.is_present()` so at least that half
     is guarded; the connection itself is not, and nothing detects the class of problem.
+  - **`WorldAmbienceTests.MAPS` was a third hand-kept copy, and M36 derived it.** It listed
+    the ten maps by hand, and its own docstring recorded why -- the Bondszaal had been
+    missing from it and "spent its whole life declaring a track name that did not exist".
+    An eleventh map not added to it costs **zero failing assertions**; that was measured by
+    leaving the wassalon out on purpose, and the suite reported 7077 green against 7080,
+    three checks quietly not run. It reads `res://data/maps` now. The other two copies below
+    are still copies.
   - **`CLUB_NIGHT_GUESTS` in `tests/test_data.gd` is a hand-kept copy** of who is actually in
     `de_ketel.json` on club night, and **M35 added a second, `MARKET_GUESTS`**. This is the
     `LESSONS_REACHED_BY_TRACK` shape that this file already records the cost of, and the copy in
@@ -475,6 +506,32 @@ Owned by a parallel effort; listed here for completeness.
     rather than debt -- the unfinished half of "More to do per day" -- and recording it here
     would have let a closed-looking §3 hide it from whoever reads this file to pick the next
     thing to build.
+- **Four things M36 found, all of the same family: a check that passes because it is
+  looking at the wrong thing.**
+  - ~~**A sign only needs to be solid.**~~ **Fixed.** `validate()` refused a sign on a
+    walkable tile and nothing asked whether a player could *stand* anywhere to read it. The
+    probe is a 14x14 box thrown 12 px from the feet and reaches exactly one tile, so a sign
+    with no walkable orthogonal neighbour builds an `Interactable` the probe can never
+    overlap: no prompt, no error, no failing test. The attic dormer had been unreadable
+    since M14. Guarded now in `gen_maps.validate()` **and** in `_test_maps`, because the
+    generator only protects the next map.
+  - ~~**A notice outranked a person.**~~ **Fixed.** `MapBuilder` gave every sign
+    `interact_priority = 1` and `Npc` left its own at the default `0`, so wherever the probe
+    held both, [Space] read the furniture. Standing in front of somebody and being handed a
+    paragraph about the table behind them, with the dialogue box opening exactly as it
+    should. The two numbers are `Interactable.PRIORITY_SIGN` / `PRIORITY_PERSON` now and
+    their ordering is asserted, because they were set as bare literals in two files.
+  - ~~**`Autopilot._talk_to` accepted any open box as proof it had talked to somebody.**~~
+    **Fixed.** M30 replaced the interaction probe with "did the dialogue box open?", which
+    was the right move and still not sufficient: a sign runs the same box. So `talk_to abel`
+    read the folding table he was standing beside, returned success, and the script advanced
+    through a paragraph about furniture under a screenshot captioned with his name -- the
+    M16 `slice_full` bug wearing the fix for the M16 `slice_full` bug. It reads the speaker
+    plate now, which a narrated sign does not have.
+  - **A positional sound reaches no audibility check.** `washer` joins `fryer` and
+    `stove_crackle`: `tools/check_audio.sh` walks `MUSIC` and `BEDS` only, so an emitter can
+    be silent or deafening and nothing says so. Not fixed; written down.
+
 - **`GtpOpponent` is unwired**, with four known bugs between it and an engine -- the count
   said three and then listed four:
   handicap stones never enter `game.moves`, `choose_move` issues `clear_board`

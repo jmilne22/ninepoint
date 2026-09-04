@@ -430,14 +430,27 @@ def wassalon():
         # Late at night there is nobody in here at all, and the machines are
         # still going. That is the frame this room was built for; it is the
         # quay's job done warm instead of cold.
+        #
+        # They stand BESIDE the folding table at (11,5) rather than under it.
+        #
+        # The reason it matters was a real bug and it was not in this file:
+        # signs were built with interact_priority 1 and NPCs left theirs at 0,
+        # so wherever a person and a readable object were both inside the
+        # probe, [Space] read the object. Standing at the board and being
+        # handed a paragraph about the board is how that looked. Npc now sets
+        # priority 2 and the person wins, which is the actual fix.
+        #
+        # The placement stays anyway: it is the better picture, because on a
+        # wet afternoon the two of them flank the way in to the board instead
+        # of queueing on one tile.
         "npcs": [
-            {"id": "abel", "tile": [11, 6], "dir": "up", "idle": "watch",
+            {"id": "abel", "tile": [10, 6], "dir": "up", "idle": "watch",
              "blocks": ["morning", "afternoon"]},
-            {"id": "dov", "tile": [11, 6], "dir": "up", "idle": "tend",
+            {"id": "dov", "tile": [10, 6], "dir": "up", "idle": "tend",
              "blocks": ["dusk"]},
             # Two hours and one sky. Moss is the only one of the three who is
             # here for a reason he would admit to.
-            {"id": "moss", "tile": [12, 7], "dir": "up", "idle": "watch",
+            {"id": "moss", "tile": [12, 6], "dir": "up", "idle": "watch",
              "blocks": ["afternoon", "dusk"], "weather": ["wet"]},
         ],
         # No routes: it is a room. And no music, which is what makes

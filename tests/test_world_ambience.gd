@@ -41,6 +41,7 @@ static func run(t: TestKit) -> void:
     _test_sounds_exist(t)
     _test_animations_well_formed(t)
     _test_sprites_exist(t)
+    _test_interaction_priority(t)
     _test_map_idles(t)
     _test_map_routes(t)
     _test_music(t)
@@ -108,6 +109,18 @@ static func _test_animations_well_formed(t: TestKit) -> void:
         t.ok(total > 0.0, "'%s' has a non-zero cycle" % name)
         t.ok(str(frames[0]) == name,
             "'%s' frame 0 is the tile itself, so parking it is a no-op" % name)
+
+
+## A person outranks a notice, and it is asserted rather than remembered because
+## the two numbers are set in two different files and were the wrong way round
+## from the day signs got a priority at all. The symptom is somebody standing in
+## front of a character, pressing [Space] and being read a paragraph about the
+## furniture -- with the dialogue box opening exactly as it should, so nothing
+## anywhere reports it.
+static func _test_interaction_priority(t: TestKit) -> void:
+    t.section("ambience: a person outranks a notice")
+    t.ok(Interactable.PRIORITY_PERSON > Interactable.PRIORITY_SIGN,
+        "an NPC wins the probe against a sign they are standing beside")
 
 
 static func _test_sprites_exist(t: TestKit) -> void:

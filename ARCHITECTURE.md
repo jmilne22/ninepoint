@@ -255,7 +255,9 @@ strictly ordered and one fired out of turn is lost. Which quest the journal disp
 ## 7. Scenes and reuse
 
 Composition over inheritance, small scenes with one job:
-`Interactable` (area + prompt + signal), `Warp` (area → target map + spawn point),
+`Interactable` (area + prompt + signal, and `PRIORITY_SIGN` < `PRIORITY_PERSON` — the probe
+routinely holds two of these at once, and a person must outrank the furniture behind them),
+`Warp` (area → target map + spawn point),
 `Facing` (which way a character is turned), `DialogueBox` (typewriter, portrait, choices),
 `GoBoardView` (stateless renderer of a GoGame). There is no `GridMover` and no
 `ScheduleComponent`; both were named here for several milestones and neither was ever built —

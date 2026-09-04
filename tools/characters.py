@@ -118,7 +118,14 @@ CHARACTERS = [
 
     # --- the Beginner Cup field. Fifteen kyu and below brings in people from the
     # rest of Verhaven who have never been down the steps at De Ketel, which is
-    # the point of a city tournament: the first strangers the player ever plays.
+    # the point of a city tournament.
+    #
+    # They were the first strangers the player ever played until M36, and that
+    # turned out to be the wrong thing to be proud of: the Cup ends Act 2 and it
+    # was drawing three names nobody had seen, in a game whose whole argument is
+    # that an opponent is a person. They stand in the wassalon now -- street
+    # level, not down the steps, so the sentence above still holds -- and the
+    # draw is five people you have sat next to.
     dict(id="abel", name="Abel Roos", rank="21k", skin="skinA",
          hair="short", hair_col=("#5c4230", "#8a6440"),
          top=("#367f72", "#5aa79a"), bottom="#45404f",
