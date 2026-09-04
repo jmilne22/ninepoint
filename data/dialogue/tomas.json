@@ -6,6 +6,44 @@
     {
      "if": [
       [
+       "ranked"
+      ],
+      [
+       "not_flag",
+       "tomas_wrote_card"
+      ]
+     ],
+     "goto": "wrote_card"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "hooks_top"
+      ],
+      [
+       "not_flag",
+       "tomas_said_top"
+      ]
+     ],
+     "goto": "hooks_top_word"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "took_a_hook"
+      ],
+      [
+       "not_flag",
+       "tomas_said_took"
+      ]
+     ],
+     "goto": "hooks_took_word"
+    },
+    {
+     "if": [
+      [
        "flag",
        "lesson_counting_done"
       ]
@@ -209,6 +247,68 @@
     {
      "goto": "won"
     }
+   ]
+  },
+  "wrote_card": {
+   "actions": [
+    [
+     "set_flag",
+     "tomas_wrote_card",
+     true
+    ],
+    [
+     "quest_start",
+     "the_hooks"
+    ]
+   ],
+   "text": [
+    "Hold on. You've got a rank now, so you've got a card.",
+    "Back wall. Brass hooks, seven of them, and yours goes on the bottom one because that is where everybody's goes.",
+    "It is not the league. The league is a piece of paper in Essenveld with a woman standing next to it. This is a row of hooks, and it says who has beaten who in this room."
+   ],
+   "choices": [
+    {
+     "text": "How do I move up it?",
+     "goto": "hooks_rules"
+    },
+    {
+     "text": "Right.",
+     "goto": "hooks_rules"
+    }
+   ]
+  },
+  "hooks_rules": {
+   "text": [
+    "Beat somebody hanging above you and you take their hook. They shuffle down. That's it, that's the whole thing.",
+    "Losing costs you nothing, before you ask. A ladder where you can go backwards is a ladder nobody ever challenges up.",
+    "And every game counts. The park counts. Whatever happens under the arches counts, and I don't want to know the details."
+   ]
+  },
+  "hooks_took_word": {
+   "actions": [
+    [
+     "set_flag",
+     "tomas_said_took",
+     true
+    ]
+   ],
+   "text": [
+    "I moved your card up this morning. Somebody's is underneath it now who was above it last week.",
+    "They'll have noticed. That's the point of hooks rather than a spreadsheet -- you can see it from the door."
+   ]
+  },
+  "hooks_top_word": {
+   "actions": [
+    [
+     "set_flag",
+     "tomas_said_top",
+     true
+    ]
+   ],
+   "text": [
+    "Top hook.",
+    "Sixty years that wall's been there and I have seen four people on that hook. Two of them were Joos, twice, with a gap in between I am not going to explain.",
+    "Doesn't mean you're the strongest in the room. Means you beat everyone above you on the way up, which is a different sentence and a better one."
    ]
   }
  }

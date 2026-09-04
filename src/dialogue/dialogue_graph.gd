@@ -115,6 +115,19 @@ static func _check_one(c: Array) -> bool:
             # time it is asked, stored nowhere -- Rule 5 -- so a graph can read it
             # the way the noticeboard states it.
             return LeagueTable.current_position() <= int(c[1])
+        "hooks_position_at_most":
+            # Where your card hangs at De Ketel. The mirror of the condition
+            # above and deliberately a different number from a different place:
+            # the league counts rated games in a round robin and the hooks count
+            # every game played in the room. A graph that wants to know whether
+            # you have got anywhere in the salon must not ask the Instituut.
+            return HooksLadder.position(HooksLadder.rows_for(_state())) \
+                in range(1, int(c[1]) + 1)
+        "hooks_taken_at_least":
+            # How many cards you have taken off a hook above yours. The quest
+            # counts these; it only ever goes up, and only ever because somebody
+            # was beaten.
+            return HooksLadder.taken(HooksLadder.rows_for(_state())) >= int(c[1])
         "rated_wins_at_least":
             # The chapter-2 gate from GAME_DESIGN section 9: three rated games
             # won and the bigger board opens. Counted off the record every time

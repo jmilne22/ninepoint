@@ -428,7 +428,16 @@ def quay():
             {"tile": [12, 4], "text": "A bench facing the water. It is the only place in Steenbeek where nobody will ask you how the game went."},
             {"tile": [5, 6], "text": "A mooring bollard, worn smooth. The water is the colour of the sky, which today is the colour of the water."},
         ],
-        "npcs": [],
+        # The quay was 364 tiles, two signs and nobody -- the map GAME_DESIGN
+        # says you come to after losing, with no one to have lost to. Orla walks
+        # home this way at dusk. She is on the off-hours list either way (she
+        # goes home; she is a student and not a fixture), so this gives her a
+        # third hour without giving her a fourth, and gives the map an hour when
+        # there is a reason to walk down the steps.
+        "npcs": [
+            {"id": "orla", "tile": [13, 5], "dir": "down", "idle": "watch",
+             "blocks": ["dusk"]},
+        ],
         "music": "theme_quay",
         "indoors": False,
     }

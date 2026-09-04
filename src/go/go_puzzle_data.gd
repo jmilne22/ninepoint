@@ -12,9 +12,14 @@ var title: String = ""
 var teacher: String = ""
 var size: int = 9
 var to_move: int = GoBoard.BLACK
-## What the answer is supposed to achieve: "capture", "live" or "escape".
-## Capture was the only kind for a long time and is still the default; a puzzle
-## about living or running has a correct move that takes nothing off the board.
+## What the answer is supposed to achieve. Capture was the only kind for a long
+## time and is still the default; a puzzle about living, running or joining has a
+## correct move that takes nothing off the board at all.
+##
+## The list lives here rather than in the test that checks it, because two copies
+## of "the kinds the game knows" is two things that can disagree -- and the one
+## in the test is the copy that would go on passing.
+const KINDS := ["capture", "live", "escape", "connect"]
 var kind: String = "capture"
 var goal: String = ""
 var hint: String = ""

@@ -1,0 +1,101 @@
+{
+ "id": "false_eyes",
+ "title": "The Eye That Is Not",
+ "teacher": "hana",
+ "size": 9,
+ "intro": [
+  "You know that two eyes is life. So here is the way that sentence goes wrong, and it is the most common way a beginner's group dies.",
+  "Some empty points look exactly like eyes and are not. The shape on the board is not enough. You have to look at what is holding it together."
+ ],
+ "steps": [
+  {
+   "board": [
+    "X.XO.....",
+    "XXO......",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "white",
+   "instruction": "Black has what looks like an eye in the corner. You are White. Take it anyway.",
+   "accept": "capture",
+   "show_liberties": true,
+   "target": [
+    [
+     2,
+     0
+    ]
+   ],
+   "hint": "One of the three stones around that eye is not attached to the others, and it is standing on one liberty.",
+   "explanation": "The eye was legal to play in because playing there captured the stone that was making it. An eye is only an eye if every stone around it is part of the same group -- otherwise it is a hole you can be cut out of."
+  },
+  {
+   "board": [
+    "X.XO.....",
+    "XXO......",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "black",
+   "instruction": "Back up. It is your move. Fix it -- fill your own eye, and connect the loose stone.",
+   "accept": "points",
+   "points": [
+    [
+     1,
+     0
+    ]
+   ],
+   "connects": [
+    [
+     0,
+     0
+    ],
+    [
+     2,
+     0
+    ]
+   ],
+   "show_liberties": true,
+   "hint": "The eye point itself. Yes, really.",
+   "explanation": "You have thrown the eye away and you are still better off, because you no longer have a stone White can cut off. A false eye is worth nothing, so filling one costs nothing -- and now you know how many eyes you actually have, which is none, and that is a thing to find out early."
+  },
+  {
+   "board": [
+    "X.XX.....",
+    "XXO......",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "white",
+   "instruction": "The same corner, with the loose stone attached from the start. Try to take the eye again.",
+   "accept": "illegal_attempt",
+   "points": [
+    [
+     1,
+     0
+    ]
+   ],
+   "show_liberties": true,
+   "hint": "Play the eye. The game will stop you.",
+   "explanation": "Refused. Nothing is captured this time, so your stone has no liberties and the move is simply illegal. Same shape on the page, opposite answer -- and the only difference is which stones are one group."
+  }
+ ],
+ "outro": [
+  "Before you count a point as an eye, look at the stones around it and ask whether they are one group or several.",
+  "Every group you have ever lost that you thought was alive died here."
+ ]
+}

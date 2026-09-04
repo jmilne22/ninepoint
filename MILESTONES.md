@@ -1478,3 +1478,114 @@ Three frames named `e_counting`, `f_result` and `g_review` were the same result 
 because the burst of passes ran eight passes past the end of the game and `go_pass` accepts
 the count. The shots are named after the pass they follow now, which is a fact rather than
 a prediction.
+
+## M30 — The hooks  [done]
+
+ROADMAP §3 has said "fill the term" for four milestones and the first reading of it was
+wrong. The term is a fortnight, three slots a day, forty-two hours; the slot-costing content
+that exists is twenty-eight. That looks like a shortfall of fourteen hours until you open the
+graphs: `ilse`, `orla`, `sunny` and `nadia` all reach `offer` from `start` on *every* visit,
+with `<name>_stage_2` and `_stage_3` nodes that vary on the head-to-head, and `bertie`,
+`joos`, `kesh`, `pip`, `tomas` and `wren` all carry rematch nodes. **Rated play was already
+unbounded.** What the term lacked was not hours to spend but days that differ from one
+another: between day 3 and day 8 nothing changed except a head-to-head counter.
+
+So this milestone added a second thing that moves.
+
+**The hooks.** `src/club/hooks_ladder.gd`, pure and static, the shape of
+`LeagueTable.standings()` and disagreeing with it on purpose about everything else. Seven
+name-cards on the brass hooks at the back of De Ketel; the order is derived from
+`GameState.match_records` and stored nowhere (Rule 5). Three rules, each a design decision:
+
+- **Only wins move a card, and only upwards.** Beat somebody hanging above you and you take
+  their hook; they and everybody you passed move down one. Losing does nothing, because a
+  ladder you can fall down is a ladder nobody challenges up — and it cannot be ground, since
+  the only legal move is to beat somebody currently better placed than you (Pillar 1).
+- **Unrated games count.** This is the entire reason it is a module rather than a second
+  `LeagueTable` roster, which must go on refusing them. Bertie's bench and Joos's crate had
+  been playable and consequence-free since M22.
+- **A new card goes on the bottom hook**, not at your rank. The card says your rank; the
+  hook says where you sit; the room does not care what the card says until you have beaten
+  somebody in it. Tested with a 1 dan's card, so that the two can actually disagree.
+
+The setting had already written this and nothing read it. Tomás says "it goes on the hooks"
+on two existing match offers and "I keep the cards, I notice" on a third; `__HOOKS__` has
+been a sign sentinel since M14 and drew a rank tutorial. He writes your card the first time
+you speak to him with a rank, and starts `the_hooks` (four steps: read them, take one, reach
+the top three, take the top hook).
+
+**The two things hanging on that wall are now kept apart**, and the distinction is the whole
+setting in one function. The *card* is a document: rated games only, `GoRating`, the
+Instituut's kind of truth. The *hook* is where you sit in the room, and counts every game
+played in it — the park, the arches and the back table included. The old text said "Only
+rated games. The park and the arches are for playing, not for counting", which was true of
+the card and became false of the wall the moment the wall meant something.
+
+**`SignDesk`** (`src/rpg/sign_desk.gd`). ROADMAP §8 said `world.gd` was 700 lines; it was
+**745**, which is the ordinary way a number in a document goes stale. Everything you *read*
+or *sit at* — the three boards, the study desk, the hooks, the bed — moved to a component,
+and `world.gd` is **577**. The seam is reading versus starting a match, which is where the
+two halves actually fall: the Cup round, the exam round and the problem paper stay in the
+World because they route through MatchBridge and spend an hour, and the class board is
+reached from the desk through an injected callable for the same reason. The desk keeps **no**
+"a box is open" flag of its own — it is handed `set_talking` and the World's `_talking` stays
+the only copy, because two flags meaning the same thing is exactly how `knows_the_rules` went
+wrong in M27.
+
+**Content, and why these particular pieces.** Classes 3 → 5 and puzzles 8 → 12:
+
+| new | why this one |
+|---|---|
+| `capture_race` (class) | the semeai, taught as arithmetic: your liberties, their liberties, whose move it is |
+| `false_eyes` (class) | completes `two_eyes`; the way "two eyes is life" actually goes wrong |
+| `capture_5` | one point that is the last liberty of *two* chains |
+| `escape_3` | the group with one liberty whose escape point is a wall — the answer is to capture instead |
+| `live_3` | two groups with one eye each are two dead groups |
+| `connect_1` | a new *kind* of problem, not a twelfth of the same one |
+
+Both classes are deliberately things the **rules** can settle. `tools/check_lessons.py` can
+only guard a claim it can decide, and its `eyes_of` counts orthogonal neighbours — so it
+would call a false eye an eye. A `false_eyes` lesson whose claims were "this point is not
+really an eye" would therefore have shipped unverified, which is the one thing this project
+has a rule about. It is taught through what the checker *can* decide instead: White captures
+the stone that was making the eye; Black connects it instead; the same shape with the stone
+attached refuses the same move as illegal. `connect_1` needed a new puzzle kind, so
+`GoPuzzleData.KINDS` now exists and `test_data.gd` reads it rather than keeping a second
+copy of the list — the copy in the test being the one that would have gone on passing.
+
+**The quay has somebody on it.** 364 tiles, two signs and nobody: the map GAME_DESIGN says
+you come to after losing, with no one there to have lost to. Orla walks home that way at
+dusk, is a different person off the premises (`on_map` branch, the idiom Marguerite's two
+desks already use), and will play one on the bench that goes on no board and no card. She
+was already on the schedule allow-list and still is — a third hour, not a fourth.
+
+**Done when:** `tools/test.sh` **6114 / 0** (from 5961), `check_lessons.py` clean,
+`gen_content.py` and `gen_maps.py` regenerated (one new quest, one new NPC entry; everything
+else byte-identical), `gen_maps.validate()` green.
+
+**Seven deliberate breaks, each reverted and the suite re-run:**
+
+| broken | result |
+|---|---|
+| `HooksLadder` skips unrated games | 3 failed |
+| losing drops your card | 1 failed |
+| a class dropped from the reachability allow-list | 1 failed |
+| Orla's `post_match` deleted | 4 failed |
+| Orla scheduled onto the quay at every hour | 1 failed |
+| each new puzzle's solution moved off the answer | 4 problems (`check_lessons.py`) |
+| each new lesson's liberty/eye/connect claim falsified | 4 problems |
+
+**Looked at, not reasoned about.** `tools/autopilot/hooks.json`, from a new `hooks_ready`
+preset — ranked, in De Ketel at night, two hooks already taken and one of them unrated.
+Frame 8 is the wall: Hana 5d, Joos `-- no card --`, Bertie, Tomás, Kesh, then **Ro at 22k in
+sixth**, above Pip at 18k and Wren at 20k, both marked `taken`. A 22 kyu standing above an
+18 kyu is the design on screen: the hooks are not rank order and never were. Frame 5's HUD
+carries the journal line the quest had just started, and frame 9's carries the next one, so
+the chain from Tomás through the board to the second step is a fact rather than an argument.
+
+**And the script's first cut lied in the way this file keeps writing down.** It counted
+`advance` in *lines of JSON*, and the dialogue box paginates — a three-line node is not three
+presses. Every shot after the second was named for a beat that had not happened yet: frame 9,
+called `i_the_wall`, was Tomás still talking. Exit 0, 0 script errors, eleven confident PNGs.
+It advances generously with `stop_at_choice` now, and the names were checked against the
+images rather than against the intent.

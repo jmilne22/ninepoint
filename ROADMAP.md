@@ -4,7 +4,7 @@ Everything below is outstanding as of the current build. It is ordered by what
 would most improve the game, not by what is easiest. `MILESTONES.md` records what
 was built and how it was verified; this file records what has not been.
 
-The build is green: `tools/test.sh` runs 5864 checks, `tools/check_lessons.py`
+The build is green: `tools/test.sh` runs 6114 checks, `tools/check_lessons.py`
 reports no problems, and the game is playable from the cold open to the exam and
 the Cup.
 
@@ -94,15 +94,46 @@ was written and `check_load.gd` loaded it faithfully every time.
   and the study hall -- the two rooms Act 1 and Act 2 run through -- are staffed at every
   hour, because a room that empties is an hour the player cannot spend and therefore an
   hour they cannot get past.
-- **More to do per day.** More puzzles, more classes, repeatable teaching games,
-  reasons to visit the quay and Onderbrug.
-- **Quests with meaning.** GAME_DESIGN §7 wants ladder quests, fetch-with-meaning
-  quests and tournament arcs. Two quests ship; the Cup is the third.
+- ~~**More to do per day.**~~ **Half done (M30).** Classes 3 -> 5 (`capture_race`,
+  `false_eyes`), puzzles 8 -> 12 (`capture_5`, `escape_3`, `live_3`, `connect_1`, the last
+  a new *kind* of problem rather than a twelfth of the same one), and the quay has somebody
+  on it at dusk with an unrated game on the bench. Both new classes are deliberately things
+  the rules can settle -- count the liberties; check which stones are one group -- because
+  `tools/check_lessons.py` can only guard a claim it can decide, and a lesson nothing checks
+  is a lesson that quietly teaches the wrong position. Every claim in both was broken on
+  purpose and watched to fail.
+
+  **The framing this corrected is worth keeping.** The first reading was "there are not
+  enough hours of content for 42 slots". That is false: `ilse`, `orla`, `sunny` and `nadia`
+  all reach `offer` from `start` on every visit, and six more graphs have rematch nodes, so
+  rated play was already unbounded. What the term lacked was not hours to spend but *days
+  that differ from each other* -- nothing changed between day 3 and day 8 except a
+  head-to-head counter. That is a different problem and it wants a second thing that moves,
+  which is the item below.
+- ~~**Quests with meaning.**~~ **Ladder quest built (M30).** `the_hooks`: the salon's own
+  order of precedence, seven name-cards on the brass hooks at the back of De Ketel.
+  `src/club/hooks_ladder.gd` derives it from `GameState.match_records` and nothing else,
+  the way `LeagueTable` does -- and then disagrees with `LeagueTable` on purpose about
+  everything else. It counts **unrated** games, which is the whole reason it is a module
+  rather than a second league roster: Bertie's bench and Joos's crate had been playable and
+  consequence-free since M22. Only wins move a card, and only upwards, so it cannot be
+  ground and losing costs nothing. A new card goes on the *bottom* hook rather than at your
+  rank, because the card says your rank and the hook says where you sit, and the room does
+  not care what the card says until you have beaten somebody in it.
+
+  Still unbuilt: **fetch-with-meaning** quests (return Nadia's joseki book). Five quests
+  ship now -- `first_stones`, `enrolment`, `the_hooks`, `qualifying_exam`, `beginner_cup`.
 
 ## 4. The thin places
 
-The quay is two signs and a bench. Ketelsteeg is the largest map in the game and the
-wassalon is a facade with a door, a sign, neon and no warp.
+~~The quay is two signs and a bench.~~ **Half fixed (M30).** It was 364 tiles, two signs and
+nobody -- the map GAME_DESIGN says you come to after losing, with no one there to have lost
+to. Orla walks home that way at dusk, is a different person off the premises, and will play
+one on the bench that goes on no board and no card. She was already on the "off at some hour"
+list and still is: this gave her a third hour without giving her a fourth.
+
+Ketelsteeg is still the largest map in the game and the wassalon is still a facade with a
+door, a sign, neon and no warp.
 
 Onderbrug is **half fixed**: it still cannot have a crowd (walled at both ends, so
 `gen_maps.validate()` rejects every route, which is the correct answer for a dead end under
@@ -266,11 +297,18 @@ Owned by a parallel effort; listed here for completeness.
   latter for the last step -- so a completed quest kept displaying its final
   objective until a rank, a day or an hour happened to change. Every quest in the
   game ended that way since M6.
-- **`src/rpg/world.gd` is 700 lines** against a convention of ~300. It was over
-  before the exam and the exam added a hundred: `_start_cup_round`,
-  `_start_exam_round`, the paper, the sleep menu and six sign sentinels are five
-  jobs in one file. It wants an event-desk component that both tournaments and
-  the exam route through -- the shape is already there in triplicate.
+- ~~**`src/rpg/world.gd` is 700 lines**~~ **-- half paid (M30).** It was **745** by the
+  time anybody re-measured it, which is the ordinary way a line in this file goes stale.
+  `SignDesk` (`src/rpg/sign_desk.gd`) now owns everything you *read* or *sit at* -- the
+  three boards, the study desk, the hooks and the bed -- and `world.gd` is **577**. The
+  seam is "reading versus starting a match", which is where the two halves actually fall:
+  `_start_cup_round`, `_start_exam_round` and the problem paper stay in the World because
+  they route through MatchBridge and spend an hour. The class board is reached from the
+  desk through an injected callable for the same reason.
+
+  One thing worth copying: `SignDesk` does **not** keep its own "a box is open" flag. It is
+  handed `set_talking` and the World's `_talking` stays the only copy, because two flags
+  meaning the same thing is how `knows_the_rules` went wrong in M27.
 - **`LeagueTable.current_rows()` reads `GameState`.** `standings()` is still pure
   and takes everything it needs; the convenience exists because the board, the
   exam and the `league_position_at_most` dialogue condition must not build the
@@ -283,9 +321,13 @@ Owned by a parallel effort; listed here for completeness.
   wrote the prologue rather than a guess. `tests/test_data.gd` checks that every
   `goto` resolves but not that every node is reachable, which is the asymmetry
   that let it sit there.
-- **The exam list and the Cup draw are the same tile** -- two pairs of paper
-  pinned to the same wall of the Bondszaal, with nothing but the panel header to
-  tell them apart once you press [Space].
+- **The exam list and the Cup draw look identical.** This entry used to say they were "the
+  same tile" and that was never true: `gen_maps.py:573-578` puts the draw at (9,2),(10,2)
+  and the list at (13,2),(14,2), split in the very commit (M24) that wrote the complaint.
+  What is true is that both use the `kifu_board` art the league board uses, so there is
+  nothing but the panel header to tell them apart once you press [Space]. Left here in the
+  corrected form rather than deleted, because "a documented bug that was fixed before it was
+  written down" is a thing this file has now produced twice.
 - ~~**The AI's endgame is weak.**~~ **Fixed (M29)** — `GoEndgame` decides which ground is
   finished, the pass rule is the absence of a contested point rather than a score under a
   threshold, and the mercy rule stops a decided game instead of a cheap one. What is left is
@@ -301,7 +343,8 @@ Owned by a parallel effort; listed here for completeness.
   malformed one surfaces as a `push_error` at run time, in front of the player.
 - **Two test hooks ship in production code**: the `Autopilot` autoload and
   `GoMatch.THINK_DELAY_FAST`.
-- **`GtpOpponent` is unwired**, with three known bugs between it and an engine:
+- **`GtpOpponent` is unwired**, with four known bugs between it and an engine -- the count
+  said three and then listed four:
   handicap stones never enter `game.moves`, `choose_move` issues `clear_board`
   every turn, `set_position` never reaches GTP, and `_command` blocks on
   `get_line()` with no timeout.

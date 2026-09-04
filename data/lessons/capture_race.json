@@ -1,0 +1,97 @@
+{
+ "id": "capture_race",
+ "title": "Whoever Moves First",
+ "teacher": "hana",
+ "size": 9,
+ "intro": [
+  "Two groups, next to each other, both surrounded. Neither can make eyes. One of them is going to die.",
+  "Beginners play this out and find out. You are going to count instead, and know before you start.",
+  "It is called a semeai -- a capturing race -- and it is decided by arithmetic, not by fighting spirit."
+ ],
+ "steps": [
+  {
+   "board": [
+    "XXXX.....",
+    "OOOO.....",
+    "XXXX.....",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "black",
+   "instruction": "Count. Your top group has one liberty. The white group has one liberty. It is your move. Take them.",
+   "accept": "capture",
+   "show_liberties": true,
+   "target": [
+    [
+     0,
+     1
+    ]
+   ],
+   "hint": "There is exactly one empty point touching the white stones.",
+   "explanation": "One liberty each, and the move. That is the whole race: when the counts are level, whoever plays first wins it, and whoever plays somewhere else loses four stones for nothing."
+  },
+  {
+   "board": [
+    "XXXX.....",
+    "OOOO.....",
+    "XXX......",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "black",
+   "instruction": "Count again. You have one liberty; White now has two. Do not start a race you are losing -- make yourself a liberty.",
+   "accept": "points",
+   "points": [
+    [
+     4,
+     0
+    ]
+   ],
+   "liberties_after": 2,
+   "liberties_at": [
+    0,
+    0
+   ],
+   "show_liberties": true,
+   "hint": "Extend along the top edge, away from the fight.",
+   "explanation": "Two liberties each now, and it is White's move -- which is a race you draw rather than lose. Filling one of White's liberties instead would have left you on one with White to play, and four black stones would have come off the board."
+  },
+  {
+   "board": [
+    "XXXXX....",
+    "OOOO.....",
+    "XXXX.....",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "black",
+   "instruction": "You extended, White did not. Two liberties to one, and the move. Finish it.",
+   "accept": "capture",
+   "show_liberties": true,
+   "target": [
+    [
+     0,
+     1
+    ]
+   ],
+   "hint": "The same point as before. It is White's last one.",
+   "explanation": "You never fought. You counted twice and played the arithmetic, and the four stones came off because they were always going to."
+  }
+ ],
+ "outro": [
+  "Count your liberties, count theirs, and see whose move it is. Three numbers, and the race is already over.",
+  "If you are behind, you do not fight harder -- you make a liberty, or you leave, and you do it before you have spent five stones finding out."
+ ]
+}

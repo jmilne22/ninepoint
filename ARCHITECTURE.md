@@ -81,6 +81,23 @@ src/
     npc/                NPC body, schedule component, interact component
     maps/               city exteriors, interiors, spawn points, doors
     components/         reusable: Interactable, Warp, Facing, GridMover
+    sign_desk.gd        everything you READ on a wall or SIT DOWN at -- the league,
+                        Cup and exam boards, the study desk, the hooks, the bed.
+                        Split out of world.gd in M30 along the one seam that
+                        actually divides it: reading versus starting a match.
+                        Anything that spends an hour stays in the World
+
+  academy/            THE INSTITUUT'S PROGRESSION
+    league_table.gd     pure: standings from the record, round robin, rated only
+    league_board.gd     the panel on the hall wall
+    exam.gd             pure: the qualifying exam, three rounds, top two through
+
+  club/               DE KETEL'S PROGRESSION -- the other half of the argument
+    hooks_ladder.gd     pure: seven name-cards on brass hooks, ordered by who has
+                        beaten who. Counts UNRATED games, which is why it is not a
+                        second LeagueTable roster. Only wins move a card and only
+                        upwards; a new card goes on the bottom hook, not at your rank
+    hooks_board.gd      the panel at the back of the salon
 
   dialogue/           dialogue graph runner + typewriter box (data-driven from JSON)
   quest/              quest definitions, tracker, objective evaluation

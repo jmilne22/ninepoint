@@ -3,7 +3,7 @@
 A top-down 2D RPG about learning to play **Go (baduk)**, built in Godot 4.7.
 
 You have just moved to Steenbeek. There is a salon three steps below the pavement, an old crowd
-in the park who play for coffee money, and a beginner tournament in six weeks. The previous
+in the park who play for coffee money, and a beginner tournament in a fortnight. The previous
 tenant left a board and a bowl of stones in your room, and no instructions.
 
 You do not know what it is. That is where the game starts.

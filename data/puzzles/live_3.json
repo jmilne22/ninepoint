@@ -1,0 +1,38 @@
+{
+ "id": "live_3",
+ "title": "One Group, Not Two",
+ "teacher": "hana",
+ "size": 9,
+ "to_move": "black",
+ "kind": "live",
+ "alive_at": [
+  0,
+  1
+ ],
+ "board": [
+  "X.XOX.X..",
+  "XXX.XXX..",
+  "OOOOOOOO.",
+  ".........",
+  ".........",
+  ".........",
+  ".........",
+  ".........",
+  "........."
+ ],
+ "goal": "Black to play. The left half has one eye and nowhere to go. Settle it.",
+ "hint": "White has a stone between the two halves, and it is standing on one liberty.",
+ "solutions": [
+  [
+   3,
+   1
+  ]
+ ],
+ "target": [
+  [
+   0,
+   1
+  ]
+ ],
+ "explanation": "Two groups with one eye each are two dead groups. Joined, they are one group with two eyes and nothing White can do about it -- and the cutting stone came off the board on the way, which is what made the third eye."
+}
