@@ -10,16 +10,18 @@ var _toast_panel: NinePatchRect
 var _rank: Label
 var _journal: Label
 var _toast_t := 0.0
+var _rank_card: Control
+var _root: Control
 
 
 func _ready() -> void:
     layer = 10
-    var root := Control.new()
-    root.set_anchors_preset(Control.PRESET_FULL_RECT)
-    root.mouse_filter = Control.MOUSE_FILTER_IGNORE
-    add_child(root)
+    _root = Control.new()
+    _root.set_anchors_preset(Control.PRESET_FULL_RECT)
+    _root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+    add_child(_root)
 
-    _prompt = _make_label(root, Vector2(0, 124), 384, 9, Color("#f2e9d8"))
+    _prompt = _make_label(_root, Vector2(0, 124), 384, 9, Color("#f2e9d8"))
     _prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
     _prompt.add_theme_color_override("font_shadow_color", Color("#14121a"))
     _prompt.add_theme_constant_override("shadow_offset_y", 1)
@@ -34,7 +36,7 @@ func _ready() -> void:
     _toast_panel.size = Vector2(368, 18)
     _toast_panel.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
     _toast_panel.visible = false
-    root.add_child(_toast_panel)
+    _root.add_child(_toast_panel)
 
     _toast = Label.new()
     _toast.position = Vector2(8, 4)
@@ -44,10 +46,10 @@ func _ready() -> void:
     _toast.add_theme_color_override("font_color", Color("#f2d791"))
     _toast_panel.add_child(_toast)
 
-    _rank = _make_label(root, Vector2(6, 202), 90, 9, Color("#ddd0b8"))
+    _rank = _make_label(_root, Vector2(6, 202), 90, 9, Color("#ddd0b8"))
     # The journal wraps to two lines: quest lines are sentences, and a single
     # right-aligned line ran off the edge of the screen.
-    _journal = _make_label(root, Vector2(100, 191), 278, 9, Color("#bda98c"))
+    _journal = _make_label(_root, Vector2(100, 191), 278, 9, Color("#bda98c"))
     _journal.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
     _journal.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     _journal.size.y = 24
@@ -58,6 +60,7 @@ func _ready() -> void:
     EventBus.interaction_cleared.connect(func(): _prompt.visible = false)
     EventBus.toast.connect(show_toast)
     EventBus.rank_changed.connect(func(_o, _n): refresh())
+    EventBus.flag_changed.connect(_on_flag_changed)
     EventBus.quest_advanced.connect(func(_q, _s, _j): refresh())
     # Completion is not an advance -- QuestTracker emits quest_completed instead
     # of quest_advanced for the last step, so without this the journal keeps
@@ -66,6 +69,34 @@ func _ready() -> void:
     # made it visible because finishing it is the last thing that happens.
     EventBus.quest_completed.connect(func(_q): refresh())
     refresh()
+
+
+func _on_flag_changed(key: String, value: Variant) -> void:
+    if key == "ranked_by_club" and bool(value):
+        _show_first_rank_card(_root)
+
+
+func _show_first_rank_card(root: Control) -> void:
+    if _rank_card != null:
+        return
+    _rank_card = Control.new()
+    _rank_card.set_anchors_preset(Control.PRESET_FULL_RECT)
+    root.add_child(_rank_card)
+    var dim := ColorRect.new()
+    dim.color = Color(0.08, 0.07, 0.1, 0.72)
+    dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+    _rank_card.add_child(dim)
+    var panel := UiKit.panel(_rank_card, Rect2(38, 22, 308, 172))
+    var text := "FIRST RATING\n\n22k is a beginner rank. Lower kyu numbers are stronger; 1k is followed by 1d.\n\nOnly rated games change rank. Beat an effective opponent at or above your rank to rise one step; lose to one at or below to fall one. Handicap changes the effective strength used for that comparison.\n\n[Space / Esc] continue"
+    var label := UiKit.label(panel, Vector2(10, 10), 288, UiKit.INK, 152)
+    label.text = text
+
+
+func _unhandled_input(event: InputEvent) -> void:
+    if _rank_card != null and (event.is_action_pressed("interact") or event.is_action_pressed("cancel")):
+        _rank_card.queue_free()
+        _rank_card = null
+        get_viewport().set_input_as_handled()
 
 
 func _make_label(parent: Node, pos: Vector2, width: int, size: int, colour: Color) -> Label:

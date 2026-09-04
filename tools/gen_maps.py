@@ -610,6 +610,7 @@ def de_ketel():
             {"tile": [18, 4], "text": "A coal stove, lit from October to April whatever the weather does. The chair nearest it is not yours and everybody knows whose it is."},
             {"tile": [1, 5], "text": "The rate is chalked on a slate: two-fifty an hour, board and stones included. Under it a kettle, a tin of biscuits, and an honesty box. The biscuits are gone."},
             {"tile": [1, 4], "text": "Pinned to the counter, in Tomas's handwriting: ALL COMERS. ASK. Underneath, smaller: the board is free, the tea is not."},
+            {"tile": [15, 5], "text": "Wren's teaching table. A chalk note says: RULES, FIRST GAME, THEN KESH. Someone has underlined FIRST GAME twice."},
         ],
         # Kesh and Hana are the two people the setting says cross between the
         # Instituut and the salon, and until M26 that was expressed by placing
@@ -794,7 +795,8 @@ def academy_hall():
 
 
 def academy_study():
-    """Rows of boards. This is where the player actually spends their time."""
+    """A clean, numbered competitive workspace: tables, pairings, and study
+    records make its purpose legible before anyone explains the league."""
     W, H = 24, 14
     ground = Grid(W, H, "1")
     decor = Grid(W, H, " ")
@@ -808,12 +810,14 @@ def academy_study():
     ground.row(H - 1, 0, "i" * W)
     for y in range(3, H - 1):
         for x in range(1, W - 1):
-            ground.set(x, y, "1" if (x + y) % 3 else "2")
+            ground.set(x, y, ",")
 
     for wx in (3, 7, 16, 20):
         ground.set(wx, 1, "N")
     for vx in (1, 2, 21, 22):
         ground.set(vx, 2, "V")
+    ground.set(10, 2, "Y")
+    ground.set(11, 2, "Y")
 
     # four playing tables in two rows, chairs above and below
     for tx, ty in ((5, 5), (11, 5), (17, 5), (5, 10), (11, 10), (17, 10)):
@@ -834,7 +838,12 @@ def academy_study():
         "spawns": {"from_hall": [door_x - 1, 7], "middle": [12, 7]},
         "warps": [{"tile": [door_x, 7], "map": "academy_hall", "spawn": "from_study",
                    "prompt": "Back to the hall"}],
-        "signs": [{"tile": [1, 6], "text": "A kettle, a tin, and a handwritten note: THE BISCUITS ARE FOR EVERYONE WHICH MEANS THEY ARE NOT ALL FOR YOU."}],
+        "signs": [
+            {"tile": [1, 6], "text": "A kettle, a tin, and a handwritten note: THE BISCUITS ARE FOR EVERYONE WHICH MEANS THEY ARE NOT ALL FOR YOU."},
+            {"tile": [10, 2], "text": "LOWER LEAGUE — PAIRINGS / RESULTS. Tables 1–6 are numbered in pencil. Play here when a result is meant to count."},
+            {"tile": [5, 5], "text": "Table 1. A neat card: PRACTICE / REVIEW."},
+            {"tile": [11, 5], "text": "Table 2. A neat card: LEAGUE GAMES."},
+        ],
         # The three students you can play any time. Kesh is at De Ketel.
         "npcs": [
             {"id": "ilse", "tile": [6, 6], "dir": "right", "idle": "study"},

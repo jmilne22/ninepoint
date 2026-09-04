@@ -12,9 +12,12 @@ steps = [{
 "journal": "Find De Ketel, further along Ketelsteeg.",
 "advance_on": {"type": "enter_map", "map": "de_ketel"}
 }, {
-"journal": "Ask Wren about the beginner tournament.",
-"advance_on": {"type": "flag", "key": "wren_told_about_cup"}
+"journal": "Wren — De Ketel — learn the rules and an opening plan.",
+"advance_on": {"type": "lesson", "id": "openings"}
 }, {
-"journal": "Kesh has challenged you to a 9x9 game. Play it.",
+"journal": "Wren — De Ketel — play your first full game (practice).",
+"advance_on": {"type": "match", "context": "wren_first"}
+}, {
+"journal": "Kesh — De Ketel — play your first rated 9x9 game.",
 "advance_on": {"type": "match", "context": "kesh_first"}
 }]

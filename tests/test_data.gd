@@ -531,8 +531,8 @@ static func _test_dialogue_branches(t: TestKit) -> void:
     state.reset()
     t.eq(kesh.resolve("start"), "cold_open", "before Wren explains anything, Kesh brushes you off")
 
-    state.set_flag("wren_told_about_cup", true)
-    t.eq(kesh.resolve("start"), "challenge", "once you know about the Cup she challenges you")
+    state.set_flag("wren_match_done", true)
+    t.eq(kesh.resolve("start"), "challenge", "after Wren's first full game she challenges you")
 
     state.set_flag("kesh_match_done", true)
     state.set_flag("record_kesh_loss", 1)

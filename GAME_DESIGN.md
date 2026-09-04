@@ -153,7 +153,7 @@ Compact, walkable, vertical: a street with rooms above it and rooms below it. Ni
 | Location | Role | Regulars |
 |---|---|---|
 | **The attic** (player's home) | The study desk (puzzles) | — |
-| **De Ketel** | Rated games, lessons, the rival | Tomás, Wren, Kesh |
+| **De Ketel** | Informal lessons, practice games, then the rival | Tomás, Wren, Kesh |
 | **Onderbrug** (the arches) | Nine stones from a man with no card | Joos |
 | **Molenpark** | Fast outdoor games, the stone tables | Bertie, Pip |
 | **Ketelsteeg** | The street: the tram stop, noticeboard, snack window, the stationer's | — |
@@ -259,8 +259,9 @@ present an opponent whose style requires a concept the player has not been shown
 
 1. Liberties, capture, self-capture (Wren, capture puzzle)
 2. Two eyes, life and death basics (Hana)
-3. Connection and cutting (Kesh)
-4. Corner > side > centre, opening shape (Nadia)
+3. A first full game: corner starts, first-line caution and urgent stones (Wren)
+4. Connection and cutting (Kesh)
+5. Corners, sides, influence and whole-board priorities (Hana)
 5. Ladders and nets (Pip's ladders, taught properly by Bertie)
 6. Simple endgame and counting (Tomás, Bertie)
 7. Whole-board judgment at 19×19 (Marguerite, Hana)
@@ -291,7 +292,7 @@ settle, because `tools/check_lessons.py` can only guard a claim it can decide:
 | 6 | **Escape** -- a group on one liberty is not dead yet | Kesh, after she has cut you apart |
 | 7 | **Connection** -- the cut, and not being on the wrong end of one | Kesh, after `escape` |
 | 8 | **Ladders** -- the one that works, and the ten seconds of counting that tells you which you have | Bertie, Molenpark |
-| 9 | **Openings** -- corner, side, centre, argued by counting rather than asserted | Hana, the class board |
+| 9 | **Openings** -- a usable first-game plan, then the corner/side/centre count | Wren before the first full game; Hana applies it later |
 | 10 | **Two eyes** -- what alive actually means | Hana, the class board |
 | 11 | **Life and death** -- the vital point | Hana, the class board |
 | 12 | **Counting** -- passing, territory, what a captured stone is worth | Tomas, behind his counter |
@@ -330,8 +331,9 @@ is the shape the others follow:
 
 **"First Stones"**
 1. Find De Ketel, further along Ketelsteeg.
-2. Speak to Wren inside — she tells you about the Cup.
-3. Play Kesh's 9×9 game. (Either result advances.)
+2. Learn Wren's rules and a short opening plan.
+3. Play Wren's unrated 9×9 first full game. (Either result advances.)
+4. Play Kesh's rated 9×9 game. (Either result advances.)
 → Kesh gives you 22 kyu and starts `enrolment`: the tram north, Hana's capture problem,
 Marguerite's register, the league board, a class, a league win.
 

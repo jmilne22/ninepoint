@@ -4,48 +4,16 @@
   "start": {
    "branches": [
     {
-     "if": [
-      [
-       "flag",
-       "wren_match_done"
-      ],
-      [
-       "flag",
-       "knows_the_rules"
-      ],
-      [
-       "not_flag",
-       "lesson_ko_done"
-      ]
-     ],
-     "goto": "offer_ko"
-    },
-    {
-     "if": [
-      [
-       "flag",
-       "kesh_match_done"
-      ]
-     ],
+     "if": [["flag", "kesh_match_done"]],
      "goto": "regular"
     },
     {
-     "if": [
-      [
-       "flag",
-       "wren_told_about_cup"
-      ]
-     ],
-     "goto": "repeat"
+     "if": [["flag", "wren_match_done"]],
+     "goto": "after_first_game"
     },
     {
-     "if": [
-      [
-       "flag",
-       "wren_asked_experience"
-      ]
-     ],
-     "goto": "cup"
+     "if": [["flag", "wren_asked_experience"]],
+     "goto": "opening_offer"
     },
     {
      "goto": "first"
@@ -116,31 +84,16 @@
    "text": [
     "Oh, good. Then I'll skip the speech. Ask me if you ever want it, I do like giving it."
    ],
-   "goto": "cup"
+   "goto": "opening_offer"
   },
-  "taught": {
-   "branches": [
-    {
-     "if": [
-      [
-       "flag",
-       "wren_told_about_cup"
-      ]
-     ],
-     "goto": "taught_again"
-    },
-    {
-     "goto": "taught_first"
-    }
-   ]
-  },
+  "taught": {"goto": "taught_first"},
   "taught_first": {
    "portrait": "happy",
    "text": [
     "That's the rulebook, near enough. Liberties, capture, and don't fill in your own last one.",
     "Everything else is those three, said at length."
    ],
-   "goto": "cup"
+   "goto": "opening_offer"
   },
   "taught_again": {
    "portrait": "happy",
@@ -153,6 +106,53 @@
     "That's ko. You can't take it straight back. Go and do something else first, then come back for it."
    ]
   },
+  "opening_offer": {
+   "text": [
+    "Before a full game, one small plan: begin near a corner. Leave the first line alone early.",
+    "Make nearby stones help each other. Atari and cuts are urgent. Want to see that on the board?"
+   ],
+   "choices": [
+    {"text": "Show me.", "exit": {"type": "start_lesson", "lesson": "openings"}},
+    {"text": "I know enough to start.", "goto": "first_game"}
+   ]
+  },
+  "taught_openings": {
+   "text": [
+    "That is enough. You do not need a correct sequence.",
+    "Just have a place to begin, and look at urgent stones first."
+   ],
+   "goto": "first_game"
+  },
+  "first_game": {
+   "text": [
+    "Let's play a proper nine-by-nine. Pass normally, then score. It is practice; your rank stays untouched.",
+    "I will put up a few things to notice. Ignore them whenever you need to look at the board."
+   ],
+   "choices": [
+    {
+     "text": "Set up the practice game.",
+     "exit": {
+      "type": "start_match", "profile": "wren_9x9", "context": "wren_first", "unrated": true,
+      "intro": "Your first full game. Pass when neither of you wants to play; then count.",
+      "guidance": ["Establish a corner area.", "Support or connect a loose stone nearby.", "Notice a group with only one liberty."]
+     }
+    },
+    {"text": "Remind me of the rules.", "goto": "refresher"},
+    {"text": "Another time.", "goto": "offer_later"}
+   ]
+  },
+  "after_first_game": {
+   "text": [
+    "That was a full game. Whatever the result, it was practice; your rank is still untouched.",
+    "Kesh by the window is the next step. Her nine-by-nine is rated, so its result becomes your first record."
+   ],
+   "choices": [
+    {"text": "I will talk to Kesh.", "goto": "after_first_end"},
+    {"text": "Play another practice game.", "goto": "offer_rematch"},
+    {"text": "Could you refresh the rules?", "goto": "refresher"}
+   ]
+  },
+  "after_first_end": {"text": ["She is pretending not to wait. She is not convincing."], "goto": "cup"},
   "cup": {
    "actions": [
     [
@@ -199,7 +199,8 @@
   "sign_off": {
    "text": [
     "Go on. She's already looking at you."
-   ]
+   ],
+   "goto": "repeat"
   },
   "repeat": {
    "text": [
@@ -255,6 +256,10 @@
   },
   "regular": {
    "branches": [
+    {
+     "if": [["flag", "wren_match_done"], ["flag", "knows_the_rules"], ["not_flag", "lesson_ko_done"]],
+     "goto": "offer_ko"
+    },
     {
      "if": [
       [

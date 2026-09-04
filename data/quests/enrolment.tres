@@ -25,7 +25,7 @@ steps = [{
 "advance_on": {"type": "flag", "key": "read_league_board"}
 }, {
 "journal": "Take a class. The classroom is east.",
-"advance_on": {"type": "lesson", "id": "openings"}
+"advance_on": {"type": "lesson", "id": "two_eyes"}
 }, {
 "journal": "Win a league game. The study hall is west.",
 "advance_on": {"type": "flag", "key": "won_a_league_game"}

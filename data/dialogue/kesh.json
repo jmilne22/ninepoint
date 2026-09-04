@@ -22,12 +22,7 @@
      "goto": "regular"
     },
     {
-     "if": [
-      [
-       "flag",
-       "wren_told_about_cup"
-      ]
-     ],
+     "if": [["flag", "wren_match_done"]],
      "goto": "challenge"
     },
     {
@@ -44,7 +39,8 @@
   },
   "challenge": {
    "text": [
-    "Kesh. Nine by nine, even game, and we'll draw for colours properly."
+    "Kesh. Nine by nine, even game, and we'll draw for colours properly.",
+    "Rated game. The result becomes part of your record."
    ],
    "goto": "offer"
   },
@@ -104,12 +100,13 @@
   "first_rating": {
    "actions": [
     [
-     "rank",
-     "22k"
+     "set_flag",
+     "ranked_by_club",
+     true
     ],
     [
-     "set_flag",
-     "ranked_by_club"
+     "rank",
+     "22k"
     ],
     [
      "set_flag",
@@ -126,8 +123,8 @@
     ]
    ],
    "text": [
-    "That was a rated game, so you have a rank now. Twenty-two kyu. Everyone starts there.",
-    "Hana teaches at the Instituut, two stops north on the tram. Tell her I sent you. She'll want to see you play."
+    "That was rated, so you have a rank now: twenty-two kyu. Read the card; it tells you how the record moves.",
+    "Hana teaches at the Instituut, two stops north on the tram. Tell her I sent you."
    ],
    "goto": "result"
   },

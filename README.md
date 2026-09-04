@@ -89,6 +89,11 @@ the club, does the rules properly afterwards — liberties, capture, and why you
 your own last one. There is no tutorial on the menu, because being taught by somebody is the
 point.
 
+Before Kesh, Wren hosts the first proper 9×9: normal passing and scoring, but explicitly
+**unrated**. Her short opening refresher covers corner starts, avoiding the first line early,
+supporting nearby stones, and answering urgent atari or cuts first. Kesh's following 9×9 is
+the first **rated** game, with a card explaining the kyu/dan ladder and rank changes.
+
 Thirteen lessons in all, and each belongs to whoever should be teaching it: Wren has the
 rulebook and ko, Kesh teaches you to run and to cut because she is the one cutting you,
 Bertie in the park teaches ladders, Tomás behind his counter teaches counting and the
@@ -122,7 +127,8 @@ python3 tools/make_test_save.py beat_kesh 2 Ada 42   # ...in slot 2, as Ada, at 
 **Opening** -- Hana speaks to you and asks your name (Pokemon).
 **Act 1, Steenbeek** -- you have no idea what Go is. Somebody left a board in your room.
 Pip drags you into a game of Capture Go in the park before anyone explains the rules; Wren
-teaches them properly; Kesh challenges you, and win or lose, hands you a rank and tells you
+teaches them properly, then hosts a safe unrated 9×9; Kesh challenges you to the first rated
+game and, win or lose, hands you a rank and tells you
 where Hana teaches: the Essenveld Instituut, two tram stops north (Hikaru no Go).
 **Act 2, the Essenveld Instituut** -- enrol at the bottom of the lower league, take classes,
 play whoever is sitting at a board, and climb a table that is nothing but your own results
@@ -155,9 +161,9 @@ There is no relationship system. The game tracks your **record** against each pe
 ## The vertical slice
 
 Title → New Game → leave your room on Ketelsteeg → Pip in the park teaches you Capture Go →
-down into De Ketel → Wren asks whether you have played, and teaches you if not → she tells
-you about the Cup → Kesh challenges you to 9×9 and you settle the colours by nigiri → play a
-real game of Go → win or lose, she reacts to the game you just played and gives you a rank →
+down into De Ketel → Wren asks whether you have played, teaches you if needed, and gives a
+short opening plan → play Wren's unrated full 9×9 → Kesh challenges you to the rated 9×9 and
+you settle the colours by nigiri → win or lose, she reacts to the game and gives you a rank →
 Tram 4 north → Hana sets you a capture problem → solve it → enrol with Marguerite → read
 the league board → save it into one of the three slots.
 
