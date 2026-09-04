@@ -1812,6 +1812,24 @@ which tense the bug was in"; this is the same mistake, caught only because someb
 whether the debt was really ours. Checking took one script over the quest resources and the
 map data. Writing it down took no time at all and was wrong.
 
+**One live bug found on the way out, fixed on the same branch.** Checking whether the debt
+bullet above was really M32's meant reading `_start_class`, which is gated on `can_act()` --
+hours left in the day -- and not on the teacher being in the room. Hana teaches in the
+classroom in the morning and the afternoon and is at De Ketel after that, so at dusk the
+demonstration board started a class in an empty room: it cost an hour, ran the lesson, and
+`_post_lesson` then looked for the teacher, found nobody and returned without a word. Present
+since schedules landed in M26.
+
+Reproduced before it was touched (`tools/autopilot/class_dusk.json`, frame 3: *Corner, Side,
+Centre* opening at dusk with nobody at the front) and again after (the same frame, now the
+refusal). `institute.json` re-run to prove the afternoon class still starts, because a fix
+that closes the wrong hours is worse than the bug. The refusal string is the joke of it:
+*"Hana has gone home"* was already written and already correct, and had been attached to
+whether the day had hours left rather than to whether she was standing there.
+
+`world.gd` has no test suite, so the evidence here is the two frames and not an assertion --
+stated plainly rather than glossed, the way the Hud's half of the journal bug was.
+
 **Deliberately not done.** Page forty is prose in the margins, not a position on a board.
 `tools/check_lessons.py` can only guard a claim the rules can decide and a joseki is
 whole-board judgement, so a taught position here would have shipped unverified -- and the

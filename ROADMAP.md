@@ -375,11 +375,14 @@ Owned by a parallel effort; listed here for completeness.
   checked by nothing. Neither case deadlocks today. The guard that would keep it that way is
   the one that does not exist.
 
-  Related, and found while checking the above: `World._start_class` is gated on `can_act()`
-  rather than on Hana being in the room, so a class can be taken at dusk, when she is not in
-  the classroom -- the lesson runs and `_post_lesson` then finds no teacher and closes in
-  silence. That is the M27 silent-close bug reachable through the clock rather than through a
-  missing node.
+  ~~Related, and found while checking the above: `World._start_class` is gated on `can_act()`
+  rather than on Hana being in the room.~~ **Fixed.** A class could be taken at dusk, when
+  Hana is at De Ketel and the classroom has only Nadia in it: the lesson ran, cost an hour,
+  and `_post_lesson` then looked for the teacher, found an empty room and returned -- the M27
+  silent close, reached through the clock instead of through a missing node, and present since
+  M26. `_start_class` now checks the lesson's own `teacher` is in the room. The refusal string
+  was the joke of it: *"Hana has gone home"* was already written and already correct, and was
+  wired to whether the day had hours left rather than to whether she was standing there.
 
 - **`LeagueTable.current_rows()` reads `GameState`.** `standings()` is still pure
   and takes everything it needs; the convenience exists because the board, the

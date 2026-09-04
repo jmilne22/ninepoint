@@ -209,6 +209,17 @@ func _start_class() -> void:
     if not GameState.can_act():
         EventBus.toast.emit("Hana has gone home. Sleep, and come to the morning class.")
         return
+    # The board is on the wall at every hour; the teacher is not. Hana is in this
+    # room in the morning and the afternoon and at De Ketel after that, so at dusk
+    # this used to spend an hour on a lesson taught by nobody and then close in
+    # silence -- `_post_lesson` looks for the teacher, finds an empty room and
+    # returns. M27 fixed that silence when it came from a missing dialogue node;
+    # this is the same silence reached through the clock, and it has been here
+    # since schedules landed in M26.
+    var data := GoLessonData.load_lesson(lesson)
+    if data != null and data.teacher != "" and _find_npc(data.teacher) == null:
+        EventBus.toast.emit("Nobody is at the front. Hana teaches in the morning and the afternoon.")
+        return
     player.input_locked = true
     player.clear_target()
     GameState.spend_slot()

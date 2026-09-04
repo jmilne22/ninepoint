@@ -216,7 +216,9 @@ another, and be asked twice before either is lost),
 `book` / `book_read` / `book_back` (the borrowed joseki book: Nadia lends it and Ilse sees
 you carrying it; the attic desk reads page forty and Joos looks at it under the arch; you
 give it back, and then talk to her again -- that last frame is the only visible proof
-`take_item` did anything, because there is no inventory screen).
+`take_item` did anything, because there is no inventory screen),
+`class_dusk` (the demonstration board at an hour Hana does not teach: it refuses now, and
+before it took the hour and taught the class to an empty room).
 Screenshots land in `/tmp/ninepoint-shots` (override with `OUT=`). **`run_game.sh` needs a
 script argument** — it runs on a hidden display, so without one there is nothing to see; it
 will tell you to use `play.sh`. `DISPLAY_NUM=0` runs it on the real display instead, which is
