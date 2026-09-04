@@ -414,6 +414,30 @@
   "washer_f1": [
    6,
    6
+  ],
+  "prop_cups": [
+   7,
+   6
+  ],
+  "prop_papers": [
+   8,
+   6
+  ],
+  "prop_laundry": [
+   9,
+   6
+  ],
+  "prop_satchel": [
+   10,
+   6
+  ],
+  "prop_rope": [
+   11,
+   6
+  ],
+  "prop_chalk": [
+   12,
+   6
   ]
  }
 }

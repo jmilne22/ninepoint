@@ -42,6 +42,10 @@ These are the spine of the design. Check any new feature against them before bui
    line, no rules taught in speech, nobody mentions a place or person the player has not
    met unless pointing them at it, and none of the shared tics. The machine-checkable half
    is `_test_writing_rules`; the rest is read with `tools/check_dialogue.py`.
+9. **Visual, environmental, and gameplay changes must be played and inspected.** A green
+   `tools/test.sh` run proves technical safety, not player-facing quality. Before calling
+   work complete, run the relevant `tools/run_game.sh` route (or play it directly) and open
+   representative screenshots; judge the intended change in the actual game, not from code.
 
 ---
 

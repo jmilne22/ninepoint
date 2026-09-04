@@ -182,6 +182,11 @@ consequence worth keeping: Hana cannot be both at De Ketel for Act 1 and in the 
 for Act 2, so Kesh hands out the first rank and the tram, and Hana meets you at the
 Instituut.
 
+Locations can still remember progress. After lessons, matches, enrolment and events, a map
+may change its conversation pair, clutter, notices or overheard remarks. These **presence
+states** are persistent, legible on revisits and never make a person or service unavailable;
+they give Verhaven social movement without putting a clock back in the player's pocket.
+
 ## 5. Cast
 
 The nine below are the original prototype cast and the table is kept at that size, because

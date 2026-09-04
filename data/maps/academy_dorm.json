@@ -164,5 +164,19 @@
  ],
  "npcs": [],
  "music": "",
- "indoors": true
+ "indoors": true,
+ "presence_states": [
+  {
+   "id": "routine",
+   "tiles": [
+    {
+     "tile": [
+      5,
+      6
+     ],
+     "name": "prop_satchel"
+    }
+   ]
+  }
+ ]
 }

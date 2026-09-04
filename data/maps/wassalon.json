@@ -213,5 +213,119 @@
   }
  ],
  "music": "",
- "indoors": true
+ "indoors": true,
+ "presence_states": [
+  {
+   "id": "regulars",
+   "when": {
+    "all": [
+     "abel_match_done"
+    ]
+   },
+   "npcs": [
+    {
+     "id": "abel",
+     "tile": [
+      10,
+      6
+     ],
+     "dir": "left",
+     "idle": "converse:moss"
+    },
+    {
+     "id": "dov",
+     "tile": [
+      8,
+      4
+     ],
+     "dir": "down",
+     "idle": "tend"
+    },
+    {
+     "id": "moss",
+     "tile": [
+      12,
+      6
+     ],
+     "dir": "right",
+     "idle": "converse:abel"
+    }
+   ],
+   "tiles": [
+    {
+     "tile": [
+      2,
+      7
+     ],
+     "name": "prop_laundry"
+    },
+    {
+     "tile": [
+      2,
+      7
+     ],
+     "name": "prop_laundry"
+    },
+    {
+     "tile": [
+      7,
+      7
+     ],
+     "name": "prop_papers"
+    }
+   ],
+   "lines": [
+    {
+     "npc": "abel",
+     "text": "That was a real move."
+    },
+    {
+     "npc": "moss",
+     "text": "Do not make it a habit."
+    }
+   ]
+  },
+  {
+   "id": "open",
+   "when": {
+    "all": [
+     "knows_the_rules"
+    ]
+   },
+   "tiles": [
+    {
+     "tile": [
+      2,
+      7
+     ],
+     "name": "prop_laundry"
+    },
+    {
+     "tile": [
+      2,
+      7
+     ],
+     "name": "prop_laundry"
+    }
+   ],
+   "lines": [
+    {
+     "npc": "dov",
+     "text": "Level. Still level."
+    }
+   ]
+  },
+  {
+   "id": "routine",
+   "tiles": [
+    {
+     "tile": [
+      2,
+      7
+     ],
+     "name": "prop_laundry"
+    }
+   ]
+  }
+ ]
 }

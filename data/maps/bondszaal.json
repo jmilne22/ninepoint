@@ -223,5 +223,50 @@
   }
  ],
  "music": "theme_institute",
- "indoors": true
+ "indoors": true,
+ "presence_states": [
+  {
+   "id": "event",
+   "when": {
+    "all": [
+     "cup_finished"
+    ]
+   },
+   "tiles": [
+    {
+     "tile": [
+      8,
+      7
+     ],
+     "name": "prop_papers"
+    },
+    {
+     "tile": [
+      8,
+      7
+     ],
+     "name": "prop_papers"
+    },
+    {
+     "tile": [
+      12,
+      7
+     ],
+     "name": "prop_satchel"
+    }
+   ]
+  },
+  {
+   "id": "routine",
+   "tiles": [
+    {
+     "tile": [
+      8,
+      7
+     ],
+     "name": "prop_papers"
+    }
+   ]
+  }
+ ]
 }

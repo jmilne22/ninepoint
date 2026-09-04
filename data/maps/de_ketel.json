@@ -234,5 +234,119 @@
   }
  ],
  "music": "theme_club",
- "indoors": true
+ "indoors": true,
+ "presence_states": [
+  {
+   "id": "rival-routine",
+   "when": {
+    "all": [
+     "kesh_match_done"
+    ]
+   },
+   "npcs": [
+    {
+     "id": "wren",
+     "tile": [
+      9,
+      8
+     ],
+     "dir": "right",
+     "idle": "converse:kesh"
+    },
+    {
+     "id": "kesh",
+     "tile": [
+      11,
+      8
+     ],
+     "dir": "left",
+     "idle": "converse:wren"
+    },
+    {
+     "id": "tomas",
+     "tile": [
+      2,
+      6
+     ],
+     "dir": "right",
+     "idle": "tend"
+    }
+   ],
+   "tiles": [
+    {
+     "tile": [
+      7,
+      11
+     ],
+     "name": "prop_cups"
+    },
+    {
+     "tile": [
+      8,
+      5
+     ],
+     "name": "prop_cups"
+    },
+    {
+     "tile": [
+      12,
+      10
+     ],
+     "name": "prop_papers"
+    }
+   ],
+   "lines": [
+    {
+     "npc": "kesh",
+     "text": "It was not a bad cut."
+    },
+    {
+     "npc": "wren",
+     "text": "That is almost praise."
+    }
+   ]
+  },
+  {
+   "id": "lessons",
+   "when": {
+    "all": [
+     "knows_the_rules"
+    ]
+   },
+   "tiles": [
+    {
+     "tile": [
+      7,
+      11
+     ],
+     "name": "prop_cups"
+    },
+    {
+     "tile": [
+      8,
+      5
+     ],
+     "name": "prop_cups"
+    }
+   ],
+   "lines": [
+    {
+     "npc": "wren",
+     "text": "There is a game on every table."
+    }
+   ]
+  },
+  {
+   "id": "routine",
+   "tiles": [
+    {
+     "tile": [
+      7,
+      11
+     ],
+     "name": "prop_cups"
+    }
+   ]
+  }
+ ]
 }

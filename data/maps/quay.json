@@ -185,5 +185,50 @@
  ],
  "npcs": [],
  "music": "theme_quay",
- "indoors": false
+ "indoors": false,
+ "presence_states": [
+  {
+   "id": "after-loss",
+   "when": {
+    "equals": {
+     "last_result": "loss"
+    }
+   },
+   "tiles": [
+    {
+     "tile": [
+      8,
+      5
+     ],
+     "name": "prop_rope"
+    },
+    {
+     "tile": [
+      8,
+      5
+     ],
+     "name": "prop_rope"
+    },
+    {
+     "tile": [
+      17,
+      3
+     ],
+     "name": "prop_satchel"
+    }
+   ]
+  },
+  {
+   "id": "routine",
+   "tiles": [
+    {
+     "tile": [
+      8,
+      5
+     ],
+     "name": "prop_rope"
+    }
+   ]
+  }
+ ]
 }

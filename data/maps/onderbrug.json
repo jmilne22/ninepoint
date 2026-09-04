@@ -196,5 +196,56 @@
   }
  ],
  "music": "theme_arches",
- "indoors": false
+ "indoors": false,
+ "presence_states": [
+  {
+   "id": "marked",
+   "when": {
+    "all": [
+     "joos_match_done"
+    ]
+   },
+   "tiles": [
+    {
+     "tile": [
+      14,
+      9
+     ],
+     "name": "prop_rope"
+    },
+    {
+     "tile": [
+      10,
+      7
+     ],
+     "name": "prop_chalk"
+    },
+    {
+     "tile": [
+      14,
+      9
+     ],
+     "name": "prop_rope"
+    }
+   ],
+   "lines": [
+    {
+     "npc": "joos",
+     "text": "Somebody will use that shape."
+    }
+   ]
+  },
+  {
+   "id": "routine",
+   "tiles": [
+    {
+     "tile": [
+      14,
+      9
+     ],
+     "name": "prop_rope"
+    }
+   ]
+  }
+ ]
 }

@@ -172,5 +172,44 @@
  ],
  "npcs": [],
  "music": "",
- "indoors": true
+ "indoors": true,
+ "presence_states": [
+  {
+   "id": "study",
+   "when": {
+    "all": [
+     "knows_the_rules"
+    ]
+   },
+   "tiles": [
+    {
+     "tile": [
+      6,
+      5
+     ],
+     "name": "prop_satchel"
+    },
+    {
+     "tile": [
+      8,
+      5
+     ],
+     "name": "prop_papers"
+    }
+   ],
+   "lines": []
+  },
+  {
+   "id": "routine",
+   "tiles": [
+    {
+     "tile": [
+      6,
+      5
+     ],
+     "name": "prop_satchel"
+    }
+   ]
+  }
+ ]
 }
