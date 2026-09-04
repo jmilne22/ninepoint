@@ -28,6 +28,19 @@
     {
      "if": [
       [
+       "weather_is",
+       "wet"
+      ],
+      [
+       "flag",
+       "joos_played"
+      ]
+     ],
+     "goto": "rain_arch"
+    },
+    {
+     "if": [
+      [
        "flag",
        "joos_played"
       ]
@@ -240,6 +253,13 @@
      "joos_saw_the_book",
      true
     ]
+   ]
+  },
+  "rain_arch": {
+   "portrait": "neutral",
+   "text": [
+    "Dry under here.",
+    "That is the whole of why it is here. Not the arch. The dry."
    ]
   }
  }

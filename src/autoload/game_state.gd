@@ -49,10 +49,52 @@ const BLOCKS := ["morning", "afternoon", "dusk", "night"]
 const WEEKDAYS := ["monday", "tuesday", "wednesday", "thursday",
                    "friday", "saturday", "sunday"]
 
-## Which night the back room at De Ketel fills up. Wednesday because the Cup and
-## the exam both land midweek and a club night the term keeps colliding with is a
-## club night nobody attends.
-const CLUB_NIGHT := "wednesday"
+## Which night the back room at De Ketel fills up.
+##
+## It was Wednesday, and the comment here used to justify that by saying a club
+## night the term keeps colliding with is a club night nobody attends -- which
+## was the right rule and the wrong day. Day 1 is a Monday, so Wednesday falls on
+## day 3 and day 10, and EXAM_DAY is 10: the fortnight held exactly two club
+## nights and the second one was the exam, with Nadia and Orla scheduled into De
+## Ketel while both sat in the exam field. Nothing errored and no test failed;
+## the arithmetic simply nobody did. Tuesday gives days 2 and 9 -- two clean
+## nights, the second of them the eve of the exam.
+const CLUB_NIGHT := "tuesday"
+
+## The other weekly occasion, and deliberately a different kind of one: club
+## night is a room filling after dark, market day is a street filling in the
+## morning. Saturday, which is the one weekday the term's two fixed dates
+## cannot land on -- EXAM_DAY 10 is a Wednesday and CUP_DAY 14 a Sunday.
+const MARKET_DAY := "saturday"
+
+
+## The two kinds of day the sky offers. Verhaven is a working port and it is
+## always drizzling; a dry day is the event, not the default.
+const WEATHER := ["dry", "wet"]
+
+## The drizzle runs on a five-day cycle, and **five rather than seven is the
+## whole point**: a weather cycle sharing a factor with the week is not a second
+## axis at all, it is the weekday wearing a hat. At seven, Saturday would be dry
+## for the life of the save and market day would never once be rained on. At
+## five the two drift against each other, so the fortnight gets a wet market day
+## (6) and a dry one (13) without either being written down anywhere.
+const WET_CYCLE := 5
+## Day 1 is dry, and that is load-bearing rather than taste. Pip teaches Capture
+## Go at the stone tables in Molenpark and it is the first game the player ever
+## plays; the park is open ground, so on a wet morning he is under the arches
+## instead. A wet day 1 moves Act 1's opening beat to a map the prologue never
+## mentions. Nothing would have errored -- he is still findable, so the cover
+## test passes -- which is precisely the class of bug ROADMAP section 8 keeps
+## a list of, and _test_day_one_is_dry() below is what holds this in place.
+const WET_DAYS := [1, 2, 4]
+
+## Forced weather for screenshot scripts: "" derives it, "wet"/"dry" override.
+##
+## This is the THIRD test hook shipping in production code, after the Autopilot
+## autoload and GoMatch.THINK_DELAY_FAST, and ROADMAP.md section 8 says "two".
+## It is written by Autopilot and by nothing else, and it is deliberately not
+## saved -- a forced sky must not survive into somebody's real playthrough.
+var weather_override: String = ""
 
 ## Which day of term it is. Sleeping is the only thing that advances it.
 var day: int = 1
@@ -133,6 +175,12 @@ func sleep() -> void:
     if day >= CUP_DAY and has_flag("cup_entered"):
         set_flag("cup_started", true)
     EventBus.day_changed.emit(day)
+    # Unconditional, like day_changed above and for the same reason. M34's bug
+    # was an emit that looked redundant ("the block has not changed, why tell
+    # anybody?") and left yesterday's people standing in today's room. An
+    # `if is_wet() != was_wet` here would be that bug rewritten for the sky, and
+    # the listeners are all idempotent, so there is nothing to save by guarding.
+    EventBus.weather_changed.emit(is_wet())
 
 
 ## Derived from `day` and stored nowhere, like every other progression number in
@@ -142,10 +190,33 @@ func weekday() -> String:
     return WEEKDAYS[(day - 1) % WEEKDAYS.size()]
 
 
+## Whether it is raining, derived from `day` and stored nowhere -- the same
+## reasoning as `weekday()` above, and Rule 5's reasoning besides.
+##
+## Until now this was a flag called "raining" that exactly one thing ever wrote:
+## the Autopilot test hook. Ambient, Soundscape and TileAnimator have all read it
+## since M16 and a player had never once seen rain, while CLAUDE.md listed
+## weather among the shipped features.
+func weather() -> String:
+    if weather_override != "":
+        return weather_override
+    return "wet" if WET_DAYS.has((day - 1) % WET_CYCLE) else "dry"
+
+
+func is_wet() -> bool:
+    return weather() == "wet"
+
+
 ## True on the night the room fills. The hour is not part of it: who is standing
 ## where is the map's business, and this only answers "which day".
 func is_club_night() -> bool:
     return weekday() == CLUB_NIGHT
+
+
+## True on the morning Ketelsteeg has a market on it. Same shape as
+## is_club_night(): which day, never which hour -- the hour is the map's business.
+func is_market_day() -> bool:
+    return weekday() == MARKET_DAY
 
 
 ## How many sleeps until the next club night, 0 when it is tonight. The

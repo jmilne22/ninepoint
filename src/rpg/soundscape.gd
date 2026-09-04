@@ -89,7 +89,7 @@ func _choose_bed() -> String:
     # the light.
     if _map.indoors:
         return "amb_room" if _map.music == "" else ""
-    if GameState.has_flag("raining"):
+    if GameState.is_wet():
         return "amb_rain"
     for tile_name in BED_CANAL_TILES:
         if not _cells_named(tile_name).is_empty():

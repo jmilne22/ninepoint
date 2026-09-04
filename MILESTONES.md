@@ -2104,3 +2104,134 @@ It is back in §3, which reads **half done** — the hours (M30), then the mecha
 not a second club night.
 
 19×19 and `MISTAKE_BREADTH` are both still open in §5 and neither was touched.
+
+---
+
+## M35 — Rain, and a week with a shape  [done; ROADMAP §3 closed]
+
+`ROADMAP.md` §3's last open row asked for *"more days that differ. One recurring night is a
+shape, not a week."* It is closed. The term now has an hour axis (M26), a day axis (M34), a
+**weather axis**, and three recurring things that differ in kind rather than in degree: rain
+every day, club night one evening a week, market day one morning a week.
+
+**The arithmetic nobody had done.** Day 1 is a Monday, so club night — Wednesday since M34 —
+fell on day 3 and day 10, and `EXAM_DAY` is **10**. The fortnight held exactly two club nights
+and the second one was the exam, with Nadia and Orla scheduled into De Ketel on the night both
+of them sat in the exam field. `Hud._day_line()` even suppresses the club-night suffix once
+`exam_entered` is set, so the game would not have mentioned the collision. Nothing errored and
+no test failed. Club night is **Tuesday** now: days 2 and 9, and the second is the eve of the
+exam rather than the exam.
+
+**A whole atmosphere system that had never run.** `raining` had three readers — `Ambient`,
+`Soundscape`, `TileAnimator` — and exactly one writer: `Autopilot`, the screenshot hook. A
+player had never seen rain in the history of the project, while `CLAUDE.md` listed weather
+among the shipped features. The sky is derived from the day now, the way `weekday()` is, and
+stored nowhere.
+
+**Five is not seven, and that is the whole design.** `WET_CYCLE` is 5. At seven — the obvious
+length, mirroring `WEEKDAYS` — the weather stops being a second axis and becomes the weekday
+wearing a hat: Saturday would be dry for the life of every save and market day would never once
+be rained on. At five the two drift, so the fortnight gets a dry market (day 6) and a wet one
+(day 13), a wet club night (2) and a dry one (9), without any of it being written down. There
+is a test that the two cycles share no factor.
+
+**Day 1 must be dry, and that is load-bearing.** Pip teaches Capture Go at the stone tables in
+Molenpark and it is the first game in the game; the park is open ground, so on a wet morning he
+is under the arches instead. A wet day 1 moves Act 1's opening beat to a map the prologue never
+mentions — and he stays *findable*, so every schedule test passes either way. Caught while
+writing the content, not by a failure. `_test_weather()` holds it in place.
+
+**The guard change is the part worth copying.** `_test_schedules` built its tables from the
+entries carrying no `"days"` key, on the sound reasoning that one day in seven can never satisfy
+a guarantee. The cost nobody had priced: *any* conditional entry was discounted, so a schedule
+that **removes** somebody failed the findability check by construction, no matter what other
+entry put them elsewhere. The day axis could only ever add, and ROADMAP §3 recorded that as a
+limit of the mechanism rather than of its test. It is an **exhaustive cover** now — all
+4 × 7 × 2 combinations of hour, weekday and sky — which subsumes the old check and lets a *pair*
+of entries keep a guarantee. Pip and Bertie's dry-park/wet-arches pair is the first schedule in
+the game that moves somebody rather than adding them.
+
+**The graphs can see the calendar.** `DialogueGraph` had eighteen conditions and the only
+environmental one was `on_map`, so club night's own dialogue was gated on being in De Ketel and
+nothing else — it read correctly only because the map schedule was the one thing putting those
+two women in the room. Added: `weekday_is`, `block_is`, `weather_is`, `day_at_least`, and the
+zero-argument `club_night` / `market_day`. **Zero-argument on purpose**: a graph saying
+`["weekday_is", "tuesday"]` would hold its own copy of which night it is and go on passing after
+the night moved, which is the `CLUB_NIGHT_GUESTS` mistake §8 already records. No dialogue file
+names a weekday.
+
+**Market day, and why Tomás.** His mornings were already free and nobody had noticed: De Ketel
+is shut until the afternoon and Wren is the anchor who keeps it staffed, so the man who owns the
+bar had three hours a week doing nothing and a week's supplies to buy. Pure addition — he is
+already on the off-hours list and stands on no other map at that hour — so no guarantee moves.
+He has a dry-market voice and a wet one. `abel`, `dov` and `moss` look like free population and
+are not: all three are written for Cup day at the Bondszaal, and Abel's only line is *"came
+across on the ferry this morning for this"*.
+
+**Two M34 defects, found in the audit.** Nadia's `club_night` branch sat at index 4 behind four
+book branches, one of which (`returned_the_book`) is permanent — so once `page_forty` finished
+she never spoke a club-night line again, and while it was live she delivered book lines in a
+bar. And neither guest had a club-night `post_match`, so winning a club-night game got
+league-flavoured lines in a room whose whole point is that the league is not watching.
+
+**Done when:** `tools/test.sh` **6725 / 0** (from 6515), `check_lessons.py` clean, and the
+seventeen frames below opened one at a time.
+
+**Six deliberate breaks, each watched to go red and reverted:**
+
+| broken | result |
+|---|---|
+| a weather value misspelt `"dryish"` in the generator | `validate()` refused to build |
+| the three schedule filters ORed instead of ANDed | 6 failed |
+| Pip's wet-day entry deleted — the pair stops covering | 1 failed, *"pip can be found at every hour"* |
+| `CLUB_NIGHT` moved in `GameState` and not in the map | 3 failed |
+| `WET_DAYS` shifted so day 1 is wet | 2 failed, incl. *"day 1 is dry, so Pip is in the park"* |
+| a dialogue condition typo'd to `weather_iss` | 1 failed |
+
+The third is the one worth reading: it is the assertion the old guard **could not have made**,
+because it discounted the very entry whose deletion breaks the cover.
+
+**Looked at, not reasoned about — and this is where the milestone earned its time.**
+`tools/autopilot/weather.json` (9 frames) and a retimed `club_night.json` (7), opened one at a
+time. **Three frames were wrong and all three looked confident.**
+
+- `weather.json` frames 7 and 8 were captioned *"the wet market"* and showed the **dry**
+  conversation still open: one `interact` had not closed the box, the run logged *"dialogue did
+  not close after 1 taps"* and carried on, and the day then changed behind an open card. Exit 0,
+  0 script errors, two confident captions, and `market_wet` had never played.
+- `club_night.json`'s final frame has had the same fault **since M34**. It changed the day with
+  Nadia's box open, and `World._repopulate()` guards on `_talking` — so the room was never
+  rebuilt and the frame showed a stale six-person room under the caption *"back to four"*. The
+  fix needed three goes: `stop_at_choice` correctly halts *at* her choice, and the first repair
+  tapped `move_down` while the box was still on its text page, where `_awaiting_choice` is false
+  and the key does nothing. Both scripts now shoot an explicit *box closed* frame before the day
+  turns, and the final room shot walks back to the vantage the other two were taken from, so the
+  three are actually comparable: four people Monday, six Tuesday, four Wednesday.
+
+That is the M16/M27/M32/M33/M34 disease in its sixth costume and the cure was the same one every
+time: open the PNGs. A green run is not evidence; it was not evidence this time either.
+
+**One seam this milestone created and then closed.** `World` connects `time_block_changed` and
+`day_changed` and did **not** connect `weather_changed`. In normal play that is harmless — the
+sky is derived from `day`, so it cannot change without `day_changed` firing first and rebuilding
+the room. But M35 made weather a *schedule* axis, and the other writer is Autopilot's `rain`
+step: a script could change the sky, the sound and the puddles while leaving yesterday's roster
+standing, and photograph it. That is this file's own M34 bug wearing the next costume along, and
+the frame would have looked exactly as confident as a correct one. Connected, with a frame that
+proves it — `a2_rain_only_no_day_turn` holds the day and the hour still, forces the sky, and the
+park empties. The redundant rebuild on sleep costs one extra pass over four NPCs behind a toast;
+a rebuild too many is the cheap failure here and a rebuild too few has cost this project a
+milestone twice.
+
+**Corrected on the way, because this file has produced it twice before.** The audit that opened
+this milestone said no map used the `when_wet` tile key. Wrong — Ketelsteeg and Onderbrug have
+five puddle tiles between them and have had since M16. The animation had simply never run,
+because nothing ever made it rain. The quay, which is the map you come to after losing in a port
+that drizzles, had none; it has two now.
+
+**Deliberately not done.** Market day has no stalls, because a map's decor is a static baked
+layer and nothing can vary it by day — and the obvious workaround, solid stall tiles along the
+pavement, lands on the crowd routes at y=10 and y=14 that `gen_maps.validate()` checks are
+clear. A decor layer with a schedule on it is a different milestone; the market is people,
+sound and crowd density. Nadia's and Orla's club-night games still set no flag and advance no
+quest, which was M34's choice and is unchanged.

@@ -148,10 +148,13 @@ ceiling but have won three rated games you may choose to play up into it, and th
 will tell you exactly what that costs before she enters you.
 
 The week has a shape. A day holds three hours and sleeping is the only thing that turns it
-over; who is standing in a room depends on both the hour and the weekday. **De Ketel has a club
-night on Wednesdays** -- Nadia and Orla come down from the Instituut and the back room holds six
-people instead of four. The games are unrated, so they move the brass hooks at the back of the
-room and never the league table. The noticeboard on Ketelsteeg says when it is.
+over; who is standing in a room depends on the hour, the weekday **and the weather**. It rains
+in Verhaven, and on a wet morning the two regulars at Molenpark's stone tables are under the
+viaduct arches instead. **De Ketel has a club night on Tuesdays** -- Nadia and Orla come down
+from the Instituut and the back room holds six people instead of four; the games are unrated, so
+they move the brass hooks at the back of the room and never the league table. **Ketelsteeg has a
+market on Saturday mornings**, which is the one time you will meet Tomás outside his own bar.
+The noticeboard on Ketelsteeg says when both of them are.
 
 There is no relationship system. The game tracks your **record** against each person.
 

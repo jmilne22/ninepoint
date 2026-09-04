@@ -6,6 +6,23 @@
     {
      "if": [
       [
+       "on_map",
+       "onderbrug"
+      ],
+      [
+       "weather_is",
+       "wet"
+      ],
+      [
+       "flag",
+       "lesson_ladders_done"
+      ]
+     ],
+     "goto": "rain_bench"
+    },
+    {
+     "if": [
+      [
        "flag",
        "lesson_ladders_done"
       ]
@@ -154,6 +171,13 @@
   },
   "taught": {
    "goto": "after_lesson"
+  },
+  "rain_bench": {
+   "portrait": "neutral",
+   "text": [
+    "Stone tables are no use to anybody in this. Board gets wet, stones slide, and Pip blames the ladder.",
+    "So we come under here. Forty years and I have never once played in the rain by choice."
+   ]
   }
  }
 }

@@ -28,6 +28,9 @@ static func run(t: TestKit) -> void:
     _test_every_entry_happens(t)
     _test_weekdays(t)
     _test_club_night(t)
+    _test_market_day(t)
+    _test_weather(t)
+    _test_conditions_are_known(t)
     _test_dialogue_branches(t)
     _test_lessons(t)
     _test_lessons_have_a_close(t)
@@ -410,69 +413,271 @@ const ALWAYS_STAFFED := ["de_ketel", "academy_study"]
 const CLUB_NIGHT_ROOM := "de_ketel"
 const CLUB_NIGHT_GUESTS := ["nadia", "orla"]
 
+## And the other occasion. Same shape, same reason.
+const MARKET_ROOM := "ketelsteeg"
+const MARKET_GUESTS := ["tomas"]
 
-## The invariant a day axis must not break.
+
+## The invariant every schedule axis must not break, checked as a cover.
 ##
-## An entry carrying "days" is true one day in seven, so it may never be what
-## satisfies a guarantee: `seen` and `staffed` below are built from the entries
-## that carry *no* "days" key, which is exactly what the checks meant before the
-## day axis existed and keeps them meaning it. Day-restricted entries only ever
-## add, and are checked separately.
+## This used to build its tables from the entries carrying *no* "days" key, on
+## the reasoning that one day in seven can never satisfy a guarantee. True, and
+## it had a cost nobody had priced: it made a schedule that *removes* somebody
+## impossible to write. Any conditional entry was discounted, so taking a person
+## out of a room on a Tuesday failed the findability check by construction, no
+## matter what other entry put them somewhere else. The day axis could only ever
+## add, and ROADMAP.md section 3 recorded that as a limit of the mechanism.
+##
+## So it is a cover now: walk all 4 x 7 x 2 combinations of hour, weekday and
+## sky, and ask at each one who is somewhere and which rooms have somebody in
+## them. Strictly stronger than the old check -- it subsumes it -- and a *pair*
+## of entries that between them cover every combination now keeps a guarantee,
+## which is exactly what Pip and Bertie's dry-park/wet-arches pair is.
+##
+## A single restricted entry still cannot satisfy anything, which is the rule
+## that mattered: it simply fails at the 55 combinations it does not cover
+## instead of being excluded by hand.
 static func _test_schedules(t: TestKit) -> void:
     t.section("nobody is scheduled out of the game")
     var state = _state()
     var blocks: Array = state.BLOCKS
     var weekdays: Array = state.WEEKDAYS
-    var seen := {}          # npc_id -> { block: true }   (every day of the week)
-    var staffed := {}       # map_id -> { block: true }   (every day of the week)
-    var ever := {}          # npc_id -> true              (including club night)
+    var skies: Array = state.WEATHER
+
+    var maps := {}
+    var ever := {}
     for path in _list("res://data/maps", ".json"):
         var map_id := path.get_file().trim_suffix(".json")
         var m := MapData.load_map(map_id)
         if m == null:
             continue
+        maps[map_id] = m
         for npc in m.npcs:
             var who := str(npc.get("id", ""))
             ever[who] = true
-            var days: Array = npc.get("days", [])
             # Spelling, on the shipped JSON rather than only in the generator.
-            # A misspelt weekday removes somebody on all seven days, not one.
-            for d in days:
+            # A misspelt weekday removes somebody on all seven days, not one,
+            # and a misspelt sky removes them on both kinds of day.
+            for d in npc.get("days", []):
                 t.ok(weekdays.has(d),
                     "%s: npc '%s' day '%s' is a real weekday" % [map_id, who, str(d)])
-            if not days.is_empty():
-                continue        # a bonus, not a guarantee -- checked below
-            var when: Array = npc.get("blocks", [])
-            if when.is_empty():
-                when = blocks
-            if not seen.has(who):
-                seen[who] = {}
-            for b in when:
-                seen[who][b] = true
-                if not staffed.has(map_id):
-                    staffed[map_id] = {}
-                staffed[map_id][b] = true
+            for w in npc.get("weather", []):
+                t.ok(skies.has(w),
+                    "%s: npc '%s' weather '%s' is a real sky" % [map_id, who, str(w)])
+
+    # npc_id -> how many of the combinations they are standing somewhere in.
+    var found := {}
+    var combos := 0
+    for b in blocks:
+        for d in weekdays:
+            for w in skies:
+                combos += 1
+                for map_id in maps.keys():
+                    var m: MapData = maps[map_id]
+                    for npc in m.npcs:
+                        if not MapData.is_present(npc, str(b), str(d), str(w)):
+                            continue
+                        found[str(npc.get("id", ""))] = \
+                            int(found.get(str(npc.get("id", "")), 0)) + 1
 
     for who in ever.keys():
-        var hours: Dictionary = seen.get(who, {})
-        var everywhere := true
-        for b in blocks:
-            if not hours.has(b):
-                everywhere = false
+        # A person is counted once per combination they are present in, but they
+        # may stand on two maps in one combination, so compare against "at least
+        # one per combination" rather than an exact count.
+        var everywhere := _covers_every_combo(maps, who, blocks, weekdays, skies)
         if OFF_AT_SOME_HOUR.has(who):
             t.ok(not everywhere,
                 "%s is on the off-hours list and is actually off for some (%s)"
                     % [who, str(OFF_AT_SOME_HOUR[who])])
-            t.ok(hours.size() > 0, "%s is still somewhere at some hour" % who)
+            t.ok(int(found.get(who, 0)) > 0, "%s is still somewhere at some hour" % who)
         else:
-            t.ok(everywhere, "%s can be found at every hour of the day" % who)
+            t.ok(everywhere,
+                "%s can be found at every hour, on every day, in either weather" % who)
 
-    # Staffing is asserted against the every-day entries, so it holds on all
-    # seven weekdays rather than only on the one the room fills up.
     for map_id in ALWAYS_STAFFED:
-        for b in blocks:
-            t.ok(staffed.get(map_id, {}).has(b),
-                "%s has somebody in it at %s, every day of the week" % [map_id, b])
+        t.ok(_staffed_every_combo(maps, map_id, blocks, weekdays, skies),
+            "%s has somebody in it at every hour, every day, in either weather" % map_id)
+    t.ok(combos == blocks.size() * weekdays.size() * skies.size(),
+        "the cover walked all %d combinations" % combos)
+
+
+## Is this person standing somewhere in every combination of hour, day and sky?
+static func _covers_every_combo(maps: Dictionary, who: String, blocks: Array,
+        weekdays: Array, skies: Array) -> bool:
+    for b in blocks:
+        for d in weekdays:
+            for w in skies:
+                var here := false
+                for map_id in maps.keys():
+                    var m: MapData = maps[map_id]
+                    for npc in m.npcs:
+                        if str(npc.get("id", "")) != who:
+                            continue
+                        if MapData.is_present(npc, str(b), str(d), str(w)):
+                            here = true
+                if not here:
+                    return false
+    return true
+
+
+## Does this room have somebody in it in every combination? The deadlock guard:
+## a room that empties is an hour the player cannot spend, and an hour they
+## cannot spend is an hour they cannot get past.
+static func _staffed_every_combo(maps: Dictionary, map_id: String, blocks: Array,
+        weekdays: Array, skies: Array) -> bool:
+    var m: MapData = maps.get(map_id)
+    if m == null:
+        return false
+    for b in blocks:
+        for d in weekdays:
+            for w in skies:
+                var here := false
+                for npc in m.npcs:
+                    if MapData.is_present(npc, str(b), str(d), str(w)):
+                        here = true
+                if not here:
+                    return false
+    return true
+
+
+## Market day has to actually happen, the same way club night does: a "days" key
+## nothing matches is a street that never fills, which loads and passes silently.
+static func _test_market_day(t: TestKit) -> void:
+    t.section("market day")
+    var state = _state()
+    var market: String = state.MARKET_DAY
+    t.ok((state.WEEKDAYS as Array).has(market), "market day is a real weekday")
+    t.ok(market != state.CLUB_NIGHT,
+        "the two weekly occasions are on different days -- one slot on the HUD")
+
+    var m := MapData.load_map(MARKET_ROOM)
+    t.ok(m != null, "%s loads" % MARKET_ROOM)
+    if m == null:
+        return
+    var guests := {}
+    for npc in m.npcs:
+        var days: Array = npc.get("days", [])
+        if days.is_empty():
+            continue
+        t.ok(days.has(market), "%s is on %s for the market" % [str(npc.get("id", "")), MARKET_ROOM])
+        guests[str(npc.get("id", ""))] = true
+    for who in MARKET_GUESTS:
+        t.ok(guests.has(who), "%s is at the market" % who)
+
+    # Nobody may be in two places at once on a market morning. Tomas is the case
+    # that matters: De Ketel is shut in the morning, which is the only reason his
+    # mornings were free to spend on this.
+    for path in _list("res://data/maps", ".json"):
+        var other_id := path.get_file().trim_suffix(".json")
+        if other_id == MARKET_ROOM:
+            continue
+        var other := MapData.load_map(other_id)
+        if other == null:
+            continue
+        for npc in other.npcs:
+            var who := str(npc.get("id", ""))
+            if not guests.has(who):
+                continue
+            for w in state.WEATHER:
+                t.ok(not MapData.is_present(npc, "morning", market, str(w)),
+                    "%s is not also in %s on a %s market morning" % [who, other_id, str(w)])
+
+
+## The weather, and the two things about it that are load-bearing rather than
+## taste. Both were reasoned out while writing it and neither would fail loudly.
+static func _test_weather(t: TestKit) -> void:
+    t.section("the weather")
+    var state = _state()
+    var skies: Array = state.WEATHER
+    t.eq(skies.size(), 2, "two skies")
+
+    # 1. The cycle must not share a factor with the week. At seven -- the
+    #    obvious length, mirroring WEEKDAYS -- the weather stops being a second
+    #    axis and becomes the weekday wearing a hat: Saturday would be dry for
+    #    the life of every save and market day would never once be rained on.
+    var cycle: int = state.WET_CYCLE
+    var week: int = (state.WEEKDAYS as Array).size()
+    var common := 1
+    for n in range(2, mini(cycle, week) + 1):
+        if cycle % n == 0 and week % n == 0:
+            common = n
+    t.eq(common, 1,
+        "the weather cycle (%d) shares no factor with the week (%d), so the two drift"
+            % [cycle, week])
+
+    # 2. Day 1 must be dry. Pip teaches Capture Go at the stone tables in
+    #    Molenpark and it is the first game in the game; on a wet morning he is
+    #    under the arches instead, so a wet day 1 moves Act 1's opening beat to
+    #    a map the prologue never mentions. He stays findable, so the cover test
+    #    above passes either way -- which is exactly why this is written down.
+    var day_was: int = state.day
+    var override_was: String = state.weather_override
+    state.weather_override = ""
+    state.day = 1
+    t.ok(not state.is_wet(), "day 1 is dry, so Pip is in the park for the first game")
+
+    # And both occasions must meet both skies inside the term, or one of the two
+    # variants is written and never seen.
+    var seen := {"club": {}, "market": {}}
+    for d in range(1, state.CUP_DAY + 1):
+        state.day = d
+        if state.is_club_night():
+            seen["club"][state.weather()] = true
+        if state.is_market_day():
+            seen["market"][state.weather()] = true
+    for occasion in ["club", "market"]:
+        for w in skies:
+            t.ok((seen[occasion] as Dictionary).has(w),
+                "a %s %s happens inside the fortnight" % [str(w), occasion])
+
+    state.day = day_was
+    state.weather_override = override_was
+
+
+## Every condition a shipped dialogue file uses must be one DialogueGraph knows.
+##
+## An unknown op does not error: `_check_one` push_warnings and returns **false**,
+## so a typo'd condition is a branch that silently never fires, which is a
+## paragraph of writing that never plays and nothing to say so. `hana_teaching`
+## sat orphaned for a whole milestone for a neighbouring reason.
+##
+## The vocabulary is *read off dialogue_graph.gd's own source* rather than
+## retyped here. A hand-kept copy is the thing this project keeps paying for --
+## LESSONS_REACHED_BY_TRACK and CLUB_NIGHT_GUESTS are both on the debt list for
+## exactly this -- and the copy is always the one that goes on passing.
+static func _test_conditions_are_known(t: TestKit) -> void:
+    t.section("dialogue conditions are all real")
+    var src := FileAccess.get_file_as_string("res://src/dialogue/dialogue_graph.gd")
+    t.ok(src != "", "dialogue_graph.gd is readable")
+    var known := {}
+    # The condition ops are the `match` cases between "--- conditions" and the
+    # "--- actions" banner, so the action vocabulary cannot leak in and make an
+    # action name pass as a condition.
+    var from := src.find("--- conditions")
+    var to := src.find("--- actions")
+    if from < 0 or to < 0:
+        t.ok(false, "the condition section banners are still in dialogue_graph.gd")
+        return
+    for line in src.substr(from, to - from).split("\n"):
+        var trimmed := line.strip_edges()
+        if not trimmed.ends_with("\":") or not trimmed.begins_with("\""):
+            continue
+        known[trimmed.substr(1, trimmed.length() - 3)] = true
+    t.ok(known.size() > 10, "read %d condition ops off the source" % known.size())
+
+    for path in _list("res://data/dialogue", ".json"):
+        var graph := DialogueGraph.load_graph(path)
+        if graph == null:
+            continue
+        for node_id in graph.nodes.keys():
+            var node: Dictionary = graph.nodes[node_id]
+            for branch in node.get("branches", []):
+                for cond in branch.get("if", []):
+                    if cond is Array and not (cond as Array).is_empty():
+                        var op := str(cond[0])
+                        t.ok(known.has(op),
+                            "%s/%s: condition '%s' is one DialogueGraph knows"
+                                % [path.get_file(), node_id, op])
 
 
 ## Club night has to actually happen. A "days" key nothing matches is a room that
@@ -585,30 +790,46 @@ static func _test_sleep_announces_the_day(t: TestKit) -> void:
 static func _test_schedule_rule(t: TestKit) -> void:
     t.section("the schedule rule")
     var always := {}
-    t.ok(MapData.is_present(always, "morning", "monday"), "no keys means always -- morning")
-    t.ok(MapData.is_present(always, "night", "sunday"), "no keys means always -- night")
+    t.ok(MapData.is_present(always, "morning", "monday", "dry"), "no keys means always -- morning")
+    t.ok(MapData.is_present(always, "night", "sunday", "wet"), "no keys means always -- night")
 
     var hours := {"blocks": ["night"]}
-    t.ok(MapData.is_present(hours, "night", "monday"), "an hour entry is there at its hour")
-    t.ok(not MapData.is_present(hours, "dusk", "monday"), "and not at another")
-    t.ok(MapData.is_present(hours, "night", "friday"), "an hour entry ignores the day")
+    t.ok(MapData.is_present(hours, "night", "monday", "dry"), "an hour entry is there at its hour")
+    t.ok(not MapData.is_present(hours, "dusk", "monday", "dry"), "and not at another")
+    t.ok(MapData.is_present(hours, "night", "friday", "wet"), "an hour entry ignores day and sky")
 
     var days := {"days": ["wednesday"]}
-    t.ok(MapData.is_present(days, "morning", "wednesday"), "a day entry is there on its day")
-    t.ok(not MapData.is_present(days, "morning", "thursday"), "and not on another")
+    t.ok(MapData.is_present(days, "morning", "wednesday", "dry"), "a day entry is there on its day")
+    t.ok(not MapData.is_present(days, "morning", "thursday", "dry"), "and not on another")
 
-    # Both must pass. This is the one that would break if the two filters were
-    # ever ORed together, which reads as the same feature and is not.
-    var club := {"blocks": ["night"], "days": ["wednesday"]}
-    t.ok(MapData.is_present(club, "night", "wednesday"), "club night: right hour, right day")
-    t.ok(not MapData.is_present(club, "dusk", "wednesday"), "wrong hour, right day")
-    t.ok(not MapData.is_present(club, "night", "thursday"), "right hour, wrong day")
-    t.ok(not MapData.is_present(club, "dusk", "thursday"), "wrong hour, wrong day")
+    var skies := {"weather": ["wet"]}
+    t.ok(MapData.is_present(skies, "morning", "monday", "wet"), "a weather entry is there in its weather")
+    t.ok(not MapData.is_present(skies, "morning", "monday", "dry"), "and not in the other")
+    t.ok(MapData.is_present(skies, "night", "sunday", "wet"), "a weather entry ignores hour and day")
+
+    # All three must pass. These are the ones that break if any pair of filters
+    # is ever ORed together, which reads as the same feature and is not.
+    var club := {"blocks": ["night"], "days": ["tuesday"]}
+    t.ok(MapData.is_present(club, "night", "tuesday", "wet"), "club night: right hour, right day")
+    t.ok(not MapData.is_present(club, "dusk", "tuesday", "wet"), "wrong hour, right day")
+    t.ok(not MapData.is_present(club, "night", "thursday", "wet"), "right hour, wrong day")
+    t.ok(not MapData.is_present(club, "dusk", "thursday", "wet"), "wrong hour, wrong day")
+
+    var park := {"blocks": ["morning"], "weather": ["dry"]}
+    t.ok(MapData.is_present(park, "morning", "monday", "dry"), "the park: right hour, right sky")
+    t.ok(not MapData.is_present(park, "morning", "monday", "wet"), "right hour, wrong sky")
+    t.ok(not MapData.is_present(park, "night", "monday", "dry"), "wrong hour, right sky")
+
+    var all_three := {"blocks": ["morning"], "days": ["saturday"], "weather": ["dry"]}
+    t.ok(MapData.is_present(all_three, "morning", "saturday", "dry"), "all three agree")
+    t.ok(not MapData.is_present(all_three, "morning", "saturday", "wet"), "all three: sky disagrees")
+    t.ok(not MapData.is_present(all_three, "morning", "sunday", "dry"), "all three: day disagrees")
+    t.ok(not MapData.is_present(all_three, "night", "saturday", "dry"), "all three: hour disagrees")
 
     # Empty arrays read as absent, because that is what the maps that predate
     # each axis effectively say.
-    var empties := {"blocks": [], "days": []}
-    t.ok(MapData.is_present(empties, "dusk", "friday"), "empty arrays mean always")
+    var empties := {"blocks": [], "days": [], "weather": []}
+    t.ok(MapData.is_present(empties, "dusk", "friday", "wet"), "empty arrays mean always")
 
 
 ## Every shipped map entry, walked through the rule at all 28 hours of the week,
@@ -626,8 +847,9 @@ static func _test_every_entry_happens(t: TestKit) -> void:
             var times := 0
             for d in state.WEEKDAYS:
                 for b in state.BLOCKS:
-                    if MapData.is_present(npc, str(b), str(d)):
-                        times += 1
+                    for w in state.WEATHER:
+                        if MapData.is_present(npc, str(b), str(d), str(w)):
+                            times += 1
             t.ok(times > 0,
                 "%s: '%s' is standing there at some hour of some day" % [map_id, who])
 

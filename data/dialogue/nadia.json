@@ -6,6 +6,18 @@
     {
      "if": [
       [
+       "on_map",
+       "de_ketel"
+      ],
+      [
+       "club_night"
+      ]
+     ],
+     "goto": "club_night"
+    },
+    {
+     "if": [
+      [
        "has_item",
        "joseki_book"
       ],
@@ -46,15 +58,6 @@
       ]
      ],
      "goto": "after_the_book"
-    },
-    {
-     "if": [
-      [
-       "on_map",
-       "de_ketel"
-      ]
-     ],
-     "goto": "club_night"
     },
     {
      "if": [
@@ -125,6 +128,18 @@
   },
   "post_match": {
    "branches": [
+    {
+     "if": [
+      [
+       "on_map",
+       "de_ketel"
+      ],
+      [
+       "club_night"
+      ]
+     ],
+     "goto": "club_night_after"
+    },
     {
      "if": [
       [
@@ -232,7 +247,7 @@
   "club_night_offer": {
    "portrait": "happy",
    "text": [
-    "Nothing on it. Wednesday games don't count for anything but the hooks, and the hooks count everything."
+    "Nothing on it. Club-night games don't count for anything but the hooks, and the hooks count everything."
    ],
    "exit": {
     "type": "start_match",
@@ -246,6 +261,13 @@
    "portrait": "neutral",
    "text": [
     "Mm. I'll be here until they turn the lights off."
+   ]
+  },
+  "club_night_after": {
+   "portrait": "neutral",
+   "text": [
+    "Good. Nobody writes that one down, which is the only reason I can play it like that.",
+    "In the study hall I have a position to hold. Down here I have a stool."
    ]
   }
  }

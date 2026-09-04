@@ -4,7 +4,7 @@ Everything below is outstanding as of the current build. It is ordered by what
 would most improve the game, not by what is easiest. `MILESTONES.md` records what
 was built and how it was verified; this file records what has not been.
 
-The build is green: `tools/test.sh` runs 6515 checks, `tools/check_lessons.py`
+The build is green: `tools/test.sh` runs 6725 checks, `tools/check_lessons.py`
 reports no problems, and the game is playable from the cold open to the exam and
 the Cup.
 
@@ -77,9 +77,10 @@ named by no dialogue must appear on a written allow-list of the ones an event
 draws by string interpolation. `hana_teaching` had been orphaned since the day it
 was written and `check_load.gd` loaded it faithfully every time.
 
-## 3. Fill the term
+## 3. ~~Fill the term~~ — closed (M35)
 
-**NOT DONE. Status as of M34 — read this before picking anything up.**
+**DONE.** The term has a shape now: an hour axis (M26), a day axis (M34), a weather axis
+(M35), and three recurring things that differ in kind rather than in degree.
 
 | | |
 |---|---|
@@ -87,135 +88,49 @@ was written and `check_load.gd` loaded it faithfully every time.
 | **Done** — the ladder quest (`the_hooks`) | M30 |
 | **Done** — the fetch quest (`page_forty`) | M32 |
 | **Done** — more classes and puzzles (3→5 classes, 8→12 puzzles, the quay at dusk) | M30 |
-| **Done** — the day axis: `"days"` on a map NPC entry, `MapData.is_present()`, `World` rebuilding on `day_changed` | M34 |
-| **Done** — one instance of a day that differs: club night at De Ketel, Wednesdays | M34 |
-| **OPEN** — **more days that differ.** One recurring night is a shape, not a week | — |
+| **Done** — the day axis: `"days"`, `MapData.is_present()`, `World` rebuilding on `day_changed` | M34 |
+| **Done** — one instance of a day that differs: club night at De Ketel | M34 |
+| **Done** — **more days that differ**: the weather axis, rain, and market day | M35 |
 
-**The open part, stated precisely, because this bullet has been misread twice.**
+**What closed it, against the four criteria set before the work started.**
 
-It is *not* more hours to spend: rated play is already unbounded — four students reach `offer`
-from `start` on every visit and six more people have rematch nodes. It is *not* the plumbing
-either; M34 built that and it is tested.
+1. **Three kinds of differing day ship.** *Rain*, which varies every day and changes the whole
+   outdoor city; *club night* at De Ketel, one evening a week; *market day* on Ketelsteeg, one
+   morning a week. One continuous axis and two recurring occasions, on different weekdays and
+   at opposite ends of the day.
+2. **Each is visible without reading the source.** The Ketelsteeg noticeboard carries both
+   occasions on the one sign; the HUD has an occasion slot; Tomás has a wet-market voice and a
+   dry one. Confirmed from screenshots, not from the diff.
+3. **Each is expressed by a real condition.** `"weather"` beside `"blocks"` and `"days"` on a
+   map entry, and `club_night` / `market_day` / `weather_is` / `weekday_is` / `block_is` /
+   `day_at_least` in `DialogueGraph` — which had **no** environmental condition but `on_map`
+   before this. Club night's own dialogue no longer rests on a coincidence.
+4. **No occasion satisfies a safety guarantee, and removal is now safe.** See below.
 
-It is **occasions**. The fortnight has one recurring event in it. What it wants is two or three
-more that differ in *kind* rather than a second club night — the shape of the week, not more of
-the same Wednesday. The mechanism to express any of them already exists: give a map's NPC entry
-a `"days"` key, and the guards in `tests/test_data.gd` will hold you to it.
+**The two findings worth carrying forward.**
 
-Whoever picks this up: the machinery is `GameState.WEEKDAYS` / `weekday()`,
-`MapData.is_present(spec, block, weekday)`, and `"days"` in `tools/gen_maps.py`. The one rule
-that matters is that **a day-restricted entry may never satisfy a safety guarantee** — the
-findability and always-staffed checks are computed from entries carrying no `"days"` key,
-because one day in seven is not a guarantee. Day-restrict Wren and De Ketel's staffing check
-fails, which is the point.
+**The fortnight had one usable club night, not two.** Day 1 is a Monday, so Wednesday fell on
+day 3 and day 10 — and `EXAM_DAY` is 10. The term's second club night was the exam, with Nadia
+and Orla scheduled into De Ketel while both sat in the exam field. Nothing errored; it was
+arithmetic nobody had done. Club night is **Tuesday** now: days 2 and 9, the second of them the
+eve of the exam.
 
----
+**The old guard made a schedule that *removes* somebody impossible to write.** `_test_schedules`
+built its tables from the entries carrying no `"days"` key, on the sound reasoning that one day
+in seven cannot satisfy a guarantee — and the cost, which nobody had priced, was that *any*
+conditional entry was discounted, so taking a person out of a room on a condition failed the
+findability check by construction. The day axis could only ever add. It is an **exhaustive
+cover** now: all 4 × 7 × 2 combinations of hour, weekday and sky, asking at each who is
+somewhere and which rooms are staffed. Strictly stronger, and a *pair* of entries that between
+them cover every combination now keeps a guarantee — which is what Pip and Bertie's
+dry-park/wet-arches pair is, and it is the first schedule in the game that moves somebody
+rather than adding them.
 
-- ~~**NPC schedules.**~~ **Built (M26).** An NPC entry may carry `"blocks"`, the same key
-  and the same "absent means always" reading `TileAnimator` and `Soundscape` already used;
-  `MapBuilder.build_npcs()` filters on the hour and `World._repopulate()` rebuilds when the
-  hour turns with the world still standing. Hana teaches by day and is at De Ketel after
-  dark, Kesh the same, Pip and Bertie move from the park to the arches, the bar is shut in
-  the morning and the study hall empties as the day goes on. The clock was previously read
-  by the light, the sound, the crowd and the music and by nothing that decided where a
-  person stood, which made the most atmospheric system in the project decorative.
-
-  The guard rail is the part worth remembering: a schedule that can hide somebody can hide
-  a quest step. `tests/test_data.gd` asserts every character is findable at every hour
-  unless they are on a written list of the five who are deliberately not, and that De Ketel
-  and the study hall -- the two rooms Act 1 and Act 2 run through -- are staffed at every
-  hour, because a room that empties is an hour the player cannot spend and therefore an
-  hour they cannot get past.
-- **More to do per day.** **Still half done -- the mechanism is built (M34), the content is one
-  night.** M30 did the hours; M34 found why no day differed from another and fixed *that*, then
-  spent the result on a single Wednesday. **The bullet is about content and one day in seven is
-  not the term.** What is left is more days that differ, and it is the largest open item in this
-  file for the second milestone running.
-
-  Be careful with the shape of what is missing, because this bullet has now been misread twice.
-  It is not more hours (rated play is unbounded -- see below) and it is no longer the plumbing
-  either. It is **occasions**: a second recurring day that is a different *kind* of day rather
-  than a second club night, and reasons to be somewhere on it. The first draft of this entry
-  recorded the leftover in §8 as though it were technical debt M34 created. It is not; it is the
-  half of this bullet M34 did not do, and filing it under debt would have hidden it from the next
-  person choosing what to build.
-
-  The half M34 did do. The diagnosis was in the paragraph below -- not hours to spend, but
-  *days that differ from each other* -- and the reason none did was structural and nobody had looked for it -- `GameState.day` was read in four places
-  (`EXAM_DAY`, `CUP_DAY`, the HUD line, and the study desk's puzzle rotation), and **schedules
-  keyed on the hour and nothing else**. M26 built half a calendar and the half it built was the
-  clock: the hour decided who was in the room and the day decided nothing at all.
-
-  So the schedule gained a day axis. A map's NPC entry may carry `"days": ["wednesday"]` beside
-  its `"blocks"`, with the same absent-means-always reading, and both must pass. The rule itself
-  is `MapData.is_present()` -- **pure and on the autoload-free half on purpose**, because the
-  same rule on `MapBuilder` would have been unreachable from every test in the project, which is
-  the trap §8 has now recorded three times.
-
-  What it is spent on is **club night at De Ketel**, Wednesdays. Nadia and Orla come down from
-  the Instituut, which costs nobody their own place: they were the only two people in the game
-  who were nowhere at all at night. Six people in the room instead of four, both of them with a
-  club-night voice and an unrated game, so the night pays into the hooks and not the league --
-  which is the distinction the two progressions exist to draw. Sunny is nowhere at night too and
-  is deliberately not there. She is nine.
-
-  ~~**More to do per day** (M30's half).~~ Classes 3 -> 5 (`capture_race`,
-  `false_eyes`), puzzles 8 -> 12 (`capture_5`, `escape_3`, `live_3`, `connect_1`, the last
-  a new *kind* of problem rather than a twelfth of the same one), and the quay has somebody
-  on it at dusk with an unrated game on the bench. Both new classes are deliberately things
-  the rules can settle -- count the liberties; check which stones are one group -- because
-  `tools/check_lessons.py` can only guard a claim it can decide, and a lesson nothing checks
-  is a lesson that quietly teaches the wrong position. Every claim in both was broken on
-  purpose and watched to fail.
-
-  **The framing this corrected is worth keeping.** The first reading was "there are not
-  enough hours of content for 42 slots". That is false: `ilse`, `orla`, `sunny` and `nadia`
-  all reach `offer` from `start` on every visit, and six more graphs have rematch nodes, so
-  rated play was already unbounded. What the term lacked was not hours to spend but *days
-  that differ from each other* -- nothing changed between day 3 and day 8 except a
-  head-to-head counter. That is a different problem and it wants a second thing that moves,
-  which is the item below.
-- ~~**Quests with meaning.**~~ **Ladder quest built (M30).** `the_hooks`: the salon's own
-  order of precedence, seven name-cards on the brass hooks at the back of De Ketel.
-  `src/club/hooks_ladder.gd` derives it from `GameState.match_records` and nothing else,
-  the way `LeagueTable` does -- and then disagrees with `LeagueTable` on purpose about
-  everything else. It counts **unrated** games, which is the whole reason it is a module
-  rather than a second league roster: Bertie's bench and Joos's crate had been playable and
-  consequence-free since M22. Only wins move a card, and only upwards, so it cannot be
-  ground and losing costs nothing. A new card goes on the *bottom* hook rather than at your
-  rank, because the card says your rank and the hook says where you sit, and the room does
-  not care what the card says until you have beaten somebody in it.
-
-- ~~**Quests with meaning: the fetch.**~~ **Built (M32).** `page_forty`, and it is the first
-  quest in the game that is not *play games and win*. Ilse Brandt has told anybody who lost
-  to her to read the first forty pages since M21, and Nadia Ferreira has said she always has
-  the book with her since the same milestone, and the two lines had never been connected.
-  Now Ilse sends you, Nadia lends it, the desk in the attic reads it, and you give it back.
-
-  The point of it is that the book does not work. Ilse has read all of it and is nine kyu and
-  says so unprompted; the win that ends the quest is not made of anything on page forty, and
-  Nadia -- who is two kyu and honest -- is the one who says so. That is Pillar 1 argued by two
-  characters rather than asserted in a design document, which is the only form of it the
-  player ever meets.
-
-  It also crosses the canal, which is what makes it a *Ninepoint* fetch rather than a fetch:
-  an Essenveld object carried down to De Ketel and under the arches, where Wren cannot read it
-  and Joos will not.
-
-  Six quests ship now -- `first_stones`, `enrolment`, `the_hooks`, `page_forty`,
-  `qualifying_exam`, `beginner_cup`.
-
-  **What it dragged into the light, which is the part worth keeping.** `GameState` could
-  `give_item` and had no opposite, so "return the book" would have played the thank-you with
-  the book still in the bag. And the journal was choosing which quest to display by
-  **filename**: `Hud.refresh` read `active_quest_ids()[0]` against the order DirAccess handed
-  the `.tres` files back in, so a quest taken on later than an unfinished one was invisible
-  for as long as the older one ran. `page_forty` starts days after `enrolment` and would never
-  once have appeared. Nothing errored; it was found by opening a screenshot of the objective
-  line. The order is now "last started", it lives in `QuestTracker.journal_quest_id()` rather
-  than in the Hud so that a test can reach it, and the test asserts the pair in **both**
-  orders -- the first version of it passed against the broken code, because these two quests
-  happen to sort alphabetically into the order they are started in.
+**One correction to what this file said.** §1.4 of the M35 audit recorded that no map used the
+`when_wet` tile key. Wrong: Ketelsteeg and Onderbrug have five puddle tiles between them and
+have had since M16. The animation was never seen because **nothing in the game ever made it
+rain** — `raining` had three readers and exactly one writer, the Autopilot test hook. It rains
+now, and the quay has two puddles of its own.
 
 ## 4. The thin places
 
@@ -532,8 +447,11 @@ Owned by a parallel effort; listed here for completeness.
   them -- `test_data.gd` covers dialogue, lessons, puzzles and maps, and nothing at all
   covers `data/reviews/`, where three of the eight voice files are named by no test. A
   malformed one surfaces as a `push_error` at run time, in front of the player.
-- **Two test hooks ship in production code**: the `Autopilot` autoload and
-  `GoMatch.THINK_DELAY_FAST`. The first grew a `day` step in M34, beside its `time` step.
+- **Three test hooks ship in production code**: the `Autopilot` autoload,
+  `GoMatch.THINK_DELAY_FAST`, and `GameState.weather_override` (M35 -- `""` derives the sky from
+  the day, `"wet"`/`"dry"` forces it, and it is deliberately not saved, because a forced sky must
+  not survive into somebody's real playthrough). Autopilot grew a `day` step in M34 beside its
+  `time` step, and its `rain` step now writes the override rather than a flag nothing else read.
 - **Two things M34 left behind:**
   - **`world.gd` cannot be reached by any test**, and this is the §8 bug above wearing its
     fourth costume. The M34 bug *was* in `world.gd` -- it never connected `day_changed`, so a
@@ -543,10 +461,16 @@ Owned by a parallel effort; listed here for completeness.
     The schedule *rule* was deliberately moved to `MapData.is_present()` so at least that half
     is guarded; the connection itself is not, and nothing detects the class of problem.
   - **`CLUB_NIGHT_GUESTS` in `tests/test_data.gd` is a hand-kept copy** of who is actually in
-    `de_ketel.json` on Wednesday. This is the `LESSONS_REACHED_BY_TRACK` shape that this file
-    already records the cost of, and the copy in the test is the one that would go on passing.
-    M33 showed the fix -- derive it -- but there is no pure module to derive it *from* here, so
-    it wants one, or it wants the assertion inverted.
+    `de_ketel.json` on club night, and **M35 added a second, `MARKET_GUESTS`**. This is the
+    `LESSONS_REACHED_BY_TRACK` shape that this file already records the cost of, and the copy in
+    the test is the one that would go on passing. M33 showed the fix -- derive it -- but there is
+    no pure module to derive it *from* here, so it wants one, or it wants the assertion inverted.
+    Two copies is where this stops being a note and starts being a pattern.
+
+    What M35 *did* close is the same disease one file over: a dialogue graph could have said
+    `["weekday_is", "tuesday"]` and held its own copy of which night it is, and would have gone
+    on passing after the night moved. `club_night` and `market_day` take no argument and ask
+    `GameState`, so no dialogue file names a weekday at all.
   - ~~The day axis has exactly one user.~~ **Moved to §3, where it belongs.** It is content
     rather than debt -- the unfinished half of "More to do per day" -- and recording it here
     would have let a closed-looking §3 hide it from whoever reads this file to pick the next

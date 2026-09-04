@@ -86,10 +86,19 @@ func _do(step: Dictionary) -> void:
     if step.has("day"):
         GameState.day = int(step["day"])
         EventBus.day_changed.emit(GameState.day)
+        EventBus.weather_changed.emit(GameState.is_wet())
         await get_tree().process_frame
+    # Forces the sky. The weather is derived from the day now, so a script that
+    # only wants a wet street can either sleep to a wet day or say so here; the
+    # override is what makes a script able to hold the day still and change one
+    # variable, which is the whole shape of a before/after screenshot pair.
+    # Passing null clears it and hands the day back its own weather.
     if step.has("rain"):
-        GameState.set_flag("raining", bool(step["rain"]))
-        EventBus.weather_changed.emit(bool(step["rain"]))
+        if step["rain"] == null:
+            GameState.weather_override = ""
+        else:
+            GameState.weather_override = "wet" if bool(step["rain"]) else "dry"
+        EventBus.weather_changed.emit(GameState.is_wet())
         await get_tree().process_frame
     if step.has("shot"):
         await _shot(str(step["shot"]))

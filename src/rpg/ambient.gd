@@ -101,7 +101,7 @@ static var _tex: ImageTexture = null
 
 func setup(map: MapData) -> void:
     block = GameState.time_block
-    raining = GameState.has_flag("raining")
+    raining = GameState.is_wet()
     indoors = map.indoors
 
     _modulate = CanvasModulate.new()

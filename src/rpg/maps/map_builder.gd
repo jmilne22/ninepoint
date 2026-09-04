@@ -163,7 +163,8 @@ static func build_crowd(map: MapData, parent: Node2D) -> CrowdSpawner:
 static func build_npcs(map: MapData, parent: Node2D, on_talk: Callable) -> Array[Npc]:
     var out: Array[Npc] = []
     for spec in map.npcs:
-        if not MapData.is_present(spec, GameState.time_block, GameState.weekday()):
+        if not MapData.is_present(spec, GameState.time_block,
+                GameState.weekday(), GameState.weather()):
             continue
         var npc: Npc = NPC_SCENE.instantiate()
         var tile: Array = spec.get("tile", [0, 0])
