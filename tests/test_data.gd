@@ -23,6 +23,11 @@ static func run(t: TestKit) -> void:
     _test_puzzles(t)
     _test_maps(t)
     _test_schedules(t)
+    _test_sleep_announces_the_day(t)
+    _test_schedule_rule(t)
+    _test_every_entry_happens(t)
+    _test_weekdays(t)
+    _test_club_night(t)
     _test_dialogue_branches(t)
     _test_lessons(t)
     _test_lessons_have_a_close(t)
@@ -396,12 +401,31 @@ const OFF_AT_SOME_HOUR := {
 ## way a schedule can genuinely deadlock the game rather than merely inconvenience.
 const ALWAYS_STAFFED := ["de_ketel", "academy_study"]
 
+## The rooms that fill up on a particular night, and who is only there then.
+## A day-restricted entry is a *bonus* and may never be the thing that satisfies
+## a safety guarantee: it is true one day in seven, so the checks below are run
+## against the entries that carry no "days" key at all. This table only asserts
+## the bonus actually happens -- M33's lesson, where a Cup section nothing
+## entered you in would have loaded, passed every check and never once occurred.
+const CLUB_NIGHT_ROOM := "de_ketel"
+const CLUB_NIGHT_GUESTS := ["nadia", "orla"]
 
+
+## The invariant a day axis must not break.
+##
+## An entry carrying "days" is true one day in seven, so it may never be what
+## satisfies a guarantee: `seen` and `staffed` below are built from the entries
+## that carry *no* "days" key, which is exactly what the checks meant before the
+## day axis existed and keeps them meaning it. Day-restricted entries only ever
+## add, and are checked separately.
 static func _test_schedules(t: TestKit) -> void:
     t.section("nobody is scheduled out of the game")
-    var blocks: Array = _state().BLOCKS
-    var seen := {}          # npc_id -> { block: true }
-    var staffed := {}       # map_id -> { block: true }
+    var state = _state()
+    var blocks: Array = state.BLOCKS
+    var weekdays: Array = state.WEEKDAYS
+    var seen := {}          # npc_id -> { block: true }   (every day of the week)
+    var staffed := {}       # map_id -> { block: true }   (every day of the week)
+    var ever := {}          # npc_id -> true              (including club night)
     for path in _list("res://data/maps", ".json"):
         var map_id := path.get_file().trim_suffix(".json")
         var m := MapData.load_map(map_id)
@@ -409,6 +433,15 @@ static func _test_schedules(t: TestKit) -> void:
             continue
         for npc in m.npcs:
             var who := str(npc.get("id", ""))
+            ever[who] = true
+            var days: Array = npc.get("days", [])
+            # Spelling, on the shipped JSON rather than only in the generator.
+            # A misspelt weekday removes somebody on all seven days, not one.
+            for d in days:
+                t.ok(weekdays.has(d),
+                    "%s: npc '%s' day '%s' is a real weekday" % [map_id, who, str(d)])
+            if not days.is_empty():
+                continue        # a bonus, not a guarantee -- checked below
             var when: Array = npc.get("blocks", [])
             if when.is_empty():
                 when = blocks
@@ -420,8 +453,8 @@ static func _test_schedules(t: TestKit) -> void:
                     staffed[map_id] = {}
                 staffed[map_id][b] = true
 
-    for who in seen.keys():
-        var hours: Dictionary = seen[who]
+    for who in ever.keys():
+        var hours: Dictionary = seen.get(who, {})
         var everywhere := true
         for b in blocks:
             if not hours.has(b):
@@ -434,10 +467,208 @@ static func _test_schedules(t: TestKit) -> void:
         else:
             t.ok(everywhere, "%s can be found at every hour of the day" % who)
 
+    # Staffing is asserted against the every-day entries, so it holds on all
+    # seven weekdays rather than only on the one the room fills up.
     for map_id in ALWAYS_STAFFED:
         for b in blocks:
             t.ok(staffed.get(map_id, {}).has(b),
-                "%s has somebody in it at %s" % [map_id, b])
+                "%s has somebody in it at %s, every day of the week" % [map_id, b])
+
+
+## Club night has to actually happen. A "days" key nothing matches is a room that
+## never fills, which would load, pass every check above and never once occur.
+static func _test_club_night(t: TestKit) -> void:
+    t.section("club night")
+    var state = _state()
+    var club: String = state.CLUB_NIGHT
+    t.ok((state.WEEKDAYS as Array).has(club), "the club night is a real weekday")
+
+    var m := MapData.load_map(CLUB_NIGHT_ROOM)
+    t.ok(m != null, "%s loads" % CLUB_NIGHT_ROOM)
+    if m == null:
+        return
+
+    var guests := {}
+    var regulars := 0
+    for npc in m.npcs:
+        var who := str(npc.get("id", ""))
+        var days: Array = npc.get("days", [])
+        var when: Array = npc.get("blocks", [])
+        if days.is_empty():
+            if when.is_empty() or when.has("night"):
+                regulars += 1
+            continue
+        t.ok(days.has(club), "%s is in %s for the club night" % [who, CLUB_NIGHT_ROOM])
+        t.ok(when.has("night"), "%s comes down at night, which is when it is" % who)
+        guests[who] = true
+
+    for who in CLUB_NIGHT_GUESTS:
+        t.ok(guests.has(who), "%s is at the club night" % who)
+    t.ok(guests.size() > 0, "the room actually gains somebody on club night")
+    # The point of the night is a full room: more people than an ordinary one.
+    t.ok(regulars + guests.size() > regulars,
+        "club night has more people in it than an ordinary night")
+
+    # Nobody may be in two rooms at one hour on club night. The regulars were
+    # chosen because they are nowhere at all at night; if that stops being true
+    # this is what says so.
+    for path in _list("res://data/maps", ".json"):
+        var other_id := path.get_file().trim_suffix(".json")
+        if other_id == CLUB_NIGHT_ROOM:
+            continue
+        var other := MapData.load_map(other_id)
+        if other == null:
+            continue
+        for npc in other.npcs:
+            var who := str(npc.get("id", ""))
+            if not guests.has(who):
+                continue
+            var days: Array = npc.get("days", [])
+            var when: Array = npc.get("blocks", [])
+            var here_tonight := (days.is_empty() or days.has(club)) \
+                and (when.is_empty() or when.has("night"))
+            t.ok(not here_tonight,
+                "%s is not also in %s on club night" % [who, other_id])
+
+
+## The day must announce itself even when the hour does not change.
+##
+## `_sync_time_block` returns early when the block is unchanged, so sleeping while
+## it is *already* morning (slots_used == 0) emits no time_block_changed. Until
+## M34 that was the only signal World rebuilt its population on, so the day could
+## advance with yesterday's people still standing in the room.
+##
+## Be clear about what this does and does not cover. The M34 bug was in World --
+## it never connected day_changed -- and `world.gd` reads autoloads, so it does
+## not compile in a --script run and no test in this project can reach it. That
+## half was verified by running tools/autopilot/club_night.json and watching the
+## room rebuild between frames 03 and 06 with no scene change.
+##
+## What this guards is the half a test *can* reach: that sleep() still emits at
+## all in the one case where the hour stays put. Make that emit conditional --
+## the obvious tidy-up, since nothing visibly changed -- and the room stops
+## rebuilding again, from the other end.
+static func _test_sleep_announces_the_day(t: TestKit) -> void:
+    t.section("the day announces itself")
+    var state = _state()
+    var bus = (Engine.get_main_loop() as SceneTree).root.get_node("EventBus")
+    var days: Array = []
+    var blocks: Array = []
+    var on_day := func(d: int) -> void: days.append(d)
+    var on_block := func(b: String) -> void: blocks.append(b)
+    bus.day_changed.connect(on_day)
+    bus.time_block_changed.connect(on_block)
+
+    var was_day: int = state.day
+    var was_slots: int = state.slots_used
+    var was_block: String = state.time_block
+
+    # The exact case: a fresh morning, nothing spent, and straight to bed.
+    state.slots_used = 0
+    state.time_block = "morning"
+    days.clear()
+    blocks.clear()
+    state.sleep()
+    t.eq(blocks.size(), 0, "the hour does not change -- it was morning and it still is")
+    t.eq(days.size(), 1, "but the day says so anyway, which is what rebuilds the room")
+
+    bus.day_changed.disconnect(on_day)
+    bus.time_block_changed.disconnect(on_block)
+    state.day = was_day
+    state.slots_used = was_slots
+    state.time_block = was_block
+
+
+## The schedule rule, exercised directly. It is a pure static on MapData for
+## exactly this reason: the same rule on MapBuilder would read GameState, fail to
+## compile in a --script run, and every assertion here would silently not run.
+static func _test_schedule_rule(t: TestKit) -> void:
+    t.section("the schedule rule")
+    var always := {}
+    t.ok(MapData.is_present(always, "morning", "monday"), "no keys means always -- morning")
+    t.ok(MapData.is_present(always, "night", "sunday"), "no keys means always -- night")
+
+    var hours := {"blocks": ["night"]}
+    t.ok(MapData.is_present(hours, "night", "monday"), "an hour entry is there at its hour")
+    t.ok(not MapData.is_present(hours, "dusk", "monday"), "and not at another")
+    t.ok(MapData.is_present(hours, "night", "friday"), "an hour entry ignores the day")
+
+    var days := {"days": ["wednesday"]}
+    t.ok(MapData.is_present(days, "morning", "wednesday"), "a day entry is there on its day")
+    t.ok(not MapData.is_present(days, "morning", "thursday"), "and not on another")
+
+    # Both must pass. This is the one that would break if the two filters were
+    # ever ORed together, which reads as the same feature and is not.
+    var club := {"blocks": ["night"], "days": ["wednesday"]}
+    t.ok(MapData.is_present(club, "night", "wednesday"), "club night: right hour, right day")
+    t.ok(not MapData.is_present(club, "dusk", "wednesday"), "wrong hour, right day")
+    t.ok(not MapData.is_present(club, "night", "thursday"), "right hour, wrong day")
+    t.ok(not MapData.is_present(club, "dusk", "thursday"), "wrong hour, wrong day")
+
+    # Empty arrays read as absent, because that is what the maps that predate
+    # each axis effectively say.
+    var empties := {"blocks": [], "days": []}
+    t.ok(MapData.is_present(empties, "dusk", "friday"), "empty arrays mean always")
+
+
+## Every shipped map entry, walked through the rule at all 28 hours of the week,
+## so a real map cannot describe somebody who is never anywhere.
+static func _test_every_entry_happens(t: TestKit) -> void:
+    t.section("no entry is unreachable")
+    var state = _state()
+    for path in _list("res://data/maps", ".json"):
+        var map_id := path.get_file().trim_suffix(".json")
+        var m := MapData.load_map(map_id)
+        if m == null:
+            continue
+        for npc in m.npcs:
+            var who := str(npc.get("id", ""))
+            var times := 0
+            for d in state.WEEKDAYS:
+                for b in state.BLOCKS:
+                    if MapData.is_present(npc, str(b), str(d)):
+                        times += 1
+            t.ok(times > 0,
+                "%s: '%s' is standing there at some hour of some day" % [map_id, who])
+
+
+## The week itself: derived from the day, stored nowhere, and it has to cycle.
+static func _test_weekdays(t: TestKit) -> void:
+    t.section("the week")
+    var state = _state()
+    var weekdays: Array = state.WEEKDAYS
+    t.eq(weekdays.size(), 7, "a week is seven days")
+    var was: int = state.day
+    state.day = 1
+    t.eq(state.weekday(), "monday", "day 1 is a Monday")
+    state.day = 8
+    t.eq(state.weekday(), "monday", "and so is day 8 -- the week comes round")
+    # A fortnight is exactly two weeks, which is why the term needs no constant
+    # of its own for the period.
+    state.day = 15
+    t.eq(state.weekday(), "monday", "a fortnight later, still Monday")
+
+    var club: String = state.CLUB_NIGHT
+    var found := 0
+    for d in range(1, 15):
+        state.day = d
+        if state.is_club_night():
+            found += 1
+            t.eq(state.days_until_club_night(), 0, "day %d is club night, 0 away" % d)
+        else:
+            t.ok(state.days_until_club_night() > 0,
+                "day %d is not club night and says so" % d)
+        t.ok(weekdays.has(state.weekday()), "day %d names a real weekday" % d)
+    t.eq(found, 2, "a fortnight of term holds exactly two club nights")
+
+    # The countdown must actually land on one.
+    for d in range(1, 15):
+        state.day = d
+        var away: int = state.days_until_club_night()
+        state.day = d + away
+        t.ok(state.is_club_night(),
+            "counting %d days on from day %d arrives at club night" % [away, d])
+    state.day = was
 
 
 static func _test_dialogue_branches(t: TestKit) -> void:

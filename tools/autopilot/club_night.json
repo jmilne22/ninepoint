@@ -1,0 +1,76 @@
+[
+ {
+  "save": "invited",
+  "note": "M34 club night. Declares its own save per the rule: this script must not inherit whatever the last run left in slot 1."
+ },
+ {"wait": 1.0},
+ {"tap": "move_down"},
+ {"tap": "interact", "note": "Continue"},
+ {"wait": 2.0},
+
+ {"walk_to": [3, 10], "note": "along the pavement to the noticeboard"},
+ {"face": [3, 9], "note": "turn to face it"},
+ {"wait": 0.5},
+ {"tap": "interact"},
+ {
+  "advance": 1,
+  "stop_at_choice": true,
+  "note": "a sign is one card, but advance blind into a choice is the M21 bug -- carry the guard anyway"
+ },
+ {
+  "wait": 1.6,
+  "shot": "a_noticeboard",
+  "note": "the Cup entry sign, and pinned beside it the club night. This is the only way the player can learn the week has a shape."
+ },
+ {"tap": "interact", "note": "close the card"},
+ {"wait": 0.8},
+
+ {
+  "day": 2,
+  "note": "Tuesday. Day 1 is a Monday, so this is an ordinary night."
+ },
+ {"time": "night"},
+ {"walk_to": [13, 9]},
+ {"walk_to": [13, 8], "timeout": 4, "note": "three steps down into De Ketel"},
+ {"wait": 1.8},
+ {"walk_to": [9, 8], "note": "into the middle of the back room"},
+ {
+  "wait": 1.6,
+  "shot": "b_ordinary_tuesday_night",
+  "note": "four people: Wren, Tomas, Kesh, Hana. Check the HUD line says Tue."
+ },
+
+ {
+  "day": 3,
+  "note": "Wednesday, with the World still standing. This is the live rebuild -- day_changed -> _repopulate, which nothing listened for before this milestone."
+ },
+ {
+  "wait": 1.8,
+  "shot": "c_club_night",
+  "note": "the same room, same hour, one day later: Nadia at the far table and Orla by the near one, down from the Instituut. Six people, and the HUD says club night."
+ },
+ {"walk_to": [16, 6], "note": "over to Nadia. (15,6) is a chair and is solid -- the first cut walked at it, printed 'no path', carried on, and shot the middle of the room under this caption."},
+ {"wait": 1.2, "shot": "d_nadia_downstairs", "note": "an Essenveld student on a De Ketel stool"},
+ {"face": [16, 5]},
+ {"tap": "interact"},
+ {
+  "advance": 1,
+  "stop_at_choice": true,
+  "note": "her club-night branch is two lines then a choice -- stop_at_choice or this walks into the offer and starts a game"
+ },
+ {
+  "wait": 1.8,
+  "shot": "d2_nadia_speaks",
+  "note": "she says why she is here. Without this she would deliver her classroom lines in a bar."
+ },
+
+ {
+  "day": 4,
+  "note": "Thursday. It has to end as well as begin, or 'days' is just a permanent addition."
+ },
+ {
+  "wait": 1.8,
+  "shot": "e_thursday_empty_again",
+  "note": "back to four. Nadia and Orla have gone home."
+ }
+]

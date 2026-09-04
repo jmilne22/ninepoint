@@ -77,6 +77,16 @@ func _do(step: Dictionary) -> void:
         GameState.time_block = str(step["time"])
         EventBus.time_block_changed.emit(GameState.time_block)
         await get_tree().process_frame
+    # The other half of "time". A day is normally turned by sleeping, which costs
+    # a walk to a bed; this sets it directly so a script can show the same room on
+    # two different weekdays without a detour, exactly as "time" does for hours.
+    # It emits day_changed rather than writing quietly, because that signal is
+    # what rebuilds the population -- and a script that set the day without it
+    # would screenshot yesterday's room and look entirely confident about it.
+    if step.has("day"):
+        GameState.day = int(step["day"])
+        EventBus.day_changed.emit(GameState.day)
+        await get_tree().process_frame
     if step.has("rain"):
         GameState.set_flag("raining", bool(step["rain"]))
         EventBus.weather_changed.emit(bool(step["rain"]))

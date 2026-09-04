@@ -66,7 +66,7 @@ below it, and Kesh is the one crossing.
 |---|---|
 | `attic` | over the shuttered stationer's. **The game starts here**, at the board the last tenant left |
 | `ketelsteeg` | your street: tram rails, brick, the wassalon, the snack window, the tram stop west |
-| `de_ketel` | the salon, three steps below the pavement. Tomás owns it. **The hooks** are here |
+| `de_ketel` | the salon, three steps below the pavement. Tomás owns it. **The hooks** are here, and on Wednesdays the room fills |
 | `onderbrug` | the viaduct arches, east: crates for tables, three lamps, Bertie and Joos |
 | Molenpark | the park end of Ketelsteeg — stone tables, the old crowd, Pip |
 | `quay` | grey water, one bench, south past the park. Where you go after losing |
@@ -238,7 +238,9 @@ you carrying it; the attic desk reads page forty and Joos looks at it under the 
 give it back, and then talk to her again -- that last frame is the only visible proof
 `take_item` did anything, because there is no inventory screen),
 `class_dusk` (the demonstration board at an hour Hana does not teach: it refuses now, and
-before it took the hour and taught the class to an empty room).
+before it took the hour and taught the class to an empty room),
+`club_night` (the noticeboard, then De Ketel at the same hour on a Tuesday, a Wednesday and a
+Thursday: four people, six, then four again, rebuilt live with no scene change).
 Screenshots land in `/tmp/ninepoint-shots` (override with `OUT=`). **`run_game.sh` needs a
 script argument** — it runs on a hidden display, so without one there is nothing to see; it
 will tell you to use `play.sh`. `DISPLAY_NUM=0` runs it on the real display instead, which is
@@ -450,7 +452,7 @@ Playable start to finish: cold open → name → **the attic** → Ketelsteeg �
 lessons → nigiri → Kesh → a rank → capture puzzle → the tram north → enrol → league board →
 a class → the Cup at the Bondszaal, in whichever of its two sections your card puts you in.
 Ten maps, fifteen characters, two board sizes,
-four hours of the day and weather, and a term that ends. Six quests, five of which are some
+four hours of the day, a seven-day week with a club night in it, weather, and a term that ends. Six quests, five of which are some
 form of *play games and win* and one of which -- `page_forty` -- is a book you borrow and
 give back. Two progressions running at once: the league board above ground and the hooks
 below it. **Three of them can run at once**:
@@ -533,6 +535,24 @@ hall at midnight. **A schedule can hide a quest step**, so `tests/test_data.gd` 
 every character to be findable at every hour unless they are on a written allow-list, and
 requires De Ketel and the study hall to be staffed at all four: a room that empties is an
 hour you cannot spend, and an hour you cannot spend is an hour you cannot get past.
+
+**And the day decides too, since M34.** An entry may also carry `"days": ["wednesday"]`, the
+same absent-means-always reading, and **both keys must pass** — club night is the evening hours
+*and* Wednesday, not a third kind of rule. `GameState.WEEKDAYS` mirrors `BLOCKS` and `weekday()`
+is derived from `day` and stored nowhere; a fortnight is exactly two weeks. The rule itself is
+**`MapData.is_present()`** — pure, autoload-free, and therefore reachable from the suite, which
+`MapBuilder` is not. Put it on the wrong half and every assertion about it silently does not run.
+
+A day-restricted entry is a **bonus and never a guarantee**: it is true one day in seven, so the
+findability and always-staffed checks are built from the entries carrying no `"days"` key at all.
+Day-restrict Wren and De Ketel's every-hour staffing fails, which is the point.
+
+What the axis is spent on is **club night at De Ketel, Wednesdays**: Nadia and Orla come down
+from the Instituut — the only two people who are nowhere at all at night, so nobody loses their
+own place and nobody stands on two maps at one hour. Six in the room instead of four, both with
+a club-night voice and an unrated game, so the night moves the hooks and never the league. The
+noticeboard, Tomás's counter and the HUD line all say when it is, because a schedule the player
+cannot read is indistinguishable from randomness.
 
 **The opponents are people at the board, not just in dialogue.** `GoTableTalk` classifies what
 just happened into tags and `data/banter/*.json` gives each character something to say about
@@ -630,8 +650,14 @@ No engine, and the seam for one is `GoEvaluator` — see the debt list before re
   moves while you play (the hooks), two more classes and four more puzzles; M32 added the
   first quest that is not a game (`page_forty`, the borrowed book) and, with it, the first
   errand that has an hour attached -- Nadia is in the classroom until dusk and gone at night.
-  One errand is not a term. What is still thin is reasons to be in a particular place at a
-  particular hour, and there are now three of them. `ROADMAP.md` §3.
+  M34 closed the bullet by finding the structural half nobody had looked for: **the day was
+  read in four places and decided nothing**, so schedules had an hour axis and no day axis.
+  They have both now, and club night spends it. **§3 is still open**, and deliberately so: the
+  bullet is about content and the axis has exactly one user -- a general mechanism with a single
+  Wednesday on it. One recurring night is a shape, not a week, and the next thing to differ wants
+  to be a different *kind* of day rather than a second club. It stays in `ROADMAP.md` §3 rather
+  than §8: it is the unfinished half of a content item, not debt M34 created, and filing it under
+  debt would hide it from whoever reads that file to choose what to build next.
 - **The curriculum runs to competence but stops before judgement.** Thirteen lessons:
   liberties, capture, self-capture, ko (Wren); escape, connection (Kesh); openings,
   two eyes, life and death, the capturing race, false eyes (Hana's class); ladders

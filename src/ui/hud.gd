@@ -114,7 +114,10 @@ func refresh() -> void:
 ## line answers "how long have I got" rather than naming an event the player has
 ## already sat.
 func _day_line() -> String:
-    var here := "Day %d, %s" % [GameState.day, GameState.time_block]
+    # The weekday is abbreviated because the label is 200 px and the longest
+    # line this can produce is 181 -- measured against the font's own advances,
+    # not estimated. Spelling "wednesday" in full overruns it.
+    var here := "Day %d, %s %s" % [GameState.day, _short_weekday(), GameState.time_block]
     var exam := GameState.days_until_exam()
     if GameState.has_flag("exam_entered") and not GameState.has_flag("exam_finished"):
         if exam <= 0:
@@ -125,7 +128,17 @@ func _day_line() -> String:
     var days := GameState.days_until_cup()
     if days <= 0:
         return "%s   the Cup" % here
+    # A fixed date outranks the weekly one: the exam and the Cup have a deadline
+    # and club night comes round again. Both together overrun the label.
+    if days > 0 and GameState.is_club_night():
+        return "%s   club night" % here
     return "%s   Cup in %d" % [here, days]
+
+
+## "wednesday" -> "Wed". The calendar has to be readable at a glance or a
+## schedule the player cannot see is indistinguishable from randomness.
+func _short_weekday() -> String:
+    return GameState.weekday().substr(0, 3).capitalize()
 
 
 func _process(delta: float) -> void:

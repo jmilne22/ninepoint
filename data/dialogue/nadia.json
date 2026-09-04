@@ -50,6 +50,15 @@
     {
      "if": [
       [
+       "on_map",
+       "de_ketel"
+      ]
+     ],
+     "goto": "club_night"
+    },
+    {
+     "if": [
+      [
        "beat",
        "nadia"
       ]
@@ -202,6 +211,42 @@
     "Brandt has started telling people to read the first forty pages of the endgame one. I am not lending that one out."
    ],
    "goto": "offer"
+  },
+  "club_night": {
+   "portrait": "neutral",
+   "text": [
+    "Don't look so surprised. The Instituut shuts at eight and I have to be somewhere.",
+    "Tomas keeps a decent board and doesn't ask what I am. Nobody in here does. It is restful."
+   ],
+   "choices": [
+    {
+     "text": "Play one?",
+     "goto": "club_night_offer"
+    },
+    {
+     "text": "I'll leave you to it.",
+     "goto": "club_night_later"
+    }
+   ]
+  },
+  "club_night_offer": {
+   "portrait": "happy",
+   "text": [
+    "Nothing on it. Wednesday games don't count for anything but the hooks, and the hooks count everything."
+   ],
+   "exit": {
+    "type": "start_match",
+    "profile": "nadia_9x9",
+    "context": "club_nadia",
+    "unrated": true,
+    "intro": "She sets the bowls down without looking at them."
+   }
+  },
+  "club_night_later": {
+   "portrait": "neutral",
+   "text": [
+    "Mm. I'll be here until they turn the lights off."
+   ]
   }
  }
 }

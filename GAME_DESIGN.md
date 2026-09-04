@@ -198,6 +198,20 @@ merely inconvenience. `tests/test_data.gd` asserts both rooms are staffed at eve
 and that every character is findable at every hour unless they are on a written list of
 the five who are deliberately not.
 
+**Built (M34): the day as well as the hour.** An entry may also carry `"days"`, matched against
+`GameState.weekday()` the way `"blocks"` is matched against `time_block`, and **both must pass**.
+The week is seven days, `WEEKDAYS` mirrors `BLOCKS`, and a term is exactly two of them. The rule
+lives on `MapData.is_present()` because that class is pure; on `MapBuilder`, which reads
+autoloads, no test in the project could have reached it.
+
+A day-restricted entry adds and never guarantees: the findability and always-staffed checks above
+are computed from the entries with no `"days"` key, since one day in seven is not a guarantee.
+
+What it buys is **club night at De Ketel on Wednesdays** — Nadia and Orla down from the Instituut,
+the only two people who are nowhere at all at night. Six in the room rather than four, unrated, so
+it moves the hooks and never the league. The two Go cultures meet officially at the Bondszaal and
+unofficially here, which is the same opposition the city is built on seen from the other side.
+
 Time advances when the player sleeps and on certain story beats — not on a real-time clock,
 so the player is never punished for thinking about a position.
 

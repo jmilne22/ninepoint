@@ -37,6 +37,23 @@ const SLOTS_PER_DAY := 3
 ## slots: you arrive at night rather than spending a slot to get there.
 const BLOCKS := ["morning", "afternoon", "dusk", "night"]
 
+## The week the term runs on. A fortnight is exactly two of these, so the period
+## needs no constant of its own to justify it -- CUP_DAY is fourteen and always
+## was. Day 1 is a Monday.
+##
+## This is the other half of the calendar. M26 built the clock and stopped: the
+## hour decided who was in the room and the day decided nothing, so day 3 and day
+## 8 were the same day with a different number on the HUD. `weekday()` is what a
+## map entry's "days" key is matched against, exactly as `time_block` is what its
+## "blocks" key is matched against.
+const WEEKDAYS := ["monday", "tuesday", "wednesday", "thursday",
+                   "friday", "saturday", "sunday"]
+
+## Which night the back room at De Ketel fills up. Wednesday because the Cup and
+## the exam both land midweek and a club night the term keeps colliding with is a
+## club night nobody attends.
+const CLUB_NIGHT := "wednesday"
+
 ## Which day of term it is. Sleeping is the only thing that advances it.
 var day: int = 1
 ## How much of today is gone. `time_block` is derived from this and never set
@@ -116,6 +133,28 @@ func sleep() -> void:
     if day >= CUP_DAY and has_flag("cup_entered"):
         set_flag("cup_started", true)
     EventBus.day_changed.emit(day)
+
+
+## Derived from `day` and stored nowhere, like every other progression number in
+## this game -- a cached copy would start meaning whatever next wrote to it,
+## which is precisely how `knows_the_rules` went wrong in M27.
+func weekday() -> String:
+    return WEEKDAYS[(day - 1) % WEEKDAYS.size()]
+
+
+## True on the night the room fills. The hour is not part of it: who is standing
+## where is the map's business, and this only answers "which day".
+func is_club_night() -> bool:
+    return weekday() == CLUB_NIGHT
+
+
+## How many sleeps until the next club night, 0 when it is tonight. The
+## noticeboard and the HUD both want to say it and neither should do the
+## modular arithmetic itself.
+func days_until_club_night() -> int:
+    var here := (day - 1) % WEEKDAYS.size()
+    var there := WEEKDAYS.find(CLUB_NIGHT)
+    return (there - here + WEEKDAYS.size()) % WEEKDAYS.size()
 
 
 func days_until_cup() -> int:

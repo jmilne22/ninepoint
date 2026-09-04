@@ -99,3 +99,27 @@ func spawn_position(spawn_name: String) -> Vector2:
 
 func pixel_size() -> Vector2:
     return Vector2(width * tile_size, height * tile_size)
+
+
+## Is this NPC entry standing here at this hour, on this day?
+##
+## The whole of the schedule rule, and it lives here rather than in MapBuilder
+## because MapBuilder reads autoloads and therefore does not compile in a
+## `--script` run -- which is how the entire suite runs, so anything put on it is
+## unreachable from every test in the project, silently. ROADMAP.md section 8
+## keeps a list of the times that has cost a milestone; this is the boundary
+## LeagueTable/LeagueBoard and HooksLadder/HooksBoard already draw.
+##
+## "blocks" is matched against the hour and "days" against the weekday. Absent or
+## empty means always, for both, which is the same reading TileAnimator and
+## Soundscape give the key -- so every map entry written before either axis
+## existed keeps working untouched. Both must pass: club night is the evening
+## hours *and* Wednesday, not a third kind of rule.
+static func is_present(spec: Dictionary, block: String, weekday: String) -> bool:
+    var blocks: Array = spec.get("blocks", [])
+    if not blocks.is_empty() and not blocks.has(block):
+        return false
+    var days: Array = spec.get("days", [])
+    if not days.is_empty() and not days.has(weekday):
+        return false
+    return true

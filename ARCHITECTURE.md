@@ -80,7 +80,7 @@ src/
     player/             player character body, input, interaction ray
     npc/                NPC body, schedule component, interact component
     maps/               city exteriors, interiors, spawn points, doors
-    components/         reusable: Interactable, Warp, Facing, GridMover
+    components/         reusable: Interactable, Warp, Facing, CharacterSprite
     sign_desk.gd        everything you READ on a wall or SIT DOWN at -- the league,
                         Cup and exam boards, the study desk, the hooks, the bed.
                         Split out of world.gd in M30 along the one seam that
@@ -214,7 +214,12 @@ because you levelled up"): `engine`, `rank_label`, `board_size`, `komi`, `handic
 ## 6. Data-driven content
 
 **NPCs** (`NPCData.tres`): id, display name, rank label, portrait, sprite palette id, home
-location, schedule (time-block → location + position), dialogue graph path, opponent profile.
+location, dialogue graph path, opponent profile. **Not the schedule** — this line claimed a
+`schedule (time-block → location + position)` field for several milestones and there has never
+been one. Where somebody stands is the *map's* business: `data/maps/*.json` gives each NPC entry
+an optional `"blocks"` (hours) and `"days"` (weekdays), absent-or-empty meaning always for both,
+and both must pass. The rule is `MapData.is_present()`, kept on that class because it is pure —
+`MapBuilder`, which applies it, reads autoloads and is unreachable from the suite.
 
 **Dialogue** (JSON graph):
 ```json
@@ -248,8 +253,10 @@ strictly ordered and one fired out of turn is lost. Which quest the journal disp
 
 Composition over inheritance, small scenes with one job:
 `Interactable` (area + prompt + signal), `Warp` (area → target map + spawn point),
-`GridMover` (8-way movement with collision), `ScheduleComponent` (moves an NPC per time block),
-`DialogueBox` (typewriter, portrait, choices), `GoBoardView` (stateless renderer of a GoGame).
+`Facing` (which way a character is turned), `DialogueBox` (typewriter, portrait, choices),
+`GoBoardView` (stateless renderer of a GoGame). There is no `GridMover` and no
+`ScheduleComponent`; both were named here for several milestones and neither was ever built —
+movement lives on `Player`/`Npc` and the schedule is map data read through `MapData.is_present()`.
 
 Maps are `TileMapLayer`-based with a `YSort` entity layer; every map exposes named
 `SpawnPoint` nodes so warps and save/load can place the player deterministically.

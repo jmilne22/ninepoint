@@ -187,6 +187,13 @@
     5
    ],
    "text": "The rate is chalked on a slate: two-fifty an hour, board and stones included. Under it a kettle, a tin of biscuits, and an honesty box. The biscuits are gone."
+  },
+  {
+   "tile": [
+    1,
+    4
+   ],
+   "text": "Pinned to the counter, in Tomas's handwriting: CLUB NIGHT -- WEDNESDAY, FROM EIGHT. Underneath, smaller: all comers, no cards, the hooks count everything."
   }
  ],
  "npcs": [
@@ -239,6 +246,36 @@
     "afternoon",
     "dusk",
     "night"
+   ]
+  },
+  {
+   "id": "nadia",
+   "tile": [
+    16,
+    5
+   ],
+   "dir": "left",
+   "idle": "study",
+   "blocks": [
+    "night"
+   ],
+   "days": [
+    "wednesday"
+   ]
+  },
+  {
+   "id": "orla",
+   "tile": [
+    5,
+    10
+   ],
+   "dir": "right",
+   "idle": "watch",
+   "blocks": [
+    "night"
+   ],
+   "days": [
+    "wednesday"
    ]
   }
  ],
