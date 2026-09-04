@@ -193,7 +193,7 @@
     1,
     4
    ],
-   "text": "Pinned to the counter, in Tomas's handwriting: CLUB NIGHT -- WEDNESDAY, FROM EIGHT. Underneath, smaller: all comers, no cards, the hooks count everything."
+   "text": "Pinned to the counter, in Tomas's handwriting: CLUB NIGHT -- TUESDAY, FROM EIGHT. Underneath, smaller: all comers, no cards, the hooks count everything."
   }
  ],
  "npcs": [
@@ -260,7 +260,7 @@
     "night"
    ],
    "days": [
-    "wednesday"
+    "tuesday"
    ]
   },
   {
@@ -275,7 +275,7 @@
     "night"
    ],
    "days": [
-    "wednesday"
+    "tuesday"
    ]
   }
  ],

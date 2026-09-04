@@ -110,16 +110,25 @@ func pixel_size() -> Vector2:
 ## keeps a list of the times that has cost a milestone; this is the boundary
 ## LeagueTable/LeagueBoard and HooksLadder/HooksBoard already draw.
 ##
-## "blocks" is matched against the hour and "days" against the weekday. Absent or
-## empty means always, for both, which is the same reading TileAnimator and
-## Soundscape give the key -- so every map entry written before either axis
-## existed keeps working untouched. Both must pass: club night is the evening
-## hours *and* Wednesday, not a third kind of rule.
-static func is_present(spec: Dictionary, block: String, weekday: String) -> bool:
+## "blocks" is matched against the hour, "days" against the weekday and
+## "weather" against the sky. Absent or empty means always, for all three, which
+## is the same reading TileAnimator and Soundscape give the key -- so every map
+## entry written before any of the axes existed keeps working untouched. All
+## three must pass: club night is the evening hours *and* Tuesday, not a third
+## kind of rule, and a wet day under the arches is not a fourth.
+##
+## There is no default argument on purpose. A defaulted axis is an axis a caller
+## can forget, and forgetting it here does not error -- it silently returns the
+## wrong roster, which is how M34's day axis nearly shipped reading nothing.
+static func is_present(spec: Dictionary, block: String, weekday: String,
+                       weather: String) -> bool:
     var blocks: Array = spec.get("blocks", [])
     if not blocks.is_empty() and not blocks.has(block):
         return false
     var days: Array = spec.get("days", [])
     if not days.is_empty() and not days.has(weekday):
+        return false
+    var skies: Array = spec.get("weather", [])
+    if not skies.is_empty() and not skies.has(weather):
         return false
     return true

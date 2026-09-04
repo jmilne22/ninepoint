@@ -66,7 +66,7 @@ below it, and Kesh is the one crossing.
 |---|---|
 | `attic` | over the shuttered stationer's. **The game starts here**, at the board the last tenant left |
 | `ketelsteeg` | your street: tram rails, brick, the wassalon, the snack window, the tram stop west |
-| `de_ketel` | the salon, three steps below the pavement. Tomás owns it. **The hooks** are here, and on Wednesdays the room fills |
+| `de_ketel` | the salon, three steps below the pavement. Tomás owns it. **The hooks** are here, and on Tuesdays the room fills |
 | `onderbrug` | the viaduct arches, east: crates for tables, three lamps, Bertie and Joos |
 | Molenpark | the park end of Ketelsteeg — stone tables, the old crowd, Pip |
 | `quay` | grey water, one bench, south past the park. Where you go after losing |
@@ -239,8 +239,13 @@ give it back, and then talk to her again -- that last frame is the only visible 
 `take_item` did anything, because there is no inventory screen),
 `class_dusk` (the demonstration board at an hour Hana does not teach: it refuses now, and
 before it took the hour and taught the class to an empty room),
-`club_night` (the noticeboard, then De Ketel at the same hour on a Tuesday, a Wednesday and a
-Thursday: four people, six, then four again, rebuilt live with no scene change).
+`club_night` (the noticeboard, then De Ketel at the same hour on a Monday, a Tuesday and a
+Wednesday: four people, six, then four again, rebuilt live with no scene change -- and it shoots
+an explicit *box closed* frame before each day turn, because `_repopulate()` guards on `_talking`
+and M34's final frame was a stale six-person room captioned "back to four"),
+`weather` (the same park dry and wet an hour apart, the two men who move under the arches when it
+rains and the empty arches on a dry morning, then market day on Ketelsteeg in both skies with
+Tomás out of his own bar).
 Screenshots land in `/tmp/ninepoint-shots` (override with `OUT=`). **`run_game.sh` needs a
 script argument** — it runs on a hidden display, so without one there is nothing to see; it
 will tell you to use `play.sh`. `DISPLAY_NUM=0` runs it on the real display instead, which is
@@ -452,7 +457,8 @@ Playable start to finish: cold open → name → **the attic** → Ketelsteeg �
 lessons → nigiri → Kesh → a rank → capture puzzle → the tram north → enrol → league board →
 a class → the Cup at the Bondszaal, in whichever of its two sections your card puts you in.
 Ten maps, fifteen characters, two board sizes,
-four hours of the day, a seven-day week with a club night in it, weather, and a term that ends. Six quests, five of which are some
+four hours of the day, a seven-day week with a club night and a market day in it, weather that
+actually falls, and a term that ends. Six quests, five of which are some
 form of *play games and win* and one of which -- `page_forty` -- is a book you borrow and
 give back. Two progressions running at once: the league board above ground and the hooks
 below it. **Three of them can run at once**:
@@ -536,23 +542,52 @@ every character to be findable at every hour unless they are on a written allow-
 requires De Ketel and the study hall to be staffed at all four: a room that empties is an
 hour you cannot spend, and an hour you cannot spend is an hour you cannot get past.
 
-**And the day decides too, since M34.** An entry may also carry `"days": ["wednesday"]`, the
-same absent-means-always reading, and **both keys must pass** — club night is the evening hours
-*and* Wednesday, not a third kind of rule. `GameState.WEEKDAYS` mirrors `BLOCKS` and `weekday()`
-is derived from `day` and stored nowhere; a fortnight is exactly two weeks. The rule itself is
-**`MapData.is_present()`** — pure, autoload-free, and therefore reachable from the suite, which
-`MapBuilder` is not. Put it on the wrong half and every assertion about it silently does not run.
+**And the day decides too (M34), and the sky (M35).** An entry may also carry
+`"days": ["tuesday"]` and `"weather": ["dry"]`, the same absent-means-always reading, and **all
+three keys must pass** — club night is the evening hours *and* Tuesday, not a third kind of rule,
+and a wet morning under the arches is not a fourth. `GameState.WEEKDAYS` mirrors `BLOCKS`,
+`weekday()` and `weather()` are both derived from `day` and stored nowhere, and a fortnight is
+exactly two weeks. The rule itself is **`MapData.is_present(spec, block, weekday, weather)`** —
+pure, autoload-free, and therefore reachable from the suite, which `MapBuilder` is not. Put it on
+the wrong half and every assertion about it silently does not run. It takes no default argument:
+a defaulted axis is an axis a caller can forget, and forgetting one returns the wrong roster
+rather than an error.
 
-A day-restricted entry is a **bonus and never a guarantee**: it is true one day in seven, so the
-findability and always-staffed checks are built from the entries carrying no `"days"` key at all.
-Day-restrict Wren and De Ketel's every-hour staffing fails, which is the point.
+**The sky is a five-day cycle and five rather than seven is the whole point.** At seven it would
+not be a second axis at all, it would be the weekday wearing a hat — Saturday dry for the life of
+every save, and market day never once rained on. At five they drift: a dry market and a wet one, a
+wet club night and a dry one, inside the one fortnight. **Day 1 must be dry** and there is a test
+saying so: Pip teaches Capture Go at the stone tables and the park is open ground, so a wet day 1
+moves Act 1's first game to a map the prologue never mentions, with nothing failing.
 
-What the axis is spent on is **club night at De Ketel, Wednesdays**: Nadia and Orla come down
-from the Instituut — the only two people who are nowhere at all at night, so nobody loses their
-own place and nobody stands on two maps at one hour. Six in the room instead of four, both with
-a club-night voice and an unrated game, so the night moves the hooks and never the league. The
-noticeboard, Tomás's counter and the HUD line all say when it is, because a schedule the player
-cannot read is indistinguishable from randomness.
+A restricted entry is a **bonus and never a guarantee**, but the check is no longer "ignore it".
+`_test_schedules` is an **exhaustive cover** over all 4 × 7 × 2 combinations of hour, weekday and
+sky. The old version built its tables from the unrestricted entries, which was sound and made a
+schedule that *removes* somebody impossible to write — any conditional entry was discounted, so
+taking a person out of a room failed findability by construction. A *pair* of entries that
+between them cover every combination now keeps a guarantee, which is what lets Pip and Bertie be
+in the park on dry mornings and under the arches on wet ones.
+
+What the axes are spent on is three things that differ in kind:
+
+- **Rain**, every day it falls. It changes the light, the sound, the puddles (a `when_wet`
+  animation that had existed since M16 and never once run, because nothing ever set the flag),
+  the crowd density, and who is standing outdoors.
+- **Club night at De Ketel, Tuesdays.** Nadia and Orla come down from the Instituut — the only
+  two who are nowhere at all at night, so nobody loses their own place. Six in the room instead
+  of four, unrated, so it moves the hooks and never the league. **Tuesday and not Wednesday**:
+  day 1 is a Monday, so Wednesday fell on days 3 and 10, and `EXAM_DAY` is 10 — the term's second
+  club night was the exam, with both guests in the exam field.
+- **Market day on Ketelsteeg, Saturday mornings.** Tomás out of his own bar, because De Ketel is
+  shut until the afternoon and Wren anchors it, so his mornings were free and nobody had noticed.
+  A dry-market voice and a wet one. No stalls: decor is a static baked layer and nothing varies
+  it by day.
+
+The noticeboard carries both occasions on one sign, Tomás's counter carries the club night, and
+the HUD has one occasion slot — because a schedule the player cannot read is indistinguishable
+from randomness. `DialogueGraph` can read the calendar too now (`club_night`, `market_day`,
+`weather_is`, `weekday_is`, `block_is`, `day_at_least`); before M35 its only environmental
+condition was `on_map`, so club night's own dialogue was a coincidence of the map schedule.
 
 **The opponents are people at the board, not just in dialogue.** `GoTableTalk` classifies what
 just happened into tags and `data/banter/*.json` gives each character something to say about
@@ -642,22 +677,19 @@ No engine, and the seam for one is `GoEvaluator` — see the debt list before re
   eye or play the first line — a much better opponent and a much worse *subject*. The harness
   runs three player models for that reason and says so in its own output. Do not read it as an
   estimate of what a person triggers.
-- **The term wants filling, and the diagnosis was wrong for four milestones.** The count
-  said twenty-eight slot-costing hours against forty-two of term, which reads as a shortfall
-  until you open the graphs: four students reach `offer` from `start` on every visit and six
-  more people have rematch nodes, so **rated play was already unbounded**. What was missing
-  was days that *differ*, not hours to spend. M30 answered that with a second thing that
-  moves while you play (the hooks), two more classes and four more puzzles; M32 added the
-  first quest that is not a game (`page_forty`, the borrowed book) and, with it, the first
-  errand that has an hour attached -- Nadia is in the classroom until dusk and gone at night.
-  M34 closed the bullet by finding the structural half nobody had looked for: **the day was
-  read in four places and decided nothing**, so schedules had an hour axis and no day axis.
-  They have both now, and club night spends it. **§3 is still open**, and deliberately so: the
-  bullet is about content and the axis has exactly one user -- a general mechanism with a single
-  Wednesday on it. One recurring night is a shape, not a week, and the next thing to differ wants
-  to be a different *kind* of day rather than a second club. It stays in `ROADMAP.md` §3 rather
-  than §8: it is the unfinished half of a content item, not debt M34 created, and filing it under
-  debt would hide it from whoever reads that file to choose what to build next.
+- ~~**The term wants filling.**~~ **Closed (M35), and the diagnosis was wrong for four
+  milestones before it was right.** The count said twenty-eight slot-costing hours against
+  forty-two of term, which reads as a shortfall until you open the graphs: four students reach
+  `offer` from `start` on every visit and six more people have rematch nodes, so **rated play
+  was already unbounded**. What was missing was days that *differ*, not hours to spend. M30
+  answered with a second thing that moves while you play (the hooks), two more classes and four
+  more puzzles; M32 added the first quest that is not a game (`page_forty`); M34 found the
+  structural half nobody had looked for -- **the day was read in four places and decided
+  nothing** -- and spent it on one Wednesday. M35 added the weather axis and a second occasion,
+  so the term now has one thing that varies every day and two that recur on different weekdays
+  at opposite ends of it. The thing that made a second occasion *possible* was not the axis but
+  the test: the old guard discounted every conditional entry, so a schedule that took somebody
+  out of a room could not be written at all.
 - **The curriculum runs to competence but stops before judgement.** Thirteen lessons:
   liberties, capture, self-capture, ko (Wren); escape, connection (Kesh); openings,
   two eyes, life and death, the capturing race, false eyes (Hana's class); ladders
@@ -710,8 +742,9 @@ No engine, and the seam for one is `GoEvaluator` — see the debt list before re
   same thing still open, and the `GameState`-typed-as-`Node` entry below is the same thing
   a third time. Put anything a test needs on the **pure** half of the pair — that is what
   `LeagueTable`/`LeagueBoard` and `HooksLadder`/`HooksBoard` are for. Nothing detects it.
-- Two test hooks ship in production code: the `Autopilot` autoload and
-  `GoMatch.THINK_DELAY_FAST`.
+- Three test hooks ship in production code: the `Autopilot` autoload,
+  `GoMatch.THINK_DELAY_FAST`, and `GameState.weather_override` (`""` derives, `"wet"`/`"dry"`
+  forces; not saved, because a forced sky must not survive into a real playthrough).
 - **A bare autoload name in a test file types the singleton as `Node` for the whole run.**
   `GameState.BLOCKS` in `test_data.gd` was compiled before the autoload's script reached the
   global cache, so the analyser settled on plain `Node` and kept that answer for everything

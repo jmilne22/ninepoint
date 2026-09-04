@@ -218,7 +218,7 @@ def ketelsteeg():
         ],
         "signs": [
             {"tile": [1, 9], "text": "TRAM 4 -- ESSENVELD, 2 STOPS. The Instituut is listed underneath in smaller letters, as though it would rather not be found."},
-            {"tile": [3, 9], "text": "STEENBEEK BEGINNER CUP -- entries at the Bondszaal. All ranks 15k and below. Pinned beside it, curling at one corner: DE KETEL -- CLUB NIGHT WEDNESDAY, FROM EIGHT."},
+            {"tile": [3, 9], "text": "STEENBEEK BEGINNER CUP -- entries at the Bondszaal. All ranks 15k and below. Pinned beside it, curling at one corner: DE KETEL -- CLUB NIGHT TUESDAY, FROM EIGHT. And under that, newer: MARKET -- SATURDAY MORNINGS, KETELSTEEG."},
             {"tile": [home_door, 8], "text": "A stationer's, shuttered since before you came. Your stairs are the door beside it, and the landlord's cat owns the landing."},
             {"tile": [ketel_steps + 2, 8], "text": "DE KETEL. Three steps down. The bar is Tomas's and so is the back room, which has had a board in it for sixty years."},
             {"tile": [wash_door, 8], "text": "WASSALON -- open till two. The warmest room on Ketelsteeg, and nobody minds if you only sit."},
@@ -229,13 +229,38 @@ def ketelsteeg():
         # for money. "blocks" is read by MapBuilder.build_npcs the way
         # TileAnimator and Soundscape read it -- absent means always.
         "npcs": [
+            # "weather" is the third axis and reads exactly like the other two:
+            # absent means always, and all three must pass. Molenpark is stone
+            # tables in the open, so the two of them are here on dry mornings
+            # and afternoons and under the arches on wet ones -- see onderbrug
+            # below, where the matching wet-weather pair keeps them findable at
+            # every hour of every kind of day.
             {"id": "pip", "tile": [10, 16], "dir": "down", "idle": "wander",
-             "blocks": ["morning", "afternoon"]},
+             "blocks": ["morning", "afternoon"], "weather": ["dry"]},
             # "Four kyu, forty years, one park bench." He was under the viaduct,
             # which contradicted his own opening line and left the ladders and
             # nets lesson with nowhere to be taught. He sits at the stone table.
             {"id": "bertie", "tile": [17, 16], "dir": "right", "idle": "tend",
-             "blocks": ["morning", "afternoon"]},
+             "blocks": ["morning", "afternoon"], "weather": ["dry"]},
+            # --- market day, Saturday morning. The second weekly occasion and
+            # deliberately not a second club night: that one is a room filling
+            # after dark, this is a street filling in the daylight.
+            #
+            # Tomas because his mornings were already free and nobody had
+            # noticed: De Ketel is shut until the afternoon and Wren is the
+            # anchor who keeps it staffed, so the man who owns the bar had three
+            # hours a week doing nothing and a week's supplies to buy. It is a
+            # pure addition -- he is already on the "off at some hour" list, and
+            # he stands on no other map at this hour, so no guarantee moves.
+            #
+            # No "weather" key on purpose. The market happens in the drizzle,
+            # which is what makes day 6 (wet) and day 13 (dry) two different
+            # Saturdays rather than the same one twice.
+            # (10, 9) is pavement. Not the y=10 row: that is a crowd route, and
+            # a passer-by has no pathfinding at all, so a man standing on it is
+            # a man being walked through all morning.
+            {"id": "tomas", "tile": [10, 9], "dir": "down", "idle": "tend",
+             "blocks": ["morning"], "days": [MARKET_DAY]},
         ],
         # Two pavements, and nobody walks the tram tracks between them. The
         # ends sit off the grid on purpose: a pedestrian who pops into being
@@ -376,6 +401,21 @@ def onderbrug():
              "blocks": ["dusk", "night"]},
             {"id": "bertie", "tile": [11, 7], "dir": "down", "idle": "tend",
              "blocks": ["dusk", "night"]},
+            # And the same two men, here in the daylight, because it is raining
+            # and Molenpark is stone tables in the open. This is the half of the
+            # pair that makes the park's "weather": ["dry"] safe: between them
+            # the two entries cover every hour of every kind of day, which is
+            # what the schedule cover test in tests/test_data.gd checks and what
+            # a single day-restricted entry can never do.
+            #
+            # It is also the first time a schedule has *moved* somebody rather
+            # than added them. That was not expressible before M35: the old
+            # guard discounted every restricted entry, so taking a person out of
+            # a room on a condition failed the findability check by construction.
+            {"id": "pip", "tile": [5, 7], "dir": "up", "idle": "wander",
+             "blocks": ["morning", "afternoon"], "weather": ["wet"]},
+            {"id": "bertie", "tile": [11, 7], "dir": "down", "idle": "tend",
+             "blocks": ["morning", "afternoon"], "weather": ["wet"]},
         ],
         # No crowd route: validate() rejected every one tried here, because the
         # arches are walled at both ends and there is nowhere for a passer-by
@@ -400,6 +440,14 @@ def quay():
     ground.row(7, 0, ";" * W)
     for y in range(8, H):
         ground.row(y, 0, ":" * W)
+
+    # Standing water on the flags. The puddle tile has a when_wet animation and
+    # has done since M16; it just never ran, because nothing in the game ever
+    # made it rain. Ketelsteeg and Onderbrug already had five between them, and
+    # the quay -- the map you come to after losing, in a port that drizzles --
+    # had none.
+    ground.set(8, 5, "q")
+    ground.set(17, 3, "q")
 
     ground.set(5, 6, "J")                      # mooring bollards
     ground.set(19, 6, "J")
@@ -521,7 +569,7 @@ def de_ketel():
             {"tile": [9, 2], "text": "__HOOKS__THE HOOKS -- one brass hook per regular, strongest at the top, and nobody asks to see a certificate."},
             {"tile": [18, 4], "text": "A coal stove, lit from October to April whatever the weather does. The chair nearest it is not yours and everybody knows whose it is."},
             {"tile": [1, 5], "text": "The rate is chalked on a slate: two-fifty an hour, board and stones included. Under it a kettle, a tin of biscuits, and an honesty box. The biscuits are gone."},
-            {"tile": [1, 4], "text": "Pinned to the counter, in Tomas's handwriting: CLUB NIGHT -- WEDNESDAY, FROM EIGHT. Underneath, smaller: all comers, no cards, the hooks count everything."},
+            {"tile": [1, 4], "text": "Pinned to the counter, in Tomas's handwriting: CLUB NIGHT -- TUESDAY, FROM EIGHT. Underneath, smaller: all comers, no cards, the hooks count everything."},
         ],
         # Kesh and Hana are the two people the setting says cross between the
         # Instituut and the salon, and until M26 that was expressed by placing
@@ -546,8 +594,10 @@ def de_ketel():
             {"id": "tomas", "tile": [2, 6], "dir": "right", "idle": "tend",
              "blocks": ["afternoon", "dusk", "night"]},
             # --- club night. "days" is read by MapBuilder.build_npcs exactly as
-            # "blocks" is, and both must pass, so these two are here on Wednesday
-            # evening and on no other night of the week.
+            # "blocks" is, and all three axes must pass, so these two are here on
+            # Tuesday evening and on no other night of the week. (Tuesday since
+            # M35: Wednesday put the second of the term's two club nights on
+            # EXAM_DAY, with both of these women sitting the exam that day.)
             #
             # Nadia and Orla because they are the only two people in the game who
             # are nowhere at all at night: the Instituut has shut and neither has
@@ -924,7 +974,19 @@ BLOCKS = ["morning", "afternoon", "dusk", "night"]
 WEEKDAYS = ["monday", "tuesday", "wednesday", "thursday",
             "friday", "saturday", "sunday"]
 
-CLUB_NIGHT = "wednesday"
+## Mirrors GameState.WEATHER. Two values, which is exactly why it needs
+## validating: with only two available, a typo is not a wrong answer that shows
+## up as odd behaviour, it is an entry that matches neither sky and deletes the
+## person from every day of the game.
+WEATHER = ["dry", "wet"]
+
+## Tuesday, and it was Wednesday until M35 worked out that day 1 is a Monday, so
+## Wednesday fell on days 3 and 10 -- and EXAM_DAY is 10. Mirrors
+## GameState.CLUB_NIGHT.
+CLUB_NIGHT = "tuesday"
+
+## Mirrors GameState.MARKET_DAY. Saturday morning on Ketelsteeg.
+MARKET_DAY = "saturday"
 
 
 def validate(name, data):
@@ -960,6 +1022,13 @@ def validate(name, data):
             if d not in WEEKDAYS:
                 problems.append("%s: npc '%s' has unknown day '%s' (want %s)"
                                 % (name, npc["id"], d, "/".join(WEEKDAYS)))
+        # And the third axis. Two legal values means a typo here matches
+        # nothing at all, on either kind of day -- the same silent deletion as
+        # the two above, reached from the narrowest vocabulary in the file.
+        for w_ in npc.get("weather", []):
+            if w_ not in WEATHER:
+                problems.append("%s: npc '%s' has unknown weather '%s' (want %s)"
+                                % (name, npc["id"], w_, "/".join(WEATHER)))
     for w in data["warps"]:
         x, y = w["tile"]
         if solid[y][x] != "0":

@@ -217,9 +217,12 @@ because you levelled up"): `engine`, `rank_label`, `board_size`, `komi`, `handic
 location, dialogue graph path, opponent profile. **Not the schedule** — this line claimed a
 `schedule (time-block → location + position)` field for several milestones and there has never
 been one. Where somebody stands is the *map's* business: `data/maps/*.json` gives each NPC entry
-an optional `"blocks"` (hours) and `"days"` (weekdays), absent-or-empty meaning always for both,
-and both must pass. The rule is `MapData.is_present()`, kept on that class because it is pure —
-`MapBuilder`, which applies it, reads autoloads and is unreachable from the suite.
+an optional `"blocks"` (hours), `"days"` (weekdays) and `"weather"` (`"wet"`/`"dry"`),
+absent-or-empty meaning always for each, and **all three must pass**. The rule is
+`MapData.is_present(spec, block, weekday, weather)`, kept on that class because it is pure —
+`MapBuilder`, which applies it, reads autoloads and is unreachable from the suite. It takes no
+default argument on purpose: a defaulted axis is one a caller can forget, and forgetting it
+returns a wrong roster rather than an error.
 
 **Dialogue** (JSON graph):
 ```json

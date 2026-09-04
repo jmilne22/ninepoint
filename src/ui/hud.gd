@@ -114,9 +114,11 @@ func refresh() -> void:
 ## line answers "how long have I got" rather than naming an event the player has
 ## already sat.
 func _day_line() -> String:
-    # The weekday is abbreviated because the label is 200 px and the longest
-    # line this can produce is 181 -- measured against the font's own advances,
-    # not estimated. Spelling "wednesday" in full overruns it.
+    # The weekday is abbreviated because the label is 200 px. Re-measured for
+    # M35 against the font's own advances rather than estimated: the longest
+    # line this can now produce is "Day 13, Sat afternoon   market day" at 184,
+    # and the longest it could produce before was 174. Spelling a weekday in
+    # full overruns it.
     var here := "Day %d, %s %s" % [GameState.day, _short_weekday(), GameState.time_block]
     var exam := GameState.days_until_exam()
     if GameState.has_flag("exam_entered") and not GameState.has_flag("exam_finished"):
@@ -124,15 +126,42 @@ func _day_line() -> String:
             return "%s   the exam" % here
         return "%s   exam in %d" % [here, exam]
     if not GameState.has_flag("wren_told_about_cup"):
-        return ""
+        # This returned "" outright until M35, so the whole calendar -- the day,
+        # the weekday, the hour -- was invisible for all of Act 1, which is
+        # where the rain and the first market day both fall. The *countdown*
+        # wants a player who has been told there is something to count down to;
+        # the date does not. Say the date, and the occasion if there is one.
+        return _with_occasion(here)
     var days := GameState.days_until_cup()
     if days <= 0:
         return "%s   the Cup" % here
-    # A fixed date outranks the weekly one: the exam and the Cup have a deadline
-    # and club night comes round again. Both together overrun the label.
-    if days > 0 and GameState.is_club_night():
-        return "%s   club night" % here
-    return "%s   Cup in %d" % [here, days]
+    # A fixed date outranks a weekly one: the exam and the Cup have a deadline
+    # and the occasions come round again. Both together overrun the label.
+    return _with_occasion(here, "Cup in %d" % days)
+
+
+## Today's occasion, or "". One slot, never two -- and the rule for what goes in
+## it is the same rule the countdown above follows: say the thing the player can
+## still act on. Club night has not happened yet at any hour of its day, so it
+## shows all day. The market is a morning and is over by the afternoon, so
+## saying "market day" at dusk would be reporting the past.
+##
+## The two can never collide: Tuesday and Saturday.
+func _occasion() -> String:
+    if GameState.is_club_night():
+        return "club night"
+    if GameState.is_market_day() and GameState.time_block == "morning":
+        return "market day"
+    return ""
+
+
+func _with_occasion(here: String, fallback: String = "") -> String:
+    var occasion := _occasion()
+    if occasion != "":
+        return "%s   %s" % [here, occasion]
+    if fallback != "":
+        return "%s   %s" % [here, fallback]
+    return here
 
 
 ## "wednesday" -> "Wed". The calendar has to be readable at a glance or a

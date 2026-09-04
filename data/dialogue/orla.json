@@ -17,6 +17,9 @@
       [
        "on_map",
        "de_ketel"
+      ],
+      [
+       "club_night"
       ]
      ],
      "goto": "club_night"
@@ -121,6 +124,18 @@
   },
   "post_match": {
    "branches": [
+    {
+     "if": [
+      [
+       "on_map",
+       "de_ketel"
+      ],
+      [
+       "club_night"
+      ]
+     ],
+     "goto": "club_night_after"
+    },
     {
      "if": [
       [
@@ -245,6 +260,13 @@
    "portrait": "neutral",
    "text": [
     "Suit yourself. The stove end is warmer."
+   ]
+  },
+  "club_night_after": {
+   "portrait": "neutral",
+   "text": [
+    "That goes on a hook and nowhere else. No table, no row, no position.",
+    "I would rather lose that one than the other kind, and I am aware of how that sounds."
    ]
   }
  }

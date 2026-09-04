@@ -131,7 +131,7 @@ func _collect(tile_name: String, spec: Dictionary) -> void:
 ## is not, every one of its cells is parked on frame 0 -- a neon tube that stops
 ## flickering must stop lit, not on whichever frame it happened to be showing.
 func _refresh_active() -> void:
-    var wet := GameState.has_flag("raining") and not _map.indoors
+    var wet := GameState.is_wet() and not _map.indoors
     for a in _anims:
         var blocks: Array = a["blocks"]
         var ok := blocks.is_empty() or blocks.has(GameState.time_block)

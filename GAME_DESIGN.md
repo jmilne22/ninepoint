@@ -198,19 +198,36 @@ merely inconvenience. `tests/test_data.gd` asserts both rooms are staffed at eve
 and that every character is findable at every hour unless they are on a written list of
 the five who are deliberately not.
 
-**Built (M34): the day as well as the hour.** An entry may also carry `"days"`, matched against
-`GameState.weekday()` the way `"blocks"` is matched against `time_block`, and **both must pass**.
-The week is seven days, `WEEKDAYS` mirrors `BLOCKS`, and a term is exactly two of them. The rule
-lives on `MapData.is_present()` because that class is pure; on `MapBuilder`, which reads
-autoloads, no test in the project could have reached it.
+**Built (M34): the day as well as the hour. Built (M35): the sky as well as the day.** An entry
+may also carry `"days"`, matched against `GameState.weekday()`, and `"weather"`, matched against
+`GameState.weather()`, the way `"blocks"` is matched against `time_block` — and **all three must
+pass**. The week is seven days, `WEEKDAYS` mirrors `BLOCKS`, and a term is exactly two of them.
+The weather runs on a **five**-day cycle, and five rather than seven is the design: a cycle
+sharing a factor with the week is not a second axis, it is the weekday relabelled, and Saturday
+would be dry forever. The rule lives on `MapData.is_present()` because that class is pure; on
+`MapBuilder`, which reads autoloads, no test in the project could have reached it.
 
-A day-restricted entry adds and never guarantees: the findability and always-staffed checks above
-are computed from the entries with no `"days"` key, since one day in seven is not a guarantee.
+A restricted entry adds and never guarantees — but the check is a **cover**, not an exclusion:
+every combination of hour, weekday and sky is walked, and a person must be somewhere in all of
+them. The earlier version discounted conditional entries entirely, which was sound and made a
+schedule that *removes* somebody impossible to write. A pair of entries that between them cover
+every combination now keeps its guarantee.
 
-What it buys is **club night at De Ketel on Wednesdays** — Nadia and Orla down from the Instituut,
-the only two people who are nowhere at all at night. Six in the room rather than four, unrated, so
-it moves the hooks and never the league. The two Go cultures meet officially at the Bondszaal and
-unofficially here, which is the same opposition the city is built on seen from the other side.
+What it buys is three kinds of day that differ:
+
+- **Rain.** Verhaven drizzles; now it does so in the game rather than only in the setting
+  document. Molenpark is open ground, so the two park regulars move under the viaduct arches when
+  it rains — the first schedule that moves somebody rather than adding them. **Day 1 is dry, and
+  must be**: Pip teaches Capture Go at the stone tables and that is the first game the player
+  plays.
+- **Club night at De Ketel on Tuesdays** — Nadia and Orla down from the Instituut, the only two
+  people who are nowhere at all at night. Six in the room rather than four, unrated, so it moves
+  the hooks and never the league. The two Go cultures meet officially at the Bondszaal and
+  unofficially here, which is the same opposition the city is built on seen from the other side.
+  Tuesday and not Wednesday because day 1 is a Monday, so Wednesday fell on days 3 and 10 — and
+  the exam is day 10.
+- **Market day on Ketelsteeg, Saturday mornings** — the daylight counterpart, and Tomás above
+  ground for once, buying the week in for a bar that does not open until two.
 
 Time advances when the player sleeps and on certain story beats — not on a real-time clock,
 so the player is never punished for thinking about a position.
