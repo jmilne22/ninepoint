@@ -108,6 +108,49 @@ STATES = {
         "map": "ketelsteeg",
         "spawn": "from_ketel",
     },
+    # Standing in De Ketel with a card already on the hooks and two hooks
+    # already taken -- one of them under the arches, which is the whole point of
+    # the ladder and the one thing a screenshot of an empty wall cannot show.
+    # `tomas_wrote_card` is deliberately *not* set, so the run can watch him
+    # write it and start the quest.
+    "hooks_ready": {
+        "rank_strength": 8,
+        "flags": {
+            "opening_seen": True, "intro_seen": True, "carrying_board": True,
+            "pip_taught_capture": True, "match_pip_capture_done": True,
+            "wren_told_about_cup": True, "kesh_match_done": True,
+            "match_kesh_first_done": True, "record_kesh_loss": 1,
+            "record_wren_win": 1, "record_pip_win": 1,
+            "hana_offered_puzzle": True, "capture_1_solved": True,
+            "club_member": True, "invited_to_institute": True,
+            "knows_the_rules": True, "lesson_capture_done": True,
+            "ranked_by_club": True,
+        },
+        "quests": {"first_stones": {"step": 6, "done": True}},
+        "map": "de_ketel",
+        "spawn": "from_street",
+        # Tomas is behind the counter from the afternoon on; the bar is shut in
+        # the morning and this run needs him in the room.
+        "time_block": "night",
+        "records": [
+            {"context_id": "kesh_first", "npc_id": "kesh", "player_won": False,
+             "margin": 12.5, "by_resignation": False, "board_size": 9,
+             "handicap": 0, "handicap_taken": 0, "komi": 5.5, "move_count": 48,
+             "unrated": False, "opponent_strength": 18,
+             "summary": "White wins by 12.5"},
+            {"context_id": "wren_club", "npc_id": "wren", "player_won": True,
+             "margin": 6.5, "by_resignation": False, "board_size": 9,
+             **_handicap_fields(8, 10), "move_count": 66,
+             "unrated": False, "opponent_strength": 10,
+             "summary": "Black wins by 6.5"},
+            {"context_id": "pip_park", "npc_id": "pip", "player_won": True,
+             "margin": 2.5, "by_resignation": False, "board_size": 9,
+             **_handicap_fields(8, 12), "move_count": 71,
+             "unrated": True, "opponent_strength": 12,
+             "summary": "Black wins by 2.5"},
+        ],
+    },
+
     # Enrolled, with enough rated games behind the rank that GoRating owns it.
     # Use this to watch handicap stones appear and then thin out as the record
     # improves -- the thing no amount of unit testing will show you.

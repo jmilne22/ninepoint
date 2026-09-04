@@ -343,9 +343,11 @@ two ranks; no opponent hard-codes a colour except a scripted story match.
 
 ### The tutorial
 Ninepoint is a game about learning Go, so it teaches Go. The order is Yasuda Yasutoshi's,
-which is how the game is taught in clubs everywhere. Eleven lessons and, in the middle of
+which is how the game is taught in clubs everywhere. Thirteen lessons and, in the middle of
 them, a real game -- with a teacher for each, because who teaches a thing is part of what
-the thing means here:
+the thing means here. The last two were added in M30 to stop Hana's course repeating its
+final class for the rest of the term, and both are deliberately things the *rules* can
+settle, because `tools/check_lessons.py` can only guard a claim it can decide:
 
 | # | Lesson | Where |
 |---|---|---|
@@ -361,6 +363,8 @@ the thing means here:
 | 10 | **Two eyes** -- what alive actually means | Hana, the class board |
 | 11 | **Life and death** -- the vital point | Hana, the class board |
 | 12 | **Counting** -- passing, territory, what a captured stone is worth | Tomas, behind his counter |
+| 13 | **The capturing race** -- your liberties, their liberties, whose move it is | Hana, the class board |
+| 14 | **False eyes** -- the way "two eyes is life" goes wrong | Hana, the class board |
 
 One entry point, and it is a person: Wren asks, the first time you meet her, whether you
 have played before, and "never" runs the rulebook -- 1, 2 and 4 -- back to back. There is
@@ -388,8 +392,8 @@ renderer as real matches. The study desk at home replays any puzzle already unlo
 
 ## 7. Quests
 
-Quests are data. **Four ship**: `first_stones` (below), `enrolment` ("The Lower League"),
-`qualifying_exam` and `beginner_cup`. The first is the one worth reading in full, because it
+Quests are data. **Five ship**: `first_stones` (below), `enrolment` ("The Lower League"),
+`the_hooks`, `qualifying_exam` and `beginner_cup`. The first is the one worth reading in full, because it
 is the shape the other three follow:
 
 **"First Stones"** *(Q_FIRST_STONES)*
@@ -401,9 +405,19 @@ is the shape the other three follow:
 6. Speak to Hana, who has been watching, and solve her capture puzzle.
 → Rewards: provisional rank 22k, De Ketel membership key item, Kesh relationship established.
 
-Tournament arcs are built -- the Cup and the exam are both quests. Still unbuilt: *ladder*
-quests (beat three park players) and *fetch-with-meaning* quests (return Nadia's joseki book
-after using it).
+Tournament arcs are built -- the Cup and the exam are both quests. The **ladder** quest is
+built too, and it is `the_hooks` (M30): seven name-cards on the brass hooks at the back of De
+Ketel, in an order derived from the record and stored nowhere. Beat somebody hanging above
+you and you take their hook. Losing costs nothing, so it can be challenged up freely; only
+wins move a card, so it cannot be ground.
+
+It is the counterweight to the league board, and it disagrees with it deliberately. The
+league counts rated games in a round robin and prints a document. The hooks count **every**
+game played in the room -- the park, the arches and the back table -- and are a row of brass
+hooks. The same two people can be in a different order on each, which is the argument the
+city is built on, expressed as two data structures with no code in common.
+
+Still unbuilt: *fetch-with-meaning* quests (return Nadia's joseki book after using it).
 
 ## 8. Tournaments (post-slice design)
 

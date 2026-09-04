@@ -6,6 +6,15 @@
     {
      "if": [
       [
+       "on_map",
+       "quay"
+      ]
+     ],
+     "goto": "quay"
+    },
+    {
+     "if": [
+      [
        "played_at_least",
        "orla",
        3
@@ -106,6 +115,15 @@
     {
      "if": [
       [
+       "on_map",
+       "quay"
+      ]
+     ],
+     "goto": "quay_after"
+    },
+    {
+     "if": [
+      [
        "beat",
        "orla"
       ]
@@ -143,6 +161,46 @@
     "I said the gap between us was counting, not reading. I am revising that. It was nerve."
    ],
    "goto": "post_match"
+  },
+  "quay": {
+   "text": [
+    "Oh. Hello.",
+    "I walk back this way. It is twenty minutes longer and I do it every day, and if you tell anybody at the Instituut I will deny it.",
+    "There is nothing to look at. That is what it is for."
+   ],
+   "choices": [
+    {
+     "text": "Play one? Out here.",
+     "exit": {
+      "type": "start_match",
+      "profile": "orla_9x9",
+      "context": "orla_quay",
+      "unrated": true,
+      "intro": "On the bench, then. This one is not going anywhere near the board on the wall."
+     }
+    },
+    {
+     "text": "Sit for a bit.",
+     "goto": "quay_sit"
+    },
+    {
+     "text": "I'll leave you to it.",
+     "goto": "later"
+    }
+   ]
+  },
+  "quay_sit": {
+   "text": [
+    "You lost today. I can tell from here, and I am not going to ask about it.",
+    "Everybody at that place thinks the answer to a bad game is another game. Sometimes the answer is a bench and forty minutes.",
+    "Then another game. But not the same evening."
+   ]
+  },
+  "quay_after": {
+   "text": [
+    "That one goes nowhere. No board, no card, no record.",
+    "Which is the only reason I played it, so do not read anything into me being pleasant about it."
+   ]
   }
  }
 }

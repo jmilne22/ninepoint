@@ -220,6 +220,27 @@ func record_match(result: MatchResult) -> void:
     if not result.unrated:
         spend_slot()
     _recompute_rank()
+    _note_hooks()
+
+
+## The hooks at De Ketel move when a game is won -- any game, the arches
+## included, which is the whole of their argument with the league board.
+##
+## The order itself stays derived from the record and is stored nowhere (Rule 5);
+## these flags only record that a thing *happened*, so the journal has an event
+## to advance on, exactly as `won_a_league_game` does above. Nothing reads them
+## as a score, and deleting them all and replaying the record gives them back.
+func _note_hooks() -> void:
+    var rows := HooksLadder.rows_for(self)
+    var place := HooksLadder.position(rows)
+    if place == 0:
+        return
+    if HooksLadder.taken(rows) > 0:
+        set_flag("took_a_hook", true)
+    if place <= 3:
+        set_flag("hooks_top_three", true)
+    if place == 1:
+        set_flag("hooks_top", true)
 
 
 ## Rank follows the record, and is never set by anything else once there are

@@ -323,6 +323,25 @@ def check_puzzles():
                 if len(libs) < want:
                     problems.append("%s: after %s the group has %d liberties, fewer than the %d claimed"
                                     % (path, (x, y), len(libs), want))
+            elif kind == "connect":
+                # A connection problem's answer is right when the two named
+                # groups come back as one chain. Checking the move is legal is
+                # not enough: a stone placed in the gap can connect nothing at
+                # all if the two halves were never adjacent to it, which is a
+                # position that looks exactly like a working one on the page.
+                ends = d.get("connects", [])
+                if len(ends) != 2:
+                    problems.append("%s: connect puzzle needs two endpoints" % path)
+                else:
+                    (ax, ay), (bx, by) = tuple(ends[0]), tuple(ends[1])
+                    if ng[ay][ax] != colour or ng[by][bx] != colour:
+                        problems.append("%s: connects endpoints are not both the solver's stones"
+                                        % path)
+                    else:
+                        group, _ = chain(ng, ax, ay)
+                        if (bx, by) not in group:
+                            problems.append("%s: after %s the two groups are still separate"
+                                            % (path, (x, y)))
             else:
                 problems.append("%s: unknown puzzle kind '%s'" % (path, kind))
     return problems

@@ -182,7 +182,20 @@
    "text": "A mooring bollard, worn smooth. The water is the colour of the sky, which today is the colour of the water."
   }
  ],
- "npcs": [],
+ "npcs": [
+  {
+   "id": "orla",
+   "tile": [
+    13,
+    5
+   ],
+   "dir": "down",
+   "idle": "watch",
+   "blocks": [
+    "dusk"
+   ]
+  }
+ ],
  "music": "theme_quay",
  "indoors": false
 }

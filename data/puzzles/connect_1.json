@@ -1,0 +1,44 @@
+{
+ "id": "connect_1",
+ "title": "The Cutting Point",
+ "teacher": "kesh",
+ "size": 9,
+ "to_move": "black",
+ "kind": "connect",
+ "connects": [
+  [
+   3,
+   4
+  ],
+  [
+   5,
+   4
+  ]
+ ],
+ "board": [
+  ".........",
+  ".........",
+  ".........",
+  "....O....",
+  "..XX.XX..",
+  "....O....",
+  ".........",
+  ".........",
+  "........."
+ ],
+ "goal": "Black to play. Those are two groups. Make them one.",
+ "hint": "White is standing on both sides of the same empty point, waiting for you to leave it there.",
+ "solutions": [
+  [
+   4,
+   4
+  ]
+ ],
+ "target": [
+  [
+   3,
+   4
+  ]
+ ],
+ "explanation": "A gap between two of your groups is not a gap, it is a cutting point, and it belongs to whoever plays it first. Filling it costs one stone; leaving it can cost the smaller half of everything you have built."
+}

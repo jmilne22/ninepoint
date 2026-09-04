@@ -229,7 +229,7 @@ static func _test_puzzles(t: TestKit) -> void:
         # target off the board, and a life or escape puzzle takes nothing at all.
         # tools/check_lessons.py proves the eyes and the liberties; this proves
         # the answer is playable and that the two files agree about the kind.
-        t.ok(p.kind in ["capture", "live", "escape"],
+        t.ok(p.kind in GoPuzzleData.KINDS,
             "%s: '%s' is a puzzle kind the game knows" % [path, p.kind])
         for sol in p.solutions:
             var g := p.make_game()
@@ -528,9 +528,11 @@ static func _script_const(path: String, name: String) -> Array:
 ## Lessons and puzzles reached by a GDScript constant rather than by dialogue.
 ## A written list, for the reason REACHED_BY_EVENT is one: a thing reachable only
 ## from code should be a decision somebody made, not an oversight nobody noticed.
-const LESSONS_REACHED_BY_TRACK := ["self_capture", "openings", "two_eyes", "life_and_death"]
+const LESSONS_REACHED_BY_TRACK := ["self_capture", "openings", "two_eyes",
+                                   "life_and_death", "capture_race", "false_eyes"]
 const PUZZLES_REACHED_BY_TRACK := ["capture_1", "capture_2", "capture_3", "capture_4",
-                                   "escape_1", "escape_2", "live_1", "live_2"]
+                                   "escape_1", "escape_2", "live_1", "live_2",
+                                   "capture_5", "escape_3", "live_3", "connect_1"]
 
 
 static func _test_lessons_and_puzzles_reachable(t: TestKit) -> void:
@@ -539,6 +541,7 @@ static func _test_lessons_and_puzzles_reachable(t: TestKit) -> void:
     # class that silently does nothing when the player asks for it.
     const BRIDGE := "res://src/autoload/match_bridge.gd"
     const WORLD := "res://src/rpg/world.gd"
+    const DESK := "res://src/rpg/sign_desk.gd"
     var tracks := {
         "MatchBridge.TUTORIAL_TRACK": _script_const(BRIDGE, "TUTORIAL_TRACK"),
         "World.CLASS_TRACK": _script_const(WORLD, "CLASS_TRACK"),
@@ -550,7 +553,7 @@ static func _test_lessons_and_puzzles_reachable(t: TestKit) -> void:
             t.ok(FileAccess.file_exists("res://data/lessons/%s.json" % lesson_id),
                 "%s names a real lesson ('%s')" % [track_name, lesson_id])
     var puzzle_tracks := {
-        "World.PUZZLE_TRACK": _script_const(WORLD, "PUZZLE_TRACK"),
+        "SignDesk.PUZZLE_TRACK": _script_const(DESK, "PUZZLE_TRACK"),
         "World.EXAM_PAPER": _script_const(WORLD, "EXAM_PAPER"),
     }
     for track_name in puzzle_tracks:

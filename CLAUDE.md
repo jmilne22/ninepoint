@@ -4,8 +4,8 @@ A top-down 2D RPG about learning to play **Go (baduk)**, in Godot 4.7 / GDScript
 Original setting and characters — nothing is borrowed from any existing game's world,
 cast, art or branding. Combat does not exist; encounters are games of Go.
 
-~12,100 lines GDScript in `src/` (15,700 with tests and tools), ~6,600 lines Python
-tooling, 5,864 headless tests.
+~12,800 lines GDScript in `src/` (17,200 with tests and tools), ~6,800 lines Python
+tooling, 6,114 headless tests.
 
 ---
 
@@ -140,6 +140,30 @@ behind it, and his games are `unrated` so `LeagueTable` never sees them.
 
 ---
 
+## Before you start
+
+**Pull `main` first. Every time, before touching anything.**
+
+```bash
+git checkout main && git pull            # or: git fetch origin main:main
+git checkout -b <branch>                 # work goes on a branch, never on main
+```
+
+This is not housekeeping. Several sessions have worked in this tree and the merges
+happen on GitHub, so a local `main` goes stale without ever saying so.
+
+What it actually cost, exactly: when M30 was branched, local `main` sat at the PR #2
+merge while `origin/main` had already taken PR #3 — M29. So `git log main..hooks-ladder`
+reported **three** commits, one of them a milestone that had shipped a week earlier, as
+though the branch contained it. The PR was right only because `gh` compares against
+`origin/main` rather than the local copy; had anybody sized or described the work from
+the local number, they would have described somebody else's milestone as part of theirs.
+Nothing errored and nothing warned. `git status` will not catch it either: it reports
+against the remote-tracking branch, which is only as fresh as your last fetch.
+
+The same applies before reading `ROADMAP.md` to pick an item. Deciding what to build
+next out of a two-merge-old file is how the same thing gets built twice.
+
 ## Commands
 
 ```bash
@@ -159,6 +183,7 @@ python3 tools/gen_content.py                     # rebuild NpcData / OpponentPro
 python3 tools/gen_props.py                       # art/props/ — the tram, the "..." bubble
 python3 tools/make_test_save.py invited          # a save in a hard-to-reach state
                                                 # also: league_ready thirteen_ready cup_ready
+                                                # hooks_ready
                                                 # cup_day exam_ready
                                                 # exam_day exam_round2 exam_passed exam_failed
                                                 # exam_missed beat_kesh lost_to_kesh
@@ -181,7 +206,9 @@ at night, Molenpark and the arches trading their two regulars),
 `taught` (Bertie's ladders, and the post-lesson beat that used to be silent),
 `thirteen` (Kesh over thirteen lines, from the `thirteen_ready` save),
 `endgame` (pass, and keep passing: the opponent plays on while the points are worth
-having and stops when they are not).
+having and stops when they are not),
+`hooks` (Tomas writes your card, and the wall at the back of De Ketel puts a 22 kyu
+above an 18 kyu because they were beaten).
 Screenshots land in `/tmp/ninepoint-shots` (override with `OUT=`). **`run_game.sh` needs a
 script argument** — it runs on a hidden display, so without one there is nothing to see; it
 will tell you to use `play.sh`. `DISPLAY_NUM=0` runs it on the real display instead, which is
@@ -259,11 +286,16 @@ src/go_ai/     GoOpponent interface, GoEndgame (which ground is finished, and th
 src/go_ui/     board view, match scene, puzzle scene, lesson runner, review screen,
                nigiri ceremony
 src/rpg/       world, player, NPCs, maps, components (Warp, Interactable,
-               CharacterSprite), and three atmosphere systems that each read the
-               map's own tiles: Ambient (the hours and the light), TileAnimator
-               (tiles that move), Soundscape (what a map sounds like), plus
-               NpcIdle, CrowdSpawner/Passer and the Tram
+               CharacterSprite), SignDesk (everything you read on a wall or sit
+               down at: the boards, the study desk, the hooks, the bed), and
+               three atmosphere systems that each read the map's own tiles:
+               Ambient (the hours and the light), TileAnimator (tiles that
+               move), Soundscape (what a map sounds like), plus NpcIdle,
+               CrowdSpawner/Passer and the Tram
 src/academy/   LeagueTable (pure) + LeagueBoard (the panel)
+src/club/      HooksLadder (pure) + HooksBoard. The other Go culture's answer to
+               LeagueTable: a ladder rather than a table, counting every game
+               rather than only the rated ones, and it shares no code with it
 src/dialogue/  DialogueGraph — JSON graphs, conditions and actions against GameState
 src/quest/     QuestData + QuestTracker (autoloaded as `Quests`)
 src/ui/        title, opening, dialogue box, HUD, pause menu, UiKit
@@ -358,7 +390,8 @@ hour and delete the person from the game at every one of them. Trust it.
 Playable start to finish: cold open → name → **the attic** → Ketelsteeg → Capture Go → rules
 lessons → nigiri → Kesh → a rank → capture puzzle → the tram north → enrol → league board →
 a class → the Beginner Cup at the Bondszaal. Ten maps, fifteen characters, two board sizes,
-four hours of the day and weather, and a term that ends.
+four hours of the day and weather, and a term that ends. Two progressions running at once:
+the league board above ground and the hooks below it.
 
 **See `ROADMAP.md` for what is not built.** The short version: the term is a fortnight and
 holds about four days of content, so it is no longer overstating itself, but filling it is
@@ -435,6 +468,18 @@ them back is what made a margin mean nothing. Passing is also a thing a person d
 `i_pass` / `you_pass` are table-talk tags, and the first time a beginner passes, whoever is
 across the board tells them the game is not over.
 
+**There are two progressions and they disagree.** The Instituut's `LeagueTable` counts
+rated games in a round robin and prints a document. De Ketel's `HooksLadder` counts *every*
+game played in the room — the park, the arches and the back table — and is seven brass hooks
+with name-cards on them. Beat somebody hanging above you and you take their hook; losing
+costs nothing, so it is challenged up freely, and only wins move a card, so it cannot be
+ground. A new card goes on the **bottom** hook rather than at your rank, because the card
+says your rank and the hook says where you sit, and the room does not care what the card says
+until you have beaten somebody in it — which is why a 22 kyu can hang above an 18 kyu, and
+why that is the screenshot worth looking at. Both are pure and derive from
+`GameState.match_records`; they share no code, which is the point rather than an oversight.
+Tomás writes the card and keeps the wall; the quest is `the_hooks`.
+
 **Act 2 ends.** The top four of the lower league sit a qualifying exam on day `EXAM_DAY` —
 three rounds, a round robin, even games, top two through — and the league board's promise
 since M13 finally decides something. Failing it is an ending too, and Hana has the word on
@@ -479,17 +524,25 @@ No engine, and the seam for one is `GoEvaluator` — see the debt list before re
   eye or play the first line — a much better opponent and a much worse *subject*. The harness
   runs three player models for that reason and says so in its own output. Do not read it as an
   estimate of what a person triggers.
-- **The term still wants filling, but it no longer lies about its size.** M26 cut it from
-  six weeks to a fortnight (`GameState.CUP_DAY` 14, `EXAM_DAY` 10), which is roughly the
-  four days of content that exist: three classes and a first game against each of eight
-  reachable opponents. Schedules now make one hour differ from another, which is the first
-  half of filling it; more to do per day is the second and is unbuilt. The bed's "Sleep
-  until..." options stay and are ordinary convenience at this length rather than a plaster.
-  `ROADMAP.md` §3.
-- **The curriculum runs to competence but stops before judgement.** Eleven lessons:
+- **The term wants filling, and the diagnosis was wrong for four milestones.** The count
+  said twenty-eight slot-costing hours against forty-two of term, which reads as a shortfall
+  until you open the graphs: four students reach `offer` from `start` on every visit and six
+  more people have rematch nodes, so **rated play was already unbounded**. What was missing
+  was days that *differ*, not hours to spend. M30 answered that with a second thing that
+  moves while you play (the hooks), two more classes and four more puzzles; what is still
+  thin is reasons to be in a particular place at a particular hour. `ROADMAP.md` §3.
+- **The curriculum runs to competence but stops before judgement.** Thirteen lessons:
   liberties, capture, self-capture, ko (Wren); escape, connection (Kesh); openings,
-  two eyes, life and death (Hana's class); ladders (Bertie); counting (Tomas). Eight
-  puzzles at the study desk. What is still missing is whole-board judgement -- when a
+  two eyes, life and death, the capturing race, false eyes (Hana's class); ladders
+  (Bertie); counting (Tomas). Twelve puzzles at the study desk, in four kinds.
+
+  **The two M30 additions are the shape of what can still be added.** Both are decidable
+  from the rules — count the liberties; check which stones are one group — because
+  `check_lessons.py` can only guard a claim it can decide, and its `eyes_of` counts
+  orthogonal neighbours, so it would call a false eye an eye. `false_eyes` is therefore
+  taught through what the checker *can* settle: White captures the stone making the eye,
+  Black connects it instead, and the same shape with the stone attached refuses the move as
+  illegal. A lesson whose claims the tooling cannot decide is a lesson that ships unverified. What is still missing is whole-board judgement -- when a
   group is worth abandoning, how big a move is -- and that needs an engine or a much
   stronger heuristic, not another lesson.
 

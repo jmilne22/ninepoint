@@ -1,0 +1,43 @@
+{
+ "id": "escape_3",
+ "title": "Not That Way",
+ "teacher": "kesh",
+ "size": 9,
+ "to_move": "black",
+ "kind": "escape",
+ "liberties": 3,
+ "escape_at": [
+  3,
+  4
+ ],
+ "board": [
+  ".........",
+  ".........",
+  ".........",
+  "...OOO...",
+  "..OXX.O..",
+  "..XOO....",
+  "...XX....",
+  ".........",
+  "........."
+ ],
+ "goal": "Black to play. Your two stones have one liberty. Running to it does not help.",
+ "hint": "Count the white stones as well as your own. One of those chains is in more trouble than you are.",
+ "solutions": [
+  [
+   5,
+   5
+  ]
+ ],
+ "target": [
+  [
+   3,
+   4
+  ],
+  [
+   4,
+   4
+  ]
+ ],
+ "explanation": "Playing the one empty point next to your stones runs into a wall and dies there. Taking the white chain instead opens the two points it was standing on -- when you are short of liberties, capturing is the fastest way to make some."
+}

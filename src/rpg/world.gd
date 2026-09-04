@@ -19,6 +19,9 @@ var pause_menu: PauseMenu
 var league_board: LeagueBoard
 var cup_board: CupBoard
 var exam_board: ExamBoard
+var hooks_board: HooksBoard
+## Everything you read on a wall or sit down at. See src/rpg/sign_desk.gd.
+var sign_desk: SignDesk
 var entities: Node2D
 var npcs: Array[Npc] = []
 
@@ -129,6 +132,13 @@ func _build_ui() -> void:
     exam_board = ExamBoard.new()
     exam_board.name = "ExamBoard"
     add_child(exam_board)
+    hooks_board = HooksBoard.new()
+    hooks_board.name = "HooksBoard"
+    add_child(hooks_board)
+    sign_desk = SignDesk.new(player, dialogue, league_board, cup_board,
+        exam_board, hooks_board,
+        func(v: bool) -> void: _talking = v,
+        _start_class)
     pause_menu = PauseMenu.new()
     pause_menu.name = "PauseMenu"
     add_child(pause_menu)
@@ -176,7 +186,14 @@ func _post_match(result: MatchResult) -> void:
 ## Hana's course, taught at the demonstration board. Counting is not on it: it
 ## belongs to Tomas at De Ketel, who has a suspiciously good endgame and now,
 ## finally, a map to stand on.
-const CLASS_TRACK := ["openings", "two_eyes", "life_and_death"]
+##
+## Five now rather than three. The last entry used to repeat for the rest of the
+## term, which made two thirds of a fortnight the same morning -- and the two
+## additions are deliberately things the *rules* can settle (count the liberties;
+## check which stones are one group) rather than judgement, because a lesson
+## nothing can check is a lesson that quietly teaches the wrong position.
+const CLASS_TRACK := ["openings", "two_eyes", "life_and_death",
+                      "capture_race", "false_eyes"]
 
 
 func _next_class() -> String:
@@ -272,198 +289,13 @@ func _on_talk_requested(npc: Npc) -> void:
     _talk(npc)
 
 
-## Two signs are not signs. The map data marks them with sentinels so the map
-## generator does not need to know about UI scenes.
+## The signs are built in _ready(), before there is a player or a dialogue box
+## for the desk to use, so the callback the map holds is this forwarder rather
+## than the desk's own method.
 func _read_sign(text: String) -> void:
-    if _talking:
+    if _talking or sign_desk == null:
         return
-    if text == "__LEAGUE_BOARD__":
-        player.clear_target()
-        league_board.show_board()
-        return
-    if text == "__CUP_BOARD__":
-        player.clear_target()
-        cup_board.show_board()
-        return
-    if text == "__EXAM_BOARD__":
-        player.clear_target()
-        exam_board.show_board()
-        return
-    if text == "__CLASS_BOARD__":
-        await _start_class()
-        return
-    if text.begins_with("__DESK__"):
-        await _study_desk(text.trim_prefix("__DESK__"))
-        return
-    if text.begins_with("__HOOKS__"):
-        await _read_hooks(text.trim_prefix("__HOOKS__"))
-        return
-    if text.begins_with("__BED__"):
-        await _offer_sleep(text.trim_prefix("__BED__"))
-        return
-    _talking = true
-    player.input_locked = true
-    player.clear_target()
-    var graph := DialogueGraph.new()
-    graph.nodes = {"start": {"speaker": "narrator", "text": [text]}}
-    await dialogue.run(graph, {"name": "", "portrait": null})
-    player.input_locked = false
-    _talking = false
-
-
-## The study desk. GAME_DESIGN promised that the board in your room replays the
-## problems you have been set, and until now it was a sign you could read.
-##
-## Order matters more than choice here: the problems run in the order the concepts
-## are taught, so the desk hands out the first one you have not solved and only
-## repeats itself once you have solved them all.
-const PUZZLE_TRACK := ["capture_1", "capture_2", "capture_3", "escape_1",
-                       "escape_2", "live_1", "capture_4", "live_2"]
-
-
-func _next_puzzle() -> String:
-    for puzzle in PUZZLE_TRACK:
-        if not GameState.has_flag("%s_solved" % puzzle):
-            return puzzle
-    return PUZZLE_TRACK[GameState.day % PUZZLE_TRACK.size()]
-
-
-func _study_desk(prose: String) -> void:
-    if not GameState.has_flag("knows_the_rules"):
-        await _narrate([prose.strip_edges(),
-            "You still do not know what any of it is for. Somebody will have to show you."])
-        return
-    var puzzle := _next_puzzle()
-    var solved_all := GameState.has_flag("%s_solved" % PUZZLE_TRACK[PUZZLE_TRACK.size() - 1])
-    var lines: Array = [prose.strip_edges()]
-    lines.append("You could sit down with a problem." if not solved_all
-        else "You have done all of them. You could do one again -- it is not the same twice, because you are not.")
-    var graph := DialogueGraph.new()
-    graph.nodes = {
-        "start": {"speaker": "narrator", "text": lines, "choices": [
-            {"text": "Set a problem.", "exit": {"type": "study"}},
-            {"text": "Leave it.", "goto": "no"},
-        ]},
-        "no": {"speaker": "narrator", "text": ["The stones stay in the bowl."]},
-    }
-    _talking = true
-    player.input_locked = true
-    player.clear_target()
-    var exit: Dictionary = await dialogue.run(graph, {"name": "", "portrait": null})
-    _talking = false
-    if str(exit.get("type", "")) != "study":
-        player.input_locked = false
-        return
-    # Studying alone is free. It is the one thing in the game that costs no hours,
-    # because an evening spent on problems is not what a day is for spending.
-    # Input stays locked through the scene change: releasing it first let the same
-    # keypress that chose this option re-trigger the desk behind the dialogue.
-    MatchBridge.start_puzzle(puzzle, player.global_position)
-
-
-## A narrator aside, with no choices and nothing to decide.
-func _narrate(lines: Array) -> void:
-    _talking = true
-    player.input_locked = true
-    player.clear_target()
-    var graph := DialogueGraph.new()
-    graph.nodes = {"start": {"speaker": "narrator", "text": lines}}
-    await dialogue.run(graph, {"name": "", "portrait": null})
-    player.input_locked = false
-    _talking = false
-
-
-## The hooks are the club's rank board, and the only place in the game that ever
-## explains what a rank is or how it moves. A player who has never met kyu grading
-## has no way to guess that the number counts downwards.
-func _read_hooks(prose: String) -> void:
-    var lines: Array = [prose.strip_edges()]
-    if not GameState.is_ranked():
-        lines.append("There is no card with your name on it yet.")
-        lines.append("Play a rated game against somebody who has one, and Tomas will write you a card whether you ask him to or not.")
-    else:
-        lines.append("Your card is on the hooks: %s." % GameState.rank_label())
-        lines.append("Ranks count downwards. Twenty kyu is a beginner, twelve kyu is better, one kyu is better still -- and then it turns over into dan and counts up again.")
-        lines.append("One rank is one handicap stone. That is what the number is for: it says how many stones make a game with you fair.")
-        lines.append(GoRating.explain(GameState.match_records))
-        lines.append("The club works it out the way every club does: who you have been playing, and how often you beat them.")
-        lines.append("An even score against a rank leaves you at that rank. Win more and you move up it. Lose more and you move down.")
-        lines.append("Stones count against you. Winning on four stones from a nine kyu is a thirteen kyu result, not a nine kyu one.")
-        lines.append("Which is why the stones thin out as you get better, and why that is the thing worth watching.")
-        lines.append("Only rated games. The park and the arches are for playing, not for counting.")
-    _talking = true
-    player.input_locked = true
-    player.clear_target()
-    var graph := DialogueGraph.new()
-    graph.nodes = {"start": {"speaker": "narrator", "text": lines}}
-    await dialogue.run(graph, {"name": "", "portrait": null})
-    player.input_locked = false
-    _talking = false
-
-
-## The bed is the only thing that moves the calendar, so it asks first: a night
-## lost to a mistimed [Space] would be a real one.
-func _offer_sleep(prose: String) -> void:
-    var left := GameState.SLOTS_PER_DAY - GameState.slots_used
-    var state := "Today is gone." if left <= 0 else (
-        "There is still the rest of today." if left > 1 else "There is an hour left in today.")
-    var choices: Array = [{"text": "Sleep.", "exit": {"type": "sleep"}}]
-    # A fortnight is still a dozen keypresses, and nobody should spend them one
-    # at a time. Once there is a fixed thing to wait for, you can wait for it.
-    # (This was the plaster over a six-week term with four days in it; M26 cut
-    # the term to fit, so it is now a convenience rather than a cover-up.)
-    #
-    # There are two fixed things now, and only the nearer one may be offered: a
-    # bed that offers to sleep past an exam you are entered for is a bed that can
-    # lose you the term while you are looking at a menu.
-    var to_exam := GameState.EXAM_DAY - GameState.day
-    var to_cup := GameState.CUP_DAY - GameState.day
-    var exam_pending: bool = GameState.has_flag("exam_entered") \
-        and not GameState.has_flag("exam_finished")
-    if exam_pending and to_exam > 0:
-        choices.append({"text": "Sleep until the exam (%d days)." % to_exam,
-                        "exit": {"type": "sleep_until_exam"}})
-    elif GameState.has_flag("cup_entered") and to_cup > 0:
-        choices.append({"text": "Sleep until the Cup (%d days)." % to_cup,
-                        "exit": {"type": "sleep_until_cup"}})
-    choices.append({"text": "Not yet.", "goto": "not_yet"})
-    var graph := DialogueGraph.new()
-    graph.nodes = {
-        "start": {
-            "speaker": "narrator",
-            "text": [prose.strip_edges(), state],
-            "choices": choices,
-        },
-        "not_yet": {"speaker": "narrator", "text": ["You leave it for now."]},
-    }
-    _talking = true
-    player.input_locked = true
-    player.clear_target()
-    var exit: Dictionary = await dialogue.run(graph, {"name": "", "portrait": null})
-    _talking = false
-    var kind := str(exit.get("type", ""))
-    if kind != "sleep" and kind != "sleep_until_cup" and kind != "sleep_until_exam":
-        player.input_locked = false
-        return
-    # Turn the day over first, then hand the player back: unlocking here let the
-    # keypress that chose "Sleep" read the bed sign again on the way out.
-    player.input_locked = false
-    GameState.sleep()
-    if kind == "sleep_until_cup":
-        while GameState.day < GameState.CUP_DAY:
-            GameState.sleep()
-        EventBus.toast.emit("The last week of term. Day %d -- the Cup." % GameState.day)
-        return
-    if kind == "sleep_until_exam":
-        while GameState.day < GameState.EXAM_DAY:
-            GameState.sleep()
-        EventBus.toast.emit("The last week of term. Day %d -- the exam." % GameState.day)
-        return
-    var days := GameState.days_until_cup()
-    if days > 0 and GameState.has_flag("wren_told_about_cup"):
-        EventBus.toast.emit("Day %d. %d days to the Cup." % [GameState.day, days])
-    else:
-        EventBus.toast.emit("Day %d." % GameState.day)
+    await sign_desk.read(text)
 
 
 func _play_graph(path: String, speaker: Dictionary) -> Dictionary:

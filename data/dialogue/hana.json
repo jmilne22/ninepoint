@@ -372,6 +372,21 @@
     "There is another term. Come to the class on the first morning and do not be brave about it."
    ],
    "goto": "at_institute"
+  },
+  "taught_capture_race": {
+   "portrait": "happy",
+   "text": [
+    "Three numbers. Your liberties, their liberties, and whose move it is.",
+    "You will not do it, of course. Nobody does, for about a year. You will play four stones into a race you had already lost and then remember that I said this.",
+    "When that happens, that is the class working. It just takes the long way round."
+   ]
+  },
+  "taught_false_eyes": {
+   "portrait": "neutral",
+   "text": [
+    "So: before you call something an eye, look at the stones making it and ask whether they are one group.",
+    "I am not going to tell you how many of my own groups have died in exactly that corner. It is more than you would expect from somebody standing at the front of a room."
+   ]
   }
  }
 }
