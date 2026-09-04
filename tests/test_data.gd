@@ -35,6 +35,9 @@ static func run(t: TestKit) -> void:
     _test_items_round_trip(t)
     _test_quest_targets(t)
     _test_journal_order(t)
+    _test_quest_reconciles_early_progress(t)
+    _test_ui_text_fits(t)
+    _test_runtime_font_coverage(t)
 
 
 static func _list(dir_path: String, ext: String) -> PackedStringArray:
@@ -46,6 +49,21 @@ static func _list(dir_path: String, ext: String) -> PackedStringArray:
         var name := f.trim_suffix(".remap")
         if name.ends_with(ext):
             out.append(dir_path.path_join(name))
+    return out
+
+
+static func _list_recursive(dir_path: String, extensions: PackedStringArray) -> PackedStringArray:
+    var out := PackedStringArray()
+    var d := DirAccess.open(dir_path)
+    if d == null:
+        return out
+    for f in d.get_files():
+        for ext in extensions:
+            if f.ends_with(ext):
+                out.append(dir_path.path_join(f))
+                break
+    for child in d.get_directories():
+        out.append_array(_list_recursive(dir_path.path_join(child), extensions))
     return out
 
 
@@ -1015,3 +1033,67 @@ static func _test_journal_order(t: TestKit) -> void:
         "order comes from when a quest was started, not from its filename")
     t.eq(quests.journal_quest_id(), "enrolment", "and the journal follows it")
     state.reset()
+
+
+## The player can take Two Eyes before reading the league board. Once the board
+## opens the class step, it must credit the saved lesson rather than waiting for
+## an event that already happened; a later class is not a substitute for it.
+static func _test_quest_reconciles_early_progress(t: TestKit) -> void:
+    t.section("quest reconciliation")
+    var state = _state()
+    var quests = (Engine.get_main_loop() as SceneTree).root.get_node("Quests")
+    if quests.quests.is_empty():
+        quests._load_all()
+    state.reset()
+    state.set_quest("enrolment", 4, false)
+    state.set_flag("lesson_two_eyes_done", true)
+    state.set_flag("read_league_board", true)
+    quests._advance_on({"type": "flag", "key": "read_league_board"})
+    t.eq(state.quest_step("enrolment"), 6,
+        "a Two Eyes class completed early satisfies the newly opened quest step")
+    t.eq(quests.journal_line("enrolment"), "Win a league game. The study hall is west.",
+        "the journal points to the league game after reconciling the class")
+
+    state.reset()
+    state.set_quest("enrolment", 5, false)
+    state.set_flag("lesson_two_eyes_done", true)
+    quests._reconcile_all()
+    t.eq(state.quest_step("enrolment"), 6,
+        "loading a stale class step repairs it from the saved lesson flag")
+
+    state.reset()
+    state.set_quest("enrolment", 5, false)
+    state.set_flag("lesson_false_eyes_done", true)
+    quests._advance_on({"type": "lesson", "id": "false_eyes", "completed": true})
+    t.eq(state.quest_step("enrolment"), 5,
+        "False Eyes does not replace the specifically required Two Eyes class")
+    state.reset()
+
+
+## The unplayed league row is the longest board footer. The panel gives it six
+## native font lines; changing its words without remeasuring must fail here.
+static func _test_ui_text_fits(t: TestKit) -> void:
+    t.section("UI text fit")
+    var rows: Array[Dictionary] = []
+    for i in 7:
+        rows.append({"is_player": i == 6, "played": 0})
+    var footer := "%s\n%s\nThe top four sit the qualifying exam at the Bondszaal. As it stands, you are not." % [
+        LeagueTable.summary(rows), GoRankLadder.explain()]
+    t.ok(UiKit.text_height(footer, 304) <= UiKit.LINE_H * 6,
+        "the longest league footer fits its six-line panel")
+
+
+## A missing bitmap glyph becomes a hexadecimal box in Godot. Check every
+## non-ASCII character in shipped source and content against the actual font.
+static func _test_runtime_font_coverage(t: TestKit) -> void:
+    t.section("runtime font coverage")
+    var files := PackedStringArray()
+    files.append_array(_list_recursive("res://src", [".gd"]))
+    files.append_array(_list_recursive("res://data", [".json", ".tres"]))
+    for path in files:
+        var text := FileAccess.get_file_as_string(path)
+        for i in text.length():
+            var codepoint := text.unicode_at(i)
+            if codepoint > 127:
+                t.ok(UiKit.FONT.has_char(codepoint),
+                    "%s supplies U+%04X" % [path, codepoint])

@@ -18,6 +18,7 @@ func _ready() -> void:
         {"type": "lesson", "id": lid, "completed": done}))
     EventBus.map_changed.connect(func(m, _s): _advance_on({"type": "enter_map", "map": m}))
     EventBus.quest_started.connect(start)
+    EventBus.game_loaded.connect(func(_slot): _reconcile_all())
 
 
 func _load_all() -> void:
@@ -42,6 +43,7 @@ func start(quest_id: String) -> void:
     GameState.set_quest(quest_id, 0, false)
     var q: QuestData = quests[quest_id]
     EventBus.quest_advanced.emit(quest_id, 0, q.journal_for(0))
+    _reconcile(quest_id, q)
 
 
 func journal_line(quest_id: String) -> String:
@@ -122,6 +124,11 @@ func _matches(cond: Dictionary, event: Dictionary) -> bool:
 
 
 func _advance(quest_id: String, q: QuestData) -> void:
+    _advance_one(quest_id, q)
+    _reconcile(quest_id, q)
+
+
+func _advance_one(quest_id: String, q: QuestData) -> void:
     var next := GameState.quest_step(quest_id) + 1
     if next >= q.steps.size():
         GameState.set_quest(quest_id, q.steps.size() - 1, true)
@@ -131,3 +138,50 @@ func _advance(quest_id: String, q: QuestData) -> void:
         GameState.set_quest(quest_id, next, false)
         EventBus.quest_advanced.emit(quest_id, next, q.journal_for(next))
         EventBus.toast.emit(q.journal_for(next))
+
+
+## A player can do something before its quest step becomes current. Events only
+## happen once, but the durable facts behind them live in GameState, so check
+## those facts whenever a new step opens rather than leaving the journal stale.
+func _reconcile(quest_id: String, q: QuestData) -> void:
+    while not GameState.quest_done(quest_id):
+        var step := GameState.quest_step(quest_id)
+        if step < 0 or step >= q.steps.size():
+            return
+        var cond: Dictionary = q.steps[step].get("advance_on", {})
+        if not _is_already_satisfied(cond):
+            return
+        _advance_one(quest_id, q)
+
+
+## Loading an older save can resume on a step whose prerequisite was completed
+## before that step opened. Reconcile every live quest once its saved state is
+## in GameState, so existing stuck journals repair themselves on Continue.
+func _reconcile_all() -> void:
+    for quest_id in quests.keys():
+        if GameState.quest_step(quest_id) < 0 or GameState.quest_done(quest_id):
+            continue
+        _reconcile(quest_id, quests[quest_id])
+
+
+## Only conditions represented in a save can be recovered. A conversation is
+## deliberately event-only: the game records no general fact that it happened.
+func _is_already_satisfied(cond: Dictionary) -> bool:
+    match str(cond.get("type", "")):
+        "flag":
+            return GameState.has_flag(str(cond.get("key", "")))
+        "lesson":
+            return GameState.has_flag("lesson_%s_done" % str(cond.get("id", "")))
+        "puzzle":
+            return GameState.has_flag("%s_solved" % str(cond.get("id", "")))
+        "match":
+            for record in GameState.match_records:
+                if not (record is Dictionary):
+                    continue
+                if str(record.get("context_id", "")) != str(cond.get("context", "")):
+                    continue
+                if not cond.has("won") or bool(record.get("player_won", false)) == bool(cond["won"]):
+                    return true
+        "enter_map":
+            return GameState.current_map == str(cond.get("map", ""))
+    return false
