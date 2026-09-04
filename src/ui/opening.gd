@@ -7,11 +7,11 @@
 extends Control
 
 const LINES := [
-    "Go is about four thousand years old, which is long enough that nobody is quite sure where it started.",
-    "Two people, a wooden board, and stones in two colours. You put one down. Then they do.",
-    "That is the whole of the rules you need to begin. It takes an afternoon to learn and rather longer than a life to be finished with.",
-    "I have taught it for twenty years and I am still losing to people I taught.",
-    "So. You have not played before. Good -- that is the interesting part, and it only happens once.",
+    "Go is about four thousand years old. Nobody is sure where it started.",
+    "Two people, a board, and stones in two colours. You put one down. Then they do.",
+    "That is enough to begin. It takes an afternoon to learn.",
+    "I have taught it for twenty years and I still lose to people I taught.",
+    "You have not played before. Good. That is the interesting part, and it only happens once.",
 ]
 
 const MAX_NAME := 10

@@ -3,8 +3,8 @@
 A top-down 2D RPG about learning to play **Go (baduk)**, built in Godot 4.7.
 
 You have just moved to Steenbeek. There is a salon three steps below the pavement, an old crowd
-in the park who play for coffee money, and a beginner tournament in a fortnight. The previous
-tenant left a board and a bowl of stones in your room, and no instructions.
+in the park who play for coffee money, and a beginner tournament at the federation hall. The
+previous tenant left a board and a bowl of stones in your room, and no instructions.
 
 You do not know what it is. That is where the game starts.
 
@@ -38,7 +38,7 @@ That's it. Godot 4.7 is required; on this machine it lives at `~/.local/bin/godo
 | | |
 |---|---|
 | Arrow keys or WASD | walk |
-| Space (or Enter / E / Z) | talk, read, advance dialogue |
+| Space (or Enter / E / Z) | talk, read, advance dialogue, take the tram |
 | Up / Down then Space | pick a dialogue choice |
 | Tab | menu — save game, save to another slot, back to title |
 | Esc | back out of a menu |
@@ -72,11 +72,6 @@ where to put you when all three slots are full.
 | *after both players pass* | Space toggles a group dead or alive, **P** accepts the count |
 | Space | dismiss the result and return to the town |
 
-**In the review afterwards**: whoever you played walks you back through two or three
-moments from your own game — Space to go on, Esc to skip it. It only happens when there was
-something worth saying and somebody stronger than you to say it, so a clean game goes
-straight back to the town.
-
 **In a puzzle or lesson**: arrows and Space to play, **R** to reset the position, Esc to
 leave. A wrong answer is taken back and explained; a second wrong answer gives you a hint.
 
@@ -101,15 +96,11 @@ endgame, and Hana takes the classes at the Instituut — corner before side befo
 eyes, life and death, the capturing race and the false eye. The board in your room sets you
 twelve problems.
 
-Books, on the other hand, are not lessons. Ilse Brandt in the study hall has read four on the
-opening and two on the endgame and is nine kyu, and she will tell you so before she tells you
-to read the first forty pages of Nadia's. You can borrow it. It is worth borrowing. It will
-not be the thing that beats her.
-
-**Your rank is a record, not a stat.** It is recomputed from the games you have actually
-played — the strength of your opposition adjusted by your score against it, with handicap
-stones counted honestly — and it is stored nowhere. Nothing in the game makes your stones
-stronger. The only thing that improves is you.
+**Your rank is a record, not a stat.** Kesh gives you 22 kyu after your first rated game.
+After that it moves one step at a time: beat somebody at or above your rank and it goes up
+one, lose to somebody at or below it and it goes down one, and nothing else touches it.
+Handicap stones are priced in, so beating a 4 kyu who gave you five stones is beating a 19
+kyu. Nothing in the game makes your stones stronger. The only thing that improves is you.
 
 ### Development
 
@@ -131,14 +122,14 @@ python3 tools/make_test_save.py beat_kesh 2 Ada 42   # ...in slot 2, as Ada, at 
 **Opening** -- Hana speaks to you and asks your name (Pokemon).
 **Act 1, Steenbeek** -- you have no idea what Go is. Somebody left a board in your room.
 Pip drags you into a game of Capture Go in the park before anyone explains the rules; Wren
-teaches them properly; Kesh challenges you; Hana tells you she teaches at the Essenveld
-Instituut, two tram stops north (Hikaru no Go).
+teaches them properly; Kesh challenges you, and win or lose, hands you a rank and tells you
+where Hana teaches: the Essenveld Instituut, two tram stops north (Hikaru no Go).
 **Act 2, the Essenveld Instituut** -- enrol at the bottom of the lower league, take classes,
 play whoever is sitting at a board, and climb a table that is nothing but your own results
 (Yu-Gi-Oh! Tag Force / the insei programme). Win three rated games and the board gets
-bigger: Tomas keeps a 13x13 under the coats at the back table of De Ketel, and there is
-another in the study hall. A stone of handicap buys less on a wider board, so the same gap
-that gave you two on 9x9 gives you three.
+bigger: Tomás keeps a 13x13 under the coats at the back table of De Ketel. A stone of
+handicap buys less on a wider board, so the same gap that gave you two on 9x9 gives you
+three.
 
 The Steenbeek Cup runs two sections and your card decides which one you are in. The
 beginners' section is fifteen kyu and below, on 9x9, with no handicap -- the ceiling does
@@ -147,32 +138,28 @@ it is where the club and the Instituut end up at the same table. If you are stil
 ceiling but have won three rated games you may choose to play up into it, and the registrar
 will tell you exactly what that costs before she enters you.
 
-The week has a shape. A day holds three hours and sleeping is the only thing that turns it
-over; who is standing in a room depends on the hour, the weekday **and the weather**. It rains
-in Verhaven, and on a wet morning the two regulars at Molenpark's stone tables are under the
-viaduct arches instead. **De Ketel has a club night on Tuesdays** -- Nadia and Orla come down
-from the Instituut and the back room holds six people instead of four; the games are unrated, so
-they move the brass hooks at the back of the room and never the league table. **Ketelsteeg has a
-market on Saturday mornings**, which is the one time you will meet Tomás outside his own bar.
-The noticeboard on Ketelsteeg says when both of them are.
+There is no clock. Everyone is where they live, all the time, and a game costs nothing but
+the game. The exam and the Cup start when you tell Marguerite you are ready, and run round
+after round until they are done.
 
 **The wassalon is open till two**, three doors east of the bar, and it is the one room in the
-city that keeps no record of anybody -- no board on the wall, no brass hooks, no card. Three
-people you will meet again at the Beginner Cup do their washing there: Abel at twenty-one kyu,
-who is the only player in Verhaven weaker than you when you start; Dov at nineteen, who counts
-out loud; and Moss at sixteen, who comes in when it rains. Two of them will play you for
-nothing, which costs no hour and goes on no record. Moss will not: his game counts, and he is
-the only one there who wants it to.
+city that keeps no record of anybody -- no board on the wall, no card. Three people you will
+meet again at the Beginner Cup do their washing there: Abel at twenty-one kyu, who is the
+only player in Verhaven weaker than you when you start; Dov at nineteen, who counts out
+loud; and Moss at sixteen, who has spent three years under the section ceiling on purpose.
+Two of them will play you for nothing, off the record. Moss will not: his game counts, and
+he is the only one there who wants it to.
 
 There is no relationship system. The game tracks your **record** against each person.
 
 ## The vertical slice
 
-Title → New Game → leave your room on Ketelsteeg → walk down into De Ketel →
-Wren asks whether you have played, and teaches you if not → she explains the Beginner Cup →
-Kesh challenges you to 9×9 and you settle the colours by nigiri → play a real game of Go →
-win or lose, her dialogue changes → Hana sets you a capture problem → solve it → save it
-into one of the three slots.
+Title → New Game → leave your room on Ketelsteeg → Pip in the park teaches you Capture Go →
+down into De Ketel → Wren asks whether you have played, and teaches you if not → she tells
+you about the Cup → Kesh challenges you to 9×9 and you settle the colours by nigiri → play a
+real game of Go → win or lose, she reacts to the game you just played and gives you a rank →
+Tram 4 north → Hana sets you a capture problem → solve it → enrol with Marguerite → read
+the league board → save it into one of the three slots.
 
 ## Layout
 
@@ -181,9 +168,8 @@ src/go/      pure Go rules, nigiri/handicap, lessons -- no engine coupling, unit
 src/academy/ the Instituut league and the federation's events: standings and draws,
              computed only from games played
 src/go_ai/   opponent interface, the shipped heuristic AI, a GTP adapter for KataGo
-src/go_ui/   board view, match scene, puzzle scene
-src/rpg/     town, player, NPCs, maps
-src/club/    the De Ketel hooks: a ladder counting every game, not only the rated ones
+src/go_ui/   board view, match scene, puzzle scene, lesson runner, the nigiri ceremony
+src/rpg/     town, player, NPCs, maps, the tram
 src/dialogue/ src/quest/ src/ui/ src/autoload/   (SaveSystem lives in src/autoload/)
 data/        maps, dialogue, NPCs, opponents, quests, puzzles -- all of it data
 art/         generated pixel art

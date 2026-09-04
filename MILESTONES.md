@@ -2415,3 +2415,127 @@ them and stops — every leg has to be a straight line through empty floor.
 - Four NPCs elsewhere still stand next to signs (Marguerite at two desks, Pip and Bertie under
   the arches). With the priority fix that is no longer a bug and no assertion was added, since
   a person at a crate with the crate's own sign above them is the intended picture.
+
+## M37 — The cut  [done]
+
+The owner played it and said so: the dialogue did not make sense half the time, the tram
+did not work, the ranking was broken, text covered the people talking, the calendar and
+the schedules were complexity for nobody, and after a game the person you had just beaten
+talked as though they had won. Thirty-six milestones of verification — 7,081 checks and
+thirty autopilot scripts — had never asked whether any of it made sense at the keyboard.
+Every one of the six was real, and four of them were the same bug: a check that passed
+because it was looking at the wrong thing.
+
+**Direction, from the owner:** cut systems aggressively, keep the loop Pokémon TCG and
+Tag Force run on. Walk around, talk to people, play Go, climb a table, enter a tournament.
+
+### What went
+
+| cut | lines | why |
+|---|---|---|
+| the review: fifteen detectors, `GoEvaluator`, `GoProgress`, `GoReviewHistory`, the review scene, eight voice files | ~1,700 | rules without judgement. It could say a group had one liberty; it could never say what a move was worth. A review that is any good needs an engine, which is now ROADMAP §1 |
+| the hooks ladder: `HooksLadder`, `HooksBoard`, quest `the_hooks`, its dialogue | ~450 | two progressions that disagree on purpose was the confusion, not the argument. The league board is the progression |
+| the borrowed book: quest `page_forty`, the desk's reading, Ilse's and Nadia's book nodes | ~150 | an inventory quest in a game with no inventory screen, and the source of Ilse thanking you for a win after a loss |
+| `GoRating` | ~100 | it averaged the opponents' strength over a window, and from the provisional 22 kyu every opponent in the game is stronger, so a 0–3 record *raised* the rank and toasted "Rank up". Nothing moved for two games, then game three could jump eight stones |
+| the calendar: `time_block`, `day`, weekday, weather, `sleep()`, slots, `can_act()`, club night, market day, `Ambient`, rain, night music, crowd density, NPC `blocks`/`days`/`weather`, `MapData.is_present`, `World._repopulate`, the bed, the HUD calendar, nine tests, five autopilot scripts | ~1,400 | it decided nothing a player could act on, a quest step could hide behind an hour, and the tests needed a 56-combination cover just to prove nobody had been scheduled out of the game. `ExamBoard`, `CupBoard`, `CupDraw`, `Exam` and `LeagueTable` never read the day; only the "when may it start" wrappers did, and dialogue sets those flags now |
+
+Everyone stands on exactly one map. Hana could not be both at De Ketel for Act 1 and in
+the classroom for Act 2, so **Kesh hands out the first rank and the tram invitation**, and
+Hana meets you at the Instituut. `first_stones` is three steps; `enrolment` is seven.
+
+### What was fixed
+
+- **After a game, the reaction is to that game.** `dialogue_graph.gd`'s `beat` means "ever
+  beaten", and all twelve `post_match` nodes read it as "just beat", so after one win the
+  "you got me" line played after every later game the person won. Nadia had no loss node
+  at all (a loss played her introduction); Orla's quay node claimed she lost regardless;
+  Pip's was result-blind; Moss's `rank_at_most` was inverted, so he told a 22 kyu they had
+  outgrown the section. `record_match()` sets `last_result`; graphs read `won_last` /
+  `lost_last`; `_test_post_match_reacts_to_the_result` runs every graph both ways and
+  requires two different non-empty answers.
+- **The dialogue was rewritten, all sixteen graphs and the intro**, against
+  `data/dialogue/VOICES.md`. What was wrong with the writing, specifically: one arch voice
+  for fifteen people ("that's the whole of it" in six mouths, "it is not an insult, it is a
+  starting position" verbatim from Kesh and then Marguerite, the same wait line from three
+  people); nobody said a plain sentence; the timeline contradicted itself (intro: Tuesday,
+  four days, job on Monday; Hana: "I only drink here on Tuesdays"; HUD: Day 1, Monday);
+  people referenced places the player had not seen; rules were taught in speech and
+  narration sat inside NPC nodes; lines averaged 95 characters in a box that holds four
+  rows. Now: 246 nodes, two lines a node, 110 characters a line, every line measured
+  against the box, no calendar words, the shared tics banned — all in
+  `_test_writing_rules` — and `tools/check_dialogue.py` prints a graph as a script so it
+  can be read as one.
+- **Rank is a step ladder** (`GoRankLadder`, pure): beat somebody at or above your rank and
+  it goes up one; lose to somebody at or below it and it goes down one; nothing else moves
+  it. Handicap priced at `ranks_per_stone`. A loss never raises, a win never lowers, and
+  `test_rating.gd` says so. The league board's footer states the rule. `LeagueTable` counts
+  `league_*` fixtures only, so Kesh's rematch at De Ketel no longer appears on the
+  Instituut's board.
+- **The tram is a stop you press [Space] at.** It was two walk-on `Warp`s at the far west
+  edge of the map with a `prompt` field nothing displayed, Hana's repeat directions said
+  "the road east", and a decorative tram crossed every forty seconds for the player to wait
+  for. The stop is a `__TRAM__` sign at the pole with the destinations as choices, the
+  refusal spoken in the box, and the tram that passes is the tram you board:
+  `SignDesk.tram_stop()` awaits `Tram.arrive()` and then changes scene. Redrawn at 96×36
+  from 48×18, which was smaller than the 16 px player.
+- **Text fits.** `dialogue_box.gd` never used `UiKit`; its text rect was exactly four rows
+  and eight lines needed five, with the "▼" inside the rect. It pages a long line by
+  sentence now, keeps the arrow on the frame, wraps choices, and **moves to the top of the
+  screen when the people talking stand in the bottom half** — the standard RPG rule, and
+  the literal "text covering the avatars". The toast is sized to its text (the southbound
+  refusal was 439 px on a 384 px screen); the journal is capped at two lines; the match
+  panel's rows no longer overlap.
+- **`Label`'s default `line_spacing` of 3 made every row 14 px against a font whose line
+  height is 11.** Found by measuring a screenshot's text rows. Every "four rows" in the
+  game was three rows and a fourth drawn on the frame, in every panel, for the life of the
+  project, and `UiKit.text_height` could not see it because it measures the font and not
+  the Label. It is zero in `ninepoint_theme.tres` now.
+- The opening's five lines shortened; "the whole of the rules" was in the first thing the
+  game says.
+
+**Done when:** `tools/test.sh` **11583 / 0** (from 7081; the writing rules add about
+four thousand assertions and the cuts remove about seven hundred), `check_lessons.py`
+clean, `gen_maps.py` / `gen_content.py` / `gen_props.py` regenerated and `validate()` green
+on all eleven maps.
+
+### Deliberate breaks, each reverted and re-run
+
+| broken | result |
+|---|---|
+| a `post_match` pointed both branches at the same node | 2 failed: *a win and a loss are different conversations*, and the orphaned node |
+| a third line added to a node | 1 failed: *says at most two things* |
+| a line of 118 characters | 1 failed: *line fits the box* |
+| "fortnight" put back into Wren's Cup line | 1 failed |
+| `GoRankLadder.step` made to go up on any result | 22 failed: *a loss never raises* |
+| the wassalon's `moss` entry moved to `de_ketel` | 2 failed: *stands in the wassalon and nowhere else* |
+
+### Looked at, not reasoned about
+
+`slice_full` (New Game to the league board, thirty frames), `institute`, `cup`,
+`wassalon_game`, `win_path` and `joos`, all declaring their own saves.
+
+- The dialogue box at the **top** of the screen with Pip and the player standing in the
+  park below it, and at the bottom in De Ketel with the speakers above it.
+- Pip after the capture game ("Got you!") after a resignation, and Kesh's `first_rating`
+  after the first game, with the journal changing under it to "Take tram 4 north".
+- The tram stop's sentence, its three choices, the tram pulling up with the player at the
+  stop, and the hall on the other side.
+- Hana's problem, the register, and the league board with the ladder rule in its footer.
+- The Bondszaal desk: the entry offer, the draw, and "Ready." starting the Cup with no
+  night in between. The script's last frame still shows Marguerite's "your board is ready"
+  card rather than round one; the round itself is `cup_round.json`'s job.
+- Moss's `post_match` after a resignation: "Still sixteen kyu."
+
+**Two script faults on the way, both the documented ones.** `choose: 2` on a card that
+had filtered its middle option down to two choices wrapped to the first and accepted a
+rematch, and every later frame was a second game at exit 0. And `advance: 1` at the tram
+stop left the box on its sentence, so the `choose` step's own tap advanced to the card
+instead of picking from it, and the tram in the frame was the scheduled crossing. Both
+found by opening the PNGs.
+
+### Left behind
+
+- The quay has nobody on it and Onderbrug is Joos alone — ROADMAP §2.
+- `GtpOpponent` is still unwired. The review is gone until it is not — ROADMAP §1.
+- `world.gd` is over the line-count convention; the tram stop went into `SignDesk`.
+- Save files are version 2; a version 1 file loads and its calendar keys are ignored.

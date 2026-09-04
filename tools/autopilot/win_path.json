@@ -1,21 +1,22 @@
 [
  {
   "save": "beat_kesh",
-  "note": "the state this script needs; run_game.sh builds it"
+  "note": "the state this script needs; run_game.sh builds it before launching"
  },
  {
-  "wait": 1.0,
-  "shot": "title_with_save"
+  "wait": 0.8
  },
  {
-  "tap": "move_down",
-  "note": "select Continue"
+  "tap": "move_down"
  },
  {
-  "tap": "interact"
+  "tap": "interact",
+  "note": "Continue from the save"
  },
  {
-  "wait": 1.8,
+  "wait": 2.2
+ },
+ {
   "shot": "loaded_from_save"
  },
  {
@@ -31,12 +32,11 @@
  },
  {
   "wait": 0.3,
-  "shot": "kesh_lesson_offer",
-  "note": "she offers a lesson first these days"
+  "shot": "kesh_lesson_offer"
  },
  {
   "choose": 1,
-  "note": "'Not now.' -- declines the lesson, lands on the rematch"
+  "note": "Not now"
  },
  {
   "advance": 6,
@@ -48,30 +48,89 @@
  },
  {
   "choose": 1,
-  "note": "'Later.' -- decline the rematch too"
+  "note": "Later"
  },
  {
-  "advance": 10,
-  "note": "finish the conversation"
+  "advance": 10
  },
  {
   "wait": 0.4,
   "shot": "after_kesh_win_path"
  },
  {
+  "walk_to": [
+   9,
+   12
+  ]
+ },
+ {
+  "walk_to": [
+   9,
+   13
+  ],
+  "timeout": 3
+ },
+ {
+  "wait": 1.6
+ },
+ {
+  "walk_to": [
+   1,
+   10
+  ],
+  "note": "to the stop at the west end"
+ },
+ {
+  "face": [
+   1,
+   9
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.4,
+  "shot": "tram_stop"
+ },
+ {
+  "choose": 0,
+  "note": "North, to Essenveld. The tram pulls in, then the scene changes"
+ },
+ {
+  "wait": 1.6,
+  "shot": "tram_arriving"
+ },
+ {
+  "wait": 3.4
+ },
+ {
+  "walk_to": [
+   21,
+   7
+  ],
+  "timeout": 6
+ },
+ {
+  "wait": 1.6
+ },
+ {
   "talk_to": "hana"
  },
  {
   "wait": 0.4,
-  "shot": "hana_after_win"
+  "shot": "hana"
  },
  {
-  "advance": 20,
+  "advance": 6,
   "stop_at_choice": true
  },
  {
-  "choose": 0,
-  "note": "show me the problem"
+  "choose": 0
  },
  {
   "wait": 1.8,
@@ -111,8 +170,11 @@
   "tap": "interact"
  },
  {
-  "wait": 2.2,
-  "shot": "back_in_club"
+  "wait": 2.4,
+  "shot": "back_in_the_classroom"
+ },
+ {
+  "advance": 10
  },
  {
   "tap": "menu"

@@ -659,7 +659,8 @@ STATES = {
         "flags": {
             "intro_seen": True, "wren_told_about_cup": True,
             "kesh_match_done": True, "match_kesh_first_done": True,
-            "record_kesh_win": 1,
+            "record_kesh_win": 1, "last_result": "win",
+            "ranked_by_club": True, "invited_to_institute": True,
         },
         "quests": {"first_stones": {"step": 3, "done": False}},
         "summary": "Black wins by 4.5",
@@ -670,7 +671,8 @@ STATES = {
         "flags": {
             "intro_seen": True, "wren_told_about_cup": True,
             "kesh_match_done": True, "match_kesh_first_done": True,
-            "record_kesh_loss": 1,
+            "record_kesh_loss": 1, "last_result": "loss",
+            "ranked_by_club": True, "invited_to_institute": True,
         },
         "quests": {"first_stones": {"step": 3, "done": False}},
         "summary": "White wins by 12.5",

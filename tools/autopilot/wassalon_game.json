@@ -1,30 +1,20 @@
 [
  {
   "save": "invited",
-  "note": "M36. The one game in the wassalon that counts. Moss is there on a wet afternoon or dusk and nowhere else, so the sky is forced rather than waited for."
+  "note": "the state this script needs; run_game.sh builds it before launching"
  },
  {
-  "wait": 1.0
+  "wait": 0.8
  },
  {
   "tap": "move_down"
  },
  {
   "tap": "interact",
-  "note": "Continue"
+  "note": "Continue from the save"
  },
  {
-  "wait": 1.6
- },
- {
-  "day": 1
- },
- {
-  "time": "afternoon"
- },
- {
-  "rain": true,
-  "note": "Moss's one condition. Abel is here too -- he is here every daylight hour."
+  "wait": 2.2
  },
  {
   "walk_to": [
@@ -50,20 +40,18 @@
  },
  {
   "wait": 1.4,
-  "shot": "a_two_in_the_room"
+  "shot": "a_the_room"
  },
  {
   "talk_to": "moss"
  },
  {
   "advance": 20,
-  "stop_at_choice": true,
-  "note": "generous; stop_at_choice does the stopping. A fixed budget that lands ON the choice card spends its last tap selecting the highlighted option."
+  "stop_at_choice": true
  },
  {
   "wait": 0.4,
-  "shot": "b_the_offer",
-  "note": "his two choices, and they are the whole of him: 'It counts, then.' or 'Not for the record.' Abel and Dov play unrated -- free, no hour, nothing kept but the head-to-head. Moss is the one person in a room that records nothing who wants it recorded."
+  "shot": "b_the_offer"
  },
  {
   "choose": 0
@@ -97,8 +85,7 @@
  },
  {
   "wait": 3.0,
-  "shot": "c_playing",
-  "note": "moss_9x9 at 16 kyu against a 22 kyu, colour_rule by_rank: H2 on the panel and two black stones already on the star points. Komi 0.5, because a handicap game is not an even one."
+  "shot": "c_playing"
  },
  {
   "tap": "go_resign"
@@ -114,25 +101,18 @@
   "shot": "d_resigned"
  },
  {
-  "tap": "interact",
-  "note": "off the result card. A resignation goes straight back to the world -- the review is for a game played out."
+  "tap": "interact"
  },
  {
   "wait": 2.4
  },
  {
-  "advance": 1,
-  "stop_at_choice": true
- },
- {
   "wait": 1.2,
-  "shot": "e_post_match",
-  "note": "the only visible proof the graph re-enters at post_match. A graph that offers a game and has no post_match node returns \"\" from resolve(), the box never opens, and the whole after-game beat vanishes with no error and no failing test -- three separate silent bugs, and why tests/test_data.gd refuses the combination outright."
+  "shot": "e_post_match"
  },
  {
   "advance": 20,
-  "stop_at_choice": true,
-  "note": "his post_match runs on into the offer again, so this MUST stop at the choice. A blind advance here accepts the rematch and every later frame is of a second game -- which is exactly what it did on the first attempt, at exit 0 with no script errors."
+  "stop_at_choice": true
  },
  {
   "wait": 0.4,
@@ -140,14 +120,13 @@
  },
  {
   "choose": 1,
-  "note": "'Not for the record.' -- decline"
+  "note": "Not for the record"
  },
  {
   "advance": 20
  },
  {
   "wait": 1.2,
-  "shot": "g_declined",
-  "note": "Moss on the right, Abel on the left, the board between them. Two of the three people in this room play for nothing; his is the one that counts, and the offer card two frames back says so."
+  "shot": "g_declined"
  }
 ]

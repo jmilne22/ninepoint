@@ -9,3 +9,8 @@ default_font = ExtResource("1_font")
 default_font_size = 9
 Label/colors/font_color = Color(0.078431, 0.070588, 0.101961, 1)
 Label/colors/font_shadow_color = Color(0, 0, 0, 0)
+; The bitmap font's line height is 11 and every panel in the game is measured
+; against it (UiKit.LINE_H). Label's default line_spacing of 3 made every row
+; 14 px, so "four rows" of a 44 px box was three rows and a fourth drawn over
+; the frame, and nothing that measured text could see it.
+Label/constants/line_spacing = 0

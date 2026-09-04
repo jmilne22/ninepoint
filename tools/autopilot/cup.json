@@ -11,34 +11,42 @@
  },
  {
   "tap": "interact",
-  "note": "Continue from the cup_ready save"
+  "note": "Continue from the save"
  },
  {
   "wait": 2.2
  },
  {
   "walk_to": [
-   4,
-   11
-  ],
-  "note": "west along the street"
- },
- {
-  "walk_to": [
    1,
-   11
+   10
   ]
  },
  {
-  "walk_to": [
-   0,
-   11
-  ],
-  "timeout": 4,
-  "note": "Tram 4, southbound"
+  "face": [
+   1,
+   9
+  ]
  },
  {
-  "wait": 2.4,
+  "tap": "interact"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.4,
+  "shot": "tram_stop"
+ },
+ {
+  "choose": 1,
+  "note": "South, to the Bondszaal"
+ },
+ {
+  "wait": 5.0
+ },
+ {
   "shot": "a_bondszaal"
  },
  {
@@ -88,5 +96,51 @@
  },
  {
   "wait": 0.8
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "advance": 4,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.4,
+  "shot": "d_which_desk"
+ },
+ {
+  "choose": 1,
+  "note": "The Cup"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.4,
+  "shot": "e_ready"
+ },
+ {
+  "choose": 0,
+  "note": "Ready: the Cup starts"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "advance": 2,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.4,
+  "shot": "f_play_the_round"
+ },
+ {
+  "choose": 0
+ },
+ {
+  "wait": 6.0,
+  "shot": "g_round_one"
  }
 ]

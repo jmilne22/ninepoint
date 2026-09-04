@@ -64,10 +64,6 @@
   "shot": "d_street_east"
  },
  {
-  "time": "night",
-  "note": "east under the viaduct after dark. Joos is night-only since M26, and the arches only have anybody in them at this hour"
- },
- {
   "walk_to": [
    30,
    9
@@ -119,10 +115,6 @@
  },
  {
   "wait": 1.6
- },
- {
-  "time": "afternoon",
-  "note": "back up the street into daylight -- Pip and Bertie are in Molenpark at this hour and under the arches at the other one, which is the whole point of the schedules"
  },
  {
   "walk_to": [
