@@ -159,7 +159,7 @@ static func summary(state: Dictionary) -> String:
     if who == "":
         return "Round %d of %d. Top %d qualify." % [
             round_number, Exam.ROUNDS, Exam.PASS_PLACES]
-    return "Round %d of %d. You are drawn against %s.\nTop %d qualify. One round a day; see Marguerite when you are ready." % [
+    return "Round %d of %d. You are drawn against %s.\nTop %d qualify. See Marguerite when you are ready." % [
         round_number, Exam.ROUNDS, who, Exam.PASS_PLACES]
 
 

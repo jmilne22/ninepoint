@@ -194,7 +194,7 @@ Autopilot scripts in `tools/autopilot/`: `opening`, `prologue`, `slice_full` (Ne
 the league board: Pip, Wren, Kesh, the rank, the tram, Hana, Marguerite), `institute`,
 `nigiri`, `win_path`, `feel`, `resign`, `city`, `joos`, `banter`, `desk`, `handicap`,
 `endgame`, `board`, `saves`, `lessons`, `taught`, `thirteen`, `cup` / `cup_round` /
-`cup_play` / `cup_outgrown` / `cup_playing_up` / `cup_enter_open` / `cup_open`, `exam` /
+`cup_outgrown` / `cup_playing_up` / `cup_enter_open` / `cup_open`, `exam` /
 `exam_round` / `exam_play` / `exam_result` / `exam_missed` / `exam_final`, `wassalon` /
 `wassalon_game`.
 

@@ -1,4 +1,4 @@
-## The Steenbeek Beginner Cup: four rounds, one a day, paired on score.
+## The Steenbeek Beginner Cup: four rounds, paired on score.
 ##
 ## Like LeagueTable this stores nothing. The whole crosstable is a function of
 ## the field and the games the player has actually played -- pairings follow from
@@ -180,7 +180,7 @@ static func summary(state: Dictionary, section_id: String = BEGINNERS) -> String
             break
     if who == "":
         return "Round %d of %d." % [round_number, ROUNDS]
-    return "Round %d of %d. You are drawn against %s.\nOne round a day; see Marguerite when you are ready." % [
+    return "Round %d of %d. You are drawn against %s.\nSee Marguerite when you are ready." % [
         round_number, ROUNDS, who]
 
 
