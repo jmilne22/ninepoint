@@ -309,6 +309,22 @@ Owned by a parallel effort; listed here for completeness.
   One thing worth copying: `SignDesk` does **not** keep its own "a box is open" flag. It is
   handed `set_talking` and the World's `_talking` stays the only copy, because two flags
   meaning the same thing is how `knows_the_rules` went wrong in M27.
+- **Three things M30 left behind**, written down here rather than discovered later:
+  - `world.gd` is **577** lines against a convention of ~300. `SignDesk` took the reading
+    and the sitting-down; what is left is the tournament routing (`_start_cup_round`,
+    `_start_exam_round`, the problem paper), which is a second component and was out of
+    scope for a milestone whose subject was the term.
+  - **`LESSONS_REACHED_BY_TRACK` and `PUZZLES_REACHED_BY_TRACK` in `tests/test_data.gd` are
+    hand-kept copies of the tracks they guard.** Adding a class now means remembering two
+    places, and the copy in the test is the one that would go on passing. The same problem
+    for puzzle *kinds* was fixed in M30 -- `GoPuzzleData.KINDS` is read by the test rather
+    than retyped in it -- so the fix shape is known and simply was not applied here.
+  - **`GameState._note_hooks()` writes three flags** (`took_a_hook`, `hooks_top_three`,
+    `hooks_top`) so the journal has an event to advance on, since `QuestTracker` advances on
+    events and not on derived numbers. The order itself stays derived and stored nowhere,
+    and this is the same pattern as `won_a_league_game` -- but it is still state that could
+    disagree with `HooksLadder` if the roster ever changed underneath it.
+
 - **`LeagueTable.current_rows()` reads `GameState`.** `standings()` is still pure
   and takes everything it needs; the convenience exists because the board, the
   exam and the `league_position_at_most` dialogue condition must not build the
