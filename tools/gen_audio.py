@@ -710,6 +710,27 @@ def _():
     return s.fade_edges(0.02).normalise(0.16)
 
 
+@sound("washer")
+def _():
+    """A front-loader in the wassalon. A motor holding one low note, and the
+    load coming round twice -- unevenly, because a load is never balanced.
+
+    The room has no music and no stove, so the machines are the whole of its
+    noise. Two thumps and not four, for the same reason stove_crackle uses
+    uneven ticks: an even one reads as a rhythm you start counting, and this
+    is meant to be furniture you stop hearing.
+    """
+    s = Sound.noise(1.7, 0.30, seed=113).lowpass(420).highpass(60)
+    s.env(attack=0.35, decay=0.40, sustain=0.70, release=0.50)
+    s.mix(Sound.tone(78.0, 1.7, "sine", 0.10))     # the motor, on one note
+    s.mix(Sound.tone(117.0, 1.7, "sine", 0.04))
+    for i, at in enumerate((0.22, 0.94)):
+        thump = Sound.noise(0.14, 0.7, seed=120 + i).lowpass(300).highpass(50)
+        thump.env(attack=0.01, decay=0.06, sustain=0.30, release=0.08)
+        s.mix(thump, at)
+    return s.fade_edges(0.02).normalise(0.14)
+
+
 @sound("pigeons")
 def _():
     """Wings going up off a wet pavement: four beats, accelerating."""

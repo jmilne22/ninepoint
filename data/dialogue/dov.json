@@ -2,9 +2,94 @@
  "id": "dov",
  "nodes": {
   "start": {
+   "branches": [
+    {
+     "if": [["beat", "dov"]],
+     "goto": "after_win"
+    },
+    {
+     "if": [["lost_to", "dov"]],
+     "goto": "after_loss"
+    },
+    {
+     "goto": "first"
+    }
+   ]
+  },
+  "first": {
    "text": [
     "Dov Halevi. Nineteen kyu.",
     "I count out loud. People find it irritating and I have decided not to stop."
+   ],
+   "goto": "gate"
+  },
+  "gate": {
+   "branches": [
+    {
+     "if": [["not_flag", "knows_the_rules"]],
+     "goto": "no_rules"
+    },
+    {
+     "goto": "offer"
+    }
+   ]
+  },
+  "no_rules": {
+   "text": [
+    "You do not play. Then there is nothing here for me to count, and I am simply a man talking numbers to himself in a laundrette.",
+    "Which I am on most nights anyway. But I prefer an audience who can tell whether I am wrong."
+   ]
+  },
+  "offer": {
+   "text": [
+    "A game, then. I will count the whole way through and you will find it irritating.",
+    "It is not to put you off. A game nobody counts is a game nobody learns anything from, and I have sat through a great many of those."
+   ],
+   "choices": [
+    {
+     "text": "Go on, then.",
+     "exit": {
+      "type": "start_match",
+      "profile": "dov_9x9",
+      "context": "wassalon_dov",
+      "unrated": true,
+      "intro": "He sets his watch on the table beside the bowl and then does not look at it once."
+     }
+    },
+    {
+     "text": "Not tonight.",
+     "goto": "later"
+    }
+   ]
+  },
+  "later": {
+   "text": [
+    "Then I shall count the machines. Four of them, and the one on the end is thirty seconds behind the rest and has been all week."
+   ]
+  },
+  "after_win": {
+   "text": [
+    "Eleven. You were eleven ahead from about move forty, and you played the rest of it as though you were behind.",
+    "That is the expensive habit, and it is not reading. It is the not knowing."
+   ],
+   "goto": "offer"
+  },
+  "after_loss": {
+   "text": [
+    "Fourteen and a half. I said fourteen and a half at move sixty and it was fourteen and a half at the end.",
+    "Nobody ever believes me until the end, which is the only reason I keep doing it out loud."
+   ],
+   "goto": "offer"
+  },
+  "post_match": {
+   "branches": [
+    {
+     "if": [["beat", "dov"]],
+     "goto": "after_win"
+    },
+    {
+     "goto": "after_loss"
+    }
    ]
   }
  }

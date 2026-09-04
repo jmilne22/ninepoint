@@ -23,6 +23,7 @@ static func run(t: TestKit) -> void:
     _test_puzzles(t)
     _test_maps(t)
     _test_schedules(t)
+    _test_the_wassalon(t)
     _test_sleep_announces_the_day(t)
     _test_schedule_rule(t)
     _test_every_entry_happens(t)
@@ -374,6 +375,30 @@ static func _test_maps(t: TestKit) -> void:
             if target != null:
                 t.ok(target.spawns.has(str(w.get("spawn", ""))),
                     "%s: '%s' has the spawn point '%s'" % [map_id, str(w.get("map", "")), str(w.get("spawn", ""))])
+        # A sign must have somewhere to stand and read it. Being solid is only
+        # half of readable: the interaction probe is a 14x14 box thrown 12 px
+        # from the player's feet, so it reaches exactly one tile, and a sign
+        # with no walkable orthogonal neighbour builds an Interactable the
+        # probe can never overlap. It draws nothing, it errors nothing, and the
+        # prompt never appears. gen_maps.validate() refuses to write one now;
+        # this is the same rule asserted against what actually shipped, because
+        # a generator guard only protects the next map and this file protects
+        # the ten that are already here.
+        #
+        # It found one: the attic dormer, unreadable since M14.
+        for s in m.signs:
+            var st: Array = s.get("tile", [0, 0])
+            var sx := int(st[0])
+            var sy := int(st[1])
+            var reachable := false
+            for step in [[1, 0], [-1, 0], [0, 1], [0, -1]]:
+                var nx := sx + int(step[0])
+                var ny := sy + int(step[1])
+                if nx >= 0 and ny >= 0 and nx < m.width and ny < m.height \
+                        and not m.is_solid(nx, ny):
+                    reachable = true
+            t.ok(reachable, "%s: the sign at %d,%d can be stood in front of"
+                % [map_id, sx, sy])
         # every tile character must exist in the atlas
         for y in m.height:
             for x in m.width:
@@ -396,12 +421,27 @@ const OFF_AT_SOME_HOUR := {
     "sunny": "is nine years old and is not at the Instituut after dark",
     "orla": "goes home; she is a student and not a fixture",
     "nadia": "stays for the dusk and then goes",
+    # The three in the wassalon. Nobody's job is to be in a laundrette, and the
+    # room is deliberately empty late at night with the machines still going --
+    # it does the quay's job warm instead of cold. Every game in there is
+    # optional and no quest step goes anywhere near it, which is also why
+    # `wassalon` is not on ALWAYS_STAFFED below.
+    "abel": "came over for the Cup and has nowhere to be; daylight hours only",
+    "dov": "comes at dusk, when the machines are free",
+    "moss": "comes in out of the rain, which is what the warm room is for",
 }
 
 ## The two rooms Act 1 and Act 2 actually run through. If either empties at some
 ## hour the player can be left with no way to spend a slot, and no way to spend a
 ## slot is no way to reach the hour when the person they want is back -- the one
 ## way a schedule can genuinely deadlock the game rather than merely inconvenience.
+## The wassalon was considered for this list in M36 and deliberately left off,
+## which is written down because a two-entry list cannot tell "decided" from
+## "forgotten". It is not a "this room matters" list, it is a deadlock guard --
+## and nothing routes through the wassalon: no quest step, no gate, two of its
+## three games free, and De Ketel eight tiles away and staffed at all 56. Adding
+## it would also mean somebody in a laundrette at two in the morning, which
+## contradicts the sign on its door and deletes the best frame on the map.
 const ALWAYS_STAFFED := ["de_ketel", "academy_study"]
 
 ## The rooms that fill up on a particular night, and who is only there then.
@@ -499,6 +539,88 @@ static func _test_schedules(t: TestKit) -> void:
             "%s has somebody in it at every hour, every day, in either weather" % map_id)
     t.ok(combos == blocks.size() * weekdays.size() * skies.size(),
         "the cover walked all %d combinations" % combos)
+
+
+## The wassalon, and the two things about it that no other check would notice.
+##
+## Every guard in this file so far asserts that somebody *is* somewhere: the
+## cover, the staffed rooms, the findability list. Nothing anywhere asserts that
+## a room is EMPTY, and this is the first room in the game whose design depends
+## on it -- five lit portholes still turning and nobody in the chair is the
+## image the map exists for, and it is one careless "night" away from being
+## deleted with every test still green.
+##
+## The other half is the claim the milestone actually makes: the Beginner Cup
+## used to draw three names the player had never seen. That is only fixed for as
+## long as all three of them still stand in a room, so it is asserted rather
+## than remembered.
+static func _test_the_wassalon(t: TestKit) -> void:
+    t.section("the wassalon: a room that is deliberately empty at night")
+    var state = _state()
+    var m := MapData.load_map("wassalon")
+    t.ok(m != null, "the wassalon loads")
+    if m == null:
+        return
+
+    for d in state.WEEKDAYS:
+        for w in state.WEATHER:
+            var anybody := false
+            for npc in m.npcs:
+                if MapData.is_present(npc, "night", str(d), str(w)):
+                    anybody = true
+            t.ok(not anybody,
+                "the wassalon is machines and nobody on a %s %s night" % [str(d), str(w)])
+
+    # The three strangers, and nowhere else. If one of them turns up on another
+    # map the room stops being the only place you can have met them, and the
+    # Cup draw quietly goes back to being a list of names.
+    var here := {}
+    for npc in m.npcs:
+        here[str(npc.get("id", ""))] = true
+    for who in ["abel", "dov", "moss"]:
+        t.ok(here.has(who), "%s is in the wassalon" % who)
+        t.ok(CupDraw.FIELD_BEGINNERS.has(who),
+            "%s is in the Cup's beginners' field, which is the point of meeting them" % who)
+        var elsewhere := ""
+        for path in _list("res://data/maps", ".json"):
+            var other_id := path.get_file().trim_suffix(".json")
+            if other_id == "wassalon":
+                continue
+            var other := MapData.load_map(other_id)
+            if other == null:
+                continue
+            for npc in other.npcs:
+                if str(npc.get("id", "")) == who:
+                    elsewhere = other_id
+        t.eq(elsewhere, "", "%s stands in the wassalon and nowhere else" % who)
+
+    # Two of the three games are free, and that is a design rule rather than a
+    # convenience: `rated_wins_at_least` counts every rated record in the save,
+    # so a rated 21 kyu on a doorstep is three farmed wins away from opening the
+    # bigger board and the Cup play-up. Moss is the exception on purpose -- he
+    # is the one person in a room that records nothing who wants it recorded.
+    for who in ["abel", "dov"]:
+        t.ok(_offers_only_unrated(who),
+            "%s plays for nothing: the wassalon keeps no record" % who)
+    t.ok(not _offers_only_unrated("moss"),
+        "moss plays one that counts, which is the whole of him")
+
+
+## Does every game this graph offers carry `unrated`?
+static func _offers_only_unrated(npc_id: String) -> bool:
+    var parsed = JSON.parse_string(
+        FileAccess.get_file_as_string("res://data/dialogue/%s.json" % npc_id))
+    if not (parsed is Dictionary):
+        return false
+    var found := false
+    for node in parsed.get("nodes", {}).values():
+        for e in _exits(node):
+            if str(e.get("type", "")) != "start_match":
+                continue
+            found = true
+            if not bool(e.get("unrated", false)):
+                return false
+    return found
 
 
 ## Is this person standing somewhere in every combination of hour, day and sky?

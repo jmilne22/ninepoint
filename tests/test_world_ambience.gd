@@ -12,14 +12,27 @@ extends RefCounted
 ## Its constants are reachable through the script itself either way.
 const AudioScript := preload("res://src/autoload/audio.gd")
 
-## Every map, and it has to stay every map. The Bondszaal was missing from this
-## list and spent its whole life declaring a track name that did not exist
-## ("institute", where the file is theme_institute.wav) -- so the hall the Cup
-## and the exam are held in played whatever the last map had been playing. The
-## check below would have caught it on day one.
-const MAPS := ["ketelsteeg", "de_ketel", "attic", "onderbrug", "quay",
-    "bondszaal", "academy_hall", "academy_study", "academy_class",
-    "academy_dorm"]
+## Every map, and it has to stay every map. The Bondszaal was missing from the
+## hand-kept version of this list and spent its whole life declaring a track
+## name that did not exist ("institute", where the file is theme_institute.wav)
+## -- so the hall the Cup and the exam are held in played whatever the last map
+## had been playing.
+##
+## It is read off the directory now rather than retyped, because the failure
+## mode of a hand-kept copy is that the *test* goes on passing: a map missing
+## from the list is not checked and nothing says so. That is the shape ROADMAP
+## section 8 records for LESSONS_REACHED_BY_TRACK and CLUB_NIGHT_GUESTS, and
+## the fix is M30's -- derive it. M36's wassalon was the eleventh map and would
+## have been the second Bondszaal.
+static func _maps() -> Array:
+    var ids: Array = []
+    for f in DirAccess.get_files_at(MAP_DIR):
+        if f.ends_with(".json"):
+            ids.append(f.get_basename())
+    ids.sort()
+    return ids
+
+const MAP_DIR := "res://data/maps"
 const IDLE_MODES := ["wander", "study", "tend", "watch", "converse"]
 
 
@@ -108,7 +121,7 @@ static func _test_sprites_exist(t: TestKit) -> void:
 
 static func _test_map_idles(t: TestKit) -> void:
     t.section("ambience: every idle a map asks for is one that exists")
-    for map_id in MAPS:
+    for map_id in _maps():
         var map := MapData.load_map(map_id)
         if map == null:
             t.ok(false, "map '%s' loads" % map_id)
@@ -135,7 +148,7 @@ static func _test_map_idles(t: TestKit) -> void:
 static func _test_music(t: TestKit) -> void:
     t.section("ambience: every track a map asks for exists")
     var used := {}
-    for map_id in MAPS:
+    for map_id in _maps():
         var map := MapData.load_map(map_id)
         if map == null:
             continue
@@ -165,7 +178,7 @@ static func _test_music(t: TestKit) -> void:
 
 static func _test_map_routes(t: TestKit) -> void:
     t.section("ambience: crowd routes are usable")
-    for map_id in MAPS:
+    for map_id in _maps():
         var map := MapData.load_map(map_id)
         if map == null:
             continue

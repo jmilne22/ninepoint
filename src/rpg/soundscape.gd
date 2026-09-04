@@ -37,6 +37,12 @@ const SOUND_SOURCES := {
         "sound": "stone_place", "every": 6.0, "jitter": 4.0, "db": -15.0,
         "people": 1, "max": 2,
     },
+    # Thinned hard on purpose. The wassalon has five machines in a row and
+    # five emitters at five seconds each is a laundrette that sounds like an
+    # engine room -- the same mistake the quay's 156 gulls would have been.
+    "washer": {
+        "sound": "washer", "every": 5.0, "jitter": 2.0, "db": -14.0, "max": 2,
+    },
     "quay_edge": {
         "sound": "amb_gull", "every": 24.0, "jitter": 16.0, "db": -8.0,
         "blocks": ["morning", "afternoon", "dusk"], "max": 2, "reach": 420.0,

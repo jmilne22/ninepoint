@@ -50,6 +50,14 @@ const ANIMATIONS := {
         "frames": ["go_table", "go_table_f1", "go_table_f2"],
         "hold": [22.0, 22.0, 22.0], "people": 2,
     },
+    # The machines in the wassalon, and the only animation in the game that
+    # runs at every hour of every day: "open till two" is the whole of what
+    # that room is, so a machine that stops when the light goes would be
+    # saying the opposite of the sign on the door.
+    "washer": {
+        "frames": ["washer", "washer_f1"],
+        "hold": [1.60, 1.60],
+    },
     "kifu_board": {
         "frames": ["kifu_board", "kifu_board_f1", "kifu_board_f2"],
         "hold": [14.0, 14.0, 14.0],
