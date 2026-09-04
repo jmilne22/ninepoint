@@ -142,12 +142,25 @@ behind it, and his games are `unrated` so `LeagueTable` never sees them.
 
 ## Before you start
 
-**Pull `main` first. Every time, before touching anything.**
+**Pull `main` first, and then *prove* you are on its head. Every time, before touching
+anything.** Pulling is not the check; the check is that the two hashes match.
 
 ```bash
-git checkout main && git pull            # or: git fetch origin main:main
+git fetch origin
+git rev-parse HEAD origin/main           # THESE TWO MUST BE THE SAME HASH
 git checkout -b <branch>                 # work goes on a branch, never on main
 ```
+
+If they differ, you are not on the head of `main` and **everything downstream of that is
+suspect** — most of all `ROADMAP.md`, which is how you choose what to build. Building an
+item that was finished and merged two days ago costs a whole session and looks exactly
+like working: the tests pass, the docs sweep cleanly, and the diff conflicts with somebody
+else's merged milestone at the very end. A `git pull` that says `Already up to date.` is
+only as true as your last `fetch`, and `git pull` on a branch that is not `main` does not
+touch `main` at all.
+
+Do it **again before opening a PR**: `origin/main` can move while you work, and the branch
+you sized against a stale base is described wrongly in the PR body.
 
 This is not housekeeping. Several sessions have worked in this tree and the merges
 happen on GitHub, so a local `main` goes stale without ever saying so.
@@ -162,7 +175,8 @@ Nothing errored and nothing warned. `git status` will not catch it either: it re
 against the remote-tracking branch, which is only as fresh as your last fetch.
 
 The same applies before reading `ROADMAP.md` to pick an item. Deciding what to build
-next out of a two-merge-old file is how the same thing gets built twice.
+next out of a two-merge-old file is how the same thing gets built twice — and you find
+out at the end of the session, not the start.
 
 ## Commands
 
