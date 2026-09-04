@@ -399,6 +399,27 @@
     },
     {
      "tile": [
+      17,
+      11
+     ],
+     "name": "prop_chalk"
+    },
+    {
+     "tile": [
+      18,
+      17
+     ],
+     "name": "prop_cups"
+    },
+    {
+     "tile": [
+      6,
+      10
+     ],
+     "name": "prop_satchel"
+    },
+    {
+     "tile": [
       18,
       17
      ],
@@ -429,6 +450,27 @@
     },
     {
      "tile": [
+      6,
+      10
+     ],
+     "name": "prop_satchel"
+    },
+    {
+     "tile": [
+      17,
+      11
+     ],
+     "name": "prop_chalk"
+    },
+    {
+     "tile": [
+      18,
+      17
+     ],
+     "name": "prop_cups"
+    },
+    {
+     "tile": [
       18,
       17
      ],
@@ -451,6 +493,27 @@
       10
      ],
      "name": "prop_satchel"
+    },
+    {
+     "tile": [
+      6,
+      10
+     ],
+     "name": "prop_satchel"
+    },
+    {
+     "tile": [
+      17,
+      11
+     ],
+     "name": "prop_chalk"
+    },
+    {
+     "tile": [
+      18,
+      17
+     ],
+     "name": "prop_cups"
     }
    ]
   }

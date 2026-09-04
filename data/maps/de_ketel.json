@@ -282,6 +282,13 @@
     },
     {
      "tile": [
+      12,
+      10
+     ],
+     "name": "prop_papers"
+    },
+    {
+     "tile": [
       8,
       5
      ],
@@ -323,6 +330,13 @@
     },
     {
      "tile": [
+      12,
+      10
+     ],
+     "name": "prop_papers"
+    },
+    {
+     "tile": [
       8,
       5
      ],
@@ -345,6 +359,13 @@
       11
      ],
      "name": "prop_cups"
+    },
+    {
+     "tile": [
+      12,
+      10
+     ],
+     "name": "prop_papers"
     }
    ]
   }

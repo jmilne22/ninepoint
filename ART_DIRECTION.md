@@ -104,6 +104,9 @@ one tube on Ketelsteeg is a cyan and not a pink.
 - Terrain uses 3-value shading only (dark / base / light). No gradients.
 - Walkability, not decoration, decides tile identity: every solid tile is visibly solid
   (a wall has a top face and a shaded side; a fence has posts).
+- Everyday traces live on the decor layer: cups, papers, satchels, chalk and laundry
+  make a room or route feel used without changing collision, hiding a doorway, or
+  competing with an interactable. Reuse generated prop tiles rather than placing one-off pixels.
 - Interiors reuse the same atlas plus an interior strip (floorboards, mats, shelving, tables,
   De Ketel's board tables).
 - **Nothing in code refers to an atlas index.** `TileAtlas.at(name)` resolves every tile
