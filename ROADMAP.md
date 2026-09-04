@@ -4,7 +4,7 @@ Everything below is outstanding as of the current build. It is ordered by what
 would most improve the game, not by what is easiest. `MILESTONES.md` records what
 was built and how it was verified; this file records what has not been.
 
-The build is green: `tools/test.sh` runs 6397 checks, `tools/check_lessons.py`
+The build is green: `tools/test.sh` runs 6515 checks, `tools/check_lessons.py`
 reports no problems, and the game is playable from the cold open to the exam and
 the Cup.
 
@@ -94,7 +94,27 @@ was written and `check_load.gd` loaded it faithfully every time.
   and the study hall -- the two rooms Act 1 and Act 2 run through -- are staffed at every
   hour, because a room that empties is an hour the player cannot spend and therefore an
   hour they cannot get past.
-- ~~**More to do per day.**~~ **Half done (M30).** Classes 3 -> 5 (`capture_race`,
+- ~~**More to do per day.**~~ **Done (M34).** The half M30 left was the diagnosis in the
+  paragraph below: not hours to spend, but *days that differ from each other*. The reason none
+  did was structural and nobody had looked for it -- `GameState.day` was read in four places
+  (`EXAM_DAY`, `CUP_DAY`, the HUD line, and the study desk's puzzle rotation), and **schedules
+  keyed on the hour and nothing else**. M26 built half a calendar and the half it built was the
+  clock: the hour decided who was in the room and the day decided nothing at all.
+
+  So the schedule gained a day axis. A map's NPC entry may carry `"days": ["wednesday"]` beside
+  its `"blocks"`, with the same absent-means-always reading, and both must pass. The rule itself
+  is `MapData.is_present()` -- **pure and on the autoload-free half on purpose**, because the
+  same rule on `MapBuilder` would have been unreachable from every test in the project, which is
+  the trap §8 has now recorded three times.
+
+  What it is spent on is **club night at De Ketel**, Wednesdays. Nadia and Orla come down from
+  the Instituut, which costs nobody their own place: they were the only two people in the game
+  who were nowhere at all at night. Six people in the room instead of four, both of them with a
+  club-night voice and an unrated game, so the night pays into the hooks and not the league --
+  which is the distinction the two progressions exist to draw. Sunny is nowhere at night too and
+  is deliberately not there. She is nine.
+
+  ~~**More to do per day** (M30's half).~~ Classes 3 -> 5 (`capture_race`,
   `false_eyes`), puzzles 8 -> 12 (`capture_5`, `escape_3`, `live_3`, `connect_1`, the last
   a new *kind* of problem rather than a twelfth of the same one), and the quay has somebody
   on it at dusk with an unrated game on the bench. Both new classes are deliberately things
@@ -468,7 +488,23 @@ Owned by a parallel effort; listed here for completeness.
   covers `data/reviews/`, where three of the eight voice files are named by no test. A
   malformed one surfaces as a `push_error` at run time, in front of the player.
 - **Two test hooks ship in production code**: the `Autopilot` autoload and
-  `GoMatch.THINK_DELAY_FAST`.
+  `GoMatch.THINK_DELAY_FAST`. The first grew a `day` step in M34, beside its `time` step.
+- **Three things M34 left behind:**
+  - **`world.gd` cannot be reached by any test**, and this is the §8 bug above wearing its
+    fourth costume. The M34 bug *was* in `world.gd` -- it never connected `day_changed`, so a
+    day could turn with yesterday's people still in the room -- and no test in this project
+    could have caught it, because `world.gd` reads autoloads and does not compile in a
+    `--script` run. It was found by reading the wiring and confirmed by opening screenshots.
+    The schedule *rule* was deliberately moved to `MapData.is_present()` so at least that half
+    is guarded; the connection itself is not, and nothing detects the class of problem.
+  - **`CLUB_NIGHT_GUESTS` in `tests/test_data.gd` is a hand-kept copy** of who is actually in
+    `de_ketel.json` on Wednesday. This is the `LESSONS_REACHED_BY_TRACK` shape that this file
+    already records the cost of, and the copy in the test is the one that would go on passing.
+    M33 showed the fix -- derive it -- but there is no pure module to derive it *from* here, so
+    it wants one, or it wants the assertion inverted.
+  - **The day axis has exactly one user.** `"days"` is a general mechanism and club night is
+    the only thing that spends it. That is the right size for one milestone and it is also the
+    reason the term is not yet full: one recurring night is a shape, not a week.
 - **`GtpOpponent` is unwired**, with four known bugs between it and an engine -- the count
   said three and then listed four:
   handicap stones never enter `game.moves`, `choose_move` issues `clear_board`

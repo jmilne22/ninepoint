@@ -1985,3 +1985,113 @@ a field and stored nothing, which is why a second section cost one argument. 19�
 screen space rather than plumbing. And the tournament routing is still in `world.gd`, which
 is **591** lines — three more than it was. ROADMAP §8 says so rather than this milestone
 pretending it shrank.
+
+## M34 — The week has a shape  [done]
+
+`ROADMAP.md` §3's second bullet was the only item in the section still marked *half done*, and
+the highest-ranked open item in the file. Its own diagnosis was the ticket: *"What the term
+lacked was not hours to spend but **days that differ from each other** — nothing changed between
+day 3 and day 8 except a head-to-head counter."*
+
+**The reason none did was structural, and nobody had gone looking for it.** `GameState.day` was
+read in exactly four places — `EXAM_DAY`, `CUP_DAY`, the HUD line, and the study desk's
+`PUZZLE_TRACK[day % size]`. That last one was the *only* mechanic in the game where one day
+differed from another. Schedules keyed on `time_block` and nothing else. **M26 built half a
+calendar and the half it built was the clock:** the hour decided who was in the room, and the
+day decided nothing at all.
+
+So the schedule gained a day axis, and it is spent on one thing worth planning around.
+
+**`"days"` beside `"blocks"`, and both must pass.** A map's NPC entry may carry
+`"days": ["wednesday"]`, with the same absent-or-empty-means-always reading that `blocks`,
+`TileAnimator` and `Soundscape` all share, so every entry written before either axis existed
+keeps working untouched. Club night is the evening hours *and* Wednesday — not a third kind of
+rule. `GameState.WEEKDAYS` mirrors `BLOCKS`, `weekday()` is derived from `day` and stored
+nowhere, and a fortnight is exactly two weeks, so the period needed no constant to justify it.
+
+**The rule went on the pure half on purpose.** `MapData.is_present(spec, block, weekday)` is a
+static on the autoload-free class. Written on `MapBuilder` — the obvious place, since that is
+what filters the NPCs — it would have been unreachable from every test in the project, silently,
+because `MapBuilder` reads `GameState` and the suite runs as `--script`. That is ROADMAP §8's
+list, and this is the first milestone to consult it *before* paying for it rather than after.
+
+**Club night at De Ketel, Wednesdays.** Nadia and Orla come down from the Instituut. They were
+chosen by looking rather than by taste: they are the only two people in the game who are
+**nowhere at all at night**, so the night costs nobody their own place and puts nobody on two
+maps at one hour. Six in the room instead of four. Both have a club-night voice and an unrated
+game, so the night moves brass cards and never the league — the distinction the two progressions
+exist to draw. Orla's is the second place she is a different person off the premises, which the
+quay already established. Sunny is nowhere at night too and is deliberately not there: she is
+nine.
+
+The player can see it coming, or a schedule they cannot read is indistinguishable from
+randomness: the Ketelsteeg noticeboard carries it beside the Cup entry, Tomás has pinned it to
+his own counter, and the HUD says `Day 3, Wed night   club night`. The weekday is abbreviated
+because the label is 200 px and the longest line this can produce is **181** — measured against
+the font's own advances rather than estimated.
+
+**Done when:** `tools/test.sh` **6515 / 0** (from 6397), `check_lessons.py` clean, and the
+frames below opened one at a time.
+
+**What it dragged into the light, and the first one is the milestone's real find.**
+
+**`World` never listened for the day.** `_repopulate()` was connected to `time_block_changed`
+and to nothing else. Sleeping normally resets night → morning, so the hour turn rebuilt the room
+by luck — but sleeping while it is *already* morning (`slots_used == 0`) makes
+`_sync_time_block()` see an unchanged block and return without emitting, so the day advanced and
+the world was never rebuilt. Harmless for eight milestones because nothing about who was in a
+room depended on the day. It would have stopped being harmless in the very next commit, and the
+symptom would have been yesterday's people standing in today's room with no error and no failing
+test.
+
+**And no test in this project could have caught it.** `world.gd` reads autoloads, so it does not
+compile in a `--script` run — §8's disease in a fourth costume. It was found by reading the
+wiring before depending on it, and confirmed by opening screenshots. What *is* guarded is the
+half a test can reach: `sleep()` must still emit `day_changed` in the one case where the hour
+stays put, so the obvious tidy-up ("nothing changed, why emit?") breaks the room from the other
+end instead. The test says plainly which half it covers.
+
+**A day-restricted entry may never satisfy a safety guarantee.** `_test_schedules` asserts every
+character is findable at every hour and that De Ketel and the study hall are always staffed. A
+`"days"` entry is true one day in seven, so it must not count towards either — the checks are
+built from the entries carrying *no* `days` key, which is exactly what they meant before the axis
+existed and keeps them meaning it. Day-restricted entries only ever add, and are checked
+separately. Day-restricting Wren proves it: four failures, including De Ketel's staffing.
+
+**Six deliberate breaks, each watched to go red and reverted:**
+
+| broken | result |
+|---|---|
+| a weekday misspelt `"weds"` in the generator | `validate()` refused to build |
+| the two schedule filters ORed instead of ANDed | 2 failed |
+| Wren given a `"days"` key — the anchor loses her guarantee | 4 failed |
+| Nadia put in Onderbrug at night as well | 2 failed |
+| Orla dropped from club night | 1 failed |
+| `sleep()`'s `day_changed` made conditional | 1 failed |
+
+The third is the one worth reading: day-restricting the room's anchor failed both *"wren can be
+found at every hour"* and *"de_ketel has somebody in it at morning, every day of the week"*,
+which is the deadlock guard doing its job across the new axis rather than beside it.
+
+**Looked at, not reasoned about.** `tools/autopilot/club_night.json`, six frames, opened one at
+a time.
+
+The noticeboard, reading the Cup entry with the club night pinned beside it, *"curling at one
+corner"*. De Ketel on **Day 2, Tue night** — Wren, Tomás, Kesh, Hana, four people. The same room
+at the same hour on **Day 3, Wed night** with the World still standing — Nadia at the far table,
+Orla by the near one, six people, and the HUD line reading `club night`. Nadia's own words for
+why she is there, because otherwise she would deliver her classroom lines in a bar. And **Day 4,
+Thu night**, back to four: it has to end as well as begin, or `"days"` is a permanent addition
+with a calendar painted on it.
+
+**The frame that nearly lied.** The first cut walked to (15, 6) to stand beside Nadia. That is a
+chair and it is solid, so the run printed `no path to (15, 6)`, carried on, and wrote a confident
+screenshot of the middle of the room under the caption *"an Essenveld student on a De Ketel
+stool"*. Exit 0, no script errors. This is the M16/M27/M32/M33 disease and the cure was the same
+one every time: open the PNGs. The script now walks to (16, 6) and the note records why.
+
+**Deliberately not done.** The day axis has exactly one user. `"days"` is general and club night
+is the only thing spending it, which is the right size for one milestone and is also why the term
+is not yet full — one recurring night is a shape, not a week. Written up in `ROADMAP.md` §8 rather
+than left for the next session to rediscover. 19×19 and `MISTAKE_BREADTH` are both still open in
+§5 and neither was touched.

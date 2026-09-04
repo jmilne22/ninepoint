@@ -64,6 +64,16 @@ func _ready() -> void:
     EventBus.time_block_changed.connect(func(_b: String) -> void:
         _apply_music()
         _repopulate())
+    # The day turns as well as the hour, and until M34 nothing listened for it.
+    # Sleeping normally resets night -> morning, so the hour turn rebuilt the
+    # world by luck; sleeping while it is *already* morning (slots_used == 0)
+    # leaves the block unchanged, `_sync_time_block` returns without emitting,
+    # and the day advanced with yesterday's people still standing in the room.
+    # Harmless while nothing about who is in a room depended on the day. It stops
+    # being harmless one commit later, in build_npcs.
+    EventBus.day_changed.connect(func(_d: int) -> void:
+        _apply_music()
+        _repopulate())
     EventBus.puzzle_finished.connect(_on_puzzle_finished)
     EventBus.map_changed.emit(map.id, GameState.spawn_point)
     await get_tree().process_frame

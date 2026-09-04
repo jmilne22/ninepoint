@@ -147,6 +147,12 @@ it is where the club and the Instituut end up at the same table. If you are stil
 ceiling but have won three rated games you may choose to play up into it, and the registrar
 will tell you exactly what that costs before she enters you.
 
+The week has a shape. A day holds three hours and sleeping is the only thing that turns it
+over; who is standing in a room depends on both the hour and the weekday. **De Ketel has a club
+night on Wednesdays** -- Nadia and Orla come down from the Instituut and the back room holds six
+people instead of four. The games are unrated, so they move the brass hooks at the back of the
+room and never the league table. The noticeboard on Ketelsteeg says when it is.
+
 There is no relationship system. The game tracks your **record** against each person.
 
 ## The vertical slice

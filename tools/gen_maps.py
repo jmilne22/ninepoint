@@ -218,7 +218,7 @@ def ketelsteeg():
         ],
         "signs": [
             {"tile": [1, 9], "text": "TRAM 4 -- ESSENVELD, 2 STOPS. The Instituut is listed underneath in smaller letters, as though it would rather not be found."},
-            {"tile": [3, 9], "text": "STEENBEEK BEGINNER CUP -- entries at the Bondszaal. All ranks 15k and below."},
+            {"tile": [3, 9], "text": "STEENBEEK BEGINNER CUP -- entries at the Bondszaal. All ranks 15k and below. Pinned beside it, curling at one corner: DE KETEL -- CLUB NIGHT WEDNESDAY, FROM EIGHT."},
             {"tile": [home_door, 8], "text": "A stationer's, shuttered since before you came. Your stairs are the door beside it, and the landlord's cat owns the landing."},
             {"tile": [ketel_steps + 2, 8], "text": "DE KETEL. Three steps down. The bar is Tomas's and so is the back room, which has had a board in it for sixty years."},
             {"tile": [wash_door, 8], "text": "WASSALON -- open till two. The warmest room on Ketelsteeg, and nobody minds if you only sit."},
@@ -521,6 +521,7 @@ def de_ketel():
             {"tile": [9, 2], "text": "__HOOKS__THE HOOKS -- one brass hook per regular, strongest at the top, and nobody asks to see a certificate."},
             {"tile": [18, 4], "text": "A coal stove, lit from October to April whatever the weather does. The chair nearest it is not yours and everybody knows whose it is."},
             {"tile": [1, 5], "text": "The rate is chalked on a slate: two-fifty an hour, board and stones included. Under it a kettle, a tin of biscuits, and an honesty box. The biscuits are gone."},
+            {"tile": [1, 4], "text": "Pinned to the counter, in Tomas's handwriting: CLUB NIGHT -- WEDNESDAY, FROM EIGHT. Underneath, smaller: all comers, no cards, the hooks count everything."},
         ],
         # Kesh and Hana are the two people the setting says cross between the
         # Instituut and the salon, and until M26 that was expressed by placing
@@ -544,6 +545,23 @@ def de_ketel():
             # worth walking into once.
             {"id": "tomas", "tile": [2, 6], "dir": "right", "idle": "tend",
              "blocks": ["afternoon", "dusk", "night"]},
+            # --- club night. "days" is read by MapBuilder.build_npcs exactly as
+            # "blocks" is, and both must pass, so these two are here on Wednesday
+            # evening and on no other night of the week.
+            #
+            # Nadia and Orla because they are the only two people in the game who
+            # are nowhere at all at night: the Instituut has shut and neither has
+            # anywhere to be, so coming down to the salon costs nobody their own
+            # place and puts nobody on two maps at one hour. It is also the
+            # crossing the setting is built on -- an Essenveld student on a De
+            # Ketel stool, where the hooks count the game and the league does not.
+            #
+            # Sunny is nowhere at night too and is deliberately not here. She is
+            # nine.
+            {"id": "nadia", "tile": [16, 5], "dir": "left", "idle": "study",
+             "blocks": ["night"], "days": [CLUB_NIGHT]},
+            {"id": "orla", "tile": [5, 10], "dir": "right", "idle": "watch",
+             "blocks": ["night"], "days": [CLUB_NIGHT]},
         ],
         "music": "theme_club",
         "indoors": True,
@@ -899,6 +917,15 @@ def solid_mask(grid, extra_walkable=frozenset()):
 ## Mirrors GameState.BLOCKS; validate() is what keeps the two honest.
 BLOCKS = ["morning", "afternoon", "dusk", "night"]
 
+## The days of the week, and the only strings an NPC's "days" may contain.
+## Mirrors GameState.WEEKDAYS, and validate() keeps the two honest for the same
+## reason it does the hours -- with seven wrong answers available instead of
+## three, and "tues"/"weds" sitting right there to be typed.
+WEEKDAYS = ["monday", "tuesday", "wednesday", "thursday",
+            "friday", "saturday", "sunday"]
+
+CLUB_NIGHT = "wednesday"
+
 
 def validate(name, data):
     """Every place a person can stand must actually be standable, and every
@@ -926,6 +953,13 @@ def validate(name, data):
             if b not in BLOCKS:
                 problems.append("%s: npc '%s' has unknown block '%s' (want %s)"
                                 % (name, npc["id"], b, "/".join(BLOCKS)))
+        # The same trap one axis over, and a wider one: a misspelt weekday
+        # removes the person on all seven days rather than on one, and a
+        # schedule that hides somebody can hide a quest step.
+        for d in npc.get("days", []):
+            if d not in WEEKDAYS:
+                problems.append("%s: npc '%s' has unknown day '%s' (want %s)"
+                                % (name, npc["id"], d, "/".join(WEEKDAYS)))
     for w in data["warps"]:
         x, y = w["tile"]
         if solid[y][x] != "0":
