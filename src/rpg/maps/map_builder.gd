@@ -28,6 +28,12 @@ static func build_layers(map: MapData, parent: Node2D) -> TileMapLayer:
                 var coords := TileAtlas.at(tile_name)
                 if coords.x >= 0:
                     layer.set_cell(Vector2i(x, y), 0, coords)
+        if spec[0] == "Decor":
+            for prop in map.presence_tiles:
+                var at: Array = prop.get("tile", [])
+                var coords := TileAtlas.at(str(prop.get("name", "")))
+                if at.size() >= 2 and coords.x >= 0:
+                    layer.set_cell(Vector2i(int(at[0]), int(at[1])), 0, coords)
     return ground
 
 

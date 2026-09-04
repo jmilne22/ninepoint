@@ -5,6 +5,8 @@ extends Node2D
 const PLAYER_SCENE := preload("res://src/rpg/player/player.tscn")
 const HUD_SCENE := preload("res://src/ui/hud.gd")
 const DIALOGUE_SCENE := preload("res://src/ui/dialogue_box.gd")
+const Presence := preload("res://src/rpg/world_presence.gd")
+const AmbientBanterScene := preload("res://src/rpg/ambient_banter.gd")
 
 var map: MapData
 var player: Player
@@ -12,6 +14,7 @@ var camera: Camera2D
 var soundscape: Soundscape
 var animator: TileAnimator
 var crowd: CrowdSpawner
+var ambient_banter: Node2D
 var hud: Hud
 var dialogue: DialogueBox
 var pause_menu: PauseMenu
@@ -31,6 +34,7 @@ func _ready() -> void:
     if map == null:
         push_error("World: could not load map '%s'" % GameState.current_map)
         return
+    Presence.apply(map, GameState.flags)
 
     MapBuilder.build_backdrop(map, self)
     var ground := MapBuilder.build_layers(map, self)
@@ -46,6 +50,10 @@ func _ready() -> void:
     add_child(entities)
 
     npcs = MapBuilder.build_npcs(map, entities, _on_talk_requested)
+    ambient_banter = AmbientBanterScene.new()
+    ambient_banter.name = "AmbientBanter"
+    entities.add_child(ambient_banter)
+    ambient_banter.setup(map.presence_lines, npcs)
     MapBuilder.build_signs(map, self, _read_sign)
     MapBuilder.build_warps(map, self)
 

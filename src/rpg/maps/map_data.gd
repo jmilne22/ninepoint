@@ -23,8 +23,16 @@ var npcs: Array = []
 ## Walk-through routes for the crowd: {"path": [[x, y], ...], "rate": seconds}.
 ## Empty on every interior, and on any map where traffic would be a lie.
 var routes: Array = []
+## Optional story-state variants. WorldPresence resolves one at map load; it
+## may replace NPC placements/routes and add a decor overlay plus overheard text.
+var presence_states: Array = []
+var presence_tiles: Array = []
+var presence_lines: Array = []
 ## Track name for this map, matched against audio/<name>.wav. "" is silence.
 var music: String = ""
+## Retained as an empty compatibility field: ambience tests and older authored
+## maps may ask for it, but the game deliberately has no time-of-day music.
+var music_night: String = ""
 ## What plays here after dark. "" keeps `music` at every hour.
 ## Indoors takes the hour much more gently and never gets rained on: inside a
 ## room the lights are simply on. Soundscape reads this.
@@ -56,6 +64,7 @@ static func load_map(map_id: String) -> MapData:
     m.signs = parsed.get("signs", [])
     m.npcs = parsed.get("npcs", [])
     m.routes = parsed.get("routes", [])
+    m.presence_states = parsed.get("presence_states", [])
     m.music = str(parsed.get("music", ""))
     m.indoors = bool(parsed.get("indoors", false))
     return m

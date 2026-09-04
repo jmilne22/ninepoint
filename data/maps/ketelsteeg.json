@@ -373,5 +373,86 @@
   }
  ],
  "music": "theme_street",
- "indoors": false
+ "indoors": false,
+ "presence_states": [
+  {
+   "id": "enrolled",
+   "when": {
+    "all": [
+     "enrolment"
+    ]
+   },
+   "tiles": [
+    {
+     "tile": [
+      15,
+      10
+     ],
+     "name": "prop_satchel"
+    },
+    {
+     "tile": [
+      6,
+      10
+     ],
+     "name": "prop_satchel"
+    },
+    {
+     "tile": [
+      18,
+      17
+     ],
+     "name": "prop_cups"
+    }
+   ],
+   "lines": [
+    {
+     "npc": "pip",
+     "text": "Tram people play too. I asked."
+    }
+   ]
+  },
+  {
+   "id": "first-stones",
+   "when": {
+    "all": [
+     "knows_the_rules"
+    ]
+   },
+   "tiles": [
+    {
+     "tile": [
+      15,
+      10
+     ],
+     "name": "prop_satchel"
+    },
+    {
+     "tile": [
+      18,
+      17
+     ],
+     "name": "prop_cups"
+    }
+   ],
+   "lines": [
+    {
+     "npc": "pip",
+     "text": "I nearly had a ladder."
+    }
+   ]
+  },
+  {
+   "id": "routine",
+   "tiles": [
+    {
+     "tile": [
+      15,
+      10
+     ],
+     "name": "prop_satchel"
+    }
+   ]
+  }
+ ]
 }

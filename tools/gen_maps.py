@@ -981,6 +981,20 @@ def validate(name, data):
         x, y = npc["tile"]
         if not walkable(x, y):
             problems.append("%s: npc '%s' at %d,%d is solid" % (name, npc["id"], x, y))
+    # Presence states are event-driven map variants, never a schedule. They
+    # may replace the visible cast, but every placement is still held to the
+    # same walkability rule as the base map.
+    for state in data.get("presence_states", []):
+        for npc in state.get("npcs", []):
+            x, y = npc["tile"]
+            if not walkable(x, y):
+                problems.append("%s: presence '%s' npc '%s' at %d,%d is solid"
+                                % (name, state.get("id", ""), npc["id"], x, y))
+        for prop in state.get("tiles", []):
+            x, y = prop["tile"]
+            if not (0 <= y < len(solid) and 0 <= x < len(solid[y])):
+                problems.append("%s: presence '%s' prop at %d,%d is off-map"
+                                % (name, state.get("id", ""), x, y))
     for w in data["warps"]:
         x, y = w["tile"]
         if solid[y][x] != "0":
@@ -1039,6 +1053,81 @@ def validate(name, data):
     return problems
 
 
+def presence_states(name, data):
+    """Small persistent changes: the city notices progress, never the clock."""
+    base_tiles = {
+        "attic": [{"tile": [6, 5], "name": "prop_satchel"}],
+        "ketelsteeg": [{"tile": [15, 10], "name": "prop_satchel"}],
+        "de_ketel": [{"tile": [7, 11], "name": "prop_cups"}],
+        "wassalon": [{"tile": [2, 7], "name": "prop_laundry"}],
+        "onderbrug": [{"tile": [14, 9], "name": "prop_rope"}],
+        "quay": [{"tile": [8, 5], "name": "prop_rope"}],
+        "academy_hall": [{"tile": [7, 5], "name": "prop_papers"}],
+        "academy_study": [{"tile": [10, 8], "name": "prop_papers"}],
+        "academy_class": [{"tile": [8, 6], "name": "prop_papers"}],
+        "academy_dorm": [{"tile": [5, 6], "name": "prop_satchel"}],
+        "bondszaal": [{"tile": [8, 7], "name": "prop_papers"}],
+    }
+    routine = {"id": "routine"}
+    states = {
+        "attic": [
+            {"id": "study", "when": {"all": ["knows_the_rules"]},
+             "tiles": [{"tile": [8, 5], "name": "prop_papers"}],
+             "lines": []}, routine],
+        "ketelsteeg": [
+            {"id": "enrolled", "when": {"all": ["enrolment"]},
+             "tiles": [{"tile": [6, 10], "name": "prop_satchel"},
+                       {"tile": [18, 17], "name": "prop_cups"}],
+             "lines": [{"npc": "pip", "text": "Tram people play too. I asked."}]},
+            {"id": "first-stones", "when": {"all": ["knows_the_rules"]},
+             "tiles": [{"tile": [18, 17], "name": "prop_cups"}],
+             "lines": [{"npc": "pip", "text": "I nearly had a ladder."}]}, routine],
+        "de_ketel": [
+            {"id": "rival-routine", "when": {"all": ["kesh_match_done"]},
+             "npcs": [{"id": "wren", "tile": [9, 8], "dir": "right", "idle": "converse:kesh"},
+                       {"id": "kesh", "tile": [11, 8], "dir": "left", "idle": "converse:wren"},
+                       {"id": "tomas", "tile": [2, 6], "dir": "right", "idle": "tend"}],
+             "tiles": [{"tile": [8, 5], "name": "prop_cups"}, {"tile": [12, 10], "name": "prop_papers"}],
+             "lines": [{"npc": "kesh", "text": "It was not a bad cut."}, {"npc": "wren", "text": "That is almost praise."}]},
+            {"id": "lessons", "when": {"all": ["knows_the_rules"]},
+             "tiles": [{"tile": [8, 5], "name": "prop_cups"}],
+             "lines": [{"npc": "wren", "text": "There is a game on every table."}]}, routine],
+        "wassalon": [
+            {"id": "regulars", "when": {"all": ["abel_match_done"]},
+             "npcs": [{"id": "abel", "tile": [10, 6], "dir": "left", "idle": "converse:moss"},
+                       {"id": "dov", "tile": [8, 4], "dir": "down", "idle": "tend"},
+                       {"id": "moss", "tile": [12, 6], "dir": "right", "idle": "converse:abel"}],
+             "tiles": [{"tile": [2, 7], "name": "prop_laundry"}, {"tile": [7, 7], "name": "prop_papers"}],
+             "lines": [{"npc": "abel", "text": "That was a real move."}, {"npc": "moss", "text": "Do not make it a habit."}]},
+            {"id": "open", "when": {"all": ["knows_the_rules"]},
+             "tiles": [{"tile": [2, 7], "name": "prop_laundry"}],
+             "lines": [{"npc": "dov", "text": "Level. Still level."}]}, routine],
+        "onderbrug": [
+            {"id": "marked", "when": {"all": ["joos_match_done"]},
+             "tiles": [{"tile": [10, 7], "name": "prop_chalk"}, {"tile": [14, 9], "name": "prop_rope"}],
+             "lines": [{"npc": "joos", "text": "Somebody will use that shape."}]}, routine],
+        "quay": [
+            {"id": "after-loss", "when": {"equals": {"last_result": "loss"}},
+             "tiles": [{"tile": [8, 5], "name": "prop_rope"}, {"tile": [17, 3], "name": "prop_satchel"}]}, routine],
+        "academy_hall": [
+            {"id": "league", "when": {"all": ["won_a_league_game"]},
+             "tiles": [{"tile": [7, 5], "name": "prop_papers"}, {"tile": [14, 8], "name": "prop_satchel"}]}, routine],
+        "academy_study": [
+            {"id": "league", "when": {"all": ["won_a_league_game"]},
+             "tiles": [{"tile": [10, 8], "name": "prop_papers"}, {"tile": [18, 10], "name": "prop_cups"}]}, routine],
+        "academy_class": [
+            {"id": "taught", "when": {"all": ["lesson_openings_done"]},
+             "tiles": [{"tile": [8, 6], "name": "prop_papers"}]}, routine],
+        "bondszaal": [
+            {"id": "event", "when": {"all": ["cup_finished"]},
+             "tiles": [{"tile": [8, 7], "name": "prop_papers"}, {"tile": [12, 7], "name": "prop_satchel"}]}, routine],
+    }
+    out = states.get(name, [routine])
+    for state in out:
+        state["tiles"] = base_tiles.get(name, []) + state.get("tiles", [])
+    return out
+
+
 def build():
     out_dir = os.path.join(root, "data", "maps")
     os.makedirs(out_dir, exist_ok=True)
@@ -1051,6 +1140,7 @@ def build():
             ("bondszaal", bondszaal))
     for name, fn in maps:
         data = fn()
+        data["presence_states"] = presence_states(name, data)
         problems = validate(name, data)
         if problems:
             raise SystemExit("Map validation failed:\n  " + "\n  ".join(problems))

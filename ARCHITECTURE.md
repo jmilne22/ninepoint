@@ -207,6 +207,14 @@ dialogue graph path, opponent profile. Where somebody stands is the *map's* busi
 `data/maps/*.json` lists each map's people, and every person stands on exactly one map, all
 the time. There is no schedule; there was one from M26 to M36 and it was cut in M37.
 
+**Presence states** (optional `presence_states` in a map JSON) give a location a small set
+of persistent, story-driven versions. `WorldPresence` selects the first state whose `when`
+flags match, then may replace local NPC placements/routes and add decor tiles or non-blocking
+overheard lines. This is environmental memory, not a calendar: no state depends on the hour,
+and a map's services remain available on every visit. States end in an unconditional
+`routine` fallback and are checked by `WorldAmbienceTests` for valid tiles, placements and
+conversation partners.
+
 **Dialogue** (JSON graph):
 ```json
 { "id": "kesh", "nodes": {

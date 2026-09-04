@@ -11,6 +11,7 @@ extends RefCounted
 ## Audio is an autoload, and an autoload may not exist in a --script run.
 ## Its constants are reachable through the script itself either way.
 const AudioScript := preload("res://src/autoload/audio.gd")
+const Presence := preload("res://src/rpg/world_presence.gd")
 
 ## Every map, and it has to stay every map. The Bondszaal was missing from the
 ## hand-kept version of this list and spent its whole life declaring a track
@@ -44,6 +45,7 @@ static func run(t: TestKit) -> void:
     _test_interaction_priority(t)
     _test_map_idles(t)
     _test_map_routes(t)
+    _test_presence_states(t)
     _test_music(t)
 
 
@@ -193,3 +195,59 @@ static func _test_map_routes(t: TestKit) -> void:
             for sheet in r.get("sheets", []):
                 t.ok(FileAccess.file_exists("res://art/sprites/%s.png" % str(sheet)),
                     "%s: route sheet '%s' exists" % [map_id, str(sheet)])
+
+
+## A presence state is the social life of a map after a persistent beat. These
+## checks intentionally inspect every authored state rather than only the one
+## a fresh save selects: a bad late-game position otherwise surfaces months
+## after the map first shipped.
+static func _test_presence_states(t: TestKit) -> void:
+    t.section("ambience: presence states are complete")
+    for map_id in _maps():
+        var map := MapData.load_map(map_id)
+        if map == null:
+            continue
+        t.ok(not map.presence_states.is_empty(), "%s: has a routine presence state" % map_id)
+        var ids := {}
+        for raw in map.presence_states:
+            var state: Dictionary = raw
+            var id := str(state.get("id", ""))
+            t.ok(id != "" and not ids.has(id), "%s: presence id '%s' is unique" % [map_id, id])
+            ids[id] = true
+            var when: Dictionary = state.get("when", {})
+            for key in when.get("all", []):
+                t.ok(str(key) != "", "%s/%s: required flag is named" % [map_id, id])
+            for key in when.get("none", []):
+                t.ok(str(key) != "", "%s/%s: excluded flag is named" % [map_id, id])
+            for key in when.get("equals", {}):
+                t.ok(str(key) != "", "%s/%s: compared flag is named" % [map_id, id])
+            var here := {}
+            var people: Array = state.get("npcs", map.npcs)
+            for spec in people:
+                var npc_id := str(spec.get("id", ""))
+                var at: Array = spec.get("tile", [])
+                t.ok(npc_id != "" and not here.has(npc_id),
+                    "%s/%s: npc '%s' appears once" % [map_id, id, npc_id])
+                here[npc_id] = true
+                t.ok(at.size() >= 2 and not map.is_solid(int(at[0]), int(at[1])),
+                    "%s/%s: %s stands on a walkable tile" % [map_id, id, npc_id])
+            for spec in people:
+                var idle := str(spec.get("idle", ""))
+                var bits := idle.split(":")
+                t.ok(idle == "" or IDLE_MODES.has(bits[0]),
+                    "%s/%s: %s has a known idle" % [map_id, id, spec.get("id", "")])
+                if bits[0] == "converse":
+                    t.ok(bits.size() > 1 and here.has(bits[1]),
+                        "%s/%s: conversation partner is present" % [map_id, id])
+            for prop in state.get("tiles", []):
+                t.ok(_tile_exists(str(prop.get("name", ""))),
+                    "%s/%s: prop '%s' is in the atlas" % [map_id, id, prop.get("name", "")])
+            var flags := {}
+            for key in when.get("all", []):
+                flags[str(key)] = true
+            for key in when.get("equals", {}):
+                flags[str(key)] = when["equals"][key]
+            t.eq(str(Presence.select(map.presence_states, flags).get("id", "")), id,
+                "%s/%s: its required flags select it" % [map_id, id])
+        t.eq(str(Presence.select(map.presence_states, {}).get("id", "")), "routine",
+            "%s: a fresh save selects routine" % map_id)

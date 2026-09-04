@@ -189,5 +189,43 @@
   }
  ],
  "music": "theme_institute",
- "indoors": true
+ "indoors": true,
+ "presence_states": [
+  {
+   "id": "taught",
+   "when": {
+    "all": [
+     "lesson_openings_done"
+    ]
+   },
+   "tiles": [
+    {
+     "tile": [
+      8,
+      6
+     ],
+     "name": "prop_papers"
+    },
+    {
+     "tile": [
+      8,
+      6
+     ],
+     "name": "prop_papers"
+    }
+   ]
+  },
+  {
+   "id": "routine",
+   "tiles": [
+    {
+     "tile": [
+      8,
+      6
+     ],
+     "name": "prop_papers"
+    }
+   ]
+  }
+ ]
 }

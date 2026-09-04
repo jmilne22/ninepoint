@@ -1205,6 +1205,69 @@ def _(im, s):
     _washer(im, s, 1)
 
 
+# -------------------------------------------------------- living-world props
+# These are deliberately small, readable traces of a person rather than new
+# furniture systems. Presence states lay them over an existing map tile.
+@tile("prop_cups")
+def _(im, s):
+    im.rect(0, 0, TS, TS, rgb("floor_wood" if False else "wood2"))
+    im.rect(3, 6, 4, 6, rgb("paper0"))
+    im.hline(3, 6, 4, rgb("paper1"))
+    im.rect(9, 8, 3, 4, rgb("paper1"))
+    im.set(12, 9, rgb("ink2"))
+    im.hline(9, 12, 3, rgb("wood0"))
+
+
+@tile("prop_papers")
+def _(im, s):
+    im.rect(0, 0, TS, TS, rgb("path2"))
+    im.rect(2, 3, 9, 10, rgb("paper0"))
+    im.frame(2, 3, 9, 10, rgb("ink2"))
+    for y in (6, 8, 10):
+        im.hline(4, y, 5, rgb("ink3"))
+    im.rect(10, 7, 4, 6, rgb("paper1"))
+    im.hline(11, 9, 2, rgb("rust1"))
+
+
+@tile("prop_laundry")
+def _(im, s):
+    im.rect(0, 0, TS, TS, rgb("paper1"))
+    im.rect(2, 7, 12, 7, rgb("blue1"))
+    im.frame(2, 7, 12, 7, rgb("ink2"))
+    for x, c in ((4, "paper0"), (7, "rust2"), (10, "teal2")):
+        im.rect(x, 5, 3, 6, rgb(c))
+    im.hline(3, 13, 10, rgb("blue0"))
+
+
+@tile("prop_satchel")
+def _(im, s):
+    im.rect(0, 0, TS, TS, rgb("path2"))
+    im.rect(3, 7, 10, 6, rgb("wood1"))
+    im.frame(3, 7, 10, 6, rgb("wood0"))
+    im.hline(5, 5, 6, rgb("wood0"))
+    im.set(8, 9, rgb("gold2"))
+
+
+@tile("prop_rope")
+def _(im, s):
+    im.rect(0, 0, TS, TS, rgb("path1"))
+    for x, y in ((3, 4), (6, 3), (10, 5), (12, 9), (9, 12), (5, 11), (3, 8)):
+        im.set(x, y, rgb("wood3"))
+    im.hline(4, 4, 5, rgb("wood3"))
+    im.vline(11, 6, 4, rgb("wood3"))
+    im.hline(5, 11, 4, rgb("wood3"))
+
+
+@tile("prop_chalk")
+def _(im, s):
+    im.rect(0, 0, TS, TS, rgb("asphalt1"))
+    im.hline(3, 4, 10, rgb("paper1"))
+    im.vline(5, 3, 10, rgb("paper1"))
+    im.vline(10, 3, 10, rgb("paper1"))
+    im.set(5, 4, rgb("ink0"))
+    im.set(10, 11, rgb("paper0"))
+
+
 def build(out_dir):
     cols = 16
     rows = (len(TILES) + cols - 1) // cols

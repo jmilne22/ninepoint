@@ -255,5 +255,50 @@
   }
  ],
  "music": "theme_institute",
- "indoors": true
+ "indoors": true,
+ "presence_states": [
+  {
+   "id": "league",
+   "when": {
+    "all": [
+     "won_a_league_game"
+    ]
+   },
+   "tiles": [
+    {
+     "tile": [
+      7,
+      5
+     ],
+     "name": "prop_papers"
+    },
+    {
+     "tile": [
+      7,
+      5
+     ],
+     "name": "prop_papers"
+    },
+    {
+     "tile": [
+      14,
+      8
+     ],
+     "name": "prop_satchel"
+    }
+   ]
+  },
+  {
+   "id": "routine",
+   "tiles": [
+    {
+     "tile": [
+      7,
+      5
+     ],
+     "name": "prop_papers"
+    }
+   ]
+  }
+ ]
 }
