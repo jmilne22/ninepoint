@@ -173,6 +173,10 @@ static func _apply_one(a: Array) -> void:
             _state().bump_flag(str(a[1]), int(a[2]) if a.size() > 2 else 1)
         "give":
             _state().give_item(str(a[1]), str(a[2]) if a.size() > 2 else "")
+        "take":
+            # The other half of `give`, and it took until M32 to need one. A
+            # borrowed thing that cannot be handed back is not borrowed.
+            _state().take_item(str(a[1]))
         "rank":
             _state().set_rank(str(a[1]))
         "quest_start":

@@ -184,6 +184,17 @@ func give_item(item_id: String, display_name: String = "") -> void:
     EventBus.item_gained.emit(item_id, display_name if display_name != "" else item_id)
 
 
+## Hand something back. Borrowing is only borrowing if the object can leave
+## again, and until M32 nothing in the game could take one: a quest that ends
+## "return the book" would have ended with the book still in your pocket.
+func take_item(item_id: String) -> bool:
+    if not inventory.has(item_id):
+        return false
+    inventory.erase(item_id)
+    EventBus.item_lost.emit(item_id)
+    return true
+
+
 func has_item(item_id: String) -> bool:
     return inventory.has(item_id)
 

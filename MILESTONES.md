@@ -1700,3 +1700,137 @@ order now. The same fault has a second face: `slice_full` declares no save and s
 Game, which now takes the first *empty* slot -- so it silently began saving into slot 2
 because the previous run had left slot 1 occupied. It carries `{"save": {}}` now, the empty
 declaration, which clears all three.
+
+## M32 — Page Forty  [done]
+
+The last unstruck bullet of `ROADMAP.md` §3 was *fetch-with-meaning*, and `GAME_DESIGN.md`
+§7 ended on the same sentence. Five quests shipped and all five were some form of *play
+games and win*; the shape the game did not have was an object you are handed and have to
+give back.
+
+**The writing had been there since M21 in two files that were never connected.**
+`ilse.json`, after she beats you: *"Read the first forty pages. Then come back and beat me
+with something that is not in them."* `nadia.json`: *"I always have the book with me."* and
+*"The book will still be here. So, unfortunately, will page forty."* Ilse sends everybody;
+Nadia is the only person who has page forty. Nobody had ever been able to go and get it.
+
+So: `page_forty`, four steps. Borrow it from Nadia in the classroom, read it at the desk in
+the attic, beat Ilse with something that is not in it, hand it back.
+
+**The point of it is that the book does not work**, and that is Pillar 1 argued by two
+characters rather than asserted in a design document. Ilse has read four books on the opening
+and two on the endgame and is nine kyu and says so unprompted; when you beat her carrying
+four hundred pages of correct play she says she has just watched it done with the book shut,
+in the bag, on the floor. Nadia asks which page it was, and then tells you not to answer,
+because it was not a page, it never is, and she has six books and eleven years of knowing
+that and still asks. Nothing in the quest is a modifier. It is a narrative key in exactly the
+sense GAME_DESIGN §2 allows and nothing more.
+
+**It also crosses the canal**, which is what makes it this game's fetch rather than a fetch.
+It is an Essenveld object carried down into Steenbeek: Wren gets one look at it and cannot
+read it and is delighted that it exists, and Joos -- who has no card and no papers and a
+withheld 3 dan -- turns it over, recognises the spine, and says do not bring it down here
+thinking it is a rank. Both are once-only branches on `has_item`.
+
+**One primitive, and it was missing.** `GameState.give_item` shipped in M6 with no opposite:
+no `take_item`, no `item_lost`, no dialogue action. "Return the book" would have played the
+thank-you with the book still in the bag and Nadia's next `has_item` branch would have gone
+on asking for it. `take_item` and `["take", "<id>"]` are the whole of the new code besides
+the desk branch.
+
+**And the journal was choosing which quest to display by filename.** `Hud.refresh` read
+`Quests.active_quest_ids()[0]`, and `active_quest_ids` walked `QuestTracker.quests` -- the
+order `DirAccess` handed the `.tres` files back in. So the objective line showed whichever
+active quest sorted first alphabetically, and a quest taken on later than an unfinished one
+was invisible for as long as the older one ran. `page_forty` starts days after `enrolment`
+and would never once have appeared. Nothing errored. It was found by opening the third
+screenshot of the first run and reading the bottom-right corner, which is how all of these
+are found. It walks `GameState.quests` now -- insertion-ordered, saved and reloaded in that
+order, so "last started" survives a save where the tracker's own dictionary never could --
+and the decision lives in `QuestTracker.journal_quest_id()` rather than in the Hud, because
+the Hud has no test suite and the tracker does.
+
+**Done when:** `tools/test.sh` **6306 / 0** (from 6193), `check_lessons.py` clean, and the
+frames below opened one at a time.
+
+**Seven deliberate breaks, each reverted and the suite re-run:**
+
+| broken | result |
+|---|---|
+| `take_item` emits but never erases | 2 failed |
+| a typo in Nadia's `take` id | 1 failed |
+| a quest waits on a match context nothing starts | 1 failed |
+| a quest step advances on an event nothing emits | 1 failed |
+| `first_stones` points at a puzzle that does not exist | 1 failed |
+| `active_quest_ids` ordered by filename again | 1 failed |
+| the Hud reading the first active quest again | **0 failed** — see below |
+
+**The sixth and seventh are the two worth keeping.**
+
+The sixth passed first time round. The guard asserted that starting `enrolment` and then
+`page_forty` put `page_forty` last -- which the *broken* version also does, because those two
+happen to sort alphabetically into the order they are started in. A test that agrees with the
+bug it is written against is not a test. It now asserts the same pair started **both** ways,
+and the filename version fails the second half.
+
+The seventh could not be made to fail at all, because the decision was in `hud.gd` and the
+Hud has no suite. Rather than write one for a UI file, the decision moved into
+`QuestTracker.journal_quest_id()` and the Hud's line became a single call, which is the
+smaller change and the one that leaves something a test can hold.
+
+**One more thing the new guards found on their way in.** `test_runner.gd` works from
+`_initialize()`, which runs **before any autoload's `_ready()`** -- so `Quests.quests` is
+empty for the whole suite and every quest id looks unknown. The journal test loads the
+registry itself and says why. Worth knowing before writing any other test that expects an
+autoload to have done something in `_ready`.
+
+**Looked at, not reasoned about.** Three scripts, three presets, twenty-four frames.
+`book.json` from `book_ready`: Nadia's lend, with the toast already reading *"Read page
+forty. There is a desk in the attic"* over her head, and the journal line under it agreeing
+-- that second one is the frame the ordering bug was found in, before it agreed. Then Ilse in
+the study hall: *"You have got her book. Page forty, presumably."* `book_read.json` from
+`book_held`, at night in the attic: the desk with three options where there are normally two,
+page forty itself, and then Joos under the arch with *"What's that under your arm."*
+`book_back.json` from `book_won`: the hand-back, *"No -- do not answer. It was not a page,"*
+`Quest complete: Page Forty`, and then **talking to Nadia a second time**, which is the only
+visible proof `take_item` did anything -- there is no inventory screen, so the evidence is
+that she says the book is back on the shelf instead of asking for it again.
+
+**The first cut of `book_read.json` chose an option that was not on screen yet.** The desk
+paginates its prose before it shows its choices, so `choose: 1` landed on a page of narration
+and did nothing; the run was exit 0 with no script errors and a confident screenshot of the
+first page of the desk description, twice. It carries an `advance` with `stop_at_choice`
+before the choice now. Same disease as `lessons.json` in M27 and the same cure: open the PNGs.
+
+**A bullet written in the wrong tense, and corrected before the commit was a day old.** The
+first draft of M32's debt said "a quest step *now* depends on a scheduled NPC, and nothing
+checks that", crediting this milestone with introducing the pattern. It did not.
+`first_stones` step 3 wants Hana **at De Ketel** and she is not there in the morning -- Act 1,
+mandatory, and true since schedules landed in M26. `page_forty` is the second instance and the
+milder one. `ROADMAP.md` section 5 already records this file being "confident and wrong about
+which tense the bug was in"; this is the same mistake, caught only because somebody asked
+whether the debt was really ours. Checking took one script over the quest resources and the
+map data. Writing it down took no time at all and was wrong.
+
+**One live bug found on the way out, fixed on the same branch.** Checking whether the debt
+bullet above was really M32's meant reading `_start_class`, which is gated on `can_act()` --
+hours left in the day -- and not on the teacher being in the room. Hana teaches in the
+classroom in the morning and the afternoon and is at De Ketel after that, so at dusk the
+demonstration board started a class in an empty room: it cost an hour, ran the lesson, and
+`_post_lesson` then looked for the teacher, found nobody and returned without a word. Present
+since schedules landed in M26.
+
+Reproduced before it was touched (`tools/autopilot/class_dusk.json`, frame 3: *Corner, Side,
+Centre* opening at dusk with nobody at the front) and again after (the same frame, now the
+refusal). `institute.json` re-run to prove the afternoon class still starts, because a fix
+that closes the wrong hours is worse than the bug. The refusal string is the joke of it:
+*"Hana has gone home"* was already written and already correct, and had been attached to
+whether the day had hours left rather than to whether she was standing there.
+
+`world.gd` has no test suite, so the evidence here is the two frames and not an assertion --
+stated plainly rather than glossed, the way the Hud's half of the journal bug was.
+
+**Deliberately not done.** Page forty is prose in the margins, not a position on a board.
+`tools/check_lessons.py` can only guard a claim the rules can decide and a joseki is
+whole-board judgement, so a taught position here would have shipped unverified -- and the
+page is not supposed to help anyway, which needs no diagram.

@@ -94,11 +94,17 @@ the club, does the rules properly afterwards — liberties, capture, and why you
 your own last one. There is no tutorial on the menu, because being taught by somebody is the
 point.
 
-Eleven lessons in all, and each belongs to whoever should be teaching it: Wren has the
+Thirteen lessons in all, and each belongs to whoever should be teaching it: Wren has the
 rulebook and ko, Kesh teaches you to run and to cut because she is the one cutting you,
 Bertie in the park teaches ladders, Tomás behind his counter teaches counting and the
 endgame, and Hana takes the classes at the Instituut — corner before side before centre, two
-eyes, life and death. The board in your room sets you problems.
+eyes, life and death, the capturing race and the false eye. The board in your room sets you
+twelve problems.
+
+Books, on the other hand, are not lessons. Ilse Brandt in the study hall has read four on the
+opening and two on the endgame and is nine kyu, and she will tell you so before she tells you
+to read the first forty pages of Nadia's. You can borrow it. It is worth borrowing. It will
+not be the thing that beats her.
 
 **Your rank is a record, not a stat.** It is recomputed from the games you have actually
 played — the strength of your opposition adjusted by your score against it, with handicap

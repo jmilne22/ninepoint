@@ -15,6 +15,19 @@
     {
      "if": [
       [
+       "has_item",
+       "joseki_book"
+      ],
+      [
+       "not_flag",
+       "joos_saw_the_book"
+      ]
+     ],
+     "goto": "the_book"
+    },
+    {
+     "if": [
+      [
        "flag",
        "joos_played"
       ]
@@ -212,6 +225,21 @@
     "Nine stones and you gave me six of them back.",
     "It's not the fighting. You can fight. It's that you fought where there was nothing to win, and I let you, because it was quieter over here.",
     "Come back. It's dry under the arch."
+   ]
+  },
+  "the_book": {
+   "text": [
+    "What's that under your arm.",
+    "Ah. One of theirs. Ferreira's, by the state of the spine -- she's had that since she was fourteen and she's read it to bits and she's two kyu.",
+    "I'm not going to tell you not to. Read it. Read all of them. Only don't bring it down here thinking it's a rank, because the only thing on this crate that counts is whose stones are still on the board at the end.",
+    "Mm. Bring it back down when you've finished it. I'd like to see what she's written in the margins. She writes in the margins."
+   ],
+   "actions": [
+    [
+     "set_flag",
+     "joos_saw_the_book",
+     true
+    ]
    ]
   }
  }

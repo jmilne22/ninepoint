@@ -103,8 +103,8 @@ func show_toast(text: String) -> void:
 func refresh() -> void:
     _rank.text = "%s   %s" % [GameState.player_name, GameState.rank_label()]
     _day.text = _day_line()
-    var ids: Array = Quests.active_quest_ids()
-    _journal.text = Quests.journal_line(str(ids[0])) if not ids.is_empty() else ""
+    # Which quest that is, is QuestTracker's decision and is tested there.
+    _journal.text = Quests.journal_line(Quests.journal_quest_id())
 
 
 ## "Day 3, afternoon" once there is a calendar worth showing, with the next fixed

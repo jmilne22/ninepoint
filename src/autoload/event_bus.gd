@@ -25,6 +25,9 @@ signal quest_advanced(quest_id: String, step: int, journal: String)
 signal quest_completed(quest_id: String)
 signal rank_changed(old_label: String, new_label: String)
 signal item_gained(item_id: String, item_name: String)
+## Given back, not lost: the only thing that emits this is handing an item
+## to the person it belongs to. No display name, because nobody announces it.
+signal item_lost(item_id: String)
 
 # --- go
 signal match_started(context_id: String)

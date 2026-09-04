@@ -6,6 +6,50 @@
     {
      "if": [
       [
+       "has_item",
+       "joseki_book"
+      ],
+      [
+       "beat",
+       "ilse"
+      ]
+     ],
+     "goto": "give_it_back"
+    },
+    {
+     "if": [
+      [
+       "has_item",
+       "joseki_book"
+      ]
+     ],
+     "goto": "still_reading"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "ilse_sent_you_for_the_book"
+      ],
+      [
+       "not_flag",
+       "returned_the_book"
+      ]
+     ],
+     "goto": "lend"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "returned_the_book"
+      ]
+     ],
+     "goto": "after_the_book"
+    },
+    {
+     "if": [
+      [
        "beat",
        "nadia"
       ]
@@ -85,6 +129,79 @@
      "goto": "senior"
     }
    ]
+  },
+  "lend": {
+   "text": [
+    "Brandt sent you. She sends everybody, and she has never once sent them for the right reason.",
+    "Here. Take it -- the whole thing, not a photocopy of page forty, because page forty on its own is where people go wrong.",
+    "I want it back before the exam. Not because I will read it. Because I will want to be holding it."
+   ],
+   "actions": [
+    [
+     "give",
+     "joseki_book",
+     "Nadia's joseki book"
+    ],
+    [
+     "set_flag",
+     "borrowed_the_book",
+     true
+    ]
+   ]
+  },
+  "still_reading": {
+   "text": [
+    "You still have it. Good -- that means you have not finished with it, which is the correct state to be in.",
+    "Page forty is the one she means. It is even. I have never once got an even corner out of it."
+   ],
+   "goto": "offer"
+  },
+  "give_it_back": {
+   "portrait": "happy",
+   "text": [
+    "You beat her.",
+    "She will have told you it was not the book. She is right, and she will still tell you to read the first forty pages of the next one."
+   ],
+   "choices": [
+    {
+     "text": "Here. Thank you.",
+     "actions": [
+      [
+       "take",
+       "joseki_book"
+      ],
+      [
+       "set_flag",
+       "returned_the_book",
+       true
+      ]
+     ],
+     "goto": "handed_back"
+    },
+    {
+     "text": "Another day or two.",
+     "goto": "keep_it"
+    }
+   ]
+  },
+  "handed_back": {
+   "text": [
+    "Which page was it?",
+    "No -- do not answer. It was not a page. It never is, and I have six books and eleven years of knowing that and I still ask.",
+    "Thank you for bringing it back. Most of them do not."
+   ]
+  },
+  "keep_it": {
+   "text": [
+    "Keep it. I know where you sit."
+   ]
+  },
+  "after_the_book": {
+   "text": [
+    "It is back on the shelf where I can see it, which is what it is for.",
+    "Brandt has started telling people to read the first forty pages of the endgame one. I am not lending that one out."
+   ],
+   "goto": "offer"
   }
  }
 }

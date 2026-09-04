@@ -28,6 +28,9 @@ static func run(t: TestKit) -> void:
     _test_lessons_and_puzzles_reachable(t)
     _test_no_orphan_nodes(t)
     _test_rulebook_exits_carry_the_track(t)
+    _test_items_round_trip(t)
+    _test_quest_targets(t)
+    _test_journal_order(t)
 
 
 static func _list(dir_path: String, ext: String) -> PackedStringArray:
@@ -84,6 +87,29 @@ static func _exits(node: Dictionary) -> Array:
     for c in node.get("choices", []):
         if c.has("exit"):
             out.append(c["exit"])
+    return out
+
+
+## Every `actions` list a node can carry: its own, and each choice's.
+static func _actions(node: Dictionary) -> Array:
+    var out: Array = []
+    for a in node.get("actions", []):
+        out.append(a)
+    for c in node.get("choices", []):
+        for a in c.get("actions", []):
+            out.append(a)
+    return out
+
+
+## Every condition a node can test: branch `if` lists and choice `if` lists.
+static func _conditions(node: Dictionary) -> Array:
+    var out: Array = []
+    for b in node.get("branches", []):
+        for c in b.get("if", []):
+            out.append(c)
+    for c in node.get("choices", []):
+        for cond in c.get("if", []):
+            out.append(cond)
     return out
 
 
@@ -640,3 +666,153 @@ static func _test_no_orphan_nodes(t: TestKit) -> void:
         for key in nodes.keys():
             t.ok(seen.has(key) or allowed.has(str(key)),
                 "%s: '%s' is reachable from an entry point" % [path, key])
+
+
+## Every item asked about is an item somebody hands over.
+##
+## There is no item registry -- `GameState.inventory` is a bare Array[String] --
+## so an id exists only because two files spell it the same way. `give_item` and
+## `take_item` both no-op silently on a miss and `has_item` just answers false,
+## which means a typo in a `take` leaves the player holding a book the graph has
+## already thanked them for returning. Nothing in the project would have said so.
+static func _test_items_round_trip(t: TestKit) -> void:
+    t.section("items")
+    var given := {}
+    var wanted := {}          # id -> "path: node"
+    for path in _list("res://data/dialogue", ".json"):
+        var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
+        if not (parsed is Dictionary):
+            continue
+        var nodes: Dictionary = parsed.get("nodes", {})
+        for key in nodes.keys():
+            var node: Dictionary = nodes[key]
+            for a in _actions(node):
+                if not (a is Array) or a.size() < 2:
+                    continue
+                if str(a[0]) == "give":
+                    given[str(a[1])] = true
+                elif str(a[0]) == "take":
+                    wanted[str(a[1])] = "%s: '%s' takes it" % [path, key]
+            for c in _conditions(node):
+                if c is Array and c.size() >= 2 and str(c[0]) == "has_item":
+                    wanted[str(c[1])] = "%s: '%s' asks for it" % [path, key]
+    t.ok(given.size() > 0, "some dialogue gives the player something")
+    for item in wanted.keys():
+        t.ok(given.has(item),
+            "item '%s' is given by some dialogue (%s)" % [item, wanted[item]])
+    # The desk reads the borrowed book by naming it in GDScript, which is the one
+    # place outside a graph that an item id is written down.
+    t.ok(given.has(SignDesk.BORROWED_BOOK),
+        "the item SignDesk reads at the study desk is one somebody lends you")
+
+
+## Quest steps that can never be reached are a quest that stops.
+##
+## `QuestTracker._matches` tests only the *current* step, and it compares the
+## step's `type` against the event's by string. A step with a misspelt type, or
+## naming a puzzle, lesson or map that does not exist, matches nothing for the
+## life of the save -- no error, no warning, and the journal simply stops moving.
+## Quests had only a load check before M32.
+##
+## Nothing here can validate a `flag` key, because a flag is created by being
+## set; the honest guard for those is that the graph setting them is tested.
+const QUEST_EVENTS := ["flag", "talk", "match", "puzzle", "lesson", "enter_map"]
+
+## Match contexts a quest may wait on that no dialogue exit names, because a
+## tournament round picks its own. Empty, and deliberately a written list rather
+## than a blanket exemption -- the same idiom as REACHED_BY_EVENT above.
+const QUEST_CONTEXTS_BY_EVENT: Array = []
+
+
+static func _test_quest_targets(t: TestKit) -> void:
+    t.section("quest targets")
+    var contexts := {}
+    var npcs := {}
+    for path in _list("res://data/dialogue", ".json"):
+        var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
+        if not (parsed is Dictionary):
+            continue
+        npcs[str(parsed.get("id", path.get_file().trim_suffix(".json")))] = true
+        for key in parsed.get("nodes", {}).keys():
+            for exit in _exits(parsed["nodes"][key]):
+                if exit.has("context"):
+                    contexts[str(exit["context"])] = true
+    var paths := _list("res://data/quests", ".tres")
+    t.ok(paths.size() > 0, "there are quests to validate")
+    for path in paths:
+        var quest = ResourceLoader.load(path)
+        if not (quest is QuestData):
+            continue
+        t.ok(quest.steps.size() > 0, "%s has steps" % path)
+        for i in quest.steps.size():
+            var step: Dictionary = quest.steps[i]
+            t.ok(str(step.get("journal", "")) != "",
+                "%s step %d says what to do" % [path, i])
+            var cond: Dictionary = step.get("advance_on", {})
+            var kind := str(cond.get("type", ""))
+            t.ok(QUEST_EVENTS.has(kind),
+                "%s step %d advances on an event the tracker emits ('%s')" % [path, i, kind])
+            match kind:
+                "puzzle":
+                    t.ok(FileAccess.file_exists("res://data/puzzles/%s.json" % str(cond.get("id", ""))),
+                        "%s step %d names a real puzzle ('%s')" % [path, i, str(cond.get("id", ""))])
+                "lesson":
+                    t.ok(FileAccess.file_exists("res://data/lessons/%s.json" % str(cond.get("id", ""))),
+                        "%s step %d names a real lesson ('%s')" % [path, i, str(cond.get("id", ""))])
+                "enter_map":
+                    t.ok(FileAccess.file_exists("res://data/maps/%s.json" % str(cond.get("map", ""))),
+                        "%s step %d names a real map ('%s')" % [path, i, str(cond.get("map", ""))])
+                "talk":
+                    t.ok(npcs.has(str(cond.get("npc", ""))),
+                        "%s step %d names somebody with a graph ('%s')" % [path, i, str(cond.get("npc", ""))])
+                "match":
+                    var ctx := str(cond.get("context", ""))
+                    t.ok(contexts.has(ctx) or QUEST_CONTEXTS_BY_EVENT.has(ctx),
+                        "%s step %d waits on a game some dialogue starts ('%s')" % [path, i, ctx])
+
+
+## The journal shows the quest you took on most recently.
+##
+## It used to show `active_quest_ids()[0]` against the order DirAccess handed
+## back the .tres files, so which objective the player could see was decided by
+## filename. `page_forty` starts days after `enrolment` and sorts after it, so it
+## was invisible for as long as the older quest ran -- found by opening a
+## screenshot, which is how all of these are found, and guarded here so it stays
+## found.
+static func _test_journal_order(t: TestKit) -> void:
+    t.section("journal order")
+    var state = _state()
+    var quests = (Engine.get_main_loop() as SceneTree).root.get_node("Quests")
+    # test_runner.gd works from `_initialize()`, which runs before any autoload's
+    # `_ready()` -- so the tracker's registry is still empty here and every quest
+    # id would look unknown. Load it the way the game does, once.
+    if quests.quests.is_empty():
+        quests._load_all()
+    t.ok(quests.quests.has("page_forty"), "the tracker knows the quest exists")
+    state.reset()
+    t.eq(quests.active_quest_ids(), [], "nothing started")
+    t.eq(quests.journal_quest_id(), "", "and nothing in the journal")
+    state.set_quest("enrolment", 1, false)
+    state.set_quest("page_forty", 0, false)
+    var active: Array = quests.active_quest_ids()
+    t.eq(active.size(), 2, "both are running")
+    t.eq(str(active[active.size() - 1]), "page_forty",
+        "the one taken on later is last")
+    t.eq(quests.journal_quest_id(), "page_forty",
+        "and is the one the journal shows")
+    state.set_quest("page_forty", 3, true)
+    t.eq(quests.active_quest_ids(), ["enrolment"],
+        "and finishing it hands the journal back to the older one")
+
+    # The same pair started the other way round. Without this the guard proves
+    # nothing: these two happen to sort alphabetically into the order they are
+    # started in, so the broken version -- ordering by the .tres filenames --
+    # passes the assertions above by coincidence.
+    state.reset()
+    state.set_quest("page_forty", 0, false)
+    state.set_quest("enrolment", 1, false)
+    active = quests.active_quest_ids()
+    t.eq(str(active[active.size() - 1]), "enrolment",
+        "order comes from when a quest was started, not from its filename")
+    t.eq(quests.journal_quest_id(), "enrolment", "and the journal follows it")
+    state.reset()

@@ -242,6 +242,25 @@ QUESTS = [
               '"advance_on": {"type": "flag", "key": "hooks_top"}'),
          ]),
 
+    # The first quest in the game that is not "play games and win". Ilse and
+    # Nadia have been rhyming since M21 without being connected: Ilse tells you
+    # to read the first forty pages, and Nadia is the only person who has page
+    # forty. The point of it is that the book does not work -- Ilse has read all
+    # of it and is nine kyu -- so it is Pillar 1 argued by the two characters
+    # written to disagree about it, rather than asserted in a design document.
+    dict(id="page_forty", title="Page Forty",
+         summary="Ilse Brandt has read four books on the opening and two on the endgame and is nine kyu. She still says to read the first forty pages. Nadia Ferreira has the book.",
+         steps=[
+             ('"journal": "Borrow the joseki book from Nadia. The classroom, and not at night."',
+              '"advance_on": {"type": "flag", "key": "borrowed_the_book"}'),
+             ('"journal": "Read page forty. There is a desk in the attic."',
+              '"advance_on": {"type": "flag", "key": "read_page_forty"}'),
+             ('"journal": "Beat Ilse with something that is not in it."',
+              '"advance_on": {"type": "match", "context": "league_ilse", "won": true}'),
+             ('"journal": "Give Nadia her book back."',
+              '"advance_on": {"type": "flag", "key": "returned_the_book"}'),
+         ]),
+
     dict(id="enrolment", title="The Lower League",
          summary="Hana teaches at the Essenveld Instituut, two stops north, where thirty people are trying to turn professional. They take beginners.",
          steps=[

@@ -1,0 +1,76 @@
+[
+ {
+  "save": "book_won",
+  "note": "Ilse beaten, the book still in your bag"
+ },
+ {
+  "wait": 1.0
+ },
+ {
+  "tap": "move_down",
+  "note": "Continue"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.0,
+  "shot": "a_classroom"
+ },
+ {
+  "walk_to": [
+   5,
+   5
+  ]
+ },
+ {
+  "talk_to": "nadia"
+ },
+ {
+  "wait": 0.4,
+  "shot": "b_she_knows"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.3,
+  "shot": "c_hand_it_back"
+ },
+ {
+  "choose": 0,
+  "note": "'Here. Thank you.' -- the only `take` in the game"
+ },
+ {
+  "advance": 1
+ },
+ {
+  "wait": 0.5,
+  "shot": "d_which_page_was_it"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.8,
+  "shot": "e_quest_complete"
+ },
+ {
+  "talk_to": "nadia"
+ },
+ {
+  "wait": 0.4,
+  "shot": "f_proof",
+  "note": "the whole point: this is the returned-it node, so the book really left the bag. If take_item did nothing she would ask for it again"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.3,
+  "shot": "g_after"
+ }
+]
