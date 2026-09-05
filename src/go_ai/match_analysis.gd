@@ -183,11 +183,7 @@ static func moments_from_turns(replay: Dictionary, player: int, turns: Dictionar
                 - player_relative(player, float(before["second_lead"])))
         var moment := {"move_number": i + 1, "actual": actual, "best": best,
             "point_loss": loss, "stake": stake, "size": size, "cells": move["cells"]}
-        var did := MoveExplainer.describe(size, move["cells"], player, actual)
-        moment["does"] = did["does"]
-        moment["did_concept"] = did["concept"]
-        if best >= 0 and best != actual:
-            moment.merge(explain_position(size, move["cells"], player, actual, best))
+        moment.merge(explain_position(size, move["cells"], player, actual, best))
         moments.append(moment)
     return moments
 
@@ -302,8 +298,34 @@ static func from_turns(record_index: int, record: Dictionary, raw: Dictionary) -
     return available(record_index, version, [], select_moments(moments), meta)
 
 
-## The move the player did not make, described for the mistake card. The
-## vocabulary lives in MoveExplainer; this keeps the older call shape.
-static func explain_position(size: int, cells: Array, player: int, _actual: int, best: int) -> Dictionary:
-    var described := MoveExplainer.describe(size, cells, player, best)
-    return {"concept": described["concept"], "changed": described["changed"], "habit": described["habit"]}
+## The sentences one card needs, from the two moves on it. `does` is what the
+## player's move did ("It takes the white stone at G4"); `critique` the same in
+## the past with its flaw ("Yours sat on the first line, ..."); `changed` what
+## the better move would have done, by name; `habit` the thing to unlearn --
+## the played move's own flaw when it has one, else the better move's idea.
+static func explain_position(size: int, cells: Array, player: int, actual: int, best: int) -> Dictionary:
+    var board := GoBoard.new(size)
+    # A first-line stone is legitimate when the better move is on the first
+    # line too (the endgame) or when this was the better move.
+    var best_on_edge := best >= 0 and _on_edge(board, best)
+    var did := MoveExplainer.describe(size, cells, player, actual, best_on_edge or best == actual)
+    var out := {"did_concept": did["concept"], "does": "It %s." % did["present"],
+        "critique": "Yours %s%s." % [did["past"], did["note"]]}
+    if best >= 0 and best != actual:
+        var better := MoveExplainer.describe(size, cells, player, best, true)
+        out["concept"] = better["concept"]
+        if better["concept"] == did["concept"] and better["target"] == did["target"] \
+                and did["concept"] != "unknown":
+            var same := MoveExplainer.same_job(board.label(best), str(did["concept"]))
+            out["critique"] = "Yours %s." % did["past"]
+            out["changed"] = same["changed"]
+            out["habit"] = same["habit"]
+        else:
+            out["changed"] = "%s would have %s." % [board.label(best), better["participle"]]
+            out["habit"] = did["habit"] if bool(did["flaw"]) else better["habit"]
+    return out
+
+
+static func _on_edge(board: GoBoard, point: int) -> bool:
+    var p := board.point(point)
+    return p.x == 0 or p.y == 0 or p.x == board.size - 1 or p.y == board.size - 1

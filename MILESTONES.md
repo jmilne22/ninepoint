@@ -2629,6 +2629,16 @@ nothing said. The three-move fixture passed because it had three positions.
   opens the review (how many moves matched the best, which, how many gave nothing away).
   The runner-up requirement went: more visits do not make it visible more often (23 of
   31 positions at 8, 12 and 16 visits), so a review could go a whole game without praise.
+- **The advice reads as advice.** The owner's third note, with a card that said "D7 was
+  better. It would have leaned on a nearby group of theirs" about a first-line stone:
+  "some of it makes no sense." An audit of every sentence over three whole games found the
+  rest: "would have took", the endgame's first-line moves scolded as first-line mistakes
+  when the better move was on the first line too, and "Yours leaned on C5. D5 would have
+  leaned on C5" when both moves did the same job. Now every sentence names its stones, a
+  card says what your move did and its flaw ("Yours extended from H4, which already had 3
+  liberties"), what the better move would have done, and the habit comes from your flaw
+  when you had one. Same-job pairs are told apart by side or direction; a first-line stone
+  is only a flaw when the better move is not on the first line.
 - **The person you played offers it.** "Go over the game with Wren Calloway?" — never Hana
   in Act 1 (rule 8), and the engine is never named on a card. Filled = your move, ring =
   the better move, and the legend says so on every card.
@@ -2647,7 +2657,7 @@ nothing said. The three-move fixture passed because it had three positions.
   per character) that PR #17 had merged into `feat/katago-cast-release` after that branch
   was already on `main`, so it never reached `main`.
 
-**Done when:** `tools/test.sh` — **12494 passed, 0 failed** (M39: 12341) with the three
+**Done when:** `tools/test.sh` — **12505 passed, 0 failed** (M39: 12341) with the three
 engine gates green; `tools/katago_review_test.gd` analyses a whole 9×9 and a whole 19×19
 game, every position, and fails the wedged fixture through the watchdog; and the fixtures
 below were played and their frames opened.

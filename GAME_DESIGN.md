@@ -259,8 +259,12 @@ of them is your best move: the one the engine itself would have played if there 
 otherwise one that gave nothing away, with what it did said from the stones — it took the
 corner, it joined your stones, it took stones in atari. Then the move that cost the most,
 and a second loss about a different idea. Each card is the board before the move, your
-move filled, the better move ringed, the cost in points, and one plain sentence about
-what the move does. Under three quarters of a point is noise and is never called a lesson; a game
+move filled, the better move ringed, the cost in points, what your move did with the
+stones named ("Yours sat on the first line"; "Yours extended from H4, which already had
+three liberties"), what the better move would have done ("D7 would have leaned on the
+white stone at C7"), and the habit to take away — your move's own flaw when it has one,
+otherwise the better move's idea. Two moves that do the same job on the same stones are
+told apart by side or direction rather than described twice. Under three quarters of a point is noise and is never called a lesson; a game
 with nothing to say gets one honest "steady" card. Nobody teaches in it, nobody is named
 who has not been met, and nothing in it touches the result or the rank.
 

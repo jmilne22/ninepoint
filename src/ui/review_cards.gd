@@ -129,7 +129,10 @@ func _show() -> void:
     _board.mark_point = actual
     _board.highlight = PackedInt32Array([best]) if best >= 0 and best != actual else PackedInt32Array()
     _board.mark_good = str(f.get("kind", "")) == "strength"
-    _title.text = "Move %d. You played %s." % [int(f.get("move_number", 0)), game.board.label(actual)]
+    # The page line lives with the title: the body below is the part that
+    # grows, and a nav line under a long explanation fell off the card.
+    _title.text = "Move %d. You played %s.\n%d of %d   Left/Right   [Space]" % [
+        int(f.get("move_number", 0)), game.board.label(actual), _index + 1, total]
     var lines: Array[String] = []
     if str(f.get("kind", "")) == "strength":
         var matched := bool(f.get("matched", best == actual))
@@ -140,17 +143,17 @@ func _show() -> void:
         if matched and stake >= MatchAnalysis.MEANINGFUL_LOSS:
             why += " The next best would have given away about %s points." % _points(stake)
         elif not matched:
-            why += " %s was the engine's pick; yours was within a point of it." % game.board.label(best)
+            why += " %s was best; yours was within a point of it." % game.board.label(best)
         lines.append("%s %s" % [head, why])
         lines.append("Filled = your move" if matched else "Filled = your move\nRing = the other good move")
     else:
         lines.append("%s was better, by about %s points." % [game.board.label(best), _points(float(f.get("point_loss", 0.0)))])
-        lines.append("%s %s" % [str(f.get("changed", "")), str(f.get("habit", ""))])
+        lines.append("%s %s" % [str(f.get("critique", "")), str(f.get("changed", ""))])
+        lines.append("Next time: %s" % str(f.get("habit", "")))
         lines.append("Filled = your move\nRing = the better move")
     if bool(review.get("partial", false)):
         lines.append("(The first %d of your %d moves were looked at.)" % [
             int(review.get("analysed_moves", 0)), int(review.get("total_moves", 0))])
-    lines.append("%d of %d   Left/Right   [Space] close" % [_index + 1, total])
     _body.text = "\n\n".join(lines)
     if UiKit.text_height(_body.text, TEXT_W) > int(_body.size.y):
         push_warning("ReviewCards: card %d text runs off the card" % _index)

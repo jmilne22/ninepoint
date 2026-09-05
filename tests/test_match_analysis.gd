@@ -76,6 +76,8 @@ static func _accounting(t: TestKit) -> void:
     t.eq(moments[0]["did_concept"], "corner", "and the stones say what the move did")
     t.eq(moments[1]["point_loss"], 3.0, "the second move's loss is before minus after")
     t.eq(moments[1]["concept"], "side", "the better move is described by where it stands")
+    t.ok(str(moments[1]["changed"]).begins_with("E7 would have"), "and named on the card")
+    t.ok(str(moments[1]["critique"]).begins_with("Yours took the corner"), "next to what the player's move did")
     var white := MatchAnalysis.moments_from_turns(replay, GoBoard.WHITE, turns)
     t.eq(white.size(), 1, "White has one decision here")
     t.eq(white[0]["point_loss"], 0.5, "White's loss is measured from White's side")
@@ -188,6 +190,28 @@ static func _explain(t: TestKit) -> void:
     t.eq(connection["concept"], "connect", "two friendly neighbours make a connection explanation")
     var occupied := MatchAnalysis.explain_position(3, [0, 0, 0, 1, 0, 1, 0, 0, 0], GoBoard.BLACK, 0, 3)
     t.eq(occupied["concept"], "unknown", "a point that is not empty gets restrained wording")
+    # The owner's example: J4 on the first line beside a three-liberty group,
+    # while D7 attaches to the lone white stone at C7.
+    var b := GoBoard.new(9)
+    var cells9 := []
+    for i in 81:
+        cells9.append(0)
+    for v in ["C7", "F6", "F5", "H5", "G4", "G3"]:
+        cells9[b.from_label(v)] = GoBoard.WHITE
+    for v in ["C5", "E5", "F4", "H4", "H3"]:
+        cells9[b.from_label(v)] = GoBoard.BLACK
+    var j4 := MatchAnalysis.explain_position(9, cells9, GoBoard.BLACK, b.from_label("J4"), b.from_label("D7"))
+    t.eq(j4["critique"], "Yours sat on the first line, where a stone makes almost no territory.",
+        "a first-line stone is named as the flaw it is")
+    t.eq(j4["changed"], "D7 would have leaned on the white stone at C7.",
+        "and the better move says which stone it works against")
+    t.eq(j4["habit"], "Leave the first line alone until the end of the game.",
+        "the habit comes from the player's flaw, not the better move's idea")
+    var h2 := MatchAnalysis.explain_position(9, cells9, GoBoard.BLACK, b.from_label("H2"), b.from_label("D7"))
+    t.eq(h2["critique"], "Yours extended from your stone at H3, which already had 3 liberties.",
+        "an extension from a safe group says the group was safe")
+    var takes := MatchAnalysis.explain_position(9, cells9, GoBoard.WHITE, b.from_label("D7"), b.from_label("D7"))
+    t.ok(str(takes["does"]).begins_with("It extends from your stone at C7"), "the same stones, from White's side")
     var atari := MatchAnalysis.explain_position(3, [2, 1, 0, 0, 0, 0, 0, 0, 0], GoBoard.BLACK, 8, 3)
     t.eq(atari["concept"], "capture", "a stone in atari next to the better move is a capture")
     var empty9 := []
@@ -202,5 +226,17 @@ static func _explain(t: TestKit) -> void:
         "the middle is the middle")
     t.eq(MoveExplainer.describe(9, empty9, GoBoard.BLACK, b9.from_label("A1"))["concept"], "first_line",
         "the first line is named for what it is")
-    t.ok(str(MoveExplainer.describe(3, [0, 0, 0, 1, 0, 1, 0, 0, 0], GoBoard.BLACK, 4)["does"]).begins_with("It joins"),
-        "the played move is described in the past, as something it did")
+    t.ok(str(MoveExplainer.describe(3, [0, 0, 0, 1, 0, 1, 0, 0, 0], GoBoard.BLACK, 4)["present"]).begins_with("joins your stones at A2 and C2"),
+        "a connection names the stones it joins")
+    # The endgame: both moves on the first line, and neither is scolded for it.
+    var endgame := MatchAnalysis.explain_position(9, cells9, GoBoard.BLACK, b.from_label("A4"), b.from_label("J2"))
+    t.ok(not str(endgame["critique"]).begins_with("Yours sat on the first line"),
+        "a first-line move is not a flaw when the better move is on the first line too")
+    t.ok(str(endgame["changed"]).begins_with("J2 takes a different edge point"),
+        "and the better edge point is not called worthless")
+    # The same job: both moves lean on the same stone.
+    var same := MatchAnalysis.explain_position(9, cells9, GoBoard.BLACK, b.from_label("D7"), b.from_label("C8"))
+    t.ok(str(same["changed"]).begins_with("C8 leans on the same stone from the other side"),
+        "two moves on the same stone are told apart by side, not repeated")
+    t.eq(MatchAnalysis.explain_position(9, cells9, GoBoard.BLACK, b.from_label("B5"), b.from_label("D7"))["changed"],
+        "D7 would have leaned on the white stone at C7.", "the participle is right: taken, given, leaned")
