@@ -217,7 +217,7 @@ func wipe_out() -> void:
 ## that pause before the movement is most of what makes it read.
 func plunge() -> void:
     _headline.text = "%s reaches for the bowl" % opponent_name
-    _subline.text = "In an even game the colours are not decided by rank. They are decided by a handful of stones."
+    _subline.text = "Guess whether the handful contains an odd or even number of stones. If you guess correctly, you choose your colour."
     _hand.texture = _hand_region(POSE_OPEN)
 
     var tw := create_tween()
@@ -257,7 +257,7 @@ func _bob() -> void:
 func ask_guess() -> bool:
     set_expression(2)
     _headline.text = "A closed fist. Odd, or even?"
-    _subline.text = "Call it. Guess right and you choose your colour; Black moves first, which is worth about six points."
+    _subline.text = "Left or Right changes your guess. Press Space to call it."
     _awaiting = &"guess"
     _pick_odd = true
     _refresh_call()
@@ -336,7 +336,7 @@ func verdict(count: int, guessed_right: bool, explanation: String) -> void:
 ## Offered only to whoever won the call.
 func ask_colour() -> int:
     _headline.text = "You called it. Which colour?"
-    _subline.text = "Black plays first. White is paid komi for going second. Take whichever you would rather argue with."
+    _subline.text = "Black plays first. White receives extra points called komi when the game is counted. Choose with Left or Right, then Space."
     # State before refresh: _refresh_call reads _awaiting to know which pair of
     # words it is showing.
     _awaiting = &"colour"

@@ -115,6 +115,7 @@ texture_region_size = Vector2i(16, 16)
 10:6/0 = 0
 11:6/0 = 0
 12:6/0 = 0
+13:6/0 = 0
 
 [resource]
 tile_size = Vector2i(16, 16)

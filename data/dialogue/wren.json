@@ -4,16 +4,31 @@
   "start": {
    "branches": [
     {
-     "if": [["flag", "kesh_match_done"]],
+     "if": [
+      [
+       "flag",
+       "kesh_match_done"
+      ]
+     ],
      "goto": "regular"
     },
     {
-     "if": [["flag", "wren_match_done"]],
+     "if": [
+      [
+       "flag",
+       "wren_match_done"
+      ]
+     ],
      "goto": "after_first_game"
     },
     {
-     "if": [["flag", "wren_asked_experience"]],
-     "goto": "opening_offer"
+     "if": [
+      [
+       "flag",
+       "wren_asked_experience"
+      ]
+     ],
+     "goto": "opening_gate"
     },
     {
      "goto": "first"
@@ -23,8 +38,7 @@
   "first": {
    "portrait": "happy",
    "text": [
-    "Oh! Hello. Sorry, I didn't hear the door. Are you new? You look new. I don't mean that badly.",
-    "I'm Wren. I'm the one everybody here beats, so I'm the one who explains things."
+    "Hello! I'm Wren. Let me move these cups so you can sit down."
    ],
    "goto": "ask_experience"
   },
@@ -37,7 +51,7 @@
     ]
    ],
    "text": [
-    "Have you played before? Be honest, nobody minds."
+    "Have you played Go before?"
    ],
    "choices": [
     {
@@ -82,149 +96,119 @@
     ]
    ],
    "text": [
-    "Oh, good. Then I'll skip the speech. Ask me if you ever want it, I do like giving it."
+    "Then let's get a game ready. You can ask for a reminder whenever you like."
    ],
-   "goto": "opening_offer"
+   "goto": "opening_gate"
   },
-  "taught": {"goto": "taught_first"},
+  "taught": {
+   "goto": "taught_first"
+  },
   "taught_first": {
    "portrait": "happy",
    "text": [
-    "That's the rulebook, near enough. Liberties, capture, and don't fill in your own last one.",
-    "Everything else is those three, said at length."
+    "Ready to try a full game?"
    ],
-   "goto": "opening_offer"
+   "goto": "opening_gate"
   },
   "taught_again": {
    "portrait": "happy",
    "text": [
-    "Same three rules as last time. Sorry, I do go on."
+    "There we are. Would you like to play?"
    ]
   },
   "taught_ko": {
    "text": [
-    "That's ko. You can't take it straight back. Go and do something else first, then come back for it."
+    "We can set that position up again if you'd like to practise."
    ]
   },
   "opening_offer": {
    "text": [
-    "Before a full game, one small plan: begin near a corner. Leave the first line alone early.",
-    "Make nearby stones help each other. Atari and cuts are urgent. Want to see that on the board?"
+    "Would you like to see a few ways to begin, or go straight into a game?"
    ],
    "choices": [
-    {"text": "Show me.", "exit": {"type": "start_lesson", "lesson": "openings"}},
-    {"text": "I know enough to start.", "goto": "first_game"}
+    {
+     "text": "Show me.",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "openings"
+     }
+    },
+    {
+     "text": "I know enough to start.",
+     "goto": "first_game",
+     "actions": [
+      [
+       "set_flag",
+       "opening_plan_skipped",
+       true
+      ]
+     ]
+    }
    ]
   },
   "taught_openings": {
    "text": [
-    "That is enough. You do not need a correct sequence.",
-    "Just have a place to begin, and look at urgent stones first."
+    "I'll clear the board. You can try those ideas in our game."
    ],
    "goto": "first_game"
   },
   "first_game": {
    "text": [
-    "Let's play a proper nine-by-nine. Pass normally, then score. It is practice; your rank stays untouched.",
-    "I will put up a few things to notice. Ignore them whenever you need to look at the board."
+    "Shall we play a practice game? I'll help if you get stuck."
    ],
    "choices": [
     {
      "text": "Set up the practice game.",
      "exit": {
-      "type": "start_match", "profile": "wren_9x9", "context": "wren_first", "unrated": true,
-      "intro": "Your first full game. Pass when neither of you wants to play; then count.",
-      "guidance": ["Establish a corner area.", "Support or connect a loose stone nearby.", "Notice a group with only one liberty."]
+      "type": "start_match",
+      "profile": "wren_9x9",
+      "context": "wren_first",
+      "unrated": true,
+      "guidance": [
+       "Establish a corner area.",
+       "Support or connect a loose stone nearby.",
+       "Notice a group with only one liberty."
+      ],
+      "practice": true
      }
     },
-    {"text": "Remind me of the rules.", "goto": "refresher"},
-    {"text": "Another time.", "goto": "offer_later"}
+    {
+     "text": "Remind me of the rules.",
+     "goto": "refresher"
+    },
+    {
+     "text": "Another time.",
+     "goto": "offer_later"
+    }
    ]
   },
   "after_first_game": {
    "text": [
-    "That was a full game. Whatever the result, it was practice; your rank is still untouched.",
-    "Kesh by the window is the next step. Her nine-by-nine is rated, so its result becomes your first record."
-   ],
-   "choices": [
-    {"text": "I will talk to Kesh.", "goto": "after_first_end"},
-    {"text": "Play another practice game.", "goto": "offer_rematch"},
-    {"text": "Could you refresh the rules?", "goto": "refresher"}
-   ]
-  },
-  "after_first_end": {"text": ["She is pretending not to wait. She is not convincing."], "goto": "cup"},
-  "cup": {
-   "actions": [
-    [
-     "set_flag",
-     "wren_told_about_cup",
-     true
-    ]
-   ],
-   "text": [
-    "There's a beginners' tournament at the Bondszaal, the Cup. You need a rank to enter. You get one by playing.",
-    "That's Kesh by the window. She'll play anyone, and she remembers every result."
-   ],
-   "goto": "offer_help"
-  },
-  "offer_help": {
-   "text": [
-    "Do you want me to explain how a game ends? People find that bit odd."
+    "Kesh is by the window. Speak to her when you're ready for your first rated game."
    ],
    "choices": [
     {
-     "text": "Yes, please.",
-     "goto": "explain"
+     "text": "I will talk to Kesh.",
+     "goto": "after_first_end"
     },
     {
-     "text": "I'll work it out.",
-     "goto": "decline"
-    }
-   ]
-  },
-  "explain": {
-   "text": [
-    "When neither of you wants to play a move, you both pass. Then you count your empty points and your captures.",
-    "White gets a few extra points for going second. Highest total wins."
-   ],
-   "goto": "sign_off"
-  },
-  "decline": {
-   "portrait": "happy",
-   "text": [
-    "Good. That's the right attitude, and I don't have it."
-   ],
-   "goto": "sign_off"
-  },
-  "sign_off": {
-   "text": [
-    "Go on. She's already looking at you."
-   ],
-   "goto": "repeat"
-  },
-  "repeat": {
-   "text": [
-    "Kesh is by the window. She's been waiting since you came in, she just won't say so."
-   ],
-   "choices": [
-    {
-     "text": "Right.",
-     "goto": "repeat_end"
+     "text": "Play another game.",
+     "goto": "offer_rematch"
     },
     {
-     "text": "Could you go over the rules again?",
+     "text": "Could you refresh the rules?",
      "goto": "refresher"
     }
    ]
   },
-  "repeat_end": {
+  "after_first_end": {
    "text": [
-    "Go on, then."
+    "I'll put these bowls away. Enjoy your game."
    ]
   },
   "refresher": {
    "text": [
-    "Of course. Which bit has gone?"
+    "Of course. What would you like to practise?"
    ],
    "choices": [
     {
@@ -251,24 +235,11 @@
   },
   "refresher_no": {
    "text": [
-    "It does that. It goes, and then one day it stops going."
+    "All right. The practice boards are here whenever you need them."
    ]
   },
   "regular": {
    "branches": [
-    {
-     "if": [["flag", "wren_match_done"], ["flag", "knows_the_rules"], ["not_flag", "lesson_ko_done"]],
-     "goto": "offer_ko"
-    },
-    {
-     "if": [
-      [
-       "flag",
-       "wren_match_done"
-      ]
-     ],
-     "goto": "offer_rematch"
-    },
     {
      "if": [
       [
@@ -283,7 +254,7 @@
      "goto": "kesh_word"
     },
     {
-     "goto": "offer_first"
+     "goto": "offer_rematch"
     }
    ]
   },
@@ -297,15 +268,13 @@
     ]
    ],
    "text": [
-    "You beat Kesh? I've played her eleven times. Don't ask my record.",
-    "She'll want a rematch. She won't say so."
+    "I heard you beat Kesh. Well played!"
    ],
    "goto": "offer_first"
   },
   "offer_first": {
    "text": [
-    "Would you play me? I've been the same rank for a year and everyone here is lovely about it.",
-    "Lovely is worse. You're about my strength, so it'd be a real game."
+    "The table's ready. Would you like a game?"
    ],
    "choices": [
     {
@@ -313,8 +282,7 @@
      "exit": {
       "type": "start_match",
       "profile": "wren_9x9",
-      "context": "wren_club",
-      "intro": "Wren. She has moved the bowls twice."
+      "context": "wren_club"
      }
     },
     {
@@ -329,8 +297,7 @@
   },
   "offer_rematch": {
    "text": [
-    "Again? Yes. Obviously yes.",
-    "I've started writing them down. Not a score, a record. Kesh has ruined me."
+    "Hello again. Would you like a game?"
    ],
    "choices": [
     {
@@ -338,13 +305,16 @@
      "exit": {
       "type": "start_match",
       "profile": "wren_9x9",
-      "context": "wren_club",
-      "intro": "Wren again. She has the black bowl before you sit down."
+      "context": "wren_club"
      }
     },
     {
      "text": "Could you go over the rules again?",
      "goto": "refresher"
+    },
+    {
+     "text": "Show me the ko rule.",
+     "goto": "offer_ko"
     },
     {
      "text": "Not today.",
@@ -354,13 +324,12 @@
   },
   "offer_later": {
    "text": [
-    "That's fine. That's completely fine. I'll be here."
+    "Of course. I'll keep the table clear."
    ]
   },
   "offer_ko": {
    "text": [
-    "Oh, before you go. I said that was the whole rulebook, and it was very slightly a lie.",
-    "There's one more rule, the strange one. Ko."
+    "Would you like to see the ko rule? I've got a position ready."
    ],
    "choices": [
     {
@@ -378,7 +347,7 @@
   },
   "ko_later": {
    "text": [
-    "That's fair. You don't need it until it happens to you, and then you want it badly."
+    "All right. Ask me when you'd like to try it."
    ]
   },
   "post_match": {
@@ -398,15 +367,64 @@
   },
   "wren_lost": {
    "text": [
-    "You got me. I saw it coming for four moves and played somewhere else anyway.",
-    "That was good. I'm saying that as the person who just lost, so you can believe it."
-   ]
+    "You won! Well played.",
+    "Thanks for keeping me company."
+   ],
+   "goto": "post_route"
   },
   "wren_won": {
    "portrait": "happy",
    "text": [
-    "I won. Sorry. Sorry. I WON.",
-    "Play me again in a bit? While I still have the nerve."
+    "Oh, I won! Thank you for playing.",
+    "Let me gather the stones."
+   ],
+   "goto": "post_route"
+  },
+  "post_route": {
+   "branches": [
+    {
+     "if": [
+      [
+       "not_flag",
+       "kesh_match_done"
+      ]
+     ],
+     "goto": "first_route"
+    },
+    {
+     "goto": "post_end"
+    }
+   ]
+  },
+  "first_route": {
+   "text": [
+    "Kesh is by the window. She's ready for your first rated game."
+   ]
+  },
+  "post_end": {},
+  "opening_gate": {
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "opening_plan_skipped"
+      ]
+     ],
+     "goto": "first_game"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "lesson_openings_done"
+      ]
+     ],
+     "goto": "first_game"
+    },
+    {
+     "goto": "opening_offer"
+    }
    ]
   }
  }

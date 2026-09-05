@@ -7,6 +7,7 @@ sys.path.insert(0, here)
 root = os.path.join(here, "..")
 
 import gen_tiles, gen_characters, gen_ui, gen_title, gen_audio
+import gen_venue_props, gen_venue_scenes, gen_arrivals
 import gen_font, gen_nigiri_art, gen_tileset_resource, gen_props
 
 print("tiles     ", gen_tiles.build(os.path.join(root, "art", "tiles")))
@@ -17,6 +18,9 @@ print("tileset   ", gen_tileset_resource.build()[1], "cells")
 print("characters", gen_characters.build(os.path.join(root, "art", "sprites"),
                                          os.path.join(root, "art", "portraits")))
 print("props     ", len(gen_props.build(os.path.join(root, "art", "props"))))
+print("venues    ", gen_venue_props.build(os.path.join(root, "art", "props")))
+print("landmarks ", gen_venue_scenes.build(os.path.join(root, "art", "props")))
+print("arrivals  ", gen_arrivals.build(os.path.join(root,"art","props")))
 print("ui        ", gen_ui.build(os.path.join(root, "art", "ui")))
 print("title     ", gen_title.build(os.path.join(root, "art", "title")))
 print("font      ", gen_font.build(os.path.join(root, "art", "ui")))

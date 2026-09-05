@@ -1,0 +1,87 @@
+[
+ {
+  "save": "overhaul_exam_qualifying"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "shot": "final_exam_round_offer"
+ },
+ {
+  "choose": 0
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "exam_final_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "exam_final_return"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   13,
+   3
+  ]
+ },
+ {
+  "face": [
+   13,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "exam_qualified_standings"
+ }
+]

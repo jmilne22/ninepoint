@@ -1,0 +1,185 @@
+[
+ {
+  "save": "overhaul_returns"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "experience": "visit",
+  "map": "wassalon",
+  "spawn": "from_street"
+ },
+ {
+  "shot": "wassalon_from_street"
+ },
+ {
+  "wait": 3
+ },
+ {
+  "shot": "cup_acknowledgement_at_laundry"
+ },
+ {
+  "experience": "visit",
+  "map": "de_ketel",
+  "spawn": "from_street"
+ },
+ {
+  "shot": "de_ketel_from_street"
+ },
+ {
+  "experience": "visit",
+  "map": "attic",
+  "spawn": "desk"
+ },
+ {
+  "shot": "attic_desk"
+ },
+ {
+  "experience": "visit",
+  "map": "onderbrug",
+  "spawn": "from_street"
+ },
+ {
+  "shot": "onderbrug_from_street"
+ },
+ {
+  "experience": "visit",
+  "map": "quay",
+  "spawn": "bench"
+ },
+ {
+  "shot": "quay_bench"
+ },
+ {
+  "experience": "visit",
+  "map": "academy_hall",
+  "spawn": "from_tram"
+ },
+ {
+  "shot": "academy_hall_from_tram"
+ },
+ {
+  "experience": "visit",
+  "map": "academy_study",
+  "spawn": "middle"
+ },
+ {
+  "shot": "academy_study_middle"
+ },
+ {
+  "experience": "visit",
+  "map": "academy_class",
+  "spawn": "from_hall"
+ },
+ {
+  "shot": "academy_class_from_hall"
+ },
+ {
+  "experience": "visit",
+  "map": "academy_dorm",
+  "spawn": "from_hall"
+ },
+ {
+  "shot": "academy_dorm_from_hall"
+ },
+ {
+  "experience": "visit",
+  "map": "bondszaal",
+  "spawn": "from_tram"
+ },
+ {
+  "shot": "bondszaal_from_tram"
+ },
+ {
+  "experience": "visit",
+  "map": "bondszaal",
+  "spawn": "front"
+ },
+ {
+  "shot": "bondszaal_front"
+ },
+ {
+  "experience": "visit",
+  "map": "ketelsteeg",
+  "spawn": "from_wassalon"
+ },
+ {
+  "shot": "ketelsteeg_from_wassalon"
+ },
+ {
+  "experience": "visit",
+  "map": "bondszaal",
+  "spawn": "from_tram"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 1
+ },
+ {
+  "wait": 4
+ },
+ {
+  "shot": "cup_champion_acknowledgement"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 4
+ },
+ {
+  "shot": "cup_tea_invitation"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 1
+ },
+ {
+  "shot": "civic_hall_registration_clear"
+ },
+ {
+  "experience": "visit",
+  "map": "bondszaal",
+  "spawn": "front"
+ },
+ {
+  "walk_to": [
+   9,
+   3
+  ]
+ },
+ {
+  "face": [
+   9,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1
+ },
+ {
+  "shot": "cup_results_with_tiebreak"
+ }
+]

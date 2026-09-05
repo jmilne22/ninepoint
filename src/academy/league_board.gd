@@ -89,10 +89,9 @@ func show_board() -> void:
             row[c].add_theme_color_override("font_color",
                 UiKit.GOLD if mine else UiKit.INK)
 
-    # The standing, the rank rule, and the exam rule. The card is already the
-    # full height of the panel, so nothing here may run to a fifth line.
-    _footer.text = "%s\n%s\nThe top four sit the qualifying exam at the Bondszaal. %s" % [
-        LeagueTable.summary(rows), GoRankLadder.explain(), _exam_line(rows)]
+    # The footer gives the current standing and the next action in six measured lines.
+    _footer.text = "%s\nThe four highest eligible players can enter the exam at the Bondszaal.\n%s" % [
+        LeagueTable.summary(rows), _exam_line(rows)]
     GameState.set_flag("read_league_board", true)
     open = true
     _root.visible = true
@@ -111,8 +110,8 @@ static func _exam_line(rows: Array[Dictionary]) -> String:
         if not Exam.EXCLUDED.has(str(rows[i].get("id", ""))):
             above += 1
     if above < cut:
-        return "As it stands, you are in."
-    return "As it stands, you are not."
+        return "You are eligible. Register at the Bondszaal desk."
+    return "You are not eligible yet. Play league games to move up."
 
 
 func close() -> void:

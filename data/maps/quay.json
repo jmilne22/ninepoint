@@ -6,6 +6,7 @@
  ],
  "tile_size": 16,
  "legend": {
+  "}": "wall_side",
   "^": "roof_ridge",
   "#": "roof_slate",
   "R": "roof_rust",
@@ -94,7 +95,7 @@
   "PPPPPPPPPPPPPPPPPPPPPPPPPP",
   "PPPPPPPPPyPPPPPPPPPPPPPPPP",
   "PPLPPPPPPPPPPPPPPnPPPPePPP",
-  "PPPPPPPPPPPPbPPPPPPPPPPPPP",
+  "PPPPPPPPPPPP1PPPPPPPPPPPPP",
   "PPPPPPPPqPPPPPPPPPPPPPPPPP",
   "%%%%%J%%%%%%%%%%%%%J%%%%%%",
   ";;;;;;;;;;;;;;;;;;;;;;;;;;",
@@ -125,8 +126,8 @@
   "11111111111100111111111111",
   "00000000000000000000000000",
   "00000000010000000000000000",
-  "00100000000000000100001000",
-  "00000000000010000000000000",
+  "00100000000000001110001000",
+  "00000000000111000000000000",
   "00000000000000000000000000",
   "00000100000000000001000000",
   "11111111111111111111111111",
@@ -173,14 +174,14 @@
     12,
     4
    ],
-   "text": "A bench facing the water. It is the only place in Steenbeek where nobody will ask you how the game went."
+   "text": "A bench facing the water. The middle slats are dry."
   },
   {
    "tile": [
     5,
     6
    ],
-   "text": "A mooring bollard, worn smooth. The water is the colour of the sky, which today is the colour of the water."
+   "text": "Rope has worn a groove in the mooring post."
   },
   {
    "tile": [
@@ -193,49 +194,26 @@
  "npcs": [],
  "music": "theme_quay",
  "indoors": false,
- "presence_states": [
+ "art_props": [
   {
-   "id": "after-loss",
-   "when": {
-    "equals": {
-     "last_result": "loss"
-    }
-   },
-   "tiles": [
-    {
-     "tile": [
-      8,
-      5
-     ],
-     "name": "prop_rope"
-    },
-    {
-     "tile": [
-      8,
-      5
-     ],
-     "name": "prop_rope"
-    },
-    {
-     "tile": [
-      17,
-      3
-     ],
-     "name": "prop_satchel"
-    }
+   "art": "long_bench",
+   "position": [
+    176,
+    56
    ]
   },
   {
-   "id": "routine",
-   "tiles": [
-    {
-     "tile": [
-      8,
-      5
-     ],
-     "name": "prop_rope"
-    }
+   "art": "review_board",
+   "position": [
+    256,
+    24
    ]
+  }
+ ],
+ "presence_states": [
+  {
+   "id": "routine",
+   "exchanges": []
   }
  ]
 }

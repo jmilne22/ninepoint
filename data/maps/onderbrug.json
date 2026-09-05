@@ -6,6 +6,7 @@
  ],
  "tile_size": 16,
  "legend": {
+  "}": "wall_side",
   "^": "roof_ridge",
   "#": "roof_slate",
   "R": "roof_rust",
@@ -92,14 +93,14 @@
  "ground": [
   "mmmmmmmmmmmmmmmmmmmmmmmm",
   "mmmmmmm&mmmmmmmmmmmmmmmm",
-  "mmm()mmmmm()mm&mm()mmmmm",
+  "mmmmmmmmmmmmmm&mmmmmmmmm",
   "___77_____77_____77_____",
-  "m7L777777L777777L777777m",
-  "m77777777777777E7777777m",
-  "m7777G777777q777777G777m",
-  "77777777777777777777777m",
-  "77777q77777G77777777777m",
-  "m7777777777777777777q77m",
+  "maLaaaaaaLaaaaaaLaaaaaam",
+  "maaaaaaaaaaaaaaaaaaaaaam",
+  "maaaaaaaaaaaqaaaaaaaaaam",
+  "7aaaaaaaaaaaaaaaaaaaaaam",
+  "7aaaaqaaaaaaaaaaaaaaaaam",
+  "maaaaaaaaaaaaaaaaaaaqaam",
   "__%__%__%__%__%__%__%___",
   "mmmmmmmmmmmmmmmmmmmmmmmm"
  ],
@@ -123,10 +124,10 @@
   "111111111111111111111111",
   "111001111100111110011111",
   "101000000100000010000001",
-  "100000000000000100000001",
-  "100001000000000000010001",
-  "000000000000000000000001",
-  "000000000001000000000001",
+  "100000000000000000000001",
+  "100000000000000000000001",
+  "000000000000000001111001",
+  "000000000111100000000001",
   "100000000000000000000001",
   "110110110110110110110111",
   "111111111111111111111111"
@@ -138,7 +139,7 @@
   ],
   "arch": [
    18,
-   7
+   8
   ]
  },
  "warps": [
@@ -164,24 +165,24 @@
  "signs": [
   {
    "tile": [
-    5,
-    6
+    19,
+    7
    ],
-   "text": "A board on an upturned crate, the lines worn pale in the middle where sixty years of hands have rested."
+   "text": "A board on a dry crate. Felt underneath stops it rocking."
   },
   {
    "tile": [
     11,
     8
    ],
-   "text": "Coins on the corner of the crate, held down by a stone. Nobody counts them until the game is over."
+   "text": "A tin of spare stones and a cloth, kept clear of the damp wall."
   },
   {
    "tile": [
     2,
     4
    ],
-   "text": "One lamp per arch, and the furthest one has been out for years. Everybody sits where they can see; the man at the far end sits where he cannot be seen."
+   "text": "A lamp wired under the arch. Joos has fixed a sheet above the board to catch the drips."
   }
  ],
  "npcs": [
@@ -189,63 +190,54 @@
    "id": "joos",
    "tile": [
     19,
-    7
+    8
    ],
    "dir": "up",
-   "idle": "watch"
+   "idle": "arrange",
+   "activity_variations": [
+    {
+     "flag": "joos_match_done",
+     "idle": "wipe"
+    }
+   ]
   }
  ],
  "music": "theme_arches",
  "indoors": false,
- "presence_states": [
+ "art_props": [
   {
-   "id": "marked",
-   "when": {
-    "all": [
-     "joos_match_done"
-    ]
-   },
-   "tiles": [
-    {
-     "tile": [
-      14,
-      9
-     ],
-     "name": "prop_rope"
-    },
-    {
-     "tile": [
-      10,
-      7
-     ],
-     "name": "prop_chalk"
-    },
-    {
-     "tile": [
-      14,
-      9
-     ],
-     "name": "prop_rope"
-    }
-   ],
-   "lines": [
-    {
-     "npc": "joos",
-     "text": "Somebody will use that shape."
-    }
+   "art": "port_arch",
+   "position": [
+    32,
+    0
    ]
   },
   {
-   "id": "routine",
-   "tiles": [
-    {
-     "tile": [
-      14,
-      9
-     ],
-     "name": "prop_rope"
-    }
+   "art": "port_arch",
+   "position": [
+    240,
+    0
    ]
+  },
+  {
+   "art": "dry_corner",
+   "position": [
+    272,
+    80
+   ]
+  },
+  {
+   "art": "port_cargo",
+   "position": [
+    144,
+    112
+   ]
+  }
+ ],
+ "presence_states": [
+  {
+   "id": "routine",
+   "exchanges": []
   }
  ]
 }

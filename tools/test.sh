@@ -2,7 +2,7 @@
 # Headless checks: everything must *compile* first -- a parse error in a script
 # the unit tests never touch will otherwise only show up as a blank screen --
 # and then the suites run.
-set -uo pipefail
+set -euo pipefail
 cd "$(dirname "$0")/.."
 GODOT="${GODOT:-$HOME/.local/bin/godot}"
 
@@ -29,8 +29,19 @@ if echo "$LOAD" | grep -q "FAILED"; then
 fi
 
 echo "== test suites =="
-timeout 300 "$GODOT" --headless --path . --script res://tests/test_runner.gd 2>&1 \
-  | grep -E "checks|passed,|FAIL"
+SUITE_LOG=$(mktemp)
+if ! timeout 300 "$GODOT" --headless --path . --script res://tests/test_runner.gd > "$SUITE_LOG" 2>&1; then
+  cat "$SUITE_LOG"
+  rm -f "$SUITE_LOG"
+  exit 1
+fi
+if grep -qE "SCRIPT ERROR|Compile Error|Parse Error" "$SUITE_LOG"; then
+  cat "$SUITE_LOG"
+  rm -f "$SUITE_LOG"
+  exit 1
+fi
+grep -E "checks|passed,|FAIL" "$SUITE_LOG"
+rm -f "$SUITE_LOG"
 
 echo "== KataGo Linux integration gates =="
 timeout 90 "$GODOT" --headless --path . --script res://tools/katago_smoke.gd

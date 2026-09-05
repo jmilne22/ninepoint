@@ -1,31 +1,84 @@
 {
  "id": "openings",
- "title": "First Moves: Corners and Urgency",
+ "title": "Choosing a First Move",
  "teacher": "wren",
  "size": 9,
  "intro": [
-  "For your first full game, start near a corner. Do not play the first line early: it has no room to breathe or grow.",
-  "Make nearby stones help each other. If a stone is in atari, or a cut is urgent, that comes before opening plans.",
-  "Here is why corners are a useful beginning. Three walls, three times: count what the board gives you for free."
+  "Try starting near a corner, a few lines in from the edge. Your stones have room to grow, with two nearby board edges to help enclose territory.",
+  "These positions compare corners, sides and the centre. During a game, check threatened groups before following an opening plan."
  ],
  "steps": [
   {
-   "board": [".........", ".........", ".........", ".........", ".........", ".........", ".........", ".........", "........."],
+   "board": [
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
    "to_move": "black",
-   "instruction": "Choose a useful first move: near a corner, not on the edge.",
+   "instruction": "Choose a first move near a corner, a few lines in from the edge.",
    "accept": "points",
-   "points": [[2, 2], [6, 2], [2, 6], [6, 6]],
+   "points": [
+    [
+     2,
+     2
+    ],
+    [
+     6,
+     2
+    ],
+    [
+     2,
+     6
+    ],
+    [
+     6,
+     6
+    ]
+   ],
    "hint": "The four points a short step in from each corner are all good beginner starts.",
-   "explanation": "Good. It has room to extend, and the nearby edges can become two walls later. It is a plan, not a promise: answer an urgent atari or cut first."
+   "explanation": "This stone has space around it and two nearby edges. It is one useful place to begin."
   },
   {
-   "board": ["....O....", ".........", ".........", ".........", ".........", ".........", ".........", ".........", "........."],
+   "board": [
+    "....O....",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
    "to_move": "black",
-   "instruction": "That white stone on the first line is an early mistake: choose a stronger opening point instead.",
+   "instruction": "Choose an opening point with more room than the first line.",
    "accept": "points",
-   "points": [[2, 2], [6, 2], [2, 6], [6, 6]],
+   "points": [
+    [
+     2,
+     2
+    ],
+    [
+     6,
+     2
+    ],
+    [
+     2,
+     6
+    ],
+    [
+     6,
+     6
+    ]
+   ],
    "hint": "Leave the first line alone for now. Pick a point near a corner with room on both sides.",
-   "explanation": "Exactly. First-line stones have very little room to make territory. Later, they can matter for saving a group or finishing a boundary; opening priorities are not emergencies."
+   "explanation": "Points farther from the edge have more room to grow. First-line moves can still matter later for saving groups or closing boundaries."
   },
   {
    "board": [
@@ -40,7 +93,7 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "A corner wall, one stone short. Finish it -- the gap is on the top edge. Corners are an efficient place to begin.",
+   "instruction": "Close the gap in the corner wall, on the top edge.",
    "accept": "points",
    "points": [
     [
@@ -50,7 +103,7 @@
    ],
    "encloses": 9,
    "hint": "Top edge, fourth line in from the left.",
-   "explanation": "Nine points of corner, for SEVEN stones. Two sides of that box were the edge of the board, and the board does not charge you for them.",
+   "explanation": "Seven black stones surround nine corner points. Two sides of the boundary are the board edges.",
    "region_at": [
     1,
     1
@@ -69,7 +122,7 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "The same nine points, but out on the side now. One stone short again -- close the bottom corner of the wall.",
+   "instruction": "Close the gap in the wall along the side.",
    "accept": "points",
    "points": [
     [
@@ -79,7 +132,7 @@
    ],
    "encloses": 9,
    "hint": "The bottom right of the wall you can see, on the fourth column.",
-   "explanation": "Nine points again -- for ELEVEN stones. Only one side of the box was free this time, so you paid for the extra wall yourself.",
+   "explanation": "Eleven black stones surround nine points here. Only one board edge helps form the boundary.",
    "region_at": [
     1,
     5
@@ -98,7 +151,7 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "And the same nine points in the open centre. Close the ring.",
+   "instruction": "Close the gap in the centre wall.",
    "accept": "points",
    "points": [
     [
@@ -108,7 +161,7 @@
    ],
    "encloses": 9,
    "hint": "The bottom right corner of the ring.",
-   "explanation": "Nine points -- for SIXTEEN stones. Seven in the corner, eleven on the side, sixteen in the middle, for exactly the same territory.",
+   "explanation": "Sixteen black stones surround nine points here. Black has to build the whole boundary.",
    "region_at": [
     4,
     4
@@ -116,7 +169,6 @@
   }
  ],
  "outro": [
-  "So: open near a corner, avoid the first line early, and make nearby stones work together. When a stone is in atari or a cut is open, answer that urgent problem first.",
-  "Corners, sides, influence, and the whole board can wait for Hana's class. For now, this is enough to start a real game."
+  "Corners are often an efficient place to start. Keep nearby stones connected and check for urgent threats before expanding."
  ]
 }

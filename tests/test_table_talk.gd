@@ -136,7 +136,7 @@ static func _test_voices(t: TestKit) -> void:
     # expressed by which tags she has lines for, not by special-casing her.
     var hana := TableTalkVoice.load_voice("hana")
     var gloat := hana.speak(PackedStringArray(["i_captured"]), 40)
-    t.ok(gloat.contains("?"), "Hana answers a capture with a question, not a boast")
+    t.ok(gloat != "" and not gloat.contains("ahead"), "Hana reacts to an observed capture without guessing the score")
 
 
 static func _test_cooldown(t: TestKit) -> void:

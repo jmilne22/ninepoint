@@ -26,8 +26,8 @@
   ".........",
   "........."
  ],
- "goal": "Black to play. Those are two groups. Make them one.",
- "hint": "White is standing on both sides of the same empty point, waiting for you to leave it there.",
+ "goal": "Black to play. Connect the two black groups.",
+ "hint": "Look for the empty crossing that touches both black groups.",
  "solutions": [
   [
    4,
@@ -40,5 +40,5 @@
    4
   ]
  ],
- "explanation": "A gap between two of your groups is not a gap, it is a cutting point, and it belongs to whoever plays it first. Filling it costs one stone; leaving it can cost the smaller half of everything you have built."
+ "explanation": "The two black groups are now connected. White can no longer separate them by playing in that gap."
 }

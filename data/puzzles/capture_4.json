@@ -16,8 +16,8 @@
   ".........",
   "........."
  ],
- "goal": "White to play. The black group has one eye. End it.",
- "hint": "The group is touching exactly one empty point, and it is inside.",
+ "goal": "White to play. Capture the black group.",
+ "hint": "Look at the empty point inside the black group.",
  "solutions": [
   [
    2,
@@ -30,5 +30,5 @@
    1
   ]
  ],
- "explanation": "The eye was the group's last liberty, so playing in it was legal -- the capture resolves before your own stone is checked. One eye is not life. It never was."
+ "explanation": "That empty point was Black's last liberty. The capture removes Black before checking your white stone's liberties, so your move is legal."
 }

@@ -7,17 +7,17 @@
 script = ExtResource("1_script")
 id = &"first_stones"
 title = "First Stones"
-summary = "You have just moved to Steenbeek. There is a salon three steps below the pavement and a tournament at the Bondszaal."
+summary = "Take the board to Pip in the park, then learn and play at De Ketel."
 steps = [{
-"journal": "Find De Ketel, further along Ketelsteeg.",
-"advance_on": {"type": "enter_map", "map": "de_ketel"}
+"journal": "Find Pip in the park, across the road.",
+"advance_on": {"type": "match", "context": "pip_capture"}
 }, {
-"journal": "Wren — De Ketel — learn the rules and an opening plan.",
-"advance_on": {"type": "lesson", "id": "openings"}
+"journal": "Ask Wren at De Ketel to show you the rules.",
+"advance_on": {"type": "flag", "key": "knows_the_rules"}
 }, {
-"journal": "Wren — De Ketel — play your first full game (practice).",
+"journal": "Play a practice game with Wren at De Ketel.",
 "advance_on": {"type": "match", "context": "wren_first"}
 }, {
-"journal": "Kesh — De Ketel — play your first rated 9x9 game.",
+"journal": "Play Kesh by the window at De Ketel for your first rank.",
 "advance_on": {"type": "match", "context": "kesh_first"}
 }]

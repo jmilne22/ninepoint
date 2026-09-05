@@ -28,12 +28,12 @@
   },
   "first": {
    "text": [
-    "Bertie. Forty years on this bench. Corner, side, centre. Learn it in that order."
+    "Bertie. Mind the wet end of the bench."
    ]
   },
   "offer_ladders": {
    "text": [
-    "You've watched Pip try that ladder. It never works. Sit down, and I'll show you one that does."
+    "Pip's been asking about ladders. Want to try the position I've set up?"
    ],
    "choices": [
     {
@@ -51,7 +51,7 @@
   },
   "later": {
    "text": [
-    "I'll be on this bench. I'm always on this bench."
+    "I'll keep the board out."
    ]
   },
   "taught": {
@@ -59,7 +59,7 @@
   },
   "after_lesson": {
    "text": [
-    "Read it to the end. That's all I know that Pip doesn't."
+    "I've brushed the leaves off. Have a seat."
    ],
    "goto": "offer_game"
   },
@@ -81,7 +81,7 @@
   },
   "bench_first": {
    "text": [
-    "Sit down. I won't fight you, I'll out-count you. Nothing here goes on a card."
+    "Sit down for a game? This end of the table is dry."
    ],
    "choices": [
     {
@@ -90,8 +90,7 @@
       "type": "start_match",
       "profile": "bertie_9x9",
       "context": "bertie_park",
-      "unrated": true,
-      "intro": "Stone table, no card. He plays first and does not ask."
+      "unrated": true
      }
     },
     {
@@ -102,7 +101,7 @@
   },
   "bench_again": {
    "text": [
-    "Again? Same terms. Nothing written down."
+    "Another game? Let me brush these leaves off first."
    ],
    "choices": [
     {
@@ -111,8 +110,7 @@
       "type": "start_match",
       "profile": "bertie_9x9",
       "context": "bertie_park",
-      "unrated": true,
-      "intro": "The same bench. He has already set the bowls out."
+      "unrated": true
      }
     },
     {
@@ -138,13 +136,14 @@
   },
   "bertie_lost": {
    "text": [
-    "Hm. Forty years, and somebody comes along who counts faster. Good. Go on, then."
+    "You've beaten me. Well played.",
+    "I'll have to get up and stretch before the next one."
    ]
   },
   "bertie_won": {
    "text": [
-    "Territory. You had a lovely time in the middle and I owned the edges.",
-    "Corner is gold, side is silver, centre is grass. Doesn't always apply. Did today."
+    "That's a win for me. Thank you for the game.",
+    "Take your time packing up. Nobody's waiting for the table."
    ]
   }
  }

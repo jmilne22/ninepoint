@@ -99,18 +99,18 @@
   },
   "who_are_you": {
    "text": [
-    "The register is for students. Hana sends me hers, and you are not one of them yet."
+    "Welcome. Speak to Hana in the classroom, through the east door. She'll help you get started."
    ]
   },
   "enrol": {
    "text": [
-    "Hana sent you. Everybody goes in at the bottom of the lower league."
+    "Hana sent you? I can register you for the lower league."
    ],
    "goto": "enrol_confirm"
   },
   "enrol_confirm": {
    "text": [
-    "Sign here. Then read the board behind me."
+    "Sign here. Then read the league board on the back wall."
    ],
    "choices": [
     {
@@ -146,8 +146,8 @@
   },
   "enrolled_explain": {
    "text": [
-    "The board is the lower league: your record and nothing else. The study hall is west, the classroom east.",
-    "The top four of the league sit the qualifying exam at the Bondszaal. That is the entire system."
+    "The league board shows the results and standings. The study hall is west; the classroom is east.",
+    "The top four qualify to sit the exam at the Bondszaal. You can check your position on the board."
    ]
   },
   "enrolled_chat": {
@@ -157,10 +157,6 @@
       [
        "flag",
        "read_league_board"
-      ],
-      [
-       "not_flag",
-       "marguerite_match_done"
       ]
      ],
      "goto": "league_offer"
@@ -172,7 +168,7 @@
   },
   "enrolled_repeat": {
    "text": [
-    "The board is behind me. Your position is on it. No, I won't tell you whether it's good."
+    "The league board is behind me. Looking for a game? Try the study hall through the west door."
    ]
   },
   "cup_eligible": {
@@ -183,8 +179,8 @@
     ]
    ],
    "text": [
-    "One thing. You have a rank, so you're eligible for the Beginner Cup: fifteen kyu and below, at the Bondszaal.",
-    "The southbound tram. Enter at the desk there. People wait until they feel readier. They never do."
+    "You can enter the Cup at the Bondszaal. Take the southbound tram and register at the desk.",
+    "The entry board explains which section you can play in."
    ],
    "goto": "enrolled_chat"
   },
@@ -196,8 +192,8 @@
     ]
    ],
    "text": [
-    "You're past fifteen kyu, so the Beginner Cup is closed to you. The open section is not.",
-    "Thirteen lines, handicap by the gap, and the club and the Instituut in one draw. The Bondszaal desk."
+    "You can enter the Cup's open section at the Bondszaal. Take the southbound tram.",
+    "The registration desk is beside the entrance."
    ],
    "goto": "enrolled_chat"
   },
@@ -209,14 +205,14 @@
     ]
    ],
    "text": [
-    "You're in the top four of the lower league, so you sit the qualifying exam. The Bondszaal, when you're ready.",
-    "It's a position on a board and it moves. Don't wait long."
+    "You're in the top four. You can enter the qualifying exam at the Bondszaal.",
+    "Register there and tell me when you're ready to start."
    ],
    "goto": "enrolled_chat"
   },
   "league_offer": {
    "text": [
-    "You've seen my name on the board. Yes, I play. Slow, orthodox, and I don't lose to beginners."
+    "Would you like a league game? I can leave the register for a while."
    ],
    "choices": [
     {
@@ -224,8 +220,7 @@
      "exit": {
       "type": "start_match",
       "profile": "marguerite_9x9",
-      "context": "league_marguerite",
-      "intro": "League fixture. Sable, one dan."
+      "context": "league_marguerite"
      }
     },
     {
@@ -236,7 +231,7 @@
   },
   "league_later": {
    "text": [
-    "The offer doesn't expire. I'm always at this desk."
+    "Come back when you're ready."
    ]
   },
   "post_match": {
@@ -256,13 +251,12 @@
   },
   "league_beaten": {
    "text": [
-    "Well. That goes on the board, and I have to look at it every day.",
-    "Don't tell me it was luck. I dislike false modesty more than I dislike losing."
+    "Well played. I'll enter your win on the league board."
    ]
   },
   "league_won": {
    "text": [
-    "You played the top left properly. Nobody does. The rest we won't discuss."
+    "A win for me. Thank you. I'll update the league board."
    ]
   },
   "bondszaal_desk": {
@@ -283,7 +277,7 @@
   },
   "which_desk": {
    "text": [
-    "Two events, one desk. Which?"
+    "Are you here for the Cup or the qualifying exam?"
    ],
    "choices": [
     {
@@ -368,12 +362,12 @@
   },
   "cup_refuse": {
    "text": [
-    "This is the federation. I need a rank on a card before I can put a name in a draw. Get one and come back."
+    "You need a rank to enter. Play Kesh at De Ketel first, then come back to this desk."
    ]
   },
   "cup_enter": {
    "text": [
-    "The Beginner Cup. Fifteen kyu and below, four rounds, no handicap. You're eligible."
+    "You're eligible for the beginners' section. Shall I enter you?"
    ],
    "choices": [
     {
@@ -407,17 +401,17 @@
     ]
    ],
    "text": [
-    "Entered. Your name goes on the board behind me. Read the draw, and tell me when you're ready to play."
+    "You're entered. The draw is at the far end of the hall. Tell me when you're ready."
    ]
   },
   "cup_think": {
    "text": [
-    "Then think somewhere else. There's no queue. I'd still rather you did."
+    "Take your time. The entry details are on the board."
    ]
   },
   "cup_ready": {
    "text": [
-    "You're entered. Ready to play? Once it starts, it runs."
+    "Ready to start? We'll play all the rounds in order."
    ],
    "choices": [
     {
@@ -442,7 +436,7 @@
   },
   "cup_wait": {
    "text": [
-    "Go and get better in the meantime. That's the only advice the federation gives."
+    "Come back to this desk when you're ready."
    ]
   },
   "cup_play": {
@@ -464,18 +458,29 @@
   },
   "cup_not_yet": {
    "text": [
-    "Then you're holding up a room of people. Briefly."
+    "All right. Come back here to begin the next round."
    ]
   },
   "cup_over": {
-   "text": [
-    "The Cup is finished, and the result is on the board. That's what a result is."
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "cup_won"
+      ]
+     ],
+     "goto": "cup_champion"
+    },
+    {
+     "goto": "cup_completed"
+    }
    ]
   },
   "cup_choose": {
    "text": [
-    "Two sections. The beginners' is yours by right. You've also won three rated games, so you may play up.",
-    "The open section: no ceiling, thirteen lines, handicap by the gap. Four people who will beat you."
+    "You can enter the beginners' section or play up in the open section.",
+    "The open section uses the larger board. Which would you like?"
    ],
    "choices": [
     {
@@ -494,7 +499,7 @@
   },
   "cup_enter_open": {
    "text": [
-    "You're past fifteen kyu, so the beginners' section is closed. The open section: no ceiling, thirteen lines."
+    "You're eligible for the open section. Shall I enter you?"
    ],
    "choices": [
     {
@@ -528,7 +533,7 @@
     ]
    ],
    "text": [
-    "Entered, open section. Your name goes under people who won't be pleased to see it. Tell me when you're ready."
+    "You're entered in the open section. Tell me when you're ready to start."
    ]
   },
   "exam_desk": {
@@ -589,13 +594,13 @@
   },
   "exam_refuse": {
    "text": [
-    "The exam is for the top four of the lower league. You're not in it. The study hall is open. Change the number."
+    "The top four in the lower league can enter. Check your position at the Instituut league board."
    ]
   },
   "exam_enter": {
    "text": [
-    "The qualifying exam. Four sit it, three rounds, no handicap, top two pass.",
-    "There's a paper first. Two positions, set by me. It decides nothing. It tells me what you can see."
+    "The top two finishers qualify. First, there's a short problem paper; it doesn't affect your result.",
+    "Then you play each of the other entrants. The exam board has the details."
    ],
    "choices": [
     {
@@ -624,12 +629,12 @@
     ]
    ],
    "text": [
-    "Down. The list goes up with whoever is in the four on the day, not whoever was. Tell me when you're ready."
+    "You're entered. You must still be in the top four when we start. Tell me when you're ready."
    ]
   },
   "exam_think": {
    "text": [
-    "You're in the four. Thinking about it doesn't keep you there."
+    "All right. You can check your eligibility on the league board."
    ]
   },
   "exam_ready": {
@@ -659,12 +664,12 @@
   },
   "exam_wait": {
    "text": [
-    "Play league games. It's the same board you're being judged on."
+    "Come back here when you're ready to begin."
    ]
   },
   "exam_paper_offer": {
    "text": [
-    "Paper first. Two positions, no hints."
+    "First, two practice positions. They do not affect your placing. Ready?"
    ],
    "choices": [
     {
@@ -681,7 +686,7 @@
   },
   "exam_paper_later": {
    "text": [
-    "The rounds don't start until it's done. That's a running order, not a threat."
+    "Finish the paper before starting the rounds. Come back when you're ready."
    ]
   },
   "exam_play": {
@@ -703,7 +708,7 @@
   },
   "exam_not_yet": {
    "text": [
-    "Somebody is sitting at a board waiting for you."
+    "Come back to this desk to begin your next round."
    ]
   },
   "exam_over": {
@@ -731,14 +736,26 @@
     ]
    ],
    "text": [
-    "You qualified. Here: a card with a date on it. It doesn't make you stronger.",
-    "It says you were measured, in front of witnesses, and you held."
+    "Congratulations! You qualified. Here's your certificate.",
+    "Your results are on the board. Hana will be pleased to hear."
    ]
   },
   "exam_failed": {
    "text": [
-    "You didn't qualify. The result is on the wall.",
-    "It's a verdict on three games, not on you. There's another term."
+    "You didn't qualify this time. Your results are on the board.",
+    "Thank you for playing all your rounds. You're welcome back at the Instituut."
+   ]
+  },
+  "cup_champion": {
+   "text": [
+    "Congratulations! You won your section. I'll put your name at the top of the results.",
+    "Stay for tea if you can. People will want to congratulate you."
+   ]
+  },
+  "cup_completed": {
+   "text": [
+    "You've finished all your rounds. Your placing and results are on the board.",
+    "Thanks for taking part. There's tea by the coats if you'd like to stay."
    ]
   }
  }

@@ -11,7 +11,10 @@ var _lines: Array = []
 var _npcs: Array = []
 var _bubble: NinePatchRect
 var _label: Label
-var _timer := 2.0
+var _timer := 4.0
+var _cursor := 0
+var _paused: Callable
+var _suspended := false
 
 const BUBBLE_W := 136
 const BUBBLE_MIN_W := 48
@@ -22,8 +25,15 @@ const BUBBLE_PAD := 6
 const BUBBLE_CLEARANCE := 24
 
 
-func setup(lines: Array, npcs: Array) -> void:
-    _lines = lines
+func setup(lines: Array, npcs: Array, exchanges: Array = [], paused: Callable = Callable()) -> void:
+    _paused = paused
+    _lines = []
+    for group in exchanges:
+        _lines.append_array(group)
+        _lines.append({"gap": true})
+    for line in lines:
+        _lines.append(line)
+        _lines.append({"gap": true})
     _npcs = npcs
     if _lines.is_empty():
         return
@@ -47,18 +57,33 @@ func setup(lines: Array, npcs: Array) -> void:
 func _process(delta: float) -> void:
     if _bubble == null:
         return
+    if _paused.is_valid() and _paused.call():
+        _suspended = _suspended or _bubble.visible
+        _bubble.visible = false
+        return
+    if _suspended:
+        _bubble.visible = true
+        _timer = SHOW_FOR
+        _suspended = false
     _timer -= delta
     if _timer > 0.0:
         return
     if _bubble.visible:
         _bubble.visible = false
-        _timer = randf_range(GAP_MIN, GAP_MAX)
+        _timer = 0.6
         return
-    var entry: Dictionary = _lines[randi() % _lines.size()]
+    if _cursor >= _lines.size():
+        return
+    var entry: Dictionary = _lines[_cursor]
+    if entry.get("gap", false):
+        _cursor += 1
+        _timer = GAP_MAX
+        return
     var npc := _find_npc(str(entry.get("npc", "")))
     if npc == null or bool(npc.get("busy")):
         _timer = 1.0
         return
+    _cursor += 1
     _label.text = str(entry.get("text", ""))
     # Hug short lines instead of drawing a fixed, character-covering banner.
     # Longer prose wraps at the same compact maximum width.

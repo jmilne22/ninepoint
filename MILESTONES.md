@@ -2941,3 +2941,64 @@ of teaching. UI-01 delivers access to the board for development, not that introd
 | trial asserts nine lines | requested size must match result and SGF `SZ` |
 | runner lock after fixture writes; default-only Python save path | lock and Godot path verification before writes; shared XDG override |
 | nineteen-line teaching still absent | remains absent, explicitly tracked as CONTENT-04 |
+
+## M43 — Verhaven art, writing and beginner experience  [done]
+
+The owner-approved POLISH-01 overhaul covers the opening through the exam and both Cup
+sections, all eleven maps and fifteen named characters. Python-generated pixel art remains
+the asset source. Large furniture, quieter surfaces, deliberate wear and distinct layouts
+make the laundry, club, school and civic hall readable. The Instituut and Bondszaal have
+separate skippable tram exteriors. Character height/build, portraits and four-direction
+activity sheets distinguish the cast while retaining the walking-sheet contract.
+
+The script was rewritten as individual conversations, including results, repeat visits,
+existing record arcs, table talk, lessons, signs and menus. Actual setup data supplies match
+facts. Capture Go, practice, casual and rated labels are distinct; only `unrated` controls
+rank consequences. Unsupported move judgements and unfinished-board score claims were
+removed from speech; engine review keeps its positive-first, bounded structure.
+
+Handicap teaching now waits for input beside the actual starting board. Two stages explain
+the head start, colours, stone count, ordinary stones, White's first move, komi and rank.
+H reopens it; optional arithmetic explains the actual matchup, including Joos's agreed
+head start. Help neither consumes a turn nor permits an engine move behind it. Old saves
+receive their next first-time introduction; existing progress, results and reviews remain.
+
+Pip and Wren start empty. Kesh uses nigiri and gives the correct 22k card. Rules shortcuts,
+skipped openings, postponed practice and old quest states reconcile correctly, including
+live HUD updates. Event completion supersedes postponed preparation steps. The exam paper
+now signals completion after its World listener exists, fixing its repeating-first-position
+bug. Invalid or occupied saved return positions fall back to safe named spawns.
+
+**Done when:** `tools/test.sh` passes **14235 checks** (predecessor M42: **14269**),
+**236 files load**, all three real-engine gates pass, map generation validates all eleven
+maps, and taught positions report **0 problems**. The changed count includes removal of
+obsolete banter assertions and new onboarding/activity/record checks; it is not a claim
+that fewer checks establish more quality. The runner now loads suites after autoloads are
+ready and fails on script errors, repairing previously silent UI assertions.
+
+**What was actually played and looked at:** fresh opening through Pip, Wren's rules and
+optional openings, a full game to counting, Kesh, tram, enrolment, class and a natural
+handicap; a separate experienced/lesson-postponing route; giving and receiving stones;
+Joos; actual win/loss conversations; review acceptance/refusal, leaving, returning and
+failure; every map and contextual routines; both tram destinations; both complete Cup
+sections; exam failure through its paper and three rounds, and qualification from a
+last-round fixture; optional outcomes and existing three/six-game arcs. Captures were
+opened at native size and selected 3× scale. The full connected script was read.
+
+Full observations, excluded faulty automation frames and the distinction between played
+journeys and saved-outcome fixtures are recorded in `docs/overhaul/PLAYTEST.md`.
+`docs/overhaul/GALLERY.md` contains representative game captures for review.
+Audio output measured all **18 tracks** and **4 intro stings** through PulseAudio; this is
+measured audibility, not subjective listening. Existing audio was reused.
+
+| Deliberate change or remaining boundary | Reason |
+|---|---|
+| The timed handicap notice became controlled teaching | Starting stones must make sense before play begins. |
+| The first three games remain empty before a rank exists | The approved opening teaches ordinary placement first; unknown strength is not a handicap calculation. |
+| `practice` and `venue_id` are presentation only | Labels and atmosphere must not alter rank or Go rules. |
+| Opening guidance is optional; school starts with Two Eyes | Experienced choices must advance the objective without repeating a skipped introduction. |
+| Presence exchanges are ordered and once per visit | A reply needs its opening, and rooms need silence as well as activity. |
+| Event endings acknowledge every existing outcome | Clear results and ordinary warmth give the journey a conclusion. |
+| No engine retuning or town nineteen-line chapter | ENG-06 and CONTENT-04 remain separate work. The existing M42 development UI was regression-played. |
+| No new social progression, errands, schedules or currencies | The player's Go and recorded results remain the progression. |
+| No automatic merge | The branch and illustrated PR remain reviewable by the owner. |

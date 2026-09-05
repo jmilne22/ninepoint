@@ -1,0 +1,76 @@
+[
+ {
+  "save": "overhaul_old_spawn"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "old_save_safe_entrance"
+ },
+ {
+  "wait": 4
+ },
+ {
+  "shot": "laundry_exchange_opening"
+ },
+ {
+  "tap": "menu"
+ },
+ {
+  "wait": 4
+ },
+ {
+  "shot": "exchange_suspended_in_menu"
+ },
+ {
+  "tap": "cancel"
+ },
+ {
+  "wait": 1
+ },
+ {
+  "shot": "exchange_resumes_opening"
+ },
+ {
+  "wait": 3.8
+ },
+ {
+  "shot": "laundry_exchange_response"
+ },
+ {
+  "talk_to": "abel"
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "shot": "folding_interrupted"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 1
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 3
+ },
+ {
+  "shot": "folding_resumed"
+ }
+]

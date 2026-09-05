@@ -148,7 +148,7 @@ var req := MatchRequest.new()
 # builds that string inline -- OpponentProfile.path_for(id, board, variant) is
 # where the convention lives, because a MatchRequest carries no size of its own
 # and the profile is the only place a board is chosen.
-req.opponent_profile = load(OpponentProfile.path_for("kesh", 9))
+req.profile          = load(OpponentProfile.path_for("kesh", 9))
 req.context_id       = "kesh_first_match"
 MatchBridge.start_match(req)          # suspends the world, routes to the match scene
 
@@ -241,17 +241,25 @@ conversation partners.
 
 **Dialogue** (JSON graph):
 ```json
-{ "id": "kesh", "nodes": {
-    "start":   { "cond": [["flag_false","kesh_beaten_once"]], "goto": "first_meeting" },
-    "first_meeting": { "portrait":"kesh", "text":["..."],
-                       "choices":[{"text":"You're on.","goto":"challenge"}] },
-    "challenge": { "action":{"type":"start_match","profile":"kesh_9x9","context":"kesh_first"} }
+{ "id": "wren", "nodes": {
+    "start": { "goto": "offer" },
+    "offer": { "text": ["Shall we play a practice game?"], "choices": [
+        {"text": "Let's play.", "exit": {"type": "start_match", "profile": "wren_9x9",
+            "context": "wren", "unrated": true, "practice": true}}
+    ]},
+    "post_match": { "branches": [
+        {"if": [["won_last"]], "goto": "wren_lost"}, {"goto": "wren_won"}
+    ]},
+    "wren_lost": { "text": ["You won! Well played."] },
+    "wren_won": { "text": ["Oh, I won! Thank you for playing."] }
 } }
 ```
-Node kinds: `text`, `choices`, `branch` (conditions), `action` (set flag, bump flag, give an
-item, take one back, set rank, start a quest, toast), `exit` (start match, start puzzle,
-start lesson, a Cup or exam round, the problem paper), `goto`, `end`. Conditions read
-`GameState` only — dialogue never queries the world directly.
+Node keys are `text`, `choices`, `branches`, `actions`, `exit` and `goto`. Conditions and
+actions read or write GameState. A match exit can set `practice` (default false) and the
+world supplies `venue_id`; both are presentation fields. `unrated` alone controls rank
+consequences. `GoMatchSetup` resolves size, colours, handicap and komi; `MatchPresentation`
+formats those resolved facts, never numerical claims copied from dialogue. `HandicapHelp`
+owns modal input and starting-stone highlights. Opponent replies wait until it closes.
 
 The writing rules are in `data/dialogue/VOICES.md`, and the ones a machine can check are
 enforced by `tests/test_data.gd`: two lines a node, 110 characters a line, every line fits
@@ -264,9 +272,16 @@ every `take` and every `has_item` to name something some `give` actually hands o
 **Quests** (`QuestData.tres`): ordered steps, each with a completion condition (flag set,
 match finished with context, puzzle solved, lesson finished, somebody talked to, location
 entered) and a journal line. `QuestTracker` listens on `EventBus` and advances steps; NPC
-dialogue branches on quest step. Only the **current** step is ever tested, so the events are
-strictly ordered and one fired out of turn is lost. Which quest the journal displays is
-`QuestTracker.journal_quest_id()` — the last one started that is still running.
+dialogue branches on quest step. The opening quest additionally reconciles durable teaching
+flags and match records on load and after progression events. Completed progress remains
+complete; knowing the rules or skipping optional opening advice cannot strand the objective.
+
+`art_props` names generated images and pixel positions; physical footprints are baked into
+map collision by the generator. `VenueProps` renders them. `presence_exchanges` is an ordered
+list of exchanges, each containing speaker/text lines. Legacy individual lines remain
+standalone exchanges. `AmbientBanter` plays each exchange once per visit, leaves silence
+between them and suspends during conversation, menus and transitions. Activity variations
+use existing flags and head-to-head records, with no clock or relationship state.
 
 ## 7. Scenes and reuse
 
@@ -301,7 +316,7 @@ positions. Page state is presentation-only too.
 debugging. These are the real keys, which is `GameState.to_dict()` and nothing else:
 
 ```json
-{ "version": 3, "saved_at": "2026-09-04T12:00:00", "playtime": 640.0,
+{ "version": 1, "saved_at": "2026-09-04T12:00:00", "playtime": 640.0,
   "player_name": "Ro", "rank_strength": 8,
   "flags": {...}, "quests": {"first_stones": {"step": 2, "done": false}},
   "inventory": ["old_goban"],
@@ -313,15 +328,15 @@ debugging. These are the real keys, which is `GameState.to_dict()` and nothing e
   "return_position": [12, 8], "has_return_position": true }
 ```
 
-Version 2 (M37) dropped `day`, `slots_used` and `time_block` with the calendar; a version 1
-file loads, and the three keys are ignored. Version 3 (M40) added `match_analysis`, keyed by
-the record's index: `available`, `steady` or `failed`, never `pending` after a load — an
-unfinished review is marked `failed: interrupted` rather than resumed. A file without the
-key is a valid save with no reviews.
+`SaveSystem.SAVE_VERSION` remains 1. Legacy calendar keys are ignored. Missing review data
+means no saved review; unfinished analysis is marked interrupted on load. The optional
+`flags.handicap_intro_seen` is saved after completing or explicitly skipping the first
+introduction. Older saves receive the explanation at their next handicap encounter.
 
 Saving is `GameState.to_dict()`; loading is `GameState.from_dict()` then `SceneRouter` opens
 the map at the spawn point, or drops the player back on `return_position` when a match
-interrupted them there. No node paths are serialised. `current_map` is a map **id**, not a
+interrupted them there. Blocked or out-of-bounds return positions fall back to a named safe
+spawn after layout changes. No node paths are serialised. `current_map` is a map **id**, not a
 scene path — every map is data, and `MapData` resolves it.
 
 Which of the three slots a run belongs to is `GameState.active_slot`, and it is deliberately
@@ -331,7 +346,8 @@ the one panel that lists them, shared by the title screen and the pause menu.
 
 ## 9. Testing
 
-`tests/test_runner.gd extends SceneTree` — runs headlessly, no editor, no rendering:
+`tests/test_runner.gd extends SceneTree` runs headlessly. It defers suite loading until
+autoloads have initialised, so UI-adjacent suites cannot silently fail to compile:
 
 ```
 godot --headless --path . --script res://tests/test_runner.gd

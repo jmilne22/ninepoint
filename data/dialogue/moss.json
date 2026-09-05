@@ -6,6 +6,34 @@
     {
      "if": [
       [
+       "played_at_least",
+       "moss",
+       3
+      ],
+      [
+       "not_flag",
+       "arc_moss_3"
+      ]
+     ],
+     "goto": "stage_3"
+    },
+    {
+     "if": [
+      [
+       "played_at_least",
+       "moss",
+       6
+      ],
+      [
+       "not_flag",
+       "arc_moss_6"
+      ]
+     ],
+     "goto": "stage_6"
+    },
+    {
+     "if": [
+      [
        "rank_at_least",
        "14k"
       ],
@@ -32,8 +60,7 @@
   },
   "first": {
    "text": [
-    "Moss Lindqvist. Sixteen kyu, three years running, and the ceiling of the section is fifteen.",
-    "That's the trick. I'm not proud of it."
+    "Moss. Is the Cup entry notice still in the window? I've been meaning to check it."
    ],
    "goto": "gate"
   },
@@ -63,12 +90,12 @@
   },
   "no_rules": {
    "text": [
-    "You don't know the rules, and you want me to teach them. No. Wren does that, down the steps."
+    "Wren can show you the rules at De Ketel, down the steps under the kettle sign."
    ]
   },
   "no_card": {
    "text": [
-    "No rank? Then there's nothing to play for, and I don't play for nothing. Kesh, at De Ketel, will give you one."
+    "You'll need a rank first. Play Kesh at De Ketel and she'll put you on the register."
    ]
   },
   "outgrown": {
@@ -79,13 +106,14 @@
     ]
    ],
    "text": [
-    "Look at you. Out of the section already. I've spent three years staying under it."
+    "You've moved out of the beginners' section. I'll still be in it.",
+    "I've got used to the people there."
    ],
    "goto": "gate"
   },
   "offer": {
    "text": [
-    "One game, and it counts. On your card and on mine."
+    "Want a rated game? I've cleared the table."
    ],
    "choices": [
     {
@@ -93,8 +121,7 @@
      "exit": {
       "type": "start_match",
       "profile": "moss_9x9",
-      "context": "wassalon_moss",
-      "intro": "He clears the folding table with his forearm, the only fast thing he does all evening."
+      "context": "wassalon_moss"
      }
     },
     {
@@ -105,12 +132,12 @@
   },
   "later": {
    "text": [
-    "Then we've nothing to talk about, and I mean that kindly. Come back when you want one that counts."
+    "All right. I'll check the entry notice."
    ]
   },
   "again": {
    "text": [
-    "Again? It still counts."
+    "Another rated game?"
    ],
    "goto": "gate"
   },
@@ -131,14 +158,43 @@
   },
   "after_win": {
    "text": [
-    "There. Now the record says something different about both of us.",
-    "See you at the Bondszaal."
+    "You won. I'll put that in the record.",
+    "See you at the Bondszaal, if you're entering."
    ]
   },
   "after_loss": {
    "text": [
-    "Still sixteen kyu. That's not modesty. A rank is a record, and mine is accurate."
+    "That's a win for me. Thanks.",
+    "I should get back to these clothes before someone needs the counter."
    ]
+  },
+  "stage_3": {
+   "actions": [
+    [
+     "set_flag",
+     "arc_moss_3",
+     true
+    ]
+   ],
+   "text": [
+    "Good to see you back.",
+    "I've entered the beginners' section three times. I know most of the people in it now."
+   ],
+   "goto": "offer"
+  },
+  "stage_6": {
+   "actions": [
+    [
+     "set_flag",
+     "arc_moss_6",
+     true
+    ]
+   ],
+   "text": [
+    "I suppose I could try the open section next time.",
+    "I keep checking that ceiling because I'm worried about who I'd have to play up there."
+   ],
+   "goto": "offer"
   }
  }
 }

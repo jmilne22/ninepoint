@@ -131,7 +131,7 @@ func show_board() -> void:
             row[c].add_theme_color_override("font_color",
                 UiKit.GOLD if mine else UiKit.INK)
 
-    _footer.text = summary(state)
+    _footer.text = summary(state) + "\nTied records are ordered by rank."
     GameState.set_flag("read_exam_board", true)
     open = true
     _root.visible = true
@@ -142,13 +142,13 @@ func show_board() -> void:
 static func summary(state: Dictionary) -> String:
     var rows: Array = state["rows"]
     if not bool(state.get("player_in_field", true)):
-        return "The top %d of the lower league sit it, and you are not one of them.\nThe study hall is open all term. That is the whole of the appeal process." % Exam.FIELD_SIZE
+        return "You need a place in the top %d of the lower league.\nPlay league games at the Instituut, then check the league board." % Exam.FIELD_SIZE
     var place := Exam.placing(rows, PLAYER_ID)
     if bool(state["complete"]):
         if bool(state["passed"]):
             return "Three rounds played. You finished %d of %d.\nThe top %d qualify. You qualified." % [
                 place, rows.size(), Exam.PASS_PLACES]
-        return "Three rounds played. You finished %d of %d.\nThe top %d qualify. You did not." % [
+        return "Three rounds played. You finished %d of %d.\nThe top %d qualify. You did not qualify." % [
             place, rows.size(), Exam.PASS_PLACES]
     var round_number: int = int(state["next_round"]) + 1
     var who := str(state["next_opponent"])

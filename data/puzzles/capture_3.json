@@ -16,8 +16,8 @@
   ".........",
   "........."
  ],
- "goal": "Black to play. Take the white stones.",
- "hint": "Two stones sharing one liberty. Find the point they are both relying on.",
+ "goal": "Black to play. Capture the two white stones.",
+ "hint": "Find the last liberty of the connected white stones.",
  "solutions": [
   [
    2,
@@ -34,5 +34,5 @@
    2
   ]
  ],
- "explanation": "Two stones, one liberty, and both come off together. A chain is captured whole -- which is why a big group on few liberties is far more dangerous to own than a small one."
+ "explanation": "Both stones belonged to one group. Filling its last liberty captured them together."
 }

@@ -1,0 +1,244 @@
+[
+ {
+  "save": "cup_ready"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "walk_to": [
+   1,
+   10
+  ]
+ },
+ {
+  "face": [
+   1,
+   9
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 1
+ },
+ {
+  "wait": 3
+ },
+ {
+  "shot": "bondszaal_exterior"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "map",
+  "map": "bondszaal"
+ },
+ {
+  "shot": "registration_by_entrance"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "shot": "beginner_entry_choice"
+ },
+ {
+  "choose": 0
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "beginner_round_1_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "beginner_round_1_return"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "beginner_round_2_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "beginner_round_2_return"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "beginner_round_3_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "beginner_round_3_return"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "beginner_round_4_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "beginner_round_4_return"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   9,
+   3
+  ]
+ },
+ {
+  "face": [
+   9,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "beginner_final_standings"
+ }
+]

@@ -144,13 +144,13 @@ func next_puzzle() -> String:
 func study_desk(prose: String) -> void:
     if not GameState.has_flag("knows_the_rules"):
         await narrate([prose.strip_edges(),
-            "You still do not know what any of it is for. Somebody will have to show you."])
+            "Pip plays in the park across the road. Wren teaches at De Ketel, under the kettle sign."])
         return
     var puzzle := next_puzzle()
     var solved_all := GameState.has_flag("%s_solved" % PUZZLE_TRACK[PUZZLE_TRACK.size() - 1])
     var lines: Array = [prose.strip_edges()]
     lines.append("You could sit down with a problem." if not solved_all
-        else "You have done all of them. You could do one again -- it is not the same twice, because you are not.")
+        else "You have solved every problem here. Would you like to try one again?")
     var choices: Array = [{"text": "Set a problem.", "exit": {"type": "study"}}]
     choices.append({"text": "Leave it.", "goto": "no"})
     var exit := await _choose(lines, choices, "The stones stay in the bowl.")
@@ -165,11 +165,11 @@ func study_desk(prose: String) -> void:
 ## to the result screen. Nobody explains it; the cards are the board itself.
 func quay_review() -> void:
     if MatchReviewService.is_running():
-        await narrate(["Your last game is still being gone over. Give it a minute."])
+        await narrate(["Your review is still being prepared. It will be here when it is ready."])
         return
     var review := GameState.latest_quay_analysis()
     if review.is_empty():
-        await narrate(["The water keeps its own counsel. There is no game here to look at yet."])
+        await narrate(["No review is saved here yet. After a game, choose to go over it with your opponent."])
         return
     _begin()
     var cards := ReviewCardsScene.new()
@@ -209,7 +209,7 @@ func tram_stop(spec: String) -> void:
     var route: Dictionary = routes[int(exit.get("route", 0))]
     var flag := str(route.get("flag", ""))
     if flag != "" and not GameState.has_flag(flag):
-        await narrate([str(route.get("refused", "Not that way. Not yet."))])
+        await narrate([str(route.get("refused", "This destination is not available yet."))])
         return
     # Board it: the tram that passes is the tram you take. Everything after the
     # await is the scene change, which frees the world this desk belongs to.
@@ -217,7 +217,7 @@ func tram_stop(spec: String) -> void:
     var tram = _player.get_parent().get_node_or_null("Tram")
     if tram != null:
         await tram.arrive(_player.global_position.x)
-    SceneRouter.go_to_map(str(route.get("map", "")), str(route.get("spawn", "")))
+    SceneRouter.travel_to_map(str(route.get("map", "")), str(route.get("spawn", "")))
 
 
 # --- the bed -----------------------------------------------------------------

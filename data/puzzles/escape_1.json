@@ -21,8 +21,8 @@
   ".........",
   "........."
  ],
- "goal": "Black to play. Those two stones have one liberty. Save them.",
- "hint": "There is exactly one empty point touching them. It leads somewhere.",
+ "goal": "Black to play. Give the threatened group more liberties.",
+ "hint": "Find the empty crossing beside the threatened black group.",
  "solutions": [
   [
    4,
@@ -39,5 +39,5 @@
    4
   ]
  ],
- "explanation": "Out from one liberty to three. The move works because the point you played had empty points of its own -- running into a gap that is itself surrounded buys you nothing at all."
+ "explanation": "Black's group now has three liberties instead of one. Check the new liberties after extending a group."
 }

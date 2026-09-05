@@ -45,16 +45,14 @@
     ]
    ],
    "text": [
-    "Hello! Pip. I play at these tables most days, and I lose at them most days.",
-    "Do you know the game? Doesn't matter. Sit down, I'll show you the first rule."
+    "Hello! I'm Pip. Want to try this game?"
    ],
    "goto": "capture_offer"
   },
   "spots_the_board": {
    "portrait": "happy",
    "text": [
-    "Is that a board? Nobody carries a board down this street.",
-    "Pip. Where did you get it?"
+    "You've brought a board! I'm Pip. Where did you find it?"
    ],
    "goto": "explain_ignorance"
   },
@@ -80,15 +78,13 @@
     ]
    ],
    "text": [
-    "You don't know what it IS. Sit down. This is the best thing to happen to me all month.",
-    "It's Go. Black and white, we take turns putting stones on the crossings. I'll show you the rest by playing."
+    "It's for Go! Come and try mine. I've got the stones ready."
    ],
    "goto": "capture_offer"
   },
   "capture_offer": {
    "text": [
-    "One rule for now. A stone needs an empty crossing beside it, or it comes off the board.",
-    "Take one of mine and you win. Seven by seven. Ready?"
+    "Let's play Capture Go. I'll show you what to do on the board."
    ],
    "choices": [
     {
@@ -108,8 +104,7 @@
   },
   "explain_again": {
    "text": [
-    "Stones don't move once they're down. Each one needs an empty crossing next to it to breathe.",
-    "Fill the last one and it comes off. Take one of mine and you've won."
+    "We'll try a short game where the first capture wins. You can take your time."
    ],
    "goto": "capture_offer"
   },
@@ -122,7 +117,7 @@
   },
   "offer": {
    "text": [
-    "Quick one? Nine by nine, nothing counts, and I'll try a ladder."
+    "Got time for a game? I've been trying something with Bertie."
    ],
    "choices": [
     {
@@ -138,8 +133,7 @@
       "type": "start_match",
       "profile": "pip_9x9",
       "context": "pip_casual",
-      "unrated": true,
-      "intro": "Park rules. Nothing counts."
+      "unrated": true
      }
     },
     {
@@ -150,7 +144,7 @@
   },
   "later": {
    "text": [
-    "Right! I'm here most days. Losing."
+    "See you! I'll get the stones ready."
    ]
   },
   "again": {
@@ -164,8 +158,7 @@
       "type": "start_match",
       "profile": "pip_9x9",
       "context": "pip_casual",
-      "unrated": true,
-      "intro": "Park rules. Nothing counts."
+      "unrated": true
      }
     },
     {
@@ -213,29 +206,29 @@
   "capture_won": {
    "portrait": "happy",
    "text": [
-    "You took one! First game. That's the engine of it, right there: count the breaths, get there first.",
-    "Go down to De Ketel, three steps under the kettle sign. Ask for Wren. She teaches the rest."
+    "You won! Want to learn the rest?",
+    "Go to De Ketel, down the steps under the kettle sign. Ask for Wren."
    ]
   },
   "capture_lost": {
    "portrait": "happy",
    "text": [
-    "Got you! Don't mind that, I've had three years of practice at exactly this.",
-    "Go down to De Ketel, three steps under the kettle sign. Ask for Wren. She teaches the rest properly."
+    "I won this one! Thanks for trying it.",
+    "Wren teaches the full game at De Ketel, down the steps under the kettle sign."
    ]
   },
   "after_win": {
    "text": [
-    "Lost again. I'm not being polite, I enjoy it. The ladder didn't work, did it.",
-    "Bertie says it never works. One day."
+    "You beat me! I'll tell Bertie when he's finished.",
+    "Another game?"
    ],
    "goto": "again"
   },
   "after_loss": {
    "portrait": "happy",
    "text": [
-    "I WON. The ladder worked! Did you see it work?",
-    "Don't tell Bertie. He'll say it was luck, and it was."
+    "I won! Thanks for playing.",
+    "Let's have another when you're ready."
    ],
    "goto": "again"
   }

@@ -20,6 +20,12 @@ static func apply(map: MapData, flags: Dictionary) -> String:
         map.routes = state["routes"]
     map.presence_tiles = state.get("tiles", [])
     map.presence_lines = state.get("lines", [])
+    map.presence_exchanges = state.get("exchanges", [])
+    for npc in map.npcs:
+        for variation in npc.get("activity_variations", []):
+            if bool(flags.get(str(variation.get("flag", "")), false)):
+                npc["idle"] = str(variation.get("idle", npc.get("idle", "")))
+                break
     return str(state.get("id", ""))
 
 

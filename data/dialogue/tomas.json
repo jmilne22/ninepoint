@@ -28,13 +28,13 @@
   },
   "first": {
    "text": [
-    "Tomás. It's my bar. You're the one Wren's teaching. Get taught, then I'll show you how a game ends."
-   ]
+    "Tomás. Welcome to De Ketel. Wren will find you a table and show you how to play."
+   ],
+   "portrait": "working"
   },
   "offer_counting": {
    "text": [
-    "You know how the stones work. Now the bit that decides games: the end.",
-    "Passing, counting, and what a captured stone is actually worth."
+    "Want a lesson in finishing a game? I'll bring the counting board over."
    ],
    "choices": [
     {
@@ -52,7 +52,7 @@
   },
   "later": {
    "text": [
-    "Suit yourself. Back room's always open."
+    "All right. I need to get these cups washed."
    ]
   },
   "taught": {
@@ -76,7 +76,7 @@
   },
   "offer_game": {
    "text": [
-    "You've had the lesson. Now somebody making you do it under pressure. One game."
+    "The table's wiped down. Ready for a game?"
    ],
    "choices": [
     {
@@ -84,8 +84,7 @@
      "exit": {
       "type": "start_match",
       "profile": "tomas_9x9",
-      "context": "tomas_club",
-      "intro": "One game. Back room rules."
+      "context": "tomas_club"
      }
     },
     {
@@ -125,7 +124,7 @@
   },
   "offer_again": {
    "text": [
-    "Again? Count twice, play once."
+    "Another? I'll clear the cups first."
    ],
    "choices": [
     {
@@ -133,8 +132,7 @@
      "exit": {
       "type": "start_match",
       "profile": "tomas_9x9",
-      "context": "tomas_club",
-      "intro": "Back room rules."
+      "context": "tomas_club"
      }
     },
     {
@@ -145,17 +143,16 @@
   },
   "offer_thirteen": {
    "text": [
-    "Three rated wins. There's a board under the coats at the back table. Thirteen lines.",
-    "Nine you can hold in your head. Thirteen you have to count."
+    "You've won enough rated games to use the back table. I've put the larger board under the coats.",
+    "Shall we play there?"
    ],
    "choices": [
     {
-     "text": "Get the coats off it.",
+     "text": "Let's play there.",
      "exit": {
       "type": "start_match",
       "profile": "tomas_13x13",
-      "context": "tomas_thirteen",
-      "intro": "Thirteen lines. Count twice and play once."
+      "context": "tomas_thirteen"
      }
     },
     {
@@ -166,7 +163,7 @@
   },
   "thirteen_again": {
    "text": [
-    "Back table's still up. Thirteen."
+    "The back table's free. Want a game?"
    ],
    "choices": [
     {
@@ -174,8 +171,7 @@
      "exit": {
       "type": "start_match",
       "profile": "tomas_13x13",
-      "context": "tomas_thirteen",
-      "intro": "Thirteen again. The corners are still the cheap part."
+      "context": "tomas_thirteen"
      }
     },
     {
@@ -205,13 +201,14 @@
   },
   "beaten": {
    "text": [
-    "Mm. You counted that better than I did, and I've been counting since before you were born.",
-    "That's all the compliment you get."
+    "You won. Well played.",
+    "Leave the cups. I'll take them to the counter."
    ]
   },
   "won": {
    "text": [
-    "You were ahead in the middle and gave it back a point at a time at the end. That's everybody. I just stopped."
+    "That's a win for me. Thanks for playing.",
+    "Give me a moment to clear this table before we start another."
    ]
   }
  }

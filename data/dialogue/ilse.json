@@ -47,20 +47,21 @@
   },
   "first": {
    "text": [
-    "Ilse Brandt. You're the one Hana brought in, so you won't have read anything yet.",
-    "I've read all of it. The sequences are correct. I am the part that goes wrong."
+    "Ilse. Just a moment, I need to mark my page.",
+    "Hana lent me this book. I've filled the margins already."
    ],
-   "goto": "offer"
+   "goto": "offer",
+   "portrait": "working"
   },
   "again": {
    "text": [
-    "Back. The sequence is the same as last time. I am hoping I am not."
+    "Hello. I kept a board free."
    ],
    "goto": "offer"
   },
   "offer": {
    "text": [
-    "A league game? It goes on the board either way."
+    "I'm ready for a league game. Are you?"
    ],
    "choices": [
     {
@@ -79,7 +80,7 @@
   },
   "later": {
    "text": [
-    "Fine. I'll be here. Page ninety-one."
+    "All right. I'll finish this chapter."
    ]
   },
   "post_match": {
@@ -100,14 +101,14 @@
   "after_win": {
    "portrait": "annoyed",
    "text": [
-    "You went outside the book. There's no follow-up written for that, because it isn't good.",
-    "It also beat me. I'm recording both facts."
+    "You won. Well played.",
+    "I'd like to save our game beside my notes."
    ]
   },
   "after_loss": {
    "text": [
-    "That was the standard sequence, and it worked. I take no credit for it.",
-    "Come back and beat me with something that isn't in a book."
+    "A win for me. Thank you for playing.",
+    "I'll write it down before I lose my place."
    ]
   },
   "stage_2": {
@@ -118,7 +119,7 @@
     ]
    ],
    "text": [
-    "Three games. You play moves that aren't in any book, and half of them are better than the book."
+    "I've started keeping our games in the back of this notebook."
    ],
    "goto": "offer"
   },
@@ -130,8 +131,8 @@
     ]
    ],
    "text": [
-    "Six. I've decided the books aren't the problem. I read them the way you'd read a timetable.",
-    "From now on I'm going to be wrong on purpose, sometimes, and see what happens."
+    "The back of my notebook is nearly full.",
+    "I brought a second one. This time I've left room for questions."
    ],
    "goto": "offer"
   }

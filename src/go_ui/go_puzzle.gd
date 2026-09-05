@@ -114,7 +114,7 @@ func _on_point(point: int) -> void:
     game.undo()
     board_view.queue_redraw()
     if attempts == 1:
-        _message.text = "Not quite. Look again -- nothing was captured."
+        _message.text = "That move does not solve this position. Try again."
     else:
         _message.text = "Hint: %s" % puzzle.hint
 

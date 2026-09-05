@@ -47,8 +47,7 @@
   },
   "first": {
    "text": [
-    "Orla Finn. Top of the lower league, and I'm not going to be interesting about it.",
-    "You'll get stones from me. Take them. Refusing stones wastes a game to protect a feeling."
+    "Orla. You can put your coat on that chair. Are you here for a game?"
    ],
    "goto": "offer"
   },
@@ -60,7 +59,7 @@
   },
   "offer": {
    "text": [
-    "League game? It goes on the board either way."
+    "League game? This table's free."
    ],
    "choices": [
     {
@@ -100,13 +99,14 @@
   "after_win": {
    "portrait": "annoyed",
    "text": [
-    "Mm. Right. Now it's a game. Next time, fewer stones."
+    "You won. I'll enter the result.",
+    "I'd like a rematch."
    ]
   },
   "after_loss": {
    "text": [
-    "You had the bottom left and took the safe side. The safe side was eight points smaller.",
-    "That's the gap between us. Not reading. Counting."
+    "That's mine. Thanks for playing.",
+    "I'm ready for another when you are."
    ]
   },
   "stage_2": {
@@ -117,7 +117,8 @@
     ]
    ],
    "text": [
-    "Three games. You've stopped playing the safe side. I said the gap was counting. It was nerve."
+    "Good to have someone who comes back.",
+    "Most of the study hall clears out when the rain stops."
    ],
    "goto": "offer"
   },
@@ -129,7 +130,8 @@
     ]
    ],
    "text": [
-    "Top of the league isn't a talent. I play everybody, and I don't stop when it's going badly."
+    "I keep this table clear in case you turn up.",
+    "Sit down. My book can wait."
    ],
    "goto": "offer"
   }

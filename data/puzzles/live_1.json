@@ -20,8 +20,8 @@
   ".........",
   "........."
  ],
- "goal": "Black to play. Make this group impossible to kill.",
- "hint": "Three empty points in a row. Divide them.",
+ "goal": "Black to play. Make two eyes.",
+ "hint": "Divide the three empty points into two separate spaces.",
  "solutions": [
   [
    2,
@@ -34,5 +34,5 @@
    0
   ]
  ],
- "explanation": "Two eyes. White cannot play in either -- each would be a stone with no liberties -- and cannot fill both, because filling one is illegal while the other stands. That is what alive means."
+ "explanation": "Black now has two separate eyes. White cannot fill either eye without self-capture."
 }

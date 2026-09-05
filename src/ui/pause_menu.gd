@@ -8,8 +8,11 @@ signal closed()
 ## "Save game" stays at index 1 and stays a save with no further prompt: four
 ## autopilot scripts end on one move_down and an interact, and expect a file to
 ## exist afterwards. Anything new goes after it.
-const ITEMS := ["Resume", "Save game", "Save to slot...", "Trainer Card", "Back to title"]
+const ITEMS := ["Resume", "Save game", "Save to slot...", "Player card", "Back to title"]
 
+var _card_pages: PackedStringArray
+var _card_page := 0
+var _card_label: Label
 var open: bool = false
 
 var _root: Control
@@ -106,7 +109,11 @@ func _input(event: InputEvent) -> void:
         return
     if _card != null and _card.visible:
         if event.is_action_pressed("interact") or event.is_action_pressed("cancel"):
-            _card.visible = false
+            if event.is_action_pressed("interact") and _card_page + 1 < _card_pages.size():
+                _card_page += 1
+                _show_card_page()
+            else:
+                _card.visible = false
             get_viewport().set_input_as_handled()
         return
     if event.is_action_pressed("move_down"):
@@ -176,6 +183,15 @@ func _show_trainer_card() -> void:
     for lesson in ["liberties", "capture", "self_capture", "openings", "escape", "connection"]:
         if GameState.has_flag("lesson_%s_done" % lesson): concepts.append(lesson.replace("_", " "))
     var goal := Quests.journal_line(Quests.journal_quest_id())
-    var body := "%s\n\nRank  %s\n22k → 1k → 1d\nRated record  %d–%d\nKesh  %d–%d\n\nRecently taught: %s\n\nNext: %s\n\n[Space / Esc] close" % [GameState.player_name, GameState.rank_label(), rated_wins, rated_losses, int(kesh["wins"]), int(kesh["losses"]), ", ".join(concepts) if not concepts.is_empty() else "Capture Go", goal]
+    var body := "%s\n\nRank  %s\n22k → 1k → 1d\nRated record  %d–%d\nKesh  %d–%d\n\nRecently taught: %s\n\nNext: %s\n\n[Space / Esc] close" % [GameState.player_name, GameState.rank_label(), rated_wins, rated_losses, int(kesh["wins"]), int(kesh["losses"]), ", ".join(concepts) if not concepts.is_empty() else ("Capture Go" if GameState.has_flag("match_pip_capture_done") else "No lessons yet"), goal]
     var label := UiKit.label(panel, Vector2(10, 10), 284, UiKit.INK, 154)
-    label.text = body
+    _card_label = label
+    body = body.replace("\n\n[Space / Esc] close", "")
+    body += "\n\n" + GoRankLadder.explain() + " Handicap stones are taken into account."
+    _card_pages = UiKit.paginate(body, 284, 121)
+    _card_page = 0
+    _show_card_page()
+
+
+func _show_card_page() -> void:
+    _card_label.text = _card_pages[_card_page] + ("\n\nSpace: next  Esc: close" if _card_page + 1 < _card_pages.size() else "\n\nSpace / Esc: close")

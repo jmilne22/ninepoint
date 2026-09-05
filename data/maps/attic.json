@@ -6,6 +6,7 @@
  ],
  "tile_size": 16,
  "legend": {
+  "}": "wall_side",
   "^": "roof_ridge",
   "#": "roof_slate",
   "R": "roof_rust",
@@ -91,14 +92,14 @@
  },
  "ground": [
   "IIIIIIIIIIII",
-  "IIIIINNIIIII",
+  "IIIIIIIIIIII",
   "iiiiiiiiiiii",
-  "iVQ211211X1i",
-  "i12112112G1i",
-  "i2Z12112112i",
-  "i1Z2112112Zi",
-  "i1211211211i",
-  "iiiiiiMiiiii"
+  "}1Q21121111}",
+  "}1211211211}",
+  "}2112112112}",
+  "}1121121121}",
+  "}1211211211}",
+  "}iiiiiMiiii}"
  ],
  "decor": [
   "            ",
@@ -115,10 +116,10 @@
   "111111111111",
   "111111111111",
   "111111111111",
-  "111000000101",
-  "100000000101",
-  "101000000001",
-  "101000000011",
+  "101000000111",
+  "111000000111",
+  "111000000001",
+  "111000000001",
   "100000000001",
   "111111011111"
  ],
@@ -153,26 +154,49 @@
     9,
     4
    ],
-   "text": "__DESK__The board the last tenant left, on a desk exactly the right size for it. You have turned it over twice looking for instructions."
+   "text": "__DESK__A board and a bowl of stones. The drawer underneath holds blank paper and a pencil."
   },
   {
    "tile": [
     2,
     5
    ],
-   "text": "__BED__A bed under the slope of the roof. You have hit your head on that roof twice."
+   "text": "__BED__Your bed, tucked under the low roof."
   },
   {
    "tile": [
     5,
     2
    ],
-   "text": "Under the dormer, which looks out at the tram wires and, past them, the crane on the far quay. It rains against that window most nights."
+   "text": "Rain taps the skylight. Beyond the tram wires, a crane turns over the quay."
   }
  ],
  "npcs": [],
  "music": "",
  "indoors": true,
+ "art_props": [
+  {
+   "art": "attic_roof",
+   "position": [
+    0,
+    0
+   ]
+  },
+  {
+   "art": "study_desk",
+   "position": [
+    144,
+    40
+   ]
+  },
+  {
+   "art": "bed",
+   "position": [
+    16,
+    64
+   ]
+  }
+ ],
  "presence_states": [
   {
    "id": "study",
@@ -184,46 +208,16 @@
    "tiles": [
     {
      "tile": [
-      6,
-      5
-     ],
-     "name": "prop_satchel"
-    },
-    {
-     "tile": [
-      7,
-      5
-     ],
-     "name": "prop_papers"
-    },
-    {
-     "tile": [
-      8,
-      5
-     ],
-     "name": "prop_papers"
-    }
-   ],
-   "lines": []
-  },
-  {
-   "id": "routine",
-   "tiles": [
-    {
-     "tile": [
-      6,
-      5
-     ],
-     "name": "prop_satchel"
-    },
-    {
-     "tile": [
-      7,
-      5
+      9,
+      4
      ],
      "name": "prop_papers"
     }
    ]
+  },
+  {
+   "id": "routine",
+   "exchanges": []
   }
  ]
 }

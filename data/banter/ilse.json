@@ -2,35 +2,22 @@
  "id": "ilse",
  "lines": {
   "you_captured": [
-   "That is not the sequence, and it worked."
+   "I'll record that capture."
   ],
   "you_captured_big": [
-   "I have no follow-up written for that.",
-   "The book does not cover a group dying like that. I will look it up anyway."
+   "Let me make room for those."
   ],
   "i_captured": [
-   "That is the standard punishment for that shape."
-  ],
-  "i_captured_big": [
-   "Page forty-one. It does work, occasionally, on somebody."
+   "Those come off now."
   ],
   "ko": [
-   "Ko. There is a chapter on this and I have read it twice."
+   "A ko. I need a moment."
   ],
-  "i_atari": [
-   "Atari, though I would rather not have had to say it."
+  "i_pass": [
+   "I pass."
   ],
-  "you_edge_early": [
-   "The first line does not enclose anything. That is not an opinion."
-  ],
-  "winning": [
-   "I am ahead, which the book says I should be."
-  ],
-  "losing": [
-   "You have left the book and I have not caught up with you."
-  ],
-  "level": [
-   "Even. Which means one of us is about to make the mistake."
+  "you_pass": [
+   "Let me finish checking."
   ]
  }
 }

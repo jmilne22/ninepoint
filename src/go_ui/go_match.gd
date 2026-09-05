@@ -49,6 +49,10 @@ var _review_yes := false
 var setup: GoMatchSetup
 var _last_message := ""
 var _guidance_index := 0
+var _handicap_help: HandicapHelp
+var _message_pages: PackedStringArray = []
+var _message_clock := 0.0
+var _message_page := 0
 
 ## Per-state input, keyed by phase. Set in _enter_phase, cleared on exit.
 var _awaiting: StringName = &""
@@ -59,7 +63,7 @@ var _answer: Variant = null
 ## development autopilot so it does not need to duplicate phase enum values.
 func is_player_turn_ready() -> bool:
     return game != null and phase == Phase.PLAYING and _awaiting == &"move" \
-        and game.to_move == player_color
+        and game.to_move == player_color and _handicap_help == null
 
 
 ## Both players have passed and the count is on the board. Also for the
@@ -82,7 +86,10 @@ func _ready() -> void:
     if request == null:
         request = _debug_request()
     profile = request.profile
-    setup = GoMatchSetup.prepare(profile.setup_rule(), request.player_strength,
+    var setup_rule := profile.setup_rule()
+    if request.context_id == "wren_first" and request.player_strength < 0:
+        setup_rule = GoMatchSetup.Rule.PLAYER_BLACK
+    setup = GoMatchSetup.prepare(setup_rule, request.player_strength,
         profile.strength(), profile.board_size, profile.komi)
     if profile.colour_rule != "by_rank" and profile.handicap >= 2:
         setup.handicap = profile.handicap        # a scripted match may pin stones
@@ -132,7 +139,9 @@ func _debug_request() -> MatchRequest:
 func _build_ui() -> void:
     set_anchors_preset(Control.PRESET_FULL_RECT)
     var bg := ColorRect.new()
-    bg.color = Color("#2a2633")
+    var venue_colors := {"wassalon": "#45404f", "de_ketel": "#3b2a1f",
+        "onderbrug": "#23324e", "ketelsteeg": "#2f4a30", "bondszaal": "#3a2340"}
+    bg.color = Color(str(venue_colors.get(request.venue_id, "#2a2633")))
     bg.set_anchors_preset(Control.PRESET_FULL_RECT)
     add_child(bg)
 
@@ -181,9 +190,9 @@ func _build_ui() -> void:
     # details from 90, and the table talk's four rows from 132 to 176, the
     # panel's inner edge. They used to overlap by a pixel at the top and sit on
     # the frame at the bottom.
-    _details = _label(_panel, Vector2(10, 90), 156, 9, "#6b6577")
+    _details = _label(_panel, Vector2(10, 86), 156, 9, "#6b6577")
     _details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-    _details.size.y = 40
+    _details.size.y = 44
 
     _message = _label(_panel, Vector2(10, 132), 156, 9, "#45404f")
     _message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -237,7 +246,17 @@ func _run() -> void:
     if not is_inside_tree():
         return
 
+    if setup.is_handicap():
+        game = GoGame.new(setup.board_size, setup.komi, setup.handicap)
+        player_color = setup.player_color
+        board_view.set_game(game)
+        phase = Phase.INTRO
+        await _open_handicap_help(true)
+        if not is_inside_tree():
+            return
+
     var warmed: GtpOpponent = await _prepare_opponent()
+    _awaiting = &""
     if not is_inside_tree() or phase == Phase.DONE:
         return
 
@@ -263,15 +282,21 @@ func _run() -> void:
         add_child(controls)
         await controls.closed
         board_view.interactive = true
-    var intro := request.intro_line
-    if intro == "":
-        intro = "%s -- %s. %dx%d." % [request.opponent_name, request.opponent_rank,
-            game.size(), game.size()]
-    if game.capture_goal > 0:
-        intro = "Capture Go. First to take %s wins." % (
-            "a stone" if game.capture_goal == 1 else "%d stones" % game.capture_goal)
-    var stakes := "Practice game — unrated." if request.unrated else "Rated game — result enters your record."
-    _set_message("%s\n%s" % [stakes, intro])
+    if request.context_id == "pip_capture" or request.practice:
+        board_view.interactive = false
+        var brief := BoardBrief.new()
+        if game.capture_goal > 0:
+            brief.pages = PackedStringArray([
+                "CAPTURE GO\n\nYou play %s. Place a stone on an empty crossing with Space or a click. %s plays %s.\n\nStones stay where you put them." % [GoBoard.color_name(player_color), request.opponent_name, GoBoard.color_name(3 - player_color)],
+                "A group needs an empty crossing beside it: a liberty. Diagonal crossings do not count.\n\nFill all a group's liberties and you capture its stones.\n\n%s\n\nThis game does not affect rank." % MatchPresentation.introduction(request, setup, game.capture_goal)])
+        else:
+            brief.pages = PackedStringArray([
+                "PRACTICE GAME\n\nSurround empty points and capture stones. Both add to your score when the game ends.\n\nWhite gets %s extra points, called komi.\n\nThis game does not change your rank." % MatchPresentation.number(setup.komi),
+                "Pass with P when you have finished playing. When both players pass, we count.\n\nAt the count, check the marked dead groups. Click a group to change its mark, then confirm the score.\n\nR offers resignation. You can cancel it."])
+        add_child(brief)
+        await brief.closed
+        board_view.interactive = true
+    _set_message(MatchPresentation.introduction(request, setup, game.capture_goal))
     _refresh()
     await get_tree().create_timer(0.6).timeout
 
@@ -315,9 +340,6 @@ func _setup_phase() -> void:
     _refresh()
 
     if not setup.uses_nigiri:
-        if setup.is_handicap():
-            _set_message(setup.explanation)
-            await get_tree().create_timer((1.4 if not Autopilot.active else 0.2)).timeout
         return
 
     var ceremony: NigiriCeremony = NigiriCeremony.new()
@@ -394,6 +416,8 @@ func _skin_tone_for(npc_id: String) -> String:
 
 func _opponent_turn() -> void:
     var move: Dictionary = await _await_move()
+    while _handicap_help != null:
+        await get_tree().process_frame
     match str(move.get("type", "pass")):
         "pass":
             game.pass_turn()
@@ -444,15 +468,13 @@ func _react() -> void:
         return
     var speaker := GoBoard.opponent(player_color)
     var line := voice.speak(GoTableTalk.events(game, speaker), game.move_number())
-    if line == "":
-        # Nothing happened worth remarking on, so occasionally say how it is going.
-        if game.move_number() >= 8:
-            line = voice.idle_line(GoTableTalk.standing(game, speaker), game.move_number())
     if line != "":
         _set_message(line)
 
 
 func _on_point_activated(point: int) -> void:
+    if _handicap_help != null:
+        return
     if phase == Phase.SCORING:
         _toggle_dead(point)
         return
@@ -660,7 +682,10 @@ func _prepare_opponent() -> GtpOpponent:
 func _set_message(text: String) -> void:
     _last_message = text
     if _message != null:
-        _message.text = text
+        _message_pages = UiKit.paginate(text, 156, 44)
+        _message_page = 0
+        _message_clock = 0.0
+        _message.text = _message_pages[0] if not _message_pages.is_empty() else ""
 
 
 func _refresh() -> void:
@@ -684,11 +709,11 @@ func _refresh() -> void:
             _turn.text = "Preparing opponent"
             _hints.text = "Esc: cancel"
         Phase.PLAYING:
-            var who := "Your move" if game.to_move == player_color else "%s is thinking" % request.opponent_name
+            var who := "Your move" if game.to_move == player_color else "Thinking"
             _turn.text = "%s (%s)" % [who, GoBoard.color_name(game.to_move)]
             if game.size() == 19:
                 _turn.text = "Your move" if game.to_move == player_color else "Thinking..."
-            _hints.text = "Arrows: move   Space: place\nP: pass   R: resign"
+            _hints.text = "Arrows: move  Space: place\nP: pass  R: resign" + ("  H: help" if setup.is_handicap() else "")
         Phase.SCORING:
             _turn.text = "Counting"
             _hints.text = "Space: toggle a dead group\nP: accept the count"
@@ -701,23 +726,22 @@ func _refresh() -> void:
     if phase != Phase.SCORING:
         # Four short lines rather than two long ones: the panel is 156px wide and
         # a single line of names ran off the end of it.
-        var handicap_text := "   H%d" % game.handicap if game.handicap >= 2 else ""
-        var goal_text := ""
-        if game.capture_goal > 0:
-            goal_text = "   first %d" % game.capture_goal
-        _details.text = "%dx%d  komi %s%s%s\nB %s\nW %s\nmove %d" % [
-            game.size(), game.size(), _num(game.komi), handicap_text, goal_text,
-            black_name, white_name, game.move_number()]
-        if game.size() == 19:
-            _details.text = "%dx%d komi %s%s  M%d\nB %s\nW %s\n%s" % [
-                game.size(), game.size(), _num(game.komi), handicap_text, game.move_number(),
-                black_name, white_name, BoardNavigation.opponent_move_text(board_view, player_color)]
+        _details.text = MatchPresentation.details(request, setup, game)
+        if game.size() == 19 and board_view.zoomed:
+            _set_message(BoardNavigation.opponent_move_text(board_view, player_color))
+
 
 
 ## Input is routed by state. Each state answers its own question and nothing
 ## else reads the keyboard, which is what the phase flags used to get wrong.
 func _unhandled_input(event: InputEvent) -> void:
     if not is_inside_tree():
+        return
+    if _handicap_help != null:
+        return
+    if event.is_action_pressed("go_help") and setup.is_handicap() and phase in [Phase.PLAYING, Phase.SCORING]:
+        get_viewport().set_input_as_handled()
+        _open_handicap_help(false)
         return
     var handled := false
     match phase:
@@ -878,3 +902,34 @@ func _input_board(event: InputEvent) -> bool:
     else:
         return false
     return true
+
+
+func _process(delta: float) -> void:
+    if _message_pages.size() > 1 and _handicap_help == null:
+        _message_clock += delta
+        if _message_clock >= 4.0:
+            _message_clock = 0.0
+            _message_page = (_message_page + 1) % _message_pages.size()
+            _message.text = _message_pages[_message_page]
+
+
+func _open_handicap_help(initial: bool) -> void:
+    if _handicap_help != null:
+        return
+    board_view.interactive = false
+    var old_highlight := board_view.highlight
+    board_view.highlight = GoGame.handicap_points(setup.board_size, setup.handicap)
+    board_view.queue_redraw()
+    _handicap_help = HandicapHelp.new()
+    _handicap_help.request = request
+    _handicap_help.setup = setup
+    _handicap_help.first_time = not initial or not GameState.has_flag("handicap_intro_seen")
+    add_child(_handicap_help)
+    await _handicap_help.closed
+    _handicap_help = null
+    board_view.highlight = old_highlight
+    board_view.queue_redraw()
+    if initial:
+        GameState.set_flag("handicap_intro_seen", true)
+    board_view.interactive = phase in [Phase.PLAYING, Phase.SCORING]
+    _refresh()

@@ -34,10 +34,14 @@ func _ready() -> void:
     if map == null:
         push_error("World: could not load map '%s'" % GameState.current_map)
         return
+    if GameState.has_flag("cup_finished") and not GameState.flags.has("cup_won"):
+        var cup_state := CupDraw.run(CupBoard.field(CupBoard.section()), GameState.match_records, CupDraw.PLAYER_ID)
+        GameState.set_flag("cup_won", bool(cup_state["complete"]) and CupDraw.placing(cup_state["rows"], CupDraw.PLAYER_ID) == 1)
     Presence.apply(map, GameState.flags)
 
     MapBuilder.build_backdrop(map, self)
     var ground := MapBuilder.build_layers(map, self)
+    VenueProps.build(map.art_props, self)
     MapBuilder.build_collision(map, self)
 
     # Movement and sound. Both read the map's own tiles.
@@ -53,7 +57,8 @@ func _ready() -> void:
     ambient_banter = AmbientBanterScene.new()
     ambient_banter.name = "AmbientBanter"
     entities.add_child(ambient_banter)
-    ambient_banter.setup(map.presence_lines, npcs)
+    ambient_banter.setup(map.presence_lines, npcs, map.presence_exchanges,
+        func(): return _talking or SceneRouter.is_busy() or (player != null and player.input_locked))
     MapBuilder.build_signs(map, self, _read_sign)
     MapBuilder.build_warps(map, self)
 
@@ -81,6 +86,14 @@ func _spawn_player() -> void:
         if name == "":
             name = GameState.spawn_point
         player.position = map.spawn_position(name)
+    var spawn_tile := Vector2i(player.position / map.tile_size)
+    var bounds := Rect2(Vector2.ZERO, Vector2(map.width, map.height) * map.tile_size)
+    var blocked := not bounds.has_point(player.position) or map.is_solid(spawn_tile.x, spawn_tile.y)
+    for npc in map.npcs:
+        var tile: Array = npc["tile"]
+        blocked = blocked or spawn_tile == Vector2i(int(tile[0]), int(tile[1]))
+    if blocked:
+        player.position = map.spawn_position(GameState.spawn_point)
     entities.add_child(player)
     player.map = map
     player.wants_interaction.connect(_on_interaction)
@@ -146,7 +159,13 @@ func _after_load() -> void:
     if result != null:
         MatchBridge.last_result = null
         _event_finished_check(result)
-        await _post_match(result)
+        var registrar := _find_npc("marguerite")
+        if registrar != null and result.context_id.begins_with(CupDraw.CONTEXT_PREFIX) and GameState.has_flag("cup_finished"):
+            await _talk(registrar, "cup_over")
+        elif registrar != null and result.context_id.begins_with(Exam.CONTEXT_PREFIX) and GameState.has_flag("exam_finished"):
+            await _talk(registrar, "exam_passed" if GameState.has_flag("exam_passed") else "exam_failed")
+        else:
+            await _post_match(result)
         return
     if MatchBridge.last_lesson != "":
         var taught := MatchBridge.last_lesson
@@ -198,7 +217,7 @@ func _post_match(result: MatchResult) -> void:
 ## additions are deliberately things the *rules* can settle (count the liberties;
 ## check which stones are one group) rather than judgement, because a lesson
 ## nothing can check is a lesson that quietly teaches the wrong position.
-const CLASS_TRACK := ["openings", "two_eyes", "life_and_death",
+const CLASS_TRACK := ["two_eyes", "life_and_death",
                       "capture_race", "false_eyes"]
 
 
@@ -374,6 +393,7 @@ func _cup_finished_check() -> void:
     if not bool(state["complete"]):
         return
     GameState.set_flag("cup_finished", true)
+    GameState.set_flag("cup_won", CupDraw.placing(state["rows"], CupDraw.PLAYER_ID) == 1)
     # The same sentence the wall gives, rather than a second copy of it that
     # would have to be taught about the open section separately.
     EventBus.toast.emit(CupDraw.summary(state, section))
@@ -424,13 +444,17 @@ func _start_cup_round() -> void:
 
     var req := MatchRequest.new()
     req.profile = load(profile_path)
+    if section == CupDraw.BEGINNERS:
+        req.profile = req.profile.duplicate(true)
+        req.profile.colour_rule = "nigiri"
+        req.profile.handicap = 0
     req.context_id = CupDraw.context_for(int(state["next_round"]))
     req.npc_id = opponent_id
     req.opponent_name = data.display_name
     req.opponent_rank = data.rank_label
     req.portrait_path = "res://art/portraits/%s.png" % data.portrait_id
-    req.intro_line = "Round %d. Board %d. %dx%d." % [
-        int(state["next_round"]) + 1, 1, board, board]
+    req.intro_line = "Round %d of %d." % [int(state["next_round"]) + 1, CupDraw.ROUNDS]
+    req.venue_id = map.id
     req.player_strength = GameState.rank_strength
     player.input_locked = true
     MatchBridge.start_match(req, player.global_position)
@@ -508,8 +532,9 @@ func _start_exam_round() -> void:
     req.opponent_name = data.display_name
     req.opponent_rank = data.rank_label
     req.portrait_path = "res://art/portraits/%s.png" % data.portrait_id
-    req.intro_line = "Round %d of %d. Even game." % [
+    req.intro_line = "Round %d of %d." % [
         int(state["next_round"]) + 1, Exam.ROUNDS]
+    req.venue_id = map.id
     req.player_strength = GameState.rank_strength
     player.input_locked = true
     MatchBridge.start_match(req, player.global_position)
@@ -533,6 +558,8 @@ func _start_match(exit: Dictionary, npc: Npc) -> void:
     req.portrait_path = "res://art/portraits/%s.png" % npc.data.portrait_id
     req.intro_line = str(exit.get("intro", ""))
     req.unrated = bool(exit.get("unrated", false))
+    req.practice = bool(exit.get("practice", false))
+    req.venue_id = map.id
     for prompt in exit.get("guidance", []):
         req.guidance.append(str(prompt))
     req.player_strength = GameState.rank_strength

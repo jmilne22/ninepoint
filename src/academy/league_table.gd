@@ -240,6 +240,6 @@ static func summary(rows: Array[Dictionary]) -> String:
             me = r
             break
     if int(me.get("played", 0)) == 0:
-        return "You are %d of %d, on no games played. That is not a ranking, it is an absence." % [pos, total]
+        return "You are listed %d of %d. Play your first league game in the study hall." % [pos, total]
     return "You are %d of %d: %d played, %d won, %d lost." % [
         pos, total, int(me["played"]), int(me["won"]), int(me["lost"])]

@@ -37,7 +37,7 @@ static func _test_empty(t: TestKit) -> void:
     # below all of them -- which is the correct and slightly bleak answer.
     t.eq(str(rows[rows.size() - 1]["id"]), LeagueTable.PLAYER_ID,
         "an unranked newcomer starts at the bottom without crashing")
-    t.ok(LeagueTable.summary(rows).contains("no games played"),
+    t.ok(LeagueTable.summary(rows).contains("first league game"),
         "and the summary says so rather than implying a ranking")
 
 

@@ -1,0 +1,69 @@
+[
+ {
+  "save": "quay_empty"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "review_engine": "res://tools/fixtures/analysis_hang.sh",
+  "review_stall": 4
+ },
+ {
+  "katago_trial": "res://data/opponents/wren_9x9.tres",
+  "katago_direct": true
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "match_move": [
+   2,
+   2
+  ]
+ },
+ {
+  "match_wait_player": true
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": true
+ },
+ {
+  "wait": 1
+ },
+ {
+  "shot": "unavailable_review_loading"
+ },
+ {
+  "review_card_wait": true,
+  "timeout": 40
+ },
+ {
+  "shot": "review_failure_explained"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "failure_returns_to_world"
+ }
+]

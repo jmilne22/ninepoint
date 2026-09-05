@@ -7,6 +7,8 @@ into a tileset. The engine side is src/rpg/maps/map_builder.gd.
 import json
 import os
 import sys
+from venue_layouts import dress, rewrite_signs, finish
+from venue_presence import states as activity_states
 
 here = os.path.dirname(os.path.abspath(__file__))
 root = os.path.join(here, "..")
@@ -36,6 +38,7 @@ class Grid:
 
 # tile name for every legend character, shared by both maps
 LEGEND = {
+    "}": "wall_side",
     "^": "roof_ridge", "#": "roof_slate", "R": "roof_rust", "~": "roof_eave",
     "C": "chimney", "W": "wall_plaster", "w": "wall_plaster_win", "B": "wall_base",
     "D": "door_wood", "d": "door_club", "F": "door_glass", "S": "sign_hanging",
@@ -319,86 +322,41 @@ def attic():
 
 
 def wassalon():
-    """The laundrette, at street level, and the one room in the city that
-    keeps no record of anybody.
-
-    Verhaven is built on one opposition -- the Instituut above ground where
-    you are written down, De Ketel below it where nobody asks but the hooks
-    remember -- and this room is neither. It is the third register: the
-    ordinary city, where Go is a thing some people happen to do while their
-    washing goes round. That is why it has no board on the wall, no hooks, no
-    music, and why two of the three games played here are unrated.
-
-    It also has no stove. "The warmest room on Ketelsteeg" is the machines.
-    """
-    W, H = 16, 10
-    ground = Grid(W, H, ",")
-    decor = Grid(W, H, " ")
-
-    for y in (0, 1):
-        ground.row(y, 0, "I" * W)
-    ground.row(2, 0, "i" * W)
-    for y in range(3, H):
-        ground.set(0, y, "i")
-        ground.set(W - 1, y, "i")
-    ground.row(H - 1, 0, "i" * W)
-
-    # two windows onto Ketelsteeg. The neon is four tiles east of the door out
-    # there, so from in here it reads backwards through the glass.
-    for wx in (4, 5, 11, 12):
-        ground.set(wx, 1, "N")
-
-    ground.set(10, 2, "n")                     # the small ads, on the base row
-
-    # Five machines in a row. Ambient lights the portholes and Soundscape
-    # thins them to two emitters -- see the note on SOUND_SOURCES.
-    for mx in range(2, 7):
-        ground.set(mx, 3, "k")
-    ground.set(8, 3, "O")                      # the change machine
-    ground.set(14, 3, "Q")
-
-    # The board somebody left out on the folding table, and the chair that
-    # goes with it. Whoever is in the room sits below it, facing up.
-    ground.set(11, 4, "X")
-    ground.set(11, 5, "G")
-    ground.set(14, 7, "E")                     # a second board, nobody at it
-    ground.set(1, 7, "b")
-    ground.set(2, 7, "b")
-
-    door_x = 7
-    ground.set(door_x, H - 1, "M")
-    ground.row(H - 2, door_x - 1, "33")        # the mat, inside the door
-    solid = solid_mask(ground, extra_walkable={(door_x, H - 1)})
-
+    """Machines, folding and a game share the room without sharing a doorway."""
+    W,H=20,13
+    ground=Grid(W,H,",");decor=Grid(W,H," ")
+    for y in (0,1): ground.row(y,0,"I"*W)
+    ground.row(2,0,"i"*W)
+    for y in range(3,H):
+        ground.set(0,y,"i");ground.set(W-1,y,"i")
+    ground.row(H-1,0,"i"*W)
+    ground.set(7,H-1,"M")
+    ground.row(H-2,6,"33")
+    ground.set(17,2,"n")
+    for x in range(2,10):ground.set(x,4,"k")
+    for x in range(2,6):ground.set(x,7,"O")
+    for x in range(10,13):ground.set(x,6,"G")
+    for x in range(15,18):ground.set(x,9,"b")
     return {
-        "name": "Wassalon",
-        "size": [W, H], "tile_size": 16, "legend": LEGEND,
-        "ground": ground.out(), "decor": decor.out(), "solid": solid,
-        "spawns": {"from_street": [door_x, H - 2], "bench": [1, 8]},
-        "warps": [
-            {"tile": [door_x, H - 1], "map": "ketelsteeg", "spawn": "from_wassalon",
-             "prompt": "Out to Ketelsteeg"},
-        ],
-        "signs": [
-            {"tile": [4, 3], "text": "Five machines, and four of them going. The warm smell of somebody else's washing, which is the smell of being indoors when you did not have to be."},
-            {"tile": [10, 2], "text": "Small ads, four deep and none of them recent. ROOM TO LET. PIANO LESSONS. And underneath, in a hand that pressed hard: WILL PLAY ANYONE, ANY TIME -- and no name, and no way to reach them."},
-            {"tile": [11, 5], "text": "A folding table with a board on it. Somebody has left a game half-played and gone, and the stones have been moved since by people who were not playing."},
-            {"tile": [14, 7], "text": "A second board, propped against the wall where the bench does not reach. The lines have been redrawn in biro by somebody who cared and could not draw straight."},
-            {"tile": [12, 2], "text": "Under the window onto Ketelsteeg. The neon over the snack window reads backwards through the glass from in here, and the tram goes past twice while you watch."},
-        ],
-        # They stand BESIDE the folding table at (11,5) rather than under it,
-        # flanking the way in to the board instead of queueing on one tile.
-        "npcs": [
-            {"id": "abel", "tile": [10, 6], "dir": "up", "idle": "watch"},
-            {"id": "dov", "tile": [9, 4], "dir": "down", "idle": "tend"},
-            {"id": "moss", "tile": [12, 6], "dir": "up", "idle": "watch"},
-        ],
-        # No routes: it is a room. And no music, which is what makes
-        # Soundscape choose amb_room -- the attic's precedent, and the reason
-        # the machines are audible at all.
-        "music": "",
-        "indoors": True,
-    }
+        "name":"Wassalon", "size":[W,H],"tile_size":16,"legend":LEGEND,
+        "ground":ground.out(),"decor":decor.out(),"solid":solid_mask(ground,extra_walkable={(7,H-1)}),
+        "art_props":[
+            {"art":"washer_bank","position":[32,40]},
+            {"art":"folding_counter","position":[32,96]},
+            {"art":"playing_table","position":[160,80]},
+            {"art":"long_bench","position":[240,136]},
+            {"art":"coat_rack","position":[240,24]}],
+        "spawns":{"from_street":[7,H-2],"bench":[14,10]},
+        "warps":[{"tile":[7,H-1],"map":"ketelsteeg","spawn":"from_wassalon","prompt":"Out to Ketelsteeg"}],
+        "signs":[
+            {"tile":[4,4],"text":"Please empty your pockets. Lost buttons are in the jar by the folding counter."},
+            {"tile":[17,2],"text":"ROOM TO LET. Ask at the snack window. Below it: Cup entries at the Bondszaal."},
+            {"tile":[11,6],"text":"A Go board between two bowls. Someone has put felt under the table legs."}],
+        "npcs":[
+            {"id":"abel","tile":[6,7],"dir":"left","idle":"study"},
+            {"id":"dov","tile":[11,7],"dir":"up","idle":"study"},
+            {"id":"moss","tile":[11,4],"dir":"down","idle":"study"}],
+        "music":"","indoors":True}
 
 
 def onderbrug():
@@ -643,7 +601,7 @@ def bondszaal():
     building -- wood floor, plaster, too many chairs, and a board at the front
     with the draw pinned to it. It is only ever full four times a year.
     """
-    W, H = 20, 14
+    W, H = 18, 24
     ground = Grid(W, H, "1")
     decor = Grid(W, H, " ")
 
@@ -660,7 +618,7 @@ def bondszaal():
 
     # Tall windows on the street side, because a civic hall has them and because
     # the light is the only thing here that is not municipal.
-    for wx in (3, 5, 14, 16):
+    for wx in (3, 6, 12, 15):
         ground.set(wx, 1, "N")
 
     # The draw is pinned at the front, on the wall base where it can be faced.
@@ -670,14 +628,14 @@ def bondszaal():
     # pins its own paper up next to the federation's.
     ground.set(13, 2, "Y")
     ground.set(14, 2, "Y")
-    ground.set(1, 4, "O")                      # the entry desk
+    ground.set(1, 20, "O")                      # the entry desk
     ground.set(W - 2, 3, "V")                  # the federation's own shelf
     ground.set(W - 2, 11, "Q")
 
     # Rows of hired tables. Two occupied at the front, the rest waiting, which is
     # what a tournament room looks like an hour before it fills.
-    for ty in (6, 9):
-        for tx in (4, 8, 12, 16):
+    for ty in (7, 11, 15, 19):
+        for tx in (4, 8, 12):
             ground.set(tx, ty, "G" if ty == 6 and tx in (4, 8) else "E")
             ground.set(tx, ty - 1, "X")
             ground.set(tx, ty + 1, "X")
@@ -702,11 +660,11 @@ def bondszaal():
             {"tile": [10, 2], "text": "__CUP_BOARD__"},
             {"tile": [13, 2], "text": "__EXAM_BOARD__"},
             {"tile": [14, 2], "text": "__EXAM_BOARD__"},
-            {"tile": [1, 4], "text": "THE VERHAVEN GO FEDERATION. A hired room, four times a year, and a cupboard the rest of it. The urn is municipal and so is the tea."},
+            {"tile": [1, 20], "text": "THE VERHAVEN GO FEDERATION. A hired room, four times a year, and a cupboard the rest of it. The urn is municipal and so is the tea."},
             {"tile": [W - 2, 3], "text": "Bound volumes of every result the federation has recorded since 1954. Somebody's first game is in here and they are dead now."},
         ],
         "npcs": [
-            {"id": "marguerite", "tile": [2, 4], "dir": "right", "idle": "tend"},
+            {"id": "marguerite", "tile": [2, 20], "dir": "right", "idle": "tend"},
         ],
         "music": "theme_institute",
         "indoors": True,
@@ -984,6 +942,26 @@ def validate(name, data):
         x, y = npc["tile"]
         if not walkable(x, y):
             problems.append("%s: npc '%s' at %d,%d is solid" % (name, npc["id"], x, y))
+    # Furniture can leave a perfectly walkable service in an isolated pocket.
+    # Check reachability as well as the tile under each object.
+    occupied = {tuple(npc["tile"]) for npc in data["npcs"]}
+    start = tuple(next(iter(data["spawns"].values())))
+    reached, pending = {start}, [start]
+    while pending:
+        x, y = pending.pop()
+        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            point = (x + dx, y + dy)
+            if point not in reached and point not in occupied and walkable(*point):
+                reached.add(point)
+                pending.append(point)
+    for kind, objects in (("NPC", data["npcs"]), ("sign", data["signs"])):
+        for obj in objects:
+            x, y = obj["tile"]
+            if not any((x + dx, y + dy) in reached for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
+                problems.append("%s: %s at %d,%d cannot be approached from the entrance" % (name, kind, x, y))
+    for warp in data["warps"]:
+        if tuple(warp["tile"]) not in reached:
+            problems.append("%s: exit to %s cannot be reached" % (name, warp["map"]))
     # Presence states are event-driven map variants, never a schedule. They
     # may replace the visible cast, but every placement is still held to the
     # same walkability rule as the base map.
@@ -1056,87 +1034,6 @@ def validate(name, data):
     return problems
 
 
-def presence_states(name, data):
-    """Small persistent changes: the city notices progress, never the clock."""
-    base_tiles = {
-        "attic": [{"tile": [6, 5], "name": "prop_satchel"},
-                  {"tile": [7, 5], "name": "prop_papers"}],
-        "ketelsteeg": [{"tile": [15, 10], "name": "prop_satchel"},
-                        {"tile": [6, 10], "name": "prop_satchel"},
-                        {"tile": [17, 11], "name": "prop_chalk"},
-                        {"tile": [18, 17], "name": "prop_cups"}],
-        "de_ketel": [{"tile": [7, 11], "name": "prop_cups"},
-                     {"tile": [12, 10], "name": "prop_papers"}],
-        "wassalon": [{"tile": [2, 7], "name": "prop_laundry"}],
-        "onderbrug": [{"tile": [14, 9], "name": "prop_rope"}],
-        "quay": [{"tile": [8, 5], "name": "prop_rope"}],
-        "academy_hall": [{"tile": [7, 5], "name": "prop_papers"},
-                         {"tile": [14, 8], "name": "prop_satchel"}],
-        "academy_study": [{"tile": [10, 8], "name": "prop_papers"}],
-        "academy_class": [{"tile": [8, 6], "name": "prop_papers"}],
-        "academy_dorm": [{"tile": [5, 6], "name": "prop_satchel"}],
-        "bondszaal": [{"tile": [8, 7], "name": "prop_papers"}],
-    }
-    routine = {"id": "routine"}
-    states = {
-        "attic": [
-            {"id": "study", "when": {"all": ["knows_the_rules"]},
-             "tiles": [{"tile": [8, 5], "name": "prop_papers"}],
-             "lines": []}, routine],
-        "ketelsteeg": [
-            {"id": "enrolled", "when": {"all": ["enrolment"]},
-             "tiles": [{"tile": [6, 10], "name": "prop_satchel"},
-                       {"tile": [18, 17], "name": "prop_cups"}],
-             "lines": [{"npc": "pip", "text": "Tram people play too. I asked."}]},
-            {"id": "first-stones", "when": {"all": ["knows_the_rules"]},
-             "tiles": [{"tile": [18, 17], "name": "prop_cups"}],
-             "lines": [{"npc": "pip", "text": "I nearly had a ladder."}]}, routine],
-        "de_ketel": [
-            {"id": "rival-routine", "when": {"all": ["kesh_match_done"]},
-             "npcs": [{"id": "wren", "tile": [9, 8], "dir": "right", "idle": "converse:kesh"},
-                       {"id": "kesh", "tile": [11, 8], "dir": "left", "idle": "converse:wren"},
-                       {"id": "tomas", "tile": [2, 6], "dir": "right", "idle": "tend"}],
-             "tiles": [{"tile": [8, 5], "name": "prop_cups"}, {"tile": [12, 10], "name": "prop_papers"}],
-             "lines": [{"npc": "kesh", "text": "It was not a bad cut."}, {"npc": "wren", "text": "That is almost praise."}]},
-            {"id": "lessons", "when": {"all": ["knows_the_rules"]},
-             "tiles": [{"tile": [8, 5], "name": "prop_cups"}],
-             "lines": [{"npc": "wren", "text": "There is a game on every table."}]}, routine],
-        "wassalon": [
-            {"id": "regulars", "when": {"all": ["abel_match_done"]},
-             "npcs": [{"id": "abel", "tile": [10, 6], "dir": "left", "idle": "converse:moss"},
-                       {"id": "dov", "tile": [8, 4], "dir": "down", "idle": "tend"},
-                       {"id": "moss", "tile": [12, 6], "dir": "right", "idle": "converse:abel"}],
-             "tiles": [{"tile": [2, 7], "name": "prop_laundry"}, {"tile": [7, 7], "name": "prop_papers"}],
-             "lines": [{"npc": "abel", "text": "That was a real move."}, {"npc": "moss", "text": "Do not make it a habit."}]},
-            {"id": "open", "when": {"all": ["knows_the_rules"]},
-             "tiles": [{"tile": [2, 7], "name": "prop_laundry"}],
-             "lines": [{"npc": "dov", "text": "Level. Still level."}]}, routine],
-        "onderbrug": [
-            {"id": "marked", "when": {"all": ["joos_match_done"]},
-             "tiles": [{"tile": [10, 7], "name": "prop_chalk"}, {"tile": [14, 9], "name": "prop_rope"}],
-             "lines": [{"npc": "joos", "text": "Somebody will use that shape."}]}, routine],
-        "quay": [
-            {"id": "after-loss", "when": {"equals": {"last_result": "loss"}},
-             "tiles": [{"tile": [8, 5], "name": "prop_rope"}, {"tile": [17, 3], "name": "prop_satchel"}]}, routine],
-        "academy_hall": [
-            {"id": "league", "when": {"all": ["won_a_league_game"]},
-             "tiles": [{"tile": [7, 5], "name": "prop_papers"}, {"tile": [14, 8], "name": "prop_satchel"}]}, routine],
-        "academy_study": [
-            {"id": "league", "when": {"all": ["won_a_league_game"]},
-             "tiles": [{"tile": [10, 8], "name": "prop_papers"}, {"tile": [18, 10], "name": "prop_cups"}]}, routine],
-        "academy_class": [
-            {"id": "taught", "when": {"all": ["lesson_openings_done"]},
-             "tiles": [{"tile": [8, 6], "name": "prop_papers"}]}, routine],
-        "bondszaal": [
-            {"id": "event", "when": {"all": ["cup_finished"]},
-             "tiles": [{"tile": [8, 7], "name": "prop_papers"}, {"tile": [12, 7], "name": "prop_satchel"}]}, routine],
-    }
-    out = states.get(name, [routine])
-    for state in out:
-        state["tiles"] = base_tiles.get(name, []) + state.get("tiles", [])
-    return out
-
-
 def build():
     out_dir = os.path.join(root, "data", "maps")
     os.makedirs(out_dir, exist_ok=True)
@@ -1148,8 +1045,10 @@ def build():
             ("academy_class", academy_class), ("academy_dorm", academy_dorm),
             ("bondszaal", bondszaal))
     for name, fn in maps:
-        data = fn()
-        data["presence_states"] = presence_states(name, data)
+        data = dress(name, fn())
+        rewrite_signs(name,data)
+        finish(name,data)
+        data["presence_states"] = activity_states(name, data)
         problems = validate(name, data)
         if problems:
             raise SystemExit("Map validation failed:\n  " + "\n  ".join(problems))

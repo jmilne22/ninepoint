@@ -79,6 +79,7 @@ func _on_flag_changed(key: String, value: Variant) -> void:
 func _show_first_rank_card(root: Control) -> void:
     if _rank_card != null:
         return
+    layer = 30
     _rank_card = Control.new()
     _rank_card.set_anchors_preset(Control.PRESET_FULL_RECT)
     root.add_child(_rank_card)
@@ -87,16 +88,19 @@ func _show_first_rank_card(root: Control) -> void:
     dim.set_anchors_preset(Control.PRESET_FULL_RECT)
     _rank_card.add_child(dim)
     var panel := UiKit.panel(_rank_card, Rect2(38, 22, 308, 172))
-    var text := "FIRST RATING\n\n22k is a beginner rank. Lower kyu numbers are stronger; 1k is followed by 1d.\n\nOnly rated games change rank. Beat an effective opponent at or above your rank to rise one step; lose to one at or below to fall one. Handicap changes the effective strength used for that comparison.\n\n[Space / Esc] continue"
+    var text := "YOUR FIRST RANK: %s\n\nLower kyu numbers mean stronger ranks. After 1k comes 1d.\n\nRated results can move your rank one step. Practice and casual games leave it unchanged.\n\nYour player card in the pause menu has your record and the rank rules.\n\n[Space / Esc] continue" % GameState.rank_label()
     var label := UiKit.label(panel, Vector2(10, 10), 288, UiKit.INK, 152)
     label.text = text
 
 
-func _unhandled_input(event: InputEvent) -> void:
-    if _rank_card != null and (event.is_action_pressed("interact") or event.is_action_pressed("cancel")):
+func _input(event: InputEvent) -> void:
+    if _rank_card == null:
+        return
+    get_viewport().set_input_as_handled()
+    if event.is_action_pressed("interact") or event.is_action_pressed("cancel"):
         _rank_card.queue_free()
         _rank_card = null
-        get_viewport().set_input_as_handled()
+        layer = 10
 
 
 func _make_label(parent: Node, pos: Vector2, width: int, size: int, colour: Color) -> Label:

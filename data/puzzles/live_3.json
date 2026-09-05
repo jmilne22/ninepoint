@@ -20,8 +20,8 @@
   ".........",
   "........."
  ],
- "goal": "Black to play. The left half has one eye and nowhere to go. Settle it.",
- "hint": "White has a stone between the two halves, and it is standing on one liberty.",
+ "goal": "Black to play. Join the groups so they can share their eyes.",
+ "hint": "The white cutting stone has one liberty. Capture it to join Black's groups.",
  "solutions": [
   [
    3,
@@ -34,5 +34,5 @@
    1
   ]
  ],
- "explanation": "Two groups with one eye each are two dead groups. Joined, they are one group with two eyes and nothing White can do about it -- and the cutting stone came off the board on the way, which is what made the third eye."
+ "explanation": "Capturing the cutting stone joins Black's groups. The connected group has separate eyes and is safe from capture."
 }

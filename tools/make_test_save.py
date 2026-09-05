@@ -813,6 +813,33 @@ SLOT_COUNT = _const("SLOT_COUNT", SAVE_SYSTEM)
 USER_DIR = os.path.join(os.environ.get("XDG_DATA_HOME") or os.path.expanduser("~/.local/share"), "godot", "app_userdata", "Ninepoint")
 
 
+# Presentation branches: ordinary saved states, with no live player's slots involved.
+STATES["overhaul_white"] = {**STATES["league_ready"], "rank_strength": 38,
+    "flags": {**STATES["league_ready"]["flags"], "handicap_intro_seen": False}}
+STATES["overhaul_cup_champion"] = {**STATES["cup_day"],
+    "flags": {**STATES["cup_day"]["flags"], "cup_finished": True, "cup_won": True},
+    "records": [{"context_id": "cup_r%d" % (r + 1), "npc_id": "abel", "player_won": True,
+        "board_size": 9, "handicap": 0, "unrated": False} for r in range(4)]}
+
+STATES["overhaul_old_spawn"] = {**STATES["invited"], "map": "wassalon",
+    "spawn": "from_street", "has_return_position": True, "return_position": [9999, -500]}
+STATES["overhaul_returns"] = {**STATES["overhaul_cup_champion"],
+    "flags": {**STATES["overhaul_cup_champion"]["flags"], "enrolled": True,
+        "match_pip_capture_done": True, "lesson_two_eyes_done": True, "won_a_league_game": True,
+        **{who + "_match_done": True for who in ["wren", "kesh", "tomas", "pip", "bertie", "joos", "abel", "dov", "moss", "ilse", "sunny", "orla", "hana", "nadia"]}}}
+
+STATES["overhaul_exam_qualifying"] = {**STATES["exam_final"], "rank_strength": 30}
+
+
+for milestone in [3, 6]:
+    arc_flags = {**STATES["league_ready"]["flags"]}
+    for who in ["ilse", "sunny", "orla", "moss"]:
+        arc_flags["record_%s_loss" % who] = milestone
+        arc_flags[who + "_match_done"] = True
+        if milestone == 6:
+            arc_flags["arc_%s_3" % who] = True
+    STATES["overhaul_arcs_%d" % milestone] = {**STATES["league_ready"], "flags": arc_flags}
+
 def slot_path(slot):
     return os.path.join(USER_DIR, "save_%d.json" % slot)
 
@@ -849,8 +876,8 @@ def build(name, slot=1, who="Ro", minutes=None):
         # room, so "afternoon" is a default rather than a fact about every state.
         "current_map": st.get("map", "de_ketel"),
         "spawn_point": st.get("spawn", "from_street"),
-        "return_position": [0, 0],
-        "has_return_position": False,
+        "return_position": st.get("return_position", [0, 0]),
+        "has_return_position": st.get("has_return_position", False),
         "playtime": 640.0 if minutes is None else float(minutes) * 60.0,
     }
     os.makedirs(USER_DIR, exist_ok=True)

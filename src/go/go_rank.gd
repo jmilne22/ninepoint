@@ -54,8 +54,8 @@ static func max_handicap(board_size: int) -> int:
 ## Returns {stones: int, black: "player"|"opponent", komi: float}
 static func handicap_between(player_strength: int, opponent_strength: int,
         board_size: int = 19) -> Dictionary:
-    if player_strength < 0:
-        player_strength = 0
+    if player_strength < 0 or opponent_strength < 0:
+        return {"stones": 0, "black": "player", "komi": 5.5}
     var diff: int = opponent_strength - player_strength
     var weaker_is_player := diff > 0
     var stones := int(roundf(float(absi(diff)) / float(ranks_per_stone(board_size))))

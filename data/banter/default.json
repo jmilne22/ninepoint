@@ -2,48 +2,28 @@
  "id": "default",
  "lines": {
   "you_captured": [
-   "That's yours.",
-   "Fair enough. Take them."
+   "Those are yours."
   ],
   "you_captured_big": [
-   "That is a lot of stones.",
-   "Well. That was the game turning over."
+   "Let me make room for those."
   ],
   "i_captured": [
-   "Mine, I think.",
-   "Thank you."
+   "I'll take these off."
   ],
   "i_captured_big": [
-   "That whole group, then.",
-   "I'll take all of those."
+   "I'll collect those."
   ],
   "ko": [
-   "Ko. You can't take it straight back.",
-   "That's a ko -- play somewhere else first."
+   "A ko."
   ],
   "i_atari": [
-   "Atari.",
-   "That one's short of air."
-  ],
-  "winning": [
-   "I'm a little ahead here.",
-   "This is going my way so far."
-  ],
-  "losing": [
-   "You're ahead. I know.",
-   "Hm. I've some catching up to do."
-  ],
-  "level": [
-   "Close, this.",
-   "Nothing in it yet."
+   "Atari."
   ],
   "i_pass": [
-   "That's me finished. Shall we count it?",
-   "Nothing left I want. I'll pass."
+   "I pass."
   ],
   "you_pass": [
-   "Already?",
-   "Right -- you're stopping there."
+   "I'll take another look."
   ]
  }
 }

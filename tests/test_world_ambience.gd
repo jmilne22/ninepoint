@@ -34,7 +34,7 @@ static func _maps() -> Array:
     return ids
 
 const MAP_DIR := "res://data/maps"
-const IDLE_MODES := ["wander", "study", "tend", "watch", "converse"]
+const IDLE_MODES := ["wander", "study", "tend", "watch", "converse", "play", "read", "fold", "wipe", "arrange"]
 
 
 static func run(t: TestKit) -> void:
@@ -46,6 +46,7 @@ static func run(t: TestKit) -> void:
     _test_map_idles(t)
     _test_map_routes(t)
     _test_presence_states(t)
+    _test_activity_contracts(t)
     _test_music(t)
 
 
@@ -251,3 +252,26 @@ static func _test_presence_states(t: TestKit) -> void:
                 "%s/%s: its required flags select it" % [map_id, id])
         t.eq(str(Presence.select(map.presence_states, {}).get("id", "")), "routine",
             "%s: a fresh save selects routine" % map_id)
+
+
+static func _test_activity_contracts(t: TestKit) -> void:
+    t.section("generated activity and exchange contracts")
+    for id in _maps():
+        var map := MapData.load_map(str(id))
+        var residents: Array[String] = []
+        for npc in map.npcs:
+            var who := str(npc["id"])
+            residents.append(who)
+            var sheet: Texture2D = load("res://art/sprites/%s_actions.png" % who)
+            t.eq(sheet.get_size(),Vector2(32,480),who+" has two beats in four directions for five activities")
+            var walk: Texture2D = load("res://art/sprites/%s.png" % who)
+            t.eq(walk.get_size(),Vector2(48,96),who+" preserves the walking sheet contract")
+            t.ok(not npc.get("activity_variations",[]).is_empty(),who+" has a contextual routine variation")
+            for variation in npc.get("activity_variations",[]):
+                t.ok(IDLE_MODES.has(str(variation.get("idle",""))),who+" variation names a supported activity")
+        for state in map.presence_states:
+            for exchange in state.get("exchanges",[]):
+                t.ok(not exchange.is_empty(),str(id)+" exchanges have an opening")
+                for line in exchange:
+                    t.ok(residents.has(str(line.get("npc",""))),str(id)+" exchange speaker is present")
+                    t.ok(UiKit.text_height(str(line.get("text","")),124)<=44,str(id)+" exchange fits a short bubble")

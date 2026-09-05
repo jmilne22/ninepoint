@@ -96,7 +96,8 @@
   "note": "decline; the game is wassalon_game.json"
  },
  {
-  "advance": 20
+  "advance": 20,
+  "stop_at_choice": true
  },
  {
   "wait": 0.8,
@@ -121,18 +122,19 @@
   "choose": 1
  },
  {
-  "advance": 20
+  "advance": 20,
+  "stop_at_choice": true
  },
  {
   "walk_to": [
    7,
-   8
+   11
   ]
  },
  {
   "walk_to": [
    7,
-   9
+   12
   ],
   "timeout": 4
  },

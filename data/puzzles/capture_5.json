@@ -16,8 +16,8 @@
   ".........",
   "........."
  ],
- "goal": "Black to play. Take both white stones with one move.",
- "hint": "Each of them has exactly one liberty left. Look for the point they are sharing.",
+ "goal": "Black to play. Capture both white stones with one move.",
+ "hint": "Both white groups have one liberty. Look for the point they share.",
  "solutions": [
   [
    4,
@@ -34,5 +34,5 @@
    5
   ]
  ],
- "explanation": "One point, two captures. Liberties are counted per chain, and a single empty point can be the last liberty of more than one of them -- which is the whole of why a shared liberty is worth finding before your opponent finds it."
+ "explanation": "Your move filled the last liberty of both white groups, capturing them together."
 }

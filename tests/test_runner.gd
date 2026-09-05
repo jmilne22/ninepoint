@@ -17,21 +17,30 @@ func _process(delta: float) -> bool:
 
 
 func _initialize() -> void:
+    _run_suites.call_deferred()
+
+
+func _run_suites() -> void:
     var kit := TestKit.new()
     var suites := {
-        "go rules": GoRulesTests, "go scoring": GoScoringTests,
-        "go ai": GoAiTests, "go setup": GoSetupTests,
-        "league": LeagueTests, "content data": GoDataTests,
-        "ambience": WorldAmbienceTests, "match music": MatchMusicTests,
-        "exam": ExamTests,
-        "save": SaveTests,
-        "rating": RatingTests, "cup": CupTests, "table talk": TableTalkTests,
-        "match analysis": MatchAnalysisTests,
-        "board view": BoardViewTests,
+        "go rules": "res://tests/test_go_rules.gd", "go scoring": "res://tests/test_go_scoring.gd",
+        "go ai": "res://tests/test_go_ai.gd", "go setup": "res://tests/test_go_setup.gd",
+        "league": "res://tests/test_league.gd", "content data": "res://tests/test_data.gd",
+        "ambience": "res://tests/test_world_ambience.gd", "match music": "res://tests/test_match_music.gd",
+        "exam": "res://tests/test_exam.gd",
+        "save": "res://tests/test_save.gd",
+        "rating": "res://tests/test_rating.gd", "cup": "res://tests/test_cup.gd", "table talk": "res://tests/test_table_talk.gd",
+        "match analysis": "res://tests/test_match_analysis.gd",
+        "board view": "res://tests/test_board_view.gd", "onboarding": "res://tests/test_onboarding.gd",
     }
     for name in suites:
         var before := kit.passed + kit.failed
-        suites[name].run(kit)
+        var suite = load(suites[name])
+        if suite == null:
+            push_error("Cannot load suite: " + name)
+            quit(1)
+            return
+        suite.run(kit)
         print("  %-14s %d checks" % [name, kit.passed + kit.failed - before])
     print(kit.report())
     print("")

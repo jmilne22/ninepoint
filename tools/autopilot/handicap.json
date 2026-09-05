@@ -29,23 +29,16 @@
   "note": "Yes. Let's play."
  },
  {
-  "wait": 2.5,
-  "shot": "b_setup_explanation"
+  "experience": "setup",
+  "timeout": 60
  },
  {
-  "tap": "interact"
+  "shot": "handicap_ready"
  },
  {
-  "wait": 0.4,
-  "shot": "c_board_with_stones",
-  "match_wait_player": true
+  "experience": "help_probe"
  },
  {
-  "tap": "interact"
- },
- {
-  "wait": 0.4,
-  "shot": "d_board_settled",
-  "match_wait_player": true
+  "shot": "position_unchanged"
  }
 ]

@@ -28,25 +28,26 @@
   },
   "stranger": {
    "text": [
-    "Nadia Ferreira. I sit in on the beginners' classes. Enrol at the desk first, and then I'll give you a game."
+    "I'm Nadia. Enrol with Marguerite in the hall, then come back for a league game."
    ]
   },
   "senior": {
    "text": [
-    "Nadia Ferreira, fourth year. I sit in on the beginners' classes, and I'm not embarrassed about it.",
-    "Hana taught me corner, side, centre in this room. I still count it on my fingers."
+    "Nadia. Could you pass me that cloth? Someone's drawn right to the edge of the board.",
+    "I study here too. We can play once I've cleared this."
    ],
-   "goto": "offer"
+   "goto": "offer",
+   "portrait": "working"
   },
   "again": {
    "text": [
-    "Back. Fewer stones this time, if the gap says so."
+    "Hello again. There's room at this table."
    ],
    "goto": "offer"
   },
   "offer": {
    "text": [
-    "I'll give you stones. As many as it takes to make it a real game."
+    "Shall we play a league game?"
    ],
    "choices": [
     {
@@ -65,7 +66,7 @@
   },
   "later": {
    "text": [
-    "I'll be here. I'm always here."
+    "All right. I'll get these boards ready for class."
    ]
   },
   "post_match": {
@@ -86,13 +87,14 @@
   "after_win": {
    "portrait": "happy",
    "text": [
-    "You beat me. With stones, but you beat me, and next time there'll be fewer of them."
+    "Well played. You won.",
+    "Come back for another game when you've got time."
    ]
   },
   "after_loss": {
    "text": [
-    "The stones are there to be used. You spent two of them on nothing.",
-    "Next time, count what each one is worth before you move it."
+    "A win for me. Thank you for the game.",
+    "I'll get these boards ready for class."
    ]
   }
  }

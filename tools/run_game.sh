@@ -117,7 +117,7 @@ if [ -d "$SHOTS" ]; then
   ls -1 "$OUT"
 fi
 
-if grep -qE "SCRIPT ERROR|Parse Error|Board play probe:|KataGo trial assertions failed" "$LOG"; then
+if grep -qE "SCRIPT ERROR|Parse Error|ERROR: Autopilot|ERROR: Autoplay|ERROR: Experience|ERROR: Handicap help|Board play probe:|KataGo trial assertions failed" "$LOG"; then
   exit 1
 fi
 exit "$status"
