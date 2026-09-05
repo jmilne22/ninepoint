@@ -39,7 +39,7 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 
 ### UI-02 — Mouse support across board screens
 
-- Status: `SHIPPED` (M44, verified locally; not merged) · Priority: `P1`
+- Status: `SHIPPED` (M44, verified; [PR #23](https://github.com/jmilne22/ninepoint/pull/23) open, not merged) · Priority: `P1`
   · Owner: Codex · Branch: `codex/board-mouse-support`.
 - Base: verified `origin/main` `07b3694`.
 - Scope: hover targeting and occupancy-only stone previews, stable 19×19 zoom,
