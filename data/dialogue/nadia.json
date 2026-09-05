@@ -28,7 +28,7 @@
   },
   "stranger": {
    "text": [
-    "I'm Nadia. Enrol with Marguerite in the hall, then come back for a league game."
+    "I'm Nadia. Marguerite can register you for the Novice League; her desk is in the hall."
    ]
   },
   "senior": {
@@ -47,7 +47,7 @@
   },
   "offer": {
    "text": [
-    "Shall we play a league game?"
+    "Shall we play?"
    ],
    "choices": [
     {
@@ -56,6 +56,22 @@
       "type": "start_match",
       "profile": "nadia_9x9",
       "context": "league_nadia"
+     },
+     "if": [
+      [
+       "league_fixture",
+       "nadia"
+      ]
+     ]
+    },
+    {
+     "text": "A practice game.",
+     "exit": {
+      "type": "start_match",
+      "profile": "nadia_9x9",
+      "context": "practice_nadia",
+      "unrated": true,
+      "practice": true
      }
     },
     {

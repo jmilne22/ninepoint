@@ -61,7 +61,7 @@
   },
   "offer": {
    "text": [
-    "I'm ready for a league game. Are you?"
+    "The board is ready. Shall we play?"
    ],
    "choices": [
     {
@@ -70,6 +70,22 @@
       "type": "start_match",
       "profile": "ilse_9x9",
       "context": "league_ilse"
+     },
+     "if": [
+      [
+       "league_fixture",
+       "ilse"
+      ]
+     ]
+    },
+    {
+     "text": "A practice game.",
+     "exit": {
+      "type": "start_match",
+      "profile": "ilse_9x9",
+      "context": "practice_ilse",
+      "unrated": true,
+      "practice": true
      }
     },
     {

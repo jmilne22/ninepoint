@@ -19,7 +19,7 @@ basis for confident commentary. Warmth and congratulations are welcome.
 | --- | --- |
 | Pip | Wants someone to sit down and try a game. Eager, experiments, celebrates; may get an idea wrong. Keep excitement concrete. |
 | Wren | Prepares a table and makes room for beginners. Unsure about her own Go, but able to offer help without continual apologies. |
-| Kesh | Wants another opponent and another game. Preparation, impatience and requests for rematches show competitiveness. |
+| Kesh | Issues the novice card before offering optional handicap practice; never presents it as placement. Wants another opponent and another game. Preparation, impatience and requests for rematches show competitiveness. |
 | Tomás | Runs the bar while games happen around him. Cups, cloths, counter work and keeping tables usable occupy him. |
 | Bertie | A familiar park regular. Knows where the spare lid goes and which part of the bench is wet. His proverb is occasional. |
 | Joos | Keeps a dry place to play under the arches. Private, short and practical; no cryptic speeches about ranks. |
@@ -36,3 +36,8 @@ basis for confident commentary. Warmth and congratulations are welcome.
 Do not mention an unfamiliar person or place without providing a useful direction.
 Named people remain in their established venues. Persistent changes follow lessons,
 match records and events, without schedules or a second progression system.
+
+Novice classmates share the lower west practice room. Noor keeps a postcard dry and is new to Go;
+Ivo arrives by bicycle with a pencil; Lea brings print-shop scrap paper; Emil repairs lamps;
+Sora keeps a spare cushion. They welcome practice and react to the latest result. Their
+30k/27k/25k/23k/20k labels are targets awaiting independent beginner playtesting.

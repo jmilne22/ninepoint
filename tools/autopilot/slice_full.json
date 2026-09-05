@@ -352,78 +352,23 @@
   "talk_to": "kesh"
  },
  {
-  "advance": 10,
+  "experience": "choice",
+  "text": "I'll head to the Instituut."
+ },
+ {
+  "advance": 4,
   "stop_at_choice": true
  },
  {
-  "choose": 0
- },
- {
-  "experience": "setup"
- },
- {
-  "wait": 0.7
- },
- {
-  "shot": "kesh_nigiri_empty"
- },
- {
-  "match_move": [
-   2,
-   2
+  "experience": "assert_progress",
+  "rank": "30k",
+  "flags": [
+   "ranked_by_club",
+   "invited_to_institute"
   ]
  },
  {
-  "match_wait_player": true
- },
- {
-  "match_resign": true
- },
- {
-  "experience": "result"
- },
- {
-  "experience": "review_choice",
-  "accept": true
- },
- {
-  "wait": 2
- },
- {
-  "shot": "review_loading_new_player"
- },
- {
-  "tap": "cancel"
- },
- {
-  "world_wait": true
- },
- {
-  "shot": "kesh_rank_and_result"
- },
- {
-  "tap": "interact"
- },
- {
-  "advance": 10,
-  "stop_at_choice": true
- },
- {
-  "shot": "kesh_loss_after_rank"
- },
- {
-  "choose": 1
- },
- {
-  "advance": 8,
-  "stop_at_choice": true
- },
- {
-  "choose": 1
- },
- {
-  "advance": 8,
-  "stop_at_choice": true
+  "shot": "novice_card_without_kesh_game"
  },
  {
   "walk_to": [

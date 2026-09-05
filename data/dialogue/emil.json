@@ -1,0 +1,93 @@
+{
+ "id": "emil",
+ "nodes": {
+  "start": {
+   "branches": [
+    {
+     "if": [
+      [
+       "played_at_least",
+       "emil",
+       1
+      ]
+     ],
+     "goto": "offer"
+    },
+    {
+     "goto": "hello"
+    }
+   ]
+  },
+  "hello": {
+   "text": [
+    "I got an old lamp working. The switch only needed cleaning.",
+    "I've cleared a place across the table."
+   ],
+   "goto": "offer"
+  },
+  "offer": {
+   "text": [
+    "Shall we play?"
+   ],
+   "choices": [
+    {
+     "text": "Our league fixture.",
+     "if": [
+      [
+       "league_fixture",
+       "emil"
+      ]
+     ],
+     "exit": {
+      "type": "start_match",
+      "profile": "emil_9x9",
+      "context": "league_emil"
+     }
+    },
+    {
+     "text": "A practice game.",
+     "exit": {
+      "type": "start_match",
+      "profile": "emil_9x9",
+      "context": "practice_emil",
+      "unrated": true,
+      "practice": true
+     }
+    },
+    {
+     "text": "Later.",
+     "exit": {
+      "type": "end"
+     }
+    }
+   ]
+  },
+  "post_match": {
+   "branches": [
+    {
+     "if": [
+      [
+       "won_last"
+      ]
+     ],
+     "goto": "lost"
+    },
+    {
+     "goto": "won"
+    }
+   ]
+  },
+  "won": {
+   "text": [
+    "I won. Thanks for the game. Would you like to look at it?"
+   ],
+   "goto": "offer"
+  },
+  "lost": {
+   "text": [
+    "Well played. Let me gather these up."
+   ],
+   "goto": "offer"
+  }
+ }
+}

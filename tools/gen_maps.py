@@ -711,18 +711,19 @@ def academy_hall():
     ground.set(10, H - 1, "M")
     ground.set(11, H - 1, "M")
     ground.set(0, 7, "M")
+    ground.set(0, 10, "M")
     ground.set(W - 1, 7, "M")
     ground.set(W - 2, 3, "P")        # the stair up, drawn as pavement stone
 
     solid = solid_mask(ground, extra_walkable={
-        (10, H - 1), (11, H - 1), (0, 7), (W - 1, 7), (W - 2, 3)})
+        (10, H - 1), (11, H - 1), (0, 7), (0, 10), (W - 1, 7), (W - 2, 3)})
 
     return {
         "name": "Essenveld Instituut -- Hall",
         "size": [W, H], "tile_size": 16, "legend": LEGEND,
         "ground": ground.out(), "decor": decor.out(), "solid": solid,
         "spawns": {"from_tram": [10, H - 2], "from_study": [1, 7],
-                   "from_class": [W - 2, 7], "from_dorm": [W - 3, 3]},
+                   "from_class": [W - 2, 7], "from_dorm": [W - 3, 3], "from_novice": [1, 10]},
         "warps": [
             {"tile": [10, H - 1], "map": "ketelsteeg", "spawn": "from_tram",
              "prompt": "Back to Steenbeek"},
@@ -730,6 +731,8 @@ def academy_hall():
              "prompt": "Back to Steenbeek"},
             {"tile": [0, 7], "map": "academy_study", "spawn": "from_hall",
              "prompt": "Study hall"},
+            {"tile": [0, 10], "map": "academy_novice", "spawn": "from_hall",
+             "prompt": "Novice room"},
             {"tile": [W - 1, 7], "map": "academy_class", "spawn": "from_hall",
              "prompt": "Classroom"},
             {"tile": [W - 2, 3], "map": "academy_dorm", "spawn": "from_hall",
@@ -752,6 +755,33 @@ def academy_hall():
         ],
         "music": "theme_institute",
         "indoors": True,
+    }
+
+
+def academy_novice():
+    """Five beginner tables around a clear entrance and central aisle."""
+    w, h = 24, 16
+    ground, decor = Grid(w, h, ","), Grid(w, h, " ")
+    for x in range(w):
+        ground.set(x, 0, "I"); ground.set(x, 1, "N")
+        ground.set(x, 2, "i"); ground.set(x, h - 1, "I")
+    for y in range(h):
+        ground.set(0, y, "I"); ground.set(w - 1, y, "I")
+    ground.set(w - 1, 10, "M")
+    ground.set(11, 2, "Y")
+    return {
+        "name": "Essenveld Instituut -- Novice Room", "size": [w,h],
+        "tile_size": 16, "legend": LEGEND, "ground": ground.out(), "decor": decor.out(),
+        "solid": solid_mask(ground, extra_walkable={(w-1,10)}),
+        "spawns": {"from_hall": [w-2,10]},
+        "warps": [{"tile": [w-1,10], "map": "academy_hall", "spawn": "from_novice", "prompt": "Hall"}],
+        "signs": [{"tile": [11,2], "text": "__LEAGUE_BOARD__"}],
+        "npcs": [{"id": id, "tile": [x+1,y+2], "dir": "up", "idle": idle}
+                 for id,x,y,idle in [("noor",3,4,"arrange"),("ivo",10,4,"play"),
+                    ("lea",17,4,"read"),("emil",5,10,"arrange"),("sora",14,10,"play")]],
+        "art_props": [{"art": "playing_table", "position": [x*16,y*16]}
+                      for x,y in [(3,4),(10,4),(17,4),(5,10),(14,10)]],
+        "music": "theme_institute", "indoors": True,
     }
 
 
@@ -801,7 +831,7 @@ def academy_study():
                    "prompt": "Back to the hall"}],
         "signs": [
             {"tile": [1, 6], "text": "A kettle, a tin, and a handwritten note: THE BISCUITS ARE FOR EVERYONE WHICH MEANS THEY ARE NOT ALL FOR YOU."},
-            {"tile": [10, 2], "text": "LOWER LEAGUE — PAIRINGS / RESULTS. Tables 1–6 are numbered in pencil. Play here when a result is meant to count."},
+            {"tile": [10, 2], "text": "ACADEMY LEAGUE — PAIRINGS / RESULTS. Tables 1–6 are numbered in pencil. Play here when a result is meant to count."},
             {"tile": [5, 5], "text": "Table 1. A neat card: PRACTICE / REVIEW."},
             {"tile": [11, 5], "text": "Table 2. A neat card: LEAGUE GAMES."},
         ],
@@ -1042,7 +1072,7 @@ def build():
             ("attic", attic), ("wassalon", wassalon),
             ("onderbrug", onderbrug), ("quay", quay),
             ("academy_hall", academy_hall), ("academy_study", academy_study),
-            ("academy_class", academy_class), ("academy_dorm", academy_dorm),
+            ("academy_class", academy_class), ("academy_dorm", academy_dorm), ("academy_novice", academy_novice),
             ("bondszaal", bondszaal))
     for name, fn in maps:
         data = dress(name, fn())

@@ -1,7 +1,4 @@
-## The notice board in the Institute hall: the standings, as a panel.
-##
-## This is the thing the player is meant to come back and look at. It is the
-## only place their position is stated, and it changes only because they won.
+## Saved Novice/Academy standings and archived attempts on the hall wall.
 class_name LeagueBoard
 extends CanvasLayer
 
@@ -14,6 +11,7 @@ var _root: Control
 var _cells: Array[Array] = []
 var _header: Label
 var _footer: Label
+var _shown_attempt: int = -1
 
 const COL_X := [10, 26, 150, 208, 238, 268]
 const COL_W := [16, 124, 56, 28, 28, 28]
@@ -42,9 +40,9 @@ func _build() -> void:
     # gave its six lines 62 px, so the final line landed on the frame.
     var panel := UiKit.panel(_root, Rect2(30, 8, 324, 200))
     _header = UiKit.label(panel, Vector2(10, 8), 304, UiKit.GOLD)
-    _header.text = "ESSENVELD INSTITUUT -- LOWER LEAGUE"
+    _header.text = "ESSENVELD INSTITUUT -- LEAGUES"
 
-    var headings := ["", "NAME", "RANK", "P", "W", "L"]
+    var headings := ["", "NAME", "ENTRY", "P", "W", "L"]
     for c in headings.size():
         var head := UiKit.label(panel, Vector2(COL_X[c], 24), COL_W[c], UiKit.INK_FAINT)
         head.text = str(headings[c])
@@ -66,9 +64,22 @@ func _build() -> void:
 
 
 func show_board() -> void:
-    # The roster and the standings both live on LeagueTable now, because the exam
-    # gates on the same numbers and the two must not be able to disagree.
-    var rows := LeagueTable.current_rows()
+    _shown_attempt = GameState.active_league
+    _draw_attempt()
+    GameState.set_flag("read_league_board", true)
+    open = true
+    _root.visible = true
+    Audio.play("ui_confirm")
+
+
+func _draw_attempt() -> void:
+    var attempt: Dictionary = GameState.league_attempts[_shown_attempt] if _shown_attempt >= 0 and _shown_attempt < GameState.league_attempts.size() else {}
+    var rows := LeagueAttempt.rows(attempt, GameState.match_records)
+    _header.text = "ESSENVELD INSTITUUT -- LEAGUES"
+    if not attempt.is_empty():
+        var title := "NOVICE" if str(attempt["division"]) == LeagueAttempt.NOVICE else "ACADEMY"
+        _header.text = "%s LEAGUE - ATTEMPT %d%s" % [title, attempt["number"],
+            " (PAST)" if _shown_attempt != GameState.active_league else ""]
 
     for i in _cells.size():
         var row: Array = _cells[i]
@@ -90,28 +101,17 @@ func show_board() -> void:
                 UiKit.GOLD if mine else UiKit.INK)
 
     # The footer gives the current standing and the next action in six measured lines.
-    _footer.text = "%s\nThe four highest eligible players can enter the exam at the Bondszaal.\n%s" % [
-        LeagueTable.summary(rows), _exam_line(rows)]
-    GameState.set_flag("read_league_board", true)
-    open = true
-    _root.visible = true
-    Audio.play("ui_confirm")
+    _footer.text = LeagueProgress.summary(GameState, attempt)
+    if GameState.league_attempts.size() > 1:
+        _footer.text += "\nLeft/Right: browse attempts."
 
 
 ## The promise in the line above, answered. Until the exam existed the board
 ## could state the rule and say nothing about whether you were meeting it.
 static func _exam_line(rows: Array[Dictionary]) -> String:
-    var place := LeagueTable.player_position(rows)
-    var cut := Exam.FIELD_SIZE
-    # Marguerite is on the board and does not sit the exam, so a place below her
-    # is still inside the four. Count how many of the rows above are entrants.
-    var above := 0
-    for i in mini(place - 1, rows.size()):
-        if not Exam.EXCLUDED.has(str(rows[i].get("id", ""))):
-            above += 1
-    if above < cut:
+    if LeagueProgress.exam_eligible(GameState):
         return "You are eligible. Register at the Bondszaal desk."
-    return "You are not eligible yet. Play league games to move up."
+    return "Complete the Academy League to qualify for the exam."
 
 
 func close() -> void:
@@ -121,6 +121,12 @@ func close() -> void:
 
 func _input(event: InputEvent) -> void:
     if not open:
+        return
+    if event.is_action_pressed("move_left") or event.is_action_pressed("move_right"):
+        var delta := -1 if event.is_action_pressed("move_left") else 1
+        _shown_attempt = clampi(_shown_attempt + delta, 0, maxi(0, GameState.league_attempts.size() - 1))
+        _draw_attempt()
+        get_viewport().set_input_as_handled()
         return
     if event.is_action_pressed("interact") or event.is_action_pressed("cancel"):
         close()

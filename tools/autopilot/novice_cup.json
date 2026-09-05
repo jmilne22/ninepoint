@@ -1,0 +1,210 @@
+[
+ {
+  "save": "novice_ready"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "map",
+  "map": "academy_hall"
+ },
+ {
+  "experience": "visit",
+  "map": "bondszaal"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "Enter me."
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "Ready."
+ },
+ {
+  "experience": "choice",
+  "text": "Play the round."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "handicap_cup_1"
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 360,
+  "max_moves": 400
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "after_cup_1"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "Play the round."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "handicap_cup_2"
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 360,
+  "max_moves": 400
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "after_cup_2"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "Play the round."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "handicap_cup_3"
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 360,
+  "max_moves": 400
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "after_cup_3"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "Play the round."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "handicap_cup_4"
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 360,
+  "max_moves": 400
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "after_cup_4"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "assert_progress",
+  "flags": [
+   "cup_finished"
+  ]
+ },
+ {
+  "walk_to": [
+   9,
+   3
+  ]
+ },
+ {
+  "face": [
+   9,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "handicap_cup_ending"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "save"
+ }
+]

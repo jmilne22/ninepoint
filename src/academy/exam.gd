@@ -14,7 +14,7 @@ class_name Exam
 extends RefCounted
 
 const ROUNDS := 3
-## Top four of the lower league sit it. Marguerite runs it and is excluded by the
+## Top four eligible entrants of a completed Academy attempt sit it. Marguerite is excluded by the
 ## caller; she is on the board as a player and off it as the registrar.
 const FIELD_SIZE := 4
 ## Top two pass. "An exam most students will not pass" is then literally true.

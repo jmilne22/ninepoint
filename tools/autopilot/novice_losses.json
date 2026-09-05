@@ -1,0 +1,623 @@
+[
+ {
+  "save": "novice_ready"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "map",
+  "map": "academy_hall"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "Sign."
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   0,
+   10
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "academy_novice"
+ },
+ {
+  "wait": 1
+ },
+ {
+  "shot": "novice_room"
+ },
+ {
+  "walk_to": [
+   11,
+   3
+  ]
+ },
+ {
+  "face": [
+   11,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "novice_zero"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "talk_to": "noor"
+ },
+ {
+  "experience": "choice",
+  "text": "Our league fixture."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "noor_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "noor_result"
+ },
+ {
+  "experience": "choice",
+  "text": "Later."
+ },
+ {
+  "experience": "assert_progress",
+  "played": 1,
+  "rank": "30k"
+ },
+ {
+  "talk_to": "ivo"
+ },
+ {
+  "experience": "choice",
+  "text": "Our league fixture."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "ivo_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "ivo_result"
+ },
+ {
+  "experience": "choice",
+  "text": "Later."
+ },
+ {
+  "experience": "assert_progress",
+  "played": 2,
+  "rank": "30k"
+ },
+ {
+  "talk_to": "lea"
+ },
+ {
+  "experience": "choice",
+  "text": "Our league fixture."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "lea_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "lea_result"
+ },
+ {
+  "experience": "choice",
+  "text": "Later."
+ },
+ {
+  "experience": "assert_progress",
+  "played": 3,
+  "rank": "30k"
+ },
+ {
+  "talk_to": "emil"
+ },
+ {
+  "experience": "choice",
+  "text": "Our league fixture."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "emil_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "emil_result"
+ },
+ {
+  "experience": "choice",
+  "text": "Later."
+ },
+ {
+  "experience": "assert_progress",
+  "played": 4,
+  "rank": "30k"
+ },
+ {
+  "talk_to": "sora"
+ },
+ {
+  "experience": "choice",
+  "text": "Our league fixture."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "sora_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "sora_result"
+ },
+ {
+  "experience": "choice",
+  "text": "Later."
+ },
+ {
+  "experience": "assert_progress",
+  "played": 5,
+  "rank": "30k"
+ },
+ {
+  "walk_to": [
+   11,
+   3
+  ]
+ },
+ {
+  "face": [
+   11,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "novice_completed_losses"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "save"
+ },
+ {
+  "walk_to": [
+   23,
+   10
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "academy_hall"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "See you."
+ },
+ {
+  "walk_to": [
+   10,
+   13
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "ketelsteeg"
+ },
+ {
+  "walk_to": [
+   1,
+   10
+  ]
+ },
+ {
+  "face": [
+   1,
+   9
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 1
+ },
+ {
+  "experience": "map",
+  "map": "bondszaal"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "The Cup."
+ },
+ {
+  "experience": "choice",
+  "text": "Enter me."
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "The Cup."
+ },
+ {
+  "experience": "choice",
+  "text": "Ready."
+ },
+ {
+  "experience": "choice",
+  "text": "Play the round."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "cup_handicap_1"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "cup_after_1"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "The Cup."
+ },
+ {
+  "experience": "choice",
+  "text": "Play the round."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "cup_handicap_2"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "cup_after_2"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "The Cup."
+ },
+ {
+  "experience": "choice",
+  "text": "Play the round."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "cup_handicap_3"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "cup_after_3"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "The Cup."
+ },
+ {
+  "experience": "choice",
+  "text": "Play the round."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "cup_handicap_4"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "cup_after_4"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "assert_progress",
+  "flags": [
+   "novice_league_completed",
+   "cup_finished"
+  ],
+  "rank": "30k"
+ },
+ {
+  "walk_to": [
+   9,
+   3
+  ]
+ },
+ {
+  "face": [
+   9,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "beginner_ending"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "save"
+ },
+ {
+  "walk_to": [
+   9,
+   23
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "ketelsteeg"
+ },
+ {
+  "walk_to": [
+   1,
+   10
+  ]
+ },
+ {
+  "face": [
+   1,
+   9
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "experience": "map",
+  "map": "academy_hall"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "The Novice League."
+ },
+ {
+  "experience": "choice",
+  "text": "Register."
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   10,
+   3
+  ]
+ },
+ {
+  "face": [
+   10,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "repeat_attempt_zero"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "assert_progress",
+  "played": 0
+ },
+ {
+  "experience": "save"
+ }
+]

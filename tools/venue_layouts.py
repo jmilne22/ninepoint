@@ -60,7 +60,7 @@ def dress(name, data):
         art('reception',16,24);art('long_bench',256,144)
         art('school_directions',128,8)
         for sign in data['signs']:
-            if sign['tile']==[1,4]:sign.update(tile=[4,3],text='ESSENVELD INSTITUUT. Study hall west. Classroom east. Dormitory upstairs.')
+            if sign['tile']==[1,4]:sign.update(tile=[4,3],text='ESSENVELD INSTITUUT. Novice room: lower west door. Study hall: upper west. Classroom east. Dormitory upstairs.')
     elif name=='academy_study':
         # Ilse's references, Sunny's small seat, Orla's clear playing area.
         art('book_shelf',16,8);art('study_desk',64,64)
@@ -110,9 +110,9 @@ SIGN_TEXTS={
 (11,8):'A tin of spare stones and a cloth, kept clear of the damp wall.',
 (2,4):'A lamp wired under the arch. Joos has fixed a sheet above the board to catch the drips.'},
 'quay':{(12,4):'A bench facing the water. The middle slats are dry.',(5,6):'Rope has worn a groove in the mooring post.'},
-'academy_hall':{(1,4):'ESSENVELD INSTITUUT. Registration here. Study hall west. Classroom east. Dormitory upstairs.'},
+'academy_hall':{(1,4):'ESSENVELD INSTITUUT. Registration here. Novice room: lower west door. Study hall: upper west. Classroom east. Dormitory upstairs.'},
 'academy_study':{(1,6):'Tea and biscuits. Please wash your cup and leave some biscuits for the next person.',
-(10,2):'LOWER LEAGUE. Ask a student for a league game. Results and standings are on the board in the hall.',
+(10,2):'ACADEMY LEAGUE. Register with Marguerite after the Cup. Results and standings are on the board in the hall.',
 (5,5):"Ilse's notes. Several pages are tucked into the back of her book.",
 (11,5):'A clear table and two spare bowls. Please put the stones away when you finish.'},
 'academy_dorm':{(9,6):'__DESK__A study board beside a stack of exercise paper.',(2,6):'__BED__A made bed. Your bag fits underneath.'},

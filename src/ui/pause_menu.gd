@@ -183,7 +183,7 @@ func _show_trainer_card() -> void:
     for lesson in ["liberties", "capture", "self_capture", "openings", "escape", "connection"]:
         if GameState.has_flag("lesson_%s_done" % lesson): concepts.append(lesson.replace("_", " "))
     var goal := Quests.journal_line(Quests.journal_quest_id())
-    var body := "%s\n\nRank  %s\n22k → 1k → 1d\nRated record  %d–%d\nKesh  %d–%d\n\nRecently taught: %s\n\nNext: %s\n\n[Space / Esc] close" % [GameState.player_name, GameState.rank_label(), rated_wins, rated_losses, int(kesh["wins"]), int(kesh["losses"]), ", ".join(concepts) if not concepts.is_empty() else ("Capture Go" if GameState.has_flag("match_pip_capture_done") else "No lessons yet"), goal]
+    var body := "%s\n\nRank  %s\n30k → 1k → 1d\nRated record  %d–%d\nKesh  %d–%d\n\nRecently taught: %s\n\nNext: %s\n\n[Space / Esc] close" % [GameState.player_name, GameState.rank_label(), rated_wins, rated_losses, int(kesh["wins"]), int(kesh["losses"]), ", ".join(concepts) if not concepts.is_empty() else ("Capture Go" if GameState.has_flag("match_pip_capture_done") else "No lessons yet"), goal]
     var label := UiKit.label(panel, Vector2(10, 10), 284, UiKit.INK, 154)
     _card_label = label
     body = body.replace("\n\n[Space / Esc] close", "")

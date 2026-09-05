@@ -26,6 +26,7 @@ func _run_suites() -> void:
         "go rules": "res://tests/test_go_rules.gd", "go scoring": "res://tests/test_go_scoring.gd",
         "go ai": "res://tests/test_go_ai.gd", "go setup": "res://tests/test_go_setup.gd",
         "league": "res://tests/test_league.gd", "content data": "res://tests/test_data.gd",
+        "league attempts": "res://tests/test_league_attempt.gd",
         "ambience": "res://tests/test_world_ambience.gd", "match music": "res://tests/test_match_music.gd",
         "exam": "res://tests/test_exam.gd",
         "save": "res://tests/test_save.gd",

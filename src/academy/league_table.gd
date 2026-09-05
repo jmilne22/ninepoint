@@ -1,12 +1,6 @@
-## The Institute's internal league, computed from games actually played.
-##
-## This is the honest version of progression the design pillar demands: your
-## position in the table is your results and nothing else. There is no hidden
-## score, no experience, and no way to climb except by winning games -- which
-## means by the human getting better. The insei leagues in Hikaru no Go work
-## exactly this way, which is why the game borrows them.
-##
-## Pure logic; the board in academy_hall draws whatever this returns.
+## Shared row ordering/qualification helpers and the frozen legacy importer.
+## New saved round robins live in LeagueAttempt. standings() below reproduces
+## the pre-novice table solely for migration and compatibility tests.
 class_name LeagueTable
 extends RefCounted
 
@@ -18,7 +12,7 @@ const PLAYER_ID := "player"
 ## exam needed the same list. "Who is in the league" must have exactly one
 ## definition, or the board and the thing that gates on it can disagree about who
 ## it was you beat. Ranks are still read from each NpcData, never duplicated here.
-const ROSTER := ["kesh", "ilse", "sunny", "orla", "nadia", "marguerite"]
+const ROSTER := LeagueAttempt.ACADEMICS
 
 
 ## Builds the standings. `records` is GameState.match_records; `roster` is an
@@ -209,19 +203,10 @@ static func _state() -> Node:
 ## roster in a slightly different way. LeagueBoard already did exactly this; it
 ## simply had nobody to share it with.
 static func current_rows() -> Array[Dictionary]:
-    var roster: Array = []
-    for npc_id in ROSTER:
-        var path := "res://data/npcs/%s.tres" % npc_id
-        if not ResourceLoader.exists(path):
-            continue
-        var data: NpcData = load(path)
-        roster.append({"id": npc_id, "name": data.display_name,
-                       "rank_label": data.rank_label})
     var state := _state()
     if state == null:
-        return standings([], roster, "", "")
-    return standings(state.match_records, roster, state.player_name,
-        state.rank_label())
+        return []
+    return LeagueAttempt.rows(LeagueProgress.active(state), state.match_records)
 
 
 ## Where the player is on the board right now, 1-based. This is the number

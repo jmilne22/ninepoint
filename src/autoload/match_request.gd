@@ -5,6 +5,9 @@ extends RefCounted
 var profile: OpponentProfile
 ## Identifies this particular encounter so dialogue and quests can react to it.
 var context_id: String = ""
+var league_division: String = ""
+var league_attempt: int = -1
+var league_fixture: int = -1
 var npc_id: String = ""
 var opponent_name: String = "Opponent"
 var opponent_rank: String = "?"

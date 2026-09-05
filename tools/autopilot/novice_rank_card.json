@@ -1,0 +1,57 @@
+[
+ {
+  "save": "novice_first_rank"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "map",
+  "map": "de_ketel"
+ },
+ {
+  "talk_to": "kesh"
+ },
+ {
+  "experience": "rank_card"
+ },
+ {
+  "experience": "choice",
+  "text": "I'll head to the Instituut."
+ },
+ {
+  "advance": 4,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "assert_progress",
+  "rank": "30k",
+  "flags": [
+   "ranked_by_club",
+   "invited_to_institute"
+  ]
+ },
+ {
+  "experience": "save"
+ },
+ {
+  "experience": "reload"
+ },
+ {
+  "talk_to": "kesh"
+ },
+ {
+  "experience": "choice",
+  "text": "I'll head to the Instituut."
+ },
+ {
+  "advance": 4,
+  "stop_at_choice": true
+ }
+]

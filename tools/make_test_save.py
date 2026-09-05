@@ -804,6 +804,25 @@ STATES = {
 
 # The ko offer requires Wren's completed first game. The generic Institute
 # preset predates that flag and silently routes the old lesson test into a match.
+# New progression fixtures explicitly opt out of legacy league migration.
+STATES["novice_ready"] = {**STATES["invited"], "rank_strength": 0,
+    "map": "academy_hall", "spawn": "from_tram",
+    "flags": {**STATES["invited"]["flags"], "capture_1_solved": True},
+    "league_attempts": [], "active_league": -1}
+
+STATES["novice_first_rank"] = {"rank_strength": -1, "map": "de_ketel",
+    "spawn": "from_street", "records": [], "league_attempts": [],
+    "flags": {"opening_seen": True, "intro_seen": True, "carrying_board": True,
+              "pip_taught_capture": True, "knows_the_rules": True,
+              "wren_match_done": True},
+    "quests": {"first_stones": {"step": 3, "done": False}}}
+
+STATES["novice_graduate"] = {**STATES["novice_ready"],
+    "flags": {**STATES["novice_ready"]["flags"], "enrolled": True,
+              "read_league_board": True, "cup_finished": True,
+              "told_cup_eligible": True, "lesson_escape_done": True,
+              "lesson_connection_done": True}}
+
 STATES["ko_ready"] = {
     **STATES["invited"],
     "flags": {**STATES["invited"]["flags"], "wren_match_done": True},
@@ -880,6 +899,9 @@ def build(name, slot=1, who="Ro", minutes=None):
         "has_return_position": st.get("has_return_position", False),
         "playtime": 640.0 if minutes is None else float(minutes) * 60.0,
     }
+    if "league_attempts" in st:
+        save["league_attempts"] = st["league_attempts"]
+        save["active_league"] = st.get("active_league", -1)
     os.makedirs(USER_DIR, exist_ok=True)
     path = slot_path(slot)
     json.dump(save, open(path, "w"), indent=2)

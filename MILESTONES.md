@@ -1,4 +1,8 @@
+Current unmerged opening follow-up: [PROG-02 Kesh welcome evidence](docs/novice/KESH-WELCOME.md). Historical milestones below retain their original behavior and counts.
+
 # NINEPOINT — Milestones
+
+> Unshipped PROG-01 implementation and verification: [novice playtest record](docs/novice/PLAYTEST.md). Human strength validation is still required; no shipped milestone is claimed.
 
 This is the append-only history of shipped work and its verification evidence. It is **not**
 the current backlog: use `WORKBOARD.md` to select or update active work, and `ROADMAP.md` for

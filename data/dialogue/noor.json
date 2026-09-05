@@ -1,0 +1,93 @@
+{
+ "id": "noor",
+ "nodes": {
+  "start": {
+   "branches": [
+    {
+     "if": [
+      [
+       "played_at_least",
+       "noor",
+       1
+      ]
+     ],
+     "goto": "offer"
+    },
+    {
+     "goto": "hello"
+    }
+   ]
+  },
+  "hello": {
+   "text": [
+    "I've put my postcard under the bowl so it won't get tea on it.",
+    "You can use this chair. I'm just starting too."
+   ],
+   "goto": "offer"
+  },
+  "offer": {
+   "text": [
+    "Shall we play?"
+   ],
+   "choices": [
+    {
+     "text": "Our league fixture.",
+     "if": [
+      [
+       "league_fixture",
+       "noor"
+      ]
+     ],
+     "exit": {
+      "type": "start_match",
+      "profile": "noor_9x9",
+      "context": "league_noor"
+     }
+    },
+    {
+     "text": "A practice game.",
+     "exit": {
+      "type": "start_match",
+      "profile": "noor_9x9",
+      "context": "practice_noor",
+      "unrated": true,
+      "practice": true
+     }
+    },
+    {
+     "text": "Later.",
+     "exit": {
+      "type": "end"
+     }
+    }
+   ]
+  },
+  "post_match": {
+   "branches": [
+    {
+     "if": [
+      [
+       "won_last"
+      ]
+     ],
+     "goto": "lost"
+    },
+    {
+     "goto": "won"
+    }
+   ]
+  },
+  "won": {
+   "text": [
+    "Oh, I won. Shall we put the stones away together?"
+   ],
+   "goto": "offer"
+  },
+  "lost": {
+   "text": [
+    "You won. I'd like another try after I've looked at that."
+   ],
+   "goto": "offer"
+  }
+ }
+}

@@ -292,7 +292,9 @@ func _process(delta: float) -> void:
         _more.visible = true
 
 
-func _input(event: InputEvent) -> void:
+# Modal cards consume input first. Otherwise the first-rank card could remain
+# visible while this conversation advanced and even selected a game behind it.
+func _unhandled_input(event: InputEvent) -> void:
     if not running:
         return
     if _awaiting_choice:

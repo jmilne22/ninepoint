@@ -15,12 +15,9 @@ const ROUNDS := 4
 
 ## The two sections, and the whole of the difference between them.
 ##
-## The beginners' section has a **ceiling** -- fifteen kyu and below -- and
-## therefore no handicap: everybody in it is within a few stones of everybody
-## else and the entry requirement does the work. The open section has no ceiling
-## and hands out stones instead. Those are the two ways Go deals with a gap in
-## strength, and the Cup now runs one of each rather than asserting in a design
-## document that it could.
+## Beginners are 15k and weaker on nine lines; open uses thirteen lines.
+## Both new sections use rank-based handicap. The entry flag freezes the colour
+## policy so an already-entered legacy beginner Cup retains its even games.
 const BEGINNERS := "beginners"
 const OPEN := "open"
 const SECTIONS := [BEGINNERS, OPEN]
@@ -28,6 +25,11 @@ const SECTIONS := [BEGINNERS, OPEN]
 ## Which board a section is played on. Written once, here: World reads it to
 ## choose the opponent's profile and nothing else in a round has to know.
 const BOARD := {BEGINNERS: 9, OPEN: 13}
+const COLOUR_RULE := {BEGINNERS: "by_rank", OPEN: "by_rank"}
+
+
+static func colour_rule_for(section_id: String) -> String:
+    return str(COLOUR_RULE.get(section_id, "by_rank"))
 
 ## The beginners' section: fifteen kyu and below. Wren and Pip are the only two
 ## in the club weak enough to enter; the rest came in off the street, which is

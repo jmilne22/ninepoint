@@ -444,10 +444,9 @@ func _start_cup_round() -> void:
 
     var req := MatchRequest.new()
     req.profile = load(profile_path)
-    if section == CupDraw.BEGINNERS:
-        req.profile = req.profile.duplicate(true)
-        req.profile.colour_rule = "nigiri"
-        req.profile.handicap = 0
+    req.profile = req.profile.duplicate(true)
+    req.profile.colour_rule = str(GameState.get_flag("cup_colour_rule", CupDraw.colour_rule_for(section)))
+    req.profile.handicap = 0
     req.context_id = CupDraw.context_for(int(state["next_round"]))
     req.npc_id = opponent_id
     req.opponent_name = data.display_name
@@ -563,5 +562,9 @@ func _start_match(exit: Dictionary, npc: Npc) -> void:
     for prompt in exit.get("guidance", []):
         req.guidance.append(str(prompt))
     req.player_strength = GameState.rank_strength
+    if req.context_id.begins_with("league_") and not LeagueProgress.prepare(GameState, req):
+        var next := LeagueProgress.next_name(GameState)
+        EventBus.toast.emit("Your next fixture is with %s." % next if next != "" else "Ask Marguerite about league registration.")
+        return
     player.input_locked = true
     MatchBridge.start_match(req, player.global_position)

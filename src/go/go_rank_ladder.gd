@@ -12,9 +12,8 @@
 class_name GoRankLadder
 extends RefCounted
 
-## Nobody falls below this. 30 kyu is the scale's zero and nothing in the game
-## is that weak.
-const FLOOR := 5   # 25k
+## The provisional novice rank is also the bottom of the displayed ladder.
+const FLOOR := 0   # 30k
 
 
 ## What the opponent was worth *in that game*: stones the player took make them
@@ -37,9 +36,11 @@ static func step(current: int, record: Dictionary) -> int:
         return current
     if bool(record.get("unrated", false)):
         return current
-    var opponent := effective_opponent(record)
-    if opponent < 0:
+    # Handicap can put a KNOWN opponent below the displayed rank floor. That
+    # negative effective strength is still meaningful, unlike an unknown rank.
+    if int(record.get("opponent_strength", -1)) < 0:
         return current
+    var opponent := effective_opponent(record)
     var won := bool(record.get("player_won", false))
     if won and opponent >= current:
         return mini(current + 1, GoRank.MAX_STRENGTH)

@@ -132,7 +132,7 @@ static func _test_not_entered(t: TestKit) -> void:
     t.ok(not bool(state["player_in_field"]), "the player is not in the field")
     t.ok(bool(state["complete"]), "and it plays itself out without them")
     t.ok(not bool(state["passed"]), "which is not a pass")
-    t.ok(ExamBoard.summary(state).contains("need a place in the top"),
+    t.ok(ExamBoard.summary(state).contains("Complete the Academy League"),
         "and the list says so rather than inventing a placing")
 
 

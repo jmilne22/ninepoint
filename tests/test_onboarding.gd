@@ -2,6 +2,7 @@ class_name OnboardingTests
 extends RefCounted
 
 static func run(t: TestKit) -> void:
+    _test_kesh_welcome(t)
     t.section("unranked setup never invents a strength")
     for size in [7,9,13,19]:
         for strength in [0,9,18,30,34]:
@@ -103,4 +104,65 @@ static func run(t: TestKit) -> void:
         state.set_flag("arc_%s_3" % who,true)
         state.set_flag("record_%s_loss" % who,6)
         t.eq(graph.resolve("start"),"stage_6" if who=="moss" else "stage_3",who+" reaches the second record conversation")
+    state.reset()
+
+
+static func _test_kesh_welcome(t: TestKit) -> void:
+    t.section("Kesh welcomes before optional practice")
+    var tree := Engine.get_main_loop() as SceneTree
+    var state := tree.root.get_node("GameState")
+    var quests := tree.root.get_node("Quests")
+    if quests.quests.is_empty(): quests._load_all()
+    var graph := DialogueGraph.load_graph("res://data/dialogue/kesh.json")
+    state.reset()
+    state.set_quest("first_stones", 3, false)
+    state.set_flag("wren_match_done", true)
+    var intro := graph.resolve("start")
+    var card := str(graph.node(intro)["goto"])
+    DialogueGraph.apply(graph.node(card).get("actions", []))
+    t.eq(state.rank_label(), "30k", "the welcome issues a provisional novice card")
+    t.ok(state.has_flag("invited_to_institute"), "the invitation precedes any Kesh game")
+    t.ok(state.quest_done("first_stones"), "talking completes the opening objective")
+    t.eq(state.quest_step("enrolment"), 0, "the next objective points to Hana")
+    t.eq(state.match_records.size(), 0, "the welcome invents no match result")
+    var invitation := str(graph.node(card)["goto"])
+    var offer := graph.node(str(graph.node(invitation)["goto"]))
+    var decline := graph.node(str(offer["choices"][1]["goto"]))
+    t.ok(not decline.has("exit") and not decline.has("goto"), "declining leaves the player free to travel")
+    var saved: Dictionary = JSON.parse_string(JSON.stringify(state.to_dict()))
+    state.reset()
+    state.from_dict(saved)
+    t.eq(graph.resolve("start"), "offer", "returning after a declined game does not reissue the card")
+    t.eq(state.match_records.size(), 0, "reload retains the no-match route")
+    var exit: Dictionary = offer["choices"][0]["exit"]
+    t.ok(exit["unrated"] and exit["practice"], "the offered game explicitly promises unrated practice")
+    var profile := load("res://data/opponents/%s.tres" % exit["profile"]) as OpponentProfile
+    t.eq(profile.rank_label, "12k", "Kesh keeps her own rank")
+    t.eq(profile.colour_rule, "by_rank", "the introduction uses rank-based handicap")
+    var setup := GoMatchSetup.prepare(GoMatchSetup.Rule.BY_RANK, state.rank_strength, profile.strength(), 9)
+    t.eq(setup.handicap, 5, "a provisional 30k receives the existing five-stone 9x9 cap")
+    t.eq(setup.player_color, GoBoard.BLACK, "the novice takes Black")
+    t.eq(setup.komi, 0.5, "handicap komi replaces the even-game setup")
+    var reactions: Array[String] = []
+    for won in [true, false]:
+        var result := MatchResult.new()
+        result.npc_id = "kesh"
+        result.context_id = str(exit["context"])
+        result.unrated = bool(exit["unrated"])
+        result.player_won = won
+        result.opponent_strength = profile.strength()
+        result.handicap = setup.handicap
+        result.board_size = 9
+        state.record_match(result)
+        t.eq(state.rank_label(), "30k", "practice leaves the card unchanged after either result")
+        t.ok(not DialogueGraph.check([["rated_wins_at_least", 1]]), "a practice win cannot unlock rated progression")
+        reactions.append(graph.resolve("post_match"))
+    t.ok(reactions[0] != reactions[1], "optional practice still receives distinct win and loss reactions")
+    t.eq(state.match_records.size(), 2, "real practice results remain in match history")
+    state.set_rank("22k")
+    saved = JSON.parse_string(JSON.stringify(state.to_dict()))
+    state.reset()
+    state.from_dict(saved)
+    t.eq(graph.resolve("start"), "regular", "an existing player's return bypasses novice registration")
+    t.eq(state.rank_label(), "22k", "existing ranks survive the new introduction")
     state.reset()

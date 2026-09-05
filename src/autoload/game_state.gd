@@ -13,6 +13,8 @@ var flags: Dictionary = {}
 var quests: Dictionary = {}             ## quest_id -> {"step": int, "done": bool}
 var inventory: Array[String] = []
 var match_records: Array = []
+var league_attempts: Array = []
+var active_league: int = -1
 ## Optional engine review metadata, keyed by the record's stable append index.
 ## A missing key is a valid legacy save, not a broken save.
 var match_analysis: Dictionary = {}
@@ -44,6 +46,8 @@ func reset() -> void:
     quests.clear()
     inventory.clear()
     match_records.clear()
+    league_attempts.clear()
+    active_league = -1
     match_analysis.clear()
     current_map = DEFAULT_MAP
     spawn_point = "start"
@@ -138,6 +142,7 @@ func set_quest(quest_id: String, step: int, done: bool = false) -> void:
 
 func record_match(result: MatchResult) -> void:
     match_records.append(result.to_dict())
+    LeagueProgress.record(self, match_records.size() - 1)
     # Flags dialogue and quests can branch on without knowing about MatchResult.
     # What just happened, for the conversation that follows it. Overwritten
     # by every game; the cumulative counters below are for greetings.
@@ -211,6 +216,8 @@ func to_dict() -> Dictionary:
         "quests": quests,
         "inventory": inventory,
         "match_records": match_records,
+        "league_attempts": league_attempts,
+        "active_league": active_league,
         "match_analysis": match_analysis,
         "current_map": current_map,
         "spawn_point": spawn_point,
@@ -230,6 +237,9 @@ func from_dict(d: Dictionary) -> void:
     for i in d.get("inventory", []):
         inventory.append(str(i))
     match_records = d.get("match_records", [])
+    league_attempts = d.get("league_attempts", []).duplicate(true)
+    active_league = int(d.get("active_league", -1))
+    LeagueProgress.restore_legacy(self, d)
     match_analysis = d.get("match_analysis", {})
     if not (match_analysis is Dictionary):
         match_analysis = {}

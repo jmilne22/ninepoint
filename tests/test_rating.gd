@@ -27,7 +27,7 @@ static func run(t: TestKit) -> void:
 
 static func _test_direction(t: TestKit) -> void:
     t.section("ladder: a loss never raises, a win never lowers")
-    for opp in ["25k", "22k", "15k", "9k", "1d", "5d"]:
+    for opp in ["30k", "27k", "25k", "22k", "15k", "9k", "1d", "5d"]:
         for stones in [0, 2, 5]:
             var win := _game(opp, true, false, stones, stones)
             var loss := _game(opp, false, false, stones, stones)
@@ -87,7 +87,15 @@ static func _test_ignores(t: TestKit) -> void:
 
 static func _test_bounds(t: TestKit) -> void:
     t.section("ladder: the ends of the scale")
-    t.eq(GoRankLadder.step(GoRankLadder.FLOOR, _game("25k", false)), GoRankLadder.FLOOR,
-        "nobody falls below 25 kyu")
+    t.eq(GoRankLadder.step(_k("30k"), _game("30k", false)), _k("30k"),
+        "an equal loss at 30 kyu never promotes or falls off the ladder")
+    t.eq(GoRankLadder.step(_k("30k"), _game("30k", true)), _k("29k"),
+        "an equal win advances exactly one step from 30 kyu")
+    t.eq(GoRankLadder.effective_opponent(_game("25k", false, false, 2, 2)), -1,
+        "a known 25k receiving two stones has valid 31k-equivalent strength")
+    t.eq(GoRankLadder.step(_k("29k"), _game("25k", false, false, 2, 2)), _k("30k"),
+        "negative adjusted strength still counts as a weaker opponent")
+    t.eq(GoRankLadder.step(_k("29k"), _game("?", false, false, 2, 2)), _k("29k"),
+        "unknown raw rank remains unknown despite handicap")
     t.eq(GoRankLadder.step(GoRank.MAX_STRENGTH, _game("9d", true)), GoRank.MAX_STRENGTH,
         "and nobody climbs off the top")

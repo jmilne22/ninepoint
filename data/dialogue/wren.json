@@ -184,7 +184,7 @@
   },
   "after_first_game": {
    "text": [
-    "Kesh is by the window. Speak to her when you're ready for your first rated game."
+    "Kesh is by the window. She can get you a novice card and tell you where to enrol."
    ],
    "choices": [
     {
@@ -398,7 +398,7 @@
   },
   "first_route": {
    "text": [
-    "Kesh is by the window. She's ready for your first rated game."
+    "Kesh is by the window. Ask her for a novice card when you're ready to go on."
    ]
   },
   "post_end": {},

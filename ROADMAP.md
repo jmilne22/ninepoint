@@ -15,6 +15,20 @@ review on engine analysis; the other cuts remain. Read `MILESTONES.md` M37 for w
 
 ---
 
+## Beginner-first progression — PROG-01
+
+Approved: provisional 30k, five novice classmates at target ranks 30k–20k, a complete
+novice league attempt and the existing Beginner Cup as the first finale. New beginner
+Cups use handicap; the strong Academy League and its even-game exam are optional later.
+Attempts start together, record fixtures once and can be repeated after completion.
+Existing cast ranks and save histories remain intact. NPC fixture results are simulated
+and persisted, not evidence of engine games. No calendar or parallel progression returns.
+
+KataGo's human profiles stop at 20k. Independent novice configurations and whole-game
+measurements precede release; human beginner playtesting is still required. These ranks
+are calibration targets until then. The implementation branch is a playtest build, not
+a claim that configuration names establish playing strength.
+
 ## 1. The engine — ENG-01 through ENG-05
 
 **Decision (season-finale foundation):** ship a bundled KataGo integration for Linux x64.
@@ -179,7 +193,8 @@ progression. Clear short exchanges take priority over personality slogans. Art d
 places through architecture, furniture and activity rather than a noisier palette. The school
 and civic hall have separate exterior views and interior proportions.
 
-Pip's first Capture Go and Wren's first practice start empty; Kesh uses nigiri. An unknown
+Pip's first Capture Go and Wren's first practice start empty; Kesh's optional practice
+uses handicap after she issues the novice card (PROG-02). An unknown
 rank never becomes numerical strength. This resolves ENG-08's presentation decision; engine
 floor calibration remains ENG-06. Later handicap games explain the actual position before
 play, including White's first move, ordinary starting stones, komi and rank consequences.
@@ -205,3 +220,19 @@ Crossing Verhaven should not make repeat visits drag. Holding Shift runs at 1.75
 normal walking pace everywhere the town controller is active, including interiors. It is a
 travel convenience, not progression: there is no stamina, statistic, toggle or saved setting.
 The existing player sheet supplies the faster gait, while NPC movement remains unchanged.
+
+PROG-01's implementation candidate and played evidence are collected in
+[docs/novice/PLAYTEST.md](docs/novice/PLAYTEST.md). New Cup draws retain entry rank while
+handicap uses the current rank at the board. This prevents rank changes from rewriting
+past pairings. Release status remains on the workboard; target ranks still require
+independent beginner validation.
+
+## Opening follow-up — optional Kesh practice (PROG-02)
+
+The owner found the compulsory even game against 12k Kesh demoralising and the fixed
+30k reward misleading even after a win. Kesh now issues the provisional novice card and
+Instituut invitation before offering a game. Her optional 9×9 uses rank-based handicap
+and is unrated. The card opens access; it is not a measured placement. Wren and the
+journal point to the conversation rather than a required match. Existing ranked saves
+keep their ranks and histories. This supersedes PROG-01's decision to preserve all three
+opening setups. Noor and Ivo both gave the owner close-ish wins; their settings stay fixed.

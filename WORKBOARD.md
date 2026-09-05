@@ -4,7 +4,7 @@ This is the **operational source of truth** for unfinished work. An agent starts
 not in the milestone history. It answers: what may be picked up now, what is blocked, and
 what evidence makes a task done.
 
-Snapshot: `origin/main` at `b0fb0af` (M44 merged), fetched and verified before UI-03.
+Snapshot: `origin/main` at `2a43214`, fetched and HEAD equality verified before PROG-01.
 Update the snapshot when reconciling after a merge; it is not a release number.
 
 ## How to use this board
@@ -35,6 +35,62 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 | Design / architecture / art docs | Durable product and technical truth | Task status |
 
 ## In progress
+
+### PROG-02 — Make Kesh's opening game optional practice
+
+- Status: `SHIPPED` (verified on branch; not merged) · Priority: `P1` · Owner: Codex · Branch: `codex/novice-league`.
+- Base reverified on 2026-09-06: HEAD and fetched origin/main both `2a43214`;
+  existing uncommitted PROG-01 work retained.
+- Decision: owner approved immediate provisional card/invitation followed by optional,
+  unrated handicap practice. No placement assessment or novice-route bypass is implied.
+- Scope: remove the required even game against 12k Kesh; update her introduction,
+  Wren's directions, journal and generated setup. Preserve previous ranks and results.
+- Inspection fix: the rank card previously left dialogue consuming its keys underneath;
+  dialogue now uses unhandled input so the modal card consumes them first.
+- Acceptance: declining reaches the Instituut without a Kesh result; accepting uses
+  handicap and changes neither rank nor rated-win count; win/loss reactions remain
+  distinct; returning and loading never reassign an existing rank. Play both paths,
+  inspect screenshots and run compile/load, rules, content and engine gates.
+
+- Verified: 16,242 checks, 260 files loaded, all three KataGo gates and lesson validation
+  passed. New Game through novice-room arrival without Kesh, card/decline/reload, and a
+  complete optional handicap game were played with inspected screenshots. The latter
+  finished after 69 moves with rank unchanged at 30k; both result branches are tested.
+- Evidence: [Kesh welcome playtest](docs/novice/KESH-WELCOME.md). User saves untouched.
+  No merge or publication; PROG-01's broader human-strength release gate remains open.
+
+### PROG-01 — Give beginners a league of their own
+
+- Status: `BLOCKED` for release; implementation verified · Priority: `P1` · Owner: Codex
+  · Branch: `codex/novice-league`.
+- Decision: owner approved the beginner-first implementation plan on 2026-09-05.
+- Scope: independently configured novice engines first; safe provisional 30k; five
+  permanent novice classmates; repeatable, recorded league attempts; handicap Beginner
+  Cup finale; optional Academy League/exam; preserve existing saves and cast.
+- Order: engine probe and rank arithmetic, then content and league integration, then
+  migration, played journeys, and documentation reconciliation.
+- Inspection follow-up: new Cup registrations freeze entry rank so changing the player
+  card cannot reconstruct earlier pairings differently. Existing Cup pairing/rematch
+  rules and already-entered legacy policies are preserved.
+- Acceptance: rank/fixture/migration tests, complete isolated beginner and losing/retry
+  routes with opened screenshots, real-engine games and normal gates.
+- Release gate: target ranks 30k/27k/25k/23k/20k require independent beginner playtesting.
+  Engine legality or relative bot results cannot certify those human rank labels.
+  Keep this work unshipped until that gate is satisfied; prepare a reviewable build first.
+- Verified: 16,137 checks, 260 files loaded, all three real KataGo gates, and lesson
+  validator 0 problems. New Game → five complete novice games (3–2) → four complete
+  Cup games → ending → retry passed; the all-loss route, Academy six-fixture/reload/retry/
+  archive route, legacy league/Cup/exam loads and provisional-rank card were played and
+  their screenshots inspected. The subsequent fixed-entry-rank Cup rerun finished 2–2.
+- Human feedback (2026-09-06): owner beat Noor and Ivo, both described as "close-ish".
+  Encouraging evidence for achievable games; exact ranks and the other three remain unvalidated.
+- Strength evidence: 72 complete games, zero discarded/truncated; adjacent stronger
+  profiles won 7/8, 7/8, 7/8 and 6/8. This supports differing bot strengths, not the exact
+  target ranks or human plausibility. Remaining dependency: independent beginner playtests.
+- Evidence and reproducible commands: [novice playtest record](docs/novice/PLAYTEST.md),
+  including raw SGFs/configurations, saved route histories and inspected images.
+- No shipped milestone, merge or publication is claimed while the human gate is open.
+
 
 ### UI-03 — Town run mode
 
@@ -272,6 +328,17 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 - Context: `ROADMAP.md` §1, §5.
 
 ## Teaching decisions
+
+### CONTENT-05 — Assess Wren's introductory game strength
+
+- Status: `NEEDS DECISION` · Priority: `P1`.
+- Owner feedback (2026-09-06): Wren may still be too strong for a new player. Her
+  introductory 9×9 keeps the existing engine settings and has no handicap; being
+  unrated does not establish an appropriate learning difficulty.
+- Next step: compare human beginner experience with the close-ish Noor/Ivo games,
+  then agree whether Wren's introductory profile needs separate strength settings.
+  No engine retuning or new teaching encounter is included in PROG-01/02.
+
 
 ### CONTENT-01 — Teach whole-board judgement
 

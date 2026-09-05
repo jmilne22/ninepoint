@@ -31,9 +31,10 @@ These are the spine of the design. Check any new feature against them before bui
    **record** against each person (`GameState.head_to_head`). A greeting may branch on
    `beat` / `lost_to` (ever); the conversation after a game branches on `won_last` /
    `lost_last` (the game just played) and on nothing else.
-5. **The league table is the progression, and it is honest.** `LeagueTable` derives standings
-   from `GameState.match_records` and nothing else — league fixtures only. No hidden score,
-   no allowance for effort, and no second table that disagrees with it.
+5. **The league table is the progression, and it is honest.** `LeagueAttempt` derives
+   standings from scheduled fixtures: player results reference `GameState.match_records`;
+   NPC results are explicitly simulated and saved once. Each attempt starts at zero.
+   Wins first, then frozen entry rank, then name. No hidden effort score or replacement losses.
 6. **A dialogue graph that offers a game must have a `post_match` node**, and it must reach
    a different node for a win and a loss. `World._post_match` re-enters the graph there;
    without it `resolve()` returns `""`, the box never opens, and the after-game beat vanishes
@@ -74,11 +75,11 @@ Nadia · Orla · Sunny
 | `attic` | over the shuttered stationer's. **The game starts here**, at the board the last tenant left. The study desk sets puzzles |
 | `ketelsteeg` | your street: tram rails, brick, the snack window, **the tram stop at the west end** |
 | `wassalon` | the laundrette, three doors east. The city's third register: no board on the wall, no card, nothing written down. Abel, Dov and Moss |
-| `de_ketel` | the salon, three steps below the pavement. Wren teaches and hosts safe practice; Kesh is the first rated rival; Tomás has the 13×13 under the coats |
+| `de_ketel` | the salon, three steps below the pavement. Wren teaches and hosts safe practice; Kesh issues novice cards and offers optional handicap practice; Tomás has the 13×13 under the coats |
 | `onderbrug` | the viaduct arches, east: a board on a crate and Joos |
 | Molenpark | the park end of Ketelsteeg — stone tables, Pip and Bertie |
 | `quay` | grey water, one bench, south past the park. Nobody lives there; the noticeboard holds the last game you asked somebody to go over |
-| `academy_*` | the Essenveld Instituut: hall (Marguerite and the league board), study (Ilse, Sunny, Orla), class (Hana and Nadia), dorm |
+| `academy_*` | the Essenveld Instituut: hall (Marguerite and the league board), study (Ilse, Sunny, Orla), class (Hana and Nadia), novice (five classmates), dorm |
 | Bondszaal | the federation hall — the Beginner Cup and the qualifying exam |
 
 There is one hour and one sky. `Ambient` (the hours and the light) was cut in M37 with the
@@ -102,16 +103,24 @@ The player begins knowing **nothing**.
 3. **Wren** at De Ketel teaches the rules — liberties, capture, self-capture — then gives a
    short, optional opening plan and hosts the first proper 9×9. It is normal Go (passing and
    scoring) but explicitly unrated; one gentle observation at a time keeps it a practice game.
-4. **Kesh** challenges you to the first **rated** 9×9. Colours by **nigiri**. Win or lose, she gives you 22 kyu
-   (`first_rating`: `rank`, `ranked_by_club`, `invited_to_institute`, starts `enrolment`) and
-   tells you Hana teaches at the Instituut.
+4. **Kesh** gives you a provisional 30 kyu novice card and an Instituut invitation
+   before offering any game (`first_rating`: `rank`, `ranked_by_club`,
+   `invited_to_institute`, starts `enrolment`). You may leave immediately or play an
+   optional **unrated** 9×9 with rank-based handicap. The card is a starting entry,
+   not a placement assessment. Existing ranks and match records are preserved.
 
 ### Act 2 — the Essenveld Instituut (quest `enrolment`)
 Tram 4 north from the stop at the west end of Ketelsteeg → **Hana** in the classroom sets a
 capture problem and sends you to the desk → enrol with **Marguerite** → read the league board
-→ take a class → win a league game. Then: the top four sit the **exam** at the Bondszaal
-(three rounds, back to back, once you tell Marguerite you are ready), and anyone with a rank
-may enter the **Cup** there (four rounds, two sections).
+→ take a class → play five novice fixtures, at any placing → the **Beginner Cup**
+ending. Novice classmates occupy the new `academy_novice` room through the hall's lower
+west door. Existing early Cup eligibility remains available. After completing the Cup,
+Marguerite offers optional Academy League registration. Complete all six fixtures; the
+four highest eligible entrants excluding Marguerite may sit the advanced exam.
+
+Attempts are repeatable after completion; past results remain browsable. NPC games are
+simulated once per player round, including scheduled byes in Academy's odd field.
+Legacy saves retain their old Academy table and may explicitly enrol in novices.
 
 ### The cast (ranks are load-bearing)
 
@@ -123,15 +132,25 @@ may enter the **Cup** there (four rounds, two sections).
 | `ilse` | Ilse Brandt | 9k | study hall — plays out of a book, stiffens when you leave it |
 | `tomas` | Tomás Beir | 8k | De Ketel — owns the bar, teaches counting, keeps the 13×13 |
 | `sunny` | Sunny Achebe | 6k | study hall — nine years old, alarmingly strong |
-| `orla` | Orla Finn | 4k | study hall — top of the lower league; blunt |
+| `orla` | Orla Finn | 4k | study hall — an advanced Academy League player; blunt |
 | `bertie` | Bertie Vale | 4k | Molenpark — teaches ladders; one proverb |
 | `nadia` | Nadia Ferreira | 2k | classroom — senior student |
 | `marguerite` | Marguerite Sable | 1d | hall and Bondszaal — registrar, runs the league, the exam and the Cup |
 | `hana` | Hana Oyelaran | 5d | classroom — the teacher; asks questions |
 | `joos` | Joos | **`?`** | Onderbrug — no card; `rank_label = "?"`, a real `strength_override`, games `unrated` |
-| `abel` | Abel Roos | 21k | wassalon — the weakest player in the game |
+| `abel` | Abel Roos | 21k | wassalon — the weakest of the original town cast |
 | `dov` | Dov Halevi | 19k | wassalon — counts out loud |
 | `moss` | Moss Lindqvist | 16k | wassalon — three years under the section ceiling, on purpose |
+| `noor` | Noor Dekker | 30k target | novice room — postcard under her bowl |
+| `ivo` | Ivo Maas | 27k target | novice room — bicycle courier with a tiny pencil |
+| `lea` | Lea Vos | 25k target | novice room — print-shop scrap paper |
+| `emil` | Emil Bakker | 23k target | novice room — repairs lamps |
+| `sora` | Sora Meijer | 20k target | novice room — a spare cushion |
+
+Novice ranks are targets pending independent beginner playtesting. Their fixed engine
+settings are separate from temperament and existing cast configs. PROG-01 must not be
+marked shipped based on automated strength games alone.
+
 
 ---
 
@@ -433,9 +452,9 @@ does not declare its live status.
 ## Current state
 
 Playable start to finish: cold open → name → the attic → Ketelsteeg → Capture Go with Pip →
-Wren's rules and opening plan → Wren's unrated first full game → nigiri → Kesh's rated game →
-a rank → the tram north → Hana's problem → enrol → the league
-board → a class → league games → the exam → the Cup. Eleven maps, fifteen characters, each on
+Wren's rules and opening plan → Wren's unrated first full game → Kesh's novice card
+(and optional handicap practice) → the tram north → Hana's problem → enrol → the league
+board → a class → novice fixtures → the Cup ending → optional Academy League/exam. Twelve maps, twenty characters, each on
 exactly one map. Two scored board sizes in town, plus development-only 19×19.
 Four quests. Three save slots.
 
@@ -459,12 +478,12 @@ the way of the people talking; and all sixteen graphs were rewritten against a v
 **Rank is a step ladder** (`GoRankLadder`): beat somebody at or above your rank and it goes
 up one, lose to somebody at or below it and it goes down one, nothing else moves it, and
 handicap is priced at `GoRank.ranks_per_stone()` — three ranks a stone on 9×9, two on 13×13.
-Kesh gives out 22 kyu after the first rated game. Park and arch games are `unrated`.
+Kesh issues provisional 30 kyu before optional unrated practice; the ladder floor is 30k. Park and arch games are `unrated`.
 
 **Two board sizes.** 13×13 opens on three rated wins (`rated_wins_at_least`), at Tomás's
 back table, where Kesh will also play you on it. The Cup's open section is on thirteen lines.
 
-**The Cup has two sections.** Beginners' — fifteen kyu and below, no handicap — and open —
+**The Cup has two sections.** Beginners' — fifteen kyu and weaker, rank-based handicap — and open —
 no ceiling, thirteen lines, handicap by the gap, against Kesh, Ilse, Tomás, Sunny and Orla. A
 player under the ceiling with three rated wins may play up. Joos cannot be entered. Both
 start when you tell Marguerite you are ready and run round after round.
@@ -476,7 +495,7 @@ plausibly, from a ranked shortlist. `GoEndgame` decides when the opponent stops.
 **A game that counts has music.** `MatchMusic.theme_for()`: a free game keeps `theme_match`,
 a rated one gets `theme_battle`, five people carry their own, the two occasions outrank them.
 
-**The engine is in (M38–M41).** KataGo plays every opponent at the character's rank; the
+**The engine is in (M38–M41).** KataGo uses Human-SL rank profiles for the original cast; the
 review is the engine's score swings, offered by the person you played, bounded only by
 progress you can walk away from. Rank is `humanSLProfile` and temperament is
 `chosenMoveTemperature` in a generated config. M41 measured the cast in whole games
@@ -503,7 +522,7 @@ adjudication; teaching and town access for 19×19 (the development UI has overvi
 
 ## M43 presentation and play verification
 
-All eleven maps have generated furniture and deliberate activity spaces. Four-direction
+M43 gave the original eleven maps generated furniture and deliberate activity spaces. Four-direction
 optional action sheets preserve the walking-sheet contract. Presence states can declare
 ordered exchanges, played once per visit and suspended during modal UI. Named NPCs remain
 available. Return positions fall back to a named safe spawn when invalid or occupied.
@@ -539,3 +558,35 @@ Mouse routes: `mouse_capture`, `mouse_nigiri`, `mouse_nineteen`, `mouse_count`,
 pages before asserting a played move. `board_input` can send actual motion, click visible
 buttons, resize the window, and assert a stable view/unchanged game while hovering.
 Use isolated XDG data and run these serially with the existing runner lock.
+
+## PROG-01 novice progression verification
+
+Use `tools/autopilot/novice_journey.json` for the complete New Game route and
+`novice_losses.json` for five losses, the handicap Cup ending, and a fresh attempt.
+`novice_academy.json` covers optional registration, six fixtures with byes, a disk reload,
+a losing retry and archive browsing from the `novice_graduate` fixture.
+Both declare isolated fixture requirements; set XDG_DATA_HOME, OUT and LOG outside real
+player data. The full journey needs TIMEOUT=3600. `novice_ready` is the new registration
+preset; existing league/Cup/exam presets deliberately remain legacy compatibility cases.
+
+`godot --headless --path . --script res://tools/katago_strength_probe.gd -- --cells=novices
+--games=8 --concurrent=2 --tag=novice-initial` records complete colour-alternating games,
+exact configurations and rejected truncations. This establishes relative engine behaviour,
+not human beginner plausibility. Release remains gated in WORKBOARD.md.
+
+Save fields: `league_attempts` contains division/attempt numbers, entry rosters, schedules,
+NPC winners and player-history indices; `active_league` identifies the active attempt.
+Optional match division/attempt/fixture identifiers count scheduled games once.
+`LeagueProgress` is the shared registration/migration/qualification seam; `LeagueAttempt`
+is pure. Old Cup registrations retain their `nigiri` policy; new ones store `by_rank`.
+
+Additional PROG-01 routes: `novice_cup` replays four complete games with frozen Cup entry
+rank; `novice_legacy` loads old league/Cup/exam fixtures through the title UI. New Cup
+registrations save `cup_entry_rank` alongside their colour policy, so changes to the live
+card cannot rewrite earlier pairings. The existing Cup rematch fallback is preserved.
+
+`novice_rank_card` checks the card before any game, declining and returning after reload.
+`kesh_practice` plays the optional handicap game from `novice_first_rank`; `kesh_skip`
+plays New Game through the novice-room arrival without facing Kesh. `slice_full`
+and `novice_journey` now decline Kesh and travel onward. PROG-02 supersedes the old
+required even-game opening; old saved results remain unchanged.

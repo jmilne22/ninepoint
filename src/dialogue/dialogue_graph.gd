@@ -110,11 +110,13 @@ static func _check_one(c: Array) -> bool:
         "unranked":
             return not _state().is_ranked()
         "league_position_at_most":
-            # Entry to the exam is by league position, which the board has been
-            # promising since the day you enrolled. Derived from the record every
-            # time it is asked, stored nowhere -- Rule 5 -- so a graph can read it
-            # the way the noticeboard states it.
-            return LeagueTable.current_position() <= int(c[1])
+            # Legacy condition spelling retained in graphs. Eligibility means
+            # the Academy cut after excluding the registrar, not raw row 4.
+            return LeagueProgress.exam_eligible(_state())
+        "league_can_start":
+            return LeagueProgress.can_start(_state(), str(c[1]))
+        "league_fixture":
+            return not LeagueAttempt.fixture_for(LeagueProgress.active(_state()), str(c[1])).is_empty()
         "rated_wins_at_least":
             # The chapter-2 gate from GAME_DESIGN section 9: three rated games
             # won and the bigger board opens. Counted off the record every time
@@ -174,6 +176,13 @@ static func _apply_one(a: Array) -> void:
             _state().take_item(str(a[1]))
         "rank":
             _state().set_rank(str(a[1]))
+        "league_start":
+            LeagueProgress.start(_state(), str(a[1]))
+        "cup_rules":
+            _state().set_flag("cup_colour_rule", CupDraw.colour_rule_for(str(a[1])))
+            # A result can change the player's card. Rebuilding earlier Cup
+            # pairings from that new rank can pair the same opponent twice.
+            _state().set_flag("cup_entry_rank", _state().rank_label())
         "quest_start":
             _bus().quest_started.emit(str(a[1]))
         "quest_advance":

@@ -1,0 +1,415 @@
+[
+ {
+  "save": "novice_graduate"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "map",
+  "map": "academy_hall"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "The Academy League."
+ },
+ {
+  "experience": "choice",
+  "text": "Register."
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   10,
+   3
+  ]
+ },
+ {
+  "face": [
+   10,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "academy_zero"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "visit",
+  "map": "de_ketel"
+ },
+ {
+  "talk_to": "kesh"
+ },
+ {
+  "experience": "choice",
+  "text": "It counts."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "kesh_academy_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "kesh_academy_result"
+ },
+ {
+  "experience": "choice",
+  "text": "Later."
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "assert_progress",
+  "played": 1
+ },
+ {
+  "experience": "visit",
+  "map": "academy_study"
+ },
+ {
+  "talk_to": "ilse"
+ },
+ {
+  "experience": "choice",
+  "text": "Yes."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "ilse_academy_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "ilse_academy_result"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "assert_progress",
+  "played": 2
+ },
+ {
+  "experience": "visit",
+  "map": "academy_study"
+ },
+ {
+  "talk_to": "sunny"
+ },
+ {
+  "experience": "choice",
+  "text": "Yes."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "sunny_academy_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "sunny_academy_result"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "assert_progress",
+  "played": 3
+ },
+ {
+  "experience": "save"
+ },
+ {
+  "experience": "reload"
+ },
+ {
+  "experience": "assert_progress",
+  "played": 3
+ },
+ {
+  "experience": "visit",
+  "map": "academy_study"
+ },
+ {
+  "talk_to": "orla"
+ },
+ {
+  "experience": "choice",
+  "text": "Yes."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "orla_academy_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "orla_academy_result"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "assert_progress",
+  "played": 4
+ },
+ {
+  "experience": "visit",
+  "map": "academy_class"
+ },
+ {
+  "talk_to": "nadia"
+ },
+ {
+  "experience": "choice",
+  "text": "Please."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "nadia_academy_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "nadia_academy_result"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "assert_progress",
+  "played": 5
+ },
+ {
+  "experience": "visit",
+  "map": "academy_hall"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "Our scheduled fixture."
+ },
+ {
+  "experience": "choice",
+  "text": "The game."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "marguerite_academy_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "marguerite_academy_result"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "assert_progress",
+  "played": 6
+ },
+ {
+  "walk_to": [
+   10,
+   3
+  ]
+ },
+ {
+  "face": [
+   10,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "academy_completed_losses"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "The Academy League."
+ },
+ {
+  "experience": "choice",
+  "text": "Register."
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   10,
+   3
+  ]
+ },
+ {
+  "face": [
+   10,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "academy_retry"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "walk_to": [
+   10,
+   3
+  ]
+ },
+ {
+  "face": [
+   10,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "shot": "academy_archived"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "assert_progress",
+  "played": 0
+ },
+ {
+  "experience": "save"
+ }
+]

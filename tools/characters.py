@@ -142,6 +142,9 @@ CHARACTERS = [
          accessory="scarf", accent="#8c4034", build="slim", brow="angled", mouth="flat"),
 ]
 
+from novice_cast import characters as novice_characters
+CHARACTERS.extend(novice_characters())
+
 BY_ID = {c["id"]: c for c in CHARACTERS}
 
 ## The named cast, in the sense that matters: everybody who can be drawn in a
