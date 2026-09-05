@@ -2619,12 +2619,16 @@ nothing said. The three-move fixture passed because it had three positions.
   player is in the world toasts and waits on the quay noticeboard (WORLD-01's decision). A
   quit mid-review marks it `failed: interrupted` on load; nothing resumes. A silent engine
   is failed by a watchdog, never waited on. Any board from 7 to 19 lines is eligible.
-- **What went right comes first.** The owner's one note on the first cut: "it would be
-  nice to know if you played a good move too." A tally card opens the review — how many
-  of your moves were the best move on the board, which ones by number, how many more gave
-  nothing away — and the steady card carries the same numbers. Raising the visits does not
-  make the runner-up visible more often (23 of 31 positions at 8, 12 and 16 visits), so
-  the tally, which needs no runner-up, is what makes praise reliable.
+- **What went right comes first, on the board, with a reason.** The owner's note on the
+  first cut: "if you make a good move it should tell you and tell you why, because the
+  game is to learn go." The first position card is now the player's best move — the
+  engine's own choice when there was one, otherwise a move within noise of it — and
+  `MoveExplainer` (`src/go_ai/`) says what it did from the stones: took the corner,
+  joined your stones, took stones in atari, leaned on a group. Praise without a reason is
+  rejected by the payload check, and a first-line stone is never praised. A tally card
+  opens the review (how many moves matched the best, which, how many gave nothing away).
+  The runner-up requirement went: more visits do not make it visible more often (23 of
+  31 positions at 8, 12 and 16 visits), so a review could go a whole game without praise.
 - **The person you played offers it.** "Go over the game with Wren Calloway?" — never Hana
   in Act 1 (rule 8), and the engine is never named on a card. Filled = your move, ring =
   the better move, and the legend says so on every card.
@@ -2643,7 +2647,7 @@ nothing said. The three-move fixture passed because it had three positions.
   per character) that PR #17 had merged into `feat/katago-cast-release` after that branch
   was already on `main`, so it never reached `main`.
 
-**Done when:** `tools/test.sh` — **12482 passed, 0 failed** (M39: 12341) with the three
+**Done when:** `tools/test.sh` — **12494 passed, 0 failed** (M39: 12341) with the three
 engine gates green; `tools/katago_review_test.gd` analyses a whole 9×9 and a whole 19×19
 game, every position, and fails the wedged fixture through the watchdog; and the fixtures
 below were played and their frames opened.

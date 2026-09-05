@@ -128,11 +128,21 @@ func _show() -> void:
     # played, ring = the better move. The legend says so; colour never has to.
     _board.mark_point = actual
     _board.highlight = PackedInt32Array([best]) if best >= 0 and best != actual else PackedInt32Array()
+    _board.mark_good = str(f.get("kind", "")) == "strength"
     _title.text = "Move %d. You played %s." % [int(f.get("move_number", 0)), game.board.label(actual)]
     var lines: Array[String] = []
     if str(f.get("kind", "")) == "strength":
-        lines.append("That was the move. The next best gave away about %s points." % _points(float(f.get("stake", 0.0))))
-        lines.append("Filled = your move")
+        var matched := bool(f.get("matched", best == actual))
+        var head := "That was the best move on the board." if matched \
+            else "A good move: it gave nothing away."
+        var why := str(f.get("does", ""))
+        var stake := float(f.get("stake", 0.0))
+        if matched and stake >= MatchAnalysis.MEANINGFUL_LOSS:
+            why += " The next best would have given away about %s points." % _points(stake)
+        elif not matched:
+            why += " %s was the engine's pick; yours was within a point of it." % game.board.label(best)
+        lines.append("%s %s" % [head, why])
+        lines.append("Filled = your move" if matched else "Filled = your move\nRing = the other good move")
     else:
         lines.append("%s was better, by about %s points." % [game.board.label(best), _points(float(f.get("point_loss", 0.0)))])
         lines.append("%s %s" % [str(f.get("changed", "")), str(f.get("habit", ""))])

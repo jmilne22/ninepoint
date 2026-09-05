@@ -4,9 +4,11 @@
 ##
 ## A finding is one board and one sentence's worth of claim: the position before
 ## a move, the move played, the move the engine preferred, and what it cost.
-## Three at most: the biggest loss, a second loss about a different idea, and,
-## when the engine agreed with the player at a moment that mattered, one
-## strength. A quiet game is an honest "steady" and never three invented cards.
+## Three at most, and the first is what went right: the player's best move,
+## with what it did said from the stones -- matched the engine's choice when
+## that happened, otherwise a move that gave nothing away. Then the biggest
+## loss and a second loss about a different idea. A quiet game is an honest
+## "steady" and never three invented cards.
 class_name MatchAnalysis
 extends RefCounted
 
@@ -69,7 +71,10 @@ static func available(record_index: int, engine_version: String, positions: Arra
             and actual >= 0 and actual < size * size
         var claim_ok := false
         if kind == "strength":
-            claim_ok = best == actual and float(finding.get("stake", 0.0)) >= MEANINGFUL_LOSS
+            # Either the engine's own move, or one within noise of it; and a
+            # reason, because praise without a why teaches nothing.
+            claim_ok = (best == actual or (best >= 0 and float(finding.get("point_loss", 0.0)) < MEANINGFUL_LOSS)) \
+                and str(finding.get("does", "")) != ""
         else:
             claim_ok = best >= 0 and best < size * size and best != actual \
                 and float(finding.get("point_loss", 0.0)) >= MEANINGFUL_LOSS
@@ -153,35 +158,6 @@ static func player_relative_loss(player: int, best_score_lead: float,
     return maxf(0.0, player_relative(player, best_score_lead) - player_relative(player, played_score_lead))
 
 
-## One line of KataGo analysis output -> {turn, score_lead, best, best_lead,
-## second_lead}. Anything that is not a turn result is {}; an engine error
-## comes back as {"error": ...}. Malformed lines never become a lesson.
-static func parse_analysis_line(line: String) -> Dictionary:
-    var text := line.strip_edges()
-    if not text.begins_with("{"):
-        return {}
-    var parsed: Variant = JSON.parse_string(text)
-    if not (parsed is Dictionary):
-        return {}
-    if parsed.has("error"):
-        return {"error": str(parsed["error"])}
-    if not parsed.has("turnNumber") or not (parsed.get("rootInfo") is Dictionary):
-        return {}
-    var root: Dictionary = parsed["rootInfo"]
-    if not root.has("scoreLead"):
-        return {}
-    var out := {"turn": int(parsed["turnNumber"]), "score_lead": float(root["scoreLead"]),
-        "winrate": float(root.get("winrate", 0.5)), "best": "", "best_lead": float(root["scoreLead"]),
-        "second_lead": null}
-    var infos: Array = parsed.get("moveInfos", []) if parsed.get("moveInfos") is Array else []
-    if infos.size() > 0 and infos[0] is Dictionary:
-        out["best"] = str(infos[0].get("move", ""))
-        out["best_lead"] = float(infos[0].get("scoreLead", root["scoreLead"]))
-    if infos.size() > 1 and infos[1] is Dictionary and infos[1].has("scoreLead"):
-        out["second_lead"] = float(infos[1]["scoreLead"])
-    return out
-
-
 ## Every player decision the engine saw both sides of. Move m (1-based) is
 ## judged by the position at turn m-1 (before) and turn m (after); losing a
 ## turn to the watchdog just drops that decision, it never invents one.
@@ -207,6 +183,9 @@ static func moments_from_turns(replay: Dictionary, player: int, turns: Dictionar
                 - player_relative(player, float(before["second_lead"])))
         var moment := {"move_number": i + 1, "actual": actual, "best": best,
             "point_loss": loss, "stake": stake, "size": size, "cells": move["cells"]}
+        var did := MoveExplainer.describe(size, move["cells"], player, actual)
+        moment["does"] = did["does"]
+        moment["did_concept"] = did["concept"]
         if best >= 0 and best != actual:
             moment.merge(explain_position(size, move["cells"], player, actual, best))
         moments.append(moment)
@@ -235,9 +214,11 @@ static func tally(moments: Array) -> Dictionary:
     return {"moves": counted, "best": best_moves.size(), "fine": fine, "best_moves": best_moves}
 
 
-## Pick the largest genuine loss, then a loss about a different idea, then the
-## one moment the engine agreed with the player and the alternative was worse.
-## Sorting makes saved reviews deterministic.
+## What went right first: the player's best move. A move the engine itself
+## would have played outranks one that merely gave nothing away; among those,
+## a move the stones can explain outranks one they cannot, then the one with
+## the most at stake, then the earlier. Then the largest genuine loss, then a
+## loss about a different idea. Sorting makes saved reviews deterministic.
 static func select_moments(moments: Array) -> Array:
     var mistakes: Array = []
     var strengths: Array = []
@@ -247,24 +228,29 @@ static func select_moments(moments: Array) -> Array:
         var moment: Dictionary = moment_value
         var actual := int(moment.get("actual", -1))
         var best := int(moment.get("best", -1))
-        if actual < 0:
+        if actual < 0 or best < 0:
             continue
-        if best == actual and float(moment.get("stake", 0.0)) >= MEANINGFUL_LOSS:
+        if best == actual or float(moment.get("point_loss", 0.0)) < MEANINGFUL_LOSS:
             strengths.append(moment)
-        elif best >= 0 and best != actual and float(moment.get("point_loss", 0.0)) >= MEANINGFUL_LOSS:
+        elif float(moment.get("point_loss", 0.0)) >= MEANINGFUL_LOSS:
             mistakes.append(moment)
     mistakes.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
         if float(a["point_loss"]) == float(b["point_loss"]):
             return int(a["move_number"]) < int(b["move_number"])
         return float(a["point_loss"]) > float(b["point_loss"]))
     strengths.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
-        if float(a["stake"]) == float(b["stake"]):
-            return int(a["move_number"]) < int(b["move_number"])
-        return float(a["stake"]) > float(b["stake"]))
+        var a_rank := _strength_rank(a)
+        var b_rank := _strength_rank(b)
+        if a_rank != b_rank:
+            return a_rank > b_rank
+        if float(a.get("stake", 0.0)) != float(b.get("stake", 0.0)):
+            return float(a.get("stake", 0.0)) > float(b.get("stake", 0.0))
+        return int(a["move_number"]) < int(b["move_number"]))
     var picked: Array = []
     if not strengths.is_empty():
         var strength: Dictionary = strengths[0].duplicate(true)
         strength["kind"] = "strength"
+        strength["matched"] = int(strength["best"]) == int(strength["actual"])
         picked.append(strength)
     if mistakes.is_empty():
         return picked
@@ -280,6 +266,17 @@ static func select_moments(moments: Array) -> Array:
             picked.append(lesson)
             break
     return picked.slice(0, 3)
+
+
+## Matched the engine, and the stones can say why: 3. Matched, unexplained: 2.
+## Gave nothing away and explained: 1. Otherwise 0. The first-line and
+## "unknown" descriptions are not praise, so they do not count as explained.
+static func _strength_rank(moment: Dictionary) -> int:
+    var matched := int(moment.get("best", -1)) == int(moment.get("actual", -2))
+    var explained := not (str(moment.get("did_concept", "unknown")) in ["unknown", "first_line"])
+    if matched:
+        return 3 if explained else 2
+    return 1 if explained else 0
 
 
 ## The whole conversion, pure: a record plus what KataGoAnalysis.run returned.
@@ -305,36 +302,8 @@ static func from_turns(record_index: int, record: Dictionary, raw: Dictionary) -
     return available(record_index, version, [], select_moments(moments), meta)
 
 
-## Deliberately conservative local vocabulary. If the stones do not prove one
-## of these ideas, the review says "a local alternative" rather than bluffing.
+## The move the player did not make, described for the mistake card. The
+## vocabulary lives in MoveExplainer; this keeps the older call shape.
 static func explain_position(size: int, cells: Array, player: int, _actual: int, best: int) -> Dictionary:
-    var game := position(size, cells)
-    if game == null or best < 0 or best >= size * size or game.board.get_idx(best) != GoBoard.EMPTY:
-        return {"concept": "unknown", "changed": "This is a local alternative.", "habit": "Pause and compare one nearby reply."}
-    var board := game.board
-    var friendly := 0
-    var enemy_atari := false
-    for neighbour in board.neighbours(best):
-        if board.get_idx(neighbour) == player:
-            friendly += 1
-        elif board.get_idx(neighbour) == GoBoard.opponent(player) and board.liberty_count(neighbour) == 1:
-            enemy_atari = true
-    if enemy_atari:
-        return {"concept": "capture", "changed": "It takes stones that have one liberty left.", "habit": "When stones touch, count their liberties before playing elsewhere."}
-    if friendly >= 2:
-        return {"concept": "connect", "changed": "It joins your nearby stones so they share liberties.", "habit": "Before a fight, look for the move that connects your stones."}
-    if friendly == 1:
-        var friend_point := -1
-        for neighbour in board.neighbours(best):
-            if board.get_idx(neighbour) == player:
-                friend_point = neighbour
-                break
-        if friend_point >= 0 and board.liberty_count(friend_point) <= 2:
-            return {"concept": "defend", "changed": "It gives your short-of-liberties group room to live.", "habit": "Check your groups with two or fewer liberties first."}
-        return {"concept": "extend", "changed": "It extends from your stone and gives it more room.", "habit": "After contact, extend when your stones need room."}
-    var adjacent_enemy := false
-    for neighbour in board.neighbours(best):
-        adjacent_enemy = adjacent_enemy or board.get_idx(neighbour) == GoBoard.opponent(player)
-    if adjacent_enemy:
-        return {"concept": "attack", "changed": "It leans on a nearby group of theirs.", "habit": "When you approach a group, check whether it can answer locally."}
-    return {"concept": "unknown", "changed": "It is a different local choice, without a simple forced claim.", "habit": "Pause and compare one nearby reply."}
+    var described := MoveExplainer.describe(size, cells, player, best)
+    return {"concept": described["concept"], "changed": described["changed"], "habit": described["habit"]}

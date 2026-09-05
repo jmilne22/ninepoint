@@ -132,7 +132,8 @@ def _review_payload(size):
         "tally": {"moves": 26, "best": 7, "fine": 11, "best_moves": [3, 8, 14, 19, 27, 33, 41]},
         "findings": [
             {"kind": "strength", "move_number": 8, "size": size, "cells": cells,
-                "actual": idx(4, 4), "best": idx(4, 4), "point_loss": 0.0, "stake": 2.0},
+                "actual": idx(4, 4), "best": idx(4, 4), "point_loss": 0.0, "stake": 2.0,
+                "matched": True, "does": "It takes open ground in the middle."},
             {"kind": "mistake", "move_number": 12, "size": size, "cells": cells,
                 "actual": idx(6, 1), "best": idx(3, 3), "point_loss": 3.5, "concept": "connect",
                 "changed": "It joins your nearby stones so they share liberties.",

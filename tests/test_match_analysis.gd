@@ -40,15 +40,15 @@ static func _eligibility(t: TestKit) -> void:
 
 static func _parsing(t: TestKit) -> void:
     var line := '{"id":"review","turnNumber":4,"rootInfo":{"scoreLead":2.5,"winrate":0.7},"moveInfos":[{"move":"D4","scoreLead":2.6,"order":0},{"move":"C3","scoreLead":0.4,"order":1}]}'
-    var parsed := MatchAnalysis.parse_analysis_line(line)
+    var parsed := KataGoAnalysis.parse_line(line)
     t.eq(parsed.get("turn"), 4, "the turn number is read")
     t.eq(parsed.get("score_lead"), 2.5, "the root score lead is read")
     t.eq(parsed.get("best"), "D4", "the first candidate is the engine's move")
     t.eq(parsed.get("second_lead"), 0.4, "the runner-up's lead is kept for the stake")
-    t.ok(MatchAnalysis.parse_analysis_line("Started, ready to begin handling requests").is_empty(),
+    t.ok(KataGoAnalysis.parse_line("Started, ready to begin handling requests").is_empty(),
         "chatter is not a turn")
-    t.ok(MatchAnalysis.parse_analysis_line('{"turnNumber":1}').is_empty(), "a turn without numbers is dropped")
-    t.eq(MatchAnalysis.parse_analysis_line('{"error":"bad rules","field":"rules"}').get("error"), "bad rules",
+    t.ok(KataGoAnalysis.parse_line('{"turnNumber":1}').is_empty(), "a turn without numbers is dropped")
+    t.eq(KataGoAnalysis.parse_line('{"error":"bad rules","field":"rules"}').get("error"), "bad rules",
         "an engine error is surfaced, not swallowed")
     t.eq(MatchAnalysis.player_relative_loss(GoBoard.WHITE, 1.0, 3.0), 2.0,
         "score loss is relative to White as well as Black")
@@ -73,8 +73,9 @@ static func _accounting(t: TestKit) -> void:
     t.eq(moments.size(), 2, "only the player's decisions are accounted")
     t.eq(moments[0]["best"], moments[0]["actual"], "the engine agreed with the first move")
     t.eq(moments[0]["stake"], 2.0, "the stake is the gap to the runner-up")
+    t.eq(moments[0]["did_concept"], "corner", "and the stones say what the move did")
     t.eq(moments[1]["point_loss"], 3.0, "the second move's loss is before minus after")
-    t.eq(moments[1]["concept"], "unknown", "a lone stone in an empty corner claims nothing")
+    t.eq(moments[1]["concept"], "side", "the better move is described by where it stands")
     var white := MatchAnalysis.moments_from_turns(replay, GoBoard.WHITE, turns)
     t.eq(white.size(), 1, "White has one decision here")
     t.eq(white[0]["point_loss"], 0.5, "White's loss is measured from White's side")
@@ -85,13 +86,21 @@ static func _accounting(t: TestKit) -> void:
     var chosen := MatchAnalysis.select_moments(moments)
     t.eq(chosen.size(), 2, "one strength and one mistake")
     t.eq(chosen[0]["kind"], "strength", "the agreed move comes first")
+    t.eq(chosen[0]["matched"], true, "and says it matched the engine")
     t.eq(chosen[1]["kind"], "mistake", "the loss follows")
+    var none_matched := [
+        {"move_number": 2, "actual": 4, "best": 5, "point_loss": 0.3, "stake": 0.0, "did_concept": "unknown", "does": "x"},
+        {"move_number": 6, "actual": 6, "best": 7, "point_loss": 0.4, "stake": 0.0, "did_concept": "connect", "does": "y"},
+        {"move_number": 8, "actual": 8, "best": 9, "point_loss": 5.0, "stake": 0.0, "did_concept": "attack", "does": "z", "concept": "capture"},
+    ]
+    var sound := MatchAnalysis.select_moments(none_matched)
+    t.eq(sound[0]["kind"], "strength", "a move that gave nothing away is still praised")
+    t.eq(sound[0]["move_number"], 6, "preferring the one the stones can explain")
+    t.eq(sound[0]["matched"], false, "without claiming it was the engine's move")
     var many := [
         {"move_number": 4, "actual": 2, "best": 3, "point_loss": 3.0, "stake": 0.0, "concept": "capture"},
-        {"move_number": 2, "actual": 4, "best": 5, "point_loss": 0.5, "stake": 0.0, "concept": "connect"},
         {"move_number": 6, "actual": 6, "best": 7, "point_loss": 2.0, "stake": 0.0, "concept": "capture"},
         {"move_number": 8, "actual": 8, "best": 9, "point_loss": 1.0, "stake": 0.0, "concept": "attack"},
-        {"move_number": 10, "actual": 9, "best": 9, "point_loss": 0.0, "stake": 0.3, "concept": "unknown"},
     ]
     var picked := MatchAnalysis.select_moments(many)
     t.eq(picked.size(), 2, "a second loss about the same idea is not a second card")
@@ -117,7 +126,7 @@ static func _accounting(t: TestKit) -> void:
 static func _payload(t: TestKit) -> void:
     var cells := [0, 0, 0, 0]
     var findings := [
-        {"kind": "strength", "move_number": 1, "size": 2, "cells": cells, "actual": 0, "best": 0, "stake": 1.0},
+        {"kind": "strength", "move_number": 1, "size": 2, "cells": cells, "actual": 0, "best": 0, "stake": 1.0, "does": "It takes the corner."},
         {"kind": "mistake", "move_number": 2, "size": 2, "cells": cells, "actual": 1, "best": 2, "point_loss": 2.0},
         {"kind": "lesson", "move_number": 3, "size": 2, "cells": cells, "actual": 2, "best": 3, "point_loss": 1.0},
     ]
@@ -130,9 +139,17 @@ static func _payload(t: TestKit) -> void:
     var partial := MatchAnalysis.available(3, "KataGo", [], [], {"partial": true, "analysed_moves": 12})
     t.ok(str(partial["summary"]).begins_with("The first 12 moves"), "a partial steady game says how far it got")
     var weak: Dictionary = findings[0].duplicate()
-    weak["stake"] = 0.2
+    weak["does"] = ""
     t.eq(MatchAnalysis.available(3, "KataGo", [], [weak])["availability"], "failed",
-        "an agreed move at no stake is not a strength")
+        "praise without a reason is not a card")
+    var sound_one: Dictionary = findings[0].duplicate()
+    sound_one["best"] = 1
+    sound_one["point_loss"] = 0.4
+    t.eq(MatchAnalysis.available(3, "KataGo", [], [sound_one])["availability"], "available",
+        "a move within noise of the best, with a reason, is a strength")
+    sound_one["point_loss"] = 2.0
+    t.eq(MatchAnalysis.available(3, "KataGo", [], [sound_one])["availability"], "failed",
+        "a move that cost two points is not")
     var same: Dictionary = findings[1].duplicate()
     same["best"] = same["actual"]
     t.eq(MatchAnalysis.available(3, "KataGo", [], [same])["availability"], "failed",
@@ -169,7 +186,21 @@ static func _query(t: TestKit) -> void:
 static func _explain(t: TestKit) -> void:
     var connection := MatchAnalysis.explain_position(3, [0, 0, 0, 1, 0, 1, 0, 0, 0], GoBoard.BLACK, 0, 4)
     t.eq(connection["concept"], "connect", "two friendly neighbours make a connection explanation")
-    var ambiguous := MatchAnalysis.explain_position(3, [0, 0, 0, 0, 0, 0, 0, 0, 0], GoBoard.BLACK, 0, 4)
-    t.eq(ambiguous["concept"], "unknown", "ambiguous positions use restrained wording")
+    var occupied := MatchAnalysis.explain_position(3, [0, 0, 0, 1, 0, 1, 0, 0, 0], GoBoard.BLACK, 0, 3)
+    t.eq(occupied["concept"], "unknown", "a point that is not empty gets restrained wording")
     var atari := MatchAnalysis.explain_position(3, [2, 1, 0, 0, 0, 0, 0, 0, 0], GoBoard.BLACK, 8, 3)
     t.eq(atari["concept"], "capture", "a stone in atari next to the better move is a capture")
+    var empty9 := []
+    for i in 81:
+        empty9.append(0)
+    var b9 := GoBoard.new(9)
+    t.eq(MoveExplainer.describe(9, empty9, GoBoard.BLACK, b9.from_label("C3"))["concept"], "corner",
+        "an untouched 3-3 point takes the corner")
+    t.eq(MoveExplainer.describe(9, empty9, GoBoard.BLACK, b9.from_label("E3"))["concept"], "side",
+        "an untouched third-line point on the side stakes out the side")
+    t.eq(MoveExplainer.describe(9, empty9, GoBoard.BLACK, b9.from_label("E5"))["concept"], "centre",
+        "the middle is the middle")
+    t.eq(MoveExplainer.describe(9, empty9, GoBoard.BLACK, b9.from_label("A1"))["concept"], "first_line",
+        "the first line is named for what it is")
+    t.ok(str(MoveExplainer.describe(3, [0, 0, 0, 1, 0, 1, 0, 0, 0], GoBoard.BLACK, 4)["does"]).begins_with("It joins"),
+        "the played move is described in the past, as something it did")

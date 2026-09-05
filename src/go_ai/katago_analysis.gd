@@ -82,6 +82,35 @@ static func query_for(replay: Dictionary, komi: float, id: String = "review") ->
     return query
 
 
+## One line of KataGo analysis output -> {turn, score_lead, best, best_lead,
+## second_lead}. Anything that is not a turn result is {}; an engine error
+## comes back as {"error": ...}. Malformed lines never become a lesson.
+static func parse_line(line: String) -> Dictionary:
+    var text := line.strip_edges()
+    if not text.begins_with("{"):
+        return {}
+    var parsed: Variant = JSON.parse_string(text)
+    if not (parsed is Dictionary):
+        return {}
+    if parsed.has("error"):
+        return {"error": str(parsed["error"])}
+    if not parsed.has("turnNumber") or not (parsed.get("rootInfo") is Dictionary):
+        return {}
+    var root: Dictionary = parsed["rootInfo"]
+    if not root.has("scoreLead"):
+        return {}
+    var out := {"turn": int(parsed["turnNumber"]), "score_lead": float(root["scoreLead"]),
+        "winrate": float(root.get("winrate", 0.5)), "best": "", "best_lead": float(root["scoreLead"]),
+        "second_lead": null}
+    var infos: Array = parsed.get("moveInfos", []) if parsed.get("moveInfos") is Array else []
+    if infos.size() > 0 and infos[0] is Dictionary:
+        out["best"] = str(infos[0].get("move", ""))
+        out["best_lead"] = float(infos[0].get("scoreLead", root["scoreLead"]))
+    if infos.size() > 1 and infos[1] is Dictionary and infos[1].has("scoreLead"):
+        out["second_lead"] = float(infos[1]["scoreLead"])
+    return out
+
+
 ## Runs the whole query. Returns {"turns": {turn: {...}}, "total", "complete",
 ## "reason", "engine_version"}. Never throws, never blocks the scene thread,
 ## and always leaves no child process behind.
@@ -122,7 +151,7 @@ func run(record: Dictionary) -> Dictionary:
             reason = "engine exited"
             break
         last_line = now
-        var parsed := MatchAnalysis.parse_analysis_line(line)
+        var parsed := parse_line(line)
         if parsed.has("error"):
             reason = "engine rejected the game: %s" % str(parsed["error"])
             break

@@ -254,11 +254,13 @@ played asks whether to go over the game. Say yes and KataGo replays every positi
 card says how far it has got and you may walk off, in which case the review waits on the
 quay noticeboard. What you get starts with what went right, because the point of the game
 is learning to play: how many of your moves were the best move on the board, which ones by
-number, and how many more gave nothing away. Then at most three positions: the move that
-cost the most, a second loss about a different idea, and, when the engine agreed with you at
-a moment that mattered, one strength. Each card is the board before the move, your move filled,
-the better move ringed, the cost in points, and one plain sentence about what the better
-move does. Under three quarters of a point is noise and is never called a lesson; a game
+number, and how many more gave nothing away. Then at most three positions, and the first
+of them is your best move: the one the engine itself would have played if there was one,
+otherwise one that gave nothing away, with what it did said from the stones — it took the
+corner, it joined your stones, it took stones in atari. Then the move that cost the most,
+and a second loss about a different idea. Each card is the board before the move, your
+move filled, the better move ringed, the cost in points, and one plain sentence about
+what the move does. Under three quarters of a point is noise and is never called a lesson; a game
 with nothing to say gets one honest "steady" card. Nobody teaches in it, nobody is named
 who has not been met, and nothing in it touches the result or the rank.
 
