@@ -59,7 +59,7 @@
   },
   "offer": {
    "text": [
-    "League game? This table's free."
+    "This table's free. Are you playing?"
    ],
    "choices": [
     {
@@ -68,6 +68,22 @@
       "type": "start_match",
       "profile": "orla_9x9",
       "context": "league_orla"
+     },
+     "if": [
+      [
+       "league_fixture",
+       "orla"
+      ]
+     ]
+    },
+    {
+     "text": "A practice game.",
+     "exit": {
+      "type": "start_match",
+      "profile": "orla_9x9",
+      "context": "practice_orla",
+      "unrated": true,
+      "practice": true
      }
     },
     {

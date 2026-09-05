@@ -258,7 +258,7 @@ is playing over there", and it costs one row in a table.
 
 ## 8. Venue composition and activity
 
-The eleven maps have different dominant objects. The attic has a sloping roof and skylight;
+The twelve maps have different dominant objects. The attic has a sloping roof and skylight;
 De Ketel has a counter, teaching table and recessed back table; the wassalon has a machine
 bank, folding counter and bench; Onderbrug has sheltered arches and Joos's dry equipment
 corner. The quay keeps open water and a clearly labelled review board.
@@ -279,3 +279,9 @@ frames in each facing direction for seated play, reading, folding, wiping and ar
 shoulders and props distinguish characters; portraits have a fourth working pose. Activities
 pause immediately for conversation, then resume. Match backgrounds borrow quiet venue
 colours while preserving the board and text contrast; standalone matches use a neutral room.
+
+The novice practice room (`academy_novice`) uses five separate playing tables and a clear
+central aisle, reached through the hall's lower west door. Noor, Ivo, Lea, Emil and Sora
+have generated portraits and walking/action sheets; their shared identity records live in
+`tools/novice_cast.py` and extend the existing Python character pipeline. Existing cast
+art and venues are preserved.

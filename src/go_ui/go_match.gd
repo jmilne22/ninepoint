@@ -566,6 +566,9 @@ func _finish() -> void:
 
     var res := MatchResult.new()
     res.context_id = request.context_id
+    res.league_division = request.league_division
+    res.league_attempt = request.league_attempt
+    res.league_fixture = request.league_fixture
     res.npc_id = request.npc_id
     res.player_color = player_color
     res.winner = int(game.result.get("winner", GoBoard.EMPTY))

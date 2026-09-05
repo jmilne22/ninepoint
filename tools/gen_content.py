@@ -5,6 +5,7 @@ say 12k in their NpcData and 8k in their OpponentProfile.
 """
 import os
 import re
+from novice_cast import opponents
 
 here = os.path.dirname(os.path.abspath(__file__))
 root = os.path.join(here, "..")
@@ -54,7 +55,7 @@ CAST = [
     dict(id="orla", theme="theme_wall", name="Orla Finn", rank="4k", mistake=0.08, depth=1,
          aggr=1.1, terr=1.4, resign=28.0,
          cut=0.6, style="balanced",
-         blurb="Top of the lower league and in no hurry to explain how.",),
+         blurb="An Academy League regular, in no hurry to explain her Go.",),
 
     # --- the Beginner Cup field: strangers from the rest of Verhaven. They exist
     # to be played, not visited, so they are on no map and have a line each.
@@ -75,6 +76,7 @@ CAST = [
 ]
 
 SPRITE_DIR = "res://art/sprites"
+CAST.extend(opponents())
 KATAGO_COMMAND = "res://packaging/katago/katago-gtp.sh"
 KATAGO_MODEL = "res://packaging/katago/models/kata1-b18c384nbt-s9996604416-d4316597426.bin.gz"
 KATAGO_HUMAN_MODEL = "res://packaging/katago/models/b18c384nbt-humanv0.bin.gz"
@@ -154,7 +156,8 @@ on_resign = "{on_resign}"
            on_resign=c.get("on_resign", ""), gtp_command=KATAGO_COMMAND,
            model=KATAGO_MODEL, human_model=KATAGO_HUMAN_MODEL,
            style=c["style"],
-           config="%s/human_%s_%s.cfg" % (KATAGO_CONFIG_DIR, human_profile(c), c["style"]))
+           config=("%s/novice_%s.cfg" % (KATAGO_CONFIG_DIR, c["id"])) if c.get("novice")
+           else "%s/human_%s_%s.cfg" % (KATAGO_CONFIG_DIR, human_profile(c), c["style"]))
 
 
 def npc_tres(c):
@@ -226,11 +229,11 @@ QUESTS = [
               '"advance_on": {"type": "flag", "key": "knows_the_rules"}'),
              ('"journal": "Play a practice game with Wren at De Ketel."',
               '"advance_on": {"type": "match", "context": "wren_first"}'),
-             ('"journal": "Play Kesh by the window at De Ketel for your first rank."',
-              '"advance_on": {"type": "match", "context": "kesh_first"}'),
+             ('"journal": "Ask Kesh by the window at De Ketel for your novice card."',
+              '"advance_on": {"type": "flag", "key": "ranked_by_club"}'),
          ]),
     dict(id="beginner_cup", title="The Beginner Cup",
-         summary="Four rounds in a hired room at the Bondszaal. Two sections: beginners', fifteen kyu and below on nine lines with no handicap, and open, no ceiling at all on thirteen.",
+         summary="Four rounds in a hired room at the Bondszaal. Two sections: beginners', fifteen kyu and weaker on nine lines with rank-based handicap, and open, no ceiling at all on thirteen.",
          steps=[
              ('"journal": "Tell Marguerite at the Bondszaal you are ready to play."',
               '"advance_on": {"type": "flag", "key": "cup_started"}'),
@@ -241,7 +244,7 @@ QUESTS = [
          ]),
 
     dict(id="qualifying_exam", title="The Qualifying Exam",
-         summary="The top four of the lower league can enter. Play three rounds; the top two qualify.",
+         summary="Complete the Academy League. Its top four eligible entrants, excluding Marguerite, can enter. Play three rounds; the top two qualify.",
          steps=[
              ('"journal": "Tell Marguerite you are ready to sit it."',
               '"advance_on": {"type": "flag", "key": "exam_started"}'),
@@ -253,7 +256,7 @@ QUESTS = [
               '"advance_on": {"type": "flag", "key": "exam_finished"}'),
          ]),
 
-    dict(id="enrolment", title="The Lower League",
+    dict(id="enrolment", title="The Novice League",
          summary="Hana teaches at the Essenveld Instituut, two stops north. They take beginners.",
          steps=[
              ('"journal": "Take tram 4 north, from the stop at the west end of Ketelsteeg."',
@@ -268,8 +271,8 @@ QUESTS = [
               '"advance_on": {"type": "flag", "key": "read_league_board"}'),
              ('"journal": "Take a class. The classroom is east."',
               '"advance_on": {"type": "lesson", "id": "two_eyes"}'),
-             ('"journal": "Win a league game. The study hall is west."',
-              '"advance_on": {"type": "flag", "key": "won_a_league_game"}'),
+             ('"journal": "Play your five novice fixtures. The novice room is through the lower west door."',
+              '"advance_on": {"type": "flag", "key": "novice_league_completed"}'),
          ]),
 ]
 
@@ -340,6 +343,18 @@ def build():
             open(os.path.join(config_dir, "human_%s_%s.cfg" % (rank, style)), "w").write(configured)
     n = 0
     for c in CAST:
+        if c.get("novice"):
+            overrides = {
+                "humanSLProfile": "preaz_20k",
+                "chosenMoveTemperatureEarly": str(c["temperature"]),
+                "chosenMoveTemperature": str(c["temperature"]),
+                "chosenMoveTemperatureOnlyBelowProb": "1.0",
+            }
+            configured = base
+            for key, value in overrides.items():
+                configured = re.sub(r"(?m)^%s\s*=.*$" % key, "%s = %s" % (key, value), configured)
+            configured = "# PROG-01 playtest profile; human rank validation pending.\n" + configured
+            open(os.path.join(config_dir, "novice_%s.cfg" % c["id"]), "w").write(configured)
         # Everybody plays by_rank: the gap decides. GoMatchSetup falls back to
         # nigiri on its own once the two of you are within a stone, so an even
         # game stops being the default and starts being something you climbed to
@@ -356,11 +371,10 @@ def build():
             open(os.path.join(op_dir, pid + ".tres"), "w").write(text)
         open(os.path.join(npc_dir, c["id"] + ".tres"), "w").write(npc_tres(c))
         n += 1
-    # Kesh's first game is scripted: she says "nine by nine, even game -- nigiri"
-    # and then explains komi, which is the game's only teaching of either. An
-    # unranked player would otherwise be handed nine stones and hear none of it.
+    # The novice card is issued before this optional, unrated practice game.
+    # Keep the profile ID for compatibility; the current rank now prices handicap.
     kesh = [c for c in CAST if c["id"] == "kesh"][0]
-    pid, text = opponent_tres(kesh, suffix="_first", colour_rule="nigiri")
+    pid, text = opponent_tres(kesh, suffix="_first", colour_rule="by_rank")
     open(os.path.join(op_dir, pid + ".tres"), "w").write(text)
     n += 1
     # Hana's teaching game gives the player nine stones -- the honest way to

@@ -101,7 +101,7 @@
   "M,,,,,,,,,,,,,,,,,,,,M",
   "+,,,,,,,,,,,,,,,,,,,,+",
   "+,,,,,+,,,,,,,,+,,,,,+",
-  "+,,,,,+,,,,,,,,+,,,,,+",
+  "M,,,,,+,,,,,,,,+,,,,,+",
   "+,,,,,,,,,,,,,,,,,,,Q+",
   "+,,,,,,,,,,,,,,,,,,,,+",
   "++++++++++MM++++++++++"
@@ -133,7 +133,7 @@
   "0000000000000000000000",
   "1000000000000000000001",
   "1000001000000001111001",
-  "1000001000000001111001",
+  "0000001000000001111001",
   "1000000000000000000011",
   "1000000000000000000001",
   "1111111111001111111111"
@@ -154,6 +154,10 @@
   "from_dorm": [
    19,
    3
+  ],
+  "from_novice": [
+   1,
+   10
   ]
  },
  "warps": [
@@ -183,6 +187,15 @@
    "map": "academy_study",
    "spawn": "from_hall",
    "prompt": "Study hall"
+  },
+  {
+   "tile": [
+    0,
+    10
+   ],
+   "map": "academy_novice",
+   "spawn": "from_hall",
+   "prompt": "Novice room"
   },
   {
    "tile": [
@@ -223,7 +236,7 @@
     4,
     3
    ],
-   "text": "ESSENVELD INSTITUUT. Study hall west. Classroom east. Dormitory upstairs."
+   "text": "ESSENVELD INSTITUUT. Novice room: lower west door. Study hall: upper west. Classroom east. Dormitory upstairs."
   }
  ],
  "npcs": [

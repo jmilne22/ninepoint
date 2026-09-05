@@ -18,6 +18,6 @@ steps = [{
 "journal": "Play a practice game with Wren at De Ketel.",
 "advance_on": {"type": "match", "context": "wren_first"}
 }, {
-"journal": "Play Kesh by the window at De Ketel for your first rank.",
-"advance_on": {"type": "match", "context": "kesh_first"}
+"journal": "Ask Kesh by the window at De Ketel for your novice card.",
+"advance_on": {"type": "flag", "key": "ranked_by_club"}
 }]

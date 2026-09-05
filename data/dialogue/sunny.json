@@ -60,7 +60,7 @@
   },
   "offer": {
    "text": [
-    "Can we play a league game? I want to put another result on the board."
+    "I've got time for a game. Have you?"
    ],
    "choices": [
     {
@@ -69,6 +69,22 @@
       "type": "start_match",
       "profile": "sunny_9x9",
       "context": "league_sunny"
+     },
+     "if": [
+      [
+       "league_fixture",
+       "sunny"
+      ]
+     ]
+    },
+    {
+     "text": "A practice game.",
+     "exit": {
+      "type": "start_match",
+      "profile": "sunny_9x9",
+      "context": "practice_sunny",
+      "unrated": true,
+      "practice": true
      }
     },
     {

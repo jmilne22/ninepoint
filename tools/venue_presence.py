@@ -25,6 +25,13 @@ RETURNS={
 'academy_class':('lesson_two_eyes_done',[[('nadia','Leave that position up?'),('hana','Yes, someone may want to try it again.')]]),
 }
 
+ROUTINES.update(noor='arrange', ivo='play', lea='read', emil='arrange', sora='play')
+VARIATIONS.update(noor='read', ivo='arrange', lea='play', emil='read', sora='arrange')
+EXCHANGES['academy_novice'] = [
+    [('ivo', 'Lea, is this paper spare?'), ('lea', 'Yes. The printing is on the back.')],
+    [('noor', 'Where do the spare bowls go?'), ('sora', 'On the shelf by the door.')],
+]
+
 def groups(raw):return [[{'npc':who,'text':text} for who,text in exchange] for exchange in raw]
 
 def states(name,data):

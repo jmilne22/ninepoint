@@ -86,8 +86,7 @@ static func entrants() -> Array:
 ## The four who would sit it if the term ended now. Used to preview the list
 ## before entries close, and to write the list down when they do.
 static func provisional() -> Array[Dictionary]:
-    return LeagueTable.qualifiers(LeagueTable.current_rows(),
-        Exam.FIELD_SIZE, Exam.EXCLUDED)
+    return LeagueProgress.qualifiers(GameState)
 
 
 ## The field as Exam wants it, read from NpcData so the list and the opponents
@@ -142,7 +141,7 @@ func show_board() -> void:
 static func summary(state: Dictionary) -> String:
     var rows: Array = state["rows"]
     if not bool(state.get("player_in_field", true)):
-        return "You need a place in the top %d of the lower league.\nPlay league games at the Instituut, then check the league board." % Exam.FIELD_SIZE
+        return "Complete the Academy League. Its top %d eligible entrants sit this exam; Marguerite is excluded.\nCheck the league board at the Instituut." % Exam.FIELD_SIZE
     var place := Exam.placing(rows, PLAYER_ID)
     if bool(state["complete"]):
         if bool(state["passed"]):

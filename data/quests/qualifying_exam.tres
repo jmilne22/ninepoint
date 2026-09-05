@@ -7,7 +7,7 @@
 script = ExtResource("1_script")
 id = &"qualifying_exam"
 title = "The Qualifying Exam"
-summary = "The top four of the lower league can enter. Play three rounds; the top two qualify."
+summary = "Complete the Academy League. Its top four eligible entrants, excluding Marguerite, can enter. Play three rounds; the top two qualify."
 steps = [{
 "journal": "Tell Marguerite you are ready to sit it.",
 "advance_on": {"type": "flag", "key": "exam_started"}

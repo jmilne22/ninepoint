@@ -20,6 +20,7 @@ var _root: Control
 var _cells: Array[Array] = []
 var _header: Label
 var _footer: Label
+var _rank_heading: Label
 
 const COL_X := [10, 26, 150, 208, 238, 268]
 const COL_W := [16, 124, 56, 28, 28, 28]
@@ -51,6 +52,8 @@ func _build() -> void:
     for c in headings.size():
         var head := UiKit.label(panel, Vector2(COL_X[c], 24), COL_W[c], UiKit.INK_FAINT)
         head.text = str(headings[c])
+        if c == 2:
+            _rank_heading = head
         if c >= 3:
             head.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 
@@ -75,7 +78,7 @@ static func field(section_id: String = "") -> Array:
         CupDraw.FIELD_BEGINNERS)
     var out: Array = [{
         "id": CupDraw.PLAYER_ID, "name": GameState.player_name,
-        "rank_label": GameState.rank_label(),
+        "rank_label": str(GameState.get_flag("cup_entry_rank", GameState.rank_label())),
     }]
     for npc_id in ids:
         var path := "res://data/npcs/%s.tres" % npc_id
@@ -92,6 +95,7 @@ func show_board() -> void:
     var state := CupDraw.run(field(section_id), GameState.match_records, CupDraw.PLAYER_ID)
     var rows: Array = state["rows"]
     _header.text = CupDraw.title_for(section_id)
+    _rank_heading.text = "ENTRY" if GameState.flags.has("cup_entry_rank") else "RANK"
 
     for i in _cells.size():
         var row: Array = _cells[i]
@@ -112,7 +116,8 @@ func show_board() -> void:
             row[c].add_theme_color_override("font_color",
                 UiKit.GOLD if mine else UiKit.INK)
 
-    _footer.text = CupDraw.summary(state, section_id) + "\nTied records are ordered by rank."
+    _footer.text = CupDraw.summary(state, section_id) + ("\nTies use entry rank." if GameState.flags.has("cup_entry_rank") else "\nTied records are ordered by rank.")
+    _footer.text += "\nRank-based handicap." if str(GameState.get_flag("cup_colour_rule", CupDraw.colour_rule_for(section_id))) == "by_rank" else "\nEven games (existing entry rules)."
     GameState.set_flag("read_cup_board", true)
     open = true
     _root.visible = true

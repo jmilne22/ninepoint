@@ -89,10 +89,11 @@ src/
                         actually divides it: reading versus starting a match
 
   academy/            THE INSTITUUT'S PROGRESSION -- and the federation's events
-    league_table.gd     pure: standings from the record, round robin, league
-                        fixtures only. The exam, the Cup and a rematch at De
-                        Ketel are all played against league members and none
-                        of them is a fixture
+    league_attempt.gd   pure: saved round robin, entry ranks, schedule, NPC outcomes,
+                        player record references, legacy import
+    league_progress.gd  state seam: registration, fixture requests, quest completion,
+                        migration and shared Academy qualification
+    league_table.gd     row helpers and frozen legacy standings calculation
     league_board.gd     the panel on the hall wall
     exam.gd             pure: the qualifying exam, three rounds, top two through
     cup_draw.gd         pure: the Cup. The two sections live here rather than on
@@ -149,7 +150,9 @@ var req := MatchRequest.new()
 # where the convention lives, because a MatchRequest carries no size of its own
 # and the profile is the only place a board is chosen.
 req.profile          = load(OpponentProfile.path_for("kesh", 9))
-req.context_id       = "kesh_first_match"
+req.context_id       = "kesh_first"
+req.unrated          = true
+req.practice         = true
 MatchBridge.start_match(req)          # suspends the world, routes to the match scene
 
 # ...later, anywhere:
@@ -158,7 +161,8 @@ EventBus.match_finished.connect(func(result: MatchResult): ...)
 
 `MatchResult` carries: `context_id`, `npc_id`, `winner`, `player_won`, `margin`,
 `by_resignation`, `board_size`, `handicap`, `handicap_taken`, `komi`, `move_count`,
-`unrated`, `opponent_strength` and `sgf`. `GameState.record_match()` appends it to
+`unrated`, `opponent_strength`, `sgf`, and optional `league_division`, `league_attempt`,
+`league_fixture` identifiers (also carried by `MatchRequest`). `GameState.record_match()` appends it to
 `match_records`, steps the rank through `GoRankLadder`, and sets `last_result` so the
 conversation that follows can branch on `won_last` / `lost_last` — the game just played,
 not the lifetime record, which is what `beat` / `lost_to` answer.
@@ -338,6 +342,11 @@ debugging. These are the real keys, which is `GameState.to_dict()` and nothing e
   "inventory": ["old_goban"],
   "match_records": [ {"npc_id": "kesh", "opponent_name": "Kesh Idowu", "player_won": false,
                       "margin": 8.5, "sgf": "(;GM[1]...)", "review_requested": true, ...} ],
+  "league_attempts": [{"division": "novice", "number": 1, "legacy": false,
+                       "roster": [{"id": "noor", "name": "Noor Dekker", "rank_label": "30k"}, ...],
+                       "fixtures": [{"id": 0, "round": 0, "a": "player", "b": "noor",
+                                     "record_index": -1, "winner_id": ""}, ...]}],
+  "active_league": 0,
   "match_analysis": { "0": {"availability": "available", "engine_version": "KataGo v1.15.0",
                             "findings": [ {"kind": "mistake", "move_number": 12, ...} ], ...} },
   "current_map": "de_ketel", "spawn_point": "from_street",
@@ -400,3 +409,59 @@ writing those slots and propagates game failures. Keep engine checks serial.
   engine hung on `final_status_list dead`; ENG-05 investigates analysis ownership instead.
 - **Dialogue JSON is untyped.** Mitigated by a validation test over every graph, not by types.
 - **Autopilot input** simulates events rather than a human; it can miss timing-dependent bugs.
+
+## Novice progression and compatibility (PROG-01)
+
+`LeagueAttempt` is pure and does not load engines or world resources. `LeagueProgress`
+loads entry rosters and connects the pure attempts to GameState. Match results append
+once to the existing history; a player fixture stores its history index, never a duplicate
+outcome. Each completed player round settles all scheduled NPC games up to the next
+player round. An odd field uses byes. Simulation uses frozen entry ranks, board handicap
+and a deterministic per-attempt seed, independent of the player's result; outcomes persist.
+Reading standings never rerolls them. Wins-first ordering breaks ties by stronger entry
+rank, then name. Legacy attempts retain the old ordering and simulated baseline.
+
+Registration creates a new attempt only when the active attempt is finished. The explicit
+legacy-to-novice option can retain an unfinished imported Academy attempt; later Academy
+registration resumes it. All attempts remain stored and browsable. Academy registration
+requires Cup completion. Board, dialogue and ExamBoard use `LeagueProgress.qualifiers`;
+new Academy attempts must be complete, and the registrar is excluded from the top four.
+
+A save without `league_attempts` imports old enrolled/league progress into one legacy
+Academy attempt. Old first-fixture outcomes keep their exact history indices; later wins
+do not replace them. Ranks, flags, finished quests, reviews and exam fields are preserved.
+A save with an entered Cup but no `cup_colour_rule` receives `nigiri` for beginners and
+`by_rank` for open. New registrations persist the section's explicit `by_rank` policy.
+World duplicates the selected opponent profile before applying it, preserving shared data.
+
+The provisional rank and ladder floor are 30k (strength 0). Raw unknown opponent rank
+remains -1; a *known* handicap-adjusted opponent may legitimately have negative strength.
+The ladder tests raw rank before pricing stones and retains the one-step result rule.
+
+`tools/novice_cast.py` owns the five novice identities and fixed strength temperatures.
+`gen_content.py` writes independent `novice_<id>.cfg` configurations from Human-SL's 20k
+floor, separately from temperament and existing cast configs. The strength probe's
+`novices` cells play complete colour-alternating games against 20k and adjacent profiles,
+record exact configurations, and reject truncated games. Human plausibility is a release
+gate, not a conclusion drawn from those games or screenshots.
+
+New Cup entries also save the player's entry rank for the draw. Rated results may change
+handicap at the next board, but cannot reconstruct earlier Cup pairings from a different
+rank. The Cup retains its existing score-based pairing rule, including an occasional
+rematch when the six-player draw cannot pair the remaining players afresh. Legacy active
+Cups retain their original policy. This is separate from leagues, where every scheduled
+pair appears exactly once per attempt.
+
+### Kesh's welcome (PROG-02)
+
+The `challenge` → `first_rating` → `invitation` → `offer` dialogue path issues the novice
+card before offering a match. `ranked_by_club` completes the last First Stones step;
+no fabricated match is appended. Ranked returners bypass the card action. The retained
+`kesh_first` profile now uses `by_rank`; its dialogue exit sets both `unrated` and
+`practice`. Real outcomes still enter history and reviews, but do not affect rank or
+rated-win unlocks. `legacy_rating` handles an unranked old post-match return; existing
+saved setup/result fields are never rewritten. No save format change is required.
+
+Dialogue handles `_unhandled_input` so the HUD's first-rank modal consumes keys before
+the underlying conversation. `novice_rank_card` verifies dismissal does not also advance
+dialogue; its screenshots show the card followed by the welcome and optional choices.

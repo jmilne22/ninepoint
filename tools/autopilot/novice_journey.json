@@ -1,0 +1,1274 @@
+[
+ {
+  "save": {}
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "opening"
+ },
+ {
+  "experience": "map",
+  "map": "attic"
+ },
+ {
+  "advance": 12,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   6,
+   7
+  ]
+ },
+ {
+  "walk_to": [
+   6,
+   8
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "ketelsteeg"
+ },
+ {
+  "shot": "park_direction"
+ },
+ {
+  "talk_to": "pip"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "capture_empty"
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 180
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "pip_result"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   14,
+   9
+  ]
+ },
+ {
+  "walk_to": [
+   14,
+   8
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "de_ketel"
+ },
+ {
+  "talk_to": "wren"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "shot": "liberties_intro"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "lesson_place",
+  "point": [
+   3,
+   3
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "lesson_place",
+  "point": [
+   0,
+   0
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "lesson_place",
+  "point": [
+   3,
+   3
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "shot": "liberties_outro"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "shot": "capture_intro"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "lesson_place",
+  "point": [
+   1,
+   1
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "lesson_place",
+  "point": [
+   4,
+   3
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "lesson_place",
+  "point": [
+   3,
+   4
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "shot": "capture_outro"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "shot": "self_capture_intro"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "lesson_place",
+  "point": [
+   3,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "lesson_place",
+  "point": [
+   3,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "shot": "self_capture_outro"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "lesson_place",
+  "point": [
+   2,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "lesson_place",
+  "point": [
+   2,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "lesson_place",
+  "point": [
+   3,
+   0
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "lesson_place",
+  "point": [
+   3,
+   7
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "lesson_place",
+  "point": [
+   6,
+   6
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "shot": "openings_outro"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "shot": "practice_offer"
+ },
+ {
+  "choose": 0
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "wait": 0.6
+ },
+ {
+  "shot": "practice_empty"
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 240,
+  "max_moves": 160
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "wren_result"
+ },
+ {
+  "experience": "save"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "kesh"
+ },
+ {
+  "experience": "choice",
+  "text": "I'll head to the Instituut."
+ },
+ {
+  "advance": 4,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "assert_progress",
+  "rank": "30k",
+  "flags": [
+   "ranked_by_club",
+   "invited_to_institute"
+  ]
+ },
+ {
+  "shot": "novice_card_without_kesh_game"
+ },
+ {
+  "walk_to": [
+   9,
+   12
+  ]
+ },
+ {
+  "walk_to": [
+   9,
+   13
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "ketelsteeg"
+ },
+ {
+  "walk_to": [
+   1,
+   10
+  ]
+ },
+ {
+  "face": [
+   1,
+   9
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "shot": "tram_destination_choices"
+ },
+ {
+  "choose": 0
+ },
+ {
+  "wait": 3
+ },
+ {
+  "shot": "institute_exterior"
+ },
+ {
+  "experience": "map",
+  "map": "academy_hall"
+ },
+ {
+  "wait": 1
+ },
+ {
+  "shot": "first_school_arrival"
+ },
+ {
+  "walk_to": [
+   21,
+   7
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "academy_class"
+ },
+ {
+  "shot": "classroom_first_visit"
+ },
+ {
+  "talk_to": "hana"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "shot": "hana_capture_invitation"
+ },
+ {
+  "choose": 0
+ },
+ {
+  "wait": 1
+ },
+ {
+  "shot": "hana_first_problem"
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.6
+ },
+ {
+  "shot": "hana_capture_solved"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "hana_registration_direction"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   1,
+   7
+  ]
+ },
+ {
+  "walk_to": [
+   0,
+   7
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "academy_hall"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "shot": "registration_choice"
+ },
+ {
+  "choose": 0
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "shot": "enrolment_complete"
+ },
+ {
+  "walk_to": [
+   10,
+   3
+  ]
+ },
+ {
+  "face": [
+   10,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.6
+ },
+ {
+  "shot": "first_league_board"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "walk_to": [
+   21,
+   7
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "academy_class"
+ },
+ {
+  "walk_to": [
+   8,
+   3
+  ]
+ },
+ {
+  "face": [
+   8,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.6
+ },
+ {
+  "shot": "two_eyes_class_intro"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "two_eyes_position"
+ },
+ {
+  "experience": "lesson_place",
+  "point": [
+   2,
+   1
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "single_eye_comparison"
+ },
+ {
+  "experience": "lesson_place",
+  "point": [
+   2,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "shot": "two_eye_attempt"
+ },
+ {
+  "experience": "lesson_place",
+  "point": [
+   2,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "shot": "two_eyes_correct_conclusion"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   1,
+   7
+  ]
+ },
+ {
+  "walk_to": [
+   0,
+   7
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "academy_hall"
+ },
+ {
+  "walk_to": [
+   0,
+   10
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "academy_novice"
+ },
+ {
+  "wait": 1
+ },
+ {
+  "shot": "novice_room"
+ },
+ {
+  "walk_to": [
+   11,
+   3
+  ]
+ },
+ {
+  "face": [
+   11,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "novice_zero"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "talk_to": "noor"
+ },
+ {
+  "experience": "choice",
+  "text": "Our league fixture."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "noor_setup"
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 360,
+  "max_moves": 400
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "noor_result"
+ },
+ {
+  "experience": "choice",
+  "text": "Later."
+ },
+ {
+  "experience": "assert_progress",
+  "played": 1
+ },
+ {
+  "talk_to": "ivo"
+ },
+ {
+  "experience": "choice",
+  "text": "Our league fixture."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "ivo_setup"
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 360,
+  "max_moves": 400
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "ivo_result"
+ },
+ {
+  "experience": "choice",
+  "text": "Later."
+ },
+ {
+  "experience": "assert_progress",
+  "played": 2
+ },
+ {
+  "talk_to": "lea"
+ },
+ {
+  "experience": "choice",
+  "text": "Our league fixture."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "lea_setup"
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 360,
+  "max_moves": 400
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "lea_result"
+ },
+ {
+  "experience": "choice",
+  "text": "Later."
+ },
+ {
+  "experience": "assert_progress",
+  "played": 3
+ },
+ {
+  "talk_to": "emil"
+ },
+ {
+  "experience": "choice",
+  "text": "Our league fixture."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "emil_setup"
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 360,
+  "max_moves": 400
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "emil_result"
+ },
+ {
+  "experience": "choice",
+  "text": "Later."
+ },
+ {
+  "experience": "assert_progress",
+  "played": 4
+ },
+ {
+  "talk_to": "sora"
+ },
+ {
+  "experience": "choice",
+  "text": "Our league fixture."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "sora_setup"
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 360,
+  "max_moves": 400
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "sora_result"
+ },
+ {
+  "experience": "choice",
+  "text": "Later."
+ },
+ {
+  "experience": "assert_progress",
+  "played": 5
+ },
+ {
+  "walk_to": [
+   11,
+   3
+  ]
+ },
+ {
+  "face": [
+   11,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "novice_completed_games"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "save"
+ },
+ {
+  "walk_to": [
+   23,
+   10
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "academy_hall"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "See you."
+ },
+ {
+  "walk_to": [
+   10,
+   13
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "ketelsteeg"
+ },
+ {
+  "walk_to": [
+   1,
+   10
+  ]
+ },
+ {
+  "face": [
+   1,
+   9
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 1
+ },
+ {
+  "experience": "map",
+  "map": "bondszaal"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "The Cup."
+ },
+ {
+  "experience": "choice",
+  "text": "Enter me.",
+  "alternatives": [
+   "Enter me.",
+   "The beginners' section."
+  ]
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "The Cup."
+ },
+ {
+  "experience": "choice",
+  "text": "Ready."
+ },
+ {
+  "experience": "choice",
+  "text": "Play the round."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "cup_handicap_1"
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 360,
+  "max_moves": 400
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "cup_after_1"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "The Cup."
+ },
+ {
+  "experience": "choice",
+  "text": "Play the round."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "cup_handicap_2"
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 360,
+  "max_moves": 400
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "cup_after_2"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "The Cup."
+ },
+ {
+  "experience": "choice",
+  "text": "Play the round."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "cup_handicap_3"
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 360,
+  "max_moves": 400
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "cup_after_3"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "The Cup."
+ },
+ {
+  "experience": "choice",
+  "text": "Play the round."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "cup_handicap_4"
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 360,
+  "max_moves": 400
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "cup_after_4"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "assert_progress",
+  "flags": [
+   "novice_league_completed",
+   "cup_finished"
+  ]
+ },
+ {
+  "walk_to": [
+   9,
+   3
+  ]
+ },
+ {
+  "face": [
+   9,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "beginner_ending"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "save"
+ },
+ {
+  "walk_to": [
+   9,
+   23
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "ketelsteeg"
+ },
+ {
+  "walk_to": [
+   1,
+   10
+  ]
+ },
+ {
+  "face": [
+   1,
+   9
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "experience": "map",
+  "map": "academy_hall"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "The Novice League."
+ },
+ {
+  "experience": "choice",
+  "text": "Register."
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   10,
+   3
+  ]
+ },
+ {
+  "face": [
+   10,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "repeat_attempt_zero"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "assert_progress",
+  "played": 0
+ },
+ {
+  "experience": "save"
+ }
+]

@@ -83,8 +83,8 @@ static func path_for(npc_id: String, board: int = 9, variant: String = "") -> St
 ## separate means character profiles select a human style without hiding rank.
 @export var gtp_model_path: String = ""
 @export var gtp_config_path: String = ""
-## KataGo Human-SL temperament. Rank remains the strength control; this only
-## selects a generated move-selection configuration for the character.
+## Temperament label. Novice configs separately set fixed strength parameters;
+## their target ranks below the Human-SL floor require human calibration.
 @export_enum("steady", "balanced", "fighting") var gtp_style: String = "balanced"
 
 @export_group("Flavour")

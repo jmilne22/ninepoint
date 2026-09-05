@@ -29,6 +29,10 @@
       [
        "not_flag",
        "told_exam_eligible"
+      ],
+      [
+       "flag",
+       "cup_finished"
       ]
      ],
      "goto": "exam_eligible"
@@ -49,6 +53,10 @@
       [
        "not_flag",
        "told_cup_eligible"
+      ],
+      [
+       "flag",
+       "novice_league_completed"
       ]
      ],
      "goto": "cup_eligible"
@@ -104,7 +112,7 @@
   },
   "enrol": {
    "text": [
-    "Hana sent you? I can register you for the lower league."
+    "Hana sent you? I can register you for the Novice League."
    ],
    "goto": "enrol_confirm"
   },
@@ -129,6 +137,10 @@
       [
        "toast",
        "Enrolled at the Essenveld Instituut."
+      ],
+      [
+       "league_start",
+       "novice"
       ]
      ],
      "goto": "enrolled_explain"
@@ -146,30 +158,12 @@
   },
   "enrolled_explain": {
    "text": [
-    "The league board shows the results and standings. The study hall is west; the classroom is east.",
-    "The top four qualify to sit the exam at the Bondszaal. You can check your position on the board."
+    "The novice room is through the lower west door. The classroom is east.",
+    "Your five fixtures prepare you for the Cup. Read the league board behind me to find your next opponent."
    ]
   },
   "enrolled_chat": {
-   "branches": [
-    {
-     "if": [
-      [
-       "flag",
-       "read_league_board"
-      ]
-     ],
-     "goto": "league_offer"
-    },
-    {
-     "goto": "enrolled_repeat"
-    }
-   ]
-  },
-  "enrolled_repeat": {
-   "text": [
-    "The league board is behind me. Looking for a game? Try the study hall through the west door."
-   ]
+   "goto": "league_desk"
   },
   "cup_eligible": {
    "actions": [
@@ -179,8 +173,8 @@
     ]
    ],
    "text": [
-    "You can enter the Cup at the Bondszaal. Take the southbound tram and register at the desk.",
-    "The entry board explains which section you can play in."
+    "You've finished your novice fixtures. The Cup is at the Bondszaal; take the southbound tram.",
+    "You can enter whatever your placing here. Register at the desk when you're ready."
    ],
    "goto": "enrolled_chat"
   },
@@ -251,12 +245,12 @@
   },
   "league_beaten": {
    "text": [
-    "Well played. I'll enter your win on the league board."
+    "Well played. Thank you for the game."
    ]
   },
   "league_won": {
    "text": [
-    "A win for me. Thank you. I'll update the league board."
+    "A win for me. Thank you for playing."
    ]
   },
   "bondszaal_desk": {
@@ -367,7 +361,8 @@
   },
   "cup_enter": {
    "text": [
-    "You're eligible for the beginners' section. Shall I enter you?"
+    "You're eligible for the beginners' section: nine lines, with handicap based on rank.",
+    "Shall I enter you?"
    ],
    "choices": [
     {
@@ -398,6 +393,10 @@
     [
      "toast",
      "Entered: the Steenbeek Beginner Cup."
+    ],
+    [
+     "cup_rules",
+     "beginners"
     ]
    ],
    "text": [
@@ -530,6 +529,10 @@
     [
      "toast",
      "Entered: the Steenbeek Cup, open section."
+    ],
+    [
+     "cup_rules",
+     "open"
     ]
    ],
    "text": [
@@ -594,7 +597,7 @@
   },
   "exam_refuse": {
    "text": [
-    "The top four in the lower league can enter. Check your position at the Instituut league board."
+    "Finish an Academy League attempt in the top four eligible places. The Instituut board has the details."
    ]
   },
   "exam_enter": {
@@ -750,12 +753,134 @@
    "text": [
     "Congratulations! You won your section. I'll put your name at the top of the results.",
     "Stay for tea if you can. People will want to congratulate you."
-   ]
+   ],
+   "goto": "cup_completed"
   },
   "cup_completed": {
    "text": [
-    "You've finished all your rounds. Your placing and results are on the board.",
-    "Thanks for taking part. There's tea by the coats if you'd like to stay."
+    "Four rounds played. Your first Cup is complete; the results are on the board.",
+    "Come back to the Instituut if you'd like to try the Academy League. There is no hurry."
+   ]
+  },
+  "league_desk": {
+   "text": [
+    "Looking for your next game, or another league attempt?"
+   ],
+   "choices": [
+    {
+     "text": "The Novice League.",
+     "if": [
+      [
+       "league_can_start",
+       "novice"
+      ]
+     ],
+     "goto": "novice_register"
+    },
+    {
+     "text": "The Academy League.",
+     "if": [
+      [
+       "league_can_start",
+       "academy"
+      ]
+     ],
+     "goto": "academy_register"
+    },
+    {
+     "text": "Our scheduled fixture.",
+     "if": [
+      [
+       "league_fixture",
+       "marguerite"
+      ]
+     ],
+     "goto": "league_offer"
+    },
+    {
+     "text": "A practice game.",
+     "exit": {
+      "type": "start_match",
+      "profile": "marguerite_9x9",
+      "context": "practice_marguerite",
+      "unrated": true,
+      "practice": true
+     }
+    },
+    {
+     "text": "Where is my next game?",
+     "goto": "league_direction"
+    },
+    {
+     "text": "See you.",
+     "exit": {
+      "type": "end"
+     }
+    }
+   ]
+  },
+  "league_direction": {
+   "text": [
+    "The league board behind me lists your next opponent and the results so far.",
+    "Novices use the lower west room. Academy players use the study hall and classroom; Kesh is at De Ketel."
+   ]
+  },
+  "novice_register": {
+   "text": [
+    "Five fixtures on nine lines. You can play practice games between them.",
+    "A finished attempt stays on the board. A new attempt starts everyone at zero."
+   ],
+   "choices": [
+    {
+     "text": "Register.",
+     "actions": [
+      [
+       "league_start",
+       "novice"
+      ]
+     ],
+     "goto": "novice_registered"
+    },
+    {
+     "text": "Later.",
+     "exit": {
+      "type": "end"
+     }
+    }
+   ]
+  },
+  "novice_registered": {
+   "text": [
+    "You're in. Read the board for your first fixture, then take the lower west door to the novice room."
+   ]
+  },
+  "academy_register": {
+   "text": [
+    "The Academy League ranges from Kesh at 12k to me at 1d. It is a bigger challenge.",
+    "Finish all six fixtures. The top four eligible players can sit the exam, where games are even."
+   ],
+   "choices": [
+    {
+     "text": "Register.",
+     "actions": [
+      [
+       "league_start",
+       "academy"
+      ]
+     ],
+     "goto": "academy_registered"
+    },
+    {
+     "text": "Later.",
+     "exit": {
+      "type": "end"
+     }
+    }
+   ]
+  },
+  "academy_registered": {
+   "text": [
+    "Your Academy attempt is on the board. It lists the next fixture and the entry ranks used for ties."
    ]
   }
  }

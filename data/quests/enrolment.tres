@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_script")
 id = &"enrolment"
-title = "The Lower League"
+title = "The Novice League"
 summary = "Hana teaches at the Essenveld Instituut, two stops north. They take beginners."
 steps = [{
 "journal": "Take tram 4 north, from the stop at the west end of Ketelsteeg.",
@@ -27,6 +27,6 @@ steps = [{
 "journal": "Take a class. The classroom is east.",
 "advance_on": {"type": "lesson", "id": "two_eyes"}
 }, {
-"journal": "Win a league game. The study hall is west.",
-"advance_on": {"type": "flag", "key": "won_a_league_game"}
+"journal": "Play your five novice fixtures. The novice room is through the lower west door.",
+"advance_on": {"type": "flag", "key": "novice_league_completed"}
 }]

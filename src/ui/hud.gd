@@ -88,7 +88,7 @@ func _show_first_rank_card(root: Control) -> void:
     dim.set_anchors_preset(Control.PRESET_FULL_RECT)
     _rank_card.add_child(dim)
     var panel := UiKit.panel(_rank_card, Rect2(38, 22, 308, 172))
-    var text := "YOUR FIRST RANK: %s\n\nLower kyu numbers mean stronger ranks. After 1k comes 1d.\n\nRated results can move your rank one step. Practice and casual games leave it unchanged.\n\nYour player card in the pause menu has your record and the rank rules.\n\n[Space / Esc] continue" % GameState.rank_label()
+    var text := "PROVISIONAL RANK: %s\nA starting club estimate.\n\nLower kyu numbers mean stronger ranks. After 1k comes 1d.\n\nRated results can move your rank one step. Unrated practice leaves it unchanged.\n\nYour player card is in the pause menu.\n\n[Space / Esc] continue" % GameState.rank_label()
     var label := UiKit.label(panel, Vector2(10, 10), 288, UiKit.INK, 152)
     label.text = text
 

@@ -24,6 +24,14 @@
     {
      "if": [
       [
+       "ranked"
+      ]
+     ],
+     "goto": "offer"
+    },
+    {
+     "if": [
+      [
        "flag",
        "wren_match_done"
       ]
@@ -43,17 +51,18 @@
   },
   "challenge": {
    "text": [
-    "Ready for your first rated game? We'll draw for colours."
+    "Wren says you've had a game. I'll get you a card for the novice group."
    ],
-   "goto": "offer"
+   "goto": "first_rating"
   },
   "offer": {
    "text": [
-    "Shall I set up?"
+    "Want a practice game before you go? We'll use handicap if our ranks call for it.",
+    "It won't change your rank. You can go straight to the Instituut, too."
    ],
    "choices": [
     {
-     "text": "Let's play.",
+     "text": "A practice game.",
      "actions": [
       [
        "set_flag",
@@ -64,11 +73,13 @@
      "exit": {
       "type": "start_match",
       "profile": "kesh_first",
-      "context": "kesh_first"
+      "context": "kesh_first",
+      "unrated": true,
+      "practice": true
      }
     },
     {
-     "text": "Give me a minute.",
+     "text": "I'll head to the Instituut.",
      "goto": "wait"
     }
    ]
@@ -76,7 +87,7 @@
   "wait": {
    "portrait": "annoyed",
    "text": [
-    "I'll keep the table."
+    "Go on, then. I'll keep the board here for when you want a game."
    ]
   },
   "regular": {
@@ -93,7 +104,7 @@
        "unranked"
       ]
      ],
-     "goto": "first_rating"
+     "goto": "legacy_rating"
     },
     {
      "goto": "result"
@@ -104,7 +115,7 @@
    "actions": [
     [
      "rank",
-     "22k"
+     "30k"
     ],
     [
      "set_flag",
@@ -122,14 +133,13 @@
     ],
     [
      "toast",
-     "The club has you at 22 kyu."
+     "The club has you at provisional 30 kyu."
     ]
    ],
    "text": [
-    "You're on the club register now. Here's your rank card.",
-    "Hana teaches at the Instituut. Take the northbound tram from the west end of this street."
+    "Provisional 30 kyu. That's the novice starting entry; I haven't measured your strength."
    ],
-   "goto": "result"
+   "goto": "invitation"
   },
   "result": {
    "branches": [
@@ -336,7 +346,7 @@
   },
   "league_offer": {
    "text": [
-    "League game? I want to move up the table."
+    "I've got time for a game. Shall I set up?"
    ],
    "choices": [
     {
@@ -345,6 +355,22 @@
       "type": "start_match",
       "profile": "kesh_9x9",
       "context": "league_kesh"
+     },
+     "if": [
+      [
+       "league_fixture",
+       "kesh"
+      ]
+     ]
+    },
+    {
+     "text": "A practice game.",
+     "exit": {
+      "type": "start_match",
+      "profile": "kesh_9x9",
+      "context": "practice_kesh",
+      "unrated": true,
+      "practice": true
      }
     },
     {
@@ -366,6 +392,44 @@
      "goto": "later"
     }
    ]
+  },
+  "legacy_rating": {
+   "actions": [
+    [
+     "rank",
+     "30k"
+    ],
+    [
+     "set_flag",
+     "ranked_by_club",
+     true
+    ],
+    [
+     "set_flag",
+     "invited_to_institute",
+     true
+    ],
+    [
+     "quest_start",
+     "enrolment"
+    ],
+    [
+     "toast",
+     "The club has you at provisional 30 kyu."
+    ]
+   ],
+   "text": [
+    "I'll put you down as provisional 30 kyu. It's a starting estimate; your results will move it.",
+    "Hana teaches at the Instituut. Take Tram 4 north from the stop at the west end of this street."
+   ],
+   "goto": "result"
+  },
+  "invitation": {
+   "text": [
+    "Hana teaches at the Instituut. Take Tram 4 north from the stop at the west end of this street.",
+    "You can enrol now. There's no game to pass here."
+   ],
+   "goto": "offer"
   }
  }
 }

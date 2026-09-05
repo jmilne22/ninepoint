@@ -105,7 +105,7 @@ H brings the explanation back during setup or play. Later games show a shorter s
 
 The panel distinguishes **Capture Go**, **practice**, **casual** and **rated** games.
 Practice and casual games leave rank unchanged. The opening Capture Go and Wren's first
-practice start empty; Kesh's first rated game uses nigiri. No unranked player is assigned
+practice start empty; Kesh's optional practice uses handicap after she issues your card. No unranked player is assigned
 an invented numerical strength to calculate a head start.
 
 **19×19 is available for development play**, with a whole-board view and a close
@@ -131,8 +131,9 @@ point.
 
 Before Kesh, Wren hosts the first proper 9×9: normal passing and scoring, but explicitly
 **unrated**. Her short opening refresher covers corner starts, avoiding the first line early,
-supporting nearby stones, and answering urgent atari or cuts first. Kesh's following 9×9 is
-the first **rated** game, with a card explaining the kyu/dan ladder and rank changes.
+supporting nearby stones, and answering urgent atari or cuts first. Kesh then gives you a
+provisional novice card and directions to the Instituut. You can head there immediately,
+or stay for optional **unrated handicap practice**. This is not a placement test.
 
 Thirteen lessons in all, and each belongs to whoever should be teaching it: Wren has the
 rulebook and ko, Kesh teaches you to run and to cut because she is the one cutting you,
@@ -141,14 +142,14 @@ endgame, and Hana takes the classes at the Instituut: two eyes, life and death, 
 and the false eye. Wren offers the optional corner, side and centre comparison. The board in your room sets you
 twelve problems.
 
-**Your rank is a record, not a stat.** Kesh gives you 22 kyu after your first rated game.
+**Your rank is a record, not a stat.** Kesh gives you provisional 30 kyu when you ask for your novice card: a starting club estimate.
 After that it moves one step at a time: beat somebody at or above your rank and it goes up
 one, lose to somebody at or below it and it goes down one, and nothing else touches it.
 Handicap stones are priced in, so beating a 4 kyu who gave you five stones is beating a 19
 kyu. Nothing in the game makes your stones stronger. The only thing that improves is you.
 
-**What the opponents cost your machine.** Every character is KataGo's human-style model
-playing at that character's rank. The game runs one engine at a time -- the person you are
+**What the opponents cost your machine.** Opponents use KataGo's human-style model. The new novice cohort has separate fixed
+strength settings below its 20k profile floor; these target ranks still need human playtesting. The game runs one engine at a time -- the person you are
 sitting across from, and after the game one analysis process for the review -- which is
 about a gigabyte of memory, one CPU thread, a second or so a move on a desktop CPU with
 AVX2, and 400 MB of model files fetched once by `tools/setup_katago.sh`. Without the
@@ -196,22 +197,38 @@ the checkout with the editor/import pass first, as `tools/test.sh` does.
 **Opening** -- Hana speaks to you and asks your name (Pokemon).
 **Act 1, Steenbeek** -- you have no idea what Go is. Somebody left a board in your room.
 Pip invites you to Capture Go in the park; Wren
-teaches them properly, then hosts a safe unrated 9×9; Kesh challenges you to the first rated
-game and, win or lose, hands you a rank and tells you
-where Hana teaches: the Essenveld Instituut, two tram stops north (Hikaru no Go).
-**Act 2, the Essenveld Instituut** -- enrol at the bottom of the lower league, take classes,
-play whoever is sitting at a board, and climb a table that is nothing but your own results
-(Yu-Gi-Oh! Tag Force / the insei programme). Win three rated games and the board gets
-bigger: Tomás keeps a 13x13 under the coats at the back table of De Ketel. A stone of
-handicap buys less on a wider board, so the same gap that gave you two on 9x9 gives you
-three.
+teaches them properly, then hosts a safe unrated 9×9. Kesh issues your provisional novice
+card and points you to Hana at the Essenveld Instituut, two tram stops north. Her
+handicap practice game is optional and leaves your rank unchanged.
+**Act 2, the Essenveld Instituut** — enrol with Marguerite in the Novice League, take
+classes, and play five classmates in the lower west room. Their target ranks range from
+30k to 20k. The board shows the next fixture, games completed, and everyone's results.
+Everyone starts at zero; NPC games are simulated once after each player round. Wins
+come first, then the stronger entry rank, then name. Extra practice never changes a fixture.
+Finish an attempt and Marguerite can start another; Left/Right on the board browses the
+saved attempts. A later win cannot erase an earlier loss.
 
-The Steenbeek Cup runs two sections and your card decides which one you are in. The
-beginners' section is fifteen kyu and below, on 9x9, with no handicap -- the ceiling does
-that job. The open section has no ceiling, is played on 13x13, and hands out stones instead;
-it is where the club and the Instituut end up at the same table. If you are still under the
-ceiling but have won three rated games you may choose to play up into it, and the registrar
-will tell you exactly what that costs before she enters you.
+Finish all five novice fixtures, at any placing, to receive the main Cup invitation.
+You can also enter earlier with a rank. The beginners' section is 15k and weaker on 9×9,
+with handicap based on rank. The open section has no ceiling and uses 13×13 with handicap.
+With three rated wins you may play up into open while still under the beginner ceiling.
+Those same three wins open Tomás's 13×13 back table at De Ketel.
+
+**Finishing the Cup is the beginner ending**, whatever your placing. Afterwards Marguerite
+can register you for the optional Academy League: opponents from Kesh's 12k to her own 1d.
+Complete all six fixtures; the top four eligible entrants, excluding the registrar, can
+sit the advanced exam. Losing a whole attempt still permits a fresh one.
+
+Old saves keep their rank, record, reviews and certificates. Their league becomes a
+legacy Academy attempt; novice enrolment is a separate choice. Already-entered old Cups
+keep their original rules for the remaining rounds.
+
+New Cup entries also save the player's entry rank for the draw. Rated results may change
+handicap at the next board, but cannot reconstruct earlier Cup pairings from a different
+rank. The Cup retains its existing score-based pairing rule, including an occasional
+rematch when the six-player draw cannot pair the remaining players afresh. Legacy active
+Cups retain their original policy. This is separate from leagues, where every scheduled
+pair appears exactly once per attempt.
 
 There is no clock. Everyone is where they live, all the time, and a game costs nothing but
 the game. The exam and the Cup start when you tell Marguerite you are ready, and run round
@@ -229,17 +246,18 @@ There is no relationship system. The game tracks your **record** against each pe
 
 Title → New Game → leave your room on Ketelsteeg → Pip in the park teaches you Capture Go →
 down into De Ketel → Wren asks whether you have played, teaches you if needed, and gives a
-short optional opening plan → play Wren's practice full 9×9 → Kesh challenges you to the rated 9×9 and
-you settle the colours by nigiri → win or lose, she reacts to the game and gives you a rank →
+short optional opening plan → play Wren's practice full 9×9 → ask Kesh for your novice card
+and invitation → leave immediately or stay for optional unrated handicap practice →
 Tram 4 north → Hana sets you a capture problem → solve it → enrol with Marguerite → read
-the league board → save it into one of the three slots.
+the Novice League board → five classmates → the Beginner Cup ending → optional Academy
+registration. Save your progress into one of three slots.
 
 ## Layout
 
 ```
 src/go/      pure Go rules, nigiri/handicap, lessons -- no engine coupling, unit tested
 src/academy/ the Instituut league and the federation's events: standings and draws,
-             computed only from games played
+             saved attempts, player game history and explicit simulated NPC results
 src/go_ai/   opponent interface, KataGo at the board and over a finished game, the
              heuristic AI that stands in when the engine is missing
 src/go_ui/   board view, match scene, puzzle scene, lesson runner, the nigiri ceremony

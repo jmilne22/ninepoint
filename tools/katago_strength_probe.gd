@@ -24,8 +24,8 @@
 extends SceneTree
 
 const KOMI := 5.5
-## The board, and its move cap: twice the points on it. A game that gets there is
-## scored where it stands. `--board=13` measures the back-table profiles.
+## The board, and its move cap: twice the points on it. Truncated games are
+## rejected, never treated as completed evidence. `--board=13` probes thirteen.
 static var board := 9
 static var move_cap := 162
 const GAMES_DEFAULT := 8
@@ -70,6 +70,15 @@ func _initialize() -> void:
         cells.append_array(_anchor_cells())
     if "floor" in wanted:
         cells.append_array(_floor_cells())
+    if "novices" in wanted:
+        var novice_ids := ["noor", "ivo", "lea", "emil", "sora"]
+        for i in novice_ids.size():
+            cells.append(_cell(_shipped("%s_9x9" % novice_ids[i]), _reference("20k")))
+            if i > 0:
+                # Adjacent target ranks are not independently calibrated references.
+                var reference := _shipped("%s_9x9" % novice_ids[i - 1])
+                reference.erase("rank")
+                cells.append(_cell(_shipped("%s_9x9" % novice_ids[i]), reference))
     if "thirteen" in wanted:
         # The two steady profiles that play thirteen lines, each against the
         # realistic player of its own rank: the pass mark is close to even.
@@ -94,7 +103,9 @@ func _initialize() -> void:
     var report := {
         "tag": _tag, "board": board, "komi": KOMI, "games_per_cell": _games_per_cell,
         "seconds": float(Time.get_ticks_msec() - _started_ms) / 1000.0,
-        "cells": summary, "effective": _effective_ranks(summary), "games": _rows,
+        "cells": summary, "configurations": cells,
+        "human_validation": "pending; relative bot strength does not certify novice ranks",
+        "effective": _effective_ranks(summary), "games": _rows,
     }
     var output := ProjectSettings.globalize_path("user://katago-strength-%s.json" % _tag)
     var file := FileAccess.open(output, FileAccess.WRITE)
@@ -402,6 +413,10 @@ func _play(cell: Dictionary, index: int) -> Dictionary:
     row["moves"] = game.moves.size()
     row["sgf"] = GoSgf.to_sgf(game)
     row["ms_per_engine_move"] = table.reply_ms / maxi(table.replies, 1)
+    row["truncated"] = game.state == GoGame.State.PLAYING
+    if row["truncated"]:
+        row["ok"] = false
+        row["reason"] = "move cap reached; unfinished games do not establish strength"
     if row["ok"]:
         await _score(game, table, subject_colour, row)
     row["seconds"] = float(Time.get_ticks_msec() - started) / 1000.0

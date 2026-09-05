@@ -113,6 +113,9 @@ static func _test_engine_profiles(t: TestKit) -> void:
         var strength := clampi(profile.strength(), 10, 38)
         var rank := "%dk" % (30 - strength) if strength < 30 else "%dd" % (strength - 29)
         var expected_config := "res://packaging/katago/config/human_%s_%s.cfg" % [rank, profile.gtp_style]
+        var npc := str(profile.id).trim_suffix("_9x9")
+        if LeagueAttempt.NOVICES.has(npc):
+            expected_config = "res://packaging/katago/config/novice_%s.cfg" % npc
         t.eq(profile.gtp_config_path, expected_config,
             "%s selects the matching Human-SL rank/style config" % path)
         t.ok(FileAccess.file_exists(profile.gtp_config_path), "%s has its Human-SL rank/style config" % path)
@@ -590,13 +593,13 @@ static func _test_dialogue_branches(t: TestKit) -> void:
     t.eq(kesh.resolve("start"), "cold_open", "before Wren explains anything, Kesh brushes you off")
 
     state.set_flag("wren_match_done", true)
-    t.eq(kesh.resolve("start"), "challenge", "after Wren's first full game she challenges you")
+    t.eq(kesh.resolve("start"), "challenge", "after Wren's first full game she offers a novice card")
 
     state.set_flag("kesh_match_done", true)
     state.set_flag("record_kesh_loss", 1)
     state.set_flag("last_result", "loss")
-    t.eq(kesh.resolve("post_match"), "first_rating",
-        "an unranked player is given a rank after their first rated game")
+    t.eq(kesh.resolve("post_match"), "legacy_rating",
+        "a legacy unranked result still receives its starting card")
     state.set_rank("22k")
     t.eq(kesh.resolve("post_match"), "won", "after a loss she talks you through it")
 
@@ -1091,7 +1094,7 @@ static func _test_quest_reconciles_early_progress(t: TestKit) -> void:
     quests._advance_on({"type": "flag", "key": "read_league_board"})
     t.eq(state.quest_step("enrolment"), 6,
         "a Two Eyes class completed early satisfies the newly opened quest step")
-    t.eq(quests.journal_line("enrolment"), "Win a league game. The study hall is west.",
+    t.eq(quests.journal_line("enrolment"), "Play your five novice fixtures. The novice room is through the lower west door.",
         "the journal points to the league game after reconciling the class")
 
     state.reset()

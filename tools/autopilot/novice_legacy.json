@@ -1,0 +1,254 @@
+[
+ {
+  "save": {
+   "1": "league_ready",
+   "2": "cup_day",
+   "3": "exam_day"
+  }
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down",
+  "times": 2
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2
+ },
+ {
+  "experience": "map",
+  "map": "bondszaal"
+ },
+ {
+  "walk_to": [
+   13,
+   3
+  ]
+ },
+ {
+  "face": [
+   13,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "legacy_exam_field"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "tap": "menu"
+ },
+ {
+  "tap": "move_up"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1
+ },
+ {
+  "tap": "move_down",
+  "times": 2
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "tap": "move_up",
+  "times": 1
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2
+ },
+ {
+  "experience": "map",
+  "map": "bondszaal"
+ },
+ {
+  "walk_to": [
+   9,
+   3
+  ]
+ },
+ {
+  "face": [
+   9,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "legacy_cup_rules"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "Play the round."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "legacy_cup_even_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "tap": "menu"
+ },
+ {
+  "tap": "move_up"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1
+ },
+ {
+  "tap": "move_down",
+  "times": 2
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "tap": "move_up",
+  "times": 2
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2
+ },
+ {
+  "experience": "map",
+  "map": "academy_study"
+ },
+ {
+  "experience": "visit",
+  "map": "academy_hall"
+ },
+ {
+  "walk_to": [
+   10,
+   3
+  ]
+ },
+ {
+  "face": [
+   10,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "legacy_academy_standings"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "The Novice League."
+ },
+ {
+  "experience": "choice",
+  "text": "Register."
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   10,
+   3
+  ]
+ },
+ {
+  "face": [
+   10,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "explicit_novice_enrolment"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "assert_progress",
+  "played": 0,
+  "rank": "22k"
+ }
+]

@@ -4,6 +4,9 @@ class_name MatchResult
 extends RefCounted
 
 var context_id: String = ""
+var league_division: String = ""
+var league_attempt: int = -1
+var league_fixture: int = -1
 var npc_id: String = ""
 var player_won: bool = false
 var winner: int = GoBoard.EMPTY
@@ -34,6 +37,8 @@ var opponent_name: String = ""
 
 func to_dict() -> Dictionary:
     return {
+        "league_division": league_division, "league_attempt": league_attempt,
+        "league_fixture": league_fixture,
         "context_id": context_id, "npc_id": npc_id, "player_won": player_won,
         "margin": margin, "by_resignation": by_resignation, "board_size": board_size,
         "handicap": handicap, "handicap_taken": handicap_taken,

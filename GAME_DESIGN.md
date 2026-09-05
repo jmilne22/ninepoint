@@ -7,41 +7,33 @@
 
 ## 0. Structure
 
-Three acts, borrowed deliberately.
+The beginner journey is **opening lessons → provisional 30k → five novice fixtures
+→ Beginner Cup ending**. Afterwards the player may register for the Academy League
+and try its qualifying exam. The academy atmosphere was inspired by competitive
+student leagues, but an aspiring-professional exam is an optional advanced goal.
 
-```
-OPENING              ACT 1 -- Steenbeek            ACT 2 -- Essenveld Instituut
-Hana addresses you   You do not know what Go is.   Enrolled at the bottom of the
-directly, then asks  A board is left in your       lower league.
-your name.           room. Pip drags you into a      - classes (two eyes, and on)
-   (Pokemon)         game. Wren teaches the          - the study hall: play anyone
-                     rules. Kesh challenges you      - the league board: your record
-                     and hands you a rank. Tram 4    - the qualifying exam (the goal)
-                     north, to the Instituut.
-                          (Hikaru no Go)                  (Tag Force / insei)
-```
-
-- **The opening** is the Pokemon position: somebody speaks to the player before the
-  world exists and asks what to call them. Hana takes it, which means she is a
-  familiar face by the time you meet her at the Instituut.
-- **Act 1** starts from genuine zero. The intro narration no longer implies the player
-  knows the rules -- there is a board in the room and no instructions. Pip in the park
-  assumes you play, and teaches you **Capture Go** before anybody explains anything.
-  Target length: fifteen minutes.
-- **Act 2** is the *insei* programme -- an institution with classes, an internal league
-  ranked on results, and an exam most students will not pass
-  ([Insei](https://gomagic.org/go-term/insei/)) -- arrived at the way Tag Force does it:
-  as a new student, placed at the bottom, free to spend your time as you like
-  ([Yugipedia](https://yugipedia.com/wiki/Yu-Gi-Oh!_GX_Tag_Force)).
+- Hana introduces herself and asks the player's name before the world appears.
+- In Steenbeek, Pip teaches Capture Go, Wren teaches the rules and hosts an unrated
+  first full game. Kesh issues the novice card and invitation, then offers optional
+  unrated handicap practice. This supersedes the original required even game (PROG-02).
+- At the Instituut, Hana sets a problem, Marguerite enrols the player in the Novice
+  League, and the classroom offers Two Eyes. Five classmates share the lower west room.
+- Completing all five fixtures earns the main Cup invitation, regardless of wins.
+  Earlier Cup entry remains available. Completing four Cup rounds at any placing is
+  the beginner ending; Academy competition and its even-game exam follow by choice.
 
 **There is no relationship or affection system.** What the game tracks instead is your
 **record** against each person, which is what actually matters between two Go players and
 is what the rival dialogue reads from.
 
-**The league board is the progression.** Your position on it is your results and nothing
-else -- no experience, no allowance for effort. It is the honest form of the pillar in
-section 2: the only way up is to win, and the only way to win is for the human to get
-better. `LeagueTable` computes it from `GameState.match_records` and has no other input.
+**The league board is the progression.** Each division has recorded, repeatable attempts.
+Wins decide standings; ties use stronger entry rank, frozen when the attempt begins,
+then name. Everyone begins at zero. A fixed round robin schedules every pair once,
+with byes in the seven-player Academy field. Each player round settles its scheduled
+NPC games once, using deterministic simulated results. The board says they are simulated.
+Practice never changes a fixture, and a rematch cannot replace a loss. Completed attempts
+remain browsable while a new attempt starts from zero. Player outcomes reference the
+append-only match history; NPC outcomes are saved on fixtures. No hidden effort score exists.
 
 **There is no clock.** There was one from M19 to M36 — hours, days, a weekday, weather and
 schedules that moved people between rooms — and M37 cut all of it, because none of it was
@@ -62,7 +54,7 @@ That is why an unusual number of people here play Go: it is a port, they always 
 nobody ever stopped. Two stops north there is an institute that will certify you. Nobody
 under the arches has ever been near it.
 
-You know how the stones move. That is all you know.
+You start without knowing the rules.
 
 *Ninepoint* is the story of one season in Steenbeek: the people you meet over a board, the
 rival who keeps finding you, and the slow, real business of getting better.
@@ -95,7 +87,7 @@ Anything that would let a weaker human beat a stronger opponent by grinding is f
 | Handicap | Fewer stones needed against an opponent = evidence of improvement. |
 | Unlocked opponents/locations | Access gating, not power. |
 | Relationships | Changes dialogue, lessons offered, and who will play you. |
-| Key items | A rank certificate, a tournament entry slip, a borrowed book. Narrative keys. |
+| Key items | A rank certificate and a tournament entry slip. Narrative keys. |
 | Knowledge | Lessons, puzzles, proverbs. Lives in the human's head. |
 
 **Forbidden**
@@ -118,7 +110,7 @@ you a proverb whether or not it applies. Pip attempts ladders that do not work. 
 A match should read as a conversation, and the post-game dialogue should refer to what happened.
 
 ### P4 — Compact and alive over large and empty
-One town, eleven rooms, fifteen people who are always where they live.
+One town, twelve rooms, twenty people who are always where they live.
 Better a café whose owner remembers your last game than a continent of silent villagers.
 
 ### P5 — Losing is content
@@ -138,7 +130,7 @@ Defeat advances the story and never blocks progress. There is no game-over scree
   new opponents,                                  │
   new concepts                                    ▼
         │                              Result changes rank,
-        │                              relationships, story
+        │                              head-to-head records, story
         │                                          │
         └────────── Enter tournaments ◄────────────┘
 ```
@@ -166,7 +158,7 @@ Compact, walkable, vertical: a street with rooms above it and rooms below it. Ni
 | **Bondszaal** | The federation hall: tournaments and the exam | Marguerite |
 
 **Built:** all nine, plus the attic — Ketelsteeg (street + park end), the wassalon, De Ketel,
-Onderbrug, the quay, the Bondszaal and the four Instituut rooms. Eleven maps.
+Onderbrug, the quay, the Bondszaal and the five Instituut rooms. Twelve maps.
 
 The wassalon (M36) is the one location that is neither half of section 1's opposition. The
 Instituut records you and De Ketel remembers you; at street level, in the warm, nobody does
@@ -192,15 +184,21 @@ they give Verhaven social movement without putting a clock back in the player's 
 
 ## 5. Cast
 
-The nine below are the original prototype cast and the table is kept at that size, because
-these are the nine the design was reasoned from. **Fifteen `NpcData` files ship and all
-fifteen stand on a map** -- the six added since are Ilse, Sunny and Orla in the study hall
-and Abel, Dov and Moss in the wassalon. The last three stood nowhere until M36 and were
-reached only by the Cup draw interpolating their ids, so the tournament that ends Act 2 was
-introducing three strangers at the board. `CLAUDE.md` carries the complete list with ranks
-and locations; that is the one to read for who exists.
+The original fifteen characters keep their ranks, identities and venues. Five novice
+classmates now live permanently in `academy_novice`, through the hall's lower west door:
 
-Ranks are real ranks; the ladder from 20k to 5d is the game's difficulty curve made human.
+| Classmate | Target rank | Detail |
+|---|---|---|
+| Noor Dekker | 30k | Keeps a postcard under the bowl |
+| Ivo Maas | 27k | Bicycle courier with a tiny pencil |
+| Lea Vos | 25k | Brings scrap paper from the print shop |
+| Emil Bakker | 23k | Repairs lamps and lays out the stones |
+| Sora Meijer | 20k | Keeps a spare cushion for a visitor |
+
+These ranks are calibration targets, not measured Human-SL profiles. Each has a separate,
+fixed engine configuration. Content release remains blocked on independent beginner
+playtesting; bot results alone cannot establish plausible human peers. See WORKBOARD PROG-01.
+The original prototype cast is retained below; CLAUDE.md carries the full cast list.
 
 | # | Name | Rank | Role | Personality | Style at the board |
 |---|---|---|---|---|---|
@@ -215,7 +213,7 @@ Ranks are real ranks; the ladder from 20k to 5d is the game's difficulty curve m
 | 9 | **Joos** | `?` | The man at the arches | Private and practical; maintains a dry corner beneath the arches | Territorial and patient. Three dan behind a label he refuses to fill in |
 
 ### Player rank
-Starts **unranked**. After the first rated game Kesh gives you 22 kyu. After that the rank
+Starts **unranked**. Kesh gives you provisional 30 kyu before offering optional practice, a starting club estimate. After that the rank
 is a step ladder (`GoRankLadder`): beat somebody at or above your rank and it goes up one;
 lose to somebody at or below it and it goes down one; anything else changes nothing.
 Handicap is priced in at what the board says a stone is worth. Park and arch games are
@@ -348,7 +346,7 @@ renderer as real matches. The study desk at home replays any puzzle already unlo
 
 ## 7. Quests
 
-Quests are data. **Four ship**: `first_stones` (below), `enrolment` ("The Lower League"),
+Quests are data. **Four ship**: `first_stones` (below), `enrolment` ("The Novice League"),
 `qualifying_exam` and `beginner_cup`. The first is the one worth reading in full, because it
 is the shape the others follow:
 
@@ -356,9 +354,9 @@ is the shape the others follow:
 1. Find De Ketel, further along Ketelsteeg.
 2. Learn Wren's rules, or tell her you already know them. Opening advice is optional.
 3. Play Wren's unrated 9×9 first full game. (Either result advances.)
-4. Play Kesh's rated 9×9 game. (Either result advances.)
-→ Kesh gives you 22 kyu and starts `enrolment`: the tram north, Hana's capture problem,
-Marguerite's register, the league board, a class, a league win.
+4. Ask Kesh for your novice card. Her handicap 9×9 practice is optional and unrated.
+→ Kesh gives you provisional 30 kyu and starts `enrolment`: the tram north, Hana's capture problem,
+Marguerite's register, the league board, a class, all five novice fixtures.
 
 Tournament arcs are built -- the Cup and the exam are both quests. Two more shipped and were
 cut in M37: `the_hooks`, a second progression at De Ketel that disagreed with the league on
@@ -371,30 +369,32 @@ The Steenbeek Cup: 4 rounds in a hired room at the Bondszaal, run round after ro
 you tell Marguerite you are ready. Placing changes your rank the way every other result
 does -- through the record.
 
-**Two sections, and the difference between them is the argument.** The beginners' section
-has a **ceiling** -- fifteen kyu and below -- and therefore no handicap: everybody in it is
-within a few stones of everybody else, and the entry requirement does the work. The open
-section has **no ceiling** and hands out stones instead. Those are the two ways Go deals
-with a gap in strength, and the Cup runs one of each. Nine lines below the ceiling,
-thirteen above it.
+**Two sections.** Beginners are 15k and weaker on 9×9 with rank-based handicap.
+Open has no ceiling and uses 13×13 with handicap. A player under the beginner ceiling
+with three rated wins may play up. The town opponents remain Wren, Pip, Abel, Dov and
+Moss in beginners; Kesh, Ilse, Tomás, Sunny and Orla in open. Joos remains ineligible.
+Old Cups already entered retain their original rules through their remaining rounds.
 
-Which one you are in is decided by the rank on your card, at the registrar's desk, which is
-how a real event does it. The one exception is deliberate: a player still under the ceiling
-who has won three rated games may choose to **play up** into the open section. Marguerite
-will enter them, and will say first that it is four games against people who will beat you.
+After the Cup, Marguerite offers the **Academy League**: Kesh 12k, Ilse 9k, Sunny 6k,
+Orla 4k, Nadia 2k and Marguerite 1d. Complete six fixtures; the top four eligible entrants,
+excluding the registrar, enter the exam. Board, dialogue and exam use one qualification
+calculation. A failed league attempt permits another complete attempt, without replacing
+individual losses. Legacy leagues retain their old baseline and qualification route;
+novice enrolment is offered explicitly without resetting ranks, records or certificates.
 
-The open field is the only place in Verhaven where the two Go cultures sit down at the same
-table with a result form on it: Kesh, Ilse, Tomás, Sunny and Orla, the Instituut and De
-Ketel in one column, because the Bondszaal is the federation and therefore neutral ground.
-Joos is not in it and cannot be -- the federation needs a rank written down, and he has
-never had one.
+New Cup entries also save the player's entry rank for the draw. Rated results may change
+handicap at the next board, but cannot reconstruct earlier Cup pairings from a different
+rank. The Cup retains its existing score-based pairing rule, including an occasional
+rematch when the six-player draw cannot pair the remaining players afresh. Legacy active
+Cups retain their original policy. This is separate from leagues, where every scheduled
+pair appears exactly once per attempt.
 
 ## 9. Progression map (full game sketch)
 
 | Chapter | Board | Player rank arc | Gate |
 |---|---|---|---|
-| 1 Arrival | 9×9 | unranked → 22k | Vertical slice |
-| 2 The back table | 9×9 → 13×13 | 22k → 17k | Win 3 rated games — **built (M28)** |
+| 1 Arrival | 9×9 | unranked → 30k | Vertical slice |
+| 2 The back table | 9×9 → 13×13 | 30k onward | Win 3 rated games — **built (M28)** |
 | 3 Beginner Cup | 13×13 | 17k → 14k | Enter tournament |
 | 4 The Park Crowd | 13×13 | 14k → 10k | Beat Bertie at 4 stones |
 | 5 Kesh, Even | 19×19 | 10k → 8k | Rival match, no handicap |
@@ -444,10 +444,10 @@ add familiarity without another progression system. Post-match speech acknowledg
 actual result. Detailed move judgement belongs to the engine review, with positive findings
 first and at most two costly positions. Table talk describes observable events only.
 
-The opening games deliberately begin without handicap: Pip's Capture Go and Wren's first
-practice use empty boards; Kesh's first rated game uses nigiri. This resolves ENG-08's
-starting-stone question without changing engine strength. Handicap is introduced after a
-rank exists, with two player-controlled explanation stages beside the real board, an explicit
+Pip's Capture Go and Wren's first practice use empty boards. Kesh issues the novice card
+before offering optional unrated practice, which now uses rank-based handicap. At 30k
+against her 12k, the existing 9×9 cap gives five stones. Her engine strength is unchanged.
+Handicap is introduced after a rank exists, with two player-controlled explanation stages beside the real board, an explicit
 skip and H to reopen. The explanation handles receiving and giving stones, White moving
 first, ordinary capturable stones, actual komi, rank consequences and optional rank-gap math.
 Joos has no published rank; his head start is an agreement shown by the setup.

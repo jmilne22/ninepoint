@@ -22,6 +22,9 @@ static func set_action(action: String, pressed: bool) -> void:
 
 static func perform(tree: SceneTree, spec: Dictionary, shot: Callable) -> void:
     var mode := str(spec["experience"])
+    if mode in ["choice", "assert_progress", "reload", "rank_card"]:
+        await LeaguePlayProbe.perform(tree, spec, shot)
+        return
     var deadline := Time.get_ticks_msec() + int(float(spec.get("timeout", 60)) * 1000)
     var seen := {}
     while Time.get_ticks_msec() < deadline:
@@ -142,7 +145,11 @@ static func perform(tree: SceneTree, spec: Dictionary, shot: Callable) -> void:
                             await press(tree, "move_down" if current.y < target.y else "move_up")
                         current = scene.game.board.point(board.cursor)
                     await press(tree, "interact")
-                    await tree.create_timer(0.3).timeout
+                    # Accepted illegal attempts show feedback for 0.6 seconds.
+                    # Advancing before that finishes loses the next card input.
+                    while bool(scene.get("_busy")) and Time.get_ticks_msec() < deadline:
+                        await tree.process_frame
+                    await tree.create_timer(0.1).timeout
                     await shot.call("lesson_feedback")
                     return
             "save":
