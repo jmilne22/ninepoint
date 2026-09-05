@@ -13,6 +13,13 @@ static func press(tree: SceneTree, action: String) -> void:
     Input.parse_input_event(event)
     await tree.create_timer(0.2).timeout
 
+
+static func set_action(action: String, pressed: bool) -> void:
+    if pressed:
+        Input.action_press(action)
+    else:
+        Input.action_release(action)
+
 static func perform(tree: SceneTree, spec: Dictionary, shot: Callable) -> void:
     var mode := str(spec["experience"])
     var deadline := Time.get_ticks_msec() + int(float(spec.get("timeout", 60)) * 1000)
@@ -23,6 +30,10 @@ static func perform(tree: SceneTree, spec: Dictionary, shot: Callable) -> void:
             await tree.process_frame
             continue
         match mode:
+            "run":
+                if scene.get("map") != null and str(scene.map.id) == "ketelsteeg":
+                    await run_probe(tree, scene, shot)
+                    return
             "visit":
                 var router := tree.root.get_node("SceneRouter")
                 if not bool(spec.get("dispatched", false)) and not router.is_busy():
@@ -141,6 +152,109 @@ static func perform(tree: SceneTree, spec: Dictionary, shot: Callable) -> void:
         await tree.process_frame
     push_error("Experience route timed out waiting for %s." % mode)
     tree.quit(1)
+
+
+## Measures live CharacterBody2D travel, then holds Shift across the pause-menu
+## input lock. Static speed checks cannot prove either of those scene boundaries.
+static func run_probe(tree: SceneTree, world: Node, shot: Callable) -> void:
+    var player := tree.get_first_node_in_group("player") as Player
+    if player == null:
+        push_error("Experience run probe could not find the player.")
+        tree.quit(1)
+        return
+    var start := player.global_position
+    var frames := 24
+
+    set_action("move_right", true)
+    await tree.process_frame
+    var walk_start := player.global_position
+    for i in frames:
+        await tree.physics_frame
+    set_action("move_right", false)
+    await tree.process_frame
+    await tree.physics_frame
+    var walk_distance := player.global_position.distance_to(walk_start)
+
+    player.global_position = start
+    player.velocity = Vector2.ZERO
+    await tree.physics_frame
+    set_action("run", true)
+    set_action("move_right", true)
+    await tree.process_frame
+    var run_start := player.global_position
+    for i in frames:
+        await tree.physics_frame
+    set_action("move_right", false)
+    set_action("run", false)
+    await tree.process_frame
+    await tree.physics_frame
+    var run_distance := player.global_position.distance_to(run_start)
+    var ratio := run_distance / walk_distance if walk_distance > 0.0 else 0.0
+    if walk_distance < 10.0 or absf(ratio - Player.RUN_MULTIPLIER) > 0.12:
+        push_error("Experience run speed ratio was %.3f (walk %.2f, run %.2f)." % [
+            ratio, walk_distance, run_distance])
+        tree.quit(1)
+        return
+    if player.sprite.gait_scale != 1.0:
+        push_error("Experience run release did not restore the walking gait.")
+        tree.quit(1)
+        return
+
+    player.global_position = start
+    player.velocity = Vector2.ZERO
+    set_action("run", true)
+    set_action("move_right", true)
+    for i in 10:
+        await tree.physics_frame
+    await shot.call("running_ketelsteeg")
+    set_action("move_right", false)
+    set_action("run", false)
+    await tree.process_frame
+    await tree.physics_frame
+
+    # The solid shop front immediately left of this spawn must stop even the
+    # faster body without tunnelling into its tile.
+    player.global_position = start
+    player.velocity = Vector2.ZERO
+    set_action("run", true)
+    set_action("move_left", true)
+    for i in 20:
+        await tree.physics_frame
+    set_action("move_left", false)
+    set_action("run", false)
+    await tree.physics_frame
+    if int(player.global_position.x / world.map.tile_size) < 13:
+        push_error("Experience run crossed the solid shop front.")
+        tree.quit(1)
+        return
+
+    player.global_position = start
+    player.velocity = Vector2.ZERO
+    await press(tree, "menu")
+    var locked_start := player.global_position
+    set_action("run", true)
+    set_action("move_right", true)
+    for i in 16:
+        await tree.physics_frame
+    if player.global_position.distance_to(locked_start) > 0.1:
+        push_error("Experience run bypassed the pause-menu input lock.")
+        tree.quit(1)
+        return
+    set_action("move_right", false)
+    await press(tree, "cancel")
+    set_action("move_right", true)
+    for i in 12:
+        await tree.physics_frame
+    set_action("move_right", false)
+    set_action("run", false)
+    await tree.physics_frame
+    if player.global_position.distance_to(locked_start) < 15.0:
+        push_error("Experience held Shift did not resume running after the menu closed.")
+        tree.quit(1)
+        return
+    player.global_position = start
+    player.velocity = Vector2.ZERO
+    print("EXPERIENCE: run %.3fx; release, collision and menu lock passed" % ratio)
 
 static func fingerprint(game: GoGame) -> String:
     return "%s:%d:%d" % [str(game.board.cells), game.to_move, game.move_number()]

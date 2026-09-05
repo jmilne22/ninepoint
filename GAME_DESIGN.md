@@ -422,6 +422,7 @@ short enough to read on a dialogue box in three breaths.
 
 ## 11. Accessibility & quality-of-life
 
+- Hold Shift to run throughout the town; running is unlimited and carries no character stat.
 - Coordinates and move numbers toggleable on the board.
 - Last-move marker and capture count always visible.
 - Confirm-before-place option for touch/controller.

@@ -21,6 +21,8 @@ var _walk_texture: Texture2D
 var _action_texture: Texture2D
 var direction: int = Facing.Dir.DOWN
 var walking: bool = false
+## Player running changes this; NPCs retain the default walking gait.
+var gait_scale: float = 1.0
 
 var _step := 0
 var _timer := 0.0
@@ -70,8 +72,9 @@ func _process(delta: float) -> void:
         # The walk frames carry their own bob, drawn into the sheet.
         offset = _base_offset
         _timer += delta
-        if _timer >= STEP_TIME:
-            _timer -= STEP_TIME
+        var frame_time := gait_step_time(gait_scale)
+        if _timer >= frame_time:
+            _timer -= frame_time
             _step = 1 if _step != 1 else 2
             _apply()
         return
@@ -88,6 +91,10 @@ func face(dir: int) -> void:
     if dir != direction:
         direction = dir
         _apply()
+
+
+static func gait_step_time(scale: float) -> float:
+    return STEP_TIME / maxf(scale, 0.01)
 
 
 func _apply() -> void:

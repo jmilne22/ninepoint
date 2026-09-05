@@ -1,0 +1,15 @@
+[
+ {"save": "invited", "note": "Isolated run-mode route starts outside De Ketel."},
+ {"wait": 0.8},
+ {"tap": "move_down"},
+ {"tap": "interact", "note": "Continue the invited save."},
+ {"wait": 2.5},
+ {"experience": "run", "timeout": 20},
+ {"walk_to": [13, 8], "run": true, "timeout": 4},
+ {"experience": "map", "map": "de_ketel", "timeout": 6},
+ {"wait": 0.6, "shot": "running_arrived_in_de_ketel"},
+ {"walk_to": [9, 9], "run": true, "timeout": 5},
+ {"talk_to": "wren", "run": true, "timeout": 6},
+ {"wait": 0.5, "shot": "interaction_after_running"},
+ {"quit": true}
+]

@@ -39,6 +39,7 @@ That's it. Godot 4.7 is required; on this machine it lives at `~/.local/bin/godo
 | | |
 |---|---|
 | Arrow keys or WASD | walk |
+| Hold Shift while moving | run |
 | Space (or Enter / E / Z) | talk, read, advance dialogue, take the tram |
 | Up / Down then Space | pick a dialogue choice |
 | Tab | menu — save game, save to another slot, back to title |

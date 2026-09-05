@@ -520,6 +520,9 @@ Preferred verified routes: `overhaul_fresh` (also `slice_full`), `overhaul_short
 `overhaul_review_failure`, and the M42 `nineteen` regression. Play evidence and its limits
 are in `docs/overhaul/PLAYTEST.md`. Use a separate XDG_DATA_HOME for play and another for tests.
 
+Town movement: `run_mode` starts from the isolated `invited` preset and checks Shift-run
+speed, release back to walking, exterior/interior steering, collision and input locks.
+
 The test runner loads suites after autoload readiness; script errors fail the shell gate.
 Green checks remain supporting evidence, not a substitute for reading scenes in play.
 

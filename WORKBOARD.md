@@ -4,8 +4,7 @@ This is the **operational source of truth** for unfinished work. An agent starts
 not in the milestone history. It answers: what may be picked up now, what is blocked, and
 what evidence makes a task done.
 
-Snapshot: `origin/main` at `07b3694` (M43 merged), fetched and verified before UI-02
-and again before opening its PR.
+Snapshot: `origin/main` at `b0fb0af` (M44 merged), fetched and verified before UI-03.
 Update the snapshot when reconciling after a merge; it is not a release number.
 
 ## How to use this board
@@ -37,9 +36,27 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 
 ## In progress
 
+### UI-03 — Town run mode
+
+- Status: `SHIPPED` (verified on branch) · Priority: `P2` · Owner: Codex
+  · Branch: `codex/town-run-mode`.
+- Base: verified `origin/main` `b0fb0af`.
+- Scope: hold either Shift to run at 1.75× the existing walk speed in every explorable
+  map; accelerate the existing player gait proportionally and retain distance-based steps.
+- Decision: running is transient and unlimited. No toggle, stamina, saved preference,
+  new art, NPC speed change, Go-layer change or progression consequence.
+- Acceptance: exact walk/run and diagonal speeds, Shift binding, gait scaling and default
+  NPC gait are checked; exterior/interior steering, collision, warps, interaction and
+  input locks are played through the isolated `run_mode` route and its frames inspected.
+- Evidence: `tools/test.sh` passed 14,485 checks with 240 files loaded and all three
+  KataGo gates green. `run_mode` measured exactly 1.750× travel, restored walking on
+  release, respected wall and menu locks, crossed into De Ketel and reached Wren after
+  an indoor run. All three isolated-XDG frames were opened and inspected; no sliding,
+  collision, doorway, layout or interaction regression was visible.
+
 ### UI-02 — Mouse support across board screens
 
-- Status: `SHIPPED` (M44, verified; [PR #23](https://github.com/jmilne22/ninepoint/pull/23) open, not merged) · Priority: `P1`
+- Status: `SHIPPED` (M44, verified; [PR #23](https://github.com/jmilne22/ninepoint/pull/23) merged) · Priority: `P1`
   · Owner: Codex · Branch: `codex/board-mouse-support`.
 - Base: verified `origin/main` `07b3694`.
 - Scope: hover targeting and occupancy-only stone previews, stable 19×19 zoom,
