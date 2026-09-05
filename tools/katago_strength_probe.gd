@@ -1,7 +1,7 @@
 ## Measures what the cast actually plays at, in whole 9x9 games.
 ##
 ##   godot --headless --path . --script res://tools/katago_strength_probe.gd -- \
-##       [--cells=beginners,temperature,anchors,floor,smoke] [--games=8] [--concurrent=2] \
+##       [--cells=beginners,temperature,anchors,floor,thirteen,smoke] [--board=9] [--games=8] [--concurrent=2] \
 ##       [--beginners=abel,wren,dov] [--rungs=20k,15k] [--mem-floor-gb=6] [--tag=before]
 ##
 ## M39's calibration proved every profile answers in under two seconds with a
@@ -23,10 +23,11 @@
 ## report is user://katago-strength-<tag>.json.
 extends SceneTree
 
-const BOARD := 9
 const KOMI := 5.5
-## Twice a long 9x9 game. A game that gets here is scored where it stands.
-const MOVE_CAP := 160
+## The board, and its move cap: twice the points on it. A game that gets there is
+## scored where it stands. `--board=13` measures the back-table profiles.
+static var board := 9
+static var move_cap := 162
 const GAMES_DEFAULT := 8
 const CONCURRENT_DEFAULT := 2
 const MEM_FLOOR_GB_DEFAULT := 6.0
@@ -69,6 +70,11 @@ func _initialize() -> void:
         cells.append_array(_anchor_cells())
     if "floor" in wanted:
         cells.append_array(_floor_cells())
+    if "thirteen" in wanted:
+        # The two steady profiles that play thirteen lines, each against the
+        # realistic player of its own rank: the pass mark is close to even.
+        cells.append(_cell(_shipped("tomas_13x13"), _reference("8k")))
+        cells.append(_cell(_shipped("ilse_13x13"), _reference("9k")))
     if "smoke" in wanted:
         cells.append(_cell(_shipped("wren_9x9"), _reference("20k")))
         cells.append(_cell(_gnugo(10), _reference("20k")))
@@ -86,7 +92,7 @@ func _initialize() -> void:
         await process_frame
     var summary := _summarise(cells)
     var report := {
-        "tag": _tag, "board": BOARD, "komi": KOMI, "games_per_cell": _games_per_cell,
+        "tag": _tag, "board": board, "komi": KOMI, "games_per_cell": _games_per_cell,
         "seconds": float(Time.get_ticks_msec() - _started_ms) / 1000.0,
         "cells": summary, "effective": _effective_ranks(summary), "games": _rows,
     }
@@ -112,6 +118,9 @@ func _parse_args() -> PackedStringArray:
             _concurrent = maxi(1, int(arg.trim_prefix("--concurrent=")))
         elif arg.begins_with("--mem-floor-gb="):
             _mem_floor_gb = maxf(0.0, float(arg.trim_prefix("--mem-floor-gb=")))
+        elif arg.begins_with("--board="):
+            board = clampi(int(arg.trim_prefix("--board=")), 7, 19)
+            move_cap = 2 * board * board
         elif arg.begins_with("--rungs="):
             _rungs = arg.trim_prefix("--rungs=").split(",", false)
         elif arg.begins_with("--beginners="):
@@ -229,7 +238,7 @@ class Table:
     var reply_ms := 0
     var replies := 0
 
-    func open(template: OpponentProfile) -> bool:
+    func open(template: OpponentProfile, size: int) -> bool:
         var args := PackedStringArray()
         for argument in template.gtp_args:
             args.append(str(argument).replace("{model}", template.gtp_model_path)
@@ -238,7 +247,7 @@ class Table:
             ok = false
             reason = "engine did not start"
             return false
-        for text in ["protocol_version", "boardsize %d" % BOARD, "clear_board", "komi %s" % str(KOMI)]:
+        for text in ["protocol_version", "boardsize %d" % size, "clear_board", "komi %s" % str(KOMI)]:
             await command(text)
         return ok
 
@@ -340,7 +349,7 @@ func _wait_for_memory() -> void:
 
 
 func _play(cell: Dictionary, index: int) -> Dictionary:
-    var game := GoGame.new(BOARD, KOMI, 0)
+    var game := GoGame.new(board, KOMI, 0)
     var subject_colour := GoBoard.BLACK if index % 2 == 0 else GoBoard.WHITE
     var sides := {subject_colour: cell["subject"], GoBoard.opponent(subject_colour): cell["reference"]}
     var row := {"cell": cell["id"], "index": index,
@@ -349,7 +358,7 @@ func _play(cell: Dictionary, index: int) -> Dictionary:
     var table := Table.new()
     var outside := {}
     var template := load(TEMPLATE_PROFILE) as OpponentProfile
-    if not await table.open(template):
+    if not await table.open(template, board):
         row["ok"] = false
         row["reason"] = table.reason
     for colour in sides:
@@ -359,7 +368,7 @@ func _play(cell: Dictionary, index: int) -> Dictionary:
             if other is GtpOpponent and not await (other as GtpOpponent).prewarm():
                 row["ok"] = false
                 row["reason"] = "%s did not start: %s" % [sides[colour]["name"], (other as GtpOpponent).unavailable_reason]
-    while row["ok"] and game.state == GoGame.State.PLAYING and game.moves.size() < MOVE_CAP:
+    while row["ok"] and game.state == GoGame.State.PLAYING and game.moves.size() < move_cap:
         var colour := game.to_move
         var vertex := ""
         if outside.has(colour):

@@ -190,7 +190,8 @@ godot --headless --path . --script res://tools/katago_calibrate.gd   # every cas
 godot --headless --path . --script res://tools/katago_review_test.gd # the review gate: a whole 9x9 and 19x19, and a wedged engine
 godot --headless --path . --script res://tools/katago_strength_probe.gd -- --concurrent=8 --tag=after
                                                 # STRENGTH, not latency: whole 9x9 games per beginner profile against a
-                                                # reference ladder; --cells=beginners,temperature,anchors,smoke.
+                                                # reference ladder; --cells=beginners,temperature,anchors,floor,
+                                                # thirteen,smoke; --board=13 for the back table.
                                                 # ONE GIGABYTE PER CONCURRENT GAME -- it once took the machine down at
                                                 # 24 engines. It refuses to start a game under --mem-floor-gb (6).
                                                 # Eight at once, nothing else running: ~20 min per hundred games.

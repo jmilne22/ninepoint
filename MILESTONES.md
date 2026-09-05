@@ -2805,6 +2805,12 @@ played and their frames opened.
 |---|---|
 | `review_world_wren_loss` / `review_world_wren` | Wren at De Ketel on the floor config, a whole game to the count, the offer, the cards, "I won. Sorry. Sorry. I WON.", the world. Both are losses (by 76 and 25) because the autopilot's brain is the heuristic |
 
+**Thirteen lines, sanity only.** The configs are shared across board sizes, so the steady
+change reaches Tomás and Ilse at the back table. Each against the realistic player of its
+own rank on 13×13, eight games (`--cells=thirteen --board=13`): Tomás (8k) 3/8, −4 a game;
+Ilse (9k) 5/8, −4 a game. Both on their labels. No 13×13 opponent is 20k, so the floor does
+not reach that board; 19×19 has no opponents to measure (UI-01).
+
 **What it cannot prove.** The autopilot's brain is the heuristic, which loses every game to
 a realistic 20 kyu, so no fixture can show a beginner winning. Once Kesh hands out 22 kyu
 the ladder gives stones as the gap opens, but the games with Pip (18k, not floored) and
