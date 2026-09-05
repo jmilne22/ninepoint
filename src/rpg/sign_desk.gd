@@ -14,6 +14,8 @@
 class_name SignDesk
 extends RefCounted
 
+const ReviewCardsScene := preload("res://src/ui/review_cards.gd")
+
 var _player: Player
 var _dialogue: DialogueBox
 var _league_board: LeagueBoard
@@ -61,6 +63,9 @@ func read(text: String) -> void:
         return
     if text == "__CLASS_BOARD__":
         await _start_class.call()
+        return
+    if text == "__QUAY_REVIEW__":
+        await quay_review()
         return
     if text.begins_with("__DESK__"):
         await study_desk(text.trim_prefix("__DESK__"))
@@ -153,6 +158,28 @@ func study_desk(prose: String) -> void:
         _player.input_locked = false
         return
     MatchBridge.start_puzzle(puzzle, _player.global_position)
+
+
+## The quay is intentionally resident-free: the noticeboard is a later look at
+## the last game the player asked somebody to go over, never an interruption
+## to the result screen. Nobody explains it; the cards are the board itself.
+func quay_review() -> void:
+    if MatchReviewService.is_running():
+        await narrate(["Your last game is still being gone over. Give it a minute."])
+        return
+    var review := GameState.latest_quay_analysis()
+    if review.is_empty():
+        await narrate(["The water keeps its own counsel. There is no game here to look at yet."])
+        return
+    _begin()
+    var cards := ReviewCardsScene.new()
+    var record: Dictionary = GameState.match_records[int(review.get("source_match", 0))] \
+        if int(review.get("source_match", -1)) < GameState.match_records.size() else {}
+    cards.setup(review, str(record.get("opponent_name", "")))
+    _player.get_tree().root.add_child(cards)
+    await cards.closed
+    _end()
+    GameState.set_flag("quay_review_seen", true)
 
 
 # --- the tram stop -------------------------------------------------------------

@@ -59,7 +59,10 @@ src/
     go_opponent.gd      abstract interface: choose_move(game) -> Move  (async-capable)
     random_opponent.gd  legal-move picker, eye-avoiding (floor of the ladder)
     heuristic_opponent.gd  the shipped AI: capture/escape/atari/extend/influence, tunable by rank
-    gtp_opponent.gd     GTP-over-stdio adapter (KataGo/GNU Go) — stub + protocol, unused in slice
+    engine_pipe.gd      one child process on a pipe, read a line at a time off the scene thread
+    gtp_opponent.gd     GTP adapter: KataGo's Human-SL model at the character's rank, at the board
+    katago_analysis.gd  KataGo's analysis mode over a whole finished game, one turn at a time
+    match_analysis.gd   the review, pure: what a move cost, which three positions, the payload
     opponent_factory.gd  OpponentProfile resource -> live opponent instance
 
   go_ui/              PRESENTATION of a Go game
@@ -99,8 +102,8 @@ src/
   dialogue/           dialogue graph runner + typewriter box (data-driven from JSON)
   quest/              quest definitions, tracker, objective evaluation
   ui/                 title screen, opening, dialogue box, HUD, pause, save slots
-  autoload/           GameState, SaveSystem, SceneRouter, EventBus, MatchBridge, Audio,
-                      GameInput, Autopilot
+  autoload/           GameState, SaveSystem, SceneRouter, EventBus, MatchBridge, KataGoService,
+                      MatchReviewService, Audio, GameInput, Autopilot
 
 data/
   npcs/*.tres         NPCData resources (identity, rank, portrait, dialogue file)
@@ -125,6 +128,8 @@ tests/                headless test runner + suites
 | `SceneRouter` | Scene changes, fade transitions, "return here afterwards" stack | Know what a Go match is |
 | `MatchBridge` | The single seam between world and Go: takes a `MatchRequest`, pushes the match, puzzle or lesson scene, returns a `MatchResult` | Contain Go rules |
 | `Audio` | Buses, a pool of SFX voices, one music track; listens on `EventBus` for the sounds that belong to events rather than to callers | Decide when gameplay happens |
+| `KataGoService` | Short-lived engine leases, warmed while the player is still walking to the board and handed to exactly one match or killed | Outlive a scene by accident |
+| `MatchReviewService` | The one review that may be running: starts `KataGoAnalysis` on a recorded game, reports progress, stores the payload in `GameState.match_analysis`; a new match cancels it | Resume after a quit — an interrupted review is marked failed on load |
 
 Rule of thumb: if two systems need to talk, they do it through `EventBus` or through
 `GameState` flags — never by reaching across the scene tree with `get_node("../../..")`.
@@ -178,7 +183,7 @@ played. A teacher with one thing to say still says it from `taught`.
 `post_match`, and every lesson's `teacher` must have one of its two nodes. Both rules exist
 because the shape had already cost silent bugs — see MILESTONES M24 and M27.
 
-## 5. Opponent interface (built for KataGo later)
+## 5. Opponent interface (KataGo behind it since M38)
 
 ```gdscript
 class_name GoOpponent extends RefCounted
@@ -190,11 +195,21 @@ func shutdown() -> void
 
 `choose_move` is allowed to await, so a subprocess engine can take as long as it wants without
 the shipped AI paying for an async architecture. `GtpOpponent` implements the same interface
-over `OS.execute_with_pipe` and speaks `boardsize/clear_board/play/genmove/final_score`.
-The intent is that switching Kesh to KataGo is one field in her `.tres` — `engine = "gtp"`,
-`gtp_command = "…/katago"`. **That is the design, not yet the state.** `GtpOpponent` is
-unwired and carries three known gaps: handicap stones never reach the engine, `set_position`
-positions never reach it at all, and `_command` blocks the main thread. See MILESTONES.md.
+over `EnginePipe` (one child process, lines read on a worker and polled from the coroutine,
+so a wedged engine can never freeze the scene) and speaks `boardsize/clear_board/komi/play/
+genmove`, sending handicap and setup stones once and then only unseen moves. Every cast
+profile is `engine = "gtp"` with a generated `human_<rank>_<style>.cfg`; a missing binary, a
+timeout, a rejected command or an illegal reply falls back to the heuristic for the rest of
+the game and says so on the profile (`unavailable_reason`).
+
+The review uses the same pipe against `katago analysis`: `KataGoAnalysis.run(record)` writes
+one JSON query for the whole game (`analyzeTurns` = every position, handicap as
+`initialStones`, the game's komi, Japanese rules to match `GoScoring`) and reads one line per
+position as it arrives. `MatchAnalysis` is pure: it parses those lines, charges each of the
+player's moves the difference between the position before and after from their side,
+tallies how many matched the engine's move or gave nothing away, and picks at most three
+positions. Cost is about one core-second per position on the Eigen build, so the
+service streams progress and the caller may leave; a watchdog fails a silent engine.
 
 Strength knobs on `OpponentProfile` (all honest, none of them "the AI plays badly on purpose
 because you levelled up"): `engine`, `rank_label`, `board_size`, `komi`, `handicap`,
@@ -267,17 +282,23 @@ Maps are `TileMapLayer`-based with a `YSort` entity layer; every map exposes nam
 debugging. These are the real keys, which is `GameState.to_dict()` and nothing else:
 
 ```json
-{ "version": 2, "saved_at": "2026-09-04T12:00:00", "playtime": 640.0,
+{ "version": 3, "saved_at": "2026-09-04T12:00:00", "playtime": 640.0,
   "player_name": "Ro", "rank_strength": 8,
   "flags": {...}, "quests": {"first_stones": {"step": 2, "done": false}},
   "inventory": ["old_goban"],
-  "match_records": [ {"npc_id": "kesh", "player_won": false, "margin": 8.5, ...} ],
+  "match_records": [ {"npc_id": "kesh", "opponent_name": "Kesh Idowu", "player_won": false,
+                      "margin": 8.5, "sgf": "(;GM[1]...)", "review_requested": true, ...} ],
+  "match_analysis": { "0": {"availability": "available", "engine_version": "KataGo v1.15.0",
+                            "findings": [ {"kind": "mistake", "move_number": 12, ...} ], ...} },
   "current_map": "de_ketel", "spawn_point": "from_street",
   "return_position": [12, 8], "has_return_position": true }
 ```
 
 Version 2 (M37) dropped `day`, `slots_used` and `time_block` with the calendar; a version 1
-file loads, and the three keys are ignored.
+file loads, and the three keys are ignored. Version 3 (M40) added `match_analysis`, keyed by
+the record's index: `available`, `steady` or `failed`, never `pending` after a load — an
+unfinished review is marked `failed: interrupted` rather than resumed. A file without the
+key is a valid save with no reviews.
 
 Saving is `GameState.to_dict()`; loading is `GameState.from_dict()` then `SceneRouter` opens
 the map at the spawn point, or drops the player back on `return_position` when a match
@@ -301,7 +322,11 @@ Suites cover the Go module exhaustively (captures, suicide, ko, superko, scoring
 komi, game end) and the data layer (every dialogue graph parses, every goto resolves, every
 NPC resource loads, every puzzle has a legal solution). RPG behaviour is verified by the
 **autopilot harness** (`tools/run_game.sh`), which drives the real game under Xvfb with
-scripted input and captures PNG screenshots at named beats.
+scripted input and captures PNG screenshots at named beats. The engine has three gates of
+its own in `tools/test.sh`, all against the real binary: `katago_smoke.gd` (one legal reply,
+and the fallbacks), `katago_service_test.gd` (lease lifecycle, handicap and setup sync,
+the malformed and rejecting fixtures) and `katago_review_test.gd` (a whole 9×9 and a whole
+19×19 game analysed position by position, and a wedged engine failed by the watchdog).
 
 ## 10. Conventions
 

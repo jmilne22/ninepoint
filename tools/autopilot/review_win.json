@@ -1,0 +1,87 @@
+[
+ {
+  "katago_trial": "res://tools/fixtures/random_weak_9x9.tres",
+  "katago_direct": true
+ },
+ {
+  "wait": 1.0
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 900,
+  "max_moves": 80,
+  "brain_rank": "1d"
+ },
+ {
+  "wait": 0.5,
+  "shot": "a_count"
+ },
+ {
+  "tap": "go_pass",
+  "note": "accept the count"
+ },
+ {
+  "wait": 0.6,
+  "shot": "b_result"
+ },
+ {
+  "tap": "interact",
+  "note": "dismiss the result"
+ },
+ {
+  "wait": 0.4,
+  "shot": "c_offer"
+ },
+ {
+  "tap": "move_up",
+  "note": "Yes, go over the game"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 3.0,
+  "shot": "d_progress"
+ },
+ {
+  "review_card_wait": true,
+  "timeout": 900
+ },
+ {
+  "wait": 0.5,
+  "shot": "e_card_1"
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "wait": 0.3,
+  "shot": "f_card_2"
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "wait": 0.3,
+  "shot": "g_card_3"
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "wait": 0.3,
+  "shot": "card_4"
+ },
+ {
+  "tap": "interact",
+  "note": "close the cards"
+ },
+ {
+  "world_wait": true,
+  "timeout": 10
+ },
+ {
+  "wait": 1.0,
+  "shot": "h_world"
+ }
+]

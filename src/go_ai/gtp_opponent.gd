@@ -2,15 +2,12 @@
 class_name GtpOpponent
 extends GoOpponent
 
-var _pipe: Dictionary = {}
-var _stdio: FileAccess
-var _pid: int = -1
+var _pipe := EnginePipe.new()
 var _ready := false
 var _cancelled := false
 var _synced_moves := 0
 var _initial_cells := PackedByteArray()
 var _fallback := HeuristicOpponent.new()
-var _reader: Thread
 ## Readable by presentation/logging without turning an engine error into a crash.
 var unavailable_reason := ""
 ## Runtime evidence for the development-only integration fixture. These are not
@@ -39,16 +36,11 @@ func setup(p: OpponentProfile, game: GoGame) -> void:
         return
     var args := PackedStringArray()
     for argument in p.gtp_args:
-        var resolved := str(argument).replace("{model}", p.gtp_model_path).replace("{config}", p.gtp_config_path)
-        args.append(ProjectSettings.globalize_path(resolved) if resolved.begins_with("res://") else resolved)
-    var command := ProjectSettings.globalize_path(p.gtp_command) if p.gtp_command.begins_with("res://") else p.gtp_command
-    _pipe = OS.execute_with_pipe(command, args)
-    if _pipe.is_empty() or not _pipe.has("stdio"):
+        args.append(str(argument).replace("{model}", p.gtp_model_path).replace("{config}", p.gtp_config_path))
+    if not _pipe.open(p.gtp_command, args):
         unavailable_reason = "The analysis engine could not start; using the local opponent."
-        _close_process()
+        _pipe.close()
         return
-    _stdio = _pipe["stdio"]
-    _pid = int(_pipe.get("pid", -1))
     _ready = true
     engine_started = true
     # Synchronisation happens on the first turn, where GoMatch already awaits
@@ -96,9 +88,9 @@ func choose_move(game: GoGame) -> Dictionary:
         return GoOpponent.pass_move()
     if vertex == "RESIGN":
         return GoOpponent.resign_move()
-    var point := _parse_vertex(game.board, vertex)
+    var point := game.board.from_label(vertex)
     if point < 0 or not game.is_legal(point):
-        _fail("The analysis engine sent an invalid move; using the local opponent.")
+        _fail("The analysis engine sent an invalid move (%s); using the local opponent." % vertex)
         return _fallback_move(game)
     _synced_moves += 1
     legal_reply_count += 1
@@ -117,7 +109,7 @@ func cancel() -> void:
 
 func shutdown() -> void:
     _cancelled = true
-    _close_process()
+    _pipe.close()
     shutdown_complete = true
 
 
@@ -176,17 +168,16 @@ func _synchronise(game: GoGame) -> void:
 
 
 func _command(text: String, timeout: float = -1.0) -> String:
-    if _stdio == null or not _stdio.is_open() or _cancelled:
+    if not _pipe.is_open() or _cancelled:
         return ""
-    _stdio.store_line(text)
-    _stdio.flush()
+    _pipe.write_line(text)
     var limit := timeout if timeout >= 0.0 else maxf(profile.gtp_time_per_move, 0.1)
     var reply := ""
-    while _stdio != null and _stdio.is_open():
+    while _pipe.is_open():
         if _cancelled:
             _fail("Engine analysis cancelled.")
             return ""
-        var read: Dictionary = await _line_with_timeout(limit)
+        var read: Dictionary = await _pipe.read_line(limit)
         if not bool(read.get("ready", false)):
             _fail("The analysis engine timed out; using the local opponent.")
             return ""
@@ -202,67 +193,9 @@ func _command(text: String, timeout: float = -1.0) -> String:
     return ""
 
 
-## FileAccess pipes do not expose a non-blocking read API. Read each protocol
-## line on a worker and poll the worker from the scene thread, so a wedged engine
-## cannot freeze a match. Killing the process in _fail unblocks a pending reader.
-func _line_with_timeout(timeout: float) -> Dictionary:
-    if _reader == null:
-        _reader = Thread.new()
-        if _reader.start(_read_one_line) != OK:
-            _reader = null
-            return {"ready": false}
-    # Cancellation may clear the member while this coroutine yields. Keep the
-    # actual worker locally, and let _close_process own its final join.
-    var reader := _reader
-    var deadline := Time.get_ticks_msec() + int(timeout * 1000.0)
-    while reader.is_alive() and Time.get_ticks_msec() < deadline:
-        await (Engine.get_main_loop() as SceneTree).process_frame
-    if reader.is_alive():
-        return {"ready": false}
-    if _reader != reader:
-        return {"ready": false}
-    var line: Variant = reader.wait_to_finish()
-    _reader = null
-    return {"ready": true, "line": str(line)}
-
-
-func _read_one_line() -> String:
-    # The pipe itself is owned by this adapter and only this worker touches it
-    # while a read is pending. Godot's FileAccess pipe backend nevertheless
-    # inherits the scene-thread safety guard; disabling that guard locally is
-    # required for the non-blocking bridge and avoids a false Node-thread error.
-    Thread.set_thread_safety_checks_enabled(false)
-    return _stdio.get_line() if _stdio != null and _stdio.is_open() else ""
-
-
 func _fail(reason: String) -> void:
     unavailable_reason = reason
     if OS.is_debug_build():
         print("KataGo fallback (%s, startup=%dms, move=%dms)" % [reason, startup_ms, last_move_ms])
     _ready = false
-    _close_process()
-
-
-func _close_process() -> void:
-    if _pid > 0:
-        OS.kill(_pid)
-    _pid = -1
-    # Do not release the pipe while its one blocking reader still owns it. Kill
-    # unblocks get_line(), then joining makes cancellation deterministic.
-    if _reader != null:
-        # A finished worker still must be joined before its Thread is dropped.
-        _reader.wait_to_finish()
-    _reader = null
-    _stdio = null
-    _pipe.clear()
-
-
-static func _parse_vertex(board: GoBoard, vertex: String) -> int:
-    if vertex.length() < 2:
-        return -1
-    var letters := "ABCDEFGHJKLMNOPQRSTUVWXYZ"
-    var x := letters.find(vertex[0])
-    var row := int(vertex.substr(1))
-    if x < 0 or row <= 0 or row > board.size:
-        return -1
-    return board.idx(x, board.size - row)
+    _pipe.close()

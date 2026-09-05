@@ -20,6 +20,7 @@ const C_SHADOW := Color(0.08, 0.07, 0.1, 0.35)
 const C_CURSOR := Color("#8c4034")
 const C_LAST := Color("#b8624a")
 const C_LIBERTY := Color("#367f72")
+const C_GOOD := Color("#c9962b")
 const FONT := preload("res://art/ui/ninepoint_font.fnt")
 const FONT_SIZE := 9
 
@@ -41,6 +42,9 @@ var highlight: PackedInt32Array = PackedInt32Array()
 ## and was not played. The review needs to say "this group died" and "here is
 ## what would have saved it" on the same board, and one ring cannot say both.
 var mark_point: int = -1
+## The review's one positive card: the same mark, in the paper's gold rather
+## than the liberty teal, so praise and correction never look alike.
+var mark_good: bool = false
 
 var _cell: float = 20.0
 var _origin: Vector2 = Vector2.ZERO
@@ -213,7 +217,7 @@ func _draw() -> void:
         draw_arc(point_position(h), _cell * 0.42, 0, TAU, 16, C_LAST, 1.0)
 
     if mark_point >= 0:
-        draw_circle(point_position(mark_point), _cell * 0.18, C_LIBERTY)
+        draw_circle(point_position(mark_point), _cell * 0.18, C_GOOD if mark_good else C_LIBERTY)
 
     if interactive and cursor >= 0:
         var cp := point_position(cursor)

@@ -13,6 +13,9 @@ var flags: Dictionary = {}
 var quests: Dictionary = {}             ## quest_id -> {"step": int, "done": bool}
 var inventory: Array[String] = []
 var match_records: Array = []
+## Optional engine review metadata, keyed by the record's stable append index.
+## A missing key is a valid legacy save, not a broken save.
+var match_analysis: Dictionary = {}
 
 var current_map: String = DEFAULT_MAP
 var spawn_point: String = "start"
@@ -41,6 +44,7 @@ func reset() -> void:
     quests.clear()
     inventory.clear()
     match_records.clear()
+    match_analysis.clear()
     current_map = DEFAULT_MAP
     spawn_point = "start"
     return_position = Vector2.ZERO
@@ -155,6 +159,24 @@ func record_match(result: MatchResult) -> void:
     _step_rank(result.to_dict())
 
 
+func record_analysis(record_index: int, analysis: Dictionary) -> void:
+    if record_index < 0 or record_index >= match_records.size():
+        return
+    match_analysis[str(record_index)] = analysis.duplicate(true)
+    set_flag("quay_review_available", not latest_quay_analysis().is_empty())
+
+
+func latest_quay_analysis() -> Dictionary:
+    for i in range(match_records.size() - 1, -1, -1):
+        var record: Dictionary = match_records[i]
+        if not MatchAnalysis.eligible(record):
+            continue
+        var analysis: Variant = match_analysis.get(str(i), {})
+        if analysis is Dictionary and str(analysis.get("availability", "")) in ["available", "steady"]:
+            return analysis
+    return {}
+
+
 ## Rank follows the record one step at a time -- GoRankLadder has the rule. An
 ## unranked player's games move nothing: Kesh hands out the first rank herself.
 func _step_rank(record: Dictionary) -> void:
@@ -182,13 +204,14 @@ func head_to_head(npc_id: String) -> Dictionary:
 
 func to_dict() -> Dictionary:
     return {
-        "version": 2,
+        "version": 3,
         "player_name": player_name,
         "rank_strength": rank_strength,
         "flags": flags,
         "quests": quests,
         "inventory": inventory,
         "match_records": match_records,
+        "match_analysis": match_analysis,
         "current_map": current_map,
         "spawn_point": spawn_point,
         "return_position": [return_position.x, return_position.y],
@@ -207,6 +230,15 @@ func from_dict(d: Dictionary) -> void:
     for i in d.get("inventory", []):
         inventory.append(str(i))
     match_records = d.get("match_records", [])
+    match_analysis = d.get("match_analysis", {})
+    if not (match_analysis is Dictionary):
+        match_analysis = {}
+    # A review that was running when the game was saved is not resumed: the
+    # engine is gone and pretending otherwise would leave the quay waiting.
+    for key in match_analysis.keys():
+        var entry: Variant = match_analysis[key]
+        if entry is Dictionary and str(entry.get("availability", "")) == "pending":
+            match_analysis[key] = MatchAnalysis.unavailable(int(str(key)), "interrupted")
     current_map = str(d.get("current_map", DEFAULT_MAP))
     spawn_point = str(d.get("spawn_point", "start"))
     # Indexed unguarded until M31: a short or malformed array crashed the load,

@@ -93,7 +93,7 @@
   "|-----|-----<<----|-----|-",
   "PPPPPPPPPPPPPPPPPPPPPPPPPP",
   "PPPPPPPPPyPPPPPPPPPPPPPPPP",
-  "PPLPPPPPPPPPPPPPPqPPPPePPP",
+  "PPLPPPPPPPPPPPPPPnPPPPePPP",
   "PPPPPPPPPPPPbPPPPPPPPPPPPP",
   "PPPPPPPPqPPPPPPPPPPPPPPPPP",
   "%%%%%J%%%%%%%%%%%%%J%%%%%%",
@@ -125,7 +125,7 @@
   "11111111111100111111111111",
   "00000000000000000000000000",
   "00000000010000000000000000",
-  "00100000000000000000001000",
+  "00100000000000000100001000",
   "00000000000010000000000000",
   "00000000000000000000000000",
   "00000100000000000001000000",
@@ -181,6 +181,13 @@
     6
    ],
    "text": "A mooring bollard, worn smooth. The water is the colour of the sky, which today is the colour of the water."
+  },
+  {
+   "tile": [
+    17,
+    3
+   ],
+   "text": "__QUAY_REVIEW__"
   }
  ],
  "npcs": [],

@@ -48,7 +48,8 @@ func _run() -> void:
 
 func _do(step: Dictionary) -> void:
     if step.has("katago_trial"):
-        await _start_katago_trial()
+        var trial_profile := str(step["katago_trial"]) if step["katago_trial"] is String else ""
+        await _start_katago_trial(trial_profile, bool(step.get("katago_direct", false)))
     if step.has("match_move"):
         var xy: Array = step["match_move"]
         await _play_match_point(Vector2i(int(xy[0]), int(xy[1])), float(step.get("timeout", 30.0)))
@@ -56,6 +57,18 @@ func _do(step: Dictionary) -> void:
         await _resign_match(float(step.get("timeout", 30.0)))
     if step.has("match_wait_player"):
         await _wait_for_match_player_turn(float(step.get("timeout", 30.0)))
+    if step.has("match_autoplay"):
+        await _autoplay_match(float(step.get("timeout", 600.0)), int(step.get("max_moves", 120)),
+            str(step.get("brain_rank", "12k")))
+    if step.has("review_engine"):
+        KataGoAnalysis.command_override = str(step["review_engine"])
+        KataGoAnalysis.stall_override = float(step.get("review_stall", -1.0))
+    if step.has("review_card_wait"):
+        await _wait_for_review_card(float(step.get("timeout", 5.0)))
+    if step.has("review_landed_wait"):
+        await _wait_for_review_landed(float(step.get("timeout", 600.0)))
+    if step.has("world_wait"):
+        await _wait_for_world(float(step.get("timeout", 5.0)))
     if step.has("walk_to"):
         var dest: Array = step["walk_to"]
         await _walk_to_tile(Vector2i(int(dest[0]), int(dest[1])), float(step.get("timeout", 8.0)))
@@ -100,12 +113,21 @@ func _do(step: Dictionary) -> void:
 
 
 ## This route exists only in autoplay scripts. No world interaction, profile,
-## or character can reach it, which keeps the shipped cast on heuristic play.
-func _start_katago_trial() -> void:
-    var profile := load("res://tools/fixtures/katago_trial_9x9.tres") as OpponentProfile
+## or character can reach it, which keeps this visual verification route out of
+## the shipped world flow.
+func _start_katago_trial(profile_path: String = "", direct: bool = false) -> void:
+    var selected_path := profile_path if profile_path != "" else "res://tools/fixtures/katago_trial_9x9.tres"
+    var profile := load(selected_path) as OpponentProfile
     if profile == null:
         push_error("KataGo trial fixture profile could not be loaded.")
         return
+    # Character profiles normally enter through handicap/nigiri presentation.
+    # The visual probe isolates the board match itself, so it pins colour only
+    # in this development-only duplicate; rank and Human-SL style stay intact.
+    if direct:
+        profile = profile.duplicate(true) as OpponentProfile
+        profile.colour_rule = "player_black"
+        profile.handicap = 0
     var request := MatchRequest.new()
     request.profile = profile
     request.context_id = "dev_katago_trial"
@@ -115,7 +137,13 @@ func _start_katago_trial() -> void:
     request.intro_line = "Development fixture: bundled KataGo Human SL trial."
     request.unrated = true
     request.player_strength = profile.strength()
-    await MatchBridge.start_match(request, Vector2(96, 96))
+    # From a loaded world the player comes back to where they stood, so a
+    # fixture can carry on walking; from the title there is nowhere to stand.
+    var world: Node = _world()
+    var where := Vector2(96, 96)
+    if world != null and world.get("player") != null:
+        where = world.player.global_position
+    await MatchBridge.start_match(request, where)
 
 
 func _match() -> Node:
@@ -164,6 +192,101 @@ func _wait_for_match_player_turn(timeout: float) -> void:
             return
         await get_tree().process_frame
     push_error("KataGo trial timed out waiting for the engine reply.")
+
+
+## A whole game, the way a person plays one: the player's moves come from the
+## shipped heuristic at a club rank, it passes when there is nothing left, and
+## the game ends at the count. The review fixtures need a finished game, not a
+## three-move resignation, because the engine's cost is one position at a time.
+func _autoplay_match(timeout: float, max_moves: int, brain_rank: String) -> void:
+    var deadline := Time.get_ticks_msec() + int(timeout * 1000.0)
+    var brain: HeuristicOpponent = null
+    var played := 0
+    var seen_board := false
+    while Time.get_ticks_msec() < deadline:
+        var scene := get_tree().current_scene
+        var at_board := scene != null and scene.has_method("is_player_turn_ready")
+        if not at_board:
+            # Before the board there is a fade; after it there is the world.
+            if seen_board and _world() != null:
+                push_error("Autoplay: the match ended before the count.")
+                return
+            await get_tree().process_frame
+            continue
+        seen_board = true
+        # Setup asks things a person answers with [Space]: the handicap card,
+        # the nigiri guess and the colour pick. Answer them the same way.
+        var prompt := str(scene.get("_awaiting"))
+        var ceremony_open := false
+        for child in scene.get_children():
+            if child is NigiriCeremony and str(child.get("_awaiting")) != "":
+                ceremony_open = true
+        if prompt == "prepare" or ceremony_open:
+            await get_tree().create_timer(0.4).timeout
+            _send("interact", true)
+            await get_tree().process_frame
+            _send("interact", false)
+            await get_tree().create_timer(0.4).timeout
+            continue
+        if scene.is_counting():
+            print("AUTOPILOT: the game reached the count after %d player moves" % played)
+            return
+        if scene.is_player_turn_ready():
+            var game: GoGame = scene.get("game")
+            if brain == null:
+                var p := OpponentProfile.new()
+                p.rank_label = brain_rank
+                p.mistake_rate = 0.0 if GoRank.from_string(brain_rank) >= GoRank.from_string("5k") else 0.05
+                p.reading_depth = 2 if GoRank.from_string(brain_rank) >= GoRank.from_string("5k") else 1
+                p.rng_seed = 7
+                brain = HeuristicOpponent.new()
+                brain.setup(p, game)
+            var move: Dictionary = await brain.choose_move(game)
+            var point := int(move.get("point", GoGame.PASS))
+            if str(move.get("type", "")) == "move" and played < max_moves and game.is_legal(point):
+                scene._on_point_activated(point)
+                played += 1
+            else:
+                _send("go_pass", true)
+                await get_tree().process_frame
+                _send("go_pass", false)
+        await get_tree().process_frame
+    push_error("Autoplay timed out before the count.")
+
+
+func _wait_for_review_card(timeout: float) -> void:
+    var deadline := Time.get_ticks_msec() + int(timeout * 1000.0)
+    while Time.get_ticks_msec() < deadline:
+        if get_tree().root.get_node_or_null("ReviewCards") != null:
+            print("AUTOPILOT: the review cards opened")
+            return
+        await get_tree().process_frame
+    push_error("The review cards did not open.")
+
+
+## After walking away from the loading card: the review must still land.
+func _wait_for_review_landed(timeout: float) -> void:
+    var deadline := Time.get_ticks_msec() + int(timeout * 1000.0)
+    while Time.get_ticks_msec() < deadline:
+        if not MatchReviewService.is_running():
+            if GameState.latest_quay_analysis().is_empty():
+                push_error("The review finished without a payload: %s" % GameState.match_analysis)
+            else:
+                print("AUTOPILOT: the review landed while the player was in the world")
+            return
+        await get_tree().process_frame
+    push_error("The review never landed after the player walked away.")
+
+
+## A review request must never trap a completed match under an engine overlay.
+func _wait_for_world(timeout: float) -> void:
+    var deadline := Time.get_ticks_msec() + int(timeout * 1000.0)
+    while Time.get_ticks_msec() < deadline:
+        if _world() != null:
+            print("AUTOPILOT: review request returned control to the world")
+            return
+        await get_tree().process_frame
+    push_error("Review request did not return control to the world.")
 
 
 func _assert_katago_trial() -> void:

@@ -1,0 +1,13 @@
+[
+  {"katago_trial": "res://data/opponents/abel_9x9.tres", "katago_direct": true},
+  {"wait": 1.0},
+  {"match_move": [2, 2]},
+  {"match_move": [6, 2]},
+  {"match_wait_player": true},
+  {"shot": "balanced_board"},
+  {"match_resign": true},
+  {"wait": 0.5},
+  {"tap": "interact"},
+  {"wait": 0.6},
+  {"trial_assert": true}
+]

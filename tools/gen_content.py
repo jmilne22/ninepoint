@@ -12,65 +12,65 @@ root = os.path.join(here, "..")
 # id, name, rank, engine knobs, blurb, dialogue, flavour
 CAST = [
     dict(id="wren", name="Wren Calloway", rank="20k", mistake=0.45, depth=0,
-         aggr=0.6, terr=0.8, resign=0.0,
+         aggr=0.6, terr=0.8, resign=0.0, style="steady",
          blurb="Learned last spring. Apologises for her own good moves.",),
     dict(id="kesh", theme="theme_rival", name="Kesh Idowu", rank="12k", mistake=0.24, depth=1,
          aggr=1.6, terr=0.9, resign=40.0,
-         cut=1.8,
+         cut=1.8, style="fighting",
          blurb="Plays fast, cuts first, counts never. Keeps score of your meetings.",
          on_resign="I'm not finishing that. Take it."),
     dict(id="pip", name="Pip Arnesen", rank="18k", mistake=0.42, depth=0,
          aggr=1.8, terr=0.4, resign=0.0,
-         ladder=1.8,
+         ladder=1.8, style="fighting",
          blurb="Attempts ladders. The ladders do not work. Attempts them again.",),
     dict(id="hana", theme="theme_teacher", name="Hana Oyelaran", rank="5d", mistake=0.02, depth=2,
-         aggr=1.0, terr=1.3, resign=0.0,
+         aggr=1.0, terr=1.3, resign=0.0, style="steady",
          blurb="Teaches by asking questions she already knows the answer to.",),
     dict(id="bertie", name="Bertie Vale", rank="4k", mistake=0.10, depth=1,
-         aggr=0.5, terr=1.9, resign=25.0,
+         aggr=0.5, terr=1.9, resign=25.0, style="steady",
          blurb="Forty years in the park. Deals in proverbs of variable relevance.",),
     dict(id="nadia", name="Nadia Ferreira", rank="2k", mistake=0.08, depth=1,
          aggr=1.0, terr=1.4, resign=30.0,
-         book=4, cut=0.5,
+         book=4, cut=0.5, style="steady",
          blurb="Carries a joseki book. Quotes it. Struggles when you leave the book.",),
     dict(id="tomas", name="Tomas Beir", rank="8k", mistake=0.18, depth=1,
-         aggr=0.9, terr=1.3, resign=0.0,
+         aggr=0.9, terr=1.3, resign=0.0, style="steady",
          blurb="One game a day, and he means it. Suspiciously good endgame.",),
     # --- the arches under the viaduct. No card, no papers, no rank on the wall.
     # strength carries what rank_label refuses to say -- see OpponentProfile.
     dict(id="joos", theme="theme_ghost", name="Joos", rank="?", strength=32, mistake=0.06, depth=2,
-         aggr=1.2, terr=1.6, resign=0.0,
+         aggr=1.2, terr=1.6, resign=0.0, style="balanced",
          blurb="Plays under the arches for coins. Will not say what he is.",),
 
     # --- Essenveld Instituut students
     dict(id="ilse", name="Ilse Brandt", rank="9k", mistake=0.15, depth=1,
          aggr=0.7, terr=1.5, resign=35.0,
-         book=6,
+         book=6, style="steady",
          blurb="Knows the standard sequences cold. Visibly unhappy when you leave them.",),
     dict(id="sunny", name="Sunny Achebe", rank="6k", mistake=0.12, depth=1,
          aggr=1.7, terr=0.8, resign=0.0,
-         cut=0.9, ladder=0.6,
+         cut=0.9, ladder=0.6, style="fighting",
          blurb="Nine years old. Reads four moves further than you and does not know it is impressive.",),
     dict(id="orla", theme="theme_wall", name="Orla Finn", rank="4k", mistake=0.08, depth=1,
          aggr=1.1, terr=1.4, resign=28.0,
-         cut=0.6,
+         cut=0.6, style="balanced",
          blurb="Top of the lower league and in no hurry to explain how.",),
 
     # --- the Beginner Cup field: strangers from the rest of Verhaven. They exist
     # to be played, not visited, so they are on no map and have a line each.
     dict(id="abel", name="Abel Roos", rank="21k", mistake=0.44, depth=0,
-         aggr=0.8, terr=1.1, resign=0.0,
+         aggr=0.8, terr=1.1, resign=0.0, style="balanced",
          blurb="Came off the ferry for this. Plays every move like it is the last one.",),
     dict(id="dov", name="Dov Halevi", rank="19k", mistake=0.38, depth=0,
-         aggr=0.5, terr=1.6, resign=0.0,
+         aggr=0.5, terr=1.6, resign=0.0, style="steady",
          blurb="Counts out loud. Has not yet noticed that everyone can hear him.",),
     dict(id="moss", name="Moss Lindqvist", rank="16k", mistake=0.28, depth=1,
          aggr=1.4, terr=1.0, resign=30.0,
-         cut=0.8,
+         cut=0.8, style="fighting",
          blurb="Top of the beginners' section three years running and still in it.",),
 
     dict(id="marguerite", theme="theme_exam", name="Marguerite Sable", rank="1d", mistake=0.05, depth=1,
-         aggr=0.9, terr=1.5, resign=20.0,
+         aggr=0.9, terr=1.5, resign=20.0, style="steady",
          blurb="Runs the Beginner Cup. Allergic to slow pairing.",),
 ]
 
@@ -140,6 +140,7 @@ gtp_time_per_move = 2.0
 gtp_startup_timeout = 12.0
 gtp_model_path = "{model}"
 gtp_config_path = "{config}"
+gtp_style = "{style}"
 theme = "{theme}"
 on_resign = "{on_resign}"
 """.format(pid=pid, name=c["name"], rank=c["rank"], board=board, komi=komi,
@@ -152,7 +153,8 @@ on_resign = "{on_resign}"
            theme=c.get("theme", "") if theme is None else theme,
            on_resign=c.get("on_resign", ""), gtp_command=KATAGO_COMMAND,
            model=KATAGO_MODEL, human_model=KATAGO_HUMAN_MODEL,
-           config="%s/human_%s.cfg" % (KATAGO_CONFIG_DIR, human_profile(c)))
+           style=c["style"],
+           config="%s/human_%s_%s.cfg" % (KATAGO_CONFIG_DIR, human_profile(c), c["style"]))
 
 
 def npc_tres(c):
@@ -284,15 +286,33 @@ def build():
     q_dir = os.path.join(root, "data", "quests")
     for d in (op_dir, npc_dir, q_dir):
         os.makedirs(d, exist_ok=True)
-    # Keep rank/config selection generated with the profiles. The config is a
-    # fast common Human-SL base plus exactly one profile override, so variants
-    # cannot silently drift to the old 5k trial setting.
+    # Keep rank/style config selection generated with the profiles. Every
+    # variant keeps its character's temperament while the Human-SL rank profile
+    # remains the only calibrated strength selector.
     config_dir = os.path.join(root, "packaging", "katago", "config")
     base_path = os.path.join(config_dir, "gtp_human_fast.cfg")
     base = open(base_path).read()
+    style_overrides = {
+        "steady": {
+            "chosenMoveTemperatureEarly": "0.65", "chosenMoveTemperature": "0.45",
+            "staticScoreUtilityFactor": "0.45",
+        },
+        "balanced": {},
+        "fighting": {
+            "chosenMoveTemperatureEarly": "1.05", "chosenMoveTemperature": "0.90",
+            "humanSLRootExploreProbWeightless": "0.10",
+            "humanSLRootExploreProbWeightful": "0.10",
+            "staticScoreUtilityFactor": "0.15",
+        },
+    }
     for rank in sorted({human_profile(c) for c in CAST}):
-        configured = re.sub(r"(?m)^humanSLProfile\s*=.*$", "humanSLProfile = preaz_%s" % rank, base)
-        open(os.path.join(config_dir, "human_%s.cfg" % rank), "w").write(configured)
+        for style, overrides in style_overrides.items():
+            configured = re.sub(r"(?m)^humanSLProfile\s*=.*$", "humanSLProfile = preaz_%s" % rank, base)
+            for key, value in overrides.items():
+                configured = re.sub(r"(?m)^%s\s*=.*$" % key, "%s = %s" % (key, value), configured)
+            configured = configured.replace("# tools/gen_content.py and only replace humanSLProfile below.",
+                "# tools/gen_content.py; rank and temperament overrides are generated below.")
+            open(os.path.join(config_dir, "human_%s_%s.cfg" % (rank, style)), "w").write(configured)
     n = 0
     for c in CAST:
         # Everybody plays by_rank: the gap decides. GoMatchSetup falls back to

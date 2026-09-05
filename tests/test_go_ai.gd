@@ -59,8 +59,8 @@ static func _test_interface(t: TestKit) -> void:
     gtp_profile.gtp_command = "/nonexistent/katago"
     t.ok(OpponentFactory.create(gtp_profile, game) is HeuristicOpponent,
         "a missing GTP engine falls back instead of crashing")
-    t.eq(GtpOpponent._parse_vertex(game.board, "D4"), game.board.idx(3, 5), "GTP vertices parse")
-    t.eq(GtpOpponent._parse_vertex(game.board, "J9"), game.board.idx(8, 0), "and skip the letter I")
+    t.eq(game.board.from_label("D4"), game.board.idx(3, 5), "GTP vertices parse")
+    t.eq(game.board.from_label("J9"), game.board.idx(8, 0), "and skip the letter I")
 
 
 static func _test_random_legality(t: TestKit) -> void:

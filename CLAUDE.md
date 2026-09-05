@@ -7,8 +7,10 @@ cast, art or branding. Combat does not exist; encounters are games of Go.
 The loop is the one Pokémon TCG and Yu-Gi-Oh! Tag Force run on: walk around, talk to
 people, play, your record climbs, a tournament at the end. Everyone is always where they
 live. A rated game moves your rank one step. After a game, the person you played reacts to
-the game you just played. Nothing else — no clock, no schedules, no second progression, no
-review — because M37 cut all of it, and the reasons are in `MILESTONES.md`.
+the game you just played, and if you ask, goes over it with you: how many of your moves
+were the best on the board and which, then your best move with why it was good, then up
+to two positions where a move cost points (M40). Nothing else — no clock, no schedules, no
+second progression — because M37 cut all of it, and the reasons are in `MILESTONES.md`.
 
 ---
 
@@ -75,7 +77,7 @@ Nadia · Orla · Sunny
 | `de_ketel` | the salon, three steps below the pavement. Wren teaches and hosts safe practice; Kesh is the first rated rival; Tomás has the 13×13 under the coats |
 | `onderbrug` | the viaduct arches, east: a board on a crate and Joos |
 | Molenpark | the park end of Ketelsteeg — stone tables, Pip and Bertie |
-| `quay` | grey water, one bench, south past the park. Nobody lives there |
+| `quay` | grey water, one bench, south past the park. Nobody lives there; the noticeboard holds the last game you asked somebody to go over |
 | `academy_*` | the Essenveld Instituut: hall (Marguerite and the league board), study (Ilse, Sunny, Orla), class (Hana and Nadia), dorm |
 | Bondszaal | the federation hall — the Beginner Cup and the qualifying exam |
 
@@ -183,6 +185,9 @@ python3 tools/check_melody.py                    # does each track's wav match i
 python3 tools/check_dialogue.py [id ...]         # print a graph as a script a person can read
 godot --headless --path . --script res://tools/ai_endgame.gd     # where does the opponent stop?
 tools/check_audio.sh                             # is the music actually coming out? (needs a display)
+tools/setup_katago.sh [--verify]                 # fetch + checksum the pinned KataGo (binary and models are not in git)
+godot --headless --path . --script res://tools/katago_calibrate.gd   # every cast profile: startup, reply time, legality
+godot --headless --path . --script res://tools/katago_review_test.gd # the review gate: a whole 9x9 and 19x19, and a wedged engine
 python3 tools/gen_maps.py                        # rebuild the maps from their generators
 python3 tools/gen_content.py                     # rebuild NpcData / OpponentProfile / quests
 python3 tools/gen_props.py                       # art/props/ — the tram, the "..." bubble
@@ -193,6 +198,8 @@ python3 tools/make_test_save.py invited 2 Ada 42 # ...in slot 2, as Ada, at 42 m
                                                 # exam_ready exam_day exam_round2 exam_passed
                                                 # exam_failed exam_missed exam_final
                                                 # beat_kesh lost_to_kesh
+                                                # quay_review quay_review_19 quay_empty
+                                                # thirteen_ketel (thirteen_ready, but in De Ketel where Kesh is)
 ```
 
 Autopilot scripts in `tools/autopilot/`: `opening`, `prologue`, `slice_full` (New Game to
@@ -201,7 +208,14 @@ the league board: Pip, Wren, Kesh, the rank, the tram, Hana, Marguerite), `insti
 `endgame`, `board`, `saves`, `lessons`, `taught`, `thirteen`, `cup` / `cup_round` /
 `cup_outgrown` / `cup_playing_up` / `cup_enter_open` / `cup_open`, `exam` /
 `exam_round` / `exam_play` / `exam_result` / `exam_missed` / `exam_final`, `wassalon` /
-`wassalon_game`.
+`wassalon_game`, `katago_trial` / `katago_style_steady` / `katago_style_balanced` /
+`katago_style_fighting` (the engine at the board, no world), `review_e2e` / `review_13x13`
+/ `review_win` (a whole game to the count, then the cards; the last one against the
+weakest heuristic so the player wins -- the autoplay brain cannot beat even Abel's engine), `review_world_wren_loss` / `review_world_wren` /
+`review_world_13` (the same through the town: Wren at De Ketel, Kesh's thirteen, then the
+post-match talk), `review_leave` (walk away from the loading card, read it later on the
+quay), `review_unavailable` (a wedged engine must still let you out), `quay_review` /
+`quay_review_19` (the noticeboard from a save).
 
 Screenshots land in `/tmp/ninepoint-shots` (override with `OUT=`). **`run_game.sh` needs a
 script argument** — it runs on a hidden display. `DISPLAY_NUM=0` runs it on the real display
@@ -249,7 +263,9 @@ Dependencies point one way. `src/go/` has **zero** inbound arrows.
 src/go/        pure rules: board, game, scoring, ranks, the rank ladder, nigiri/handicap,
                lessons, puzzles, SGF, table talk (what just happened, as tags)
 src/go_ai/     GoOpponent interface, GoEndgame (which ground is finished), the heuristic AI
-               (style as well as strength), a GTP adapter for KataGo (unwired)
+               (style as well as strength), EnginePipe (one child process, read a line at a
+               time off the scene thread), GtpOpponent (KataGo at the board), KataGoAnalysis
+               (KataGo's analysis mode over a whole game) + MatchAnalysis (the review, pure)
 src/go_ui/     board view, match scene, puzzle scene, lesson runner, nigiri ceremony
 src/rpg/       world, player, NPCs, maps, components (Warp, Interactable, CharacterSprite),
                SignDesk (everything you read on a wall or sit down at: the boards, the
@@ -259,7 +275,9 @@ src/academy/   LeagueTable (pure) + LeagueBoard (the panel); Exam + ExamBoard; C
 src/dialogue/  DialogueGraph — JSON graphs, conditions and actions against GameState
 src/quest/     QuestData + QuestTracker (autoloaded as `Quests`)
 src/ui/        title, opening, dialogue box, HUD, pause menu, save slots, UiKit
-src/autoload/  EventBus, GameState, SaveSystem, SceneRouter, MatchBridge, Audio,
+src/autoload/  EventBus, GameState, SaveSystem, SceneRouter, MatchBridge, KataGoService
+               (engine leases warmed while the player walks to the board),
+               MatchReviewService (the one review that may be running), Audio,
                GameInput, Autopilot  (all registered in project.godot)
 ```
 
@@ -269,7 +287,14 @@ src/autoload/  EventBus, GameState, SaveSystem, SceneRouter, MatchBridge, Audio,
 - `GameState.record_match()` appends the result, steps the rank (`GoRankLadder.step`), and
   sets `last_result` for the conversation that follows.
 - `GoOpponent.choose_move()` may `await`, so a subprocess engine fits the same interface as
-  the shipped AI. `GtpOpponent` speaks the protocol but is **unwired** — see `ROADMAP.md` §1.
+  the shipped AI. Every cast profile is `engine = "gtp"`: KataGo's Human-SL model at the
+  character's rank and temperament, with the heuristic as the fallback when the engine is
+  missing or slow. The binary and models are fetched by `tools/setup_katago.sh`, not in git.
+- **The review is one process per game.** `MatchBridge.finish_match_with_review()` records
+  the result exactly as `finish_match()` does, then `MatchReviewService` runs
+  `KataGoAnalysis` on the SGF: one query, every position, about a core-second each on the
+  bundled CPU build. The match scene shows progress and can be left with [Esc]; the review
+  finishes on its own and waits on the quay noticeboard. Nothing in it changes the result.
 - `GoMatchSetup` decides colours: nigiri for even games, automatic Black at 0.5 komi for
   handicap games, derived from the two ranks.
 - Systems talk through `EventBus` signals or `GameState` flags — never by reaching across
@@ -431,10 +456,15 @@ plausibly, from a ranked shortlist. `GoEndgame` decides when the opponent stops.
 **A game that counts has music.** `MatchMusic.theme_for()`: a free game keeps `theme_match`,
 a rated one gets `theme_battle`, five people carry their own, the two occasions outrank them.
 
-**Known gaps, in priority order:** see `ROADMAP.md`. The short version: the engine is the
-one open decision; the quay and the arches are thin; `world.gd` is over the line-count
-convention; a `CanvasLayer` that reads an autoload is invisible to the suite; and audio has
-never been heard by an assistant.
+**The engine is in (M38–M40).** KataGo plays every opponent at the character's rank; the
+review is the engine's score swings, offered by the person you played, bounded only by
+progress you can walk away from. Dead stones at the count are still the heuristic's
+proposal with a player override: `final_status_list` hung on the bundled Human-SL build.
+
+**Known gaps, in priority order:** see `ROADMAP.md`. The short version: engine dead-stone
+adjudication; 19×19 at the board (the review already reads a 19×19 game); the arches are
+thin; `world.gd` and `go_match.gd` are over the line-count convention; a `CanvasLayer` that
+reads an autoload is invisible to the suite; and audio has never been heard by an assistant.
 
 ## The longer documents
 

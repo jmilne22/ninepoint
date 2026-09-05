@@ -25,6 +25,12 @@ var sgf: String = ""
 var summary: String = ""
 ## True when the game was decided by a capture goal rather than by counting.
 var by_capture: bool = false
+## Chosen on the result card. This is intentionally recorded with the match so
+## loading an older save can never start work the player did not request.
+var review_requested: bool = false
+## Who sat across the board, as the town names them. The review's toast and
+## the quay need it after the request that carried it is gone.
+var opponent_name: String = ""
 
 func to_dict() -> Dictionary:
     return {
@@ -35,4 +41,8 @@ func to_dict() -> Dictionary:
         "unrated": unrated, "opponent_strength": opponent_strength,
         "summary": summary,
         "sgf": sgf,
+        "by_capture": by_capture,
+        "player_color": player_color, "winner": winner,
+        "review_requested": review_requested,
+        "opponent_name": opponent_name,
     }

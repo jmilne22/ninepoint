@@ -1,0 +1,70 @@
+[
+ {
+  "save": "quay_review_19"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue into the quay"
+ },
+ {
+  "wait": 2.0,
+  "shot": "a_quay"
+ },
+ {
+  "walk_to": [
+   17,
+   4
+  ]
+ },
+ {
+  "face": [
+   17,
+   3
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "review_card_wait": true,
+  "timeout": 5
+ },
+ {
+  "wait": 0.6,
+  "shot": "b_card_1"
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "wait": 0.3,
+  "shot": "c_card_2"
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "wait": 0.3,
+  "shot": "d_card_3"
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "wait": 0.3,
+  "shot": "card_4"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.6,
+  "shot": "e_after"
+ }
+]

@@ -114,6 +114,7 @@ kyu. Nothing in the game makes your stones stronger. The only thing that improve
 tools/test.sh                       # compile check + headless suite (Go rules, AI, content)
 tools/setup_katago.sh               # download + checksum-verify Linux x64 KataGo for local play
 tools/setup_katago.sh --verify      # check the local KataGo package without downloading
+godot --headless --path . --script res://tools/katago_review_test.gd   # the review over whole 9x9 and 19x19 games
 tools/run_game.sh tools/autopilot/slice_full.json   # drive the whole slice, screenshot each beat
 tools/run_game.sh tools/autopilot/win_path.json     # load a save, take the rival's win branch, do the puzzle
 python3 tools/build_assets.py       # regenerate all art and audio, deterministically
@@ -176,7 +177,8 @@ the league board → save it into one of the three slots.
 src/go/      pure Go rules, nigiri/handicap, lessons -- no engine coupling, unit tested
 src/academy/ the Instituut league and the federation's events: standings and draws,
              computed only from games played
-src/go_ai/   opponent interface, the shipped heuristic AI, a GTP adapter for KataGo
+src/go_ai/   opponent interface, KataGo at the board and over a finished game, the
+             heuristic AI that stands in when the engine is missing
 src/go_ui/   board view, match scene, puzzle scene, lesson runner, the nigiri ceremony
 src/rpg/     town, player, NPCs, maps, the tram
 src/dialogue/ src/quest/ src/ui/ src/autoload/   (SaveSystem lives in src/autoload/)

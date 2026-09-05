@@ -33,3 +33,4 @@ timeout 300 "$GODOT" --headless --path . --script res://tests/test_runner.gd 2>&
 echo "== KataGo Linux integration gates =="
 timeout 90 "$GODOT" --headless --path . --script res://tools/katago_smoke.gd
 timeout 120 "$GODOT" --headless --path . --script res://tools/katago_service_test.gd
+timeout 600 "$GODOT" --headless --path . --script res://tools/katago_review_test.gd

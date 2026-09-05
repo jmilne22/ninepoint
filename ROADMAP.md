@@ -5,9 +5,9 @@ This document explains **why** future work matters and the trade-offs around it.
 dependencies, and acceptance criteria. `MILESTONES.md` is the append-only delivery history.
 Do not select work from this document without checking its linked board ticket first.
 
-The build is green: `tools/test.sh` runs 11583 checks, `tools/check_lessons.py`
-reports no problems, and the game is playable from the cold open to the exam and
-the Cup.
+The build is green: `tools/test.sh` runs 12505 checks plus three real-engine gates,
+`tools/check_lessons.py` reports no problems, and the game is playable from the cold open
+to the exam and the Cup.
 
 **M37 cut more than any milestone built.** The review, the hooks ladder, the borrowed
 book, the performance rating and the whole calendar — hours, days, weekdays, weather,
@@ -16,12 +16,18 @@ collapsed to one line each. Read `MILESTONES.md` M37 for why.
 
 ---
 
-## 1. The engine — ENG-01 through ENG-04
+## 1. The engine — ENG-01 through ENG-05
 
 **Decision (season-finale foundation):** ship a bundled KataGo integration for Linux x64.
 `packaging/katago-linux-x64.json` is the release manifest for the verified binary,
 normal and human-style models/configuration, checksums, licences and arguments. The
 first engine-backed play target remains 9x9 and 13x13; 19x19 remains an ending horizon.
+
+**State (M38–M40).** Every cast profile plays through KataGo's Human-SL model at the
+character's rank and temperament, warmed while the player walks to the board, with the
+heuristic as the fallback for a missing or misbehaving engine. The review is back: the
+person you played offers to go over the game, KataGo's analysis mode prices every
+position, and at most three cards come out of it. Two things below are still open.
 
 **What it buys.** The heuristic opponent (`src/go_ai/heuristic_opponent.gd`, with
 `GoEndgame` deciding when it stops) plays plausibly and blunders on a ranked shortlist,
@@ -39,22 +45,24 @@ to babysit, and on the development machine everything runs through `steam-run`, 
 whether a subprocess works at all is unproven. GNU Go is tiny and ships easily, and its
 weakest level plays like an 8 kyu, which makes Pip and Wren unplayable for a beginner.
 
-**The seam exists.** `GoOpponent.choose_move()` may `await`, and `GtpOpponent`
-(`src/go_ai/gtp_opponent.gd`) speaks the protocol. It is **unwired** and has four known
-bugs between it and an engine: handicap stones never enter `game.moves`, `choose_move`
-issues `clear_board` every turn, `set_position` never reaches GTP, and `_command` blocks
-on `get_line()` with no timeout, so any engine hiccup hard-freezes the game.
+**What the review costs, measured.** One KataGo evaluation of one position is about a
+core-second on the bundled Eigen CPU build, at one visit or eight; a finished 9×9 game is
+fifty to eighty positions and a 19×19 game two to three hundred. That is why the review is
+one `katago analysis` query per game with the results streamed, why the loading card shows
+"move N of M" and can be left, and why the first version — two GTP searches per move
+inside an eighteen-second budget — timed out on every real game and looked like a hang.
 
-**The order to do it in.** Wire KataGo behind `GtpOpponent` with a timeout; use it for
-the opponent only, keeping the profiles' rank labels and the handicap arithmetic; then
-dead stones; then a review built from `kata-analyze` score deltas, three findings, two
-lines each in the voice sheet's register. Delete the heuristic and `GoEndgame` when the
-engine is the only opponent, not before.
+**Still open.** *Dead stones* (ENG-05): `final_status_list` hung on the bundled Human-SL
+build, so the count is still the heuristic's proposal with a player override; the analysis
+mode's `ownership` output is the honest route. *19×19 at the board* (UI-01): the review
+already reads a 19×19 game, the match panel does not yet draw one legibly. Delete the
+heuristic and `GoEndgame` when the engine is the only opponent, not before.
 
 ## 2. The thin places — WORLD-01 through WORLD-03
 
-- **The quay has nobody on it.** It had Orla at dusk from M30 to M36; with schedules
-  gone it is two signs and a bench again. Either somebody lives there or it is cut.
+- ~~The quay has nobody on it.~~ Decided (WORLD-01) and built (M40): nobody lives there,
+  and the noticeboard holds the last game you asked somebody to go over. A review you
+  walked away from lands there.
 - **Onderbrug is Joos alone.** Walled at both ends, so it can have no crowd route, and
   Pip and Bertie live in the park now. Correct for a dead end under a viaduct; thin.
 - **The wassalon's three stand in the room together** at all times. It was built for one
@@ -95,9 +103,7 @@ should be; the engine makes the question go away.
   null without failing anything. `ExamBoard.summary()` in `test_exam.gd` is a dead
   assertion for this reason. Put anything a test needs on the pure half of a pair.
   Nothing detects it.
-- **`check_load.gd` never opens a `.json` file.** Dialogue, lessons, puzzles and banter
-  are validated only where a specific test walks them; a malformed banter file surfaces
-  as a `push_error` in front of the player.
+- ~~`check_load.gd` never opens a `.json` file.~~ It parses every one since M38.
 - **Two test hooks ship in production code**: the `Autopilot` autoload and
   `GoMatch.THINK_DELAY_FAST`. (`GameState.weather_override` went with the weather.)
 - **`LESSONS_REACHED_BY_TRACK` and `PUZZLES_REACHED_BY_TRACK` in `tests/test_data.gd`
@@ -106,7 +112,10 @@ should be; the engine makes the question go away.
 - **A positional sound reaches no audibility check.** `washer`, `fryer` and
   `stove_crackle` are emitters; `tools/check_audio.sh` walks `MUSIC` and `BEDS` only.
 - **Dead-stone estimation is a heuristic** and will misjudge seki and complicated life
-  and death. The player can override every call. The engine fixes it.
+  and death. The player can override every call. The engine fixes it, but not through
+  `final_status_list` (§1); the analysis mode's ownership map is the route.
+- **`go_match.gd` is over 800 lines.** The result, the review offer and the wait under
+  the loading card went in where a component should have.
 - **The UI is positioned by hand**, in literal coordinates rather than containers. M37
   found that `Label`'s default 3 px `line_spacing` had made every "four rows" in the
   game three rows and a fourth drawn on the frame, in every panel, for the life of the
@@ -128,7 +137,9 @@ should be; the engine makes the question go away.
 - ~~The thin places~~ — closed (M36) by schedules and a room; the schedules are gone and
   §2 above has the two that reopened.
 - ~~The tutorial~~ — built (M27).
-- ~~The review~~ — built M25–M28, deleted M37. See §1.
+- ~~The review~~ — built M25–M28, deleted M37, rebuilt on the engine M40. See §1.
+- ~~The engine~~ — decided (ENG-01), hardened (ENG-02), at the board for every character
+  (ENG-03, M38–M39), and behind the review (ENG-04, M40).
 - ~~A rank that moved the wrong way~~ — the performance rating averaged the opponents'
   strength, so three losses from the provisional 22 kyu were a promotion. Replaced by
   `GoRankLadder` (M37): one step, in the direction the result says.

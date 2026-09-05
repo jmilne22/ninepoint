@@ -104,6 +104,50 @@ def _rated_wins(n):
         "opponent_strength": 12 + i, "summary": "Black wins by 6.5",
     } for i in range(n)]
 
+
+def _review_record(size):
+    return {
+        "context_id": "league_kesh", "npc_id": "kesh", "opponent_name": "Kesh Idowu",
+        "player_won": True, "player_color": 1, "winner": 1,
+        "margin": 3.5, "by_resignation": False, "by_capture": False,
+        "board_size": size, "handicap": 0, "handicap_taken": 0, "komi": 5.5,
+        "move_count": 52, "unrated": False, "opponent_strength": 18,
+        "summary": "Black wins by 3.5", "sgf": "(;GM[1]FF[4]SZ[%d];B[dd];W[ee])" % size,
+        "review_requested": True,
+    }
+
+
+def _review_payload(size):
+    """Three findings in the shape MatchAnalysis.available() accepts."""
+    def idx(x, y):
+        return y * size + x
+    cells = [0] * (size * size)
+    for x, y in [(2, 2), (3, 2), (2, 3), (4, 4)]:
+        cells[idx(x, y)] = 1
+    for x, y in [(5, 5), (6, 5), (5, 6), (6, 2)]:
+        cells[idx(x, y)] = 2
+    return {
+        "source_match": 0, "availability": "available", "engine_version": "fixture",
+        "positions": [], "partial": False, "analysed_moves": 26, "total_moves": 26,
+        "tally": {"moves": 26, "best": 7, "fine": 11, "best_moves": [3, 8, 14, 19, 27, 33, 41]},
+        "findings": [
+            {"kind": "strength", "move_number": 8, "size": size, "cells": cells,
+                "actual": idx(4, 4), "best": idx(4, 4), "point_loss": 0.0, "stake": 2.0,
+                "matched": True, "does": "It takes open ground in the middle."},
+            {"kind": "mistake", "move_number": 12, "size": size, "cells": cells,
+                "actual": idx(6, 1), "best": idx(3, 3), "point_loss": 3.5, "concept": "connect",
+                "critique": "Yours staked out the side, but the board had a bigger point.",
+                "changed": "D6 would have joined your stones at C6 and D5.",
+                "habit": "Before a fight, look for the move that connects your stones."},
+            {"kind": "lesson", "move_number": 20, "size": size, "cells": cells,
+                "actual": idx(1, size - 2), "best": idx(4, 6), "point_loss": 1.5, "concept": "attack",
+                "critique": "Yours took the corner.",
+                "changed": "E3 would have leaned on the white stone at F3.",
+                "habit": "When you approach a group, check whether it can answer locally."},
+        ],
+    }
+
+
 STATES = {
     # Act 1 complete and invited east, for testing the Institute directly.
     "invited": {
@@ -190,6 +234,52 @@ STATES = {
         "won": True,
         "map": "academy_study",
         "spawn": "from_hall",
+        "records": [
+            {"context_id": "kesh_first", "npc_id": "kesh", "player_won": False,
+             "margin": 12.5, "by_resignation": False, "board_size": 9,
+             "handicap": 0, "handicap_taken": 0, "komi": 5.5, "move_count": 48,
+             "unrated": False, "opponent_strength": 18,
+             "summary": "White wins by 12.5"},
+            {"context_id": "tomas_club", "npc_id": "tomas", "player_won": True,
+             "margin": 2.5, "by_resignation": False, "board_size": 9,
+             **_handicap_fields(12, 22), "move_count": 71,
+             "unrated": False, "opponent_strength": 22,
+             "summary": "Black wins by 2.5"},
+            {"context_id": "league_ilse", "npc_id": "ilse", "player_won": True,
+             "margin": 4.5, "by_resignation": False, "board_size": 9,
+             **_handicap_fields(12, 21), "move_count": 66,
+             "unrated": False, "opponent_strength": 21,
+             "summary": "Black wins by 4.5"},
+            {"context_id": "league_kesh", "npc_id": "kesh", "player_won": True,
+             "margin": 6.5, "by_resignation": False, "board_size": 9,
+             **_handicap_fields(12, 18), "move_count": 74,
+             "unrated": False, "opponent_strength": 18,
+             "summary": "Black wins by 6.5"},
+        ],
+    },
+    # The same, standing in De Ketel, which is where Kesh lives since M37: the
+    # study-hall version above predates the cut and she is not there any more.
+    "thirteen_ketel": {
+        "rank_strength": 12,
+        "flags": {
+            "opening_seen": True, "intro_seen": True, "carrying_board": True,
+            "pip_taught_capture": True, "match_pip_capture_done": True,
+            "wren_told_about_cup": True, "kesh_match_done": True,
+            "match_kesh_first_done": True, "record_kesh_loss": 1,
+            "record_kesh_win": 1, "hana_offered_puzzle": True,
+            "capture_1_solved": True,
+            "invited_to_institute": True, "knows_the_rules": True,
+            "lesson_capture_done": True, "lesson_liberties_done": True,
+            "lesson_self_capture_done": True, "lesson_counting_done": True,
+            "tomas_match_done": True, "enrolled": True, "read_league_board": True,
+            "ranked_by_club": True,
+        },
+        "quests": {"first_stones": {"step": 3, "done": True},
+                   "enrolment": {"step": 3, "done": False}},
+        "summary": "Black wins by 6.5",
+        "won": True,
+        "map": "de_ketel",
+        "spawn": "from_street",
         "records": [
             {"context_id": "kesh_first", "npc_id": "kesh", "player_won": False,
              "margin": 12.5, "by_resignation": False, "board_size": 9,
@@ -678,6 +768,37 @@ STATES = {
         "summary": "White wins by 12.5",
         "won": False,
     },
+    # A completed rated game with a finished review, on the quay. A visual
+    # fixture for the noticeboard; the payload is shaped exactly as
+    # MatchAnalysis.available() demands, so the cards open.
+    "quay_review": {
+        "rank_strength": 8,
+        "flags": {"intro_seen": True, "quay_review_available": True},
+        "quests": {},
+        "map": "quay",
+        "spawn": "bench",
+        "records": [_review_record(9)],
+        "analysis": {"0": _review_payload(9)},
+    },
+    # The same at nineteen lines: the cards must still read.
+    "quay_review_19": {
+        "rank_strength": 8,
+        "flags": {"intro_seen": True, "quay_review_available": True},
+        "quests": {},
+        "map": "quay",
+        "spawn": "bench",
+        "records": [_review_record(19)],
+        "analysis": {"0": _review_payload(19)},
+    },
+    # On the quay with nothing to look at: where review_leave starts.
+    "quay_empty": {
+        "rank_strength": 8,
+        "flags": {"intro_seen": True},
+        "quests": {},
+        "map": "quay",
+        "spawn": "bench",
+        "records": [],
+    },
 }
 
 
@@ -716,6 +837,7 @@ def build(name, slot=1, who="Ro", minutes=None):
             "handicap_taken": 0, "komi": 5.5, "move_count": 48, "unrated": False,
             "opponent_strength": 18, "summary": st["summary"],
         }],
+        "match_analysis": st.get("analysis", {}),
         # A preset may name its hour: schedules decide who is standing in the
         # room, so "afternoon" is a default rather than a fact about every state.
         "current_map": st.get("map", "de_ketel"),
