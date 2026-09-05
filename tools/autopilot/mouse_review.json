@@ -1,0 +1,101 @@
+[
+ {
+  "save": "quay_review_19"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue into the quay"
+ },
+ {
+  "wait": 2.0,
+  "shot": "a_quay"
+ },
+ {
+  "walk_to": [
+   17,
+   4
+  ]
+ },
+ {
+  "face": [
+   17,
+   3
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "review_card_wait": true,
+  "timeout": 5
+ },
+ {
+  "wait": 0.6,
+  "shot": "b_card_1"
+ },
+ {
+  "board_input": {
+   "button": "move_right"
+  }
+ },
+ {
+  "wait": 0.2
+ },
+ {
+  "board_input": {
+   "hover": [
+    2,
+    2
+   ]
+  },
+  "shot": "c_review_hover"
+ },
+ {
+  "board_input": {
+   "button": "go_zoom"
+  }
+ },
+ {
+  "board_input": {
+   "hover": [
+    3,
+    3
+   ]
+  },
+  "shot": "d_review_zoom"
+ },
+ {
+  "board_input": {
+   "button": "right"
+  }
+ },
+ {
+  "board_input": {
+   "button": "go_zoom"
+  }
+ },
+ {
+  "board_input": {
+   "button": "move_right"
+  }
+ },
+ {
+  "wait": 0.2,
+  "shot": "e_next_page"
+ },
+ {
+  "board_input": {
+   "button": "interact"
+  }
+ },
+ {
+  "wait": 0.5,
+  "shot": "f_closed"
+ }
+]

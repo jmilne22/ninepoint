@@ -7,6 +7,10 @@ extends Control
 var puzzle: GoPuzzleData
 var game: GoGame
 var board_view: GoBoardView
+var _navigation: BoardNavigation
+var _actions: MouseActions
+var _modal_actions: MouseActions
+var _busy := false
 var attempts: int = 0
 var solved: bool = false
 
@@ -45,10 +49,19 @@ func _build_ui() -> void:
     add_child(bg)
 
     board_view = GoBoardView.new()
-    board_view.position = Vector2(6, 12)
+    board_view.position = Vector2(6, 8)
     board_view.size = Vector2(192, 192)
     board_view.point_activated.connect(_on_point)
     add_child(board_view)
+    _navigation = BoardNavigation.new()
+    _navigation.position = Vector2(6, 200)
+    _navigation.size = Vector2(192, 16)
+    add_child(_navigation)
+    _navigation.setup(board_view)
+    _actions = MouseActions.new()
+    _actions.position = Vector2(204, 197)
+    add_child(_actions)
+    _actions.action_selected.connect(_mouse_action)
 
     var panel := NinePatchRect.new()
     panel.texture = load("res://art/ui/panel.png")
@@ -65,7 +78,7 @@ func _build_ui() -> void:
     _goal.text = puzzle.goal
     _message = _label(panel, Vector2(10, 74), 156, 9, "#8c4034", 60)
     _hints = _label(self, Vector2(204, 172), 176, 9, "#8a8494", 40)
-    _hints.text = "Arrows: move   Space: play\nR: reset the position"
+    _hints.text = "Click / Space: play\nR: reset the position"
 
     _overlay = Control.new()
     _overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -77,6 +90,11 @@ func _build_ui() -> void:
     _overlay.add_child(dim)
     _card = UiKit.panel(_overlay, Rect2(40, 52, 304, 112))
     _overlay_text = UiKit.label(_card, Vector2(10, 10), 284, UiKit.INK, 88)
+    _modal_actions = MouseActions.new()
+    _modal_actions.position = Vector2(138, 197)
+    _overlay.add_child(_modal_actions)
+    _modal_actions.configure([["Continue", "interact"]])
+    _modal_actions.action_selected.connect(_mouse_action)
 
 
 func _label(parent: Node, pos: Vector2, width: int, font_size: int, colour: String,
@@ -92,7 +110,7 @@ func _label(parent: Node, pos: Vector2, width: int, font_size: int, colour: Stri
 
 
 func _on_point(point: int) -> void:
-    if solved or _finished:
+    if solved or _finished or _busy:
         return
     var code := game.legality(point)
     if code != GoGame.Legality.LEGAL:
@@ -108,10 +126,16 @@ func _on_point(point: int) -> void:
         return
 
     attempts += 1
+    _busy = true
+    _sync_pointer()
     game.play(point)
     board_view.queue_redraw()
     await get_tree().create_timer(0.55).timeout
+    if _finished or not is_inside_tree():
+        return
     game.undo()
+    _busy = false
+    _sync_pointer()
     board_view.queue_redraw()
     if attempts == 1:
         _message.text = "That move does not solve this position. Try again."
@@ -139,6 +163,12 @@ func _unhandled_input(event: InputEvent) -> void:
             _dismissed = true
             get_viewport().set_input_as_handled()
         return
+    if _busy and not event.is_action_pressed("cancel"):
+        get_viewport().set_input_as_handled()
+        return
+    if _navigation.handle_input(event):
+        get_viewport().set_input_as_handled()
+        return
     if event.is_action_pressed("move_left"):
         board_view.move_cursor(Vector2i(-1, 0))
     elif event.is_action_pressed("move_right"):
@@ -160,3 +190,25 @@ func _unhandled_input(event: InputEvent) -> void:
     else:
         return
     get_viewport().set_input_as_handled()
+
+
+func _process(_delta: float) -> void:
+    _sync_pointer()
+
+
+func _sync_pointer() -> void:
+    if board_view == null:
+        return
+    var active := not _finished and not _busy and not solved
+    board_view.interactive = active and not _overlay.visible
+    board_view.inspection = board_view.interactive
+    var mode := BoardPointer.Mode.PLACE if board_view.interactive else BoardPointer.Mode.HIDDEN
+    board_view.pointer.configure(mode, game.to_move if game != null else GoBoard.BLACK, board_view)
+    _navigation.visible = not _overlay.visible
+    _actions.visible = not _overlay.visible
+    _actions.configure([["Reset R", "go_resign", not _busy], ["Leave Esc", "cancel"]])
+
+
+func _mouse_action(action: StringName) -> void:
+    _unhandled_input(MouseActions.event(action))
+    _sync_pointer()

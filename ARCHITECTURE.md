@@ -290,7 +290,7 @@ Composition over inheritance, small scenes with one job:
 routinely holds two of these at once, and a person must outrank the furniture behind them),
 `Warp` (area → target map + spawn point),
 `Facing` (which way a character is turned), `DialogueBox` (typewriter, portrait, choices),
-`GoBoardView` (renders a GoGame and holds cursor/zoom presentation state). There is no `GridMover` and no
+`GoBoardView` (renders a GoGame and holds selection/view-anchor state). There is no `GridMover` and no
 `ScheduleComponent`; movement lives on `Player`/`Npc`, and there is no schedule.
 
 The tram stop is a sign whose text begins `__TRAM__` followed by JSON naming its routes;
@@ -299,6 +299,20 @@ set, asks the `Tram` prop to pull in, and only then changes scene.
 
 Maps are `TileMapLayer`-based with a `YSort` entity layer; every map exposes named
 `SpawnPoint` nodes so warps and save/load can place the player deterministically.
+
+`BoardPointer` owns hover presentation: hidden, inspection, placement or counting.
+Placement previews test occupancy only, never legality or puzzle correctness. The owning
+scene continues to receive attempted moves through `point_activated`, including illegal
+lesson attempts. Hover, keyboard selection and the close-view anchor are distinct;
+mouse targeting does not recenter the view. Keyboard movement begins at the hovered
+point and follows the selection; explicit pan buttons move the view anchor.
+
+`MouseActions` provides themed buttons whose signals route to the same guarded action
+handlers as keyboard shortcuts. `MatchMouseControls` keeps phase-specific button layout
+out of the turn loop, including the review card’s hoverable Yes/No buttons. Their clicks
+use the guarded review action and keyboard arrows retain selection control. Teaching scenes block further moves/reset while a demonstration is
+being played or undone. Modal roots stop mouse propagation while allowing their own child
+buttons to receive GUI events. All pointer state is temporary and absent from saves.
 
 For 19×19, `GoBoardGeometry` owns the visible rectangle in global board coordinates.
 Both drawing and mouse picking recompute it before use, so input immediately after a

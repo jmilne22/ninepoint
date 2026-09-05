@@ -24,7 +24,10 @@ var player_color: int = GoBoard.BLACK
 var result_sent: bool = false
 
 var board_view: GoBoardView
+var _last_view := Rect2i()
+var _last_zoomed := false
 var _navigation: BoardNavigation
+var _mouse_controls: MatchMouseControls
 var _panel: NinePatchRect
 var _portrait: TextureRect
 var _name: Label
@@ -146,16 +149,16 @@ func _build_ui() -> void:
     add_child(bg)
 
     board_view = GoBoardView.new()
-    board_view.position = Vector2(6, 12)
+    board_view.position = Vector2(6, 8)
     board_view.size = Vector2(192, 192)
     board_view.point_activated.connect(_on_point_activated)
     add_child(board_view)
     _navigation = BoardNavigation.new()
-    _navigation.position = Vector2(6, 204)
+    _navigation.position = Vector2(6, 200)
     _navigation.size = Vector2(192, 11)
     add_child(_navigation)
     _navigation.setup(board_view)
-    board_view.view_changed.connect(_refresh)
+    board_view.view_changed.connect(_on_board_view_changed)
 
     _panel = NinePatchRect.new()
     _panel.texture = load("res://art/ui/panel.png")
@@ -212,6 +215,9 @@ func _build_ui() -> void:
     _overlay.add_child(dim)
     _card = UiKit.panel(_overlay, Rect2(52, 62, 288, 92))
     _overlay_text = UiKit.label(_card, Vector2(10, 10), 268, UiKit.INK, 72)
+    _mouse_controls = MatchMouseControls.new()
+    add_child(_mouse_controls)
+    _mouse_controls.setup(self, _overlay, _navigation)
 
 
 func _label(parent: Node, pos: Vector2, width: int, font_size: int, colour: String) -> Label:
@@ -231,6 +237,7 @@ func _label(parent: Node, pos: Vector2, width: int, font_size: int, colour: Stri
 func _ask(what: StringName) -> Variant:
     _awaiting = what
     _answer = null
+    _sync_mouse()
     while _awaiting == what and is_inside_tree():
         await get_tree().process_frame
     return _answer
@@ -628,6 +635,7 @@ func _finish() -> void:
     if res.review_requested:
         var loading := ReviewLoading.new()
         loading.setup(request.opponent_name)
+        loading.leave_requested.connect(func(): _mouse_action(&"cancel"))
         get_tree().root.add_child(loading)
         var index := MatchBridge.finish_match_with_review(res)
         var review := await _wait_for_review(index, loading)
@@ -814,10 +822,7 @@ func _input_done(event: InputEvent) -> bool:
 
 
 func _show_review_choice() -> void:
-    UiKit.fit_card(_card, _overlay_text,
-        "Go over the game with %s?\n\n%s Yes\n%s No\n\n[Space] choose" % [
-            request.opponent_name,
-            ">" if _review_yes else " ", ">" if not _review_yes else " "], 288)
+    _mouse_controls.show_review_choice(_card, _overlay_text, request.opponent_name, _review_yes)
     _overlay.visible = true
     _hints.text = "Up/Down: choose"
 
@@ -905,6 +910,7 @@ func _input_board(event: InputEvent) -> bool:
 
 
 func _process(delta: float) -> void:
+    _sync_mouse()
     if _message_pages.size() > 1 and _handicap_help == null:
         _message_clock += delta
         if _message_clock >= 4.0:
@@ -933,3 +939,42 @@ func _open_handicap_help(initial: bool) -> void:
         GameState.set_flag("handicap_intro_seen", true)
     board_view.interactive = phase in [Phase.PLAYING, Phase.SCORING]
     _refresh()
+
+
+func _sync_mouse() -> void:
+    if _mouse_controls == null:
+        return
+    var blocked := _handicap_help != null or phase not in [Phase.PLAYING, Phase.SCORING] or _overlay.visible
+    board_view.interactive = not blocked and (is_player_turn_ready() or (phase == Phase.SCORING and _awaiting == &"scoring"))
+    board_view.inspection = not blocked
+    var mode := BoardPointer.Mode.HIDDEN if blocked else BoardPointer.Mode.INSPECT
+    if board_view.interactive:
+        mode = BoardPointer.Mode.COUNT if phase == Phase.SCORING else BoardPointer.Mode.PLACE
+    board_view.pointer.configure(mode, player_color, board_view)
+    _mouse_controls.refresh(phase, _awaiting, is_player_turn_ready(), setup.is_handicap(), _handicap_help != null)
+    _hints.visible = false
+
+
+func _mouse_action(action: StringName) -> void:
+    if action in [&"review_yes", &"review_no"]:
+        if phase != Phase.REVIEW or _awaiting != &"review":
+            return
+        _review_yes = action == &"review_yes"
+        action = &"interact"
+    _unhandled_input(MouseActions.event(action))
+    _sync_mouse()
+
+
+func _on_board_view_changed() -> void:
+    var region := board_view.geometry.region
+    if region == _last_view and board_view.zoomed == _last_zoomed:
+        return
+    _last_view = region
+    _last_zoomed = board_view.zoomed
+    _refresh()
+
+
+func _select_review_choice(yes: bool) -> void:
+    if phase == Phase.REVIEW and _awaiting == &"review":
+        _review_yes = yes
+        _show_review_choice()

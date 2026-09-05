@@ -1,0 +1,56 @@
+[
+ {
+  "save": {}
+ },
+ {
+  "katago_trial": "res://tools/fixtures/katago_trial_9x9.tres"
+ },
+ {
+  "match_wait_player": true
+ },
+ {
+  "board_input": {
+   "button": "go_resign"
+  }
+ },
+ {
+  "board_input": {
+   "button": "go_resign"
+  }
+ },
+ {
+  "wait": 0.3
+ },
+ {
+  "board_input": {
+   "button": "interact"
+  }
+ },
+ {
+  "board_input": {
+   "button_hover": "review_yes"
+  },
+  "shot": "a_hover_yes"
+ },
+ {
+  "tap": "move_down",
+  "shot": "b_keyboard_no"
+ },
+ {
+  "board_input": {
+   "button_hover": "review_no"
+  },
+  "shot": "c_hover_no"
+ },
+ {
+  "board_input": {
+   "button": "review_no"
+  }
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "d_returned"
+ }
+]

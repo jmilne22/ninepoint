@@ -30,6 +30,10 @@ func configure(n: int, extent: Vector2, zoomed: bool, cursor: int,
     var floor_pad := widest_label + 4.0
     if cell * 0.72 < floor_pad:
         cell = floorf((span - 4.0 - floor_pad * 2.0) / float(count - 1))
+    # Seven lines have the largest stones and therefore the widest wood margin.
+    # Reserve that margin too: the old board painted into the opponent panel.
+    if n == 7:
+        cell = minf(cell, floorf((span - 4.0) / (float(count - 1) + 1.44)))
     cell = maxf(1.0, cell)
     margin = maxf(cell * 0.72, floor_pad)
     var used := cell * float(count - 1)

@@ -45,6 +45,14 @@
   "shot": "a_wren_offers_ko"
  },
  {
+  "choose": 2,
+  "note": "Show me the ko rule."
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
   "choose": 0,
   "note": "Go on."
  },

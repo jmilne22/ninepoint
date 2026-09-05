@@ -19,6 +19,7 @@ var _board: GoBoardView
 var _title: Label
 var _body: Label
 var _navigation: BoardNavigation
+var _actions: MouseActions
 var _text_pages := PackedStringArray()
 var _text_page := 0
 var _legend := ""
@@ -45,6 +46,8 @@ func _ready() -> void:
     _board.position = Vector2(10, 26)
     _board.size = Vector2(BOARD_PX, BOARD_PX)
     _board.interactive = false
+    _board.inspection = true
+    _board.pointer.mode = BoardPointer.Mode.INSPECT
     _board.show_coordinates = true
     card.add_child(_board)
     _navigation = BoardNavigation.new()
@@ -56,7 +59,19 @@ func _ready() -> void:
     _board.view_changed.connect(_refresh_navigation)
     _title = UiKit.label(card, Vector2(TEXT_X, 12), TEXT_W, UiKit.INK, 22)
     _body = UiKit.label(card, Vector2(TEXT_X, 38), TEXT_W, UiKit.INK_SOFT, 146)
+    _actions = MouseActions.new()
+    _actions.position = Vector2(158, 197)
+    root.add_child(_actions)
+    _actions.configure([["<", "move_left"], [">", "move_right"], ["Close", "interact"]])
+    _actions.action_selected.connect(_mouse_action)
     _show()
+
+
+func _mouse_action(action: StringName) -> void:
+    if action == &"move_left" or action == &"move_right":
+        _navigate(-1 if action == &"move_left" else 1)
+    else:
+        _unhandled_input(MouseActions.event(action))
 
 
 ## The tally comes first: what went right, in numbers a learner can hold on
@@ -141,7 +156,7 @@ func _show() -> void:
     # The two marks mean the same thing on every card: filled = the move
     # played, ring = the better move. The legend says so; colour never has to.
     _board.focus_point(actual if actual >= 0 else maxi(best, 0))
-    _board.inspection = false
+    _board.inspection = true
     _board.mark_point = actual
     _board.highlight = PackedInt32Array([best]) if best >= 0 and best != actual else PackedInt32Array()
     _board.mark_good = str(f.get("kind", "")) == "strength"
@@ -212,7 +227,7 @@ func _navigate(direction: int) -> void:
 
 func _refresh_navigation() -> void:
     _navigation.refresh()
-    _navigation.visible = _board.visible and _board.game != null and _board.game.size() == 19
+    _navigation.visible = _board.visible and _board.game != null
     if _navigation.visible:
         # Dark ink on this paper card; the match footer is over a dark backdrop.
         _navigation.modulate = Color("#45404f")
@@ -221,12 +236,12 @@ func _refresh_navigation() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
     if _board.visible and _navigation.handle_input(event):
-        _board.inspection = _board.zoomed
+        _board.inspection = true
         _board.queue_redraw()
     elif _board.visible and _board.zoomed:
         if event.is_action_pressed("cancel"):
             _board.toggle_zoom()
-            _board.inspection = false
+            _board.inspection = true
         elif event.is_action_pressed("move_left"):
             _board.move_cursor(Vector2i.LEFT)
         elif event.is_action_pressed("move_right"):

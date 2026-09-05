@@ -5,6 +5,8 @@
 class_name ReviewLoading
 extends CanvasLayer
 
+signal leave_requested
+
 var _stones: Array[Label] = []
 var _title: Label
 var _body: Label
@@ -37,6 +39,13 @@ func _ready() -> void:
         _stones.append(stone)
     var hint := UiKit.label(card, Vector2(14, 85), 224, UiKit.INK_FAINT, 26)
     hint.text = "Esc: leave. Your review will wait on the quay noticeboard."
+    var actions := MouseActions.new()
+    actions.position = Vector2(14, 116)
+    card.add_child(actions)
+    actions.configure([["Leave review running", "cancel"]])
+    actions.action_selected.connect(func(_action: StringName): leave_requested.emit())
+    card.size.y = 146
+    card.position.y = 35
     _pulse()
 
 

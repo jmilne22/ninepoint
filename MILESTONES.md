@@ -3002,3 +3002,55 @@ measured audibility, not subjective listening. Existing audio was reused.
 | No engine retuning or town nineteen-line chapter | ENG-06 and CONTENT-04 remain separate work. The existing M42 development UI was regression-played. |
 | No new social progression, errands, schedules or currencies | The player's Go and recorded results remain the progression. |
 | No automatic merge | The branch and illustrated PR remain reviewable by the owner. |
+
+
+## M44 — Mouse support across the board encounter
+
+UI-02 adds hover targeting and clickable controls to 7×7, 9×9, 13×13 and development
+19×19. Empty points show an occupancy-only translucent stone during the player's turn.
+Hover does not ask whether a move is legal; the existing rejected-click explanations and
+illegal-attempt lessons remain authoritative. Counting outlines the hovered chain; reviews
+remain read-only. Coordinates appear on every board size.
+
+Pointer targeting, keyboard selection and the nineteen-line view anchor are separate.
+Mouse clicks never pan the close view. Zoom/pan buttons provide mouse navigation, while
+keyboard arrows continue to follow the selection. Space retains the selected point after
+mouse exit or zoom. Opponent turns show neutral inspection and no placement preview;
+modal transitions clear hover and block underlying activation.
+
+Buttons cover pass/resign/help/count acceptance, nigiri choices, introductory explanations,
+lesson and puzzle continuation/exit (plus puzzle reset), results, review decisions, leaving
+analysis running, and review navigation. Review Yes/No choices are clickable directly
+inside their card, with hover selection and no duplicate footer buttons. The
+`mouse_review_choice` route checks hover and keyboard handoff; both answers were
+replayed through actual clicks. They invoke existing phase-checked action
+handlers. The teacher's demonstration/rollback beat blocks additional submissions.
+The seven-line wood margin now fits inside its allotted space.
+
+**Done when:** `tools/test.sh` reported **14476 passed, 0 failed** (M43: **14235**;
+**241** new board checks), **239 files all load**, and all three serial KataGo gates
+passed. The review gate covered 79/79 nine-line positions in 16.0 s and 241/241
+nineteen-line positions in 63.1 s; its stalled-engine watchdog returned in 6.1 s.
+`git diff --check` passed. No asset or content regeneration was needed.
+
+Played and opened: `mouse_capture`, `thirteen`, `mouse_nineteen`, `mouse_nigiri`,
+`mouse_count`, `mouse_lessons`, `mouse_puzzle`, `mouse_review`, `mouse_colours`, and the
+original `nineteen` keyboard regression. The input probes checked scaling, modal and
+busy-beat blocking, stationary-pointer turn changes, retained selection across V/Space,
+and preserved occupied/ko feedback. Full evidence and rejected fixture assumptions are
+in `docs/mouse/PLAYTEST.md`.
+
+### Deliberate changes
+
+| Before | After / boundary |
+|---|---|
+| Click-only board input | Motion targeting and occupancy-only preview; no new legality policy |
+| One cursor also moves the close view | Independent view anchor; mouse targeting stays steady |
+| Keyboard-only encounter prompts | Themed child buttons routed through the same action handlers |
+| Modals consume mouse before GUI delivery | Child buttons receive clicks; modal backgrounds still block the board |
+| Lesson/puzzle delayed rollback accepts more input | Busy beat blocks duplicate submissions and reset |
+| 7×7 wood extends into opponent panel | Cell spacing reserves its larger margin |
+| Stale thirteen/ko fixtures photograph the wrong phase | Explicit current choices, readiness waits and actual move assertions |
+
+No Go rules, engine settings, rank progression, result format, town interaction or save
+schema changes. Existing shutdown ObjectDB/resource warnings remain outside this task.

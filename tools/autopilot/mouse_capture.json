@@ -1,0 +1,128 @@
+[
+ {
+  "save": {}
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "opening"
+ },
+ {
+  "experience": "map",
+  "map": "attic"
+ },
+ {
+  "advance": 12,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   6,
+   7
+  ]
+ },
+ {
+  "walk_to": [
+   6,
+   8
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "ketelsteeg"
+ },
+ {
+  "shot": "park_direction"
+ },
+ {
+  "talk_to": "pip"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "board_input": {
+   "button_wait": "interact"
+  },
+  "shot": "a_capture_brief"
+ },
+ {
+  "board_input": {
+   "button": "interact"
+  }
+ },
+ {
+  "board_input": {
+   "button": "interact"
+  }
+ },
+ {
+  "match_wait_player": true
+ },
+ {
+  "board_input": {
+   "hover": [
+    2,
+    2
+   ],
+   "size": 7
+  },
+  "shot": "b_seven_hover"
+ },
+ {
+  "board_input": {
+   "click": [
+    2,
+    2
+   ]
+  }
+ },
+ {
+  "match_wait_player": true
+ },
+ {
+  "shot": "c_reply"
+ },
+ {
+  "board_input": {
+   "button": "go_resign"
+  }
+ },
+ {
+  "board_input": {
+   "button": "go_resign"
+  }
+ },
+ {
+  "wait": 0.3
+ },
+ {
+  "board_input": {
+   "button": "interact"
+  }
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "d_world"
+ }
+]

@@ -1,0 +1,136 @@
+[
+ {
+  "save": "invited",
+  "note": "the state this script needs; run_game.sh builds it before launching"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue from the invited save"
+ },
+ {
+  "wait": 2.2
+ },
+ {
+  "walk_to": [
+   5,
+   9
+  ]
+ },
+ {
+  "walk_to": [
+   5,
+   8
+  ],
+  "timeout": 3,
+  "note": "up to the attic"
+ },
+ {
+  "wait": 1.8
+ },
+ {
+  "walk_to": [
+   8,
+   4
+  ],
+  "note": "to the desk"
+ },
+ {
+  "face": [
+   9,
+   4
+  ]
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 2.0,
+  "shot": "a_desk_offers"
+ },
+ {
+  "choose": 0,
+  "note": "Set a problem."
+ },
+ {
+  "wait": 6.0,
+  "shot": "b_problem"
+ },
+ {
+  "board_input": {
+   "hover": [
+    0,
+    0
+   ]
+  },
+  "shot": "c_wrong_hover"
+ },
+ {
+  "board_input": {
+   "click": [
+    0,
+    0
+   ]
+  }
+ },
+ {
+  "board_input": {
+   "click_blocked": [
+    1,
+    0
+   ]
+  },
+  "note": "A second click during feedback cannot submit another move."
+ },
+ {
+  "wait": 0.7,
+  "shot": "d_wrong_returned"
+ },
+ {
+  "board_input": {
+   "button": "go_resign"
+  }
+ },
+ {
+  "board_input": {
+   "hover": [
+    5,
+    5
+   ]
+  },
+  "shot": "e_solution_target"
+ },
+ {
+  "board_input": {
+   "click": [
+    5,
+    5
+   ]
+  }
+ },
+ {
+  "wait": 0.3,
+  "shot": "f_solved"
+ },
+ {
+  "board_input": {
+   "button": "interact"
+  }
+ },
+ {
+  "wait": 0.5,
+  "shot": "g_world"
+ }
+]

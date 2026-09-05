@@ -12,10 +12,16 @@ func _ready() -> void:
     set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
     var panel := UiKit.panel(self, Rect2(202, 4, 178, 208))
     _body = UiKit.label(panel, Vector2(10, 12), 158, UiKit.INK, 165)
-    UiKit.label(panel, Vector2(10, 182), 158, UiKit.GOLD, 15).text = "Space: next  Esc: skip"
+    var actions := MouseActions.new()
+    actions.position = Vector2(10, 182)
+    panel.add_child(actions)
+    actions.configure([["Next / play", "interact"], ["Skip", "cancel"]])
+    actions.action_selected.connect(func(action: StringName): _input(MouseActions.event(action)))
     _body.text = pages[0]
 
 func _input(event: InputEvent) -> void:
+    if event is InputEventMouse:
+        return
     get_viewport().set_input_as_handled()
     if event.is_action_pressed("cancel"):
         closed.emit()

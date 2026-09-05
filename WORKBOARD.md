@@ -4,8 +4,9 @@ This is the **operational source of truth** for unfinished work. An agent starts
 not in the milestone history. It answers: what may be picked up now, what is blocked, and
 what evidence makes a task done.
 
-Snapshot: `origin/main` at `277b51d` (M42 merged), fetched again before the M43 PR. Update the snapshot when
-the board is reconciled after a merge; do not treat it as a release number.
+Snapshot: `origin/main` at `07b3694` (M43 merged), fetched and verified before UI-02
+and again before opening its PR.
+Update the snapshot when reconciling after a merge; it is not a release number.
 
 ## How to use this board
 
@@ -35,6 +36,27 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 | Design / architecture / art docs | Durable product and technical truth | Task status |
 
 ## In progress
+
+### UI-02 — Mouse support across board screens
+
+- Status: `SHIPPED` (M44, verified locally; not merged) · Priority: `P1`
+  · Owner: Codex · Branch: `codex/board-mouse-support`.
+- Base: verified `origin/main` `07b3694`.
+- Scope: hover targeting and occupancy-only stone previews, stable 19×19 zoom,
+  counting/lesson/review inspection, clickable encounter actions and modal controls.
+- Decision: illegal-move handling stays exactly as shipped; no hover legality checks,
+  blocked markers or explanations. Keyboard controls remain available.
+- Acceptance: all four sizes, mouse-only encounter completion, modal/turn blocking,
+  existing illegal lesson attempts, input-event probes and opened gameplay screenshots.
+- Follow-up: review Yes/No rows now receive hover/click directly inside the card;
+  redundant footer buttons removed. Played Yes/No clicks, hover and keyboard handoff
+  (`mouse_review_choice`, `mouse_nineteen`, `thirteen`); screenshots inspected.
+  Follow-up load gate: 239 files; 14,476 checks passed.
+- Evidence: 14476 checks, 239 files load and all three serial KataGo gates passed.
+  All four sizes, counting, ko, puzzle rollback/reset, read-only review, nigiri choices,
+  2×/3× window scaling and keyboard handoff were exercised through input events.
+  Opened screenshots and fixture limitations: `docs/mouse/PLAYTEST.md`.
+  Town input and engine/progression changes are out of scope.
 
 ### POLISH-01 — Verhaven art, writing and beginner experience overhaul
 

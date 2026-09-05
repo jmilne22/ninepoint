@@ -1,0 +1,152 @@
+[
+ {
+  "save": "ko_ready",
+  "note": "Rules known, Wren first game completed, ko not yet learned."
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue from the invited save"
+ },
+ {
+  "wait": 2.2
+ },
+ {
+  "walk_to": [
+   13,
+   9
+  ]
+ },
+ {
+  "walk_to": [
+   13,
+   8
+  ],
+  "timeout": 4,
+  "note": "into De Ketel"
+ },
+ {
+  "wait": 2.2
+ },
+ {
+  "talk_to": "wren"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.4,
+  "shot": "a_wren_offers_ko"
+ },
+ {
+  "choose": 2,
+  "note": "Show me the ko rule."
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0,
+  "note": "Go on."
+ },
+ {
+  "wait": 3.0,
+  "shot": "b_ko_intro"
+ },
+ {
+  "board_input": {
+   "button": "interact"
+  }
+ },
+ {
+  "wait": 0.3
+ },
+ {
+  "board_input": {
+   "hover": [
+    1,
+    1
+   ]
+  },
+  "shot": "c_liberty_hover"
+ },
+ {
+  "board_input": {
+   "click": [
+    1,
+    1
+   ]
+  }
+ },
+ {
+  "wait": 0.7,
+  "shot": "d_capture_explained"
+ },
+ {
+  "board_input": {
+   "button": "interact"
+  }
+ },
+ {
+  "wait": 0.3
+ },
+ {
+  "board_input": {
+   "hover": [
+    2,
+    1
+   ]
+  },
+  "shot": "e_ko_empty_preview"
+ },
+ {
+  "board_input": {
+   "click_attempt": [
+    2,
+    1
+   ]
+  }
+ },
+ {
+  "board_input": {
+   "click_blocked": [
+    1,
+    0
+   ]
+  },
+  "note": "A second click during feedback cannot submit another move."
+ },
+ {
+  "wait": 0.2,
+  "shot": "f_existing_illegal_message"
+ },
+ {
+  "wait": 0.6,
+  "shot": "g_ko_explanation"
+ },
+ {
+  "board_input": {
+   "button": "interact"
+  }
+ },
+ {
+  "wait": 0.3,
+  "shot": "h_outro"
+ },
+ {
+  "board_input": {
+   "button": "interact"
+  }
+ },
+ {
+  "wait": 0.5,
+  "shot": "i_world"
+ }
+]
