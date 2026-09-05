@@ -1,0 +1,25 @@
+; Development-only profile, selected by the manual trial or its autopilot route.
+[gd_resource type="Resource" script_class="OpponentProfile" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/go_ai/opponent_profile.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"katago_trial_19x19"
+display_name = "KataGo trial"
+rank_label = "12k"
+strength_override = 8
+engine = "gtp"
+board_size = 19
+komi = 5.5
+colour_rule = "player_black"
+gtp_command = "res://packaging/katago/katago-gtp.sh"
+gtp_args = PackedStringArray("gtp", "-config", "{config}", "-model", "{model}", "-human-model", "res://packaging/katago/models/b18c384nbt-humanv0.bin.gz")
+; Starting deadline: the 9x9 two-second limit timed out on 19x19.
+; Verify whole-game replies below this bound without fallback.
+gtp_time_per_move = 5.0
+gtp_startup_timeout = 12.0
+gtp_model_path = "res://packaging/katago/models/kata1-b18c384nbt-s9996604416-d4316597426.bin.gz"
+gtp_config_path = "res://packaging/katago/config/human_12k_balanced.cfg"
+gtp_style = "balanced"
+theme = "theme_rival"

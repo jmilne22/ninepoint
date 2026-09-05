@@ -36,14 +36,16 @@
   "tap": "interact"
  },
  {
-  "wait": 2.0,
-  "shot": "c_board_with_stones"
+  "wait": 0.4,
+  "shot": "c_board_with_stones",
+  "match_wait_player": true
  },
  {
   "tap": "interact"
  },
  {
-  "wait": 1.5,
-  "shot": "d_board_settled"
+  "wait": 0.4,
+  "shot": "d_board_settled",
+  "match_wait_player": true
  }
 ]

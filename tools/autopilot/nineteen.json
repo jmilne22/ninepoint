@@ -1,0 +1,196 @@
+[
+ {
+  "save": {}
+ },
+ {
+  "katago_trial": "res://tools/fixtures/katago_trial_19x19.tres"
+ },
+ {
+  "wait": 12,
+  "shot": "a_controls"
+ },
+ {
+  "board_input": {
+   "click_blocked": [
+    3,
+    3
+   ],
+   "moves": 0
+  }
+ },
+ {
+  "board_input": {
+   "key": "V"
+  }
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "match_wait_player": true
+ },
+ {
+  "board_input": {
+   "size": 19,
+   "moves": 0,
+   "zoomed": false
+  },
+  "shot": "b_overview"
+ },
+ {
+  "board_input": {
+   "key": "V"
+  }
+ },
+ {
+  "board_input": {
+   "move_to": [
+    0,
+    0
+   ],
+   "zoomed": true
+  },
+  "shot": "c_corner"
+ },
+ {
+  "board_input": {
+   "click_legal": [
+    3,
+    3
+   ]
+  }
+ },
+ {
+  "match_wait_player": true
+ },
+ {
+  "shot": "d_reply"
+ },
+ {
+  "board_input": {
+   "key": "V"
+  }
+ },
+ {
+  "board_input": {
+   "cursor": [
+    3,
+    3
+   ],
+   "zoomed": false
+  },
+  "shot": "d2_find_reply_overview"
+ },
+ {
+  "board_input": {
+   "key": "V"
+  }
+ },
+ {
+  "board_input": {
+   "cursor": [
+    3,
+    3
+   ],
+   "zoomed": true
+  },
+  "shot": "d3_return_to_choice"
+ },
+ {
+  "board_input": {
+   "key": "V"
+  }
+ },
+ {
+  "board_input": {
+   "click_legal": [
+    15,
+    15
+   ]
+  }
+ },
+ {
+  "match_wait_player": true
+ },
+ {
+  "shot": "e_overview_reply"
+ },
+ {
+  "board_input": {
+   "key": "V"
+  }
+ },
+ {
+  "board_input": {
+   "move_to": [
+    18,
+    18
+   ],
+   "zoomed": true
+  },
+  "shot": "f_far_corner"
+ },
+ {
+  "tap": "go_resign"
+ },
+ {
+  "shot": "g_resign_card"
+ },
+ {
+  "board_input": {
+   "click_blocked": [
+    15,
+    15
+   ],
+   "cursor": [
+    18,
+    18
+   ],
+   "moves": 4
+  }
+ },
+ {
+  "board_input": {
+   "key": "V"
+  }
+ },
+ {
+  "tap": "cancel"
+ },
+ {
+  "board_input": {
+   "cursor": [
+    18,
+    18
+   ],
+   "zoomed": true
+  },
+  "shot": "h_resign_cancelled"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "wait": 0.6,
+  "shot": "i_result"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "tap": "cancel"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "j_world",
+  "wait": 1.2
+ },
+ {
+  "trial_assert": true
+ }
+]

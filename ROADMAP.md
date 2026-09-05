@@ -5,14 +5,13 @@ This document explains **why** future work matters and the trade-offs around it.
 dependencies, and acceptance criteria. `MILESTONES.md` is the append-only delivery history.
 Do not select work from this document without checking its linked board ticket first.
 
-The build is green: `tools/test.sh` runs 12505 checks plus three real-engine gates,
+The build is green: `tools/test.sh` runs 14269 checks plus three real-engine gates,
 `tools/check_lessons.py` reports no problems, and the game is playable from the cold open
 to the exam and the Cup.
 
-**M37 cut more than any milestone built.** The review, the hooks ladder, the borrowed
-book, the performance rating and the whole calendar — hours, days, weekdays, weather,
-sleep and schedules — are gone, and the sections below that used to describe them are
-collapsed to one line each. Read `MILESTONES.md` M37 for why.
+**M37 cut more than any milestone built.** It removed the rules-only review, the hooks
+ladder, the borrowed book, the performance rating and the calendar. M40 rebuilt the
+review on engine analysis; the other cuts remain. Read `MILESTONES.md` M37 for why.
 
 ---
 
@@ -32,12 +31,11 @@ position, and at most three cards come out of it. Two things below are still ope
 **What it buys.** The heuristic opponent (`src/go_ai/heuristic_opponent.gd`, with
 `GoEndgame` deciding when it stops) plays plausibly and blunders on a ranked shortlist,
 and it cannot tell a ten-point move from a two-point one. Dead-stone marking at the end
-of a game is a heuristic with a player override. There is no review at all since M37,
-because the one that existed could say a group had one liberty and never what a move
-was worth. An engine answers all three: KataGo's human-style model can be told to play
-*like a 20 kyu* rather than as a crippled 5 kyu, `final_status_list` settles the dead
-stones, and a review becomes the three biggest point swings in the game, which is what
-every real Go app shows.
+of a game is a heuristic with a player override. M37 removed the old review, which could say a group had one liberty but never what a
+move was worth; M40 restored review through engine analysis. Human-SL supplies ranked
+play and the review prices moves, first showing what went well and then up to two costly
+positions. Dead-stone adjudication remains unfinished: the bundled engine hung on
+`final_status_list`, so ENG-05 needs another route.
 
 **What it costs.** A binary per platform, a model file on the order of a hundred
 megabytes in a repo whose whole asset pipeline is generated Python, an external process
@@ -67,8 +65,8 @@ gives stones once a rank exists; the games before Kesh hands one out do not (ENG
 
 **Still open.** *Dead stones* (ENG-05): `final_status_list` hung on the bundled Human-SL
 build, so the count is still the heuristic's proposal with a player override; the analysis
-mode's `ownership` output is the honest route. *19×19 at the board* (UI-01): the review
-already reads a 19×19 game, the match panel does not yet draw one legibly. Delete the
+mode's `ownership` output is the honest route. *19×19* (UI-01): the development UI adds overview and close inspection; introducing it
+through the town still needs the teaching transition. Delete the
 heuristic and `GoEndgame` when the engine is the only opponent, not before.
 
 ## 2. The thin places — WORLD-01 through WORLD-03
@@ -84,11 +82,16 @@ heuristic and `GoEndgame` when the engine is the only opponent, not before.
 ## 3. Beyond 9×9 — UI-01
 
 13×13 is built (M28): Tomás's back table opens on three rated wins, Kesh plays on it,
-and the Cup's open section is played on it. 19×19 is still only in the fiction — Hana's
-`exam_word_passed` names it. Screen space is the reason: at the 192 px match panel a
-19×19 gets 8 px cells against a 9 px font. `MISTAKE_BREADTH` in the heuristic makes a
-profile mean something different on a bigger board and nobody has measured what it
-should be; the engine makes the question go away.
+and the Cup's open section is played on it. UI-01 adds a development-only 19×19 match
+route with whole-board overview and cursor-following zoom, also available during the
+count and in reviews. The existing pixel-art resolution and opponent panel remain.
+
+The remaining gap is a learner's transition, not merely a larger board. CONTENT-01 should
+connect the current thirteen-line experience to whole-board decisions before town access
+to nineteen lines is introduced (CONTENT-04). No new gate, teacher offer, or chapter is
+shipped by UI-01.
+Latency and legal play in the development fixture do not establish a nineteen-line cast
+strength ladder. Dead-stone adjudication remains ENG-05.
 
 ## 4. Content that is still thin — CONTENT-01 through CONTENT-03
 

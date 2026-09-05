@@ -1,5 +1,6 @@
 ## Up to three positions from a finished game, one per card: the board before
 ## the move, the move played, the move that was better, and what it cost.
+## Long explanations use pages that retain the board and its marker legend.
 ## Also the single card for a steady game and the single card for no review.
 class_name ReviewCards
 extends CanvasLayer
@@ -17,6 +18,10 @@ var _card: Control
 var _board: GoBoardView
 var _title: Label
 var _body: Label
+var _navigation: BoardNavigation
+var _text_pages := PackedStringArray()
+var _text_page := 0
+var _legend := ""
 
 
 func setup(value: Dictionary, who: String = "") -> void:
@@ -42,6 +47,13 @@ func _ready() -> void:
     _board.interactive = false
     _board.show_coordinates = true
     card.add_child(_board)
+    _navigation = BoardNavigation.new()
+    _navigation.position = Vector2(10, 168)
+    _navigation.size = Vector2(140, 22)
+    _navigation.compact = true
+    card.add_child(_navigation)
+    _navigation.setup(_board)
+    _board.view_changed.connect(_refresh_navigation)
     _title = UiKit.label(card, Vector2(TEXT_X, 12), TEXT_W, UiKit.INK, 22)
     _body = UiKit.label(card, Vector2(TEXT_X, 38), TEXT_W, UiKit.INK_SOFT, 146)
     _show()
@@ -87,6 +99,8 @@ func _card_count() -> int:
 
 
 func _show() -> void:
+    _navigation.hide()
+    _text_pages = PackedStringArray()
     var findings: Array = review.get("findings", [])
     if findings.is_empty():
         # No board, so no reason for a board-sized card: one message, sized to
@@ -126,6 +140,8 @@ func _show() -> void:
     var best := int(f.get("best", -1))
     # The two marks mean the same thing on every card: filled = the move
     # played, ring = the better move. The legend says so; colour never has to.
+    _board.focus_point(actual if actual >= 0 else maxi(best, 0))
+    _board.inspection = false
     _board.mark_point = actual
     _board.highlight = PackedInt32Array([best]) if best >= 0 and best != actual else PackedInt32Array()
     _board.mark_good = str(f.get("kind", "")) == "strength"
@@ -145,16 +161,21 @@ func _show() -> void:
         elif not matched:
             why += " %s was best; yours was within a point of it." % game.board.label(best)
         lines.append("%s %s" % [head, why])
-        lines.append("Filled = your move" if matched else "Filled = your move\nRing = the other good move")
+        _legend = "Filled = your move" if matched else "Filled = your move\nRing = the other good move"
     else:
         lines.append("%s was better, by about %s points." % [game.board.label(best), _points(float(f.get("point_loss", 0.0)))])
         lines.append("%s %s" % [str(f.get("critique", "")), str(f.get("changed", ""))])
         lines.append("Next time: %s" % str(f.get("habit", "")))
-        lines.append("Filled = your move\nRing = the better move")
+        _legend = "Filled = your move\nRing = the better move"
     if bool(review.get("partial", false)):
         lines.append("(The first %d of your %d moves were looked at.)" % [
             int(review.get("analysed_moves", 0)), int(review.get("total_moves", 0))])
-    _body.text = "\n\n".join(lines)
+    var prose := "\n\n".join(lines)
+    var available := int(_body.size.y) - UiKit.text_height(_legend, TEXT_W) - UiKit.LINE_H
+    _text_pages = UiKit.paginate(prose, TEXT_W, available)
+    _text_page = _text_pages.size() - 1 if _text_page < 0 else mini(_text_page, _text_pages.size() - 1)
+    _refresh_text()
+    _refresh_navigation()
     if UiKit.text_height(_body.text, TEXT_W) > int(_body.size.y):
         push_warning("ReviewCards: card %d text runs off the card" % _index)
 
@@ -163,13 +184,66 @@ static func _points(v: float) -> String:
     return "%.1f" % v if absf(v - roundf(v)) > 0.05 else str(int(roundf(v)))
 
 
+func _refresh_text() -> void:
+    _body.text = _text_pages[_text_page] + "\n\n" + _legend
+    _refresh_heading()
+
+
+func _refresh_heading() -> void:
+    if _text_pages.is_empty():
+        return
+    var heading := _title.text.split("\n")[0]
+    var page := " p%d/%d" % [_text_page + 1, _text_pages.size()] if _text_pages.size() > 1 else ""
+    _title.text = heading + "\n" + ("Arrows: look   V: whole" if _board.zoomed else
+        "%d/%d%s Left/Right [Space]" % [_index + 1, _card_count(), page])
+
+
+func _navigate(direction: int) -> void:
+    if not _text_pages.is_empty() and _text_page + direction >= 0 and _text_page + direction < _text_pages.size():
+        _text_page += direction
+        _refresh_text()
+        return
+    var next := clampi(_index + direction, 0, _card_count() - 1)
+    if next != _index:
+        _index = next
+        _text_page = -1 if direction < 0 else 0
+        _show()
+
+
+func _refresh_navigation() -> void:
+    _navigation.refresh()
+    _navigation.visible = _board.visible and _board.game != null and _board.game.size() == 19
+    if _navigation.visible:
+        # Dark ink on this paper card; the match footer is over a dark backdrop.
+        _navigation.modulate = Color("#45404f")
+    _refresh_heading()
+
+
 func _unhandled_input(event: InputEvent) -> void:
-    if event.is_action_pressed("move_left"):
-        _index -= 1
-        _show()
+    if _board.visible and _navigation.handle_input(event):
+        _board.inspection = _board.zoomed
+        _board.queue_redraw()
+    elif _board.visible and _board.zoomed:
+        if event.is_action_pressed("cancel"):
+            _board.toggle_zoom()
+            _board.inspection = false
+        elif event.is_action_pressed("move_left"):
+            _board.move_cursor(Vector2i.LEFT)
+        elif event.is_action_pressed("move_right"):
+            _board.move_cursor(Vector2i.RIGHT)
+        elif event.is_action_pressed("move_up"):
+            _board.move_cursor(Vector2i.UP)
+        elif event.is_action_pressed("move_down"):
+            _board.move_cursor(Vector2i.DOWN)
+        elif event.is_action_pressed("interact"):
+            closed.emit()
+            queue_free()
+        else:
+            return
+    elif event.is_action_pressed("move_left"):
+        _navigate(-1)
     elif event.is_action_pressed("move_right"):
-        _index += 1
-        _show()
+        _navigate(1)
     elif event.is_action_pressed("interact") or event.is_action_pressed("cancel"):
         closed.emit()
         queue_free()

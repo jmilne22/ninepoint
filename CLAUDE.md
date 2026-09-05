@@ -177,6 +177,7 @@ out at the end of the session, not the start.
 
 ```bash
 tools/play.sh                                    # play it, on the real display
+tools/play.sh -- --katago-trial=res://tools/fixtures/katago_trial_19x19.tres # dev-only nineteen-line board
 tools/test.sh                                    # compile gate + load check + all suites
 tools/run_game.sh tools/autopilot/<script>.json  # drive the game, screenshot each beat
 python3 tools/build_assets.py                    # regenerate ALL art, audio and the font
@@ -201,7 +202,7 @@ python3 tools/gen_content.py                     # rebuild NpcData / OpponentPro
 python3 tools/gen_props.py                       # art/props/ — the tram, the "..." bubble
 python3 tools/make_test_save.py invited          # a save in a hard-to-reach state
 python3 tools/make_test_save.py invited 2 Ada 42 # ...in slot 2, as Ada, at 42 minutes
-                                                # also: league_ready thirteen_ready cup_ready
+                                                # also: ko_ready league_ready thirteen_ready cup_ready
                                                 # cup_day playing_up outgrown open_ready open_day
                                                 # exam_ready exam_day exam_round2 exam_passed
                                                 # exam_failed exam_missed exam_final
@@ -223,7 +224,10 @@ weakest heuristic so the player wins -- the autoplay brain cannot beat even Abel
 `review_world_13` (the same through the town: Wren at De Ketel, Kesh's thirteen, then the
 post-match talk), `review_leave` (walk away from the loading card, read it later on the
 quay), `review_unavailable` (a wedged engine must still let you out), `quay_review` /
-`quay_review_19` (the noticeboard from a save).
+`quay_review_19` (the noticeboard from a save), `nineteen` (controls, mouse and
+resignation), `nineteen_game` (whole engine game/count/review), `nineteen_count`
+(real counting with the fallback), `nineteen_handicap`, `nineteen_missing`, and
+`nineteen_review` (distant review points).
 
 Screenshots land in `/tmp/ninepoint-shots` (override with `OUT=`). **`run_game.sh` needs a
 script argument** — it runs on a hidden display. `DISPLAY_NUM=0` runs it on the real display
@@ -245,6 +249,13 @@ once, because `user://save_*.json` and the screenshot folder are shared.
    The tram stop is `walk_to [1,10]`, `face [1,9]`, `tap interact`, `choose`.
 
 ---
+
+**While somebody plays:** use a separate worktree and an absolute `XDG_DATA_HOME`
+under `/home/user` for every test and fixture run. The Python save tool and screenshot
+runner honour it, and `check_user_data.gd` verifies Godot resolves the same directory.
+The save suite temporarily writes all three slots; backup/restore does not make it safe
+alongside a live game in the same directory. The runner now locks before fixture writes.
+Use distinct `OUT` and `LOG` paths. Run engine checks serially.
 
 ## Environment (NixOS — read this before running anything)
 
@@ -425,7 +436,8 @@ Playable start to finish: cold open → name → the attic → Ketelsteeg → Ca
 Wren's rules and opening plan → Wren's unrated first full game → nigiri → Kesh's rated game →
 a rank → the tram north → Hana's problem → enrol → the league
 board → a class → league games → the exam → the Cup. Eleven maps, fifteen characters, each on
-exactly one map. Two board sizes. Four quests. Three save slots.
+exactly one map. Two scored board sizes in town, plus development-only 19×19.
+Four quests. Three save slots.
 
 **M37 was the cut.** The owner played it and found it unplayable in six ways, and none of the
 verification this project had done — 7,081 checks and thirty autopilot scripts — had asked
@@ -477,7 +489,7 @@ count are still the heuristic's proposal with a player override: `final_status_l
 on the bundled Human-SL build.
 
 **Known gaps, in priority order:** see `ROADMAP.md`. The short version: engine dead-stone
-adjudication; 19×19 at the board (the review already reads a 19×19 game); the arches are
+adjudication; teaching and town access for 19×19 (the development UI has overview/zoom); the arches are
 thin; `world.gd` and `go_match.gd` are over the line-count convention; a `CanvasLayer` that
 reads an autoload is invisible to the suite; and audio has never been heard by an assistant.
 

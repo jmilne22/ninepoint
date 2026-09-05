@@ -66,7 +66,11 @@ src/
     opponent_factory.gd  OpponentProfile resource -> live opponent instance
 
   go_ui/              PRESENTATION of a Go game
-    go_board_view.*     draws a board+stones from a GoGame, emits point_pressed
+    go_board_view.*     draws a board+stones from a GoGame, emits point_activated
+    go_board_geometry.gd pure visible-region, pixel-spacing and hit-test transform
+    go_board_ink.gd      stone, coordinate and crop-boundary drawing
+    board_navigation.gd shared overview/zoom caption and input; presentation only
+    board_controls.gd   once-per-session 19×19 controls card
     go_match.*          the match scene: board, HUD, turn loop, pass/resign, scoring phase
     go_puzzle.*         puzzle scene reusing GoBoardView
     go_lesson.*         the tutorial runner, also reusing GoBoardView
@@ -271,7 +275,7 @@ Composition over inheritance, small scenes with one job:
 routinely holds two of these at once, and a person must outrank the furniture behind them),
 `Warp` (area → target map + spawn point),
 `Facing` (which way a character is turned), `DialogueBox` (typewriter, portrait, choices),
-`GoBoardView` (stateless renderer of a GoGame). There is no `GridMover` and no
+`GoBoardView` (renders a GoGame and holds cursor/zoom presentation state). There is no `GridMover` and no
 `ScheduleComponent`; movement lives on `Player`/`Npc`, and there is no schedule.
 
 The tram stop is a sign whose text begins `__TRAM__` followed by JSON naming its routes;
@@ -280,6 +284,16 @@ set, asks the `Tram` prop to pull in, and only then changes scene.
 
 Maps are `TileMapLayer`-based with a `YSort` entity layer; every map exposes named
 `SpawnPoint` nodes so warps and save/load can place the player deterministically.
+
+For 19×19, `GoBoardGeometry` owns the visible rectangle in global board coordinates.
+Both drawing and mouse picking recompute it before use, so input immediately after a
+view change cannot use yesterday's pixel transform. Zoom never crops the rules board,
+changes a move index, or persists into a save. `go_zoom` (V) is handled only by the active
+match/counting view or review card; confirmations and the introductory controls card
+consume input before board interaction. Review arrows navigate cards in overview and
+inspect intersections in zoom. Long finding text is paginated with `UiKit.paginate`,
+reserving the move legend on every page; arrows finish those pages before changing
+positions. Page state is presentation-only too.
 
 ## 8. Save format
 
@@ -333,6 +347,11 @@ and the fallbacks), `katago_service_test.gd` (lease lifecycle, handicap and setu
 the malformed and rejecting fixtures) and `katago_review_test.gd` (a whole 9×9 and a whole
 19×19 game analysed position by position, and a wedged engine failed by the watchdog).
 
+The save suite, manual development trial and autopilot can be isolated with an absolute
+`XDG_DATA_HOME`. `check_user_data.gd` verifies Godot and the Python fixture writer resolve
+the same directory before fixtures touch slots. `run_game.sh` acquires its lock before
+writing those slots and propagates game failures. Keep engine checks serial.
+
 ## 10. Conventions
 
 - `snake_case` files and members, `PascalCase` classes, `SCREAMING_SNAKE` constants.
@@ -345,7 +364,7 @@ the malformed and rejecting fixtures) and `katago_review_test.gd` (a whole 9×9 
 
 ## 11. Known architectural risks
 
-- **Dead-stone marking** at game end is heuristic + player override. A GTP engine would give a
-  better answer (`final_status_list dead`); the interface already has the seam for it.
+- **Dead-stone marking** at game end is heuristic + player override. The bundled Human-SL
+  engine hung on `final_status_list dead`; ENG-05 investigates analysis ownership instead.
 - **Dialogue JSON is untyped.** Mitigated by a validation test over every graph, not by types.
 - **Autopilot input** simulates events rather than a human; it can miss timing-dependent bugs.

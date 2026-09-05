@@ -1,7 +1,7 @@
 [
  {
-  "save": "invited",
-  "note": "the state this script needs; run_game.sh builds it before launching"
+  "save": "ko_ready",
+  "note": "Rules known, Wren first game completed, ko not yet learned."
  },
  {
   "wait": 0.8

@@ -1,5 +1,9 @@
 [
  {
+  "save": {},
+  "note": "No inherited player slots in the unavailable-review route."
+ },
+ {
   "review_engine": "res://tools/fixtures/analysis_hang.sh",
   "review_stall": 4
  },
@@ -17,7 +21,7 @@
  },
  {
   "wait": 0.5,
-  "shot": "a_count"
+  "shot": "a_finished_game"
  },
  {
   "tap": "go_pass",

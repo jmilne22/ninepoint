@@ -1,6 +1,6 @@
 [
  {
-  "save": "quay_review"
+  "save": "quay_review_19"
  },
  {
   "wait": 0.8
@@ -47,20 +47,38 @@
   "shot": "c_card_2"
  },
  {
-  "board_input": {
-   "key": "V",
-   "size": 9,
-   "zoomed": false
-  }
+  "review_walk": true
  },
  {
-  "review_walk": true
+  "tap": "go_zoom"
+ },
+ {
+  "shot": "e_actual_zoom"
+ },
+ {
+  "board_input": {
+   "move_to": [
+    4,
+    6
+   ],
+   "zoomed": true
+  },
+  "shot": "f_better_zoom"
+ },
+ {
+  "tap": "cancel"
+ },
+ {
+  "board_input": {
+   "zoomed": false
+  },
+  "shot": "g_whole_again"
  },
  {
   "tap": "interact"
  },
  {
-  "wait": 1.2,
-  "shot": "e_after"
+  "wait": 0.5,
+  "shot": "h_closed"
  }
 ]

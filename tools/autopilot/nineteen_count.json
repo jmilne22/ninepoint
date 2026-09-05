@@ -1,0 +1,57 @@
+[
+ {
+  "save": {}
+ },
+ {
+  "katago_trial": "res://tools/fixtures/katago_trial_19x19_missing.tres"
+ },
+ {
+  "match_autoplay": true,
+  "max_moves": 6,
+  "timeout": 180
+ },
+ {
+  "board_input": {
+   "size": 19,
+   "counting": true,
+   "fallback": true
+  },
+  "shot": "a_count_overview"
+ },
+ {
+  "tap": "go_zoom"
+ },
+ {
+  "board_input": {
+   "toggle_group": true,
+   "counting": true
+  },
+  "shot": "b_count_group_restored"
+ },
+ {
+  "tap": "go_zoom"
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.5,
+  "shot": "c_count_accepted"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "tap": "cancel"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "d_world",
+  "wait": 1.2
+ }
+]

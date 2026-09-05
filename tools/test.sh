@@ -18,6 +18,8 @@ fi
 rm -f "$IMPORT_LOG"
 echo "   import pass produced no parse errors"
 
+"$GODOT" --headless --path . --script res://tools/check_user_data.gd || exit 2
+
 # The import log is not enough on its own: a bad patch has produced a clean log
 # and a broken scene. Load every file and see.
 LOAD=$(timeout 240 "$GODOT" --headless --path . --script res://tests/check_load.gd 2>&1)

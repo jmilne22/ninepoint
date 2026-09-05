@@ -208,15 +208,20 @@ art -- stacked circles read as a potato), `crowd.png`.
 
 - Panels: `paper0` fill, `ink1` 1px border, `ink2` 1px drop shadow, 4px corner cut (no rounding).
 - Dialogue box: bottom-anchored, 64×64 portrait at left, name plate above the frame in `gold2`.
-- Font: Godot's default UI font at integer scale only. Text `ink0` on paper, `paper0` on ink.
+- Font: the generated Ninepoint bitmap font at native size 9 and integer multiples only. Text `ink0` on paper, `paper0` on ink.
 - Everything snaps to the pixel grid; the camera is pixel-snapped; no rotation, no scaling
   that is not an integer multiple.
 - Icons 16×16, single-colour silhouettes plus one accent (stone, book, ticket, key, cup).
 
 ## 6. The Go board
 
-The board renders at any size (9/13/19) into a fixed square area, computing an integer cell
-size so lines land on exact pixels. Star points on 9×9 at (3,3),(3,7),(7,3),(7,7),(5,5) in
+The board renders into a fixed square area, computing an integer cell size so lines
+land on exact pixels. 19×19 has a whole-board overview with alternate coordinate labels
+and a V-toggled close view. The close view starts at nine visible lines (a starting value
+checked on crowded positions), keeps global coordinates and star points, and follows the
+cursor within the true board bounds. Short continuation ticks cross cropped grid edges;
+true board edges have none. The exact cursor coordinate is always written below the board.
+Smaller boards retain their established geometry. Review positions use the same transform. Star points on 9×9 at (3,3),(3,7),(7,3),(7,7),(5,5) in
 1-indexed coordinates. Stones are circles with a 1px `ink0` rim, a 2px highlight at upper-left
 (`stoneW1`/`stoneB1`), and a soft `ink2` shadow offset down-right by 1px. The last move carries
 a small ring in the *opposite* stone colour; territory in scoring mode is shown as small squares
@@ -225,8 +230,8 @@ a small ring in the *opposite* stone colour; territory in scoring mode is shown 
 ## 7. Screen and camera
 
 - Base resolution **384×216** (16:9, exactly 24×13.5 tiles), integer-scaled to the window.
-  `canvas_items` stretch, `keep` aspect. At 1280×720 that is a clean 3.33× — the project uses
-  `viewport` scaling with integer snap so it lands on 3× with letterboxing rather than blurring.
+  `viewport` stretch, `keep` aspect, integer scale mode. At 1280×720 it lands on 3×
+  with letterboxing; the normal 1152×648 play window is exactly 3×.
 - Camera follows the player with a 1-frame deadzone, clamped to map bounds, pixel-snapped.
   A map **smaller** than the screen is centred, not pinned to the top-left: the limits are
   widened equally on both sides, and `World._build_backdrop()` paints `ink0` behind the tiles

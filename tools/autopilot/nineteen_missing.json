@@ -1,0 +1,68 @@
+[
+ {
+  "save": {}
+ },
+ {
+  "katago_trial": "res://tools/fixtures/katago_trial_19x19_missing.tres"
+ },
+ {
+  "wait": 3,
+  "shot": "a_controls"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "match_wait_player": true
+ },
+ {
+  "board_input": {
+   "fallback": true
+  },
+  "shot": "b_local_opponent"
+ },
+ {
+  "tap": "go_zoom"
+ },
+ {
+  "match_move": [
+   3,
+   3
+  ]
+ },
+ {
+  "match_wait_player": true
+ },
+ {
+  "shot": "c_reply_zoom"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "wait": 0.5,
+  "shot": "d_result"
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 3,
+  "max_moves": 1,
+  "note": "A normal resignation result must end autoplay without waiting for counting."
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "tap": "cancel"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "e_world",
+  "wait": 1.2
+ }
+]

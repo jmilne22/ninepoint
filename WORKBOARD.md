@@ -4,7 +4,7 @@ This is the **operational source of truth** for unfinished work. An agent starts
 not in the milestone history. It answers: what may be picked up now, what is blocked, and
 what evidence makes a task done.
 
-Snapshot: `origin/main` at `c6457ba` plus the M41 strength branch. Update the snapshot when
+Snapshot: `origin/main` at `f402c95` (M41 merged). Update the snapshot when
 the board is reconciled after a merge; do not treat it as a release number.
 
 ## How to use this board
@@ -51,13 +51,11 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 
 ### WORLD-01 — Decide the quay’s purpose
 
-- Status: `NEEDS DECISION` · Priority: `P1`
-- Why: after schedules were cut, the quay is a bench and two signs. It must either gain a
-  permanent reason to visit or be removed/merged into another location.
-- Decision needed: add a resident/activity, preserve it intentionally as a quiet place with a
-  concrete gameplay use, or cut it.
-- Acceptance: the chosen role is stated in `GAME_DESIGN.md`, and a follow-up implementation
-  ticket exists if the map remains.
+- Status: `SHIPPED` (M40; stale status reconciled during UI-01) · Priority: `P1`
+- Decision: preserve the quay as a quiet place to read the last requested game review.
+  Its noticeboard retains the review after the player leaves the loading screen.
+- Evidence: M40 `quay_review` / `quay_review_19`, the implemented `SignDesk` route,
+  and the current role in `GAME_DESIGN.md`.
 - Context: `ROADMAP.md` §2.
 
 ## Needs decision (new)
@@ -127,12 +125,18 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 
 ### UI-01 — Make 19×19 playable in the match UI
 
-- Status: `READY` · Priority: `P1`
+- Status: `SHIPPED` (M42) · Priority: `P1` · Owner: Codex · Branch: `codex/ui-01-19x19`
+- Agreed scope: development-only 19×19 play, whole-board overview and V zoom,
+  cursor-following inspection in matches/counting/reviews, learner-facing controls,
+  isolated verification, and played/inspected evidence. Town access and teaching follow later.
 - Scope: resolve board and text readability at 19×19 in the match panel. The engine question
-  is answered (ENG-03) and the review already reads a 19×19 game (M40); what is missing is
-  the board at the table.
-- Acceptance: a 19×19 match is legible and playable at the supported resolution and is
-  inspected in the real game.
+  is answered (ENG-03); this supplies development play and zoom for M40 review positions.
+- Evidence: two engine-backed games to counting/result/review/world, 105 and 161 legal
+  engine replies without fallback; native and 3× frames opened. Physical V, mouse, modal
+  blocking, cursor retention, counting toggles, handicap and fallback played. Smaller
+  boards, ko and review exits replayed. 14269 checks (M41: 12505), 229 files load, three
+  engine gates passed; inherited TECH-06 limitations remain. Full evidence in M42.
+- Follow-up: CONTENT-04 owns the teaching introduction, Hana offer and progression gate.
 - Context: `ROADMAP.md` §3.
 
 ### TECH-02 — Replace duplicated lesson/puzzle reachability lists
@@ -211,13 +215,36 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
   a fixture proves the count screen never waits on the engine.
 - Context: `ROADMAP.md` §1, §5.
 
+## Teaching decisions
+
 ### CONTENT-01 — Teach whole-board judgement
 
-- Status: `BLOCKED` · Priority: `P2` · Depends on: `ENG-04`
+- Status: `NEEDS DECISION` · Priority: `P2` · Technical dependency `ENG-04` shipped in M40.
+- Decision needed: choose the next judgement concept and its place in the curriculum.
+  Engine availability no longer blocks this ticket; content scope is still unchosen.
+- UI-01 evidence: a nineteen-line review still says "a small board" in the generic
+  lone-stone habit. Explanations need board-size context when this content is scoped.
 - Scope: extend the curriculum beyond locally decidable rules into engine-backed judgement.
 - Acceptance: new teaching content has checkable positions/evaluation and a played,
   screenshot-reviewed learning route.
 - Context: `ROADMAP.md` §4.
+
+### CONTENT-04 — Introduce the transition from thirteen to nineteen lines
+
+- Status: `NEEDS DECISION` · Priority: `P1` · UI foundation: `UI-01`.
+- Decision needed: when Hana offers the larger board, what prior experience it requires,
+  and the first task that makes a distant move intelligible to a learner.
+- Scope: a played teaching introduction, a town offer, and an explicit progression gate.
+  The development fixture supplies none of these.
+- Evidence from UI-01 inspection: the interface can identify a distant reply and return to
+  a chosen point, but the existing local lessons do not explain when to leave a fight,
+  why a distant move is larger, or how to judge a group's safety before counting.
+  Crowded scoring can be inspected confidently in zoom; deciding which groups are dead
+  remains a Go judgement, with the existing heuristic proposal and player override.
+- Acceptance: starting with only the current game's teaching, a player understands the
+  reason for trying nineteen lines and can act on the first whole-board lesson. Play and
+  inspect the whole transition; the owner's experience decides whether it teaches.
+- Context: `ROADMAP.md` §3; `GAME_DESIGN.md` teaching order.
 
 ## Later
 
@@ -310,6 +337,8 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 
 ## Shipped recently
 
+- `M42` — development-only nineteen-line overview/zoom, match/count/review navigation,
+  isolated fixture tools and observed-play evidence. Teaching transition remains CONTENT-04.
 - `M41` — the cast's strength measured in whole games for the first time; the steady
   temperament and the 20k floor retuned from the numbers; the probe, with a memory cap.
 - `M40` — the review, rebuilt on KataGo's analysis mode: streamed progress, leaveable, on the

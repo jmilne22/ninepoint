@@ -1,0 +1,111 @@
+[
+ {
+  "save": {}
+ },
+ {
+  "katago_trial": "res://tools/fixtures/katago_trial_19x19.tres"
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 1100,
+  "max_moves": 250
+ },
+ {
+  "board_input": {
+   "counting": true,
+   "size": 19
+  },
+  "shot": "a_count_overview"
+ },
+ {
+  "tap": "go_zoom"
+ },
+ {
+  "shot": "b_count_zoom"
+ },
+ {
+  "board_input": {
+   "toggle_group": true,
+   "counting": true
+  },
+  "shot": "b2_group_restored"
+ },
+ {
+  "tap": "go_zoom"
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "wait": 0.5,
+  "shot": "c_result"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.4,
+  "shot": "d_review_offer"
+ },
+ {
+  "tap": "move_up"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 3,
+  "shot": "e_progress"
+ },
+ {
+  "review_card_wait": true,
+  "timeout": 900
+ },
+ {
+  "shot": "f_tally"
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "shot": "g_first_position"
+ },
+ {
+  "tap": "go_zoom"
+ },
+ {
+  "shot": "h_review_zoom"
+ },
+ {
+  "board_input": {
+   "move_to": [
+    18,
+    18
+   ],
+   "zoomed": true
+  },
+  "shot": "i_review_far_corner"
+ },
+ {
+  "tap": "cancel"
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "review_walk": true
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "l_world",
+  "wait": 1.2
+ },
+ {
+  "trial_assert": true
+ }
+]
