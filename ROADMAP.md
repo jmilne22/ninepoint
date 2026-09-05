@@ -188,3 +188,13 @@ only `unrated` controls rank consequences.
 
 Acceptance is observed play, with automation supporting branch coverage. See
 `docs/overhaul/PLAYTEST.md` for journeys, fixtures, mistakes found and representative screens.
+
+
+## Board mouse support — UI-02
+
+The board encounter supports mouse targeting and clickable actions through results and
+reviews, on every existing board size. Feedback makes the selected intersection and
+counting group visible. Hover remains independent of legality: the existing click response
+already explains rejected moves. The same distinction keeps ko/self-capture lessons intact.
+Mouse targeting keeps nineteen-line close views steady; keyboard selection still follows
+the cursor. Town navigation and dialogue/menu mouse support remain separate work.

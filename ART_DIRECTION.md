@@ -206,8 +206,15 @@ land on exact pixels. 19×19 has a whole-board overview with alternate coordinat
 and a V-toggled close view. The close view starts at nine visible lines (a starting value
 checked on crowded positions), keeps global coordinates and star points, and follows the
 cursor within the true board bounds. Short continuation ticks cross cropped grid edges;
-true board edges have none. The exact cursor coordinate is always written below the board.
-Smaller boards retain their established geometry. Review positions use the same transform. Star points on 9×9 at (3,3),(3,7),(7,3),(7,7),(5,5) in
+true board edges have none. The targeted coordinate is written below the board while a point is selected.
+Mouse hover uses corner brackets and a translucent stone on empty points during the
+player's turn. The preview conveys targeting, not legality; rejected clicks retain their
+existing explanation. Counting uses teal outlines on the hovered chain. Reviews use the
+brackets without a placement preview. Review offer choices sit inside the measured card
+and highlight in warm paper on hover; their visible rows are the click targets.
+Coordinates and compact paper buttons sit below
+the board; hover never pans the close view. The seven-line layout reserves its larger
+wood margin so it stays clear of the opponent panel. Other sizes retain their spacing. Review positions use the same transform. Star points on 9×9 at (3,3),(3,7),(7,3),(7,7),(5,5) in
 1-indexed coordinates. Stones are circles with a 1px `ink0` rim, a 2px highlight at upper-left
 (`stoneW1`/`stoneB1`), and a soft `ink2` shadow offset down-right by 1px. The last move carries
 a small ring in the *opposite* stone colour; territory in scoring mode is shown as small squares

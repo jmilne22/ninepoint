@@ -5,6 +5,7 @@ extends Control
 var compact := false
 var board: GoBoardView
 var _caption: Label
+var _actions: MouseActions
 
 
 func setup(value: GoBoardView) -> void:
@@ -12,17 +13,36 @@ func setup(value: GoBoardView) -> void:
     mouse_filter = Control.MOUSE_FILTER_IGNORE
     _caption = UiKit.label(self, Vector2.ZERO, int(size.x), UiKit.PAPER, int(size.y))
     _caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
+    _actions = MouseActions.new()
+    _actions.position = Vector2(26, 0)
+    add_child(_actions)
+    _actions.action_selected.connect(_action)
     board.view_changed.connect(refresh)
     refresh()
 
 
 func refresh() -> void:
-    visible = board.game != null and board.game.size() == 19
-    _caption.text = board.view_caption() if visible else ""
-    if visible and compact:
-        _caption.text = "%s %s\nV: %s" % [board.game.board.label(board.cursor),
-            "Close view" if board.zoomed else "Whole board",
-            "whole; arrows move" if board.zoomed else "zoom"]
+    visible = board.game != null
+    var point := board.target_point()
+    _caption.text = board.game.board.label(point) if visible and point >= 0 else ""
+    var specs: Array = []
+    if visible and board.game.size() == 19:
+        specs.append(["Whole" if board.zoomed else "Zoom V", "go_zoom"])
+        if board.zoomed:
+            specs.append(["<", "left"])
+            specs.append([">", "right"])
+            specs.append(["Up", "up"])
+            specs.append(["Dn", "down"])
+    _actions.configure(specs)
+
+
+func _action(action: StringName) -> void:
+    if action == &"go_zoom":
+        board.toggle_zoom()
+    else:
+        var directions := {&"left": Vector2i.LEFT, &"right": Vector2i.RIGHT,
+            &"up": Vector2i.UP, &"down": Vector2i.DOWN}
+        board.pan_view(directions[action])
 
 
 func handle_input(event: InputEvent) -> bool:

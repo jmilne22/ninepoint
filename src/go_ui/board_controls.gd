@@ -16,11 +16,18 @@ func _ready() -> void:
     var card := UiKit.panel(dim, Rect2())
     var body := UiKit.label(card, Vector2.ZERO, 280, UiKit.INK)
     UiKit.fit_card(card, body,
-        "Nineteen lines.\n\nYou can see the whole board. Press V for a close view around your cursor; press V again to see it all.\n\nArrows move. Space places a stone. In close view, lines continuing past the edge mean there is more board.\n\n[Space] try it", 320)
+        "Nineteen lines.\n\nPoint and click to place a stone. Arrows and Space also work.\n\nZoom V opens a close view at your selected point. Whole returns to the full board. The arrow buttons pan the close view.\n\nLines continuing past an edge mean there is more board.\n\n[Space] try it", 320)
+    var actions := MouseActions.new()
+    actions.position = Vector2(140, 197)
+    dim.add_child(actions)
+    actions.configure([["Try it", "interact"]])
+    actions.action_selected.connect(func(action: StringName): _input(MouseActions.event(action)))
     shown = true
 
 
 func _input(event: InputEvent) -> void:
+    if event is InputEventMouse:
+        return
     # Dismissing this must never also place the first stone underneath it.
     get_viewport().set_input_as_handled()
     if event.is_action_pressed("interact") or event.is_action_pressed("cancel"):

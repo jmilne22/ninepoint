@@ -1,0 +1,105 @@
+[
+ {
+  "save": {}
+ },
+ {
+  "katago_trial": "res://data/opponents/kesh_9x9.tres"
+ },
+ {
+  "wait": 3,
+  "shot": "a_nigiri"
+ },
+ {
+  "board_input": {
+   "nigiri_mouse": "white"
+  }
+ },
+ {
+  "match_wait_player": true
+ },
+ {
+  "board_input": {
+   "hover": [
+    0,
+    0
+   ],
+   "scale": 2
+  },
+  "shot": "b_two_times"
+ },
+ {
+  "board_input": {
+   "click_legal": [
+    0,
+    0
+   ]
+  }
+ },
+ {
+  "board_input": {
+   "hover": [
+    1,
+    0
+   ],
+   "mode": "INSPECT"
+  },
+  "shot": "c_opponent_turn"
+ },
+ {
+  "match_wait_player": true
+ },
+ {
+  "board_input": {
+   "mode": "PLACE"
+  },
+  "shot": "d_same_pointer_our_turn"
+ },
+ {
+  "board_input": {
+   "click_attempt": [
+    0,
+    0
+   ]
+  },
+  "shot": "occupied_click_feedback"
+ },
+ {
+  "board_input": {
+   "scale": 3,
+   "hover": [
+    2,
+    0
+   ]
+  },
+  "shot": "e_three_times"
+ },
+ {
+  "board_input": {
+   "button": "go_resign"
+  }
+ },
+ {
+  "board_input": {
+   "button": "go_resign"
+  }
+ },
+ {
+  "wait": 0.3
+ },
+ {
+  "board_input": {
+   "button": "interact"
+  }
+ },
+ {
+  "wait": 0.2
+ },
+ {
+  "board_input": {
+   "button": "review_no"
+  }
+ },
+ {
+  "world_wait": true
+ }
+]

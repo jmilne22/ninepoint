@@ -66,6 +66,8 @@ where to put you when all three slots are full.
 
 | | |
 |---|---|
+| Mouse movement | preview an empty intersection and show its coordinate |
+| Left click | place a stone, or toggle a group during counting |
 | Arrow keys | move the cursor |
 | Space | place a stone |
 | P | pass |
@@ -75,8 +77,19 @@ where to put you when all three slots are full.
 | *after both players pass* | Space toggles a group dead or alive, **P** accepts the count |
 | Space | dismiss the result, then choose whether to review the game |
 
-**In a puzzle or lesson**: arrows and Space to play, **R** to reset the position, Esc to
-leave. A wrong answer is taken back and explained; a second wrong answer gives you a hint.
+The board screens also have clickable buttons for their actions: passing, resignation,
+count acceptance, colour choices, explanations, results and review navigation.
+Review Yes/No choices can be clicked directly inside their card. Keyboard
+shortcuts remain available. Hover previews indicate placement only: illegal moves are
+explained when clicked, exactly as before. During the opponent's turn, hovering identifies
+a point without previewing a stone. At the count, hovering outlines the whole group.
+
+On nineteen lines, **Zoom V / Whole** switches views, and **< / > / Up / Dn** pans the
+close view. Mouse targeting never shifts the board under the pointer. Keyboard arrows
+still move the selection and follow it through the close view.
+
+**In a puzzle or lesson**: click or use arrows and Space to play, and Esc or **Leave** to
+exit. Puzzles also offer **Reset R**. Explanation and result cards have **Continue** buttons. A wrong answer is taken back and explained; a second wrong answer gives you a hint.
 
 **Choosing colours** is a set piece. In an even game the opponent takes a handful of stones
 and you call **odd** or **even** (left/right to switch, Space to call it); guess right and

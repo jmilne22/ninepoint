@@ -53,6 +53,7 @@ var _call: Label
 var _count: Label
 var _stones: Array[Control] = []
 
+var _actions: MouseActions
 var _pick_odd := true
 var _pick_black := true
 var _awaiting: StringName = &""
@@ -63,6 +64,10 @@ var _shake_power := 0.0
 func _ready() -> void:
     set_anchors_preset(Control.PRESET_FULL_RECT)
     _build()
+    _actions = MouseActions.new()
+    _actions.position = Vector2(82, 197)
+    add_child(_actions)
+    _actions.action_selected.connect(_mouse_action)
 
 
 # --- construction ------------------------------------------------------------
@@ -257,10 +262,11 @@ func _bob() -> void:
 func ask_guess() -> bool:
     set_expression(2)
     _headline.text = "A closed fist. Odd, or even?"
-    _subline.text = "Left or Right changes your guess. Press Space to call it."
+    _subline.text = "Click Odd or Even, or use Left/Right and Space."
     _awaiting = &"guess"
     _pick_odd = true
     _refresh_call()
+    _refresh_actions()
     while _awaiting == &"guess" and is_inside_tree():
         await get_tree().process_frame
     await _slam_pause()
@@ -336,12 +342,13 @@ func verdict(count: int, guessed_right: bool, explanation: String) -> void:
 ## Offered only to whoever won the call.
 func ask_colour() -> int:
     _headline.text = "You called it. Which colour?"
-    _subline.text = "Black plays first. White receives extra points called komi when the game is counted. Choose with Left or Right, then Space."
+    _subline.text = "Black plays first. White gets komi at the count. Click a colour, or use Left/Right and Space."
     # State before refresh: _refresh_call reads _awaiting to know which pair of
     # words it is showing.
     _awaiting = &"colour"
     _pick_black = true
     _refresh_call()
+    _refresh_actions()
     while _awaiting == &"colour" and is_inside_tree():
         await get_tree().process_frame
     return GoBoard.BLACK if _pick_black else GoBoard.WHITE
@@ -395,4 +402,25 @@ func _unhandled_input(event: InputEvent) -> void:
         else:
             guess_made.emit(_pick_odd)
         _awaiting = &""
+        _refresh_actions()
         get_viewport().set_input_as_handled()
+
+
+func _refresh_actions() -> void:
+    var specs: Array = []
+    if _awaiting == &"guess":
+        specs = [["Odd", "odd"], ["Even", "even"]]
+    elif _awaiting == &"colour":
+        specs = [["Black", "black"], ["White", "white"]]
+    _actions.configure(specs)
+
+
+func _mouse_action(action: StringName) -> void:
+    if _awaiting == &"guess" and action in [&"odd", &"even"]:
+        _pick_odd = action == &"odd"
+    elif _awaiting == &"colour" and action in [&"black", &"white"]:
+        _pick_black = action == &"black"
+    else:
+        return
+    _refresh_call()
+    _unhandled_input(MouseActions.event(&"interact"))

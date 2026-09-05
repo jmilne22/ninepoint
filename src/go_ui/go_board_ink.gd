@@ -112,3 +112,18 @@ static func crop_edges(view: CanvasItem, geometry: GoBoardGeometry) -> void:
             view.draw_line(_origin + Vector2(offset, -3), _origin + Vector2(offset, 0), C_LINE)
         if region.end.y < geometry.board_size:
             view.draw_line(_origin + Vector2(offset, used), _origin + Vector2(offset, used + 3), C_LINE)
+
+
+static func star_points(n: int) -> PackedInt32Array:
+    var out := PackedInt32Array()
+    if n < 7:
+        return out
+    var e := 2 if n < 13 else 3
+    var m := n / 2
+    var coords := [e, m, n - 1 - e] if n >= 13 else [e, n - 1 - e]
+    for y in coords:
+        for x in coords:
+            out.append(y * n + x)
+    if n % 2 == 1 and not out.has(m * n + m):
+        out.append(m * n + m)
+    return out

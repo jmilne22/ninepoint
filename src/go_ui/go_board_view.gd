@@ -49,6 +49,8 @@ var mark_good: bool = false
 
 var zoomed := false
 var inspection := false
+var pointer := BoardPointer.new()
+var view_anchor := -1
 var geometry := GoBoardGeometry.new()
 
 var _cell: float = 20.0
@@ -69,14 +71,18 @@ func set_game(g: GoGame) -> void:
     dead.clear()
     territory = PackedByteArray()
     zoomed = false
+    pointer.clear()
     if g != null and (cursor < 0 or cursor >= g.size() * g.size()):
         cursor = g.board.idx(g.size() / 2, g.size() / 2)
+    view_anchor = cursor
     queue_redraw()
 
 
 func _ready() -> void:
     focus_mode = Control.FOCUS_ALL
-    resized.connect(queue_redraw)
+    resized.connect(_clear_pointer)
+    mouse_exited.connect(_clear_pointer)
+    get_window().focus_exited.connect(_clear_pointer)
     mouse_filter = Control.MOUSE_FILTER_STOP
 
 
@@ -123,7 +129,7 @@ func clear_animations() -> void:
 func _layout() -> void:
     if game == null:
         return
-    geometry.configure(game.size(), size, zoomed, cursor, _label_width(str(game.size())))
+    geometry.configure(game.size(), size, zoomed, view_anchor, _label_width(str(game.size())))
     _cell = geometry.cell
     _origin = geometry.origin
 
@@ -148,7 +154,12 @@ func point_visible(point: int) -> bool:
 func toggle_zoom() -> void:
     if game == null or game.size() != 19:
         return
+    if target_point() >= 0:
+        cursor = target_point()
+    if not zoomed:
+        view_anchor = cursor
     zoomed = not zoomed
+    pointer.clear()
     _layout()
     view_changed.emit()
     queue_redraw()
@@ -158,6 +169,9 @@ func focus_point(point: int) -> void:
     if game == null:
         return
     cursor = clampi(point, 0, game.size() * game.size() - 1)
+    view_anchor = cursor
+    pointer.using_mouse = false
+    pointer.clear()
     _layout()
     cursor_moved.emit(cursor)
     view_changed.emit()
@@ -167,23 +181,12 @@ func focus_point(point: int) -> void:
 func view_caption() -> String:
     if game == null:
         return ""
-    return "%s  %s  V: %s" % [game.board.label(cursor),
+    return "%s  %s  V: %s" % [game.board.label(target_point()),
         "Close view" if zoomed else "Whole board", "whole" if zoomed else "zoom"]
 
 
 static func star_points(n: int) -> PackedInt32Array:
-    var out := PackedInt32Array()
-    if n < 7:
-        return out
-    var e := 2 if n < 13 else 3
-    var m := n / 2
-    var coords := [e, m, n - 1 - e] if n >= 13 else [e, n - 1 - e]
-    for y in coords:
-        for x in coords:
-            out.append(y * n + x)
-    if n % 2 == 1 and not out.has(m * n + m):
-        out.append(m * n + m)
-    return out
+    return GoBoardInk.star_points(n)
 
 
 func _draw() -> void:
@@ -237,8 +240,8 @@ func _draw() -> void:
         var col: Color = C_WHITE if int(last["color"]) == GoBoard.BLACK else C_BLACK
         draw_arc(lp, _cell * 0.22, 0, TAU, 12, col, 1.5)
 
-    if show_liberties and cursor >= 0:
-        GoBoardInk.liberties(self, game, geometry, cursor, FONT)
+    if show_liberties and target_point() >= 0 and (interactive or inspection):
+        GoBoardInk.liberties(self, game, geometry, target_point(), FONT)
 
     for h in highlight:
         if not geometry.contains(h):
@@ -248,13 +251,7 @@ func _draw() -> void:
     if geometry.contains(mark_point):
         draw_circle(point_position(mark_point), _cell * 0.18, C_GOOD if mark_good else C_LIBERTY)
 
-    if (interactive or inspection) and geometry.contains(cursor):
-        var cp := point_position(cursor)
-        var r := _cell * 0.5
-        for corner: Vector2 in [Vector2(-1, -1), Vector2(1, -1), Vector2(-1, 1), Vector2(1, 1)]:
-            var o: Vector2 = cp + corner * r
-            draw_line(o, o - Vector2(corner.x * r * 0.45, 0), C_CURSOR, 1.5)
-            draw_line(o, o - Vector2(0, corner.y * r * 0.45), C_CURSOR, 1.5)
+    pointer.draw_feedback(self)
 
 
 func _label_width(text: String) -> float:
@@ -265,23 +262,45 @@ func _label_width(text: String) -> float:
 # --- input -------------------------------------------------------------------
 
 func _gui_input(event: InputEvent) -> void:
-    if not interactive or game == null:
+    pointer.handle_input(self, event)
+
+
+func target_point() -> int:
+    return pointer.hover if pointer.using_mouse else cursor
+
+
+func _clear_pointer() -> void:
+    if pointer.hover >= 0:
+        cursor = pointer.hover
+    pointer.clear()
+    view_changed.emit()
+    queue_redraw()
+
+
+func pan_view(delta: Vector2i) -> void:
+    if not zoomed:
         return
-    if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-        var i := point_at(event.position)
-        if i >= 0:
-            focus_point(i)
-            point_activated.emit(i)
-            accept_event()
+    var centre := geometry.region.position + geometry.region.size / 2
+    view_anchor = geometry.moved_cursor(centre.y * game.size() + centre.x, delta * 3)
+    pointer.clear()
+    _layout()
+    view_changed.emit()
+    queue_redraw()
 
 
 func move_cursor(delta: Vector2i) -> void:
     if game == null:
         return
     _layout()
-    focus_point(geometry.moved_cursor(cursor, delta))
+    var start := target_point() if target_point() >= 0 else cursor
+    focus_point(geometry.moved_cursor(start, delta))
 
 
 func activate_cursor() -> void:
-    if interactive and cursor >= 0:
-        point_activated.emit(cursor)
+    var point := target_point() if target_point() >= 0 else cursor
+    if interactive and point >= 0:
+        if pointer.hover < 0:
+            pointer.using_mouse = false
+            view_changed.emit()
+            queue_redraw()
+        point_activated.emit(point)

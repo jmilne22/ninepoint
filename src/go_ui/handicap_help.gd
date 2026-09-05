@@ -10,6 +10,8 @@ var _pages: PackedStringArray
 var _page := 0
 var _body: Label
 var _footer: Label
+var _actions: MouseActions
+var _more: MouseActions
 var _reason := false
 var _reason_page := 0
 var _reason_pages: PackedStringArray
@@ -28,15 +30,29 @@ func _ready() -> void:
     _reason_pages = UiKit.paginate(MatchPresentation.handicap_reason(request, setup), 158, 143)
     if not first_time:
         _pages = PackedStringArray(["%s starts with %d black stones.\n\nWhite plays first.\nWhite receives %s points at the count.\n\n%s\n\nPress H to read the explanation." % ["You" if setup.player_color == GoBoard.BLACK else request.opponent_name, setup.handicap, MatchPresentation.number(setup.komi), MatchPresentation.stakes(request)]])
+    _footer.hide()
+    _actions = MouseActions.new()
+    _actions.position = Vector2(10, 174)
+    panel.add_child(_actions)
+    _more = MouseActions.new()
+    _more.position = Vector2(10, 191)
+    panel.add_child(_more)
+    for bar in [_actions, _more]:
+        bar.action_selected.connect(func(action: StringName): _input(MouseActions.event(action)))
     _show()
 
 
 func _show() -> void:
+    _actions.configure([["Next" if _reason or _page < _pages.size() - 1 else "Play", "interact"],
+        ["Back" if _reason else "Skip", "cancel"]])
+    _more.configure([["Explain H", "go_help"], ["Why?", "move_right", not _reason]])
     _body.text = _reason_pages[_reason_page] if _reason else _pages[_page]
     _footer.text = "Space: next  Esc: back" if _reason else ("Space: next  Esc: skip\nRight: why this many?" if _page < _pages.size() - 1 else "Space: play  H: explain\nRight: why this many?")
 
 
 func _input(event: InputEvent) -> void:
+    if event is InputEventMouse:
+        return
     # Own the entire event, including mouse input, so closing cannot place a stone.
     get_viewport().set_input_as_handled()
     if event.is_action_pressed("move_right") and not _reason:

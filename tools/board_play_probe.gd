@@ -28,7 +28,8 @@ static func navigate(tree: SceneTree, point: int) -> void:
         fail(tree, "No board to navigate")
         return
     var n := board.game.size()
-    var delta := Vector2i(point % n - board.cursor % n, point / n - board.cursor / n)
+    var start := board.target_point() if board.target_point() >= 0 else board.cursor
+    var delta := Vector2i(point % n - start % n, point / n - start / n)
     for i in absi(delta.x):
         await tap(tree, "move_right" if delta.x > 0 else "move_left")
     for i in absi(delta.y):
@@ -43,11 +44,74 @@ static func place(tree: SceneTree, point: int) -> void:
 
 
 static func perform(tree: SceneTree, spec: Dictionary, screenshot: Callable = Callable()) -> void:
+    if spec.has("ceremony"):
+        var ceremony := NigiriCeremony.new()
+        ceremony.size = UiKit.VIEW
+        tree.root.add_child(ceremony)
+        for colour in ["white", "black"]:
+            _click_after_shot.call_deferred(tree, colour, screenshot)
+            var chosen := await ceremony.ask_colour()
+            if chosen != (GoBoard.WHITE if colour == "white" else GoBoard.BLACK):
+                fail(tree, "Mouse selected the wrong nigiri colour")
+        ceremony.queue_free()
+        return
+    if spec.has("nigiri_mouse"):
+        await click_button(tree, "odd")
+        var deadline := Time.get_ticks_msec() + 20000
+        while Time.get_ticks_msec() < deadline:
+            var ceremony: NigiriCeremony
+            for node in tree.root.find_children("*", "Control", true, false):
+                if node is NigiriCeremony:
+                    ceremony = node
+                    break
+            if ceremony == null:
+                return
+            if ceremony.get("_awaiting") == &"colour":
+                if screenshot.is_valid():
+                    await screenshot.call("nigiri_colour_choice")
+                await click_button(tree, str(spec["nigiri_mouse"]))
+                return
+            await tree.process_frame
+        fail(tree, "Nigiri did not finish")
+        return
+    if spec.has("button_hover"):
+        await click_button(tree, str(spec["button_hover"]), true, true)
+        return
+    if spec.has("button_wait"):
+        await click_button(tree, str(spec["button_wait"]), false)
+        return
+    if spec.has("button"):
+        await click_button(tree, str(spec["button"]))
+        return
     var board := board_in(tree)
-    if board == null:
+    if board == null or board.game == null:
         fail(tree, "No board for input probe")
         return
     var n := board.game.size()
+    if spec.has("scale"):
+        tree.root.size = Vector2i(384, 216) * int(spec["scale"])
+        await tree.process_frame
+        await tree.process_frame
+    if spec.has("hover") or spec.has("hover_out") or spec.has("hover_blocked"):
+        var xy: Array = spec.get("hover", spec.get("hover_blocked", [0, 0]))
+        var point := int(xy[1]) * n + int(xy[0])
+        var local := Vector2(-8, -8) if spec.has("hover_out") else board.point_position(point)
+        var region := board.geometry.region
+        var cells := board.game.board.cells.duplicate()
+        var moves := board.game.move_number()
+        var pos := tree.root.get_final_transform() * (board.get_global_transform_with_canvas() * local)
+        var event := InputEventMouseMotion.new()
+        event.position = pos
+        event.global_position = pos
+        event.relative = Vector2(1, 1)
+        Input.parse_input_event(event)
+        await tree.process_frame
+        await tree.process_frame
+        var expected := -1 if spec.has("hover_out") or spec.has("hover_blocked") else point
+        if board.pointer.hover != expected:
+            fail(tree, "Hover target %d != %d" % [board.pointer.hover, expected])
+        if board.geometry.region != region or board.game.board.cells != cells or board.game.move_number() != moves:
+            fail(tree, "Hover changed the view or game")
     if spec.has("key"):
         for pressed in [true, false]:
             var event := InputEventKey.new()
@@ -58,8 +122,8 @@ static func perform(tree: SceneTree, spec: Dictionary, screenshot: Callable = Ca
     if spec.has("move_to"):
         var xy: Array = spec["move_to"]
         await navigate(tree, int(xy[1]) * n + int(xy[0]))
-    if spec.has("click") or spec.has("click_legal") or spec.has("click_blocked"):
-        var xy: Array = spec.get("click", spec.get("click_legal", spec.get("click_blocked", [])))
+    if spec.has("click") or spec.has("click_legal") or spec.has("click_blocked") or spec.has("click_attempt"):
+        var xy: Array = spec.get("click", spec.get("click_legal", spec.get("click_blocked", spec.get("click_attempt", []))))
         var point := int(xy[1]) * n + int(xy[0])
         if spec.has("click_legal"):
             var searched := 0
@@ -86,8 +150,33 @@ static func perform(tree: SceneTree, spec: Dictionary, screenshot: Callable = Ca
         if spec.has("click_blocked"):
             if board.cursor != before_cursor or board.game.move_number() != before:
                 fail(tree, "Modal allowed mouse input onto the board")
+        elif spec.has("click_attempt"):
+            if board.game.move_number() != before:
+                fail(tree, "Illegal attempt changed move history")
         elif board.cursor != point or (not bool(spec.get("counting", false)) and board.game.move_number() <= before):
             fail(tree, "Mouse placement did not activate %d (cursor %d, moves %d -> %d, screen %s)" % [point, board.cursor, before, board.game.move_number(), pos])
+    if spec.has("toggle_group_mouse"):
+        var point := -1
+        for i in board.game.board.cells.size():
+            if board.game.board.get_idx(i) != GoBoard.EMPTY and board.point_visible(i):
+                point = i
+                break
+        if point < 0:
+            fail(tree, "No visible counting group")
+            return
+        var xy := [point % n, point / n]
+        await perform(tree, {"hover": xy})
+        if screenshot.is_valid():
+            await screenshot.call("count_hover_group")
+        var before := board.dead.duplicate()
+        await perform(tree, {"click": xy, "counting": true})
+        if board.dead == before:
+            fail(tree, "Mouse did not toggle the group")
+        if screenshot.is_valid():
+            await screenshot.call("count_mouse_changed")
+        await perform(tree, {"click": xy, "counting": true})
+        if board.dead != before:
+            fail(tree, "Mouse did not restore the group")
     if spec.has("toggle_group"):
         # Choose a group that actually exists in this played position. Count
         # changes are checked in both directions, through mouse and keyboard.
@@ -115,6 +204,8 @@ static func perform(tree: SceneTree, spec: Dictionary, screenshot: Callable = Ca
         var fallback := not (opponent is GtpOpponent) or (opponent as GtpOpponent).fallback_used
         if fallback != bool(spec["fallback"]):
             fail(tree, "Unexpected opponent fallback state")
+    if spec.has("mode") and board.pointer.mode != BoardPointer.Mode[str(spec["mode"])]:
+        fail(tree, "Wrong pointer mode: %s" % board.pointer.mode)
     if spec.has("zoomed") and board.zoomed != bool(spec["zoomed"]):
         fail(tree, "Unexpected zoom mode")
     if spec.has("size") and n != int(spec["size"]):
@@ -154,3 +245,46 @@ static func walk_review(tree: SceneTree, screenshot: Callable) -> void:
         if index == cards.get("_index") and page == cards.get("_text_page"):
             fail(tree, "Review navigation stopped before its final page")
             return
+
+
+static func click_button(tree: SceneTree, action: String, activate: bool = true, hover_only: bool = false) -> void:
+    var target: Button
+    var deadline := Time.get_ticks_msec() + 30000
+    while target == null and Time.get_ticks_msec() < deadline:
+        for node in tree.root.find_children("*", "Button", true, false):
+            var button := node as Button
+            if str(button.name) == action and button.is_visible_in_tree() and not button.disabled:
+                target = button
+                break
+        if target == null:
+            await tree.process_frame
+    if target == null:
+        fail(tree, "No enabled visible button: " + action)
+        return
+    if not activate:
+        return
+    var pos := tree.root.get_final_transform() * (target.get_global_transform_with_canvas() * (target.size * 0.5))
+    var motion := InputEventMouseMotion.new()
+    motion.position = pos
+    motion.global_position = pos
+    Input.parse_input_event(motion)
+    await tree.process_frame
+    if hover_only:
+        return
+    for pressed in [true, false]:
+        var event := InputEventMouseButton.new()
+        event.button_index = MOUSE_BUTTON_LEFT
+        event.pressed = pressed
+        event.position = pos
+        event.global_position = pos
+        Input.parse_input_event(event)
+        await tree.process_frame
+    await tree.process_frame
+    print("BOARD BUTTON: " + action)
+
+
+static func _click_after_shot(tree: SceneTree, action: String, screenshot: Callable) -> void:
+    await tree.process_frame
+    if screenshot.is_valid():
+        await screenshot.call("choose_" + action)
+    await click_button(tree, action)

@@ -1,0 +1,166 @@
+[
+ {
+  "save": {}
+ },
+ {
+  "katago_trial": "res://tools/fixtures/katago_trial_19x19.tres"
+ },
+ {
+  "wait": 12,
+  "shot": "a_controls"
+ },
+ {
+  "board_input": {
+   "hover_blocked": [
+    3,
+    3
+   ]
+  }
+ },
+ {
+  "board_input": {
+   "button": "interact"
+  }
+ },
+ {
+  "match_wait_player": true
+ },
+ {
+  "board_input": {
+   "hover": [
+    15,
+    15
+   ]
+  },
+  "shot": "b_overview_hover"
+ },
+ {
+  "board_input": {
+   "button": "go_zoom"
+  }
+ },
+ {
+  "board_input": {
+   "zoomed": true,
+   "hover": [
+    14,
+    14
+   ]
+  },
+  "shot": "c_zoom_hover"
+ },
+ {
+  "board_input": {
+   "key": "V"
+  }
+ },
+ {
+  "board_input": {
+   "key": "V"
+  }
+ },
+ {
+  "board_input": {
+   "key": "Space"
+  },
+  "note": "Space after zoom still places at the point selected with the mouse."
+ },
+ {
+  "match_wait_player": true
+ },
+ {
+  "board_input": {
+   "hover": [
+    15,
+    14
+   ]
+  },
+  "shot": "d_reply_hover"
+ },
+ {
+  "board_input": {
+   "button": "left"
+  }
+ },
+ {
+  "board_input": {
+   "hover": [
+    11,
+    14
+   ]
+  },
+  "shot": "e_panned"
+ },
+ {
+  "board_input": {
+   "button": "go_zoom"
+  }
+ },
+ {
+  "board_input": {
+   "hover_out": true
+  },
+  "shot": "f_pointer_left"
+ },
+ {
+  "board_input": {
+   "button": "go_resign"
+  }
+ },
+ {
+  "board_input": {
+   "hover_blocked": [
+    3,
+    3
+   ]
+  },
+  "shot": "g_confirm"
+ },
+ {
+  "board_input": {
+   "button": "cancel"
+  }
+ },
+ {
+  "board_input": {
+   "button": "go_resign"
+  }
+ },
+ {
+  "board_input": {
+   "button": "go_resign"
+  }
+ },
+ {
+  "wait": 0.5,
+  "shot": "h_result"
+ },
+ {
+  "board_input": {
+   "button": "interact"
+  }
+ },
+ {
+  "wait": 0.2
+ },
+ {
+  "board_input": {
+   "button": "review_yes"
+  }
+ },
+ {
+  "wait": 0.2,
+  "shot": "i_loading"
+ },
+ {
+  "board_input": {
+   "button": "cancel"
+  }
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "j_world"
+ }
+]

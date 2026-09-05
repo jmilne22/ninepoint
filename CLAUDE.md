@@ -522,3 +522,17 @@ are in `docs/overhaul/PLAYTEST.md`. Use a separate XDG_DATA_HOME for play and an
 
 The test runner loads suites after autoload readiness; script errors fail the shell gate.
 Green checks remain supporting evidence, not a substitute for reading scenes in play.
+
+
+## Board mouse controls (UI-02)
+
+Board hover is occupancy-only: never call legality or engine analysis for a preview.
+Illegal clicks keep their existing messages and must still reach the ko/self-capture
+lesson handler. Mouse selection does not move the nineteen-line view anchor. Keyboard
+selection still follows the cursor; explicit buttons pan the close view.
+
+Mouse routes: `mouse_capture`, `mouse_nigiri`, `mouse_nineteen`, `mouse_count`,
+`mouse_lessons`, `mouse_puzzle`, `mouse_review`, `mouse_review_choice`, `mouse_colours`; `thirteen` now dismisses both handicap
+pages before asserting a played move. `board_input` can send actual motion, click visible
+buttons, resize the window, and assert a stable view/unchanged game while hovering.
+Use isolated XDG data and run these serially with the existing runner lock.
