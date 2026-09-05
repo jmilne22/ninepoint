@@ -188,6 +188,14 @@ tools/check_audio.sh                             # is the music actually coming 
 tools/setup_katago.sh [--verify]                 # fetch + checksum the pinned KataGo (binary and models are not in git)
 godot --headless --path . --script res://tools/katago_calibrate.gd   # every cast profile: startup, reply time, legality
 godot --headless --path . --script res://tools/katago_review_test.gd # the review gate: a whole 9x9 and 19x19, and a wedged engine
+godot --headless --path . --script res://tools/katago_strength_probe.gd -- --concurrent=8 --tag=after
+                                                # STRENGTH, not latency: whole 9x9 games per beginner profile against a
+                                                # reference ladder; --cells=beginners,temperature,anchors,floor,
+                                                # thirteen,smoke; --board=13 for the back table.
+                                                # ONE GIGABYTE PER CONCURRENT GAME -- it once took the machine down at
+                                                # 24 engines. It refuses to start a game under --mem-floor-gb (6).
+                                                # Eight at once, nothing else running: ~20 min per hundred games.
+                                                # GNU Go anchors it: nix-shell -p gnugo once, then tools/gnugo-gtp.sh
 python3 tools/gen_maps.py                        # rebuild the maps from their generators
 python3 tools/gen_content.py                     # rebuild NpcData / OpponentProfile / quests
 python3 tools/gen_props.py                       # art/props/ — the tram, the "..." bubble
@@ -456,10 +464,17 @@ plausibly, from a ranked shortlist. `GoEndgame` decides when the opponent stops.
 **A game that counts has music.** `MatchMusic.theme_for()`: a free game keeps `theme_match`,
 a rated one gets `theme_battle`, five people carry their own, the two occasions outrank them.
 
-**The engine is in (M38–M40).** KataGo plays every opponent at the character's rank; the
+**The engine is in (M38–M41).** KataGo plays every opponent at the character's rank; the
 review is the engine's score swings, offered by the person you played, bounded only by
-progress you can walk away from. Dead stones at the count are still the heuristic's
-proposal with a player override: `final_status_list` hung on the bundled Human-SL build.
+progress you can walk away from. Rank is `humanSLProfile` and temperament is
+`chosenMoveTemperature` in a generated config. M41 measured the cast in whole games
+against a realistic ladder: on 9×9 the model cannot tell 20k from 15k, the cast sits in
+that band, and the dial's normal range moves nothing. The model's floor is a realistic
+online 20 kyu, so the two 20k configs (Abel, Wren) apply temperature 1.5 to every move,
+the one setting that measured below it. The games before any rank exists give no stones
+(ENG-08). Dead stones at the
+count are still the heuristic's proposal with a player override: `final_status_list` hung
+on the bundled Human-SL build.
 
 **Known gaps, in priority order:** see `ROADMAP.md`. The short version: engine dead-stone
 adjudication; 19×19 at the board (the review already reads a 19×19 game); the arches are

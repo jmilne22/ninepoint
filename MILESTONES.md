@@ -2591,6 +2591,12 @@ fallback, a result with SGF, shutdown and the return to the world. Shipped as PR
 `katago_calibrate.gd` — **28/28 passed**. Shipped as PR #16; the temperaments (PR #17)
 were merged into that branch after it had already reached `main`, and landed with M40.
 
+**Correction (M41):** "calibration" here means startup, reply latency, legality and
+fallbacks. It never measured strength: no profile was played a whole game against anything,
+and nothing checked that a "20 kyu" plays like one. The 28/28 above is a latency gate. The
+first strength measurement is M41, and it found every beginner profile several ranks above
+its label.
+
 ---
 
 ## M40 — The review, on the engine
@@ -2699,3 +2705,126 @@ which it is.
 `review_requested` on a record; a version 2 file loads with no reviews);
 `GtpOpponent._parse_vertex` → `GoBoard.from_label`; `tools/autopilot/pip_review_e2e.json`
 deleted; the `quay_review` preset's payload reshaped to what the cards can open.
+
+---
+
+## M41 — The cast's strength, measured and retuned
+
+The owner's report after M40: crushed in every game, including by Abel (21 kyu) and Wren
+(20 kyu). Rule 3 says those labels are real ranks, and nobody had checked. M39's
+"calibration" measured startup, reply latency and legality; it never played a game out.
+
+**The probe.** `tools/katago_strength_probe.gd` plays whole 9×9 games (komi 5.5, colours
+alternating, resignation allowed, `final_score` from the engine that played every move) and
+puts each subject on a ladder: the same Human-SL model at temperature 1.0, which KataGo's own
+notes call a realistic individual of that rank, at 20, 15 and 10 kyu (5 kyu in the first
+run). A subject's effective rank is where its win rate crosses fifty percent. GNU Go 3.8
+(`tools/gnugo-gtp.sh`, from `nix-shell -p gnugo`) anchors the ladder from outside KataGo.
+One process plays both sides (`kata-set-param` switches profile and temperature before each
+move) because a KataGo process is about a gigabyte, and the first version of the probe ran
+twenty-four of them next to another agent's sixteen and powered the machine off. It now
+takes `--concurrent` and refuses to start a game under `--mem-floor-gb`.
+
+**Before, shipped configs, ten games a cell** (wins, mean margin from the subject's side):
+
+| profile | label | temperament | vs 20k | vs 15k | vs 10k | vs 5k | reads as |
+|---|---|---|---|---|---|---|---|
+| Abel | 21k | balanced | 6/10 (+7) | 1/10 (−12) | 0/10 (−20) | 0/10 (−33) | ~19k |
+| Wren | 20k | steady | 6/10 (+10) | 6/10 (+1) | 1/10 (−22) | 2/10 (−11) | ~14k |
+| Dov | 19k | steady | 7/10 (+10) | 5/10 (0) | 1/10 (−28) | 0/10 (−37) | ~15k |
+| Pip | 18k | fighting | 6/10 (+26) | 5/10 (−2) | 4/10 (−9) | 1/10 (−10) | ~14k |
+| Moss | 16k | fighting | 8/10 (+7) | 4/10 (−8) | 3/10 (−12) | 0/10 (−30) | ~16k |
+| Kesh | 12k | fighting | 8/10 (+21) | 7/10 (−3) | 2/10 (−19) | 2/10 (−11) | ~13k |
+
+**The dial, eight games a cell.** The 20 kyu profile at four temperatures against the
+realistic 20k and 15k: 0.65/0.45 (the shipped "steady") 5/8 and 4/8; 0.85/0.70 (the base,
+KataGo's example, the shipped "balanced") 3/8 and 3/8; 1.0 5/8 and 4/8; 1.2 3/8 and 3/8.
+Pooled with the beginner cells, steady reads about four ranks above its label and balanced
+on it. Above 1.0 nothing moves, because `chosenMoveTemperatureOnlyBelowProb = 0.01` applies
+the temperature only to moves under one percent; the floor of the model is a realistic 20 kyu.
+
+**The ladder holds, and it is not measuring itself.** 10k beat 15k 8/8; 15k against 20k
+was 4/8 by sixteen points a game, so one rung is real but coarse at eight games. GNU Go
+level 10 went 7/8, 7/8, 2/8 up the rungs: it reads 12 kyu, not the "8 kyu" ROADMAP §1 used
+to claim. The shipped heuristic lost 8/8 to the realistic 20k at its "1 dan" setting (by 58
+points a game) and 8/8 at its 20-kyu setting (by 72): its labels are the fiction M40
+suspected, and that is ENG-07, not this ticket.
+
+**What the numbers actually say.** Read together, the 505 games are simpler than a
+temperament bug. The model cannot tell 20k from 15k on a 9×9 board: the realistic 15k
+split 4/8 with the realistic 20k. Every beginner profile lands in that band and loses
+clearly to the 10k, so on the model's own ladder the cast is within about three ranks of
+its labels, at the edge of the owner's tolerance and inside the ladder's own resolution.
+What crushes a beginner is not a mislabel of three ranks; it is that the model's weakest
+profile is a realistic *online* 20 kyu, and a first-week player is nowhere near one. The
+game's own hand-written "20k" loses to it by 72 points a game.
+
+**The retune, in two parts.** (1) The steady temperament moves from 0.65/0.45 to
+0.80/0.65, a shade under the base rather than well under it; measured, Wren went from
+14k to 17k and Dov did not move, which is what a small dial and eight games a cell look
+like. (2) The floor: the two 20k configs, Abel's and Wren's, apply temperature 1.5 to
+*every* move (`chosenMoveTemperatureOnlyBelowProb = 1.0`), the one setting that measured
+below the model's weakest profile — 2/8 against the realistic 20k, losing by fifteen
+points a game, where 2.0 lost 0/8 by thirty-one. That is the owner's decision at the start
+of the ticket: temperature above 1.0 for Abel and Wren rather than stopping at 1.0.
+Balanced and fighting at other ranks were on their labels and are untouched; so are
+`maxVisits`, the resign settings and every label. All of it lives in
+`tools/gen_content.py`; fifteen generated configs changed, temperature lines only.
+
+**After (steady retune only), eight games a cell, two engines at a time** — the owner's
+cap after the machine powered off twice under the probe:
+
+| profile | label | vs 20k | vs 15k | vs 10k | reads as | before |
+|---|---|---|---|---|---|---|
+| Abel (control, unchanged) | 21k | 5/8 (+5) | 0/8 (−18) | 0/8 (−20) | ~19k | ~19k |
+| Wren (steady) | 20k | 6/8 (+14) | 3/8 (+4) | 0/8 (−21) | ~17k | ~14k |
+| Dov (steady) | 19k | 6/8 (+5) | 6/8 (+8) | 1/8 (−19) | ~13k | ~15k |
+| 20k at 1.5 on every move | — | 2/8 (−15) | | | under 20k | |
+| 20k at 2.0 on every move | — | 0/8 (−31) | | | well under | |
+
+**After the floor, Abel and Wren as shipped, eight games a cell:**
+
+| profile | label | vs 20k | vs 15k | reads as |
+|---|---|---|---|---|
+| Abel | 21k | 0/8 (−31) | 2/8 (−14) | under 20k |
+| Wren | 20k | 1/8 (−38) | 2/8 (−10) | under 20k |
+
+Both now lose to the realistic 20k by thirty points a game, where before the ticket they
+beat it. Dov (19k) and Pip (18k) are not floored and still read 13–17k on a ladder that
+cannot tell 20k from 15k; whether the floor should reach them is ENG-08's question, and
+the owner's games answer it.
+
+**Done when:** Abel and Wren read at or under their labels on the ladder and every other
+beginner within the ladder's own resolution of theirs; `katago_calibrate.gd` —
+**28/28 passed**, slowest reply 1670 ms, no fallbacks (the floor configs cost nothing);
+`tools/test.sh` — **12505 passed, 0 failed** (M40: 12505; no test was added, the probe
+is a tool, not a suite) with the three engine gates green; the fixtures below were
+played and their frames opened.
+
+| fixture | what it proves |
+|---|---|
+| `review_world_wren_loss` / `review_world_wren` | Wren at De Ketel on the floor config, a whole game to the count, the offer, the cards, "I won. Sorry. Sorry. I WON.", the world. Both are losses (by 76 and 25) because the autopilot's brain is the heuristic |
+
+**Thirteen lines, sanity only.** The configs are shared across board sizes, so the steady
+change reaches Tomás and Ilse at the back table. Each against the realistic player of its
+own rank on 13×13, eight games (`--cells=thirteen --board=13`): Tomás (8k) 3/8, −4 a game;
+Ilse (9k) 5/8, −4 a game. Both on their labels. No 13×13 opponent is 20k, so the floor does
+not reach that board; 19×19 has no opponents to measure (UI-01).
+
+**What it cannot prove.** The autopilot's brain is the heuristic, which loses every game to
+a realistic 20 kyu, so no fixture can show a beginner winning. Once Kesh hands out 22 kyu
+the ladder gives stones as the gap opens, but the games with Pip (18k, not floored) and
+Kesh's first (12k) come before any rank exists and are even. That is ENG-08, an owner
+decision. The owner playing Abel and Wren is the remaining check.
+
+**What it cost.** Two power-offs. One KataGo process is about a gigabyte and a core; the
+first probe ran twelve games of two engines next to another agent's eight, and the second
+ran twelve games plus the latency gate. The probe now plays both sides in one process,
+takes `--concurrent`, refuses to start a game under `--mem-floor-gb`, and the last runs
+were pinned to two or four cores with `taskset` and `nice`. Read `CLAUDE.md`'s command
+block before running it.
+
+**Deliberate breaks:** `human_<rank>_steady.cfg` temperatures 0.65/0.45 → 0.80/0.65;
+`human_20k_<style>.cfg` temperature 1.5 on every move (`chosenMoveTemperatureOnlyBelowProb`
+0.01 → 1.0); `tools/katago_strength_probe.gd` and `tools/gnugo-gtp.sh` added (development
+only, not shipped); `README.md` states what an engine costs at runtime.

@@ -200,7 +200,12 @@ so a wedged engine can never freeze the scene) and speaks `boardsize/clear_board
 genmove`, sending handicap and setup stones once and then only unseen moves. Every cast
 profile is `engine = "gtp"` with a generated `human_<rank>_<style>.cfg`; a missing binary, a
 timeout, a rejected command or an illegal reply falls back to the heuristic for the rest of
-the game and says so on the profile (`unavailable_reason`).
+the game and says so on the profile (`unavailable_reason`). In those configs the rank is
+`humanSLProfile` and the temperament is `chosenMoveTemperature`, and temperature is a
+strength knob as well as a mood: below 1.0 the engine plays the majority vote of that rank
+rather than one player of it, and skips the blunders. `tools/katago_strength_probe.gd`
+measures what a config actually plays at, in whole games against the same model at
+temperature 1.0; the temperaments were set from its numbers (M41), not by feel.
 
 The review uses the same pipe against `katago analysis`: `KataGoAnalysis.run(record)` writes
 one JSON query for the whole game (`analyzeTurns` = every position, handicap as

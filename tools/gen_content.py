@@ -292,9 +292,17 @@ def build():
     config_dir = os.path.join(root, "packaging", "katago", "config")
     base_path = os.path.join(config_dir, "gtp_human_fast.cfg")
     base = open(base_path).read()
+    # Temperature is the strength knob (search is ignored for move choice while
+    # humanSLChosenMoveProp is 1.0): below 1.0 the engine plays the majority
+    # vote of that rank and skips the blunders one player of it would make.
+    # The base is KataGo's example (0.85 / 0.70), which M41 measured on its
+    # label. "steady" used to sit at 0.65 / 0.45 and measured four ranks
+    # strong -- Wren, 20 kyu on her card, played like a 14 kyu -- so it now
+    # sits a shade under the base, enough to read as cautious and not enough to
+    # move the rank. tools/katago_strength_probe.gd is how that claim is checked.
     style_overrides = {
         "steady": {
-            "chosenMoveTemperatureEarly": "0.65", "chosenMoveTemperature": "0.45",
+            "chosenMoveTemperatureEarly": "0.80", "chosenMoveTemperature": "0.65",
             "staticScoreUtilityFactor": "0.45",
         },
         "balanced": {},
@@ -305,8 +313,25 @@ def build():
             "staticScoreUtilityFactor": "0.15",
         },
     }
+    # The floor. preaz_20k is the weakest profile the model has, and at
+    # temperature 1.0 it is a realistic online 20 kyu, which is far above a
+    # player who learned the rules last week: the owner lost every game to it.
+    # Temperature normally touches only moves under one percent, which is why
+    # nothing between 0.45 and 1.2 measured any different; applied to every move
+    # it flattens the whole policy. M41 measured 1.5-on-all at 2/8 against the
+    # realistic 20k, losing by fifteen points a game -- two or three ranks
+    # under it -- so the 20k configs, Abel's and Wren's, are the one place the
+    # engine is asked to play below its weakest profile. Labels are untouched.
+    floor_overrides = {
+        "20k": {
+            "chosenMoveTemperatureEarly": "1.50", "chosenMoveTemperature": "1.50",
+            "chosenMoveTemperatureOnlyBelowProb": "1.0",
+        },
+    }
     for rank in sorted({human_profile(c) for c in CAST}):
-        for style, overrides in style_overrides.items():
+        for style, style_over in style_overrides.items():
+            overrides = dict(style_over)
+            overrides.update(floor_overrides.get(rank, {}))
             configured = re.sub(r"(?m)^humanSLProfile\s*=.*$", "humanSLProfile = preaz_%s" % rank, base)
             for key, value in overrides.items():
                 configured = re.sub(r"(?m)^%s\s*=.*$" % key, "%s = %s" % (key, value), configured)
