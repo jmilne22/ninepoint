@@ -24,6 +24,7 @@ var player_color: int = GoBoard.BLACK
 var result_sent: bool = false
 
 var board_view: GoBoardView
+var _navigation: BoardNavigation
 var _panel: NinePatchRect
 var _portrait: TextureRect
 var _name: Label
@@ -140,6 +141,12 @@ func _build_ui() -> void:
     board_view.size = Vector2(192, 192)
     board_view.point_activated.connect(_on_point_activated)
     add_child(board_view)
+    _navigation = BoardNavigation.new()
+    _navigation.position = Vector2(6, 204)
+    _navigation.size = Vector2(192, 11)
+    add_child(_navigation)
+    _navigation.setup(board_view)
+    board_view.view_changed.connect(_refresh)
 
     _panel = NinePatchRect.new()
     _panel.texture = load("res://art/ui/panel.png")
@@ -250,6 +257,12 @@ func _run() -> void:
     board_view.interactive = true
 
     phase = Phase.INTRO
+    if game.size() == 19 and not BoardControls.shown:
+        board_view.interactive = false
+        var controls := BoardControls.new()
+        add_child(controls)
+        await controls.closed
+        board_view.interactive = true
     var intro := request.intro_line
     if intro == "":
         intro = "%s -- %s. %dx%d." % [request.opponent_name, request.opponent_rank,
@@ -653,6 +666,7 @@ func _set_message(text: String) -> void:
 func _refresh() -> void:
     if _turn == null:
         return
+    _navigation.refresh()
     var my_name := GameState.player_name
     var black_name := my_name if player_color == GoBoard.BLACK else request.opponent_name
     var white_name := request.opponent_name if player_color == GoBoard.BLACK else my_name
@@ -672,6 +686,8 @@ func _refresh() -> void:
         Phase.PLAYING:
             var who := "Your move" if game.to_move == player_color else "%s is thinking" % request.opponent_name
             _turn.text = "%s (%s)" % [who, GoBoard.color_name(game.to_move)]
+            if game.size() == 19:
+                _turn.text = "Your move" if game.to_move == player_color else "Thinking..."
             _hints.text = "Arrows: move   Space: place\nP: pass   R: resign"
         Phase.SCORING:
             _turn.text = "Counting"
@@ -692,6 +708,10 @@ func _refresh() -> void:
         _details.text = "%dx%d  komi %s%s%s\nB %s\nW %s\nmove %d" % [
             game.size(), game.size(), _num(game.komi), handicap_text, goal_text,
             black_name, white_name, game.move_number()]
+        if game.size() == 19:
+            _details.text = "%dx%d komi %s%s  M%d\nB %s\nW %s\n%s" % [
+                game.size(), game.size(), _num(game.komi), handicap_text, game.move_number(),
+                black_name, white_name, BoardNavigation.opponent_move_text(board_view, player_color)]
 
 
 ## Input is routed by state. Each state answers its own question and nothing
@@ -828,6 +848,8 @@ func _input_review(event: InputEvent) -> bool:
 func _input_board(event: InputEvent) -> bool:
     if board_view == null or not is_instance_valid(board_view):
         return false
+    if _navigation.handle_input(event):
+        return true
     if event.is_action_pressed("move_left"):
         board_view.move_cursor(Vector2i(-1, 0))
     elif event.is_action_pressed("move_right"):

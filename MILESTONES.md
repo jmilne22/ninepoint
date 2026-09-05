@@ -2828,3 +2828,116 @@ block before running it.
 `human_20k_<style>.cfg` temperature 1.5 on every move (`chosenMoveTemperatureOnlyBelowProb`
 0.01 → 1.0); `tools/katago_strength_probe.gd` and `tools/gnugo-gtp.sh` added (development
 only, not shipped); `README.md` states what an engine costs at runtime.
+
+
+## M42 — Nineteen lines, readable at the board (UI-01)
+
+Development-only 19×19 play, with the town still offering its existing smaller boards.
+The match begins with the whole board and a dismissible controls card. V opens a nine-line
+view around the cursor; arrows follow real intersections, with coordinates and continuation
+ticks distinguishing a cropped view from a true edge. The footer always names the selected
+point. The opponent's last coordinate says when it is outside the view. V returns to the
+whole board while preserving the point under consideration. Counting uses both views.
+
+Review cards share the transform and navigation: V begins inspection at the played move
+(or the recommended move for a pass), arrows inspect, and V/Esc returns to overview.
+Long explanations now have pages, retaining their marker legend instead of overflowing the
+card. Overview Left/Right finishes the current explanation before changing positions.
+
+`GoBoardGeometry` is autoload-free; drawing and picking share its current transform.
+`GoBoardInk`, `BoardNavigation` and `BoardControls` separate drawing, viewing controls and
+the first-session card from the match. The board remains global; rules, ranks, result
+formats and save schema have not changed. The manual trial accepts a profile path, with
+nineteen-line, handicap and missing-engine fixtures under `tools/fixtures/`.
+
+**Done when:** `tools/test.sh` reported **14269 passed, 0 failed** (M41: **12505**;
+**1764** added geometry/input assertions), **229 files all load**, and all three serial
+KataGo gates passed. The review gate analysed 79/79 nine-line positions in 14.8 s and
+241/241 nineteen-line positions in 61.6 s; its stalled-engine watchdog failed the silent
+engine in 6.1 s. `tools/check_lessons.py`: **0 problems**. The game routes below were
+played through input events and their listed frames opened; these observations, rather
+than the reported assertion count, are the UI acceptance evidence.
+
+The suite still carries the known TECH-06 autoload/CanvasLayer testing debt. The old
+ambience/exam script-run errors are not newly repaired by these checks. Shutdown resource
+warnings also remain in played routes; they are not a claim of a clean lifetime audit.
+
+### Played and inspected
+
+Captures and logs from this session are under `/home/user/ui01-shots/` and
+`/home/user/ui01-*.log`. All runs used
+`XDG_DATA_HOME=/home/user/.local/share/ninepoint-ui-01`, whose resolved Godot directory was
+checked before fixture writes. `run_game.sh` acquires its lock before writing saves and
+uses the same directory as the Python fixture tool. Original playtest checkout and saves
+were kept separate. Native 384×216 frames and nearest-neighbour 3× copies were opened;
+input events ran against the normal 1152×648 viewport.
+
+| route / capture folder | observed evidence |
+|---|---|
+| `nineteen` / `regression-nineteen` | controls card; physical V binding; mouse blocked by controls/resignation cards; mouse placement in overview and zoom; D16 retained while locating an opponent reply elsewhere; corners; resignation cancellation/confirmation; visible attic return |
+| `nineteen_game` / `full`, then `final-game` | two engine-backed games to counting, result, review and world; 105 and 161 legal engine replies respectively, without fallback; final run had 326/326 review positions analysed in 84.3 s |
+| `nineteen_game` / `final-game`, frames 01–09 | positions at moves 81, 161, 241 and 321, captures, crowded counting, a black group toggled with Space and restored with the mouse, score changed and restored; White won the replay by 339.5 |
+| `nineteen_game` / `final-game`, frames 10–20 | review offer/loading, tally, dense strength position T16, zoom, distant T1 inspection, both pages of both costly positions, world return; the last frame is during the fade, so the short route supplies the clear world frame |
+| `nineteen_review` / `review` | saved nineteen-line review; every page inspected; actual B2 and recommended E13 located through arrows in zoom; Esc restores overview |
+| `nineteen_handicap`, `nineteen_missing`, `nineteen_count` | nine handicap stones, real engine reply, unavailable engine with legal fallback play, actual counting with keyboard/mouse group changes and result |
+| `prologue`, `handicap`, `thirteen` / corresponding `regression-*` folders | Pip's 7×7, a move and reply, V leaves its layout alone; Ilse's 9×9 handicap stones and occupied-point feedback; Kesh's 13×13 at B12 with reply |
+| `lessons` / `regression-lessons`, frames 03–09 | ko's liberties, keyboard-selected capture, forbidden immediate recapture, explanation, and Wren's post-lesson line |
+| `quay_review` / `regression-quay_review` | every page of the smaller review, unchanged board layout, V ignored, return to the quay |
+| `review_leave` / `regression-review_leave` | Esc leaves loading; the 81-position analysis finishes in the world; its tally and strength card can then be read at the quay |
+| `review_unavailable` / `regression-review_unavailable` | stalled review returns a readable "No review today" card after 12.1 s; Space returns to the attic |
+
+### Learner-facing judgement and revisions
+
+The controls card makes V discoverable without a development instruction. "Whole board"
+and "Close view", exact coordinates, and the continuation ticks make the current view
+readable. Overview shows the distribution of activity; zoom is where a learner can select
+and inspect an intersection without counting tiny lines. A distant opponent reply remains
+named while the cursor stays put. The D16 → overview → D16 replay demonstrated finding
+the reply without losing the player's selected point.
+
+Nine visible lines remain the starting value, borrowed from the existing small board.
+Opened crowded match/count/review frames separated stones, territory squares, dead crosses,
+and review marks sufficiently at native and 3× scale, so the view was not reduced further.
+At the count, marking a group was visibly reversible. The interface does not make the
+heuristic's proposed dead groups authoritative or teach the player how to adjudicate them.
+
+The first full game exposed a long review explanation running its legend into the frame;
+pagination and a repeated legend fixed it, and the full replay's four explanatory pages
+were opened to verify the repair. The long thinking label was also clipped; the nineteen-line
+panel now says "Thinking...". A saved review fixture had nine-line prose coordinates on a
+nineteen-line board; these now derive from its size and agree with the markers.
+
+Rejected test evidence matters too: the first mouse probe used unscaled screen positions
+and failed to place; it now uses the actual viewport transform. The old handicap script
+photographed engine preparation instead of stones; it now waits for the player's turn.
+The old `lessons` save never satisfied Wren's ko offer and photographed a normal match;
+`ko_ready` supplies the missing completed-game flag, and capture/refusal were replayed.
+Prologue and unavailable-review routes explicitly clear inherited saves. Another
+unavailable-review attempt ended by normal engine resignation; the autoplay used to
+wait indefinitely for counting in that case. It now recognises an already shown result
+as a finished game, while the nineteen-line counting fixture still explicitly requires
+the counting phase.
+
+The development fixture's original two-second reply deadline fell back on nineteen lines.
+Five seconds is a development starting deadline, unchanged in production profiles. Across
+the two full games, GTP's second-resolution timestamps showed replies spanning 2–4 seconds;
+this proves playable latency in these runs, not a strength calibration for a nineteen-line
+cast. The player brain is still the heuristic; its heavy losses do not model a human's
+learning or prove that the game teaches well.
+
+**Still unbuilt:** CONTENT-04 owns the teaching transition, Hana's offer and its gate.
+The current local lessons do not explain when to leave a fight or why a distant move is
+larger. A generic review habit even called the nineteen-line position "a small board";
+CONTENT-01 records that context problem. The owner's experience remains the stronger test
+of teaching. UI-01 delivers access to the board for development, not that introduction.
+
+### Deliberate changes
+
+| before | after / boundary |
+|---|---|
+| full-board-only drawing and independently cached mouse layout | shared geometry evaluated before drawing and picking, preserving global indices |
+| no viewing action | named `go_zoom` on V, active only for nineteen-line board/review viewing |
+| one fixed-height review explanation | measured pages with the same board and repeated legend; no review payload change |
+| trial asserts nine lines | requested size must match result and SGF `SZ` |
+| runner lock after fixture writes; default-only Python save path | lock and Godot path verification before writes; shared XDG override |
+| nineteen-line teaching still absent | remains absent, explicitly tracked as CONTENT-04 |

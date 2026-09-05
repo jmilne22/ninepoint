@@ -137,12 +137,12 @@ def _review_payload(size):
             {"kind": "mistake", "move_number": 12, "size": size, "cells": cells,
                 "actual": idx(6, 1), "best": idx(3, 3), "point_loss": 3.5, "concept": "connect",
                 "critique": "Yours staked out the side, but the board had a bigger point.",
-                "changed": "D6 would have joined your stones at C6 and D5.",
+                "changed": f"D{size-3} would have joined your stones at C{size-3} and D{size-2}.",
                 "habit": "Before a fight, look for the move that connects your stones."},
             {"kind": "lesson", "move_number": 20, "size": size, "cells": cells,
                 "actual": idx(1, size - 2), "best": idx(4, 6), "point_loss": 1.5, "concept": "attack",
                 "critique": "Yours took the corner.",
-                "changed": "E3 would have leaned on the white stone at F3.",
+                "changed": f"E{size-6} would have leaned on the white stone at F{size-6}.",
                 "habit": "When you approach a group, check whether it can answer locally."},
         ],
     }
@@ -802,8 +802,15 @@ STATES = {
 }
 
 
+# The ko offer requires Wren's completed first game. The generic Institute
+# preset predates that flag and silently routes the old lesson test into a match.
+STATES["ko_ready"] = {
+    **STATES["invited"],
+    "flags": {**STATES["invited"]["flags"], "wren_match_done": True},
+}
+
 SLOT_COUNT = _const("SLOT_COUNT", SAVE_SYSTEM)
-USER_DIR = os.path.expanduser("~/.local/share/godot/app_userdata/Ninepoint")
+USER_DIR = os.path.join(os.environ.get("XDG_DATA_HOME") or os.path.expanduser("~/.local/share"), "godot", "app_userdata", "Ninepoint")
 
 
 def slot_path(slot):

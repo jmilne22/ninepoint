@@ -69,6 +69,7 @@ where to put you when all three slots are full.
 | Arrow keys | move the cursor |
 | Space | place a stone |
 | P | pass |
+| V (19×19 development route) | whole board / close view; arrows move through the close view |
 | R | resign |
 | *after both players pass* | Space toggles a group dead or alive, **P** accepts the count |
 | Space | dismiss the result and return to the town |
@@ -80,6 +81,18 @@ leave. A wrong answer is taken back and explained; a second wrong answer gives y
 and you call **odd** or **even** (left/right to switch, Space to call it); guess right and
 you pick your colour. In a handicap game there is no guessing -- the weaker player takes
 Black with the stones already down, and the game says why.
+
+**19×19 is available for development play**, with a whole-board view and a close
+view that follows the cursor. The footer names the selected intersection. Lines
+continuing beyond a close view mean the board continues there; they are not an edge.
+An opponent move outside the view is named in the panel. Press V to see the whole board
+again without losing your selected point. Counting supports both views.
+
+On a 19×19 review card, V opens a close view at your move and arrows inspect the board.
+V or Esc returns to the whole board; Left/Right then reads the next page or position.
+Long explanations keep the move legend on each page. The town
+still offers 9×9 and 13×13: the introduction to nineteen lines will come with its teaching
+transition, not with this interface change.
 
 ### Never played Go?
 
@@ -132,6 +145,25 @@ python3 tools/gen_tileset_resource.py   # rebuild the Godot TileSet from the atl
 python3 tools/make_test_save.py beat_kesh   # a save in a hard-to-reach state, for testing
 python3 tools/make_test_save.py beat_kesh 2 Ada 42   # ...in slot 2, as Ada, at 42 minutes
 ```
+
+### Isolated development play and verification
+
+Use a separate checkout and an absolute `XDG_DATA_HOME` while somebody is playing.
+Godot, the save-fixture generator and screenshot runner use that same data root. The
+headless save tests also write slots; their backup/restore is not safe alongside live play
+in the same data directory. The runner checks its path and locks before writing fixtures.
+
+```bash
+XDG_DATA_HOME=/home/user/.local/share/ninepoint-ui-01 tools/test.sh
+XDG_DATA_HOME=/home/user/.local/share/ninepoint-ui-01 tools/play.sh -- --katago-trial=res://tools/fixtures/katago_trial_19x19.tres
+XDG_DATA_HOME=/home/user/.local/share/ninepoint-ui-01 tools/run_game.sh tools/autopilot/nineteen.json
+XDG_DATA_HOME=/home/user/.local/share/ninepoint-ui-01 TIMEOUT=1500 tools/run_game.sh tools/autopilot/nineteen_game.json
+```
+
+The trial is unrated and developer-only. Its five-second engine deadline is a starting
+budget for nineteen lines; the shipped smaller-board opponent profiles are unchanged.
+This verifies legal play and latency, not a new rank calibration. For manual use, initialise
+the checkout with the editor/import pass first, as `tools/test.sh` does.
 
 ## Structure
 

@@ -17,14 +17,18 @@ var _shot_index: int = 0
 func _ready() -> void:
     var script_path := ""
     var manual_katago_trial := false
+    var manual_profile := ""
     for arg in OS.get_cmdline_user_args():
         if arg.begins_with("--autopilot="):
             script_path = arg.split("=", true, 1)[1]
+        elif arg.begins_with("--katago-trial="):
+            manual_katago_trial = true
+            manual_profile = arg.split("=", true, 1)[1]
         elif arg == "--katago-trial":
             manual_katago_trial = true
     if script_path == "":
         if manual_katago_trial:
-            _start_katago_trial.call_deferred()
+            _start_katago_trial.call_deferred(manual_profile)
         return
     var parsed = JSON.parse_string(FileAccess.get_file_as_string(script_path))
     if not (parsed is Array):
@@ -50,6 +54,8 @@ func _do(step: Dictionary) -> void:
     if step.has("katago_trial"):
         var trial_profile := str(step["katago_trial"]) if step["katago_trial"] is String else ""
         await _start_katago_trial(trial_profile, bool(step.get("katago_direct", false)))
+    if step.has("board_input"):
+        await BoardPlayProbe.perform(get_tree(), step["board_input"], _shot)
     if step.has("match_move"):
         var xy: Array = step["match_move"]
         await _play_match_point(Vector2i(int(xy[0]), int(xy[1])), float(step.get("timeout", 30.0)))
@@ -63,6 +69,8 @@ func _do(step: Dictionary) -> void:
     if step.has("review_engine"):
         KataGoAnalysis.command_override = str(step["review_engine"])
         KataGoAnalysis.stall_override = float(step.get("review_stall", -1.0))
+    if step.has("review_walk"):
+        await BoardPlayProbe.walk_review(get_tree(), _shot)
     if step.has("review_card_wait"):
         await _wait_for_review_card(float(step.get("timeout", 5.0)))
     if step.has("review_landed_wait"):
@@ -159,7 +167,10 @@ func _play_match_point(xy: Vector2i, timeout: float) -> void:
             var game: GoGame = board_scene.get("game")
             var point := game.board.idx(xy.x, xy.y)
             if game.is_legal(point):
-                board_scene._on_point_activated(point)
+                if game.size() == 19:
+                    await BoardPlayProbe.place(get_tree(), point)
+                else:
+                    board_scene._on_point_activated(point)
                 return
             push_error("KataGo trial asked to play an illegal fixture point %s." % xy)
             return
@@ -221,13 +232,18 @@ func _autoplay_match(timeout: float, max_moves: int, brain_rank: String) -> void
         for child in scene.get_children():
             if child is NigiriCeremony and str(child.get("_awaiting")) != "":
                 ceremony_open = true
-        if prompt == "prepare" or ceremony_open:
+        if prompt == "prepare" or ceremony_open or scene.has_node("BoardControls"):
             await get_tree().create_timer(0.4).timeout
             _send("interact", true)
             await get_tree().process_frame
             _send("interact", false)
             await get_tree().create_timer(0.4).timeout
             continue
+        if prompt == "dismiss":
+            # The engine can resign before two passes. A result is a finished
+            # game too; waiting only for counting strands review-exit fixtures.
+            print("AUTOPILOT: the game finished before counting after %d player moves" % played)
+            return
         if scene.is_counting():
             print("AUTOPILOT: the game reached the count after %d player moves" % played)
             return
@@ -244,8 +260,13 @@ func _autoplay_match(timeout: float, max_moves: int, brain_rank: String) -> void
             var move: Dictionary = await brain.choose_move(game)
             var point := int(move.get("point", GoGame.PASS))
             if str(move.get("type", "")) == "move" and played < max_moves and game.is_legal(point):
-                scene._on_point_activated(point)
+                if game.size() == 19:
+                    await BoardPlayProbe.place(get_tree(), point)
+                else:
+                    scene._on_point_activated(point)
                 played += 1
+                if game.size() == 19 and played % 40 == 0:
+                    await _shot("nineteen_move_%d" % game.move_number())
             else:
                 _send("go_pass", true)
                 await get_tree().process_frame
@@ -300,6 +321,7 @@ func _assert_katago_trial() -> void:
         and bool(evidence.get("has_match_fields", false))
     if not ok:
         push_error("KataGo trial assertions failed: %s" % evidence)
+        get_tree().quit(1)
     else:
         print("KATAGO TRIAL: engine started, %d legal replies, normal result, shutdown confirmed" % int(engine["legal_replies"]))
 

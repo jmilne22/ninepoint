@@ -11,6 +11,7 @@ const ACTIONS := {
     "cancel": [KEY_ESCAPE, KEY_X, KEY_BACKSPACE],
     "menu": [KEY_TAB],
     "go_pass": [KEY_P],
+    "go_zoom": [KEY_V],
     "go_resign": [KEY_R],
     "go_confirm": [KEY_SPACE, KEY_ENTER, KEY_KP_ENTER],
     # Deleting a save is the only irreversible thing outside the board, so it

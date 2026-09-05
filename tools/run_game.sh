@@ -22,7 +22,7 @@ DISPLAY_NUM="${DISPLAY_NUM:-99}"
 # session and once by another checking the first's work: the screenshots were
 # all fine and the starting state was not.
 SAVE="${SAVE:-}"
-SHOTS="$HOME/.local/share/godot/app_userdata/Ninepoint/shots"
+SHOTS="${XDG_DATA_HOME:-$HOME/.local/share}/godot/app_userdata/Ninepoint/shots"
 OUT="${OUT:-/tmp/ninepoint-shots}"
 LOG="${LOG:-/tmp/ninepoint-run.log}"
 
@@ -39,6 +39,22 @@ USAGE
   ls -1 tools/autopilot/*.json >&2
   exit 2
 fi
+
+# Only one run at a time. The screenshot directory and user://save_*.json are
+# shared by every copy of the game on this machine, and `rm -rf "$SHOTS"` below
+# will happily delete another run's frames out from under it -- which is how a
+# run ends up with two shots numbered 11 and eight frames missing from OUT, with
+# no error anywhere. Two sessions verifying at once cost an entire evening to
+# exactly this; refuse instead.
+exec 9>"/tmp/ninepoint-run.lock"
+if ! flock -n 9; then
+  echo "another run_game.sh is using the game (save slots and shots/ are shared)." >&2
+  echo "wait for it to finish, or kill it -- do not run two at once." >&2
+  exit 3
+fi
+
+
+"$GODOT" --headless --path . --script res://tools/check_user_data.gd || exit 2
 
 child=""
 cleanup() {
@@ -80,18 +96,6 @@ if ! xdpyinfo -display ":$DISPLAY_NUM" >/dev/null 2>&1; then
   sleep 2
 fi
 
-# Only one run at a time. The screenshot directory and user://save_*.json are
-# shared by every copy of the game on this machine, and `rm -rf "$SHOTS"` below
-# will happily delete another run's frames out from under it -- which is how a
-# run ends up with two shots numbered 11 and eight frames missing from OUT, with
-# no error anywhere. Two sessions verifying at once cost an entire evening to
-# exactly this; refuse instead.
-exec 9>"/tmp/ninepoint-run.lock"
-if ! flock -n 9; then
-  echo "another run_game.sh is using the game (save slots and shots/ are shared)." >&2
-  echo "wait for it to finish, or kill it -- do not run two at once." >&2
-  exit 3
-fi
 
 rm -rf "$SHOTS" "$OUT"; mkdir -p "$OUT"
 echo "running $1 (log: $LOG) -- Ctrl-C to stop"
@@ -112,3 +116,8 @@ if [ -d "$SHOTS" ]; then
   cp "$SHOTS"/*.png "$OUT"/ || echo "WARNING: could not copy all screenshots" >&2
   ls -1 "$OUT"
 fi
+
+if grep -qE "SCRIPT ERROR|Parse Error|Board play probe:|KataGo trial assertions failed" "$LOG"; then
+  exit 1
+fi
+exit "$status"

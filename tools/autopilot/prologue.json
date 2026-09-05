@@ -1,5 +1,9 @@
 [
  {
+  "save": {},
+  "note": "Start from no slots; never inherit a preceding playtest."
+ },
+ {
   "wait": 0.8
  },
  {
@@ -92,7 +96,24 @@
   "note": "go on then"
  },
  {
-  "wait": 2.4,
-  "shot": "first_ever_game"
+  "wait": 0.4,
+  "shot": "first_ever_game",
+  "match_wait_player": true
+ },
+ {
+  "tap": "go_zoom"
+ },
+ {
+  "board_input": {
+   "size": 7,
+   "zoomed": false
+  }
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "match_wait_player": true,
+  "shot": "first_reply"
  }
 ]

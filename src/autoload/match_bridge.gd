@@ -76,7 +76,9 @@ func record_dev_trial(result: MatchResult, engine: Dictionary) -> void:
     dev_trial = {
         "engine": engine,
         "has_sgf": not result.sgf.is_empty(),
-        "has_match_fields": result.board_size == 9 and result.move_count > 0
+        "has_match_fields": pending_request != null
+            and result.board_size == pending_request.profile.board_size
+            and result.sgf.contains("SZ[%d]" % result.board_size) and result.move_count > 0
             and result.context_id == "dev_katago_trial",
         "result": result,
     }

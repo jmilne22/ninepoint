@@ -1,0 +1,72 @@
+[
+ {
+  "save": {}
+ },
+ {
+  "katago_trial": "res://tools/fixtures/katago_trial_19x19_handicap.tres"
+ },
+ {
+  "wait": 12,
+  "shot": "a_controls"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "match_wait_player": true
+ },
+ {
+  "board_input": {
+   "size": 19,
+   "fallback": false
+  },
+  "shot": "b_nine_stones"
+ },
+ {
+  "tap": "go_zoom"
+ },
+ {
+  "board_input": {
+   "move_to": [
+    3,
+    3
+   ]
+  },
+  "shot": "c_handicap_corner"
+ },
+ {
+  "match_move": [
+   4,
+   3
+  ]
+ },
+ {
+  "match_wait_player": true
+ },
+ {
+  "shot": "d_reply"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "wait": 0.5,
+  "shot": "e_result"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "tap": "cancel"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "f_world",
+  "wait": 1.2
+ }
+]

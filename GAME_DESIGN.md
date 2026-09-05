@@ -144,7 +144,10 @@ Defeat advances the story and never blocks progress. There is no game-over scree
 ```
 
 The loop tightens: early games are 9×9 against people who explain what they are doing;
-later games are 19×19 against people who expect you to already know.
+the planned later games are 19×19 against people who expect you to already know.
+The UI supports nineteen lines through a development route; town access and the teaching
+bridge from thirteen remain unbuilt. Interface inspection is available to every learner
+using that board and never depends on rank or an earned ability.
 
 ## 4. Steenbeek
 
