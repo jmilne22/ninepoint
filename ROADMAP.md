@@ -23,7 +23,7 @@ collapsed to one line each. Read `MILESTONES.md` M37 for why.
 normal and human-style models/configuration, checksums, licences and arguments. The
 first engine-backed play target remains 9x9 and 13x13; 19x19 remains an ending horizon.
 
-**State (M38–M40).** Every cast profile plays through KataGo's Human-SL model at the
+**State (M38–M41).** Every cast profile plays through KataGo's Human-SL model at the
 character's rank and temperament, warmed while the player walks to the board, with the
 heuristic as the fallback for a missing or misbehaving engine. The review is back: the
 person you played offers to go over the game, KataGo's analysis mode prices every
@@ -42,8 +42,9 @@ every real Go app shows.
 **What it costs.** A binary per platform, a model file on the order of a hundred
 megabytes in a repo whose whole asset pipeline is generated Python, an external process
 to babysit, and on the development machine everything runs through `steam-run`, so
-whether a subprocess works at all is unproven. GNU Go is tiny and ships easily, and its
-weakest level plays like an 8 kyu, which makes Pip and Wren unplayable for a beginner.
+whether a subprocess works at all is unproven. GNU Go is tiny and ships easily, but its
+level 10 measured 12 kyu on the Human-SL ladder (M41) and it has no way to play like a 20
+kyu, which makes Pip and Wren unplayable for a beginner.
 
 **What the review costs, measured.** One KataGo evaluation of one position is about a
 core-second on the bundled Eigen CPU build, at one visit or eight; a finished 9×9 game is
@@ -51,6 +52,18 @@ fifty to eighty positions and a 19×19 game two to three hundred. That is why th
 one `katago analysis` query per game with the results streamed, why the loading card shows
 "move N of M" and can be left, and why the first version — two GTP searches per move
 inside an eighteen-second budget — timed out on every real game and looked like a hang.
+
+**Strength, measured (M41).** M39's calibration never played a game out. The probe
+(`tools/katago_strength_probe.gd`) puts every beginner profile on a ladder of the same
+model at temperature 1.0 — a realistic 20, 15 and 10 kyu — anchored by GNU Go from outside.
+The finding was not the one the ticket expected. On a 9×9 board the model cannot tell 20k
+from 15k, every beginner profile sits in that band, and the temperature dial in its normal
+range moves nothing, because it touches only moves under one percent. The cast was within
+about three ranks of its labels on the model's own terms; what crushes a beginner is that
+the model's *floor* is a realistic online 20 kyu. Two changes: the steady temperament no
+longer sits well under KataGo's example, and the two 20k configs (Abel, Wren) apply
+temperature 1.5 to every move, the one setting that measured below the floor. The ladder
+gives stones once a rank exists; the games before Kesh hands one out do not (ENG-08).
 
 **Still open.** *Dead stones* (ENG-05): `final_status_list` hung on the bundled Human-SL
 build, so the count is still the heuristic's proposal with a player override; the analysis

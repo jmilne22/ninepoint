@@ -108,6 +108,13 @@ one, lose to somebody at or below it and it goes down one, and nothing else touc
 Handicap stones are priced in, so beating a 4 kyu who gave you five stones is beating a 19
 kyu. Nothing in the game makes your stones stronger. The only thing that improves is you.
 
+**What the opponents cost your machine.** Every character is KataGo's human-style model
+playing at that character's rank. The game runs one engine at a time -- the person you are
+sitting across from, and after the game one analysis process for the review -- which is
+about a gigabyte of memory, one CPU thread, a second or so a move on a desktop CPU with
+AVX2, and 400 MB of model files fetched once by `tools/setup_katago.sh`. Without the
+package the game still plays, against the built-in heuristic opponent.
+
 ### Development
 
 ```bash

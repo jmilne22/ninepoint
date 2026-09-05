@@ -4,7 +4,7 @@ This is the **operational source of truth** for unfinished work. An agent starts
 not in the milestone history. It answers: what may be picked up now, what is blocked, and
 what evidence makes a task done.
 
-Snapshot: `origin/main` at `8343f62` plus the M40 review branch. Update the snapshot when
+Snapshot: `origin/main` at `c6457ba` plus the M41 strength branch. Update the snapshot when
 the board is reconciled after a merge; do not treat it as a release number.
 
 ## How to use this board
@@ -64,20 +64,57 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 
 ### ENG-06 — Measure the cast's real strength
 
-- Status: `NEEDS DECISION` · Priority: `P1`
+- Status: `SHIPPED` (M41) · Priority: `P1` · Branch: `feat/eng-06-cast-strength`
 - Why: M39 calibrated every KataGo profile for latency, legality and fallbacks, never for
-  strength. M40's autoplay brain (the shipped heuristic at `mistake_rate` 0, `reading_depth`
-  2, labelled 1 dan) lost to Abel's 21-kyu profile by 43 points and, at its 12-kyu setting,
-  to Wren's 20 kyu by 86. Either the Human-SL profiles play well above their labels at eight
-  visits, or the heuristic plays well below its own. Rule 3 says the labels are real ranks;
-  nothing has checked that they are.
-- Decision needed: what reference to measure against (a fixed-strength engine setting,
-  GNU Go, or a person), and what to do if the beginner profiles are too strong for the
-  first hour of play.
-- Acceptance: a recorded measurement per beginner profile and a stated tolerance.
-- Context: `ROADMAP.md` §1; `MILESTONES.md` M40.
+  strength. The owner, a beginner, lost every game, including to Abel (21k) and Wren (20k).
+- Decision taken: the reference is the same Human-SL model at temperature 1.0 (KataGo's
+  "realistic individual") at 20, 15 and 10 kyu, anchored by GNU Go 3.8; the tolerance is
+  one stone on 9×9, three ranks; and if the model's 20k floor is still above a beginner,
+  temperature above 1.0 for Abel and Wren rather than a label change.
+- Evidence: `tools/katago_strength_probe.gd`, 537 games. On the model's own ladder the
+  cast sat within about three ranks of its labels (the ladder cannot tell 20k from 15k on
+  9×9), and the floor was the problem: a realistic online 20k. Steady temperament
+  0.65/0.45 → 0.80/0.65; the 20k configs (Abel, Wren) at temperature 1.5 on every move,
+  which reads under 20k (0/8 and 1/8 against the realistic 20k, −31 and −38 a game).
+  `katago_calibrate.gd` 28/28, slowest reply 1670 ms; `tools/test.sh` 12505 passed;
+  `review_world_wren_loss` / `review_world_wren` played, frames opened. Numbers and the
+  two power-offs in `MILESTONES.md` M41. Not done: the owner's own games.
+- Context: `ROADMAP.md` §1; `MILESTONES.md` M41; follow-ups ENG-07, ENG-08.
 
 ## Ready
+
+### ENG-07 — The heuristic's rank labels are fiction
+
+- Status: `READY` · Priority: `P2`
+- Why: M41's strength probe played the shipped heuristic against a realistic 20 kyu
+  (KataGo Human-SL at temperature 1.0). At `mistake_rate` 0, `reading_depth` 2 -- the
+  setting the autopilot calls 1 dan -- it lost 8 of 8 by 58 points on average; at its
+  20-kyu setting, 8 of 8 by 72. It is the fallback when the engine is missing and the
+  autopilot's player brain, and neither of those needs a rank, but anything that reads a
+  rank off it is reading a number nobody measured.
+- Scope: either stop labelling heuristic settings with ranks (the autopilot's `brain_rank`
+  and `OpponentProfile.rank_label` on a heuristic profile) or tune and measure them with
+  `tools/katago_strength_probe.gd` (`--cells=anchors`). A separate checkout was retuning
+  the heuristic's `mistake` table against the same ladder on 2026-09-05; reconcile with it.
+- Acceptance: no rank label in the game is attached to a heuristic setting that has not
+  been placed on the ladder, and the probe's anchor cells record where each one sits.
+- Context: `MILESTONES.md` M41.
+
+### ENG-08 — Stones in the first three games
+
+- Status: `NEEDS DECISION` · Priority: `P1` · Depends on: `ENG-06`
+- Why: the model's weakest profile is a realistic online 20 kyu, and a first-week player
+  is weaker than that. M41 put Abel and Wren under it (temperature 1.5 on every move), but
+  Pip (18k) and Kesh's first game (12k) come before any rank exists, so they are even games
+  with no relief; once Kesh hands out 22 kyu the ladder gives stones as the gap opens.
+- Decision needed: give the unrated first games handicap stones by default (as Hana's
+  teaching game already gives nine), extend the floor to Pip, or accept the first-hour
+  losses as the story. The owner's own games against Abel and Wren decide whether the
+  floor is low enough; the probe's floor cells (1.5 → −15 a game, 2.0 → −31 against the
+  realistic 20k) say how much further it can go.
+- Acceptance: a stated choice in `GAME_DESIGN.md` and, if stones, `GoMatchSetup` giving them
+  when the player has no rank, with the probe's floor numbers quoted.
+- Context: `ROADMAP.md` §1; `MILESTONES.md` M41.
 
 ### TECH-01 — Make JSON data part of the load gate
 
@@ -273,6 +310,8 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 
 ## Shipped recently
 
+- `M41` — the cast's strength measured in whole games for the first time; the steady
+  temperament and the 20k floor retuned from the numbers; the probe, with a memory cap.
 - `M40` — the review, rebuilt on KataGo's analysis mode: streamed progress, leaveable, on the
   quay noticeboard afterwards; the shared engine pipe; the temperaments commit that PR #17
   had merged into an already-merged branch.
