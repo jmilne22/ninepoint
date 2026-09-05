@@ -7,8 +7,9 @@ cast, art or branding. Combat does not exist; encounters are games of Go.
 The loop is the one Pokémon TCG and Yu-Gi-Oh! Tag Force run on: walk around, talk to
 people, play, your record climbs, a tournament at the end. Everyone is always where they
 live. A rated game moves your rank one step. After a game, the person you played reacts to
-the game you just played, and if you ask, goes over it with you: up to three positions
-where the engine says a move cost points (M40). Nothing else — no clock, no schedules, no
+the game you just played, and if you ask, goes over it with you: how many of your moves
+were the best on the board and which, then up to three positions where a move cost
+points (M40). Nothing else — no clock, no schedules, no
 second progression — because M37 cut all of it, and the reasons are in `MILESTONES.md`.
 
 ---

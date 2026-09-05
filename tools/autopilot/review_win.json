@@ -66,6 +66,13 @@
   "shot": "g_card_3"
  },
  {
+  "tap": "move_right"
+ },
+ {
+  "wait": 0.3,
+  "shot": "card_4"
+ },
+ {
   "tap": "interact",
   "note": "close the cards"
  },

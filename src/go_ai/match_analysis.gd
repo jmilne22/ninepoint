@@ -82,7 +82,7 @@ static func available(record_index: int, engine_version: String, positions: Arra
 
 
 static func _with_meta(payload: Dictionary, meta: Dictionary) -> Dictionary:
-    for key in ["partial", "analysed_moves", "total_moves"]:
+    for key in ["partial", "analysed_moves", "total_moves", "tally"]:
         if meta.has(key):
             payload[key] = meta[key]
     return payload
@@ -213,6 +213,28 @@ static func moments_from_turns(replay: Dictionary, player: int, turns: Dictionar
     return moments
 
 
+## The game is about learning to play, so the review says what went right
+## before what went wrong: how many of the player's moves were the best move
+## on the board, which ones, and how many more gave nothing away.
+static func tally(moments: Array) -> Dictionary:
+    var best_moves: Array = []
+    var fine := 0
+    var counted := 0
+    for moment_value in moments:
+        if not (moment_value is Dictionary):
+            continue
+        var moment: Dictionary = moment_value
+        if int(moment.get("actual", -1)) < 0:
+            continue
+        counted += 1
+        if int(moment.get("best", -1)) == int(moment["actual"]):
+            best_moves.append(int(moment.get("move_number", 0)))
+        elif float(moment.get("point_loss", 0.0)) < MEANINGFUL_LOSS:
+            fine += 1
+    best_moves.sort()
+    return {"moves": counted, "best": best_moves.size(), "fine": fine, "best_moves": best_moves}
+
+
 ## Pick the largest genuine loss, then a loss about a different idea, then the
 ## one moment the engine agreed with the player and the alternative was worse.
 ## Sorting makes saved reviews deterministic.
@@ -278,7 +300,8 @@ static func from_turns(record_index: int, record: Dictionary, raw: Dictionary) -
     if moments.is_empty():
         return unavailable(record_index, "not enough of the game was analysed", version)
     var meta := {"partial": not bool(raw.get("complete", false)),
-        "analysed_moves": moments.size(), "total_moves": total_moves}
+        "analysed_moves": moments.size(), "total_moves": total_moves,
+        "tally": tally(moments)}
     return available(record_index, version, [], select_moments(moments), meta)
 
 

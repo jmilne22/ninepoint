@@ -101,6 +101,10 @@ static func _accounting(t: TestKit) -> void:
     var record := {"sgf": "(;GM[1]SZ[9];B[dd];W[ee];B[cc])", "player_color": GoBoard.BLACK, "board_size": 9}
     var payload := MatchAnalysis.from_turns(0, record, raw)
     t.eq(payload["availability"], "available", "a complete analysis becomes a review")
+    t.eq(payload["tally"]["moves"], 2, "the tally counts every move the engine saw both sides of")
+    t.eq(payload["tally"]["best"], 1, "and how many were the best move on the board")
+    t.eq(payload["tally"]["best_moves"], [1], "by move number, so the player can find them")
+    t.eq(payload["tally"]["fine"], 0, "a three-point loss is not a fine move")
     t.eq(payload["partial"], false, "a complete analysis is not partial")
     raw["complete"] = false
     var cut := MatchAnalysis.from_turns(0, record, raw)

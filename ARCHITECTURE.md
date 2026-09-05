@@ -206,8 +206,9 @@ The review uses the same pipe against `katago analysis`: `KataGoAnalysis.run(rec
 one JSON query for the whole game (`analyzeTurns` = every position, handicap as
 `initialStones`, the game's komi, Japanese rules to match `GoScoring`) and reads one line per
 position as it arrives. `MatchAnalysis` is pure: it parses those lines, charges each of the
-player's moves the difference between the position before and after from their side, and
-picks at most three. Cost is about one core-second per position on the Eigen build, so the
+player's moves the difference between the position before and after from their side,
+tallies how many matched the engine's move or gave nothing away, and picks at most three
+positions. Cost is about one core-second per position on the Eigen build, so the
 service streams progress and the caller may leave; a watchdog fails a silent engine.
 
 Strength knobs on `OpponentProfile` (all honest, none of them "the AI plays badly on purpose

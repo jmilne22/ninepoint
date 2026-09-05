@@ -129,6 +129,7 @@ def _review_payload(size):
     return {
         "source_match": 0, "availability": "available", "engine_version": "fixture",
         "positions": [], "partial": False, "analysed_moves": 26, "total_moves": 26,
+        "tally": {"moves": 26, "best": 7, "fine": 11, "best_moves": [3, 8, 14, 19, 27, 33, 41]},
         "findings": [
             {"kind": "strength", "move_number": 8, "size": size, "cells": cells,
                 "actual": idx(4, 4), "best": idx(4, 4), "point_loss": 0.0, "stake": 2.0},

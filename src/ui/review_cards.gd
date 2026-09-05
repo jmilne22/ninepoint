@@ -47,6 +47,45 @@ func _ready() -> void:
     _show()
 
 
+## The tally comes first: what went right, in numbers a learner can hold on
+## to, before the positions where something went wrong.
+func _tally_text() -> String:
+    var tally: Dictionary = review.get("tally", {})
+    if tally.is_empty():
+        return ""
+    var moves := int(tally.get("moves", 0))
+    var best := int(tally.get("best", 0))
+    var fine := int(tally.get("fine", 0))
+    var looked := "You played %d moves." % moves
+    if bool(review.get("partial", false)):
+        looked = "The first %d of your %d moves were looked at." % [moves, int(review.get("total_moves", moves))]
+    var verdict := ""
+    if best > 0 and fine > 0:
+        verdict = "%d %s the best move on the board, and another %d gave nothing away." % [
+            best, "was" if best == 1 else "were", fine]
+    elif best > 0:
+        verdict = "%d %s the best move on the board." % [best, "was" if best == 1 else "were"]
+    elif fine > 0:
+        verdict = "None matched the best move exactly, but %d gave nothing away." % fine
+    else:
+        verdict = "Every one of them cost something. That happens; the next game is the fix."
+    var text := "%s %s" % [looked, verdict]
+    var best_moves: Array = tally.get("best_moves", [])
+    if not best_moves.is_empty():
+        var shown: Array = best_moves.slice(0, 12)
+        # A saved review comes back through JSON, where every number is a float.
+        var numbers := ", ".join(shown.map(func(n: Variant) -> String: return str(int(n))))
+        if best_moves.size() > shown.size():
+            numbers += " and %d more" % (best_moves.size() - shown.size())
+        text += "\n\nYour best moves: %s." % numbers
+    return text
+
+
+func _card_count() -> int:
+    var findings: Array = review.get("findings", [])
+    return findings.size() + (1 if not findings.is_empty() and review.has("tally") else 0)
+
+
 func _show() -> void:
     var findings: Array = review.get("findings", [])
     if findings.is_empty():
@@ -55,12 +94,28 @@ func _show() -> void:
         _board.visible = false
         _title.visible = false
         var text := "A steady game.\n%s\n\n[Space] close" % str(review.get("summary", "No single move gave much away."))
+        if str(review.get("availability", "")) == "steady" and review.has("tally"):
+            text = "A steady game.\n%s\n\n[Space] close" % _tally_text()
         if str(review.get("availability", "")) != "steady":
             text = "No review today.\nNothing came of going over it. The game still counts as it was played.\n\n[Space] close"
         UiKit.fit_card(_card, _body, text, 288)
         return
-    _index = clampi(_index, 0, findings.size() - 1)
-    var f: Dictionary = findings[_index]
+    var total := _card_count()
+    _index = clampi(_index, 0, total - 1)
+    var has_tally := total > findings.size()
+    _board.visible = true
+    _title.visible = true
+    _card.size = Vector2(348, 192)
+    _card.position = Vector2(18, 12)
+    _body.position = Vector2(TEXT_X, 38)
+    _body.size = Vector2(TEXT_W, 146)
+    if has_tally and _index == 0:
+        _board.visible = false
+        _title.visible = false
+        UiKit.fit_card(_card, _body, "How it went.\n%s\n\n%d of %d   Left/Right   [Space] close" % [
+            _tally_text(), 1, total], 288)
+        return
+    var f: Dictionary = findings[_index - (1 if has_tally else 0)]
     var game := MatchAnalysis.position(int(f.get("size", 9)), f.get("cells", []))
     if game == null:
         closed.emit()
@@ -85,7 +140,7 @@ func _show() -> void:
     if bool(review.get("partial", false)):
         lines.append("(The first %d of your %d moves were looked at.)" % [
             int(review.get("analysed_moves", 0)), int(review.get("total_moves", 0))])
-    lines.append("%d of %d   Left/Right   [Space] close" % [_index + 1, findings.size()])
+    lines.append("%d of %d   Left/Right   [Space] close" % [_index + 1, total])
     _body.text = "\n\n".join(lines)
     if UiKit.text_height(_body.text, TEXT_W) > int(_body.size.y):
         push_warning("ReviewCards: card %d text runs off the card" % _index)
