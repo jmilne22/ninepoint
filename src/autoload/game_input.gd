@@ -7,6 +7,7 @@ const ACTIONS := {
     "move_right": [KEY_RIGHT, KEY_D],
     "move_up": [KEY_UP, KEY_W],
     "move_down": [KEY_DOWN, KEY_S],
+    "run": [KEY_SHIFT],
     "interact": [KEY_SPACE, KEY_ENTER, KEY_E, KEY_Z, KEY_KP_ENTER],
     "cancel": [KEY_ESCAPE, KEY_X, KEY_BACKSPACE],
     "menu": [KEY_TAB],

@@ -90,9 +90,15 @@ func _do(step: Dictionary) -> void:
         await _wait_for_world(float(step.get("timeout", 5.0)))
     if step.has("walk_to"):
         var dest: Array = step["walk_to"]
+        if bool(step.get("run", false)):
+            _send("run", true)
         await _walk_to_tile(Vector2i(int(dest[0]), int(dest[1])), float(step.get("timeout", 8.0)))
+        _send("run", false)
     if step.has("talk_to"):
+        if bool(step.get("run", false)):
+            _send("run", true)
         await _talk_to(str(step["talk_to"]), float(step.get("timeout", 8.0)))
+        _send("run", false)
     # Turning to look at a tile you cannot stand on. Signs, boards, the hooks and
     # the beds all live on solid tiles, so `walk_to` can never reach them and
     # there was no other way to point the player at one.

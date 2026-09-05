@@ -198,3 +198,10 @@ counting group visible. Hover remains independent of legality: the existing clic
 already explains rejected moves. The same distinction keeps ko/self-capture lessons intact.
 Mouse targeting keeps nineteen-line close views steady; keyboard selection still follows
 the cursor. Town navigation and dialogue/menu mouse support remain separate work.
+
+## Town run mode — UI-03
+
+Crossing Verhaven should not make repeat visits drag. Holding Shift runs at 1.75 times the
+normal walking pace everywhere the town controller is active, including interiors. It is a
+travel convenience, not progression: there is no stamina, statistic, toggle or saved setting.
+The existing player sheet supplies the faster gait, while NPC movement remains unchanged.

@@ -3,7 +3,8 @@
 class_name Player
 extends CharacterBody2D
 
-const SPEED := 58.0
+const WALK_SPEED := 58.0
+const RUN_MULTIPLIER := 1.75
 const PROBE_REACH := 12.0
 ## One footstep every this many pixels walked, so the cadence follows the legs
 ## rather than a timer.
@@ -43,6 +44,7 @@ func _physics_process(_delta: float) -> void:
     if input_locked:
         velocity = Vector2.ZERO
         sprite.walking = false
+        sprite.gait_scale = 1.0
         move_and_slide()
         return
 
@@ -50,13 +52,12 @@ func _physics_process(_delta: float) -> void:
         Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
         Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
     )
-    if dir.length_squared() > 1.0:
-        dir = dir.normalized()
-
-    velocity = dir * SPEED
+    var running := Input.is_action_pressed("run")
+    velocity = movement_velocity(dir, running)
     move_and_slide()
 
     sprite.walking = dir.length_squared() > 0.01
+    sprite.gait_scale = RUN_MULTIPLIER if sprite.walking and running else 1.0
     if sprite.walking:
         facing = Facing.from_vector(dir, facing)
         sprite.face(facing)
@@ -68,6 +69,17 @@ func _physics_process(_delta: float) -> void:
     else:
         _distance_walked = STEP_DISTANCE      # the next step lands immediately
     _refresh_target()
+
+
+static func movement_speed(running: bool) -> float:
+    return WALK_SPEED * (RUN_MULTIPLIER if running else 1.0)
+
+
+## One calculation owns both live movement and the diagonal-speed contract.
+static func movement_velocity(direction: Vector2, running: bool) -> Vector2:
+    if direction.length_squared() > 1.0:
+        direction = direction.normalized()
+    return direction * movement_speed(running)
 
 
 func _unhandled_input(event: InputEvent) -> void:

@@ -291,7 +291,9 @@ routinely holds two of these at once, and a person must outrank the furniture be
 `Warp` (area → target map + spawn point),
 `Facing` (which way a character is turned), `DialogueBox` (typewriter, portrait, choices),
 `GoBoardView` (renders a GoGame and holds selection/view-anchor state). There is no `GridMover` and no
-`ScheduleComponent`; movement lives on `Player`/`Npc`, and there is no schedule.
+`ScheduleComponent`; movement lives on `Player`/`Npc`, and there is no schedule. `Player`
+selects the fixed walk speed or a transient 1.75× Shift-run speed; `CharacterSprite` scales
+the existing gait while footstep cadence remains distance-based. NPC gait defaults to 1×.
 
 The tram stop is a sign whose text begins `__TRAM__` followed by JSON naming its routes;
 `SignDesk.tram_stop()` offers them as choices, refuses in the box when a route's flag is not
