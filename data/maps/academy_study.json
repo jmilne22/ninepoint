@@ -6,6 +6,7 @@
  ],
  "tile_size": 16,
  "legend": {
+  "}": "wall_side",
   "^": "roof_ridge",
   "#": "roof_slate",
   "R": "roof_rust",
@@ -91,19 +92,19 @@
  },
  "ground": [
   "IIIIIIIIIIIIIIIIIIIIIIII",
-  "IIINIIINIIIIIIIINIIINIII",
+  "IIIIIIIIIIIIIIIIIIIIIIII",
   "iVViiiiiiiYYiiiiiiiiiVVi",
-  "i,,,,,,,,,,,,,,,,,,,,,,i",
-  "i,,,,X,,,,,X,,,,,X,,,,,i",
-  "i,,,,G,,,,,G,,,,,G,,,,,i",
-  "iZ,,,X,,,,,X,,,,,X,,,,Qi",
-  "i,,,,,,,,,,,,,,,,,,,,,,M",
-  "i,,,,,,,,,,,,,,,,,,,,,,i",
-  "i,,,,X,,,,,X,,,,,X,,,,,i",
-  "i,,,,E,,,,,E,,,,,E,,,,,i",
-  "i,,,,X,,,,,X,,,,,X,,,,,i",
-  "i,,,,,,,,,,,,,,,,,,,,,,i",
-  "iiiiiiiiiiiiiiiiiiiiiiii"
+  "},,,,,,,,,,,,,,,,,,,,,,}",
+  "},,,,,,,,,,,,,,,,,,,,,,}",
+  "},,,,,,,,,,G,,,,,,,,,,,}",
+  "}Z,,,,,,,,,,,,,,,,,,,,Q}",
+  "},,,,,,,,,,,,,,,,,,,,,,M",
+  "},,,,,,,,,,,,,,,,,,,,,,}",
+  "},,,,,,,,,,,,,,,,,,,,,,}",
+  "},,,,,,,,,,,,,,,,,,,,,,}",
+  "},,,,,,,,,,,,,,,,,,,,,,}",
+  "},,,,,,,,,,,,,,,,,,,,,,}",
+  "}iiiiiiiiiiiiiiiiiiiiii}"
  ],
  "decor": [
   "                        ",
@@ -126,14 +127,14 @@
   "111111111111111111111111",
   "111111111111111111111111",
   "100000000000000000000001",
-  "100001000001000001000001",
-  "100001000001000001000001",
-  "110001000001000001000011",
+  "100000000000000000000001",
+  "100011100001000011100001",
+  "110011100000000000000011",
   "100000000000000000000000",
   "100000000000000000000001",
-  "100001000001000001000001",
-  "100001000001000001000001",
-  "100001000001000001000001",
+  "100000000000000000000001",
+  "100000000011100000000001",
+  "100000000000000000000001",
   "100000000000000000000001",
   "111111111111111111111111"
  ],
@@ -164,28 +165,28 @@
     1,
     6
    ],
-   "text": "A kettle, a tin, and a handwritten note: THE BISCUITS ARE FOR EVERYONE WHICH MEANS THEY ARE NOT ALL FOR YOU."
+   "text": "Tea and biscuits. Please wash your cup and leave some biscuits for the next person."
   },
   {
    "tile": [
     10,
     2
    ],
-   "text": "LOWER LEAGUE \u2014 PAIRINGS / RESULTS. Tables 1\u20136 are numbered in pencil. Play here when a result is meant to count."
+   "text": "LOWER LEAGUE. Ask a student for a league game. Results and standings are on the board in the hall."
   },
   {
    "tile": [
     5,
     5
    ],
-   "text": "Table 1. A neat card: PRACTICE / REVIEW."
+   "text": "Ilse's notes. Several pages are tucked into the back of her book."
   },
   {
    "tile": [
     11,
     5
    ],
-   "text": "Table 2. A neat card: LEAGUE GAMES."
+   "text": "A clear table and two spare bowls. Please put the stones away when you finish."
   }
  ],
  "npcs": [
@@ -193,10 +194,16 @@
    "id": "ilse",
    "tile": [
     6,
-    6
+    7
    ],
    "dir": "right",
-   "idle": "study"
+   "idle": "read",
+   "activity_variations": [
+    {
+     "flag": "ilse_match_done",
+     "idle": "arrange"
+    }
+   ]
   },
   {
    "id": "sunny",
@@ -205,7 +212,13 @@
     6
    ],
    "dir": "left",
-   "idle": "wander"
+   "idle": "play",
+   "activity_variations": [
+    {
+     "flag": "sunny_match_done",
+     "idle": "read"
+    }
+   ]
   },
   {
    "id": "orla",
@@ -214,53 +227,98 @@
     11
    ],
    "dir": "up",
-   "idle": "watch"
+   "idle": "play",
+   "activity_variations": [
+    {
+     "flag": "orla_match_done",
+     "idle": "read"
+    }
+   ]
   }
  ],
  "music": "theme_institute",
  "indoors": true,
+ "art_props": [
+  {
+   "art": "book_shelf",
+   "position": [
+    16,
+    8
+   ]
+  },
+  {
+   "art": "study_desk",
+   "position": [
+    64,
+    64
+   ]
+  },
+  {
+   "art": "playing_table",
+   "position": [
+    256,
+    64
+   ]
+  },
+  {
+   "art": "snack_stool",
+   "position": [
+    288,
+    144
+   ]
+  },
+  {
+   "art": "playing_table",
+   "position": [
+    160,
+    144
+   ]
+  }
+ ],
  "presence_states": [
   {
-   "id": "league",
+   "id": "return",
    "when": {
     "all": [
      "won_a_league_game"
     ]
    },
-   "tiles": [
-    {
-     "tile": [
-      10,
-      8
-     ],
-     "name": "prop_papers"
-    },
-    {
-     "tile": [
-      10,
-      8
-     ],
-     "name": "prop_papers"
-    },
-    {
-     "tile": [
-      18,
-      10
-     ],
-     "name": "prop_cups"
-    }
+   "exchanges": [
+    [
+     {
+      "npc": "ilse",
+      "text": "Sunny, your pencil."
+     },
+     {
+      "npc": "sunny",
+      "text": "Thanks! Did you keep the eraser?"
+     }
+    ]
    ]
   },
   {
    "id": "routine",
-   "tiles": [
-    {
-     "tile": [
-      10,
-      8
-     ],
-     "name": "prop_papers"
-    }
+   "exchanges": [
+    [
+     {
+      "npc": "sunny",
+      "text": "Ilse, can I borrow your pencil?"
+     },
+     {
+      "npc": "ilse",
+      "text": "The short one. Keep the eraser with it."
+     }
+    ],
+    [
+     {
+      "npc": "orla",
+      "text": "Anyone using this board?"
+     },
+     {
+      "npc": "sunny",
+      "text": "I'm finished with it!"
+     }
+    ]
    ]
   }
  ]

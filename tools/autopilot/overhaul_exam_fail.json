@@ -1,0 +1,234 @@
+[
+ {
+  "save": "exam_day"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "wait": 0.6
+ },
+ {
+  "shot": "exam_paper_1"
+ },
+ {
+  "tap": "cancel"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "wait": 0.6
+ },
+ {
+  "shot": "exam_paper_2"
+ },
+ {
+  "tap": "cancel"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "exam_round_1_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "exam_round_1_return"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "exam_round_2_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "exam_round_2_return"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "exam_round_3_setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "exam_round_3_return"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   13,
+   3
+  ]
+ },
+ {
+  "face": [
+   13,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "exam_did_not_qualify"
+ }
+]

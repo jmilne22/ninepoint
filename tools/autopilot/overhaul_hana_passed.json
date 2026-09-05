@@ -1,0 +1,47 @@
+[
+ {
+  "save": "exam_passed"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "experience": "visit",
+  "map": "academy_class",
+  "spawn": "from_hall"
+ },
+ {
+  "talk_to": "hana"
+ },
+ {
+  "wait": 4
+ },
+ {
+  "shot": "hana_exam_passed"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 4
+ },
+ {
+  "shot": "hana_exam_passed_continued"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "shot": "hana_return_options"
+ }
+]

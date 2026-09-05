@@ -28,7 +28,9 @@ var routes: Array = []
 var presence_states: Array = []
 var presence_tiles: Array = []
 var presence_lines: Array = []
+var presence_exchanges: Array = []
 ## Track name for this map, matched against audio/<name>.wav. "" is silence.
+var art_props: Array = []
 var music: String = ""
 ## Retained as an empty compatibility field: ambience tests and older authored
 ## maps may ask for it, but the game deliberately has no time-of-day music.
@@ -65,6 +67,7 @@ static func load_map(map_id: String) -> MapData:
     m.npcs = parsed.get("npcs", [])
     m.routes = parsed.get("routes", [])
     m.presence_states = parsed.get("presence_states", [])
+    m.art_props = parsed.get("art_props", [])
     m.music = str(parsed.get("music", ""))
     m.indoors = bool(parsed.get("indoors", false))
     return m

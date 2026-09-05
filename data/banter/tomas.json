@@ -2,36 +2,22 @@
  "id": "tomas",
  "lines": {
   "you_captured": [
-   "Aye. That's yours."
+   "Put them in the lid."
   ],
   "you_captured_big": [
-   "Well. There goes the afternoon."
+   "I'll move the cup."
   ],
   "i_captured": [
-   "Mm. Another cup?"
-  ],
-  "i_captured_big": [
-   "That's the lot of them. Sorry."
+   "Got those."
   ],
   "ko": [
-   "Ko. Settle in."
-  ],
-  "winning": [
-   "I'm ahead. Now the endgame, that's where I'll take it."
-  ],
-  "losing": [
-   "You're ahead. Good, good. Now the endgame."
-  ],
-  "level": [
-   "Level. Nice game, this."
+   "A ko."
   ],
   "i_pass": [
-   "That's it, I think. Shall we count?",
-   "I'll pass. Leave it as it is."
+   "Pass."
   ],
   "you_pass": [
-   "Ah -- finished?",
-   "Take your time. It's not going anywhere."
+   "I'll check my side."
   ]
  }
 }

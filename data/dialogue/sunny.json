@@ -47,8 +47,8 @@
   },
   "first": {
    "text": [
-    "Hello! Are you the new one? You're OLD.",
-    "Sunny. I'm nine. I'll play you. I don't mind if you're bad, I like the bit where it gets complicated."
+    "I'm Sunny! Is that chair too small for you? I swapped it because my feet didn't reach.",
+    "Want a game?"
    ],
    "goto": "offer"
   },
@@ -60,7 +60,7 @@
   },
   "offer": {
    "text": [
-    "League game? It goes on the board either way."
+    "Can we play a league game? I want to put another result on the board."
    ],
    "choices": [
     {
@@ -79,7 +79,7 @@
   },
   "later": {
    "text": [
-    "Okay! I'm always here."
+    "Okay. I'm going to get my snack."
    ]
   },
   "post_match": {
@@ -100,14 +100,14 @@
   "after_win": {
    "portrait": "happy",
    "text": [
-    "Ohhh, that was GOOD. Do it again. No, wait, don't, I want to work it out.",
-    "I'm going to tell Mum on the bus."
+    "You won! Can we keep the game?",
+    "I want to show Mum on the way home."
    ]
   },
   "after_loss": {
    "text": [
-    "The bit in the corner was nearly right! Then you did the other thing.",
-    "You can resign next time if you want. Mum says I have to offer."
+    "I won! Thanks for playing.",
+    "One more? Unless you need that chair back."
    ]
   },
   "stage_2": {
@@ -118,7 +118,7 @@
     ]
    ],
    "text": [
-    "You keep coming back! Most grown-ups play me once and then they're always busy."
+    "You're back! I told Mum I'd found someone to play."
    ],
    "goto": "offer"
   },
@@ -130,7 +130,8 @@
     ]
    ],
    "text": [
-    "I can't read four moves ahead of you any more. Now it's two. I'm not being nice, I'm complaining."
+    "Wait here. I've got a biscuit left.",
+    "It's a bit broken. You can have the big half."
    ],
    "goto": "offer"
   }

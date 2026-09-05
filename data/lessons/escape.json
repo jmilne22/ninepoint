@@ -1,11 +1,10 @@
 {
  "id": "escape",
- "title": "Run",
+ "title": "Escape from Atari",
  "teacher": "kesh",
  "size": 9,
  "intro": [
-  "Right. You know how a group dies. Now the other half of it, which nobody teaches you because it is less satisfying.",
-  "A group on one liberty is not dead. It is *nearly* dead. The difference is whether there is anywhere left to run to."
+  "A group in atari has one liberty left. You may be able to save it by extending into more space."
  ],
  "steps": [
   {
@@ -21,7 +20,7 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "That black stone has one liberty. Play it, and get out.",
+   "instruction": "Black has one liberty. Extend there to save the stone.",
    "accept": "points",
    "points": [
     [
@@ -38,7 +37,7 @@
     ]
    ],
    "hint": "There is exactly one empty point touching it. Go there.",
-   "explanation": "One stone, one liberty, and now it is two stones with three. Extending does not just add a stone -- it moves the group into space that was not surrounded yet, and takes that space with it."
+   "explanation": "The new stone joins the group and gives it more liberties."
   },
   {
    "board": [
@@ -53,7 +52,7 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "Two stones this time, and still one liberty. Same idea.",
+   "instruction": "Save these two black stones by extending.",
    "accept": "points",
    "points": [
     [
@@ -74,7 +73,7 @@
     ]
    ],
    "hint": "Look at where the wall stops.",
-   "explanation": "Three liberties again. Notice what did the work: the point you played had empty points of its own. Running into a gap that is itself surrounded buys you nothing."
+   "explanation": "The group can now reach more empty crossings. Check those crossings before choosing an escape."
   },
   {
    "board": [
@@ -89,7 +88,7 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "Four stones now. Considerably more to lose.",
+   "instruction": "Save the group of four black stones.",
    "accept": "points",
    "points": [
     [
@@ -118,11 +117,10 @@
     ]
    ],
    "hint": "The end of the wall, same as before.",
-   "explanation": "Four stones is worth more than one, and the move that saves them is exactly the same move. Big groups do not need clever answers. They need you to notice in time."
+   "explanation": "The same kind of extension saves this larger group."
   }
  ],
  "outro": [
-  "That is the whole of it. Count the liberties, and if it is one, look for the way out before you look for anything else.",
-  "I lose games to people who see the atari and then spend the move somewhere more interesting. Do not be that."
+  "When a group is in atari, check whether it can extend, connect or capture its way out."
  ]
 }

@@ -7,11 +7,8 @@
 extends Control
 
 const LINES := [
-    "Go is about four thousand years old. Nobody is sure where it started.",
-    "Two people, a board, and stones in two colours. You put one down. Then they do.",
-    "That is enough to begin. It takes an afternoon to learn.",
-    "I have taught it for twenty years and I still lose to people I taught.",
-    "You have not played before. Good. That is the interesting part, and it only happens once.",
+    "Hello. I'm Hana. Welcome to Verhaven.",
+    "People play Go all over this city. Come and join us.",
 ]
 
 const MAX_NAME := 10
@@ -151,7 +148,7 @@ func _say(line: String) -> void:
 
 
 func _ask_name() -> void:
-    _text.text = "So. What should I call you?"
+    _text.text = "What should I call you?"
     _text.visible_characters = -1
     _revealing = false
     _more.visible = false
@@ -164,7 +161,7 @@ func _ask_name() -> void:
         await get_tree().process_frame
     _field.release_focus()
     Audio.play("ui_confirm")
-    _text.text = "%s. Good. Then I will see you when you get here." % _clean_name(_field.text)
+    _text.text = "Nice to meet you, %s. See you at the Instituut." % _clean_name(_field.text)
     _field.visible = false
     _hint.visible = false
     await get_tree().create_timer(1.6).timeout

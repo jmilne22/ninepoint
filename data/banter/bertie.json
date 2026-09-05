@@ -2,39 +2,22 @@
  "id": "bertie",
  "lines": {
   "you_captured": [
-   "Hah! Well."
+   "There they go."
   ],
   "you_captured_big": [
-   "Sit down, sit down. That was a proper move."
+   "Mind they stay on the table."
   ],
   "i_captured": [
-   "Corner, side, centre, lad."
-  ],
-  "i_captured_big": [
-   "Forty years, that shape. Forty years."
+   "In the lid they go."
   ],
   "ko": [
-   "Ko. Count your threats, that's the whole of it."
-  ],
-  "you_edge_early": [
-   "First line! What did I tell you. Corner, side, centre."
-  ],
-  "winning": [
-   "I'm ahead. I'm territorial, see. I won't fight you, I'll out-count you."
-  ],
-  "losing": [
-   "You're ahead. Doesn't mean much yet."
-  ],
-  "level": [
-   "Level. Proverbs won't help either of us now."
+   "A ko, then."
   ],
   "i_pass": [
-   "That's the lot. Count it up.",
-   "Pass. There's nothing on the board worth the walk."
+   "That will do. Pass."
   ],
   "you_pass": [
-   "Stopping, are we.",
-   "Count it first. Then stop."
+   "I'll take one last look."
   ]
  }
 }

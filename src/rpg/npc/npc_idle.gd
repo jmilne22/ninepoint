@@ -43,6 +43,11 @@ static func make(spec: String) -> NpcIdle:
 
 
 func tick(npc: Npc, delta: float) -> void:
+    if mode in ["play", "read", "fold", "wipe", "arrange"]:
+        npc.stand()
+        npc.set_facing(npc.home_facing)
+        npc.sprite.activity = mode
+        return
     match mode:
         "wander": _wander(npc, delta)
         "converse": _converse(npc, delta)
@@ -81,7 +86,7 @@ func _converse(npc: Npc, _delta: float) -> void:
     # about each other: whoever's id sorts first gets the first half.
     var phase := fmod(float(Time.get_ticks_msec()) * 0.001, TALK_CYCLE) / TALK_CYCLE
     var mine := phase < 0.5 if npc.npc_id < arg else phase >= 0.5
-    _set_bubble(npc, mine)
+    # The ordered exchange system owns speech bubbles.
 
 
 ## Reading a board: mostly still, with the occasional glance away and back.

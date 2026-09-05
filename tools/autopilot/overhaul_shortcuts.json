@@ -1,0 +1,170 @@
+[
+ {
+  "save": {}
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "opening"
+ },
+ {
+  "experience": "map",
+  "map": "attic"
+ },
+ {
+  "advance": 12,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   6,
+   7
+  ]
+ },
+ {
+  "walk_to": [
+   6,
+   8
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "ketelsteeg"
+ },
+ {
+  "walk_to": [
+   14,
+   9
+  ]
+ },
+ {
+  "walk_to": [
+   14,
+   8
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "de_ketel"
+ },
+ {
+  "talk_to": "wren"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 1
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 1
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "shot": "known_rules_practice_choice"
+ },
+ {
+  "choose": 2
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "shot": "postponed_practice_objective"
+ },
+ {
+  "talk_to": "kesh"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "shot": "kesh_points_back_to_wren"
+ },
+ {
+  "talk_to": "wren"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "wren_actual_loss"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "kesh"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "first_rank_card_corrected"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "shot": "shortcut_rank_route_complete"
+ }
+]

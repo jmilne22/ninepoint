@@ -2,35 +2,22 @@
  "id": "moss",
  "lines": {
   "you_captured": [
-   "Mm. You'll want to hold onto that."
+   "Those are yours."
   ],
   "you_captured_big": [
-   "Nobody in this section does that to me. Noted."
+   "That group comes off."
   ],
   "i_captured": [
-   "You'll want to answer that.",
-   "Mine. That's the section, that is."
-  ],
-  "i_captured_big": [
-   "Three years in this event and that still works on somebody every time."
+   "Got those."
   ],
   "ko": [
-   "Ko. This is where the section usually falls apart."
+   "A ko."
   ],
-  "i_atari": [
-   "Short of air, that one."
+  "i_pass": [
+   "Pass."
   ],
-  "you_edge_early": [
-   "The edge. Everyone does it here. That's why I keep entering."
-  ],
-  "winning": [
-   "I'm ahead. I'm always ahead in this section, that's rather the problem."
-  ],
-  "losing": [
-   "Hm. Good. Nobody does that to me."
-  ],
-  "level": [
-   "Close. I wasn't expecting close."
+  "you_pass": [
+   "I'll have a look."
   ]
  }
 }

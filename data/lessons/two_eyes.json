@@ -4,9 +4,7 @@
  "teacher": "hana",
  "size": 9,
  "intro": [
-  "You know that a group dies when its last liberty is filled. So here is the question that follows from it, and it is the most important question in Go.",
-  "How does a group become impossible to kill?",
-  "Not hard to kill. Impossible. There is an answer and it is exact."
+  "A group with two separate, secure eyes cannot be captured. The opponent cannot fill both eyes in one move."
  ],
  "steps": [
   {
@@ -22,7 +20,7 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "That black group surrounds three empty points in a row. Play the middle one.",
+   "instruction": "Play in the middle of the three empty points to make two eyes.",
    "accept": "points",
    "points": [
     [
@@ -37,7 +35,7 @@
    ],
    "show_liberties": true,
    "hint": "The middle of the three. Yes, inside your own shape.",
-   "explanation": "Two separate empty points, each surrounded entirely by your own stones. Those are eyes. White cannot play either one -- each would be a stone with no liberties -- and White cannot fill both at once, because filling one is illegal while the other is still there."
+   "explanation": "The group now surrounds two separate empty points. White cannot play in either without self-capture."
   },
   {
    "board": [
@@ -52,7 +50,7 @@
     "........."
    ],
    "to_move": "white",
-   "instruction": "This black group has one eye and nothing else. You are White. Take it.",
+   "instruction": "You are White. Capture this black group with only one eye.",
    "accept": "capture",
    "show_liberties": true,
    "target": [
@@ -62,7 +60,7 @@
     ]
    ],
    "hint": "The group is touching exactly one empty point. It is inside.",
-   "explanation": "One eye is not life. The eye was the group's last liberty, so playing in it was legal -- the capture is resolved before your own stone is checked. Everything a beginner believes about eyes stops here."
+   "explanation": "The eye was Black's last liberty. Capturing Black makes this White move legal."
   },
   {
    "board": [
@@ -77,11 +75,15 @@
     "........."
    ],
    "to_move": "white",
-   "instruction": "The same group, with two eyes instead of one. Try to take it the same way.",
+   "instruction": "You are White. Try placing a stone in either empty eye.",
    "accept": "illegal_attempt",
    "points": [
     [
      2,
+     2
+    ],
+    [
+     4,
      2
     ]
    ],
@@ -93,11 +95,10 @@
     ]
    ],
    "hint": "Play in one of the eyes. The game will stop you.",
-   "explanation": "Refused, and by the ordinary rule rather than a special one. Your stone would have no liberties, and it captures nothing, because the group still has the other eye. That is what alive means: not difficult to kill, but not killable at all."
+   "explanation": "The move is refused. It captures nothing because Black still has the other eye, and White would have no liberty."
   }
  ],
  "outro": [
-  "Two eyes lives. One eye dies. Every life-and-death problem ever set is that sentence, wearing a disguise.",
-  "When you are next unsure whether a group is in trouble, do not count its liberties. Count its eyes."
+  "Two secure eyes keep a group alive. Before relying on them, check that the surrounding stones cannot be cut apart."
  ]
 }

@@ -19,9 +19,10 @@
   },
   "first": {
    "text": [
-    "Dov Halevi. I count out loud. People find it irritating, and I've decided not to stop."
+    "Eighteen, nineteen... I'm missing a stone. Have a look under your chair? I'm Dov."
    ],
-   "goto": "gate"
+   "goto": "gate",
+   "portrait": "working"
   },
   "gate": {
    "branches": [
@@ -41,13 +42,12 @@
   },
   "no_rules": {
    "text": [
-    "You don't play. Then there's nothing for me to count. Wren teaches, down the steps."
+    "Wren teaches at De Ketel, under the kettle sign. We can play when you've seen her."
    ]
   },
   "offer": {
    "text": [
-    "A game? I'll count the whole way through, and you'll find it irritating.",
-    "A game nobody counts teaches nobody anything."
+    "Shall we play while we're waiting?"
    ],
    "choices": [
     {
@@ -56,8 +56,7 @@
       "type": "start_match",
       "profile": "dov_9x9",
       "context": "wassalon_dov",
-      "unrated": true,
-      "intro": "He sets his watch on the table beside the bowl and does not look at it once."
+      "unrated": true
      }
     },
     {
@@ -68,12 +67,12 @@
   },
   "later": {
    "text": [
-    "Then I'll count the machines. The one on the end is thirty seconds behind the rest."
+    "I'll put the lid on these before I lose another."
    ]
   },
   "again": {
    "text": [
-    "Again. I'll count quieter. I won't, but I'll try."
+    "Again? Let me sort the bowls."
    ],
    "goto": "gate"
   },
@@ -94,14 +93,14 @@
   },
   "after_win": {
    "text": [
-    "You were ahead from move forty and played the rest as if you were behind.",
-    "That's the expensive habit. Not reading. Not knowing."
+    "Your game. Thanks for playing.",
+    "I'll put the stones away. You can leave your chair there."
    ]
   },
   "after_loss": {
    "text": [
-    "I said the number at move sixty, and it was the number at the end.",
-    "Nobody believes me until the end. That's why I do it out loud."
+    "A win for me. Thanks for the game.",
+    "I'll sort the bowls. We can play again when you're ready."
    ]
   }
  }

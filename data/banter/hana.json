@@ -2,39 +2,22 @@
  "id": "hana",
  "lines": {
   "you_captured": [
-   "Good. Do you know why it worked?"
+   "There they go."
   ],
   "you_captured_big": [
-   "That is a large group. What told you it was going to die?"
+   "Take your time gathering those."
   ],
   "i_captured": [
-   "Take a moment. What was the move that lost those?"
-  ],
-  "i_captured_big": [
-   "Do not look at where they came off. Look at where it started."
+   "I'll put these in the lid."
   ],
   "ko": [
-   "A ko. Count what you have to threaten with before you take it again."
-  ],
-  "you_edge_early": [
-   "The first line, this early. How many points does the edge enclose?"
-  ],
-  "winning": [
-   "I am ahead. That is not the interesting part -- where is the game still open?"
-  ],
-  "losing": [
-   "You are ahead. Now: what would you play if you were me?"
-  ],
-  "level": [
-   "Even, near enough. Take your time. There is a move here."
+   "We have a ko."
   ],
   "i_pass": [
-   "I pass. There is nothing left that changes anything.",
-   "Nothing more. Shall we count it together?"
+   "I pass."
   ],
   "you_pass": [
-   "Are you sure? Count the edges once more before we stop.",
-   "Good. Knowing when it is over is most of the endgame."
+   "All right. My turn."
   ]
  }
 }

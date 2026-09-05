@@ -1,34 +1,38 @@
-# Voices
+# Writing Verhaven
 
-One paragraph per person: how they talk, one tic, what they never say. Written before
-any line was, and every line is checked against it by ear. The rules a machine can check
-are in `tests/test_data.gd` (`_test_writing_rules`): two lines a node, 110 characters a
-line, no calendar words, none of the shared tics that made fifteen people sound like one.
+Write the exchange in its situation. Establish what the person means, why they say it
+here and what they want from the listener. Read the whole conversation, including its
+choices and return visits. A punctuation check cannot establish whether it makes sense.
 
-Rules for everyone: a greeting is one line. A game offer is one line and a choice. After
-a game, two lines at most, about the game just played. Rules are taught by the lesson
-runner, never in speech. Nobody mentions a place or a person the player has not met
-unless they are pointing the player at it. Nobody narrates themselves.
+Keep ordinary exchanges ordinary. Use short nodes, at most two lines and 110 characters
+per line. A repeat visit should reach a game offer quickly. Further conversation is
+optional. Avoid em dashes, stock corrective constructions, self-descriptions posing as
+personality, and philosophical conclusions attached to small events.
 
-- **Pip** (Molenpark). Short, loud, kind, wrong. Capitals when excited. Enjoys losing and
-  says so. Never explains more than one rule at a time.
-- **Wren** (De Ketel). Nervous, apologises, over-explains and knows it. "Sorry" is her tic.
-  Never claims to be good. Never gives advice about Go beyond the rules.
-- **Kesh** (De Ketel). Terse. Competitive. Keeps score out loud. Annoyed by losing and
-  honest about it. Never says more than she has to, never comforts.
-- **Hana** (Instituut classroom). Calm. Asks questions instead of lecturing. Never
-  praises directly, never explains a position; she sets it and waits.
-- **Tomás** (De Ketel). Gruff, practical, counts. Owns the room and says so once.
-  Never sentimental. One compliment, then done.
-- **Bertie** (Molenpark). Old. Has one proverb and repeats it. Never hurries.
-- **Joos** (Onderbrug). Few words. "Mm." Never explains himself. Never asks for anything.
-- **Ilse** (study hall). Precise, formal, contractions rare. Records facts. Never guesses.
-- **Sunny** (study hall). Nine. Direct, capitals, Mum. Never pretends to be older.
-- **Orla** (study hall). Blunt. Short sentences. Never interesting on purpose.
-- **Nadia** (classroom). Senior, polite, a little tired. Never condescends.
-- **Marguerite** (hall desk, Bondszaal). Procedural. States the rule and the next step.
-  Never congratulates, never consoles.
-- **Abel** (wassalon). Nervous newcomer. Apologises for existing. Never confident.
-- **Dov** (wassalon). Counts out loud, says so, will not stop. Never rounds.
-- **Moss** (wassalon). Gave up on purpose and is honest about it. Never modest, never proud.
-- **Narrator** (the attic only). Plain. Two sentences. Never comments.
+Teach rules beside demonstrated positions. Match facts come from the resolved setup;
+speech must not promise colours, stone counts or komi. Post-match speech reacts to the
+actual win or loss. Specific judgements about moves belong to the engine review. At the
+board, a capture, pass, ko or atari is observable; an unfinished score estimate is not a
+basis for confident commentary. Warmth and congratulations are welcome.
+
+| Character | Motivation and situations |
+| --- | --- |
+| Pip | Wants someone to sit down and try a game. Eager, experiments, celebrates; may get an idea wrong. Keep excitement concrete. |
+| Wren | Prepares a table and makes room for beginners. Unsure about her own Go, but able to offer help without continual apologies. |
+| Kesh | Wants another opponent and another game. Preparation, impatience and requests for rematches show competitiveness. |
+| Tomás | Runs the bar while games happen around him. Cups, cloths, counter work and keeping tables usable occupy him. |
+| Bertie | A familiar park regular. Knows where the spare lid goes and which part of the bench is wet. His proverb is occasional. |
+| Joos | Keeps a dry place to play under the arches. Private, short and practical; no cryptic speeches about ranks. |
+| Abel | Visiting for the Cup and meeting unfamiliar opponents. Laundry gives him something to do while he finds his feet. |
+| Dov | Counts and sorts things in front of him. He does not introduce himself by explaining a counting personality. |
+| Moss | Checks entry eligibility and has grown comfortable in the beginners' section. Let defensiveness emerge through repeated encounters. |
+| Hana | Pays attention and gives the player room to answer. Questions should be answerable. Explanations accompany positions. |
+| Marguerite | Registers players and records results. Busy, clear and competent; helps beginners find the correct desk or board. |
+| Ilse | Keeps her book, annotations and played games close. Show study habits, hesitation and growing room for questions. |
+| Sunny | A child who likes games, wants another turn and still cares about chairs, snacks, pencils and getting home. |
+| Nadia | Studies while helping make the classroom usable. Has work of her own and makes time for another student. |
+| Orla | Direct and competitive. Can offer a chair, share a table or put down a book without making a declaration about competition. |
+
+Do not mention an unfamiliar person or place without providing a useful direction.
+Named people remain in their established venues. Persistent changes follow lessons,
+match records and events, without schedules or a second progression system.

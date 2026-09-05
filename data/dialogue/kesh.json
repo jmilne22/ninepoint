@@ -22,7 +22,12 @@
      "goto": "regular"
     },
     {
-     "if": [["flag", "wren_match_done"]],
+     "if": [
+      [
+       "flag",
+       "wren_match_done"
+      ]
+     ],
      "goto": "challenge"
     },
     {
@@ -33,20 +38,18 @@
   "cold_open": {
    "portrait": "annoyed",
    "text": [
-    "New. Wren's talking at you, I can see it from here.",
-    "Come back when she's done. Then we play."
+    "I'm Kesh. Have a practice game with Wren first. I'll play you when you're done."
    ]
   },
   "challenge": {
    "text": [
-    "Kesh. Nine by nine, even game, and we'll draw for colours properly.",
-    "Rated game. The result becomes part of your record."
+    "Ready for your first rated game? We'll draw for colours."
    ],
    "goto": "offer"
   },
   "offer": {
    "text": [
-    "Are we playing, or talking about playing?"
+    "Shall I set up?"
    ],
    "choices": [
     {
@@ -73,14 +76,14 @@
   "wait": {
    "portrait": "annoyed",
    "text": [
-    "Take two."
+    "I'll keep the table."
    ]
   },
   "regular": {
    "text": [
     "Back. Good."
    ],
-   "goto": "after_result"
+   "goto": "rematch_offer"
   },
   "post_match": {
    "branches": [
@@ -100,13 +103,13 @@
   "first_rating": {
    "actions": [
     [
+     "rank",
+     "22k"
+    ],
+    [
      "set_flag",
      "ranked_by_club",
      true
-    ],
-    [
-     "rank",
-     "22k"
     ],
     [
      "set_flag",
@@ -123,8 +126,8 @@
     ]
    ],
    "text": [
-    "That was rated, so you have a rank now: twenty-two kyu. Read the card; it tells you how the record moves.",
-    "Hana teaches at the Instituut, two stops north on the tram. Tell her I sent you."
+    "You're on the club register now. Here's your rank card.",
+    "Hana teaches at the Instituut. Take the northbound tram from the west end of this street."
    ],
    "goto": "result"
   },
@@ -166,15 +169,15 @@
     ]
    ],
    "text": [
-    "Right. I know where that went wrong for me, and I'm not telling you.",
-    "That was a real win. I'm saying it once."
+    "You won. Well played.",
+    "I want another game when you've got time."
    ],
    "goto": "after_result"
   },
   "beaten_twice": {
    "portrait": "annoyed",
    "text": [
-    "Twice. You're not a beginner any more, you're a problem."
+    "You've beaten me again. Right. I'm keeping this board out."
    ],
    "goto": "after_result"
   },
@@ -187,8 +190,8 @@
     ]
    ],
    "text": [
-    "That's the game. You saw where it went, so I won't say it twice.",
-    "Everyone does that at your strength. I did it for a year."
+    "That's a win for me. Thanks for playing.",
+    "Come back for another."
    ],
    "goto": "after_result"
   },
@@ -219,7 +222,7 @@
   },
   "offer_escape": {
    "text": [
-    "Before anything else. I cut you, and you let the pieces die. Ten minutes and you'll never do that again."
+    "Want to practise getting a group out of trouble? I've set up a position."
    ],
    "choices": [
     {
@@ -237,7 +240,7 @@
   },
   "offer_connection": {
    "text": [
-    "You can run now. Next, the half that means you don't have to."
+    "I've got a connection problem ready. Want to try it?"
    ],
    "choices": [
     {
@@ -255,19 +258,19 @@
   },
   "taught_escape": {
    "text": [
-    "So it was never dead, just badly placed. Next time I cut you, run. Count afterwards."
+    "Try that position again whenever you like. I'll keep it with the practice boards."
    ],
    "goto": "rematch_offer"
   },
   "taught_connection": {
    "text": [
-    "Good. Now you know both halves, and I have to find a new way to beat you."
+    "Got it. Ready to play, or taking a break?"
    ],
    "goto": "rematch_offer"
   },
   "rematch_offer": {
    "text": [
-    "Another? I've got all afternoon and a long memory."
+    "Another game? I'm ready."
    ],
    "choices": [
     {
@@ -275,8 +278,7 @@
      "exit": {
       "type": "start_match",
       "profile": "kesh_9x9",
-      "context": "kesh_rematch",
-      "intro": "Rematch. Same board."
+      "context": "kesh_rematch"
      }
     },
     {
@@ -290,8 +292,7 @@
      "exit": {
       "type": "start_match",
       "profile": "kesh_13x13",
-      "context": "kesh_thirteen",
-      "intro": "Thirteen lines. Don't be careful, be right."
+      "context": "kesh_thirteen"
      }
     },
     {
@@ -328,14 +329,14 @@
   "thirteen_word": {
    "portrait": "annoyed",
    "text": [
-    "Tomás keeps a thirteen-line board under the coats at the back. I've lost four on it.",
-    "I'm telling you before you find out, so it counts as honesty."
+    "Tomás has put the larger board out under the coats at the back.",
+    "I'd like to play you there."
    ],
    "goto": "league_offer"
   },
   "league_offer": {
    "text": [
-    "League game? It counts on the board up the hill, and I want to be above you on it."
+    "League game? I want to move up the table."
    ],
    "choices": [
     {
@@ -357,8 +358,7 @@
      "exit": {
       "type": "start_match",
       "profile": "kesh_13x13",
-      "context": "kesh_thirteen",
-      "intro": "Thirteen lines. Don't be careful, be right."
+      "context": "kesh_thirteen"
      }
     },
     {

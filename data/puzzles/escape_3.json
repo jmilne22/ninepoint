@@ -21,8 +21,8 @@
   ".........",
   "........."
  ],
- "goal": "Black to play. Your two stones have one liberty. Running to it does not help.",
- "hint": "Count the white stones as well as your own. One of those chains is in more trouble than you are.",
+ "goal": "Black to play. Save your threatened group by capturing.",
+ "hint": "One white group has only one liberty. Can you capture it?",
  "solutions": [
   [
    5,
@@ -39,5 +39,5 @@
    4
   ]
  ],
- "explanation": "Playing the one empty point next to your stones runs into a wall and dies there. Taking the white chain instead opens the two points it was standing on -- when you are short of liberties, capturing is the fastest way to make some."
+ "explanation": "Capturing White opens space beside your threatened black group and gives it more liberties."
 }

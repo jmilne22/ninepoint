@@ -37,12 +37,12 @@
   },
   "no_rules": {
    "text": [
-    "You don't play. Don't sit down. Wren, at De Ketel. Come back when you know what a liberty is."
+    "Wren teaches at De Ketel, down the steps. Learn with her first. This board will be here."
    ]
   },
   "cold": {
    "text": [
-    "Joos. You want something, or are you just cold?"
+    "Joos. Step in out of the rain."
    ],
    "goto": "rank_question"
   },
@@ -64,29 +64,28 @@
   },
   "no_rank": {
    "text": [
-    "Nobody's written it down. The people up at Essenveld say four kyu, because I'm not on their list.",
-    "Then they sit down here and I give them five stones."
+    "I haven't got a registered rank. We can agree on a head start when we play."
    ],
    "goto": "offer"
   },
   "coins": {
    "text": [
-    "For coins. Not enough to matter. Keep yours."
+    "No charge. Pull the crate closer."
    ],
    "goto": "offer"
   },
   "shrug": {
    "text": [
-    "Mm. The board's here most evenings. So am I."
+    "Suit yourself. Watch the puddle by the arch."
    ]
   },
   "offer": {
    "text": [
-    "Sit down, then. Nine stones. You'll want all nine and you'll still lose. That's what they're for."
+    "A game? I'll give you a head start. Let's look at the board."
    ],
    "choices": [
     {
-     "text": "Nine stones. All right.",
+     "text": "Let's play.",
      "actions": [
       [
        "set_flag",
@@ -98,8 +97,7 @@
       "type": "start_match",
       "profile": "joos_9x9",
       "context": "joos_arch",
-      "unrated": true,
-      "intro": "Nine stones. One on every point on the board."
+      "unrated": true
      }
     },
     {
@@ -126,7 +124,7 @@
   },
   "rematch": {
    "text": [
-    "Back. Most of them aren't."
+    "Back for another? The seat's dry."
    ],
    "choices": [
     {
@@ -135,8 +133,7 @@
       "type": "start_match",
       "profile": "joos_9x9",
       "context": "joos_arch",
-      "unrated": true,
-      "intro": "Nine stones again. Do something else with them."
+      "unrated": true
      }
     },
     {
@@ -147,7 +144,7 @@
   },
   "beaten": {
    "text": [
-    "You took one off me. Don't tell them up the hill."
+    "You've beaten me before. Sit down."
    ],
    "choices": [
     {
@@ -156,8 +153,7 @@
       "type": "start_match",
       "profile": "joos_9x9",
       "context": "joos_arch",
-      "unrated": true,
-      "intro": "Nine stones. Try to need fewer of them."
+      "unrated": true
      }
     },
     {
@@ -168,8 +164,7 @@
   },
   "papers": {
    "text": [
-    "So they've enrolled you. Card and everything. Fine.",
-    "Only the card is the card. The rank is what happens at the table."
+    "Enrolled at the Instituut? Good. You'll find plenty of games up there."
    ],
    "goto": "rank_question"
   },
@@ -190,13 +185,14 @@
   },
   "post_win": {
    "text": [
-    "Hm. You waited. Nobody teaches that."
+    "You won. Well played.",
+    "Leave the board out. I'll dry the lid."
    ]
   },
   "post_loss": {
    "text": [
-    "Nine stones and you gave me six back. You fought where there was nothing to win.",
-    "Come back. It's dry under the arch."
+    "That's mine. Thanks for the game.",
+    "Come back whenever you want another. It's dry under this arch."
    ]
   }
  }

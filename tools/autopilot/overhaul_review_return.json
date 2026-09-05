@@ -1,0 +1,104 @@
+[
+ {
+  "save": "quay_empty"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "katago_trial": "res://data/opponents/wren_9x9.tres",
+  "katago_direct": true
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "match_move": [
+   2,
+   2
+  ]
+ },
+ {
+  "match_wait_player": true
+ },
+ {
+  "match_move": [
+   6,
+   6
+  ]
+ },
+ {
+  "match_wait_player": true
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": true
+ },
+ {
+  "wait": 0.3
+ },
+ {
+  "shot": "review_in_progress"
+ },
+ {
+  "tap": "cancel"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "left_review_back_at_quay"
+ },
+ {
+  "review_landed_wait": true,
+  "timeout": 90
+ },
+ {
+  "walk_to": [
+   17,
+   4
+  ]
+ },
+ {
+  "face": [
+   17,
+   3
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "shot": "completed_review_on_noticeboard"
+ },
+ {
+  "review_walk": true
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.4
+ },
+ {
+  "shot": "review_noticeboard_closed"
+ }
+]

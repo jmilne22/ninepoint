@@ -1,11 +1,10 @@
 {
  "id": "ko",
- "title": "You May Not Take It Straight Back",
+ "title": "Ko: No Immediate Recapture",
  "teacher": "wren",
  "size": 9,
  "intro": [
-  "There is one more rule and I put it off because it is the strange one.",
-  "Sometimes a capture leaves a position where the other player could immediately capture back, and then you could capture back, and so on until one of you died of old age. So there is a rule against it, and it is called ko."
+  "Some captures could be answered by an immediate recapture that repeats the same position. The ko rule prevents that repetition."
  ],
  "steps": [
   {
@@ -21,7 +20,7 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "That single white stone has one liberty. Take it.",
+   "instruction": "Capture the single white stone.",
    "accept": "capture",
    "show_liberties": true,
    "target": [
@@ -31,7 +30,7 @@
     ]
    ],
    "hint": "The empty point beside it.",
-   "explanation": "One stone captured. Now look at the stone you just played -- it has one liberty of its own, and White would very much like to take it back the same way. This shape is a ko."
+   "explanation": "Look at your new black stone. White could capture it back in the same place, so this shape is a ko."
   },
   {
    "board": [
@@ -50,7 +49,7 @@
     1,
     1
    ],
-   "instruction": "White has just taken your stone. Take it straight back.",
+   "instruction": "White has just captured your stone. Try to capture it straight back.",
    "accept": "illegal_attempt",
    "points": [
     [
@@ -60,11 +59,10 @@
    ],
    "show_liberties": true,
    "hint": "Try it. The game will refuse you.",
-   "explanation": "Refused. You may not recreate the position that was on the board a moment ago. You have to play somewhere else first -- and if that somewhere else is a threat White must answer, you get to come back and take the ko after all. That is a ko fight, and it is the only part of Go that feels like an argument."
+   "explanation": "The move is refused because it would immediately repeat the previous position. Play elsewhere first."
   }
  ],
  "outro": [
-  "Play elsewhere, then take it back. That is the whole rule.",
-  "Kesh loves ko. I find it stressful and I lose them, so do not take my word for how to win one -- only for what is and is not allowed."
+  "After both players have played elsewhere, recapturing may become legal. Your opponent can also fill the ko to end it."
  ]
 }

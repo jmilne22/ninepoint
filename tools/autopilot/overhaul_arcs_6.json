@@ -1,0 +1,154 @@
+[
+ {
+  "save": "overhaul_arcs_6"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "talk_to": "ilse"
+ },
+ {
+  "wait": 4
+ },
+ {
+  "shot": "ilse_arc_opening"
+ },
+ {
+  "advance": 1,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 4
+ },
+ {
+  "shot": "ilse_arc_continued"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "shot": "ilse_game_offer"
+ },
+ {
+  "choose": 1
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "sunny"
+ },
+ {
+  "wait": 4
+ },
+ {
+  "shot": "sunny_arc_opening"
+ },
+ {
+  "advance": 1,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 4
+ },
+ {
+  "shot": "sunny_arc_continued"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "shot": "sunny_game_offer"
+ },
+ {
+  "choose": 1
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "orla"
+ },
+ {
+  "wait": 4
+ },
+ {
+  "shot": "orla_arc_opening"
+ },
+ {
+  "advance": 1,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 4
+ },
+ {
+  "shot": "orla_arc_continued"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "shot": "orla_game_offer"
+ },
+ {
+  "choose": 1
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "visit",
+  "map": "wassalon",
+  "spawn": "from_street"
+ },
+ {
+  "talk_to": "moss"
+ },
+ {
+  "wait": 4
+ },
+ {
+  "shot": "moss_arc_opening"
+ },
+ {
+  "advance": 1,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 4
+ },
+ {
+  "shot": "moss_arc_continued"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "shot": "moss_game_offer"
+ },
+ {
+  "choose": 1
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ }
+]

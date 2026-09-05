@@ -68,7 +68,7 @@ func _tally_text() -> String:
     var moves := int(tally.get("moves", 0))
     var best := int(tally.get("best", 0))
     var fine := int(tally.get("fine", 0))
-    var looked := "You played %d moves." % moves
+    var looked := "You played %d move%s." % [moves, "" if moves == 1 else "s"]
     if bool(review.get("partial", false)):
         looked = "The first %d of your %d moves were looked at." % [moves, int(review.get("total_moves", moves))]
     var verdict := ""
@@ -80,7 +80,7 @@ func _tally_text() -> String:
     elif fine > 0:
         verdict = "None matched the best move exactly, but %d gave nothing away." % fine
     else:
-        verdict = "Every one of them cost something. That happens; the next game is the fix."
+        verdict = "The engine preferred a different move at each turn. Start with one position below."
     var text := "%s %s" % [looked, verdict]
     var best_moves: Array = tally.get("best_moves", [])
     if not best_moves.is_empty():
@@ -111,7 +111,7 @@ func _show() -> void:
         if str(review.get("availability", "")) == "steady" and review.has("tally"):
             text = "A steady game.\n%s\n\n[Space] close" % _tally_text()
         if str(review.get("availability", "")) != "steady":
-            text = "No review today.\nNothing came of going over it. The game still counts as it was played.\n\n[Space] close"
+            text = "Review unavailable.\nThe engine could not finish this review. Your result has been saved.\n\n[Space] close"
         UiKit.fit_card(_card, _body, text, 288)
         return
     var total := _card_count()

@@ -112,7 +112,7 @@ func show_board() -> void:
             row[c].add_theme_color_override("font_color",
                 UiKit.GOLD if mine else UiKit.INK)
 
-    _footer.text = CupDraw.summary(state, section_id)
+    _footer.text = CupDraw.summary(state, section_id) + "\nTied records are ordered by rank."
     GameState.set_flag("read_cup_board", true)
     open = true
     _root.visible = true

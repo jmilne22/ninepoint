@@ -2,51 +2,31 @@
  "id": "wren",
  "lines": {
   "you_captured": [
-   "Oh -- yes. That was there, wasn't it.",
-   "Sorry. I mean well done. Well done."
+   "You caught those."
   ],
   "you_captured_big": [
-   "Oh no. All of them.",
-   "I'd stopped looking at that group. That's the whole problem, isn't it."
+   "Oh, the whole group!"
   ],
   "i_captured": [
-   "Oh! Sorry. Was that mean?",
-   "I got one. I don't usually."
+   "Got them."
   ],
   "i_captured_big": [
-   "I'm so sorry. That's a lot of your stones.",
-   "That was an accident. I want to be honest about that."
+   "I'll move these out of your way."
   ],
   "ko": [
-   "That's a ko, I think? You can't take it straight back. I'm fairly sure."
+   "Let me look at this ko."
   ],
   "i_atari": [
-   "Atari -- sorry, am I meant to say that? Everyone here says it."
+   "Atari."
   ],
   "you_atari": [
-   "Ah. Yes. I've walked into that."
-  ],
-  "i_edge_early": [
-   "I know. The edge. I know."
-  ],
-  "winning": [
-   "Am I ahead? That can't be right.",
-   "I don't trust this at all."
-  ],
-  "losing": [
-   "You're much better than me already.",
-   "This is going how it usually goes, honestly."
-  ],
-  "level": [
-   "Oh, this is close. I'm enjoying it and I'm terrified."
+   "One liberty left."
   ],
   "i_pass": [
-   "I can't see anything else worth playing. Pass?",
-   "I think that's it! Sorry, I mean -- I pass."
+   "I think I'm finished. Pass."
   ],
   "you_pass": [
-   "Oh -- are we counting? I never know when to stop either.",
-   "Right. Um. Hold on, let me look at it properly."
+   "I'll check before I pass too."
   ]
  }
 }

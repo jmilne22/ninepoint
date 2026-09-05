@@ -159,8 +159,10 @@ func _refresh_knows_the_rules() -> void:
 
 func finish_puzzle(puzzle_id: String, solved: bool) -> void:
     pending_puzzle = ""
-    EventBus.puzzle_finished.emit(puzzle_id, solved)
+    # The exam paper listener belongs to the returned world. Emitting while
+    # that world is absent leaves the paper on its first position forever.
     await _return_to_world()
+    EventBus.puzzle_finished.emit(puzzle_id, solved)
 
 
 func _return_to_world() -> void:

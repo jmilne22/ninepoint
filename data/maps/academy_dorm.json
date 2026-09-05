@@ -6,6 +6,7 @@
  ],
  "tile_size": 16,
  "legend": {
+  "}": "wall_side",
   "^": "roof_ridge",
   "#": "roof_slate",
   "R": "roof_rust",
@@ -91,15 +92,15 @@
  },
  "ground": [
   "IIIIIIIIIIII",
-  "IIIINIINIIII",
+  "IIIIIIIIIIII",
   "iiiiiiiiiiii",
-  "iVV1111111Qi",
-  "i1111111111i",
-  "i11111111X1i",
-  "i1Z111111G1i",
-  "i1Z11111111i",
-  "i1111111111i",
-  "iiiiiMiiiiii"
+  "},,1111111Q}",
+  "}1111111111}",
+  "}11111111,1}",
+  "}1,111111,1}",
+  "}1,11111111}",
+  "}1111111111}",
+  "}iiiiMiiiii}"
  ],
  "decor": [
   "            ",
@@ -117,11 +118,11 @@
   "111111111111",
   "111111111111",
   "111111111111",
-  "111000000011",
-  "100000000001",
-  "100000000101",
-  "101000000101",
-  "101000000001",
+  "100000000011",
+  "111000000001",
+  "111000001111",
+  "111011001111",
+  "100011000001",
   "100000000001",
   "111110111111"
  ],
@@ -152,31 +153,53 @@
     9,
     6
    ],
-   "text": "__DESK__The board from your old room, on a desk that is exactly the right size for it. Somebody has put it there deliberately."
+   "text": "__DESK__A study board beside a stack of exercise paper."
   },
   {
    "tile": [
     2,
     6
    ],
-   "text": "__BED__A bed. Institute issue. You will be glad of it."
+   "text": "__BED__A made bed. Your bag fits underneath."
   }
  ],
  "npcs": [],
  "music": "",
  "indoors": true,
+ "art_props": [
+  {
+   "art": "bed",
+   "position": [
+    16,
+    64
+   ]
+  },
+  {
+   "art": "coat_rack",
+   "position": [
+    16,
+    16
+   ]
+  },
+  {
+   "art": "study_desk",
+   "position": [
+    128,
+    72
+   ]
+  },
+  {
+   "art": "laundry_basket",
+   "position": [
+    72,
+    96
+   ]
+  }
+ ],
  "presence_states": [
   {
    "id": "routine",
-   "tiles": [
-    {
-     "tile": [
-      5,
-      6
-     ],
-     "name": "prop_satchel"
-    }
-   ]
+   "exchanges": []
   }
  ]
 }

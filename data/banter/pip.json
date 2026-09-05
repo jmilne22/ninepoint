@@ -2,55 +2,31 @@
  "id": "pip",
  "lines": {
   "you_captured": [
-   "Oh, GOOD. No -- bad. Bad for me. Good move though.",
-   "You took them! You just took them!"
+   "You got them!"
   ],
   "you_captured_big": [
-   "ALL of them? All of them. Right.",
-   "That is the most stones anyone has taken off me this week and I want you to know it was close."
+   "All of those? Oh!"
   ],
   "i_captured": [
-   "HA! Yes! Sorry. Yes.",
-   "Got one! I got one."
+   "Got you!"
   ],
   "i_captured_big": [
-   "That's -- hang on, that's loads. That's LOADS.",
-   "I did not expect that to work. It worked."
+   "Look at that pile!"
   ],
   "ko": [
-   "Ooh, ko. That's the one where you can't take it back straight away.",
-   "Ko! I love ko. I'm terrible at ko."
+   "Wait, that's a ko!"
   ],
   "i_atari": [
-   "ATARI!",
-   "Atari! You're allowed to say it. Everyone says it.",
-   "That's atari, that is. I'm saying it in case you missed it."
+   "Atari!"
   ],
   "you_atari": [
-   "Oh no. Oh, that's atari, isn't it. That's atari on me."
-  ],
-  "i_edge_early": [
-   "I always do this. Bertie shouts at me for it."
-  ],
-  "winning": [
-   "Am I winning? I think I'm winning. Don't tell me if I'm not.",
-   "This is going well and I am now going to ruin it."
-  ],
-  "losing": [
-   "You're miles ahead. It's fine. I'm learning.",
-   "I'm going to try a ladder. It won't work. I know it won't work."
-  ],
-  "level": [
-   "Level, this. Genuinely no idea what's happening.",
-   "This is a GREAT game. I don't understand any of it."
+   "Uh oh."
   ],
   "i_pass": [
-   "PASS! That's the whole board! I love the end bit.",
-   "Nothing left! Pass!"
+   "I'm done. Pass!"
   ],
   "you_pass": [
-   "Wait, are you stopping? There's loads left!",
-   "Passing! Very grown-up of you."
+   "My turn, then."
   ]
  }
 }

@@ -54,6 +54,8 @@ func go_to(scene_path: String, spawn: String = "", position_override = null) -> 
 
 ## Travel to a town map (by map id) and remember it as the player's location.
 func go_to_map(map_id: String, spawn: String) -> void:
+    if _busy:
+        return
     GameState.current_map = map_id
     GameState.spawn_point = spawn
     GameState.has_return_position = false
@@ -84,3 +86,17 @@ func take_spawn() -> Dictionary:
     pending_spawn = ""
     use_pending_position = false
     return out
+
+
+## Owned by the router so the departure world never awaits its own destruction.
+func travel_to_map(map_id: String, spawn: String) -> void:
+    if _busy:
+        return
+    if map_id in ["academy_hall", "bondszaal"]:
+        _busy = true
+        var arrival := TramArrival.new()
+        arrival.destination = map_id
+        add_child(arrival)
+        await arrival.finished
+        _busy = false
+    go_to_map(map_id, spawn)

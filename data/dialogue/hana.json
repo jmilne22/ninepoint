@@ -57,8 +57,8 @@
     ]
    ],
    "text": [
-    "Kesh sent you. She said you'd played one game, and that you were frightened for most of it.",
-    "That's normal. Let me set you a position. Black to play, and exactly one move matters."
+    "Hello again. Kesh sent you up? Come in.",
+    "Try this position with me. Take as long as you need."
    ],
    "goto": "offer"
   },
@@ -79,7 +79,7 @@
   },
   "wait": {
    "text": [
-    "The board will keep."
+    "I'll leave the position here for you."
    ]
   },
   "puzzle_again": {
@@ -103,7 +103,7 @@
   "after_puzzle": {
    "portrait": "happy",
    "text": [
-    "Good. Count the liberties before you decide anything else. That was your first lesson, and it was short."
+    "Yes, that's the capture. Ready to join us?"
    ],
    "goto": "the_offer"
   },
@@ -115,7 +115,7 @@
   },
   "at_institute": {
    "text": [
-    "The demonstration board at the front is where I teach. Use it when you like."
+    "Use the demonstration board for a class. There are practice positions on the desk, too."
    ],
    "goto": "teaching_offer"
   },
@@ -150,12 +150,12 @@
   },
   "not_yet_ready": {
    "text": [
-    "You're going to ask me for a game. Not yet. Finish the course first. Then it's worth the afternoon."
+    "Finish the classes at the demonstration board first. Then we can play a teaching game."
    ]
   },
   "handicap_offer": {
    "text": [
-    "You've had the course. A teaching game, then. You take Black, and as many stones as the gap says."
+    "Shall we play? I'll set the board up for a teaching game."
    ],
    "choices": [
     {
@@ -163,8 +163,7 @@
      "exit": {
       "type": "start_match",
       "profile": "hana_teaching",
-      "context": "hana_teaching",
-      "intro": "A teaching game. She sets the bowls down and waits."
+      "context": "hana_teaching"
      }
     },
     {
@@ -175,8 +174,7 @@
   },
   "even_offer": {
    "text": [
-    "When you walked in here you did not know what a liberty was.",
-    "An even game, then. I will not go easy, and you will lose. Watch what it costs me."
+    "I'd like a game with you. Have you got time?"
    ],
    "choices": [
     {
@@ -184,8 +182,7 @@
      "exit": {
       "type": "start_match",
       "profile": "hana_9x9",
-      "context": "hana_even",
-      "intro": "Even. She has not offered anyone this in some time."
+      "context": "hana_even"
      }
     },
     {
@@ -193,8 +190,7 @@
      "exit": {
       "type": "start_match",
       "profile": "hana_teaching",
-      "context": "hana_teaching",
-      "intro": "A teaching game. She sets the bowls down and waits."
+      "context": "hana_teaching"
      }
     }
    ]
@@ -221,31 +217,31 @@
   },
   "hana_lost": {
    "text": [
-    "Ah. I'm going to sit with that for a moment.",
-    "Then I'm going to ask you what you thought I was doing on move nine."
+    "Well played. Thank you for the game.",
+    "I'd like another when you've got time."
    ]
   },
   "hana_won": {
    "text": [
-    "Before I say anything: what was the last move you were sure about?",
-    "Not the last good one. The last one you were sure of. The game was after it."
+    "That's a win for me. Thank you for playing.",
+    "I'll put the board away. Come back when you'd like another game."
    ]
   },
   "taught": {
    "portrait": "happy",
    "text": [
-    "Good. Say it back to yourself, silently. That's the shape of every class here."
+    "Would you like to try another position, or take a break?"
    ]
   },
   "taught_capture_race": {
    "portrait": "happy",
    "text": [
-    "Three numbers: your liberties, theirs, and whose move it is. You'll forget for a year. Then you won't."
+    "You can return to this position whenever you want to practise."
    ]
   },
   "taught_false_eyes": {
    "text": [
-    "Before you call something an eye, look at the stones making it and ask whether they are one group."
+    "Leave that position on the board for a moment. Take another look before you go."
    ]
   },
   "exam_word": {
@@ -273,8 +269,8 @@
     ]
    ],
    "text": [
-    "I heard. You're the same strength today as you were yesterday. The card did nothing. The games did.",
-    "Nineteen lines next, and you know almost nothing about it. Isn't that good?"
+    "Congratulations! Marguerite told me you qualified.",
+    "Come and sit with us. I'd like to hear how the rounds went."
    ],
    "goto": "at_institute"
   },
@@ -286,8 +282,8 @@
     ]
    ],
    "text": [
-    "I heard. Sit down, you're allowed.",
-    "I failed that exam twice. Three games decided it, and you can name what went wrong in each. That's a lot."
+    "I'm sorry the exam didn't go your way.",
+    "Come and sit with us for a while. There's room at this table."
    ],
    "goto": "at_institute"
   }

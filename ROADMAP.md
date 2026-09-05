@@ -5,7 +5,7 @@ This document explains **why** future work matters and the trade-offs around it.
 dependencies, and acceptance criteria. `MILESTONES.md` is the append-only delivery history.
 Do not select work from this document without checking its linked board ticket first.
 
-The build is green: `tools/test.sh` runs 14269 checks plus three real-engine gates,
+The build is green: `tools/test.sh` runs 14235 checks plus three real-engine gates,
 `tools/check_lessons.py` reports no problems, and the game is playable from the cold open
 to the exam and the Cup.
 
@@ -39,8 +39,8 @@ positions. Dead-stone adjudication remains unfinished: the bundled engine hung o
 
 **What it costs.** A binary per platform, a model file on the order of a hundred
 megabytes in a repo whose whole asset pipeline is generated Python, an external process
-to babysit, and on the development machine everything runs through `steam-run`, so
-whether a subprocess works at all is unproven. GNU Go is tiny and ships easily, but its
+to babysit, and on the development machine everything runs through `steam-run`. The subprocess
+path is covered by three real-engine gates. GNU Go is tiny and ships easily, but its
 level 10 measured 12 kyu on the Human-SL ladder (M41) and it has no way to play like a 20
 kyu, which makes Pip and Wren unplayable for a beginner.
 
@@ -74,10 +74,12 @@ heuristic and `GoEndgame` when the engine is the only opponent, not before.
 - ~~The quay has nobody on it.~~ Decided (WORLD-01) and built (M40): nobody lives there,
   and the noticeboard holds the last game you asked somebody to go over. A review you
   walked away from lands there.
-- **Onderbrug is Joos alone.** Walled at both ends, so it can have no crowd route, and
-  Pip and Bertie live in the park now. Correct for a dead end under a viaduct; thin.
-- **The wassalon's three stand in the room together** at all times. It was built for one
-  or two at a time. Fine, and the room is small for three people and a folding table.
+- Onderbrug remains deliberately quiet. M43 gives Joos a dry working corner under strong
+  arches, stored port equipment, a readable board and a practical routine. Solitude is its role;
+  a new resident, crowd route or errand is unnecessary (WORLD-02).
+- The wassalon now fits three permanent occupants: a machine bank, folding counter, bench
+  and approachable Go table. Ordered exchanges and interrupted/resumed folding make the
+  shared room legible (WORLD-03). All eleven maps received the same composition pass.
 
 ## 3. Beyond 9×9 — UI-01
 
@@ -99,26 +101,24 @@ strength ladder. Dead-stone adjudication remains ENG-05.
   twelve puzzles, all decidable from the rules because `tools/check_lessons.py` can only
   guard a claim it can decide. Whole-board judgement needs the engine.
 - The study-hall students have three-game and six-game arcs and nothing after.
-- There is no ending after the exam except Hana's word and the Cup.
+- M43 gives every existing exam and Cup outcome a conclusion, results display and optional
+  acknowledgement. A new chapter or nineteen-line teaching transition remains separate.
 
 ## 5. Technical debt — TECH-01 through TECH-10
 
-- **`world.gd` is 517 lines** against a convention of ~300. `SignDesk` took
+- **`world.gd` remains over 500 lines** against a convention of ~300. `SignDesk` took
   the reading and the sitting-down (and, in M37, the tram stop); what is left is the
   tournament routing, which is a second component.
-- **`sign_desk.gd` is 200 lines.** The tram stop went in where the hooks and
+- **`sign_desk.gd` owns several reading panels.** The tram stop went in where the hooks and
   the book came out.
 - **`LeagueTable.current_rows()` reads `GameState`.** `standings()` is pure and takes
   everything it needs; the convenience exists because the board, the exam and the
   `league_position_at_most` condition must not build the roster three different ways.
 - **The exam list and the Cup draw look identical** once you press [Space]: both use
   the `kifu_board` art, and only the panel header tells them apart.
-- **A `CanvasLayer` that reads an autoload is invisible to the test suite.** The suite
-  runs as `--script`, where autoloads do not exist, so such a script fails to compile,
-  its `class_name` resolves to a bare `GDScript`, and every static call on it returns
-  null without failing anything. `ExamBoard.summary()` in `test_exam.gd` is a dead
-  assertion for this reason. Put anything a test needs on the pure half of a pair.
-  Nothing detects it.
+- **UI tests now run after autoloads are ready.** M43 fixed dead static assertions by loading
+  suites on a deferred turn, and the shell gate rejects script/compile errors. Pure/panel
+  extraction is still useful maintenance, but unavailable calls no longer pass silently.
 - ~~`check_load.gd` never opens a `.json` file.~~ It parses every one since M38.
 - **Two test hooks ship in production code**: the `Autopilot` autoload and
   `GoMatch.THINK_DELAY_FAST`. (`GameState.weather_override` went with the weather.)
@@ -137,9 +137,8 @@ strength ladder. Dead-stone adjudication remains ENG-05.
   game three rows and a fourth drawn on the frame, in every panel, for the life of the
   project, and nothing that measured text could see it because `UiKit.text_height`
   measures the font and not the Label. It is zero in the theme now.
-- **The tram stop awaits the tram prop from `SignDesk`** and then changes scene, which
-  frees the World the desk belongs to. Nothing runs after the await, which is the rule;
-  it is still a `RefCounted` awaiting a `Node` that a scene change destroys.
+- Tram travel now belongs to `SceneRouter`, which survives scene replacement and owns the
+  skippable generated destination views. The old World-owned await boundary is gone (TECH-09).
 - Audio has never been *heard* by an assistant. What is machine-checked: that each
   track renders as written, reaches the master bus, and exists where a map names it.
   Whether it is any good needs a person and headphones.
@@ -172,3 +171,20 @@ strength ladder. Dead-stone adjudication remains ENG-05.
 - ~~`pip.json`'s `capture_go` node is orphaned~~ — the graph was rewritten (M37).
 - ~~Nothing relates a quest's steps to the hours people stand somewhere~~ — there are
   no hours (M37).
+
+## 7. Presentation and beginner experience — POLISH-01
+
+The approved M43 direction keeps the Python pixel pipeline, port setting and human skill
+progression. Clear short exchanges take priority over personality slogans. Art distinguishes
+places through architecture, furniture and activity rather than a noisier palette. The school
+and civic hall have separate exterior views and interior proportions.
+
+Pip's first Capture Go and Wren's first practice start empty; Kesh uses nigiri. An unknown
+rank never becomes numerical strength. This resolves ENG-08's presentation decision; engine
+floor calibration remains ENG-06. Later handicap games explain the actual position before
+play, including White's first move, ordinary starting stones, komi and rank consequences.
+H reopens help without advancing the game. Practice/casual labels describe the occasion;
+only `unrated` controls rank consequences.
+
+Acceptance is observed play, with automation supporting branch coverage. See
+`docs/overhaul/PLAYTEST.md` for journeys, fixtures, mistakes found and representative screens.

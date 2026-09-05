@@ -9,7 +9,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 from png import Img, Rand
-from palette import rgb
+from palette import rgb, mix
 
 TS = 16
 TILES = []
@@ -27,7 +27,7 @@ def speckle(im, colors, seed, density=6, area=(0, 0, TS, TS)):
     x0, y0, w, h = area
     for y in range(y0, y0 + h):
         for x in range(x0, x0 + w):
-            if r.next() % density == 0:
+            if r.next() % (density * 4) == 0:
                 im.set(x, y, r.pick(colors))
 
 
@@ -224,14 +224,14 @@ def _brick(im, seed, base="brick1", mortar="brick0", hi="brick2"):
     """Wet Verhaven brick. Courses of four, staggered, mortar in shadow."""
     im.rect(0, 0, TS, TS, rgb(base))
     r = Rand(seed)
-    for row in range(4):
-        y = row * 4
+    for row in range(2):
+        y = row * 8
         im.hline(0, y, TS, rgb(mortar))
         off = 0 if row % 2 == 0 else 4
         for x in range(off, TS, 8):
-            im.vline(x, y, 4, rgb(mortar))
+            im.vline(x, y, 8, rgb(mortar))
         for x in range(TS):
-            if r.next() % 6 == 0:
+            if r.next() % 32 == 0:
                 im.set(x, y + 2, rgb(hi))
 
 
@@ -869,12 +869,12 @@ def _canal(im, s, frame=0):
     """The ripple lines march down a pixel per frame, so the canal drifts."""
     im.rect(0, 0, TS, TS, rgb("blue0"))
     r = Rand(s)
-    for y0 in range(0, TS, 3):
+    for y0 in range(2, TS, 8):
         y = (y0 + frame) % TS
-        im.hline(0, y, TS, rgb("blue1"))
+        im.hline(2, y, 9, mix("blue0", "blue1", 0.55))
         for x in range(TS):
-            if r.next() % 5 == 0:
-                im.set(x, y, rgb("blue2"))
+            if r.next() % 40 == 0:
+                im.set(x, y, rgb("blue1"))
 
 
 @tile("canal")
@@ -1268,6 +1268,13 @@ def _(im, s):
     im.set(10, 11, rgb("paper0"))
 
 
+@tile("wall_side")
+def _(im,s):
+    im.rect(0,0,16,16,rgb("paper2"))
+    im.vline(0,0,16,rgb("wood0"))
+    im.vline(15,0,16,rgb("wood0"))
+
+
 def build(out_dir):
     cols = 16
     rows = (len(TILES) + cols - 1) // cols
@@ -1276,6 +1283,14 @@ def build(out_dir):
     for i, (name, fn) in enumerate(TILES):
         t = Img(TS, TS)
         fn(t, 1000 + i * 37)
+        if name == "floor_concrete":
+            t.rect(0,0,16,16,rgb("path2"))
+        elif name in ("floor_wood_a", "floor_wood_b"):
+            t.rect(0,0,16,16,mix("wood1","wood2",0.58))
+            t.hline(0,15,16,mix("wood1","wood2",0.38))
+            if name.endswith("a"): t.vline(8,0,15,mix("wood1","wood2",0.44))
+        elif name == "wall_int":
+            t.rect(0,0,16,16,rgb("paper1"))
         cx, cy = i % cols, i // cols
         atlas.blit(t, cx * TS, cy * TS)
         manifest[name] = [cx, cy]

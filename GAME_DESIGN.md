@@ -13,7 +13,7 @@ Three acts, borrowed deliberately.
 OPENING              ACT 1 -- Steenbeek            ACT 2 -- Essenveld Instituut
 Hana addresses you   You do not know what Go is.   Enrolled at the bottom of the
 directly, then asks  A board is left in your       lower league.
-your name.           room. Pip drags you into a      - classes (openings, and on)
+your name.           room. Pip drags you into a      - classes (two eyes, and on)
    (Pokemon)         game. Wren teaches the          - the study hall: play anyone
                      rules. Kesh challenges you      - the league board: your record
                      and hands you a rank. Tram 4    - the qualifying exam (the goal)
@@ -204,15 +204,15 @@ Ranks are real ranks; the ladder from 20k to 5d is the game's difficulty curve m
 
 | # | Name | Rank | Role | Personality | Style at the board |
 |---|---|---|---|---|---|
-| 1 | **Wren Calloway** | 20k | Beginner friend | Warm, anxious, over-apologises, genuinely delighted by other people's good moves | Plays contact moves everywhere; no plan, no malice |
+| 1 | **Wren Calloway** | 20k | Beginner friend | Considerate host; prepares the table and offers help while uncertain about her own Go | Plays contact moves everywhere; no plan, no malice |
 | 2 | **Kesh Idowu** | 12k | Recurring rival | Sharp, impatient, competitive in a way she is slightly embarrassed by; keeps score of your meetings | Cuts first, counts never. Fast. Punishes loose shapes |
 | 3 | **Pip Arnesen** | 18k | Enthusiastic weaker player | Boundless, loud, wants to play *right now*, loses cheerfully | Attempts ladders. The ladders do not work. Attempts them again |
-| 4 | **Bertie Vale** | 4k | Older park player | Gruff, dry, generous underneath; deals in proverbs of variable relevance | Territorial, fast, solid. Will not fight you; will out-count you |
+| 4 | **Bertie Vale** | 4k | Older park player | Established park regular; brushes leaves from his usual bench and offers a seat | Territorial, fast, solid. Will not fight you; will out-count you |
 | 5 | **Nadia Ferreira** | 2k | Senior student | Methodical, polite, a little tired; sits in on the beginners' classes | Opens by the book. Struggles when you leave the book |
-| 6 | **Hana Oyelaran** | 5d | Club teacher | Patient, unhurried, asks questions instead of answering them | Teaching games at handicap; will not crush you, will not let you off |
+| 6 | **Hana Oyelaran** | 5d | Club teacher | Patient, attentive; asks answerable questions beside demonstrated positions | Teaching games at handicap; will not crush you, will not let you off |
 | 7 | **Tomás Beir** | 8k | Bar owner | Gruff, practical, counts | Loose, instinctive, surprisingly good endgame |
-| 8 | **Marguerite Sable** | 1d | Tournament organiser | Brisk, fair, allergic to slow pairing | Precise, orthodox, low-risk |
-| 9 | **Joos** | `?` | The man at the arches | Laconic, unimpressed, will not discuss himself. No surname offered | Territorial and patient. Three dan behind a label he refuses to fill in |
+| 8 | **Marguerite Sable** | 1d | Tournament organiser | Prepared, competent and welcoming; keeps registration and results clear | Precise, orthodox, low-risk |
+| 9 | **Joos** | `?` | The man at the arches | Private and practical; maintains a dry corner beneath the arches | Territorial and patient. Three dan behind a label he refuses to fill in |
 
 ### Player rank
 Starts **unranked**. After the first rated game Kesh gives you 22 kyu. After that the rank
@@ -354,7 +354,7 @@ is the shape the others follow:
 
 **"First Stones"**
 1. Find De Ketel, further along Ketelsteeg.
-2. Learn Wren's rules and a short opening plan.
+2. Learn Wren's rules, or tell her you already know them. Opening advice is optional.
 3. Play Wren's unrated 9×9 first full game. (Either result advances.)
 4. Play Kesh's rated 9×9 game. (Either result advances.)
 → Kesh gives you 22 kyu and starts `enrolment`: the tram north, Hana's capture problem,
@@ -433,3 +433,26 @@ short enough to read on a dialogue box in three breaths.
 
 Online play, real-time clocks, SGF import/export UI (games are recorded, but there is no
 kifu browser), a second town, romance systems, crafting.
+
+## Verhaven presentation and teaching
+
+Dialogue is written around a person's immediate situation: clearing cups, finding a chair,
+preparing for the Cup or marking a book. Short exchanges may stay ordinary. Repeat visits
+reach game offers quickly; further conversation and the existing three/six-game reactions
+add familiarity without another progression system. Post-match speech acknowledges the
+actual result. Detailed move judgement belongs to the engine review, with positive findings
+first and at most two costly positions. Table talk describes observable events only.
+
+The opening games deliberately begin without handicap: Pip's Capture Go and Wren's first
+practice use empty boards; Kesh's first rated game uses nigiri. This resolves ENG-08's
+starting-stone question without changing engine strength. Handicap is introduced after a
+rank exists, with two player-controlled explanation stages beside the real board, an explicit
+skip and H to reopen. The explanation handles receiving and giving stones, White moving
+first, ordinary capturable stones, actual komi, rank consequences and optional rank-gap math.
+Joos has no published rank; his head start is an agreement shown by the setup.
+
+Venue identity comes from architecture and useful objects, with restrained floor detail.
+Persistent activities and ordered conversations use existing lesson, match, enrolment and
+event flags. Exam and Cup conclusions state the outcome and allow warm acknowledgements
+at familiar places. No schedules, affection, errands, character statistics or new currencies
+are introduced. Actual observed play is the acceptance test for this presentation.

@@ -4,7 +4,7 @@ This is the **operational source of truth** for unfinished work. An agent starts
 not in the milestone history. It answers: what may be picked up now, what is blocked, and
 what evidence makes a task done.
 
-Snapshot: `origin/main` at `f402c95` (M41 merged). Update the snapshot when
+Snapshot: `origin/main` at `277b51d` (M42 merged), fetched again before the M43 PR. Update the snapshot when
 the board is reconciled after a merge; do not treat it as a release number.
 
 ## How to use this board
@@ -33,6 +33,27 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 | `ROADMAP.md` | Product direction, trade-offs, and why a task matters | Whether work is currently underway or done |
 | `MILESTONES.md` | Append-only shipped history and verification evidence | The current backlog |
 | Design / architecture / art docs | Durable product and technical truth | Task status |
+
+## In progress
+
+### POLISH-01 — Verhaven art, writing and beginner experience overhaul
+
+- Status: `SHIPPED` (M43, verified on review branch; not merged automatically) · Priority: `P1`
+- Owner: Codex · Branch: `codex/verhaven-overhaul` · Base: `277b51d`.
+- Scope: all eleven maps, fifteen characters and player-facing text; factual match
+  presentation, explicit handicap teaching, repaired beginner progression, distinctive
+  generated art, purposeful NPC activities, ordered overheard exchanges and event payoff.
+- Decision: preserve Python assets, ranks and Go progression. Empty boards before the
+  first rank; no schedules, affection, statistics, errands or engine retuning.
+- Reconciles: ENG-08's opening decision, WORLD-02/03 presentation, CONTENT-02/03
+  character/event writing, TECH-05/07 affected presentations. Unrelated debt stays separate.
+- Acceptance: actual new-player journeys and screenshots reviewed, handicap receiving
+  and giving understood in play, every map and result branch inspected, old saves safe,
+  plus compilation/load, rules, content and engine gates.
+- Evidence: 14235 checks, 236 resources load, three real-engine gates, all eleven maps
+  validate, taught positions have zero problems, 18 audio tracks and four stings pass.
+  Played journeys, fixture limitations and images: `docs/overhaul/PLAYTEST.md` and
+  `docs/overhaul/GALLERY.md`. The ineligible league footer was read in the fresh route.
 
 ## Needs decision
 
@@ -100,19 +121,15 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 
 ### ENG-08 — Stones in the first three games
 
-- Status: `NEEDS DECISION` · Priority: `P1` · Depends on: `ENG-06`
-- Why: the model's weakest profile is a realistic online 20 kyu, and a first-week player
-  is weaker than that. M41 put Abel and Wren under it (temperature 1.5 on every move), but
-  Pip (18k) and Kesh's first game (12k) come before any rank exists, so they are even games
-  with no relief; once Kesh hands out 22 kyu the ladder gives stones as the gap opens.
-- Decision needed: give the unrated first games handicap stones by default (as Hana's
-  teaching game already gives nine), extend the floor to Pip, or accept the first-hour
-  losses as the story. The owner's own games against Abel and Wren decide whether the
-  floor is low enough; the probe's floor cells (1.5 → −15 a game, 2.0 → −31 against the
-  realistic 20k) say how much further it can go.
-- Acceptance: a stated choice in `GAME_DESIGN.md` and, if stones, `GoMatchSetup` giving them
-  when the player has no rank, with the probe's floor numbers quoted.
-- Context: `ROADMAP.md` §1; `MILESTONES.md` M41.
+- Status: `SHIPPED` (M43 decision and presentation) · Priority: `P1`
+- Decision: Pip's first Capture Go and Wren's first practice start empty. Kesh's first
+  rated game uses nigiri. An unknown rank is never treated as numerical strength.
+- Evidence: fresh and shortcut journeys, actual empty boards, first rating, and subsequent
+  handicap teaching inspected. `GoMatchSetup` and `GoRank` preserve unknown strength;
+  `tests/test_onboarding.gd` covers the boundary across all supported board sizes.
+- Engine floor measurement and further calibration remain ENG-06. This choice does not
+  claim the present opponents are easy enough for every newcomer.
+- Context: approved POLISH-01 plan; `GAME_DESIGN.md`; M43 play observations.
 
 ### TECH-01 — Make JSON data part of the load gate
 
@@ -250,18 +267,22 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 
 ### WORLD-02 — Give Onderbrug a deliberate role beyond Joos
 
-- Status: `LATER` · Priority: `P2`
+- Status: `SHIPPED` (M43) · Priority: `P2`
 - Scope: decide whether its solitude is sufficient; if not, add a permanent interaction or
   environmental story that fits a sealed viaduct dead end without inventing a crowd route.
 - Acceptance: the role is observable in play and stated in design documentation.
 - Context: `ROADMAP.md` §2.
 
+- M43 evidence: Joos's solitude is deliberate: a dry board corner, maintained equipment, arches and port storage. All approaches and Joos's casual game were inspected.
+
 ### WORLD-03 — Rework the wassalon’s permanent three-person layout
 
-- Status: `LATER` · Priority: `P2`
+- Status: `SHIPPED` (M43) · Priority: `P2`
 - Scope: improve readability and social plausibility of three permanent NPCs in a small room.
 - Acceptance: the room reads clearly in-game and retains its three-register purpose.
 - Context: `ROADMAP.md` §2.
+
+- M43 evidence: The generated laundry room fits its three permanent residents, folding space and two seats at an approachable board. Ordered exchanges and interrupted/resumed folding were observed.
 
 ### CONTENT-02 — Extend study-hall character arcs
 
@@ -270,13 +291,17 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 - Acceptance: each added arc has result-aware dialogue, data validation, and a played route.
 - Context: `ROADMAP.md` §4.
 
+- Reconciliation: M43 deepened the existing three/six-game conversations and exercised both thresholds. Progression beyond six games remains separate and unstarted.
+
 ### CONTENT-03 — Create a post-exam ending
 
-- Status: `LATER` · Priority: `P1`
+- Status: `SHIPPED` (M43) · Priority: `P1`
 - Scope: make the end of the exam/Cup arc a proper ending rather than Hana’s final line.
 - Acceptance: win and loss/alternate outcomes are intentional, reachable, and reviewed in the
   real game.
 - Context: `ROADMAP.md` §4.
+
+- M43 evidence: Every existing exam/Cup outcome has a direct conclusion, visible results and optional return acknowledgements. Both Cup sections completed; exam pass/fail and champion fixtures inspected. No new chapter was added.
 
 ### TECH-05 — Clarify the exam and Cup board presentations
 
@@ -285,13 +310,17 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 - Acceptance: screenshots make the mode obvious without relying only on the header.
 - Context: `ROADMAP.md` §5.
 
+- Reconciliation: M43 clarifies placing, eligibility, next action and rank tiebreaks on all event boards. Distinct visual structures beyond their labels remain separate UI work.
+
 ### TECH-06 — Make testable UI logic live on the pure side
 
-- Status: `LATER` · Priority: `P2`
+- Status: `SHIPPED` (M43) · Priority: `P2`
 - Scope: remove dead assertions caused by `CanvasLayer`/autoload scripts being unavailable to
   headless script tests; start with `ExamBoard.summary()`.
 - Acceptance: the affected assertions exercise real code and fail when deliberately broken.
 - Context: `ROADMAP.md` §5.
+
+- M43 evidence: The runner defers suite loading until autoload readiness and rejects script errors. ExamBoard assertions now execute real code. Pure/panel extraction remains optional maintenance rather than a silent coverage hole.
 
 ### TECH-07 — Resolve remaining UI layout debt
 
@@ -301,6 +330,8 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 - Acceptance: targeted panels retain their intended layout across their supported content, and
   visual routes are inspected.
 - Context: `ROADMAP.md` §5.
+
+- Reconciliation: M43 measures and paginates affected match, lesson, review, rank and standings surfaces. General conversion of hand-positioned UI into components remains separate.
 
 ### TECH-08 — Isolate or retire production test hooks
 
@@ -313,12 +344,14 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 
 ### TECH-09 — Remove the fragile tram await boundary
 
-- Status: `LATER` · Priority: `P3`
+- Status: `SHIPPED` (M43) · Priority: `P3`
 - Scope: replace the `SignDesk` await on a World-owned tram with an ownership-safe event or
   transition boundary.
 - Acceptance: tram travel cannot resume code against freed scene state; normal travel remains
   visually identical.
 - Context: `ROADMAP.md` §5.
+
+- M43 evidence: SceneRouter now owns destination presentation and map replacement. Actual northbound and southbound travel, skippable exterior views and return routes were inspected.
 
 ### TECH-10 — Validate passer routes with the intended movement model
 

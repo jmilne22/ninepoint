@@ -1,11 +1,10 @@
 {
  "id": "counting",
- "title": "What It Was All For",
+ "title": "Counting a Game",
  "teacher": "tomas",
  "size": 9,
  "intro": [
-  "Right. You have been playing whole games without anybody telling you how they are decided, which is not fair on you.",
-  "When neither of you can find a move worth playing, you both pass, and then you count. Surrounded empty points, plus stones you took off. Highest total wins."
+  "When both players pass, the game is counted. In Ninepoint, surrounded empty points and prisoners make your score. White also receives komi."
  ],
  "steps": [
   {
@@ -21,7 +20,7 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "That wall is one stone short of sealing the corner. Finish it.",
+   "instruction": "Close the gap in the corner wall.",
    "accept": "points",
    "points": [
     [
@@ -36,7 +35,7 @@
    ],
    "show_liberties": false,
    "hint": "The top of the wall, against the edge.",
-   "explanation": "Nine points, and they are yours because nothing of White's can live in there. That is territory -- not stones you own, but empty space nobody else can use."
+   "explanation": "The wall surrounds nine empty points in this corner. These are territory if White cannot live inside."
   },
   {
    "board": [
@@ -51,7 +50,7 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "Two white stones have got inside. They are on one liberty. Take them.",
+   "instruction": "Capture the two white stones inside.",
    "accept": "capture",
    "show_liberties": true,
    "target": [
@@ -61,7 +60,7 @@
     ]
    ],
    "hint": "Underneath them.",
-   "explanation": "Two prisoners, and they are worth a point each at the end -- on top of the points they were sitting on, which are now empty and yours. A stone you capture is worth double: it stops being their territory and starts being yours."
+   "explanation": "You gain two prisoners. The vacated intersections can also count as territory when the boundary is secure."
   },
   {
    "board": [
@@ -76,7 +75,7 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "A bigger corner, and the same missing stone. Close it.",
+   "instruction": "Close the gap in this larger corner wall.",
    "accept": "points",
    "points": [
     [
@@ -91,11 +90,10 @@
    ],
    "show_liberties": false,
    "hint": "The top again.",
-   "explanation": "Twelve points for eight stones, where the last one was nine points for seven. One stone further out and the corner got half again as big. That arithmetic is the whole endgame, and it is why I win games I have no business winning."
+   "explanation": "This wall surrounds twelve empty points. Compare the space with the smaller corner."
   }
  ],
  "outro": [
-  "Territory, plus prisoners, plus komi for White. Count it before you resign and count it before you pass -- most people at your strength resign games they are winning.",
-  "Nobody counts at the start. Everybody counts at the end. The good players start counting somewhere in the middle, and that is the only difference."
+  "At the count, check the groups marked dead. Change any incorrect marks, then confirm the total. You can review a completed game afterwards."
  ]
 }

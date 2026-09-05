@@ -72,6 +72,9 @@ static func prepare(
         Rule.NIGIRI:
             s.uses_nigiri = true
         _:
+            if player_strength < 0:
+                s.uses_nigiri = true
+                return s
             var gap := GoRank.handicap_between(player_strength, opponent_strength, size)
             if int(gap["stones"]) >= 2:
                 s.handicap = int(gap["stones"])

@@ -2,36 +2,25 @@
  "id": "joos",
  "lines": {
   "you_captured": [
-   "Mm."
+   "Take them."
   ],
   "you_captured_big": [
-   "Good."
+   "All yours."
   ],
   "i_captured": [
-   "Mine."
+   "These come off."
   ],
   "i_captured_big": [
-   "That was dead a while ago."
+   "Give me the lid for these."
   ],
   "ko": [
-   "Ko. Now we find out."
-  ],
-  "winning": [
-   "Mm."
-  ],
-  "losing": [
-   "Hm. Good."
-  ],
-  "level": [
-   "Keep going."
+   "Ko."
   ],
   "i_pass": [
-   "Pass.",
-   "Done."
+   "Pass."
   ],
   "you_pass": [
-   "Hm.",
-   "Early."
+   "My turn."
   ]
  }
 }

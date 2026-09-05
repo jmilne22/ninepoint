@@ -85,6 +85,8 @@ func journal_quest_id() -> String:
 
 
 func _advance_on(event: Dictionary) -> void:
+    _reconcile_opening()
+    _reconcile_events()
     for quest_id in quests.keys():
         var step := GameState.quest_step(quest_id)
         if step < 0 or GameState.quest_done(quest_id):
@@ -158,6 +160,8 @@ func _reconcile(quest_id: String, q: QuestData) -> void:
 ## before that step opened. Reconcile every live quest once its saved state is
 ## in GameState, so existing stuck journals repair themselves on Continue.
 func _reconcile_all() -> void:
+    _reconcile_opening()
+    _reconcile_events()
     for quest_id in quests.keys():
         if GameState.quest_step(quest_id) < 0 or GameState.quest_done(quest_id):
             continue
@@ -185,3 +189,43 @@ func _is_already_satisfied(cond: Dictionary) -> bool:
         "enter_map":
             return GameState.current_map == str(cond.get("map", ""))
     return false
+
+
+## Old steps 1-3 already represent arriving at the club, preparing to play and
+## finishing practice. Preserve that progress; durable facts can advance it.
+func _reconcile_opening() -> void:
+    if GameState.quest_step("first_stones") < 0 or GameState.quest_done("first_stones"):
+        return
+    var step := maxi(0, GameState.quest_step("first_stones"))
+    var complete := GameState.has_flag("ranked_by_club") or GameState.has_flag("kesh_match_done")
+    if complete:
+        step = 3
+    elif GameState.has_flag("wren_match_done"):
+        step = 3
+    elif GameState.has_flag("knows_the_rules") or GameState.has_flag("said_knows_the_rules"):
+        step = maxi(step, 2)
+    elif GameState.has_flag("match_pip_capture_done"):
+        step = maxi(step, 1)
+    for record in GameState.match_records:
+        match str(record.get("context_id", "")):
+            "kesh_first":
+                complete = true
+                step = 3
+            "wren_first": step = maxi(step, 3)
+            "pip_capture": step = maxi(step, 1)
+    var changed := step != GameState.quest_step("first_stones") or complete
+    GameState.set_quest("first_stones", step, complete)
+    if changed:
+        if complete:
+            EventBus.quest_completed.emit("first_stones")
+        elif quests.has("first_stones"):
+            EventBus.quest_advanced.emit("first_stones", step, quests["first_stones"].journal_for(step))
+
+
+## Completing an event supersedes preparatory steps a player chose to postpone.
+func _reconcile_events() -> void:
+    for pair in [["beginner_cup", "cup_finished"], ["qualifying_exam", "exam_finished"]]:
+        var id: String = pair[0]
+        if GameState.quest_step(id) >= 0 and not GameState.quest_done(id) and GameState.has_flag(pair[1]):
+            GameState.set_quest(id, quests[id].steps.size() - 1, true)
+            EventBus.quest_completed.emit(id)

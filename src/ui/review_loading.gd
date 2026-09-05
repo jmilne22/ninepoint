@@ -26,17 +26,17 @@ func _ready() -> void:
     dim.color = Color(0.05, 0.05, 0.08, 0.76)
     dim.set_anchors_preset(Control.PRESET_FULL_RECT)
     root.add_child(dim)
-    var card := UiKit.panel(root, Rect2(66, 56, 252, 104))
-    _title = UiKit.label(card, Vector2(14, 12), 224, UiKit.INK, 12)
-    _title.text = "%s is going over the game." % _who if _who != "" else "Going over the game."
-    _body = UiKit.label(card, Vector2(14, 30), 224, UiKit.INK_SOFT, 24)
-    _body.text = "Setting the stones out again."
+    var card := UiKit.panel(root, Rect2(66, 48, 252, 120))
+    _title = UiKit.label(card, Vector2(14, 12), 224, UiKit.INK, 22)
+    _title.text = "Reviewing your game"
+    _body = UiKit.label(card, Vector2(14, 38), 224, UiKit.INK_SOFT, 24)
+    _body.text = "Preparing the review."
     for i in 3:
-        var stone := UiKit.label(card, Vector2(18 + i * 24, 58), 16, UiKit.GOLD, 11)
+        var stone := UiKit.label(card, Vector2(18 + i * 24, 67), 16, UiKit.GOLD, 11)
         stone.text = "o"
         _stones.append(stone)
-    var hint := UiKit.label(card, Vector2(14, 78), 224, UiKit.INK_FAINT, 12)
-    hint.text = "[Esc] carry on without waiting"
+    var hint := UiKit.label(card, Vector2(14, 85), 224, UiKit.INK_FAINT, 26)
+    hint.text = "Esc: leave. Your review will wait on the quay noticeboard."
     _pulse()
 
 

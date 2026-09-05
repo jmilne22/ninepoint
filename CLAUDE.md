@@ -117,7 +117,7 @@ may enter the **Cup** there (four rounds, two sections).
 
 | id | name | rank | where |
 |---|---|---|---|
-| `wren` | Wren Calloway | 20k | De Ketel — teaches the rules and ko; nervous, apologises |
+| `wren` | Wren Calloway | 20k | De Ketel — teaches the rules and ko; considerate host, uncertain about her Go |
 | `pip` | Pip Arnesen | 18k | Molenpark — teaches Capture Go; attempts ladders that never work |
 | `kesh` | Kesh Idowu | 12k | De Ketel — the rival; hands out the first rank; teaches escape and connection |
 | `ilse` | Ilse Brandt | 9k | study hall — plays out of a book, stiffens when you leave it |
@@ -489,9 +489,7 @@ count are still the heuristic's proposal with a player override: `final_status_l
 on the bundled Human-SL build.
 
 **Known gaps, in priority order:** see `ROADMAP.md`. The short version: engine dead-stone
-adjudication; teaching and town access for 19×19 (the development UI has overview/zoom); the arches are
-thin; `world.gd` and `go_match.gd` are over the line-count convention; a `CanvasLayer` that
-reads an autoload is invisible to the suite; and audio has never been heard by an assistant.
+adjudication; teaching and town access for 19×19 (the development UI has overview/zoom); `world.gd` and `go_match.gd` are over the line-count convention; audio has never been heard by an assistant.
 
 ## The longer documents
 
@@ -502,3 +500,25 @@ reads an autoload is invisible to the suite; and audio has never been heard by a
 - `ROADMAP.md` — what is **not** built, in priority order, and the one open decision
 - `README.md` — controls and how to play
 - `data/dialogue/VOICES.md` — how each character talks
+
+## M43 presentation and play verification
+
+All eleven maps have generated furniture and deliberate activity spaces. Four-direction
+optional action sheets preserve the walking-sheet contract. Presence states can declare
+ordered exchanges, played once per visit and suspended during modal UI. Named NPCs remain
+available. Return positions fall back to a named safe spawn when invalid or occupied.
+
+Match requests carry presentation-only `practice` and `venue_id`; `unrated` remains the rank
+authority. First handicap introductions are controlled by the player and saved through
+`handicap_intro_seen`; H reopens the explanation. `MatchPresentation` owns factual wording.
+Unknown ranks never generate a handicap. The first Wren and Pip boards are empty.
+
+Preferred verified routes: `overhaul_fresh` (also `slice_full`), `overhaul_shortcuts`,
+`overhaul_white`, `overhaul_joos`, `overhaul_art`, `overhaul_returns`, `overhaul_activities`,
+`overhaul_cup`, `overhaul_cup_open`, `overhaul_exam_pass`, `overhaul_exam_fail`,
+`overhaul_hana_passed`, `overhaul_hana_failed`, `overhaul_arcs_3`, `overhaul_arcs_6`, `overhaul_review_return`,
+`overhaul_review_failure`, and the M42 `nineteen` regression. Play evidence and its limits
+are in `docs/overhaul/PLAYTEST.md`. Use a separate XDG_DATA_HOME for play and another for tests.
+
+The test runner loads suites after autoload readiness; script errors fail the shell gate.
+Green checks remain supporting evidence, not a substitute for reading scenes in play.

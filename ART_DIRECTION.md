@@ -2,25 +2,10 @@
 
 ## 0. Tooling note (read this first)
 
-This environment has **no image-generation tool available** (no image MCP, no diffusion model,
-no PIL/numpy). Rather than hand-place pixels ad hoc — which drifts, and drift is exactly what
-kills character consistency — all art is produced by **deterministic Python generators** in
-`tools/`, writing PNGs through a small pure-Python encoder (`tools/png.py`).
-
-That makes this document *executable*: the palette and the character template below are the
-literal contents of `tools/palette.py` and `tools/gen_characters.py`. Regenerate everything with:
-
-```bash
-python3 tools/build_art.py        # rebuilds art/ from scratch, deterministically
-```
-
-Consistency is therefore structural, not a matter of discipline: **a character's overworld
-sprite and their portrait are drawn from the same feature record** (`CHARACTERS` in
-`tools/characters.py`). Change Kesh's hair colour once and both update.
-
-If a generative image tool becomes available later, it should be used to *replace* title art,
-portraits and illustrations — never the tileset — and it must be fed the palette below and the
-existing portraits as reference. See §8.
+All art remains deterministic Python-generated pixel art. Use `tools/build_assets.py` to
+rebuild assets through the pure-Python PNG writer. Shared records in `tools/characters.py`
+drive walking sprites, action sheets and portraits. This pipeline is an intentional part of
+Ninepoint's visual identity.
 
 ---
 
@@ -41,8 +26,8 @@ snack window still glows in its own pixels; nothing tints the world over them.
 
 ## 2. Palette
 
-54 colours, hand-picked ramps of 3–4 steps: 37 for the town, 9 added for the city, 8 for the
-board. Nothing outside this list appears in the game. `tools/palette.py` is the source of
+The foundation is a set of hand-picked colour ramps for the town, people and board.
+Quiet floor details may mix neighbouring tones within these ramps. `tools/palette.py` is the source of
 truth and this section mirrors it.
 
 ### Ink & neutrals
@@ -113,7 +98,7 @@ one tube on Ketelsteeg is a cyan and not a pink.
   through `art/tiles/tileset_manifest.json`, so the atlas can grow a row without touching
   GDScript. The manifest is the truth; the table below is a summary of it.
 
-Atlas rows, 16 per row, 90 tiles (`python3 tools/gen_tiles.py` prints the shape)
+Atlas families, 16 tiles per row (`python3 tools/gen_tiles.py` prints the current shape)
 ```
  0  ground: grass ×4, cobble ×2, pavement, gravel, dirt, kerb, water, plank, step, drain, void
  1  buildings: plaster, brick, wall base, doors, roofs, chimney, awning, signs, lamp post
@@ -155,7 +140,8 @@ Character(
   colours, same accessory. Because both come from one record, the portrait *is* the sprite,
   scaled and detailed — the classic consistency failure is structurally impossible.
 - Faces are minimal: eyes are 2×2 blocks, brows carry the whole expression, mouths are 1–3px.
-  Expression variants (`neutral`, `happy`, `annoyed`, `thinking`) alter brow/mouth only.
+  Expression variants (`neutral`, `happy`, `annoyed`, `working`) retain the same identity;
+  the working pose adds the character’s activity and hand position.
 
 Character colour signatures (never reused between characters):
 | Wren `gold` · Kesh `plum+rust` · Pip `grass` · Bertie `wood+path` · Nadia `blue` ·
@@ -263,26 +249,26 @@ stones on it*, so a table in the corner of De Ketel is a game getting longer whi
 somebody. Paired with the `stone_place` emitter in `Soundscape`, that is the whole of "somebody
 is playing over there", and it costs one row in a table.
 
-## 8. If a generative image tool becomes available
+## 8. Venue composition and activity
 
-Allowed: title illustration, character portraits (as *upgrades* to the generated ones), shop
-signage, key-item icons, tournament certificate, book covers.
-Forbidden: environment tiles (they must tile and share one light direction), UI frames.
-Any generated portrait must (a) use only the palette above, (b) match the character record's
-hair/garment/skin values, (c) be pinned in `art/portraits/REFERENCE.md` with the exact prompt
-and seed so it can be reproduced when a second expression is needed.
+The eleven maps have different dominant objects. The attic has a sloping roof and skylight;
+De Ketel has a counter, teaching table and recessed back table; the wassalon has a machine
+bank, folding counter and bench; Onderbrug has sheltered arches and Joos's dry equipment
+corner. The quay keeps open water and a clearly labelled review board.
 
-## 9. Files
+The Instituut is a broad glass-and-concrete reception room with branching corridors.
+The Bondszaal is a long civic hall with tall windows, twelve numbered tournament tables,
+coats and tea, with registration beside the entrance. Distinct generated exterior views
+appear during tram travel and can be skipped with Space or Esc.
 
-```
-art/tiles/town_tileset.png      16×16 atlas, all terrain + interiors + animation frames
-art/props/tram.png, bubble.png  things that cross the frame or float over it
-art/sprites/<id>.png            16×24 × (4 dirs × 3 frames) per character
-art/portraits/<id>.png          64×64 bust, expression strip
-art/ui/panel.png, icons.png     9-slice frame, 16×16 icon sheet
-art/title/title.png             384×216 title illustration
-tools/palette.py                the palette above, as code — single source of truth
-tools/characters.py             the character records
-tools/gen_props.py              the tram and the "..." bubble
-tools/gen_*.py, tools/build_art.py
-```
+`gen_venue_props.py` and `gen_venue_scenes.py` draw larger readable furniture. Their base
+footprints live in `venue_layouts.py`; foreground faces remain clear of interaction paths.
+`gen_arrivals.py` draws the destination views. Grass, brick, water and floor patterns are
+restrained so people, doors and boards carry more contrast. Wear belongs near chairs,
+thresholds and working surfaces.
+
+Walking sheets retain their 3-by-4 frame contract. Optional action sheets contain two
+frames in each facing direction for seated play, reading, folding, wiping and arranging. Heights, head shapes,
+shoulders and props distinguish characters; portraits have a fourth working pose. Activities
+pause immediately for conversation, then resume. Match backgrounds borrow quiet venue
+colours while preserving the board and text contrast; standalone matches use a neutral room.

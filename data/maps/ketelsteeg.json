@@ -6,6 +6,7 @@
  ],
  "tile_size": 16,
  "legend": {
+  "}": "wall_side",
   "^": "roof_ridge",
   "#": "roof_slate",
   "R": "roof_rust",
@@ -286,42 +287,42 @@
     3,
     9
    ],
-   "text": "STEENBEEK BEGINNER CUP -- entries at the Bondszaal, by tram. All ranks 15k and below."
+   "text": "CUP ENTRIES: Bondszaal. Take Tram 4 south. Register at the entrance desk."
   },
   {
    "tile": [
     4,
     8
    ],
-   "text": "A stationer's, shuttered since before you came. Your stairs are the door beside it, and the landlord's cat owns the landing."
+   "text": "The stationer is closed. Your stairs are through the door beside the shutters."
   },
   {
    "tile": [
     15,
     8
    ],
-   "text": "DE KETEL. Three steps down. The bar is Tomas's and so is the back room, which has had a board in it for sixty years."
+   "text": "DE KETEL. Go, tea and a place out of the rain. Beginners welcome. Ask for Wren."
   },
   {
    "tile": [
     21,
     8
    ],
-   "text": "WASSALON -- open till two. The warmest room on Ketelsteeg, and nobody minds if you only sit."
+   "text": "WASSALON. Washing, drying and a folding counter. Please leave a machine free for work clothes."
   },
   {
    "tile": [
     25,
     8
    ],
-   "text": "A hatch in the wall with a fryer behind it and no name over it. Open when the wassalon is, which is to say later than anything else on this street."
+   "text": "The snack window. A tray of chips waits beside a stack of paper bags."
   },
   {
    "tile": [
     29,
     8
    ],
-   "text": "Under the viaduct the brick is black with a century of smoke. Somebody has chalked a 3-4 point on it, and somebody else has chalked the answer."
+   "text": "UNDERBRIDGE. Keep the loading lane clear. Someone has drawn a Go board below the notice."
   }
  ],
  "npcs": [
@@ -332,7 +333,13 @@
     16
    ],
    "dir": "down",
-   "idle": "wander"
+   "idle": "arrange",
+   "activity_variations": [
+    {
+     "flag": "pip_match_done",
+     "idle": "play"
+    }
+   ]
   },
   {
    "id": "bertie",
@@ -341,7 +348,13 @@
     16
    ],
    "dir": "right",
-   "idle": "tend"
+   "idle": "play",
+   "activity_variations": [
+    {
+     "flag": "bertie_match_done",
+     "idle": "read"
+    }
+   ]
   }
  ],
  "routes": [
@@ -374,147 +387,79 @@
  ],
  "music": "theme_street",
  "indoors": false,
- "presence_states": [
+ "art_props": [
   {
-   "id": "enrolled",
-   "when": {
-    "all": [
-     "enrolment"
-    ]
-   },
-   "tiles": [
-    {
-     "tile": [
-      15,
-      10
-     ],
-     "name": "prop_satchel"
-    },
-    {
-     "tile": [
-      6,
-      10
-     ],
-     "name": "prop_satchel"
-    },
-    {
-     "tile": [
-      17,
-      11
-     ],
-     "name": "prop_chalk"
-    },
-    {
-     "tile": [
-      18,
-      17
-     ],
-     "name": "prop_cups"
-    },
-    {
-     "tile": [
-      6,
-      10
-     ],
-     "name": "prop_satchel"
-    },
-    {
-     "tile": [
-      18,
-      17
-     ],
-     "name": "prop_cups"
-    }
-   ],
-   "lines": [
-    {
-     "npc": "pip",
-     "text": "Tram people play too. I asked."
-    }
+   "art": "kettle_sign",
+   "position": [
+    176,
+    72
    ]
   },
   {
-   "id": "first-stones",
+   "art": "washer_bank",
+   "position": [
+    320,
+    80
+   ]
+  },
+  {
+   "art": "tram_marker",
+   "position": [
+    0,
+    112
+   ]
+  }
+ ],
+ "presence_states": [
+  {
+   "id": "cup-finished",
    "when": {
     "all": [
-     "knows_the_rules"
+     "cup_finished"
     ]
    },
-   "tiles": [
-    {
-     "tile": [
-      15,
-      10
-     ],
-     "name": "prop_satchel"
-    },
-    {
-     "tile": [
-      6,
-      10
-     ],
-     "name": "prop_satchel"
-    },
-    {
-     "tile": [
-      17,
-      11
-     ],
-     "name": "prop_chalk"
-    },
-    {
-     "tile": [
-      18,
-      17
-     ],
-     "name": "prop_cups"
-    },
-    {
-     "tile": [
-      18,
-      17
-     ],
-     "name": "prop_cups"
-    }
-   ],
-   "lines": [
-    {
-     "npc": "pip",
-     "text": "I nearly had a ladder."
-    }
+   "exchanges": [
+    [
+     {
+      "npc": "pip",
+      "text": "You played in the Cup! Come over!"
+     }
+    ]
+   ]
+  },
+  {
+   "id": "return",
+   "when": {
+    "all": [
+     "match_pip_capture_done"
+    ]
+   },
+   "exchanges": [
+    [
+     {
+      "npc": "pip",
+      "text": "I found the missing stones!"
+     },
+     {
+      "npc": "bertie",
+      "text": "Put them back in the bowl this time."
+     }
+    ]
    ]
   },
   {
    "id": "routine",
-   "tiles": [
-    {
-     "tile": [
-      15,
-      10
-     ],
-     "name": "prop_satchel"
-    },
-    {
-     "tile": [
-      6,
-      10
-     ],
-     "name": "prop_satchel"
-    },
-    {
-     "tile": [
-      17,
-      11
-     ],
-     "name": "prop_chalk"
-    },
-    {
-     "tile": [
-      18,
-      17
-     ],
-     "name": "prop_cups"
-    }
+   "exchanges": [
+    [
+     {
+      "npc": "pip",
+      "text": "Bertie, can I use the spare bowl?"
+     },
+     {
+      "npc": "bertie",
+      "text": "The lid is under the bench."
+     }
+    ]
    ]
   }
  ]

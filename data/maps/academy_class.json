@@ -6,6 +6,7 @@
  ],
  "tile_size": 16,
  "legend": {
+  "}": "wall_side",
   "^": "roof_ridge",
   "#": "roof_slate",
   "R": "roof_rust",
@@ -93,15 +94,15 @@
   "IIIIIIIIIIIIIIIIII",
   "IIIIIIIIIIIIIIIIII",
   "iiiiiiiYYYYiiiiiii",
-  "i1222122212221222i",
-  "iV22122212221222Qi",
-  "i22X22X12X21X2212i",
-  "i21E22E22E12E2122i",
-  "M1222122212221222i",
-  "i22X12X21X22X2221i",
-  "i22E22E12E21E2212i",
-  "i2122212221222122i",
-  "iiiiiiiiiiiiiiiiii"
+  "}1222122212221222}",
+  "},22122212221222Q}",
+  "}22,22,12,21,2212}",
+  "}21,22,22,12,2122}",
+  "M1222122212221222}",
+  "}22,12,21,22,2221}",
+  "}22,22,12,21,2212}",
+  "}2122212221222122}",
+  "}iiiiiiiiiiiiiiii}"
  ],
  "decor": [
   "                  ",
@@ -122,12 +123,12 @@
   "111111111111111111",
   "111111111111111111",
   "100000000000000001",
-  "110000000000000011",
-  "100100100100100001",
-  "100100100100100001",
+  "100000000000000011",
+  "101110000001110001",
+  "100000000000000001",
   "000000000000000001",
-  "100100100100100001",
-  "100100100100100001",
+  "101110000001110001",
+  "100000000000000001",
   "100000000000000001",
   "111111111111111111"
  ],
@@ -176,55 +177,110 @@
     3
    ],
    "dir": "down",
-   "idle": "watch"
-  },
-  {
-   "id": "nadia",
-   "tile": [
-    4,
-    5
-   ],
-   "dir": "right",
-   "idle": "study"
-  }
- ],
- "music": "theme_institute",
- "indoors": true,
- "presence_states": [
-  {
-   "id": "taught",
-   "when": {
-    "all": [
-     "lesson_openings_done"
-    ]
-   },
-   "tiles": [
+   "idle": "arrange",
+   "activity_variations": [
     {
-     "tile": [
-      8,
-      6
-     ],
-     "name": "prop_papers"
-    },
-    {
-     "tile": [
-      8,
-      6
-     ],
-     "name": "prop_papers"
+     "flag": "hana_match_done",
+     "idle": "read"
     }
    ]
   },
   {
-   "id": "routine",
-   "tiles": [
+   "id": "nadia",
+   "tile": [
+    5,
+    5
+   ],
+   "dir": "right",
+   "idle": "wipe",
+   "activity_variations": [
     {
-     "tile": [
-      8,
-      6
-     ],
-     "name": "prop_papers"
+     "flag": "nadia_match_done",
+     "idle": "arrange"
     }
+   ]
+  }
+ ],
+ "music": "theme_institute",
+ "indoors": true,
+ "art_props": [
+  {
+   "art": "demonstration",
+   "position": [
+    112,
+    0
+   ]
+  },
+  {
+   "art": "book_shelf",
+   "position": [
+    16,
+    16
+   ]
+  },
+  {
+   "art": "student_desk",
+   "position": [
+    32,
+    80
+   ]
+  },
+  {
+   "art": "student_desk",
+   "position": [
+    176,
+    80
+   ]
+  },
+  {
+   "art": "student_desk",
+   "position": [
+    32,
+    128
+   ]
+  },
+  {
+   "art": "student_desk",
+   "position": [
+    176,
+    128
+   ]
+  }
+ ],
+ "presence_states": [
+  {
+   "id": "return",
+   "when": {
+    "all": [
+     "lesson_two_eyes_done"
+    ]
+   },
+   "exchanges": [
+    [
+     {
+      "npc": "nadia",
+      "text": "Leave that position up?"
+     },
+     {
+      "npc": "hana",
+      "text": "Yes, someone may want to try it again."
+     }
+    ]
+   ]
+  },
+  {
+   "id": "routine",
+   "exchanges": [
+    [
+     {
+      "npc": "hana",
+      "text": "Are the small boards ready?"
+     },
+     {
+      "npc": "nadia",
+      "text": "All but this one."
+     }
+    ]
    ]
   }
  ]

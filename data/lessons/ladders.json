@@ -1,11 +1,10 @@
 {
  "id": "ladders",
- "title": "The Ladder",
+ "title": "A Ladder",
  "teacher": "bertie",
  "size": 9,
  "intro": [
-  "Forty years in this park and I have watched Pip try this every week of them, and it has never once worked. So let us do it properly.",
-  "A ladder is a chase. You put a stone on one liberty, it runs, you put it on one liberty again. It cannot ever get away, so long as nothing is waiting for it."
+  "A ladder is a repeated chase: one player gives atari, and the other extends. Follow this chase toward the edge."
  ],
  "steps": [
   {
@@ -21,7 +20,7 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "It starts here. That white stone has two liberties. Put it on one.",
+   "instruction": "White has two liberties. Give atari.",
    "accept": "points",
    "points": [
     [
@@ -42,7 +41,7 @@
     ]
    ],
    "hint": "The end of the board is that way. Count how far.",
-   "explanation": "Atari. It cannot stay -- so it will run, and you already know which way, because there is only one way left."
+   "explanation": "White has one liberty left. That is the point it can extend to."
   },
   {
    "board": [
@@ -57,7 +56,7 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "It ran. Do the same thing again.",
+   "instruction": "White has extended. Give atari again.",
    "accept": "points",
    "points": [
     [
@@ -78,7 +77,7 @@
     ]
    ],
    "hint": "Same move as last time, one step along.",
-   "explanation": "Atari again. Notice that you have not had to think: the shape is doing the work, and every white stone added is another one you will take."
+   "explanation": "The chase continues. Follow both players' moves before deciding whether to start a ladder."
   },
   {
    "board": [
@@ -93,7 +92,7 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "And again. This is the whole of a ladder.",
+   "instruction": "Give atari to the white group again.",
    "accept": "points",
    "points": [
     [
@@ -114,7 +113,7 @@
     ]
    ],
    "hint": "Follow it down.",
-   "explanation": "Three stones now instead of one, and still on one liberty. A ladder does not get better for White by continuing, which is why continuing is a mistake and why they usually do."
+   "explanation": "White is still in atari. The group has grown, but it has not escaped."
   },
   {
    "board": [
@@ -129,7 +128,7 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "Once more. Look where the edge is before you play.",
+   "instruction": "Continue the chase toward the edge.",
    "accept": "points",
    "points": [
     [
@@ -150,11 +149,10 @@
     ]
    ],
    "hint": "Keep going. The edge is close.",
-   "explanation": "Four stones. The board runs out before White does, and when it does they all come off together. That is the payoff, and it is the reason you must read a ladder to the end BEFORE you start one -- if a white stone were waiting down there, every one of these moves would have been a gift."
+   "explanation": "The edge leaves White no more space to run. A friendly stone farther along the chase could change this result."
   }
  ],
  "outro": [
-  "That is a ladder. It works because the running stone never gains anything, and it ends because the board does.",
-  "And here is the bit Pip has never learned: read it to the end first. One white stone anywhere along that staircase and the whole thing turns round and it is you who has given away eight stones. It takes ten seconds. Take the ten seconds."
+  "Before starting a ladder, follow the chase to its end. Look for stones that could help the escaping group."
  ]
 }

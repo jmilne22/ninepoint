@@ -21,8 +21,8 @@
   ".........",
   "........."
  ],
- "goal": "Black to play. Rather more to lose this time.",
- "hint": "The end of the wall. Same move as always.",
+ "goal": "Black to play. Save the group beside the white wall.",
+ "hint": "Extend the black group past the end of the white wall.",
  "solutions": [
   [
    6,
@@ -47,5 +47,5 @@
    4
   ]
  ],
- "explanation": "Four stones saved by the same move that saves one. Big groups do not need clever answers -- they need you to notice in time."
+ "explanation": "Extending past the wall gives the black group more liberties. The four stones remain connected."
 }

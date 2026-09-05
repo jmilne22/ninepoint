@@ -2,8 +2,8 @@
 
 A top-down 2D RPG about learning to play **Go (baduk)**, built in Godot 4.7.
 
-You have just moved to Steenbeek. There is a salon three steps below the pavement, an old crowd
-in the park who play for coffee money, and a beginner tournament at the federation hall. The
+You have just moved to Steenbeek. There is a salon three steps below the pavement, regulars
+in the park who keep a table free, and a beginner tournament at the federation hall. The
 previous tenant left a board and a bowl of stones in your room, and no instructions.
 
 You do not know what it is. That is where the game starts.
@@ -70,9 +70,10 @@ where to put you when all three slots are full.
 | Space | place a stone |
 | P | pass |
 | V (19×19 development route) | whole board / close view; arrows move through the close view |
-| R | resign |
+| R | offer resignation; R confirms, Esc cancels |
+| H (handicap games) | reopen the handicap explanation without changing the game |
 | *after both players pass* | Space toggles a group dead or alive, **P** accepts the count |
-| Space | dismiss the result and return to the town |
+| Space | dismiss the result, then choose whether to review the game |
 
 **In a puzzle or lesson**: arrows and Space to play, **R** to reset the position, Esc to
 leave. A wrong answer is taken back and explained; a second wrong answer gives you a hint.
@@ -81,6 +82,17 @@ leave. A wrong answer is taken back and explained; a second wrong answer gives y
 and you call **odd** or **even** (left/right to switch, Space to call it); guess right and
 you pick your colour. In a handicap game there is no guessing -- the weaker player takes
 Black with the stones already down, and the game says why.
+
+Your first handicap game pauses with the actual stones highlighted. Space advances two
+short explanations; Esc skips them. Black receives the starting stones and White moves
+next. Those stones can join groups and be captured. Komi adds points to White's score;
+the usual half-point prevents a tie. Right explains how this matchup's number was chosen.
+H brings the explanation back during setup or play. Later games show a shorter summary.
+
+The panel distinguishes **Capture Go**, **practice**, **casual** and **rated** games.
+Practice and casual games leave rank unchanged. The opening Capture Go and Wren's first
+practice start empty; Kesh's first rated game uses nigiri. No unranked player is assigned
+an invented numerical strength to calculate a head start.
 
 **19×19 is available for development play**, with a whole-board view and a close
 view that follows the cursor. The footer names the selected intersection. Lines
@@ -97,8 +109,8 @@ transition, not with this interface change.
 ### Never played Go?
 
 Then you are the person this was built for. Start a New Game and carry the board out of the
-attic; Pip in the park will assume you play and teach you **Capture Go** before anybody
-explains a rule, because a first game is a better introduction than a first lecture. Wren, in
+attic; Pip in the park across the road offers **Capture Go**. A short, player-controlled reminder
+beside the empty board shows how to place and capture stones. Wren, in
 the club, does the rules properly afterwards — liberties, capture, and why you may not fill in
 your own last one. There is no tutorial on the menu, because being taught by somebody is the
 point.
@@ -111,8 +123,8 @@ the first **rated** game, with a card explaining the kyu/dan ladder and rank cha
 Thirteen lessons in all, and each belongs to whoever should be teaching it: Wren has the
 rulebook and ko, Kesh teaches you to run and to cut because she is the one cutting you,
 Bertie in the park teaches ladders, Tomás behind his counter teaches counting and the
-endgame, and Hana takes the classes at the Instituut — corner before side before centre, two
-eyes, life and death, the capturing race and the false eye. The board in your room sets you
+endgame, and Hana takes the classes at the Instituut: two eyes, life and death, the capturing race
+and the false eye. Wren offers the optional corner, side and centre comparison. The board in your room sets you
 twelve problems.
 
 **Your rank is a record, not a stat.** Kesh gives you 22 kyu after your first rated game.
@@ -169,7 +181,7 @@ the checkout with the editor/import pass first, as `tools/test.sh` does.
 
 **Opening** -- Hana speaks to you and asks your name (Pokemon).
 **Act 1, Steenbeek** -- you have no idea what Go is. Somebody left a board in your room.
-Pip drags you into a game of Capture Go in the park before anyone explains the rules; Wren
+Pip invites you to Capture Go in the park; Wren
 teaches them properly, then hosts a safe unrated 9×9; Kesh challenges you to the first rated
 game and, win or lose, hands you a rank and tells you
 where Hana teaches: the Essenveld Instituut, two tram stops north (Hikaru no Go).
@@ -191,10 +203,8 @@ There is no clock. Everyone is where they live, all the time, and a game costs n
 the game. The exam and the Cup start when you tell Marguerite you are ready, and run round
 after round until they are done.
 
-**The wassalon is open till two**, three doors east of the bar, and it is the one room in the
-city that keeps no record of anybody -- no board on the wall, no card. Three people you will
-meet again at the Beginner Cup do their washing there: Abel at twenty-one kyu, who is the
-only player in Verhaven weaker than you when you start; Dov at nineteen, who counts out
+**The wassalon**, three doors east of the bar, has washing machines, a folding counter
+and a shared Go table. Three people you can meet again at the Beginner Cup do their washing there: Abel at twenty-one kyu, who has come to Verhaven for the Cup; Dov at nineteen, who counts out
 loud; and Moss at sixteen, who has spent three years under the section ceiling on purpose.
 Two of them will play you for nothing, off the record. Moss will not: his game counts, and
 he is the only one there who wants it to.
@@ -205,7 +215,7 @@ There is no relationship system. The game tracks your **record** against each pe
 
 Title → New Game → leave your room on Ketelsteeg → Pip in the park teaches you Capture Go →
 down into De Ketel → Wren asks whether you have played, teaches you if needed, and gives a
-short opening plan → play Wren's unrated full 9×9 → Kesh challenges you to the rated 9×9 and
+short optional opening plan → play Wren's practice full 9×9 → Kesh challenges you to the rated 9×9 and
 you settle the colours by nigiri → win or lose, she reacts to the game and gives you a rank →
 Tram 4 north → Hana sets you a capture problem → solve it → enrol with Marguerite → read
 the league board → save it into one of the three slots.
@@ -227,3 +237,7 @@ audio/       generated sound effects and music
 tools/       art and content generators, test and run harnesses
 tests/       headless suites
 ```
+
+
+The M43 art, writing and beginner-experience pass has an illustrated
+[screen gallery](docs/overhaul/GALLERY.md) and [observed play report](docs/overhaul/PLAYTEST.md).

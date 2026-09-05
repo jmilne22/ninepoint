@@ -77,15 +77,17 @@ static func fit_card(card: Control, body: Label, text: String,
 ## single explanation is longer than one screen.
 static func paginate(text: String, width: int, max_height: int) -> PackedStringArray:
     var pages := PackedStringArray()
-    var paragraphs := text.split("\n\n")
     var current := ""
-    for para in paragraphs:
-        var candidate := para if current == "" else current + "\n\n" + para
-        if text_height(candidate, width) + LINE_H <= max_height or current == "":
-            current = candidate
-        else:
-            pages.append(current)
-            current = para
-    if current != "":
-        pages.append(current)
+    for paragraph in text.split("\n\n"):
+        for word in paragraph.split(" "):
+            var candidate := word if current == "" else current + " " + word
+            if current != "" and text_height(candidate, width) > max_height:
+                pages.append(current.strip_edges())
+                current = word
+            else:
+                current = candidate
+        if current != "":
+            current += "\n\n"
+    if current.strip_edges() != "":
+        pages.append(current.strip_edges())
     return pages

@@ -51,6 +51,17 @@ func _run() -> void:
 
 
 func _do(step: Dictionary) -> void:
+    var recognised := false
+    for key in ["save", "note", "live_file", "experience", "katago_trial", "board_input", "match_move", "match_resign", "match_wait_player", "match_autoplay", "review_engine", "review_walk", "review_card_wait", "review_landed_wait", "world_wait", "walk_to", "talk_to", "face", "advance", "choose", "wait", "tap", "hold", "shot", "trial_assert", "quit"]:
+        recognised = recognised or step.has(key)
+    if not recognised:
+        push_error("Autopilot has no command for step: %s" % step)
+        get_tree().quit(1)
+        return
+    if step.has("live_file"):
+        await _live_session(str(step["live_file"]))
+    if step.has("experience"):
+        await ExperienceProbe.perform(get_tree(), step, _shot)
     if step.has("katago_trial"):
         var trial_profile := str(step["katago_trial"]) if step["katago_trial"] is String else ""
         await _start_katago_trial(trial_profile, bool(step.get("katago_direct", false)))
@@ -232,7 +243,7 @@ func _autoplay_match(timeout: float, max_moves: int, brain_rank: String) -> void
         for child in scene.get_children():
             if child is NigiriCeremony and str(child.get("_awaiting")) != "":
                 ceremony_open = true
-        if prompt == "prepare" or ceremony_open or scene.has_node("BoardControls"):
+        if prompt == "prepare" or ceremony_open or scene.has_node("BoardControls") or scene.has_node("HandicapHelp") or scene.has_node("BoardBrief"):
             await get_tree().create_timer(0.4).timeout
             _send("interact", true)
             await get_tree().process_frame
@@ -303,8 +314,9 @@ func _wait_for_review_landed(timeout: float) -> void:
 func _wait_for_world(timeout: float) -> void:
     var deadline := Time.get_ticks_msec() + int(timeout * 1000.0)
     while Time.get_ticks_msec() < deadline:
-        if _world() != null:
-            print("AUTOPILOT: review request returned control to the world")
+        if _world() != null and not SceneRouter.is_busy():
+            await get_tree().create_timer(0.8).timeout
+            print("AUTOPILOT: world transition and return conversation settled")
             return
         await get_tree().process_frame
     push_error("Review request did not return control to the world.")
@@ -680,10 +692,16 @@ func _choose_option(index: int) -> void:
         await get_tree().process_frame
         waited += 1
         box = _dialogue_box()
-    if box == null:
-        print("AUTOPILOT: no choice to make")
+    if box == null or not bool(box.get("_awaiting_choice")):
+        push_error("Autopilot expected a choice, but no choice opened.")
+        get_tree().quit(1)
         return
-    for i in index:
+    var options: Array = box.get("_choice_nodes")
+    if index < 0 or index >= options.size():
+        push_error("Autopilot option %d is outside the %d visible choices." % [index, options.size()])
+        get_tree().quit(1)
+        return
+    for i in (index - int(box.get("_choice_index")) + options.size()) % options.size():
         _send("move_down", true)
         await get_tree().process_frame
         _send("move_down", false)
@@ -692,3 +710,35 @@ func _choose_option(index: int) -> void:
     await get_tree().process_frame
     _send("interact", false)
     await get_tree().create_timer(0.3).timeout
+
+
+## Interactive acceptance: accept small input batches while the reviewer reads
+## each actual screen. No game state is changed by this transport.
+func _live_session(path: String) -> void:
+    var last := -1
+    while is_inside_tree():
+        if FileAccess.file_exists(path):
+            var batch = JSON.parse_string(FileAccess.get_file_as_string(path))
+            if batch is Dictionary and int(batch.get("revision", -1)) > last:
+                last = int(batch["revision"])
+                for action in batch.get("steps", []):
+                    await _do(action)
+                var status := {"revision": last}
+                var box := _dialogue_box()
+                if box != null and box.running:
+                    status["speech"] = box.get("_text").text
+                    status["choices"] = []
+                    for choice in box.get("_choice_nodes"):
+                        status["choices"].append(choice.text)
+                var world = _world()
+                if world != null:
+                    SaveSystem.save_game(1)
+                    status["map"] = world.map.id
+                    status["objective"] = Quests.journal_line(Quests.journal_quest_id())
+                var match_scene := _match()
+                if match_scene != null:
+                    status["board_message"] = match_scene.get("_message").text
+                    status["awaiting"] = str(match_scene.get("_awaiting"))
+                var file := FileAccess.open(path + ".status", FileAccess.WRITE)
+                file.store_string(JSON.stringify(status))
+        await get_tree().create_timer(0.1).timeout

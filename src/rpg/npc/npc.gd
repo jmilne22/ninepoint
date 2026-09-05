@@ -63,6 +63,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+    sprite.activity = ""
     if busy or data == null:
         stand()
         return
@@ -91,7 +92,10 @@ func _notice(delta: float) -> bool:
     if near:
         if not _noticing:
             _noticing = true
-        _notice_t = NOTICE_HOLD
+            _notice_t = NOTICE_HOLD
+        _notice_t -= delta
+        if _notice_t <= 0.0:
+            return false
         look_at_point(_player.global_position)
         stand()
         return true

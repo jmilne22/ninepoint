@@ -16,6 +16,9 @@ const STEP_TIME := 0.18
 ## the game, player included, gets it for nothing.
 const IDLE_PERIOD := 1.25
 
+var activity := ""
+var _walk_texture: Texture2D
+var _action_texture: Texture2D
 var direction: int = Facing.Dir.DOWN
 var walking: bool = false
 
@@ -41,11 +44,28 @@ func set_sheet(character_id: String) -> void:
     var path := "res://art/sprites/%s.png" % character_id
     if ResourceLoader.exists(path):
         texture = load(path)
+        _walk_texture = texture
+        var action_path := "res://art/sprites/%s_actions.png" % character_id
+        if ResourceLoader.exists(action_path):
+            _action_texture = load(action_path)
     else:
         push_warning("CharacterSprite: no sheet for '%s'" % character_id)
 
 
 func _process(delta: float) -> void:
+    if activity != "" and _action_texture != null and not walking:
+        texture = _action_texture
+        hframes = 2
+        vframes = 20
+        _idle += delta
+        frame = (["play", "read", "fold", "wipe", "arrange"].find(activity) * 4 + direction) * 2 + int(_idle / 0.8) % 2
+        offset = _base_offset
+        return
+    if texture != _walk_texture:
+        texture = _walk_texture
+        hframes = 3
+        vframes = 4
+        _apply()
     if walking:
         # The walk frames carry their own bob, drawn into the sheet.
         offset = _base_offset
@@ -71,4 +91,6 @@ func face(dir: int) -> void:
 
 
 func _apply() -> void:
+    if activity != "" or (_action_texture != null and texture == _action_texture):
+        return
     frame = direction * 3 + _step

@@ -19,9 +19,11 @@
   },
   "first": {
    "text": [
-    "Abel Roos. I came over on the ferry for the Cup. I've never played anybody I didn't already know."
+    "I'm Abel. I've come over for the Cup. My shirts got soaked on the ferry.",
+    "Would you mind holding that basket while I clear the table?"
    ],
-   "goto": "gate"
+   "goto": "gate",
+   "portrait": "working"
   },
   "gate": {
    "branches": [
@@ -41,12 +43,12 @@
   },
   "no_rules": {
    "text": [
-    "You don't play at all? Then no, sorry. Wren, at the bar down the steps, teaches. Come back after."
+    "Wren teaches at De Ketel, down the steps under the kettle sign. She helped me yesterday."
    ]
   },
   "offer": {
    "text": [
-    "Would you... sorry. Would you want a game? Nothing in here counts. That's the appeal."
+    "I've got time for a game while these dry. Want to sit down?"
    ],
    "choices": [
     {
@@ -55,8 +57,7 @@
       "type": "start_match",
       "profile": "abel_9x9",
       "context": "wassalon_abel",
-      "unrated": true,
-      "intro": "He puts the bowls out the wrong way round, swaps them, and swaps them back."
+      "unrated": true
      }
     },
     {
@@ -67,12 +68,12 @@
   },
   "later": {
    "text": [
-    "Right. I'll be here. Forty minutes left on this machine and nowhere to be."
+    "All right. I'll get these shirts folded."
    ]
   },
   "again": {
    "text": [
-    "Again? Yes. Please."
+    "One more? I can leave the folding for a bit."
    ],
    "goto": "gate"
   },
@@ -93,14 +94,14 @@
   },
   "after_win": {
    "text": [
-    "You beat me. That's fine. That's what I came for, people who'd beat me.",
-    "Sorry. That came out as though I'd planned it."
+    "Well played. I'm glad we had a game before the Cup.",
+    "I was nervous about asking someone I hadn't met."
    ]
   },
   "after_loss": {
    "text": [
-    "I won. I don't know what to do with my face.",
-    "Another? I want to know if that was me, or you having a bad one."
+    "Oh, I won! Thanks for playing.",
+    "Would you like another? I'll move the basket out of your way."
    ]
   }
  }

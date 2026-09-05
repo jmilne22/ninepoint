@@ -218,15 +218,15 @@ steps = [{steps}]
 # fixed nothing. Both quests are generated now.
 QUESTS = [
     dict(id="first_stones", title="First Stones",
-         summary="You have just moved to Steenbeek. There is a salon three steps below the pavement and a tournament at the Bondszaal.",
+         summary="Take the board to Pip in the park, then learn and play at De Ketel.",
          steps=[
-             ('"journal": "Find De Ketel, further along Ketelsteeg."',
-              '"advance_on": {"type": "enter_map", "map": "de_ketel"}'),
-             ('"journal": "Wren — De Ketel — learn the rules and an opening plan."',
-              '"advance_on": {"type": "lesson", "id": "openings"}'),
-             ('"journal": "Wren — De Ketel — play your first full game (practice)."',
+             ('"journal": "Find Pip in the park, across the road."',
+              '"advance_on": {"type": "match", "context": "pip_capture"}'),
+             ('"journal": "Ask Wren at De Ketel to show you the rules."',
+              '"advance_on": {"type": "flag", "key": "knows_the_rules"}'),
+             ('"journal": "Play a practice game with Wren at De Ketel."',
               '"advance_on": {"type": "match", "context": "wren_first"}'),
-             ('"journal": "Kesh — De Ketel — play your first rated 9x9 game."',
+             ('"journal": "Play Kesh by the window at De Ketel for your first rank."',
               '"advance_on": {"type": "match", "context": "kesh_first"}'),
          ]),
     dict(id="beginner_cup", title="The Beginner Cup",
@@ -241,7 +241,7 @@ QUESTS = [
          ]),
 
     dict(id="qualifying_exam", title="The Qualifying Exam",
-         summary="Top four of the lower league sit it, top two pass, and Marguerite says that is the entire system. It is brutal and it is fair and those are not in tension.",
+         summary="The top four of the lower league can enter. Play three rounds; the top two qualify.",
          steps=[
              ('"journal": "Tell Marguerite you are ready to sit it."',
               '"advance_on": {"type": "flag", "key": "exam_started"}'),

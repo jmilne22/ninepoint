@@ -2,7 +2,7 @@
 
 Sprite sheet: 3 frames (idle, step A, step B) x 4 directions (down,left,right,up)
               at 16x24 -> 48x96 per character.
-Portrait:     3 expressions (neutral, happy, annoyed) at 64x64 -> 192x64.
+Portrait:     4 expressions (neutral, happy, annoyed, working) at 64x64 -> 256x64.
 """
 import os
 import sys
@@ -106,7 +106,13 @@ def sprite_frame(c, direction, frame):
             im.hline(5, eye_y - 1, 6, rgb("ink2"))
             im.set(5, eye_y, rgb("ink2"))
             im.set(10, eye_y, rgb("ink2"))
-    return im
+    # Preserve the 16x24 cell and the feet baseline while varying body height.
+    out = Img(W,H)
+    height=c.get("height",22)
+    for y in range(height):
+        source_y=2+int(y*22/height)
+        for x in range(W):out.set(x,24-height+y,im.get(x,source_y))
+    return out
 
 
 def _hair_sprite(im, c, direction, hy, hair_d, hair_l):
@@ -164,12 +170,15 @@ HEAD_TOP, HEAD_BOT = 11, 45
 EYE_Y, BROW_Y, NOSE_Y, MOUTH_Y = 27, 22, 32, 37
 
 
-def _head_mask(im, colour_mid, colour_light, colour_dark):
+def _head_mask(im, colour_mid, colour_light, colour_dark, shape="round"):
     """The bare head and neck: a rounded skull, jaw, and ears."""
     cx = HEAD_X + HEAD_W // 2
     im.rect(HEAD_X, HEAD_TOP + 5, HEAD_W, 27, colour_mid)
     im.disc(cx, HEAD_TOP + 12, 15, colour_mid)
-    im.disc(cx, HEAD_BOT - 10, 13, colour_mid)
+    if shape == "square":
+        im.rect(HEAD_X+2,HEAD_BOT-20,HEAD_W-4,18,colour_mid)
+    else:
+        im.disc(cx, HEAD_BOT - 10, 11 if shape == "narrow" else 14, colour_mid)
     # light from the upper left
     im.disc(cx - 5, HEAD_TOP + 11, 10, colour_light)
     im.rect(HEAD_X + 2, HEAD_TOP + 8, 10, 12, colour_light)
@@ -199,8 +208,8 @@ def portrait(c, expression="neutral"):
     _hair_back(im, c, hair_d, hair_l)
 
     # 3. shoulders
-    im.disc(32, 78, 27, top_d)
-    im.disc(30, 80, 25, top_l)
+    im.disc(32, 78, 29 if c["build"] == "broad" else 24, top_d)
+    im.disc(30, 80, 27 if c["build"] == "broad" else 22, top_l)
     im.rect(0, 62, 64, 2, top_d)
     if acc == "scarf":
         im.rect(16, 50, 32, 6, accent)
@@ -215,7 +224,7 @@ def portrait(c, expression="neutral"):
 
     # 4. neck, then the head over everything behind it
     im.rect(27, HEAD_BOT - 6, 10, 12, sk_d)
-    _head_mask(im, sk_m, sk_l, sk_d)
+    _head_mask(im, sk_m, sk_l, sk_d, c.get("face_shape","round"))
 
     # 5. fringe and side hair, over the forehead only
     _hair_front(im, c, hair_d, hair_l)
@@ -285,6 +294,19 @@ def portrait(c, expression="neutral"):
         im.hline(16, EYE_Y + 1, 5, rgb("ink1"))
         im.hline(43, EYE_Y + 1, 5, rgb("ink1"))
 
+    # A scene-specific object and hand make the working expression readable.
+    if expression == "working":
+        pose=c.get("activity","read")
+        if pose == "read":
+            im.rect(11,49,42,14,rgb("teal0"));im.rect(14,50,36,10,rgb("paper1"))
+            im.vline(32,50,11,rgb("wood1"))
+        elif pose == "fold":
+            im.rect(10,52,43,11,rgb("paper1"));im.hline(11,57,41,rgb("blue1"))
+        elif pose == "wipe":
+            im.rect(30,53,25,9,rgb("paper0"))
+        else:
+            im.disc(39,54,5,rgb("ink0"))
+        im.rect(10,51,7,5,sk_m);im.rect(47,51,7,5,sk_m)
     im.frame(0, 0, 64, 64, rgb("ink1"))
     return im
 
@@ -370,17 +392,54 @@ def _hair_front(im, c, hair_d, hair_l):
         im.rect(45, top + 1, 5, 14, hair_d)
 
 
+
+def action_sheet(c):
+    """Action beats face their furniture; the walking sheet stays 3 by 4."""
+    sheet = Img(32, 480)
+    for action_index, action in enumerate(["play", "read", "fold", "wipe", "arrange"]):
+        for direction_index, direction in enumerate(["down", "left", "right", "up"]):
+            for beat in range(2):
+                im = sprite_frame(c, direction, 0)
+                sk = skin(c["skin"])[1]
+                x, y, width = 2, 17, 12
+                if direction == "up":
+                    y = 13
+                elif direction in ["left", "right"]:
+                    x, width = (0 if direction == "left" else 9), 7
+                if action == "read":
+                    im.rect(x, y-2, width, 6, rgb("teal0"))
+                    im.rect(x+1, y-1, width-2, 3, rgb("paper1"))
+                    im.vline(x+width//2, y-1, 3, rgb("wood0"))
+                elif action == "fold":
+                    im.rect(x, y-1, width, 5, rgb("paper1"))
+                    im.hline(x+1, y+beat, width-2, rgb("blue1"))
+                elif action == "wipe":
+                    im.rect(x+beat*2, y, min(6,width-2), 3, rgb("paper0"))
+                else:
+                    im.rect(x, y, width, 3, rgb("wood2"))
+                    im.disc(x+2+beat*2, y, 1, rgb("ink0"))
+                im.set(x, y, sk)
+                im.set(x+width-1, y, sk)
+                if action == "play":
+                    im.rect(4,21,8,3,(0,0,0,0))
+                    im.rect(3,20,4,2,rgb(c["bottom"]))
+                    im.rect(10,20,3,2,rgb(c["bottom"]))
+                sheet.blit(im, beat*16, (action_index*4+direction_index)*24)
+    return sheet
+
+
 def build(out_sprites, out_portraits):
     os.makedirs(out_sprites, exist_ok=True)
     os.makedirs(out_portraits, exist_ok=True)
     for c in CHARACTERS:
         sprite_sheet(c).save(os.path.join(out_sprites, "%s.png" % c["id"]))
+        action_sheet(c).save(os.path.join(out_sprites, "%s_actions.png" % c["id"]))
         # Passers-by never reach a dialogue box, so they get no portrait: a
-        # 192x64 bust of somebody with no name is dead weight in the repo.
+        # portrait strip of somebody with no name is dead weight in the repo.
         if c.get("extra"):
             continue
-        strip = Img(64 * 3, 64)
-        for i, expr in enumerate(("neutral", "happy", "annoyed")):
+        strip = Img(64 * 4, 64)
+        for i, expr in enumerate(("neutral", "happy", "annoyed", "working")):
             strip.blit(portrait(c, expr), i * 64, 0)
         strip.save(os.path.join(out_portraits, "%s.png" % c["id"]))
     return len(CHARACTERS)

@@ -1,11 +1,10 @@
 {
  "id": "connection",
- "title": "Cut, and Do Not Be Cut",
+ "title": "Connecting and Cutting",
  "teacher": "kesh",
  "size": 9,
  "intro": [
-  "I cut. It is the first thing anybody says about how I play and I have stopped pretending it is not true.",
-  "So: two stones that are touching are one group and share their liberties. Two stones that are nearly touching are two groups, and two groups are much easier to kill than one."
+  "Connected stones share liberties. A gap between your stones may let the opponent split them into separate groups."
  ],
  "steps": [
   {
@@ -21,7 +20,7 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "Those two black stones are not connected. Join them.",
+   "instruction": "Connect the two black stones.",
    "accept": "points",
    "points": [
     [
@@ -51,7 +50,7 @@
     ]
    ],
    "hint": "The gap between them.",
-   "explanation": "One group of three, sharing every liberty. Before that move there were two groups of one, and White was a single stone away from having a free attack on either of them."
+   "explanation": "They now form one group and share all their liberties."
   },
   {
    "board": [
@@ -66,7 +65,7 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "Now the same shape, the other way round. Cut them apart.",
+   "instruction": "You are White. Play between the black stones to cut them apart.",
    "accept": "points",
    "points": [
     [
@@ -87,7 +86,7 @@
     ]
    ],
    "hint": "Exactly where you would have connected.",
-   "explanation": "The cutting point and the connecting point are the same point. That is worth sitting with: every time you see a gap in your own shape you are looking at a move your opponent wants."
+   "explanation": "White occupies the point that Black needed to connect. The black stones remain separate groups."
   },
   {
    "board": [
@@ -102,7 +101,7 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "White is one move from splitting you. Do not let them.",
+   "instruction": "Keep White from splitting Black. Connect the stones.",
    "accept": "points",
    "points": [
     [
@@ -132,11 +131,10 @@
     ]
    ],
    "hint": "Between your own two stones.",
-   "explanation": "Connected, and now it is one group with six liberties instead of two groups with three each. Nothing was captured and nothing looks different -- which is why beginners never play this move and why it is often the best one on the board."
+   "explanation": "Black is now connected. White cannot play in the joining point."
   }
  ],
  "outro": [
-  "Connected groups are boring and they live. Cut groups are exciting and they die.",
-  "I will still cut you. But now you know what I am doing, which is most of the way to stopping me."
+  "Look for connecting points in your own groups and cutting points in your opponent's."
  ]
 }

@@ -20,7 +20,7 @@ const TEXT_H := 44
 ## conversation happens where the player is standing, and a box that covers
 ## both people talking is a box over the wrong third of the screen.
 var anchor: Node2D = null
-const EXPRESSIONS := {"neutral": 0, "happy": 1, "annoyed": 2}
+const EXPRESSIONS := {"neutral": 0, "happy": 1, "annoyed": 2, "working": 3}
 
 var running: bool = false
 

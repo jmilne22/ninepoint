@@ -6,6 +6,7 @@
  ],
  "tile_size": 16,
  "legend": {
+  "}": "wall_side",
   "^": "roof_ridge",
   "#": "roof_slate",
   "R": "roof_rust",
@@ -91,19 +92,19 @@
  },
  "ground": [
   "IIIIIIIIIIIIIIIIIIII",
-  "IIINIINIIIIIINIINIII",
+  "IIIIIIIIIIIIIIIIIIII",
   "iVViiiiii??iiiiiiVVi",
-  "i112112112112112112i",
-  "iO21X2112112112X12$i",
-  "iZ11G1121121121G211i",
-  "i112X1244444411X112i",
-  "i121121444444121121i",
-  "i211211444444211211i",
-  "i112X1244444411X112i",
-  "i121E2112112112E121i",
-  "i211X1121121121X21Qi",
-  "i112112112112112112i",
-  "iiiiiiiiiMMiiiiiiiii"
+  "}112112112112112112}",
+  "}12112112112112112$}",
+  "}111111111211211111}",
+  "}112112111111111112}",
+  "}121121111111121121}",
+  "}211211111111211211}",
+  "}112112i11111111112}",
+  "}121111i21121121121}",
+  "}21111121121121121Q}",
+  "}112112112112112112}",
+  "}iiiiiiiiMMiiiiiiii}"
  ],
  "decor": [
   "                    ",
@@ -126,14 +127,14 @@
   "11111111111111111111",
   "11111111111111111111",
   "10000000000000000001",
-  "11001000000000010011",
-  "11001000000000010001",
-  "10001000000000010001",
+  "11000000000000000011",
+  "11111001110000111001",
   "10000000000000000001",
   "10000000000000000001",
-  "10001000000000010001",
-  "10001000000000010001",
-  "10001000000000010011",
+  "10000000000000000001",
+  "10000001000000000001",
+  "10011101000000000001",
+  "10000000000000000011",
   "10000000000000000001",
   "11111111100111111111"
  ],
@@ -173,55 +174,67 @@
     9,
     2
    ],
-   "text": "A row of brass hooks on the back wall. Coats, mostly, and one umbrella nobody has claimed."
+   "text": "Coats on brass hooks. A spare umbrella has a note: BORROW IT. BRING IT BACK."
   },
   {
    "tile": [
     18,
     4
    ],
-   "text": "A coal stove, lit from October to April whatever the weather does. The chair nearest it is not yours and everybody knows whose it is."
+   "text": "A coal stove. A pair of wet gloves dries on the guard."
   },
   {
    "tile": [
     1,
     5
    ],
-   "text": "The rate is chalked on a slate: two-fifty an hour, board and stones included. Under it a kettle, a tin of biscuits, and an honesty box. The biscuits are gone."
+   "text": "Please bring empty cups back to the counter. Tom\u00e1s has left a cloth beside the kettle."
   },
   {
    "tile": [
     1,
     4
    ],
-   "text": "Pinned to the counter, in Tomas's handwriting: ALL COMERS. ASK. Underneath, smaller: the board is free, the tea is not."
+   "text": "DE KETEL. Ask Wren to learn the rules or play a practice game. Kesh plays rated games by the window."
   },
   {
    "tile": [
-    15,
+    8,
     5
    ],
-   "text": "Wren's teaching table. A chalk note says: RULES, FIRST GAME, THEN KESH. Someone has underlined FIRST GAME twice."
+   "text": "Wren's teaching board. Spare stones are in the drawer."
   }
  ],
  "npcs": [
   {
    "id": "wren",
    "tile": [
-    6,
-    8
+    8,
+    6
    ],
-   "dir": "right",
-   "idle": "study"
+   "dir": "up",
+   "idle": "arrange",
+   "activity_variations": [
+    {
+     "flag": "wren_match_done",
+     "idle": "wipe"
+    }
+   ]
   },
   {
    "id": "kesh",
    "tile": [
-    14,
-    7
+    15,
+    6
    ],
-   "dir": "left",
-   "idle": "wander"
+   "dir": "up",
+   "idle": "play",
+   "activity_variations": [
+    {
+     "flag": "kesh_match_done",
+     "idle": "arrange"
+    }
+   ]
   },
   {
    "id": "tomas",
@@ -229,144 +242,129 @@
     2,
     6
    ],
-   "dir": "right",
-   "idle": "tend"
+   "dir": "up",
+   "idle": "wipe",
+   "activity_variations": [
+    {
+     "flag": "tomas_match_done",
+     "idle": "arrange"
+    }
+   ]
   }
  ],
  "music": "theme_club",
  "indoors": true,
+ "art_props": [
+  {
+   "art": "bar_counter",
+   "position": [
+    16,
+    64
+   ]
+  },
+  {
+   "art": "playing_table",
+   "position": [
+    112,
+    64
+   ]
+  },
+  {
+   "art": "playing_table",
+   "position": [
+    224,
+    64
+   ]
+  },
+  {
+   "art": "playing_table",
+   "position": [
+    48,
+    144
+   ]
+  },
+  {
+   "art": "coat_rack",
+   "position": [
+    48,
+    112
+   ]
+  },
+  {
+   "art": "book_shelf",
+   "position": [
+    272,
+    8
+   ]
+  },
+  {
+   "art": "tall_window",
+   "position": [
+    208,
+    0
+   ]
+  }
+ ],
  "presence_states": [
   {
-   "id": "rival-routine",
+   "id": "cup-finished",
+   "when": {
+    "all": [
+     "cup_finished"
+    ]
+   },
+   "exchanges": [
+    [
+     {
+      "npc": "wren",
+      "text": "How did the Cup go? Sit down."
+     }
+    ]
+   ]
+  },
+  {
+   "id": "return",
    "when": {
     "all": [
      "kesh_match_done"
     ]
    },
-   "npcs": [
-    {
-     "id": "wren",
-     "tile": [
-      9,
-      8
-     ],
-     "dir": "right",
-     "idle": "converse:kesh"
-    },
-    {
-     "id": "kesh",
-     "tile": [
-      11,
-      8
-     ],
-     "dir": "left",
-     "idle": "converse:wren"
-    },
-    {
-     "id": "tomas",
-     "tile": [
-      2,
-      6
-     ],
-     "dir": "right",
-     "idle": "tend"
-    }
-   ],
-   "tiles": [
-    {
-     "tile": [
-      7,
-      11
-     ],
-     "name": "prop_cups"
-    },
-    {
-     "tile": [
-      12,
-      10
-     ],
-     "name": "prop_papers"
-    },
-    {
-     "tile": [
-      8,
-      5
-     ],
-     "name": "prop_cups"
-    },
-    {
-     "tile": [
-      12,
-      10
-     ],
-     "name": "prop_papers"
-    }
-   ],
-   "lines": [
-    {
-     "npc": "kesh",
-     "text": "It was not a bad cut."
-    },
-    {
-     "npc": "wren",
-     "text": "That is almost praise."
-    }
-   ]
-  },
-  {
-   "id": "lessons",
-   "when": {
-    "all": [
-     "knows_the_rules"
+   "exchanges": [
+    [
+     {
+      "npc": "kesh",
+      "text": "Another game, Wren?"
+     },
+     {
+      "npc": "wren",
+      "text": "Yes. I'll bring my cup over."
+     }
     ]
-   },
-   "tiles": [
-    {
-     "tile": [
-      7,
-      11
-     ],
-     "name": "prop_cups"
-    },
-    {
-     "tile": [
-      12,
-      10
-     ],
-     "name": "prop_papers"
-    },
-    {
-     "tile": [
-      8,
-      5
-     ],
-     "name": "prop_cups"
-    }
-   ],
-   "lines": [
-    {
-     "npc": "wren",
-     "text": "There is a game on every table."
-    }
    ]
   },
   {
    "id": "routine",
-   "tiles": [
-    {
-     "tile": [
-      7,
-      11
-     ],
-     "name": "prop_cups"
-    },
-    {
-     "tile": [
-      12,
-      10
-     ],
-     "name": "prop_papers"
-    }
+   "exchanges": [
+    [
+     {
+      "npc": "wren",
+      "text": "Tom\u00e1s, have you got a dry cloth?"
+     },
+     {
+      "npc": "tomas",
+      "text": "Hanging by the counter."
+     }
+    ],
+    [
+     {
+      "npc": "kesh",
+      "text": "Is this table ready?"
+     },
+     {
+      "npc": "wren",
+      "text": "Just let me move the cups."
+     }
+    ]
    ]
   }
  ]

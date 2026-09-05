@@ -2,31 +2,28 @@
  "id": "dov",
  "lines": {
   "you_captured": [
-   "Two off. So that's -- hold on. Sorry."
+   "One pile for yours."
   ],
   "you_captured_big": [
-   "Seven, eight, nine. Nine stones. That changes the count considerably."
+   "Let me move the bowl."
   ],
   "i_captured": [
-   "Three. Plus the two from before. Five."
+   "I'll put these here."
   ],
   "i_captured_big": [
-   "Eleven, twelve, thirteen. Thirteen. I'll want to write that down."
-  ],
-  "ko": [
-   "Ko. That's a complication and I'll lose count."
+   "Hold on while I collect them."
   ],
   "i_atari": [
-   "Atari. One liberty. I count them out loud, I'm told it's irritating."
+   "One liberty. Atari."
   ],
-  "winning": [
-   "I make it about six ahead. Six and a half with the komi."
+  "you_atari": [
+   "One left."
   ],
-  "losing": [
-   "You're ahead by -- eleven? Twelve. Twelve."
+  "i_pass": [
+   "I pass."
   ],
-  "level": [
-   "Level. I've counted it three times and I keep getting level."
+  "you_pass": [
+   "I'll check the empty points."
   ]
  }
 }

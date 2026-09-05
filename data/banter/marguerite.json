@@ -2,39 +2,22 @@
  "id": "marguerite",
  "lines": {
   "you_captured": [
-   "Recorded."
+   "Those are yours."
   ],
   "you_captured_big": [
-   "That is a substantial capture and I will not pretend otherwise."
+   "I'll move the papers back."
   ],
   "i_captured": [
-   "Thank you."
-  ],
-  "i_captured_big": [
-   "That group had been in difficulty for some time."
+   "These come off."
   ],
   "ko": [
-   "Ko. The rule is that you may not repeat the position. It is not negotiable."
-  ],
-  "i_atari": [
-   "Atari, formally."
-  ],
-  "winning": [
-   "I am ahead. Orthodox, but it works."
-  ],
-  "losing": [
-   "You are ahead. Noted, and not resented."
-  ],
-  "level": [
-   "Level. Play it out."
+   "Ko."
   ],
   "i_pass": [
-   "I pass. We can count.",
-   "Nothing outstanding. Pass."
+   "I pass."
   ],
   "you_pass": [
-   "Passing. Noted.",
-   "You may. It doesn't end the game on its own."
+   "One moment."
   ]
  }
 }

@@ -1,0 +1,90 @@
+[
+ {
+  "save": "overhaul_white"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "talk_to": "ilse"
+ },
+ {
+  "advance": 10,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "giving_stones_white_first"
+ },
+ {
+  "experience": "help_probe"
+ },
+ {
+  "experience": "help_during_reply"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "white_game_result"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   23,
+   7
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "academy_hall"
+ },
+ {
+  "walk_to": [
+   10,
+   3
+  ]
+ },
+ {
+  "face": [
+   10,
+   2
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "revised_league_board"
+ }
+]

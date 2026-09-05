@@ -12,6 +12,8 @@ var portrait_path: String = ""
 ## Shown on the pre-match card.
 var intro_line: String = ""
 var unrated: bool = false
+var practice: bool = false
+var venue_id: String = ""
 var allow_undo: bool = false
 ## Gentle, optional goals for a first full game. They describe what to notice,
 ## never a move the player is required to make.

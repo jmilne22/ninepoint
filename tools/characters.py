@@ -147,3 +147,19 @@ BY_ID = {c["id"]: c for c in CHARACTERS}
 ## The named cast, in the sense that matters: everybody who can be drawn in a
 ## dialogue box. Passers-by are excluded.
 CAST_IDS = [c["id"] for c in CHARACTERS if not c.get("extra")]
+
+
+# Shared silhouette and working pose, read by both portrait and sprite generation.
+IDENTITIES = {
+    "wren": (21, "narrow", "arrange"), "pip": (19, "round", "play"),
+    "kesh": (23, "square", "play"), "tomas": (23, "square", "wipe"),
+    "bertie": (20, "round", "play"), "joos": (22, "square", "arrange"),
+    "abel": (21, "narrow", "fold"), "dov": (22, "round", "arrange"),
+    "moss": (23, "narrow", "read"), "hana": (23, "round", "arrange"),
+    "marguerite": (22, "square", "read"), "ilse": (21, "narrow", "read"),
+    "sunny": (17, "round", "play"), "nadia": (23, "narrow", "wipe"),
+    "orla": (24, "square", "play"),
+}
+for character in CHARACTERS:
+    height, face, activity = IDENTITIES.get(character["id"], (22,"round","read"))
+    character.update(height=height, face_shape=face, activity=activity)
