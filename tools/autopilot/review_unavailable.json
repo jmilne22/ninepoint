@@ -1,0 +1,68 @@
+[
+ {
+  "review_engine": "res://tools/fixtures/analysis_hang.sh",
+  "review_stall": 4
+ },
+ {
+  "katago_trial": "res://data/opponents/wren_9x9.tres",
+  "katago_direct": true
+ },
+ {
+  "wait": 1.0
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 900,
+  "max_moves": 80
+ },
+ {
+  "wait": 0.5,
+  "shot": "a_count"
+ },
+ {
+  "tap": "go_pass",
+  "note": "accept the count"
+ },
+ {
+  "wait": 0.6,
+  "shot": "b_result"
+ },
+ {
+  "tap": "interact",
+  "note": "dismiss the result"
+ },
+ {
+  "wait": 0.4,
+  "shot": "c_offer"
+ },
+ {
+  "tap": "move_up",
+  "note": "Yes, go over the game"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 2.0,
+  "shot": "d_progress"
+ },
+ {
+  "review_card_wait": true,
+  "timeout": 60
+ },
+ {
+  "wait": 0.5,
+  "shot": "e_no_review"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true,
+  "timeout": 10
+ },
+ {
+  "wait": 1.0,
+  "shot": "f_world"
+ }
+]

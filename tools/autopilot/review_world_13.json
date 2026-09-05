@@ -1,0 +1,118 @@
+[
+ {
+  "save": "thirteen_ketel"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue"
+ },
+ {
+  "wait": 2.2
+ },
+ {
+  "talk_to": "kesh"
+ },
+ {
+  "advance": 6,
+  "stop_at_choice": true
+ },
+ {
+  "advance": 30,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.5,
+  "shot": "a_the_choice"
+ },
+ {
+  "choose": 1,
+  "note": "Thirteen."
+ },
+ {
+  "wait": 2.0,
+  "shot": "b_setting_up"
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 900,
+  "max_moves": 120
+ },
+ {
+  "wait": 0.5,
+  "shot": "c_count"
+ },
+ {
+  "tap": "go_pass",
+  "note": "accept the count"
+ },
+ {
+  "wait": 0.6,
+  "shot": "d_result"
+ },
+ {
+  "tap": "interact",
+  "note": "dismiss the result"
+ },
+ {
+  "wait": 0.4,
+  "shot": "e_offer"
+ },
+ {
+  "tap": "move_up",
+  "note": "Yes, go over the game"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 3.0,
+  "shot": "f_progress"
+ },
+ {
+  "review_card_wait": true,
+  "timeout": 900
+ },
+ {
+  "wait": 0.5,
+  "shot": "g_card_1"
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "wait": 0.3,
+  "shot": "h_card_2"
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "wait": 0.3,
+  "shot": "i_card_3"
+ },
+ {
+  "tap": "interact",
+  "note": "close the cards"
+ },
+ {
+  "world_wait": true,
+  "timeout": 10
+ },
+ {
+  "wait": 1.2,
+  "shot": "j_post_match_talk"
+ },
+ {
+  "advance": 6
+ },
+ {
+  "wait": 0.6,
+  "shot": "k_world"
+ }
+]

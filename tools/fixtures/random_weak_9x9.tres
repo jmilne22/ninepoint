@@ -1,0 +1,26 @@
+; Development-only profile: a random legal-move picker, so a fixture can produce a
+; game the player wins. The shipped heuristic at its weakest still beat the autoplay
+; brain by half a point, and every engine profile beat it by forty (ENG-06). The
+; review reads any finished game, so a won game's cards need no engine opposite.
+[gd_resource type="Resource" script_class="OpponentProfile" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/go_ai/opponent_profile.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"random_weak_9x9"
+display_name = "Practice partner"
+rank_label = "25k"
+strength_override = -1
+engine = "random"
+board_size = 9
+komi = 5.5
+handicap = 0
+colour_rule = "player_black"
+capture_goal = 0
+mistake_rate = 0.9
+reading_depth = 0
+aggression = 0.5
+territory_bias = 0.5
+resign_threshold = 0.0
+rng_seed = 3

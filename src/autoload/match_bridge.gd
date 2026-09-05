@@ -53,6 +53,23 @@ func finish_match(result: MatchResult) -> void:
     await _return_to_world()
 
 
+## The player asked to go over the game. The result is committed first, exactly
+## as finish_match does, then the review starts; the match scene watches it and
+## calls return_to_world_after_review when the player is done looking or leaves.
+func finish_match_with_review(result: MatchResult) -> int:
+    last_result = result
+    pending_request = null
+    GameState.record_match(result)
+    EventBus.match_finished.emit(result)
+    var index := GameState.match_records.size() - 1
+    MatchReviewService.start(index)
+    return index
+
+
+func return_to_world_after_review() -> void:
+    await _return_to_world()
+
+
 func record_dev_trial(result: MatchResult, engine: Dictionary) -> void:
     if result.context_id != "dev_katago_trial":
         return

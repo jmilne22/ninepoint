@@ -65,6 +65,7 @@ func _ready() -> void:
 
     _apply_music()
     EventBus.puzzle_finished.connect(_on_puzzle_finished)
+    MatchReviewService.finished.connect(_on_review_finished)
     EventBus.map_changed.emit(map.id, GameState.spawn_point)
     await get_tree().process_frame
     _after_load()
@@ -158,6 +159,17 @@ func _after_load() -> void:
         EventBus.quest_started.emit("first_stones")
 
 
+## A review the player walked away from has landed. It waits at the quay.
+func _on_review_finished(index: int, payload: Dictionary) -> void:
+    if not str(payload.get("availability", "")) in ["available", "steady"]:
+        return
+    if index < 0 or index >= GameState.match_records.size():
+        return
+    var who := str(GameState.match_records[index].get("opponent_name", ""))
+    EventBus.toast.emit("Your game with %s is ready to look at, on the quay." % who
+        if who != "" else "Your last game is ready to look at, on the quay.")
+
+
 ## After a game, the opponent has something to say about it.
 func _post_match(result: MatchResult) -> void:
     var npc := _find_npc(result.npc_id)
@@ -167,6 +179,7 @@ func _post_match(result: MatchResult) -> void:
     player.face_towards(npc.global_position)
     npc.look_at_point(player.global_position)
     await _talk(npc, "post_match")
+
 
 
 ## The demonstration board at the front of the classroom. Which class it gives

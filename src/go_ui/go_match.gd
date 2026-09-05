@@ -41,8 +41,9 @@ var _overlay_text: Label
 ## enter/exit and its own input handling, as godot-gdscript-patterns teaches,
 ## but held in one scene rather than four State nodes -- there is nothing here
 ## that needs per-frame update or physics.
-enum Phase { SETUP, PREPARING, INTRO, PLAYING, SCORING, CONFIRM, DONE }
+enum Phase { SETUP, PREPARING, INTRO, PLAYING, SCORING, CONFIRM, REVIEW, REVIEW_WAIT, DONE }
 var phase: int = Phase.SETUP
+var _review_yes := false
 
 var setup: GoMatchSetup
 var _last_message := ""
@@ -58,6 +59,12 @@ var _answer: Variant = null
 func is_player_turn_ready() -> bool:
     return game != null and phase == Phase.PLAYING and _awaiting == &"move" \
         and game.to_move == player_color
+
+
+## Both players have passed and the count is on the board. Also for the
+## autopilot, which accepts the count the way a player does, with [P].
+func is_counting() -> bool:
+    return phase == Phase.SCORING
 
 
 func _exit_tree() -> void:
@@ -482,6 +489,9 @@ func _toggle_dead(point: int) -> void:
 func _scoring_phase() -> void:
     phase = Phase.SCORING
     board_view.dead = GoScoring.estimate_dead(game.board)
+    # KataGo's `final_status_list` can block indefinitely on this bundled
+    # Human-SL build. Never let a counting suggestion hold the result screen;
+    # the deterministic proposal below remains fully manually overridable.
     board_view.show_territory = true
     _set_message("Both players passed. Stones marked with a cross are dead.")
     _update_scoring_preview()
@@ -530,6 +540,7 @@ func _finish() -> void:
     res.komi = game.komi
     res.move_count = game.move_number()
     res.unrated = request.unrated
+    res.opponent_name = request.opponent_name
     res.opponent_strength = request.profile.strength() if request.profile != null else -1
     res.sgf = GoSgf.to_sgf(game, {
         "PB": GameState.player_name if player_color == GoBoard.BLACK else request.opponent_name,
@@ -553,6 +564,15 @@ func _finish() -> void:
     _hints.text = ""
 
     await _ask(&"dismiss")
+    # The result comes first. Once it is acknowledged, the next card is the
+    # one clear decision: go over the game with them, or back to town.
+    if MatchAnalysis.eligible(res.to_dict()) and KataGoAnalysis.is_available():
+        phase = Phase.REVIEW
+        _review_yes = false
+        _show_review_choice()
+        await _ask(&"review")
+        res.review_requested = bool(_answer)
+        phase = Phase.DONE
     opponent.shutdown()
     if request.context_id == "dev_katago_trial":
         var engine := {
@@ -570,6 +590,20 @@ func _finish() -> void:
                 "shutdown": gtp.shutdown_complete,
             }
         MatchBridge.record_dev_trial(res, engine)
+    if res.review_requested:
+        var loading := ReviewLoading.new()
+        loading.setup(request.opponent_name)
+        get_tree().root.add_child(loading)
+        var index := MatchBridge.finish_match_with_review(res)
+        var review := await _wait_for_review(index, loading)
+        loading.dismiss()
+        if not review.is_empty():
+            var cards := ReviewCards.new()
+            cards.setup(review, request.opponent_name)
+            get_tree().root.add_child(cards)
+            await cards.closed
+        await MatchBridge.return_to_world_after_review()
+        return
     # MatchBridge owns the scene change. Awaiting it is necessary for the
     # coroutine to begin; it does not await this scene's destruction.
     await MatchBridge.finish_match(res)
@@ -673,6 +707,10 @@ func _unhandled_input(event: InputEvent) -> void:
             handled = _input_preparing(event)
         Phase.CONFIRM:
             handled = _input_confirm(event)
+        Phase.REVIEW:
+            handled = _input_review(event)
+        Phase.REVIEW_WAIT:
+            handled = _input_review_wait(event)
         Phase.DONE:
             handled = _input_done(event)
         _:
@@ -729,6 +767,62 @@ func _input_done(event: InputEvent) -> bool:
         _answered(true)
         return true
     return false
+
+
+func _show_review_choice() -> void:
+    UiKit.fit_card(_card, _overlay_text,
+        "Go over the game with %s?\n\n%s Yes\n%s No\n\n[Space] choose" % [
+            request.opponent_name,
+            ">" if _review_yes else " ", ">" if not _review_yes else " "], 288)
+    _overlay.visible = true
+    _hints.text = "Up/Down: choose"
+
+
+## Waits under the loading card until the review lands or the player leaves.
+## The service owns the engine, so leaving costs nothing: the review finishes
+## on its own and waits at the quay. Returns {} when the player walked off.
+func _wait_for_review(index: int, loading: ReviewLoading) -> Dictionary:
+    phase = Phase.REVIEW_WAIT
+    _hints.text = ""
+    _set_message("")
+    var on_progress := func(i: int, done: int, total: int) -> void:
+        if i == index:
+            loading.set_progress(done, total)
+    var on_finished := func(i: int, payload: Dictionary) -> void:
+        if i == index and _awaiting == &"review_wait":
+            _answered(payload)
+    MatchReviewService.progress.connect(on_progress)
+    MatchReviewService.finished.connect(on_finished)
+    var answer: Variant = null
+    # An ineligible game or a missing engine finishes before anybody can listen.
+    var already: Variant = GameState.match_analysis.get(str(index), {})
+    if already is Dictionary and str(already.get("availability", "")) != "pending":
+        answer = already
+    else:
+        answer = await _ask(&"review_wait")
+    MatchReviewService.progress.disconnect(on_progress)
+    MatchReviewService.finished.disconnect(on_finished)
+    phase = Phase.DONE
+    return answer if answer is Dictionary else {}
+
+
+func _input_review_wait(event: InputEvent) -> bool:
+    if event.is_action_pressed("cancel"):
+        _answered(null)
+        return true
+    return event is InputEventKey and event.pressed
+
+
+func _input_review(event: InputEvent) -> bool:
+    if event.is_action_pressed("move_up") or event.is_action_pressed("move_down"):
+        _review_yes = not _review_yes
+        _show_review_choice()
+        return true
+    if event.is_action_pressed("interact") or event.is_action_pressed("cancel"):
+        _overlay.visible = false
+        _answered(_review_yes if event.is_action_pressed("interact") else false)
+        return true
+    return event is InputEventKey and event.pressed
 
 
 func _input_board(event: InputEvent) -> bool:

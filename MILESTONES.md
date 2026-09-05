@@ -2547,6 +2547,27 @@ found by opening the PNGs.
 
 ---
 
+## M38 — The engine at the board
+
+- Decided ENG-01: a bundled KataGo for Linux x64, pinned by `packaging/katago-linux-x64.json`
+  (binary, the normal and Human-SL models, checksums, licences, launch arguments) and fetched
+  by `tools/setup_katago.sh`; the binary and models are not in git.
+- Rebuilt `GtpOpponent` as a stateful boundary (ENG-02): handicap and setup stones are sent
+  once, then only unseen moves; a timeout, a rejected command, an illegal reply or a process
+  that will not start falls back to the heuristic for the rest of the game and says so.
+  `KataGoService` warms a lease while the player is still walking to the board.
+- Put every cast profile on `engine = "gtp"` (ENG-03) with a `human_<rank>.cfg` at the
+  character's rank. The development fixture `katago_trial` plays the engine with no world
+  around it; `tools/katago_smoke.gd` and `tools/katago_service_test.gd` joined `tools/test.sh`.
+- `tests/check_load.gd` now parses every `.json` under `data/`, so a malformed dialogue,
+  banter, lesson, puzzle or map file fails the gate instead of the player (TECH-01).
+
+**Verification:** `tools/test.sh` — **12341 passed, 0 failed**; `python3 tools/check_lessons.py`
+— **0 problems**; the KataGo UI trial: four inspected screens, two legal engine replies, no
+fallback, a result with SGF, shutdown and the return to the world. Shipped as PR #16.
+
+---
+
 ## M39 — KataGo calibration and cast release
 
 - Replaced the KataGo UI fixture's numeric phase check with `GoMatch.is_player_turn_ready()`.
@@ -2567,3 +2588,94 @@ found by opening the PNGs.
 
 **Verification:** UI trial — **4 inspected screens, 0 script errors**; `tools/test.sh` —
 **12341 passed, 0 failed**; `python3 tools/check_lessons.py` — **0 problems**;
+`katago_calibrate.gd` — **28/28 passed**. Shipped as PR #16; the temperaments (PR #17)
+were merged into that branch after it had already reached `main`, and landed with M40.
+
+---
+
+## M40 — The review, on the engine
+
+The owner's report: play Wren, lose, ask for a review, see "Hana is reading the game", and
+nothing happens. The handoff had rewritten the flow three times and proved it with a
+three-move resignation. What was actually wrong was arithmetic. One KataGo evaluation of
+one position costs about a core-second on the bundled CPU build, at one visit or eight; the
+review ran **two** GTP searches per player move, re-synced the whole history before each,
+and gave itself eighteen seconds. A finished 9×9 game is fifty to eighty positions. Every
+real game timed out, the overlay closed, and the player was dropped back into the world with
+nothing said. The three-move fixture passed because it had three positions.
+
+- **One process, one query, every position.** `KataGoAnalysis` (`src/go_ai/`) runs
+  `katago analysis` over the whole SGF — handicap as `initialStones`, the game's komi,
+  Japanese rules to match `GoScoring` — and reads one JSON line per position as it arrives,
+  on as many analysis threads as the machine has cores (capped at eight). `MatchAnalysis`
+  is pure: it charges each of the player's moves the swing between the position before and
+  after, from their side of the board, and picks at most three — the biggest loss, a second
+  loss about a different idea, and one moment the engine agreed with the player when the
+  alternative was worse. Under three quarters of a point is noise; a game with nothing to
+  say is one honest "steady" card; a failed engine is one honest "no review" card.
+- **Progress you can walk away from.** The loading card is "Wren Calloway is going over the
+  game. Move 40 of 78." and [Esc] leaves it; `MatchReviewService` (an autoload, ~80 lines)
+  owns the one running analysis, a new match cancels it, and a review that lands while the
+  player is in the world toasts and waits on the quay noticeboard (WORLD-01's decision). A
+  quit mid-review marks it `failed: interrupted` on load; nothing resumes. A silent engine
+  is failed by a watchdog, never waited on. Any board from 7 to 19 lines is eligible.
+- **The person you played offers it.** "Go over the game with Wren Calloway?" — never Hana
+  in Act 1 (rule 8), and the engine is never named on a card. Filled = your move, ring =
+  the better move, and the legend says so on every card.
+- **`EnginePipe`** is the one child-process-on-a-pipe both `GtpOpponent` and the analysis
+  share: lines read on a worker, polled from the coroutine, closed before the join. Extracting
+  it found the bug that broke the first attempt at sharing: the dictionary
+  `execute_with_pipe` returns also holds the child's stderr, and dropping it kills KataGo
+  with SIGPIPE on its first log line.
+- Removed: the GTP `kata-search_analyze` path, `GtpOpponent.dead_stones()` (never called,
+  because `final_status_list` hung on this build — ENG-05 records the route that is left),
+  the background resume machinery, and the three-move fixture.
+- Found on the way: the `thirteen` fixture's save stood the player in the study hall and
+  talked to Kesh, who has lived at De Ketel since M37, so it had walked up to nobody and
+  photographed it confidently. `thirteen_ketel` stands where she is; both fixtures use it.
+- Also lands the temperaments commit (steady / balanced / fighting Human-SL configurations
+  per character) that PR #17 had merged into `feat/katago-cast-release` after that branch
+  was already on `main`, so it never reached `main`.
+
+**Done when:** `tools/test.sh` — **12478 passed, 0 failed** (M39: 12341) with the three
+engine gates green; `tools/katago_review_test.gd` analyses a whole 9×9 and a whole 19×19
+game, every position, and fails the wedged fixture through the watchdog; and the fixtures
+below were played and their frames opened.
+
+| fixture | what it proves |
+|---|---|
+| `review_e2e` / `review_13x13` / `review_win` | a whole game to the count, the offer, progress, the cards, the world; the last one a win, against the weakest heuristic profile |
+| `review_world_wren_loss` / `review_world_wren` / `review_world_13` | the same through the town: Wren at De Ketel, Kesh's thirteen with handicap stones, then the post-match talk |
+| `review_leave` | [Esc] on the loading card, the toast, the cards from the quay noticeboard |
+| `review_unavailable` | a wedged engine: one "no review" card and the world, no overlay left |
+| `quay_review` / `quay_review_19` | the noticeboard from a save, at nine and nineteen lines |
+
+**What it costs, measured on this machine (32 cores, 8 analysis threads, Eigen AVX2):**
+
+| game | positions | from "yes" to the cards |
+|---|---|---|
+| gate, 9×9, two heuristics | 79 | 14.4 s (0.18 s per position) |
+| gate, 19×19, two heuristics | 241 | 60.0 s (0.25 s per position) |
+| `review_e2e`, Wren | 58 | 11.9 s |
+| `review_win`, against a random mover | 100 | 19.7 s |
+| `review_world_13`, Kesh with handicap stones | 113 | 23.8 s |
+| `review_unavailable`, wedged engine | 0 of 60 | 12.1 s to the "no review" card (4 s watchdog in the fixture; 30 s shipped) |
+
+On one thread every position costs about a second, so a four-core laptop should expect
+roughly four times these numbers; that is what the progress line and [Esc] are for. Every
+fixture's frames were opened. The `2 ObjectDB instances were leaked at exit` warning in
+some logs predates this work: `resign.json`, untouched, prints it too. Not done: the same
+Wren loss on the real display — `:0` was not reachable from the session that built this,
+so every game above ran under Xvfb. The owner's own play is the remaining check.
+
+**Also found, not fixed (ENG-06):** the autoplay brain — the shipped heuristic with
+`mistake_rate` 0 and `reading_depth` 2, labelled 1 dan — loses to Abel's *21 kyu* engine
+profile by 43 points, and its 12-kyu setting loses to Wren's 20 kyu by 86. Either the
+Human-SL profiles play far above their labels at eight visits or the heuristic is far below
+its own; M39 calibrated latency and legality, never strength. A beginner's loop depends on
+which it is.
+
+**Deliberate breaks:** save version 2 → 3 (`match_analysis`, `opponent_name` and
+`review_requested` on a record; a version 2 file loads with no reviews);
+`GtpOpponent._parse_vertex` → `GoBoard.from_label`; `tools/autopilot/pip_review_e2e.json`
+deleted; the `quay_review` preset's payload reshaped to what the cards can open.

@@ -158,7 +158,7 @@ Compact, walkable, vertical: a street with rooms above it and rooms below it. Ni
 | **Molenpark** | Fast outdoor games, the stone tables | Bertie, Pip |
 | **Ketelsteeg** | The street: the tram stop, noticeboard, snack window, the stationer's | — |
 | **The wassalon** | The laundrette. The city's third register: nothing at all is written down | Abel, Dov, Moss |
-| **The quay** | Grey water and one bench. Where you go after losing | — |
+| **The quay** | Grey water and one bench. Where you go after losing; the noticeboard holds the last game you asked somebody to go over | — |
 | **Essenveld Instituut** | Classes, the internal league, the study hall | Hana, Marguerite, the students |
 | **Bondszaal** | The federation hall: tournaments and the exam | Marguerite |
 
@@ -244,14 +244,21 @@ all read from it. The Go board knows nothing about NPCs, quests or the town.
 
 ### The review
 
-**Cut (M37).** From M25 to M36 a match did not end at the result card: fifteen detectors,
-an evaluator that priced each finding in points, and a voice file per character replayed
-the game at the player. It was about 1,500 lines and eight data files, and it could say a
-group had one liberty and died but never what a move was worth — rules without judgement.
-A review that is any good needs an engine, and when the engine comes (ROADMAP §1) the
-review is the three biggest point swings in the game, which is what every real Go app
-shows and what none of the detectors could. Until then the person you played says two
-lines about the game you just played, and that is the whole post-mortem.
+**Cut (M37), rebuilt on the engine (M40).** From M25 to M36 a match did not end at the
+result card: fifteen detectors, an evaluator that priced each finding in points, and a
+voice file per character replayed the game at the player. It could say a group had one
+liberty and died but never what a move was worth — rules without judgement — and it went.
+
+What replaced it is what every real Go app shows. After the result card, the person you
+played asks whether to go over the game. Say yes and KataGo replays every position; the
+card says how far it has got and you may walk off, in which case the review waits on the
+quay noticeboard. What you get is at most three positions: the move that cost the most,
+a second loss about a different idea, and, when the engine agreed with you at a moment
+that mattered, one strength. Each card is the board before the move, your move filled,
+the better move ringed, the cost in points, and one plain sentence about what the better
+move does. Under three quarters of a point is noise and is never called a lesson; a game
+with nothing to say gets one honest "steady" card. Nobody teaches in it, nobody is named
+who has not been met, and nothing in it touches the result or the rank.
 
 ### Rules implemented (milestone 1)
 9×9; stone placement; liberties; capture; suicide illegal; ko (simple ko, with positional

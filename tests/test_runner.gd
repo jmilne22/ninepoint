@@ -26,6 +26,7 @@ func _initialize() -> void:
         "exam": ExamTests,
         "save": SaveTests,
         "rating": RatingTests, "cup": CupTests, "table talk": TableTalkTests,
+        "match analysis": MatchAnalysisTests,
     }
     for name in suites:
         var before := kit.passed + kit.failed

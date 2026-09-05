@@ -496,7 +496,9 @@ def quay():
     # the quay -- the map you come to after losing, in a port that drizzles --
     # had none.
     ground.set(8, 5, "q")
-    ground.set(17, 3, "q")
+    # A weathered noticeboard is the quay's only deliberate interaction: it
+    # holds a later look at a finished rated game, not another person to meet.
+    ground.set(17, 3, "n")
 
     ground.set(5, 6, "J")                      # mooring bollards
     ground.set(19, 6, "J")
@@ -524,6 +526,7 @@ def quay():
         "signs": [
             {"tile": [12, 4], "text": "A bench facing the water. It is the only place in Steenbeek where nobody will ask you how the game went."},
             {"tile": [5, 6], "text": "A mooring bollard, worn smooth. The water is the colour of the sky, which today is the colour of the water."},
+            {"tile": [17, 3], "text": "__QUAY_REVIEW__"},
         ],
         "npcs": [],
         "music": "theme_quay",

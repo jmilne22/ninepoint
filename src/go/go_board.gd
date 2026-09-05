@@ -78,6 +78,23 @@ func label(i: int) -> String:
     return "%s%d" % [letters[p.x], size - p.y]
 
 
+## The inverse of label(): "D4" -> index, -1 for anything that is not a point
+## on this board. "pass" and "resign" are not points and come back as -1 too.
+func from_label(vertex: String) -> int:
+    var v := vertex.strip_edges().to_upper()
+    if v.length() < 2:
+        return -1
+    var letters := "ABCDEFGHJKLMNOPQRSTUVWXYZ"
+    var x := letters.find(v[0])
+    var rest := v.substr(1)
+    if x < 0 or x >= size or not rest.is_valid_int():
+        return -1
+    var row := int(rest)
+    if row <= 0 or row > size:
+        return -1
+    return idx(x, size - row)
+
+
 # --- stones ------------------------------------------------------------------
 
 func get_at(x: int, y: int) -> int:
