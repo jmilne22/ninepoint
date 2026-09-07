@@ -1,11 +1,10 @@
 {
  "id": "openings",
- "title": "Choosing a First Move",
+ "title": "Beginning a Game",
  "teacher": "wren",
  "size": 9,
  "intro": [
-  "Try starting near a corner, a few lines in from the edge. Your stones have room to grow, with two nearby board edges to help enclose territory.",
-  "These positions compare corners, sides and the centre. During a game, check threatened groups before following an opening plan."
+  "Opening stones leave room for later play. A finished wall and a first move have different jobs."
  ],
  "steps": [
   {
@@ -21,154 +20,66 @@
     "........."
    ],
    "to_move": "black",
-   "instruction": "Choose a first move near a corner, a few lines in from the edge.",
+   "instruction": "Compare C9 on the edge with C7. Which leaves room toward both nearby edges?",
    "accept": "points",
    "points": [
     [
      2,
      2
-    ],
-    [
-     6,
-     2
-    ],
-    [
-     2,
-     6
-    ],
-    [
-     6,
-     6
     ]
    ],
-   "hint": "The four points a short step in from each corner are all good beginner starts.",
-   "explanation": "This stone has space around it and two nearby edges. It is one useful place to begin."
-  },
-  {
-   "board": [
-    "....O....",
-    ".........",
-    ".........",
-    ".........",
-    ".........",
-    ".........",
-    ".........",
-    ".........",
-    "........."
-   ],
-   "to_move": "black",
-   "instruction": "Choose an opening point with more room than the first line.",
-   "accept": "points",
-   "points": [
-    [
-     2,
-     2
-    ],
-    [
-     6,
-     2
-    ],
-    [
-     2,
-     6
-    ],
-    [
-     6,
-     6
-    ]
-   ],
-   "hint": "Leave the first line alone for now. Pick a point near a corner with room on both sides.",
-   "explanation": "Points farther from the edge have more room to grow. First-line moves can still matter later for saving groups or closing boundaries."
-  },
-  {
-   "board": [
-    ".........",
-    "...X.....",
-    "...X.....",
-    "XXXX.....",
-    ".........",
-    ".........",
-    ".........",
-    ".........",
-    "........."
-   ],
-   "to_move": "black",
-   "instruction": "Close the gap in the corner wall, on the top edge.",
-   "accept": "points",
-   "points": [
-    [
-     3,
-     0
-    ]
-   ],
-   "encloses": 9,
-   "hint": "Top edge, fourth line in from the left.",
-   "explanation": "Seven black stones surround nine corner points. Two sides of the boundary are the board edges.",
-   "region_at": [
-    1,
-    1
-   ]
-  },
-  {
-   "board": [
-    ".........",
-    ".........",
-    ".........",
-    "XXXX.....",
-    "...X.....",
-    "...X.....",
-    "...X.....",
-    "XXX......",
-    "........."
-   ],
-   "to_move": "black",
-   "instruction": "Close the gap in the wall along the side.",
-   "accept": "points",
-   "points": [
-    [
-     3,
-     7
-    ]
-   ],
-   "encloses": 9,
-   "hint": "The bottom right of the wall you can see, on the fourth column.",
-   "explanation": "Eleven black stones surround nine points here. Only one board edge helps form the boundary.",
-   "region_at": [
-    1,
-    5
-   ]
-  },
-  {
-   "board": [
-    ".........",
-    ".........",
-    "..XXXXX..",
-    "..X...X..",
-    "..X...X..",
-    "..X...X..",
-    "..XXXX...",
-    ".........",
-    "........."
-   ],
-   "to_move": "black",
-   "instruction": "Close the gap in the centre wall.",
-   "accept": "points",
-   "points": [
-    [
-     6,
-     6
-    ]
-   ],
-   "encloses": 9,
-   "hint": "The bottom right corner of the ring.",
-   "explanation": "Sixteen black stones surround nine points here. Black has to build the whole boundary.",
-   "region_at": [
+   "reply": [
     4,
     4
-   ]
+   ],
+   "show_liberties": false,
+   "explanation": "Your stone leaves room toward two edges. White takes the middle. You have a starting area, not territory that is already yours.",
+   "target": [
+    [
+     2,
+     0
+    ],
+    [
+     2,
+     2
+    ]
+   ],
+   "hint": "C7 leaves space above and to the left. Try that starting point."
+  },
+  {
+   "board": [
+    ".........",
+    ".........",
+    "..X......",
+    "..O......",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "black",
+   "instruction": "White has approached. Extend beside your stone, keeping its liberties.",
+   "accept": "points",
+   "points": [
+    [
+     3,
+     2
+    ],
+    [
+     1,
+     2
+    ],
+    [
+     2,
+     1
+    ]
+   ],
+   "show_liberties": true,
+   "explanation": "Your stones share liberties and leave room nearby. You do not need to draw a complete wall now. Check nearby threats before continuing your plan."
   }
  ],
  "outro": [
-  "Corners are often an efficient place to start. Keep nearby stones connected and check for urgent threats before expanding."
+  "Use Help during practice to inspect captures or groups with one liberty."
  ]
 }

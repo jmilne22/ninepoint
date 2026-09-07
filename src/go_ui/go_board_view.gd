@@ -35,6 +35,8 @@ var show_coordinates: bool = true
 ## shows that chain's liberties; on an empty point it shows the liberties a
 ## stone played there would have. Nothing explains "liberty" as fast as this.
 var show_liberties: bool = false
+## Explicit teaching targets remain visible while a side explanation is open.
+var liberty_targets := PackedInt32Array()
 var cursor: int = -1
 var interactive: bool = true
 ## Points to draw a hollow marker on (puzzle targets).
@@ -68,7 +70,8 @@ var _ghosts: Dictionary = {}
 func set_game(g: GoGame) -> void:
     game = g
     clear_animations()
-    dead.clear()
+    dead = {}
+    liberty_targets = PackedInt32Array()
     territory = PackedByteArray()
     zoomed = false
     pointer.clear()
@@ -242,6 +245,9 @@ func _draw() -> void:
 
     if show_liberties and target_point() >= 0 and (interactive or inspection):
         GoBoardInk.liberties(self, game, geometry, target_point(), FONT)
+
+    if not liberty_targets.is_empty():
+        GoBoardInk.liberties(self, game, geometry, liberty_targets[0], FONT)
 
     for h in highlight:
         if not geometry.contains(h):

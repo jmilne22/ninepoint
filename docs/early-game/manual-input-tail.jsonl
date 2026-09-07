@@ -1,0 +1,236 @@
+{"revision": 61, "steps": [{"tap": "move_down"}, {"tap": "interact"}, {"wait": 1.3}, {"tap": "interact"}, {"wait": 1.5}, {"shot": "wren_return_after_interruption"}]}
+{"revision": 62, "steps": [{"hold": "move_up", "seconds": 0.85}, {"hold": "move_left", "seconds": 0.25}, {"hold": "move_up", "seconds": 0.12}, {"tap": "interact"}, {"wait": 2}, {"shot": "wren_recover_lesson"}]}
+{"revision": 63, "steps": [{"tap": "interact"}, {"shot": "finishing_return_choices"}]}
+{"revision": 64, "steps": [{"tap": "interact"}, {"wait": 0.9}, {"tap": "interact"}, {"wait": 0.3}, {"board_input": {"move_to": [2, 3]}}, {"tap": "interact"}, {"shot": "fixed_inspection"}]}
+{"revision": 65, "steps": [{"board_input": {"move_to": [5, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "fixed_white_inspect"}]}
+{"revision": 66, "steps": [{"tap": "interact"}, {"wait": 0.2}, {"shot": "two_eye_proof"}]}
+{"revision": 67, "steps": [{"tap": "interact"}, {"wait": 0.2}, {"shot": "dead_refusal_proof"}, {"tap": "interact"}, {"wait": 0.2}, {"shot": "dead_capture_proof"}]}
+{"revision": 68, "steps": [{"tap": "interact"}, {"wait": 0.2}, {"board_input": {"move_to": [0, 3]}}, {"tap": "interact"}, {"wait": 0.7}, {"tap": "interact"}, {"wait": 0.2}, {"tap": "go_pass"}, {"wait": 0.2}, {"tap": "interact"}, {"wait": 0.2}, {"shot": "fixed_count_initial"}]}
+{"revision": 69, "steps": [{"board_input": {"move_to": [5, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "fixed_count_unmarked"}]}
+{"revision": 70, "steps": [{"board_input": {"move_to": [5, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "fixed_count_restored"}]}
+{"revision": 71, "steps": [{"tap": "go_pass"}, {"wait": 0.2}, {"shot": "count_explanation"}]}
+{"revision": 72, "steps": [{"tap": "interact"}, {"wait": 0.2}, {"shot": "finishing_outro"}, {"tap": "interact"}, {"wait": 1.5}, {"shot": "wren_after_finishing"}]}
+{"revision": 73, "steps": [{"tap": "interact"}, {"wait": 1.7}, {"shot": "wren_opening_offer"}]}
+{"revision": 74, "steps": [{"tap": "interact"}, {"shot": "opening_choices"}]}
+{"revision": 75, "steps": [{"tap": "interact"}, {"wait": 1}, {"shot": "opening_lesson_intro"}, {"tap": "interact"}, {"wait": 0.2}, {"shot": "opening_comparison1"}]}
+{"revision": 76, "steps": [{"board_input": {"move_to": [4, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "opening_center_rejected"}]}
+{"revision": 77, "steps": [{"board_input": {"move_to": [2, 2]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "opening_third_line"}]}
+{"revision": 78, "steps": [{"tap": "interact"}, {"wait": 0.2}, {"shot": "opening_response_prompt"}]}
+{"revision": 79, "steps": [{"board_input": {"move_to": [3, 2]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "opening_response_result"}]}
+{"revision": 80, "steps": [{"tap": "interact"}, {"wait": 0.2}, {"shot": "opening_outro"}]}
+{"revision": 81, "steps": [{"tap": "interact"}, {"wait": 1.5}, {"shot": "wren_game_offer"}]}
+{"revision": 82, "steps": [{"tap": "interact"}, {"wait": 1.5}, {"shot": "wren_unrated_promise"}]}
+{"revision": 83, "steps": [{"tap": "interact"}, {"wait": 1.5}, {"shot": "wren_unrated_words"}]}
+{"revision": 84, "steps": [{"tap": "interact"}, {"wait": 3}, {"shot": "wren_board_start"}]}
+{"revision": 85, "steps": [{"wait": 2}, {"tap": "go_help"}, {"wait": 0.3}, {"shot": "wren_general_help"}]}
+{"revision": 86, "steps": [{"tap": "interact"}, {"wait": 0.3}, {"shot": "wren_practice_help_intro"}]}
+{"revision": 87, "steps": [{"tap": "interact"}, {"wait": 0.6}, {"tap": "go_help"}, {"wait": 0.2}, {"shot": "wren_help_empty"}]}
+{"revision": 88, "steps": [{"tap": "interact"}, {"wait": 0.2}, {"board_input": {"move_to": [2, 2]}}, {"tap": "interact"}, {"wait": 1.5}, {"shot": "wren_01_c7"}]}
+{"revision": 89, "steps": [{"board_input": {"move_to": [3, 2]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_03_d7"}]}
+{"revision": 90, "steps": [{"board_input": {"move_to": [2, 3]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_05_c6"}]}
+{"revision": 91, "steps": [{"board_input": {"move_to": [3, 3]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_07_d6"}]}
+{"revision": 92, "steps": [{"board_input": {"move_to": [4, 3]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_09_e6"}]}
+{"revision": 93, "steps": [{"board_input": {"move_to": [5, 2]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_11_f7"}]}
+{"revision": 94, "steps": [{"board_input": {"move_to": [4, 2]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_13_e7"}]}
+{"revision": 95, "steps": [{"board_input": {"move_to": [2, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_15_c5"}]}
+{"revision": 96, "steps": [{"board_input": {"move_to": [1, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_17_b5"}]}
+{"revision": 97, "steps": [{"board_input": {"move_to": [0, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_19_a5"}]}
+{"revision": 98, "steps": [{"board_input": {"move_to": [4, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_21_e5"}]}
+{"revision": 99, "steps": [{"board_input": {"move_to": [3, 1]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_23_d8"}]}
+{"revision": 100, "steps": [{"board_input": {"move_to": [4, 0]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_25_e9"}]}
+{"revision": 101, "steps": [{"tap": "go_help"}, {"wait": 0.2}, {"shot": "wren_help_atari"}]}
+{"revision": 102, "steps": [{"tap": "interact"}, {"wait": 0.2}, {"board_input": {"move_to": [2, 0]}}, {"tap": "interact"}, {"wait": 1.4}, {"shot": "wren_27_c9"}]}
+{"revision": 103, "steps": [{"board_input": {"move_to": [2, 1]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_29_c8"}]}
+{"revision": 104, "steps": [{"board_input": {"move_to": [1, 1]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_31_b8"}]}
+{"revision": 105, "steps": [{"board_input": {"move_to": [0, 2]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_33_a7"}]}
+{"revision": 106, "steps": [{"tap": "go_help"}, {"wait": 0.2}, {"shot": "wren_real_capture_help"}]}
+{"revision": 107, "steps": [{"tap": "interact"}, {"wait": 0.2}, {"board_input": {"move_to": [0, 0]}}, {"tap": "interact"}, {"wait": 1.4}, {"shot": "wren_35_capture_a9"}]}
+{"revision": 108, "steps": [{"board_input": {"move_to": [3, 5]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_37_chase_d4"}]}
+{"revision": 109, "steps": [{"board_input": {"move_to": [3, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_39_connect_d5"}]}
+{"revision": 110, "steps": [{"board_input": {"move_to": [0, 3]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_41_a6"}]}
+{"revision": 111, "steps": [{"board_input": {"move_to": [1, 2]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_43_capture_b7"}]}
+{"revision": 112, "steps": [{"tap": "go_pass"}, {"wait": 0.4}, {"shot": "wren_first_pass_help"}]}
+{"revision": 113, "steps": [{"tap": "interact"}, {"wait": 1.5}, {"shot": "wren_continues_after_pass"}]}
+{"revision": 114, "steps": [{"tap": "go_pass"}, {"wait": 1.5}, {"shot": "wren_second_pass_response"}]}
+{"revision": 115, "steps": [{"tap": "go_pass"}, {"wait": 1.5}, {"shot": "wren_pass3"}]}
+{"revision": 116, "steps": [{"tap": "go_pass"}, {"wait": 1.5}, {"shot": "wren_pass4"}]}
+{"revision": 117, "steps": [{"tap": "go_pass"}, {"wait": 1.5}, {"shot": "wren_pass5"}]}
+{"revision": 118, "steps": [{"tap": "go_pass"}, {"wait": 1.5}, {"shot": "wren_pass6"}]}
+{"revision": 119, "steps": [{"tap": "go_pass"}, {"wait": 1.5}, {"shot": "wren_pass7"}]}
+{"revision": 120, "steps": [{"tap": "go_pass"}, {"wait": 1.5}, {"shot": "wren_pass8"}]}
+{"revision": 121, "steps": [{"tap": "go_pass"}, {"wait": 1.5}, {"shot": "wren_pass9"}]}
+{"revision": 122, "steps": [{"tap": "go_pass"}, {"wait": 1.5}, {"shot": "wren_pass10"}]}
+{"revision": 123, "steps": [{"tap": "go_help"}, {"shot": "wren_count_help"}]}
+{"revision": 124, "steps": [{"tap": "interact"}, {"shot": "wren_count_help_page2"}, {"tap": "interact"}, {"wait": 0.2}, {"board_input": {"move_to": [3, 5]}}, {"tap": "interact"}, {"shot": "wren_manual_mark"}]}
+{"revision": 125, "steps": [{"board_input": {"move_to": [3, 5]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "wren_marks_restored"}]}
+{"revision": 126, "steps": [{"tap": "go_pass"}, {"wait": 0.4}, {"shot": "wren_result"}]}
+{"revision": 127, "steps": [{"tap": "interact"}, {"wait": 1.5}, {"shot": "wren_reaction_before_review"}]}
+{"revision": 128, "steps": [{"tap": "interact"}, {"wait": 1.5}, {"shot": "wren_kesh_referral"}]}
+{"revision": 129, "steps": [{"tap": "interact"}, {"wait": 2}, {"shot": "wren_card_direction"}]}
+{"revision": 130, "steps": [{"tap": "interact"}, {"wait": 0.5}, {"shot": "wren_review_offer_world"}]}
+{"revision": 131, "steps": [{"tap": "move_up"}, {"tap": "interact"}, {"wait": 1.2}, {"shot": "wren_review_loading"}]}
+{"revision": 132, "steps": [{"wait": 2}, {"shot": "wren_review_status"}]}
+{"revision": 133, "steps": [{"tap": "move_right"}, {"shot": "wren_review_best"}, {"tap": "go_compare"}, {"shot": "wren_best_actual"}]}
+{"revision": 134, "steps": [{"tap": "move_right"}, {"shot": "wren_review_mistake1"}, {"tap": "go_compare"}, {"shot": "wren_mistake_actual"}, {"tap": "go_compare"}, {"shot": "wren_mistake_suggestion"}]}
+{"revision": 135, "steps": [{"tap": "move_right"}, {"shot": "wren_review_recommendation"}, {"tap": "move_right"}, {"shot": "wren_review_mistake2"}]}
+{"revision": 136, "steps": [{"tap": "move_right"}, {"shot": "wren_review_final_advice"}, {"tap": "interact"}, {"wait": 0.3}, {"shot": "wren_review_closed"}]}
+{"revision": 137, "steps": [{"hold": "move_right", "seconds": 1.72}, {"hold": "move_up", "seconds": 0.23}, {"tap": "interact"}, {"wait": 1.7}, {"shot": "kesh_card_welcome"}]}
+{"revision": 138, "steps": [{"tap": "interact"}, {"wait": 1.5}, {"shot": "provisional_card"}]}
+{"revision": 139, "steps": [{"tap": "interact"}, {"wait": 0.2}, {"shot": "kesh_entry_wording"}, {"tap": "interact"}, {"wait": 2}, {"shot": "kesh_novice_invitation"}]}
+{"revision": 140, "steps": [{"tap": "interact"}, {"wait": 2}, {"shot": "kesh_people_reason"}]}
+{"revision": 141, "steps": [{"tap": "interact"}, {"wait": 2}, {"shot": "kesh_optional_practice"}]}
+{"revision": 142, "steps": [{"tap": "interact"}, {"wait": 1.5}, {"shot": "kesh_free_to_leave"}, {"tap": "interact"}, {"shot": "kesh_decline_choice"}]}
+{"revision": 143, "steps": [{"tap": "move_down"}, {"tap": "interact"}, {"wait": 1.5}, {"shot": "kesh_declined"}, {"tap": "interact"}, {"wait": 0.3}]}
+{"revision": 144, "steps": [{"tap": "interact"}, {"wait": 1.5}, {"shot": "kesh_return_no_reissue"}]}
+{"revision": 145, "steps": [{"advance": 3, "stop_at_choice": true}, {"choose": 1}, {"wait": 1.2}, {"tap": "interact"}, {"hold": "move_down", "seconds": 1.35}, {"hold": "move_left", "seconds": 1.3}, {"hold": "move_down", "seconds": 0.5}, {"wait": 0.8}, {"shot": "leave_club_for_tram"}]}
+{"revision": 146, "steps": [{"hold": "move_down", "seconds": 0.35}, {"hold": "move_left", "seconds": 3.12}, {"hold": "move_up", "seconds": 0.3}, {"tap": "interact"}, {"wait": 1.5}, {"shot": "tram_stop"}]}
+{"revision": 147, "steps": [{"tap": "interact"}, {"shot": "tram_destinations"}]}
+{"revision": 148, "steps": [{"tap": "interact"}, {"wait": 3}, {"shot": "institute_arrival"}]}
+{"revision": 149, "steps": [{"wait": 5}, {"shot": "institute_hall"}]}
+{"revision": 150, "steps": [{"hold": "move_up", "seconds": 1.04}, {"hold": "move_right", "seconds": 2.9}, {"wait": 0.8}, {"shot": "classroom_arrival"}]}
+{"revision": 151, "steps": [{"hold": "move_up", "seconds": 0.36}, {"hold": "move_right", "seconds": 1.9}, {"wait": 0.7}, {"shot": "class_east_door"}]}
+{"revision": 152, "steps": [{"hold": "move_right", "seconds": 1.85}, {"hold": "move_up", "seconds": 0.75}, {"hold": "move_right", "seconds": 0.87}, {"hold": "move_up", "seconds": 0.2}, {"tap": "interact"}, {"wait": 1.7}, {"shot": "hana_welcome"}]}
+{"revision": 153, "steps": [{"hold": "move_right", "seconds": 0.35}, {"tap": "move_up"}, {"tap": "interact"}, {"wait": 2}, {"shot": "hana_first_connection"}]}
+{"revision": 154, "steps": [{"tap": "interact"}, {"wait": 2}, {"shot": "hana_noor_direction"}]}
+{"revision": 155, "steps": [{"tap": "interact"}, {"wait": 2}, {"shot": "hana_first_class_offer"}]}
+{"revision": 156, "steps": [{"tap": "interact"}, {"shot": "hana_class_options"}]}
+{"revision": 157, "steps": [{"tap": "interact"}, {"wait": 1}, {"shot": "hana_class_intro"}, {"tap": "interact"}, {"wait": 0.2}, {"shot": "hana_two_eyes_test"}]}
+{"revision": 158, "steps": [{"board_input": {"move_to": [2, 2]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "hana_secure_eye"}]}
+{"revision": 159, "steps": [{"tap": "interact"}, {"wait": 0.2}, {"shot": "hana_false_eye"}]}
+{"revision": 160, "steps": [{"board_input": {"move_to": [1, 0]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "hana_apparent_eye_capture"}]}
+{"revision": 161, "steps": [{"tap": "interact"}, {"wait": 0.2}, {"shot": "hana_connected_boundary"}]}
+{"revision": 162, "steps": [{"board_input": {"move_to": [1, 0]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "hana_boundary_refused"}]}
+{"revision": 163, "steps": [{"tap": "interact"}, {"wait": 0.2}, {"shot": "hana_class_outro"}]}
+{"revision": 164, "steps": [{"tap": "interact"}, {"wait": 1.5}, {"shot": "hana_after_class"}]}
+{"revision": 165, "steps": [{"tap": "interact"}, {"wait": 1.7}, {"shot": "hana_registration_direction"}]}
+{"revision": 166, "steps": [{"tap": "interact"}, {"wait": 1.7}, {"shot": "hana_board_direction"}]}
+{"revision": 167, "steps": [{"tap": "interact"}, {"hold": "move_left", "seconds": 0.9}, {"hold": "move_down", "seconds": 0.85}, {"hold": "move_left", "seconds": 2.2}, {"wait": 0.7}, {"shot": "return_registration_hall"}]}
+{"revision": 168, "steps": [{"hold": "move_left", "seconds": 4.42}, {"hold": "move_up", "seconds": 0.53}, {"tap": "interact"}, {"wait": 1.7}, {"shot": "marguerite_registration"}]}
+{"revision": 169, "steps": [{"hold": "move_left", "seconds": 0.5}, {"tap": "move_up"}, {"tap": "interact"}, {"wait": 1.7}, {"shot": "marguerite_hana_sent"}]}
+{"revision": 170, "steps": [{"hold": "move_up", "seconds": 0.14}, {"tap": "interact"}, {"wait": 1.7}, {"shot": "marguerite_intro"}]}
+{"revision": 171, "steps": [{"tap": "interact"}, {"wait": 1.7}, {"shot": "registration_explained"}, {"tap": "interact"}, {"shot": "registration_choices"}]}
+{"revision": 172, "steps": [{"tap": "interact"}, {"wait": 1.7}, {"shot": "registration_room_direction"}]}
+{"revision": 173, "steps": [{"tap": "interact"}, {"wait": 1.7}, {"shot": "registration_next"}]}
+{"revision": 174, "steps": [{"tap": "interact"}, {"wait": 0.2}, {"hold": "move_down", "seconds": 0.45}, {"hold": "move_right", "seconds": 1.95}, {"hold": "move_up", "seconds": 0.9}, {"tap": "interact"}, {"wait": 0.3}, {"shot": "league_board_new"}]}
+{"revision": 175, "steps": [{"tap": "go_help"}, {"shot": "league_help_readable"}]}
+{"revision": 176, "steps": [{"tap": "cancel"}, {"tap": "cancel"}, {"hold": "move_down", "seconds": 1.05}, {"hold": "move_left", "seconds": 1.77}, {"hold": "move_down", "seconds": 0.75}, {"hold": "move_left", "seconds": 0.9}, {"wait": 0.7}, {"shot": "novice_room_arrival"}]}
+{"revision": 177, "steps": [{"hold": "move_down", "seconds": 0.2}, {"hold": "move_left", "seconds": 0.35}, {"wait": 0.7}, {"shot": "novice_room_personal_tables"}]}
+{"revision": 178, "steps": [{"hold": "move_down", "seconds": 0.15}, {"hold": "move_left", "seconds": 0.4}, {"wait": 0.7}, {"shot": "novice_room_entered"}]}
+{"revision": 179, "steps": [{"hold": "move_up", "seconds": 0.14}, {"hold": "move_left", "seconds": 0.6}, {"wait": 0.7}, {"shot": "novice_door_alignment"}]}
+{"revision": 180, "steps": [{"hold": "move_down", "seconds": 0.055}, {"hold": "move_left", "seconds": 0.5}, {"wait": 0.6}, {"shot": "novice_threshold"}]}
+{"revision": 181, "steps": [{"tap": "interact"}, {"wait": 0.7}, {"shot": "novice_door_interact"}]}
+{"revision": 182, "steps": [{"hold": "move_up", "seconds": 0.18}, {"hold": "move_left", "seconds": 0.5}, {"wait": 0.7}, {"shot": "novice_enter_visible_door"}]}
+{"revision": 183, "steps": [{"hold": "move_down", "seconds": 0.65}, {"hold": "move_left", "seconds": 1.35}, {"tap": "interact"}, {"wait": 1.7}, {"shot": "sora_first_meeting"}]}
+{"revision": 184, "steps": [{"tap": "interact"}, {"wait": 1.5}, {"shot": "sora_makes_room"}, {"tap": "interact"}, {"wait": 1.5}, {"shot": "sora_optional_offer"}]}
+{"revision": 185, "steps": [{"tap": "interact"}, {"shot": "sora_choices"}]}
+{"revision": 186, "steps": [{"tap": "move_down"}, {"tap": "interact"}, {"wait": 1}, {"tap": "interact"}, {"hold": "move_left", "seconds": 2.5}, {"tap": "interact"}, {"wait": 1.7}, {"shot": "emil_first_meeting"}]}
+{"revision": 187, "steps": [{"choose": 1}, {"wait": 0.2}, {"hold": "move_left", "seconds": 2.55}, {"tap": "interact"}, {"wait": 1.7}, {"shot": "emil_repairs_intro"}]}
+{"revision": 188, "steps": [{"advance": 1, "stop_at_choice": true}, {"choose": 1}, {"wait": 0.2}, {"hold": "move_down", "seconds": 0.28}, {"hold": "move_left", "seconds": 2.53}, {"tap": "move_up"}, {"tap": "interact"}, {"wait": 1.7}, {"shot": "emil_actual_greeting"}]}
+{"revision": 189, "steps": [{"hold": "move_up", "seconds": 0.15}, {"tap": "interact"}, {"wait": 1.7}, {"shot": "emil_materials_dialogue"}]}
+{"revision": 190, "steps": [{"tap": "interact"}, {"wait": 1.5}, {"shot": "emil_interest"}, {"tap": "interact"}, {"wait": 1}, {"tap": "interact"}, {"choose": 1}, {"wait": 0.2}, {"hold": "move_right", "seconds": 0.9}, {"hold": "move_up", "seconds": 1.6}, {"hold": "move_left", "seconds": 1.55}, {"tap": "move_up"}, {"tap": "interact"}, {"wait": 1.7}, {"shot": "noor_first_greeting"}]}
+{"revision": 191, "steps": [{"hold": "move_up", "seconds": 0.16}, {"tap": "interact"}, {"wait": 1.7}, {"shot": "noor_company"}]}
+{"revision": 192, "steps": [{"tap": "interact"}, {"wait": 1.7}, {"shot": "noor_shared_cup"}]}
+{"revision": 193, "steps": [{"tap": "interact"}, {"wait": 1.2}, {"shot": "noor_first_fixture_offer"}, {"tap": "interact"}, {"shot": "noor_fixture_choices"}]}
+{"revision": 194, "steps": [{"tap": "interact"}, {"wait": 3}, {"shot": "noor_game_setup"}]}
+{"revision": 195, "steps": [{"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_colour_draw"}]}
+{"revision": 196, "steps": [{"wait": 1.3}, {"shot": "noor_colour_choice"}]}
+{"revision": 197, "steps": [{"board_input": {"move_to": [2, 2]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_02_c7"}]}
+{"revision": 198, "steps": [{"board_input": {"move_to": [2, 5]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_04_c4"}]}
+{"revision": 199, "steps": [{"board_input": {"move_to": [3, 3]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_06_d6"}]}
+{"revision": 200, "steps": [{"board_input": {"move_to": [1, 3]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_08_b6"}]}
+{"revision": 201, "steps": [{"board_input": {"move_to": [2, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_10_capture_c5"}]}
+{"revision": 202, "steps": [{"board_input": {"move_to": [3, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_12_d5"}]}
+{"revision": 203, "steps": [{"board_input": {"move_to": [4, 5]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_14_e4"}]}
+{"revision": 204, "steps": [{"board_input": {"move_to": [4, 3]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_16_e6"}]}
+{"revision": 205, "steps": [{"board_input": {"move_to": [5, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_18_capture_f5"}]}
+{"revision": 206, "steps": [{"board_input": {"move_to": [2, 3]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_20_connect_c6"}]}
+{"revision": 207, "steps": [{"board_input": {"move_to": [4, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_22_connect_e5"}]}
+{"revision": 208, "steps": [{"board_input": {"move_to": [6, 6]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_24_g3"}]}
+{"revision": 209, "steps": [{"board_input": {"move_to": [2, 6]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_26_c3"}]}
+{"revision": 210, "steps": [{"board_input": {"move_to": [5, 6]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_28_f3"}]}
+{"revision": 211, "steps": [{"board_input": {"move_to": [5, 5]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_30_f4"}]}
+{"revision": 212, "steps": [{"board_input": {"move_to": [2, 7]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_32_c2"}]}
+{"revision": 213, "steps": [{"board_input": {"move_to": [3, 5]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_34_d4"}]}
+{"revision": 214, "steps": [{"board_input": {"move_to": [3, 7]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_36_d2"}]}
+{"revision": 215, "steps": [{"board_input": {"move_to": [4, 7]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_38_capture_e2"}]}
+{"revision": 216, "steps": [{"board_input": {"move_to": [5, 8]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_40_f1_risk"}]}
+{"revision": 217, "steps": [{"board_input": {"move_to": [3, 2]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_42_d7"}]}
+{"revision": 218, "steps": [{"board_input": {"move_to": [6, 7]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_44_capture_g2"}]}
+{"revision": 219, "steps": [{"board_input": {"move_to": [2, 8]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_46_capture_c1"}]}
+{"revision": 220, "steps": [{"board_input": {"move_to": [6, 8]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_48_g1"}]}
+{"revision": 221, "steps": [{"board_input": {"move_to": [1, 6]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_50_b3"}]}
+{"revision": 222, "steps": [{"board_input": {"move_to": [4, 2]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_52_e7"}]}
+{"revision": 223, "steps": [{"board_input": {"move_to": [5, 3]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_54_f6"}]}
+{"revision": 224, "steps": [{"board_input": {"move_to": [0, 6]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_56_a3"}]}
+{"revision": 225, "steps": [{"board_input": {"move_to": [1, 8]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_58_b1"}]}
+{"revision": 226, "steps": [{"board_input": {"move_to": [0, 7]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_60_capture_a2"}]}
+{"revision": 227, "steps": [{"board_input": {"move_to": [3, 6]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_62_capture_e3"}]}
+{"revision": 228, "steps": [{"board_input": {"move_to": [1, 5]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_64_b4"}]}
+{"revision": 229, "steps": [{"board_input": {"move_to": [0, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_66_capture_b5"}]}
+{"revision": 230, "steps": [{"board_input": {"move_to": [0, 5]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "noor_68_connect_a4"}]}
+{"revision": 231, "steps": [{"tap": "go_pass"}, {"wait": 1.5}, {"shot": "noor_first_pass"}]}
+{"revision": 232, "steps": [{"tap": "go_pass"}, {"wait": 1.5}, {"shot": "noor_second_pass"}]}
+{"revision": 233, "steps": [{"tap": "go_pass"}, {"wait": 1.5}, {"shot": "noor_third_pass"}]}
+{"revision": 234, "steps": [{"tap": "go_pass"}, {"wait": 1.5}, {"shot": "noor_fourth_pass"}]}
+{"revision": 235, "steps": [{"tap": "go_pass"}, {"wait": 1.5}, {"shot": "noor_fifth_pass"}]}
+{"revision": 236, "steps": [{"tap": "go_pass"}, {"wait": 1.5}, {"shot": "noor_sixth_pass"}]}
+{"revision": 237, "steps": [{"wait": 1.5}, {"shot": "noor_count"}]}
+{"revision": 238, "steps": [{"tap": "go_pass"}, {"wait": 1.5}, {"shot": "noor_result"}, {"tap": "interact"}, {"wait": 2}, {"shot": "noor_reaction"}]}
+{"revision": 239, "steps": [{"tap": "interact"}, {"wait": 1.6}, {"shot": "noor_reaction_cup"}, {"tap": "interact"}, {"wait": 0.8}, {"shot": "noor_review_offer"}]}
+{"revision": 240, "steps": [{"tap": "move_up"}, {"tap": "interact"}, {"wait": 1}, {"shot": "noor_analysis_loading"}]}
+{"revision": 241, "steps": [{"wait": 1}, {"shot": "noor_analysis_progress"}]}
+{"revision": 242, "steps": [{"tap": "move_right"}, {"shot": "noor_best"}, {"tap": "go_compare"}, {"shot": "noor_best_played"}]}
+{"revision": 243, "steps": [{"tap": "move_right"}, {"shot": "noor_mistake1"}, {"tap": "go_compare"}, {"shot": "noor_mistake1_played"}, {"tap": "go_compare"}, {"shot": "noor_mistake1_preferred"}, {"tap": "move_right"}, {"shot": "noor_mistake1_advice"}]}
+{"revision": 244, "steps": [{"tap": "move_right"}, {"shot": "noor_mistake2"}, {"tap": "move_right"}, {"shot": "noor_mistake2_advice"}, {"tap": "interact"}, {"shot": "noor_review_closed"}]}
+{"revision": 245, "steps": [{"hold": "move_down", "seconds": 0.35}, {"hold": "move_right", "seconds": 1.94}, {"tap": "move_up"}, {"tap": "interact"}, {"wait": 1.7}, {"shot": "ivo_intro"}]}
+{"revision": 246, "steps": [{"hold": "move_up", "seconds": 0.25}, {"tap": "interact"}, {"wait": 1.7}, {"shot": "ivo_first_meeting"}]}
+{"revision": 247, "steps": [{"tap": "interact"}, {"wait": 1.7}, {"shot": "ivo_finish_intent"}, {"tap": "interact"}, {"wait": 0.5}, {"shot": "ivo_choices"}]}
+{"revision": 248, "steps": [{"tap": "interact"}, {"wait": 0.4}, {"shot": "ivo_fixture_options"}, {"choose": 0}, {"wait": 1}, {"shot": "ivo_nigiri"}]}
+{"revision": 249, "steps": [{"wait": 1}, {"tap": "interact"}, {"wait": 1}, {"shot": "ivo_nigiri_guess"}]}
+{"revision": 250, "steps": [{"wait": 1.5}, {"shot": "ivo_color_choice"}, {"tap": "interact"}, {"wait": 2}, {"shot": "ivo_start"}]}
+{"revision": 251, "steps": [{"board_input": {"move_to": [2, 6]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_01_c3"}]}
+{"revision": 252, "steps": [{"board_input": {"move_to": [2, 5]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_03_c4"}]}
+{"revision": 253, "steps": [{"board_input": {"move_to": [3, 6]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_05_d3"}]}
+{"revision": 254, "steps": [{"board_input": {"move_to": [3, 5]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_07_d4"}]}
+{"revision": 255, "steps": [{"board_input": {"move_to": [2, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_09_c5"}]}
+{"revision": 256, "steps": [{"board_input": {"move_to": [3, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_11_d5"}]}
+{"revision": 257, "steps": [{"board_input": {"move_to": [4, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_13_e5"}]}
+{"revision": 258, "steps": [{"board_input": {"move_to": [3, 3]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_15_d6"}]}
+{"revision": 259, "steps": [{"board_input": {"move_to": [3, 2]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_17_d7"}]}
+{"revision": 260, "steps": [{"board_input": {"move_to": [1, 3]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_19_b6"}]}
+{"revision": 261, "steps": [{"board_input": {"move_to": [1, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_21_b5"}]}
+{"revision": 262, "steps": [{"board_input": {"move_to": [1, 6]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_23_b3"}]}
+{"revision": 263, "steps": [{"board_input": {"move_to": [1, 2]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_25_b7"}]}
+{"revision": 264, "steps": [{"board_input": {"move_to": [2, 1]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_27_capture_c8"}]}
+{"revision": 265, "steps": [{"board_input": {"move_to": [3, 1]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_29_d8"}]}
+{"revision": 266, "steps": [{"board_input": {"move_to": [4, 3]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_31_e6"}]}
+{"revision": 267, "steps": [{"board_input": {"move_to": [4, 1]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_33_e8"}]}
+{"revision": 268, "steps": [{"board_input": {"move_to": [0, 6]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_35_a3"}]}
+{"revision": 269, "steps": [{"board_input": {"move_to": [1, 7]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_37_b2"}]}
+{"revision": 270, "steps": [{"board_input": {"move_to": [0, 8]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_39_capture_a1"}]}
+{"revision": 271, "steps": [{"board_input": {"move_to": [0, 7]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_41_connect_a2"}]}
+{"revision": 272, "steps": [{"board_input": {"move_to": [3, 0]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_43_d9"}]}
+{"revision": 273, "steps": [{"board_input": {"move_to": [1, 0]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_45_capture_b9"}]}
+{"revision": 274, "steps": [{"board_input": {"move_to": [2, 0]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_47_connect_c9"}]}
+{"revision": 275, "steps": [{"board_input": {"move_to": [0, 2]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_49_capture_a7"}]}
+{"revision": 276, "steps": [{"board_input": {"move_to": [5, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_51_f5"}]}
+{"revision": 277, "steps": [{"board_input": {"move_to": [0, 5]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_53_a4"}]}
+{"revision": 278, "steps": [{"board_input": {"move_to": [0, 3]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_55_capture_a6"}]}
+{"revision": 279, "steps": [{"board_input": {"move_to": [2, 8]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_57_capture_c1"}]}
+{"revision": 280, "steps": [{"board_input": {"move_to": [1, 8]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_59_connect_b1"}]}
+{"revision": 281, "steps": [{"board_input": {"move_to": [5, 3]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_61_f6"}]}
+{"revision": 282, "steps": [{"board_input": {"move_to": [5, 1]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_63_f8"}]}
+{"revision": 283, "steps": [{"board_input": {"move_to": [5, 0]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_65_f9"}]}
+{"revision": 284, "steps": [{"board_input": {"move_to": [6, 4]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_67_g5"}]}
+{"revision": 285, "steps": [{"tap": "go_pass"}, {"wait": 2}, {"shot": "ivo_first_pass"}]}
+{"revision": 286, "steps": [{"tap": "go_pass"}, {"wait": 2}, {"shot": "ivo_second_pass"}]}
+{"revision": 287, "steps": [{"tap": "go_pass"}, {"wait": 2}, {"shot": "ivo_third_pass"}]}
+{"revision": 288, "steps": [{"tap": "go_pass"}, {"wait": 2}, {"shot": "ivo_fourth_pass"}]}
+{"revision": 289, "steps": [{"tap": "go_pass"}, {"wait": 2}, {"shot": "ivo_fifth_pass"}]}
+{"revision": 290, "steps": [{"board_input": {"move_to": [0, 1]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_count_unmark_a8"}]}
+{"revision": 291, "steps": [{"board_input": {"move_to": [0, 1]}}, {"tap": "interact"}, {"wait": 1.3}, {"shot": "ivo_count_restore_a8"}]}
+{"revision": 292, "steps": [{"tap": "go_pass"}, {"wait": 1}, {"shot": "ivo_result"}, {"tap": "interact"}, {"wait": 1.7}, {"shot": "ivo_loss_reaction"}]}
+{"revision": 293, "steps": [{"tap": "interact"}, {"wait": 1.7}, {"shot": "ivo_reaction_finish"}, {"tap": "interact"}, {"wait": 0.5}, {"shot": "ivo_review_offer"}, {"tap": "move_up"}, {"tap": "interact"}, {"wait": 0.5}, {"shot": "ivo_review_loading"}, {"tap": "cancel"}, {"wait": 0.5}, {"shot": "ivo_leave_analysis"}]}
+{"revision": 294, "steps": [{"tap": "interact"}, {"wait": 1.8}, {"shot": "ivo_return_continuity"}]}
+{"revision": 295, "steps": [{"tap": "interact"}, {"wait": 0.3}, {"shot": "ivo_return_options"}, {"choose": 1}, {"wait": 0.3}, {"shot": "two_fixtures_complete"}]}
+{"revision": 296, "steps": [{"quit": true}]}

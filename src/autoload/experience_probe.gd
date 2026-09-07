@@ -22,6 +22,15 @@ static func set_action(action: String, pressed: bool) -> void:
 
 static func perform(tree: SceneTree, spec: Dictionary, shot: Callable) -> void:
     var mode := str(spec["experience"])
+    if mode == "practice_probe":
+        await PracticePlayProbe.run(tree, shot)
+        return
+    if mode == "lesson_run":
+        await LessonPlayProbe.run(tree, shot)
+        return
+    if mode in ["review_ready", "review_snapshot", "review_unchanged", "review_reopen", "review_availability"]:
+        await ReviewFlowProbe.perform(tree, spec, shot)
+        return
     if mode in ["choice", "assert_progress", "reload", "rank_card"]:
         await LeaguePlayProbe.perform(tree, spec, shot)
         return
@@ -126,12 +135,18 @@ static func perform(tree: SceneTree, spec: Dictionary, shot: Callable) -> void:
                         await press(tree, "interact")
                         return
             "review_choice":
-                if str(scene.get("_awaiting")) == "review":
+                var flow := tree.root.find_child("PostMatchReview", true, false) as PostMatchReview
+                if flow != null and flow._awaiting == &"review":
                     await shot.call("review_offer")
-                    if bool(spec.get("accept", false)) != bool(scene.get("_review_yes")):
+                    if bool(spec.get("accept", false)) != flow._yes:
                         await press(tree, "move_up")
                     await press(tree, "interact")
                     return
+                var box := tree.root.find_child("DialogueBox", true, false) as DialogueBox
+                if box != null and box.running:
+                    await tree.create_timer(0.5).timeout
+                    await shot.call("reaction_before_review")
+                    await press(tree, "interact")
             "lesson_place":
                 if str(scene.get("_awaiting")) == "step" and scene.get("lesson") != null:
                     var xy: Array = spec["point"]

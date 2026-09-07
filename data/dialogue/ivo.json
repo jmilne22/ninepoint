@@ -6,6 +6,15 @@
     {
      "if": [
       [
+       "flag",
+       "ivo_introduced"
+      ]
+     ],
+     "goto": "offer"
+    },
+    {
+     "if": [
+      [
        "played_at_least",
        "ivo",
        1
@@ -20,10 +29,17 @@
   },
   "hello": {
    "text": [
-    "I came by bicycle. It started raining halfway here.",
-    "At least I remembered to bring a pencil."
+    "I came between deliveries. The bicycle can dry outside while we play.",
+    "I've got a pencil for the result. I want to finish the games I start."
    ],
-   "goto": "offer"
+   "goto": "offer",
+   "actions": [
+    [
+     "set_flag",
+     "ivo_introduced",
+     true
+    ]
+   ]
   },
   "offer": {
    "text": [
@@ -79,15 +95,18 @@
   },
   "won": {
    "text": [
-    "I won that one. I'll write it down before I lose the pencil."
+    "That's mine. Let me write the result before I forget.",
+    "Thanks for the game."
    ],
-   "goto": "offer"
+   "goto": "reaction_offer"
   },
   "lost": {
    "text": [
-    "Your game. Thanks for sitting down with me."
+    "Your game. I'll write that down.",
+    "I'm glad we played it through. Thanks."
    ],
-   "goto": "offer"
-  }
+   "goto": "reaction_offer"
+  },
+  "reaction_offer": {}
  }
 }

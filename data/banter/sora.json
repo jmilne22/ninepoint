@@ -1,0 +1,29 @@
+{
+ "id": "sora",
+ "lines": {
+  "you_captured": [
+   "Here, these are yours now."
+  ],
+  "you_captured_big": [
+   "I'll make some space for those."
+  ],
+  "i_captured": [
+   "I'll put these over here."
+  ],
+  "i_captured_big": [
+   "Let me collect this group."
+  ],
+  "ko": [
+   "Ko: we can't keep taking straight back."
+  ],
+  "i_atari": [
+   "That group has just one liberty now."
+  ],
+  "i_pass": [
+   "I pass. Take your time."
+  ],
+  "you_pass": [
+   "I'll have another look too."
+  ]
+ }
+}

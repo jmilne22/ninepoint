@@ -111,9 +111,9 @@ strength ladder. Dead-stone adjudication remains ENG-05.
 
 ## 4. Content that is still thin — CONTENT-01 through CONTENT-03
 
-- The curriculum runs to competence and stops before judgement: thirteen lessons,
-  twelve puzzles, all decidable from the rules because `tools/check_lessons.py` can only
-  guard a claim it can decide. Whole-board judgement needs the engine.
+- The early curriculum now teaches a demonstrated finish before the full game, with
+  sixteen lesson files including optional refreshers and twelve puzzles. These locally
+  checkable decisions and factual Help do not establish whole-board judgement or human readiness.
 - The study-hall students have three-game and six-game arcs and nothing after.
 - M43 gives every existing exam and Cup outcome a conclusion, results display and optional
   acknowledgement. A new chapter or nineteen-line teaching transition remains separate.
@@ -144,8 +144,8 @@ strength ladder. Dead-stone adjudication remains ENG-05.
 - **Dead-stone estimation is a heuristic** and will misjudge seki and complicated life
   and death. The player can override every call. The engine fixes it, but not through
   `final_status_list` (§1); the analysis mode's ownership map is the route.
-- **`go_match.gd` is over 800 lines.** The result, the review offer and the wait under
-  the loading card went in where a component should have.
+- **`go_match.gd` remains over 800 lines.** Review offers/loading now belong to
+  `PostMatchReview`, and practice help to `MatchTeaching`; further extraction remains useful.
 - **The UI is positioned by hand**, in literal coordinates rather than containers. M37
   found that `Label`'s default 3 px `line_spacing` had made every "four rows" in the
   game three rows and a fourth drawn on the frame, in every panel, for the life of the
@@ -236,3 +236,27 @@ and is unrated. The card opens access; it is not a measured placement. Wren and 
 journal point to the conversation rather than a required match. Existing ranked saves
 keep their ranks and histories. This supersedes PROG-01's decision to preserve all three
 opening setups. Noor and Ivo both gave the owner close-ish wins; their settings stay fixed.
+
+
+## Early-game revision — EARLY-01 through EARLY-05
+
+The owner approved teaching and story-order changes after the September 6 walkthrough.
+Preserve Verhaven, its cast, the honest rank ladder, optional practice and leagues. Fellow
+beginners motivate school entry: Hana points toward Noor, Noor wants company through the
+league, and the Cup becomes a shared goal. Registration follows the welcome class; the
+arrival capture problem remains an optional reminder. No additional win gate is introduced.
+
+The club demonstrates finishing before the first full game. Short rule decisions replace
+repetition, while optional longer refreshers remain available. Result explanations keep the
+board visible. Wren’s actual practice uses position-aware guidance, Help and a score preview;
+her engine strength and stopping policy stay unchanged until human experience warrants a
+different decision. Proposed dead marks remain manually editable and are still heuristic.
+
+Reactions now precede analysis. Review language reports immediate verifiable changes, with
+independent board comparisons and qualified engine preferences. Requesting analysis never
+records another result. Visual novice belongings, contrasting HUD text and league-derived
+progress make the existing setting and competition readable without another progression.
+
+The observed long endings and an early-pass handicap ending are separate evaluation work
+(ENG-09 and ENG-05). This revision does not resolve them by altering engine behaviour.
+See `docs/early-game/PLAYTEST.md` for before/after evidence and the independent beginner gate.

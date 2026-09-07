@@ -135,6 +135,9 @@ FOOTPRINTS={
 'laundry_basket':(24,24,0,8,24,16),'dry_corner':(80,48,8,32,48,16),
 'port_cargo':(64,32,0,16,64,16),'review_board':(48,40,0,24,48,16)}
 
+for person in ['noor','ivo','lea','emil','sora']:
+    FOOTPRINTS['novice_'+person]=(48,48,0,16,48,16)
+
 def finish(name,data):
     ground=[list(r) for r in data['ground']];solid=[list(r) for r in data['solid']]
     floor=',' if name.startswith('academy') or name=='wassalon' else '1'

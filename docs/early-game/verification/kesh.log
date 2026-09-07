@@ -1,0 +1,47 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+AUTOPILOT: 42 steps from res://tools/autopilot/early_kesh.json
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/01_rank_card_before_practice.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/02_welcome_after_card.png
+EXPERIENCE: rank card dismissed without advancing underlying dialogue
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/03_choice_I'll head to the Instituut..png
+EXPERIENCE: verified progress {"experience":"assert_progress","flags":["ranked_by_club","invited_to_institute"],"rank":"30k"}
+EXPERIENCE: disk reload preserved every league fixture and history index
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/04_choice_I'll head to the Instituut..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/05_choice_A practice game..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/06_HandicapHelp_0.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/07_HandicapHelp_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/08_BoardBrief_0.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/09_BoardBrief_1.png
+EXPERIENCE: kesh_first 9x9; player Black; handicap 5; komi 0.5; unrated true
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/10_optional_kesh_handicap.png
+AUTOPILOT: Start playing even if the engine passes on its first turn; the bot also misreads an all-Black handicap opening as finished.
+AUTOPILOT: the game reached the count after 35 player moves
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/11_counting.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/12_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/13_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/14_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/15_review_ready_after_reaction.png
+REVIEW FLOW: checkpoint of 1 results
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/16_review_offer.png
+REVIEW FLOW: results, rank and league unchanged
+EXPERIENCE: verified progress {"experience":"assert_progress","rank":"30k","records":1.0}
+EXPERIENCE: disk reload preserved every league fixture and history index
+REVIEW FLOW: results, rank and league unchanged
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/17_review_offer.png
+Review: 75 of 75 positions in 15.4 s on 8 threads (complete)
+AUTOPILOT: the review cards opened
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/18_review_1_page_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/19_review_2_page_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/20_review_3_page_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/21_review_3_page_2.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/22_review_4_page_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/23_review_4_page_2.png
+REVIEW FLOW: results, rank and league unchanged
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/24_kesh_review_complete.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/25_wren_recognizes_card.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/26_choice_Later..png
+AUTOPILOT: done

@@ -89,8 +89,32 @@ def kettle_sign():
     im.disc(10,23,6,rgb('gold2'));im.disc(10,23,3,rgb('teal0'));return im
 
 
+def novice_table(person):
+    source=table();im=Img(48,48)
+    for y in range(source.h):
+        for x in range(source.w):im.set(x,y,source.get(x,y))
+    # Seats are behind the standing sprites; the aisle remains clear.
+    for x in [2,32]:
+        box(im,x,34,13,8,'wood2');im.rect(x+1,42,2,5,rgb('wood0'));im.rect(x+10,42,2,5,rgb('wood0'))
+    if person=='noor':
+        box(im,1,8,11,13,'paper0');im.rect(3,10,7,4,rgb('blue2'));im.hline(3,17,6,rgb('ink3'));im.disc(7,12,3,rgb('ink1'))
+    elif person=='ivo':
+        box(im,0,17,10,7,'paper1');im.rect(2,19,10,2,rgb('gold2'));im.set(12,19,rgb('ink1'))
+    elif person=='lea':
+        for y in [16,18,20]:box(im,0,y,11,6,'paper0')
+        im.hline(2,22,7,rgb('blue1'))
+    elif person=='emil':
+        box(im,0,17,11,9,'wood0');im.disc(4,20,2,rgb('gold2'));im.rect(7,20,2,5,rgb('ink3'))
+    elif person=='sora':
+        box(im,1,33,15,10,'teal1');im.hline(3,34,10,rgb('teal2'));im.set(8,38,rgb('teal0'))
+    return im
+
+
 ASSETS={'washer_bank':washer_bank,'folding_counter':lambda:counter(True),'bar_counter':counter,
         'playing_table':table,'long_bench':bench,'coat_rack':coats,'tall_window':window,'book_shelf':shelf,'kettle_sign':kettle_sign}
+
+for person in ['noor','ivo','lea','emil','sora']:
+    ASSETS['novice_'+person]=lambda person=person:novice_table(person)
 
 def build(out):
     Path(out).mkdir(parents=True,exist_ok=True)

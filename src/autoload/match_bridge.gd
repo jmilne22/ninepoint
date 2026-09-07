@@ -14,11 +14,28 @@ var pending_lesson: String = ""
 ## The remaining lessons of a run started from the title screen, in order.
 var lesson_queue: Array[String] = []
 var last_result: MatchResult = null
+var last_record_index := -1
+var _committed_result: MatchResult
 ## Evidence from the autopilot-only KataGo trial. It is deliberately separate
 ## from saved match data and only populated by the dev fixture context.
 var dev_trial: Dictionary = {}
 ## The lesson just finished, so the world can let its teacher respond.
 var last_lesson: String = ""
+
+
+func _ready() -> void:
+    EventBus.session_ended.connect(_clear_session)
+
+
+func _clear_session() -> void:
+    pending_request = null
+    pending_puzzle = ""
+    pending_lesson = ""
+    lesson_queue.clear()
+    last_result = null
+    last_record_index = -1
+    _committed_result = null
+    last_lesson = ""
 
 
 ## Leaves the world, plays a game, and comes back to the same spot.
@@ -43,26 +60,40 @@ func cancel_match() -> void:
 
 ## Called by the match scene when the game is over.
 func finish_match(result: MatchResult) -> void:
-    last_result = result
-    pending_request = null
-    # Every game is recorded, unrated ones included: you remember losing to the
-    # man under the arches even though no ladder does. What "unrated" changes is
-    # that LeagueTable refuses to count it -- see league_table.gd.
-    GameState.record_match(result)
-    EventBus.match_finished.emit(result)
+    record_completed_match(result)
     await _return_to_world()
 
 
-## The player asked to go over the game. The result is committed first, exactly
-## as finish_match does, then the review starts; the match scene watches it and
-## calls return_to_world_after_review when the player is done looking or leaves.
-func finish_match_with_review(result: MatchResult) -> int:
+## Identity protects duplicate completion callbacks for the same encounter.
+func record_completed_match(result: MatchResult) -> int:
+    if result == _committed_result:
+        return last_record_index
+    _committed_result = result
     last_result = result
     pending_request = null
     GameState.record_match(result)
+    last_record_index = GameState.match_records.size() - 1
     EventBus.match_finished.emit(result)
-    var index := GameState.match_records.size() - 1
-    MatchReviewService.start(index)
+    return last_record_index
+
+
+## Analysis is requested by record index and never records another result.
+func request_review(index: int) -> bool:
+    if index < 0 or index >= GameState.match_records.size():
+        return false
+    if not MatchAnalysis.eligible(GameState.match_records[index]):
+        return false
+    GameState.match_records[index]["review_requested"] = true
+    var existing: Dictionary = GameState.match_analysis.get(str(index), {})
+    if str(existing.get("availability", "")) not in ["pending", "available", "steady"]:
+        MatchReviewService.start(index)
+    return true
+
+
+## Compatibility for board-only tools. World games request after the reaction.
+func finish_match_with_review(result: MatchResult) -> int:
+    var index := record_completed_match(result)
+    request_review(index)
     return index
 
 
@@ -102,7 +133,8 @@ const TUTORIAL_TRACK := ["liberties", "capture", "self_capture"]
 func queue_track_after(first: String) -> void:
     lesson_queue.clear()
     var started := false
-    for l in TUTORIAL_TRACK:
+    var track: Array = ["first_game_rules", "finishing"] if first == "first_game_rules" else TUTORIAL_TRACK
+    for l in track:
         if l == first:
             started = true
             continue
@@ -124,6 +156,11 @@ func start_lesson(lesson_id: String, player_position: Vector2, whole_track: bool
 func finish_lesson(lesson_id: String, completed: bool) -> void:
     pending_lesson = ""
     last_lesson = lesson_id if completed else ""
+    if completed and lesson_id == "two_eyes":
+        GameState.set_flag("institute_class_ready", true)
+    if not completed:
+        lesson_queue.clear()
+    _refresh_knows_the_rules()
     EventBus.lesson_finished.emit(lesson_id, completed)
     # A title-screen run walks the whole track, then hands the player the town.
     if completed and not lesson_queue.is_empty():
@@ -148,7 +185,7 @@ func finish_lesson(lesson_id: String, completed: bool) -> void:
 ## their word -- every reader of this flag is asking "can this person sit at a
 ## board", not "did they sit through the tutorial".
 func _refresh_knows_the_rules() -> void:
-    if GameState.has_flag("said_knows_the_rules"):
+    if GameState.has_flag("said_knows_the_rules") or GameState.has_flag("lesson_first_game_rules_done"):
         GameState.set_flag("knows_the_rules", true)
         return
     for l in TUTORIAL_TRACK:

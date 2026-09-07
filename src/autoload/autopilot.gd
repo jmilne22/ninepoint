@@ -295,7 +295,7 @@ func _autoplay_match(timeout: float, max_moves: int, brain_rank: String) -> void
 func _wait_for_review_card(timeout: float) -> void:
     var deadline := Time.get_ticks_msec() + int(timeout * 1000.0)
     while Time.get_ticks_msec() < deadline:
-        if get_tree().root.get_node_or_null("ReviewCards") != null:
+        if get_tree().root.find_child("ReviewCards", true, false) != null:
             print("AUTOPILOT: the review cards opened")
             return
         await get_tree().process_frame

@@ -109,6 +109,70 @@ def pocket_after(g, move, colour, at):
     return len(region)
 
 
+def check_actions(g, step, colour):
+    issues = []
+    for proof in step.get("proofs", []):
+        position = [r[:] for r in g]
+        captured = 0
+        legal = True
+        for side, x, y in proof["moves"]:
+            legal, taken, position = play(position, x, y, BLACK if side == "black" else WHITE)
+            captured += taken
+            if legal == proof.get("refused", False):
+                issues.append("proof action legality disagrees with its claim")
+        if "captured" in proof and captured != proof["captured"]:
+            issues.append("proof captures the wrong number of stones")
+    reply = step.get("reply", [])
+    if reply and reply[0] >= 0:
+        for x, y in step.get("points", []):
+            legal, _, position = play(g, x, y, colour)
+            if legal and not play(position, reply[0], reply[1], 3-colour)[0]:
+                issues.append("scripted reply is illegal after an accepted answer")
+    if step.get("action") == "inspect":
+        if not step.get("target"):
+            issues.append("inspection needs a target")
+        for x, y in step.get("target", []):
+            if g[y][x] == EMPTY:
+                issues.append("inspection target is empty")
+    if step.get("action") != "count":
+        return issues
+    board = [r[:] for r in g]
+    prisoners = dict(zip([BLACK, WHITE], step.get("prisoners", [0, 0])))
+    removed = set()
+    for x, y in step.get("dead", []):
+        if g[y][x] == EMPTY:
+            issues.append("dead-group target is empty")
+            continue
+        stones, _ = chain(g, x, y)
+        for sx, sy in stones - removed:
+            prisoners[3-g[sy][sx]] += 1
+            board[sy][sx] = EMPTY
+        removed |= stones
+    totals = {BLACK: prisoners[BLACK], WHITE: prisoners[WHITE] + step.get("komi", .5)}
+    seen = set()
+    for y, row in enumerate(board):
+        for x, stone in enumerate(row):
+            if stone != EMPTY or (x, y) in seen:
+                continue
+            region, borders, stack = set(), set(), [(x, y)]
+            while stack:
+                point = stack.pop()
+                if point in region:
+                    continue
+                region.add(point)
+                for nx, ny in neighbours(board, *point):
+                    if board[ny][nx] == EMPTY:
+                        stack.append((nx, ny)) if (nx, ny) not in region else None
+                    else:
+                        borders.add(board[ny][nx])
+            seen |= region
+            if len(borders) == 1:
+                totals[next(iter(borders))] += len(region)
+    if [totals[BLACK], totals[WHITE]] != step.get("expected_score"):
+        issues.append("count totals disagree: " + str(totals))
+    return issues
+
+
 def eyes_of(g, x, y):
     """Eye-like empty points belonging to the chain containing (x, y).
 
@@ -151,6 +215,7 @@ def check_lessons():
                 problems.append("%s: board is not %dx%d" % (where, size, size))
                 continue
             colour = BLACK if step.get("to_move", "black") == "black" else WHITE
+            problems.extend(where + ": " + issue for issue in check_actions(g, step, colour))
             accept = step.get("accept", "any_legal")
             pts = [tuple(p) for p in step.get("points", [])]
 

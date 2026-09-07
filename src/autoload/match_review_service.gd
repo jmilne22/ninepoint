@@ -1,5 +1,5 @@
-## Owns the one KataGo analysis that may be running. The match scene asks for
-## it and watches progress; the world hears when it lands. A new game outranks
+## Owns the one KataGo analysis that may be running. The world requests it by
+## record index and watches progress or retrieves it later at the quay. A new game outranks
 ## an old review, and nothing here survives a quit: an unfinished review is
 ## marked interrupted on the next load rather than resumed.
 extends Node
@@ -12,6 +12,7 @@ var _index := -1
 
 
 func _ready() -> void:
+    EventBus.session_ended.connect(cancel)
     EventBus.match_started.connect(func(_context: String) -> void: cancel())
 
 

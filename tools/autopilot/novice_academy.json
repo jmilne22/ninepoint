@@ -88,10 +88,6 @@
   "shot": "kesh_academy_result"
  },
  {
-  "experience": "choice",
-  "text": "Later."
- },
- {
   "advance": 8,
   "stop_at_choice": true
  },

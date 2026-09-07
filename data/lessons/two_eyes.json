@@ -1,67 +1,12 @@
 {
  "id": "two_eyes",
- "title": "Two Eyes",
+ "title": "Which Groups Are Safe?",
  "teacher": "hana",
  "size": 9,
  "intro": [
-  "A group with two separate, secure eyes cannot be captured. The opponent cannot fill both eyes in one move."
+  "A secure eye depends on the stones around it. Compare a group with two eyes and a gap that only looks like an eye."
  ],
  "steps": [
-  {
-   "board": [
-    "XXXXX....",
-    "X...X....",
-    "XXXXX....",
-    ".........",
-    ".........",
-    ".........",
-    ".........",
-    ".........",
-    "........."
-   ],
-   "to_move": "black",
-   "instruction": "Play in the middle of the three empty points to make two eyes.",
-   "accept": "points",
-   "points": [
-    [
-     2,
-     1
-    ]
-   ],
-   "eyes_after": 2,
-   "eyes_at": [
-    0,
-    0
-   ],
-   "show_liberties": true,
-   "hint": "The middle of the three. Yes, inside your own shape.",
-   "explanation": "The group now surrounds two separate empty points. White cannot play in either without self-capture."
-  },
-  {
-   "board": [
-    "OOOOO....",
-    "OXXXO....",
-    "OX.XO....",
-    "OXXXO....",
-    "OOOOO....",
-    ".........",
-    ".........",
-    ".........",
-    "........."
-   ],
-   "to_move": "white",
-   "instruction": "You are White. Capture this black group with only one eye.",
-   "accept": "capture",
-   "show_liberties": true,
-   "target": [
-    [
-     1,
-     1
-    ]
-   ],
-   "hint": "The group is touching exactly one empty point. It is inside.",
-   "explanation": "The eye was Black's last liberty. Capturing Black makes this White move legal."
-  },
   {
    "board": [
     "OOOOOOO..",
@@ -96,9 +41,59 @@
    ],
    "hint": "Play in one of the eyes. The game will stop you.",
    "explanation": "The move is refused. It captures nothing because Black still has the other eye, and White would have no liberty."
+  },
+  {
+   "board": [
+    "X.XO.....",
+    "XXO......",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "white",
+   "instruction": "You are White. Try playing in Black's apparent eye.",
+   "accept": "capture",
+   "show_liberties": true,
+   "target": [
+    [
+     2,
+     0
+    ]
+   ],
+   "hint": "One of the three stones around that eye is not attached to the others, and it is standing on one liberty.",
+   "explanation": "The move captures a black stone at the boundary. That capture makes the move legal."
+  },
+  {
+   "board": [
+    "X.XX.....",
+    "XXO......",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    ".........",
+    "........."
+   ],
+   "to_move": "white",
+   "instruction": "The loose stone is now connected. Try the White move again.",
+   "accept": "illegal_attempt",
+   "points": [
+    [
+     1,
+     0
+    ]
+   ],
+   "show_liberties": true,
+   "hint": "Play the eye. The game will stop you.",
+   "explanation": "No black stones are captured this time. White would have no liberty, so the move is refused."
   }
  ],
  "outro": [
-  "Two secure eyes keep a group alive. Before relying on them, check that the surrounding stones cannot be cut apart."
+  "The boundary matters. A group can live without already having two eyes; these examples show why counting eyes alone is not a test for every position."
  ]
 }

@@ -127,10 +127,10 @@ static func summary(state: Node, attempt: Dictionary) -> String:
     if bool(attempt.get("legacy", false)):
         return "Legacy Academy: %d/%d fixtures. Ask Marguerite about the exam or novice enrolment.\nFirst fixtures and simulated NPC results retained." % [LeagueAttempt.played(attempt), total]
     if not LeagueAttempt.complete(attempt):
-        return "%d/%d fixtures played. Next: %s.\nTies: entry rank, then name. NPC results are simulated." % [
+        return "%d/%d fixtures played. Next: %s.\nH: standings help." % [
             LeagueAttempt.played(attempt), total, _name_in(attempt, LeagueAttempt.opponent(LeagueAttempt.next_fixture(attempt)))]
     if str(attempt["division"]) == LeagueAttempt.NOVICE:
-        return "%d/%d fixtures played. Ask Marguerite about the Cup or another attempt.\nTies: entry rank, then name. NPC results are simulated." % [total, total]
+        return "%d/%d fixtures played. Ask Marguerite about the Cup or another attempt.\nH: standings help." % [total, total]
     return "6/6 played. %s Ask Marguerite about entry or another attempt.\nTies: entry rank, then name. NPC games are simulated." % [
         "You may enter the exam." if exam_eligible(state) else "You did not make the exam cut."]
 

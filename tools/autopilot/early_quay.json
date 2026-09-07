@@ -1,0 +1,85 @@
+[
+ {
+  "save": "early_playthrough"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "experience": "assert_progress",
+  "rank": "28k",
+  "played": 2,
+  "records": 4
+ },
+ {
+  "shot": "two_fixtures_loaded"
+ },
+ {
+  "experience": "review_snapshot"
+ },
+ {
+  "experience": "visit",
+  "map": "quay",
+  "note": "Supplemental direct map setup; not evidence of newcomer wayfinding."
+ },
+ {
+  "walk_to": [
+   17,
+   4
+  ]
+ },
+ {
+  "face": [
+   17,
+   3
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "review_card_wait": true
+ },
+ {
+  "review_walk": true
+ },
+ {
+  "tap": "go_compare"
+ },
+ {
+  "shot": "ivo_quay_played_comparison"
+ },
+ {
+  "tap": "go_compare"
+ },
+ {
+  "shot": "ivo_quay_engine_comparison"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "review_unchanged"
+ },
+ {
+  "experience": "save"
+ },
+ {
+  "experience": "reload"
+ },
+ {
+  "experience": "review_unchanged"
+ },
+ {
+  "shot": "quay_after_reload"
+ }
+]

@@ -96,10 +96,6 @@
   "shot": "noor_result"
  },
  {
-  "experience": "choice",
-  "text": "Later."
- },
- {
   "experience": "assert_progress",
   "played": 1,
   "rank": "30k"
@@ -132,10 +128,6 @@
  },
  {
   "shot": "ivo_result"
- },
- {
-  "experience": "choice",
-  "text": "Later."
  },
  {
   "experience": "assert_progress",
@@ -172,10 +164,6 @@
   "shot": "lea_result"
  },
  {
-  "experience": "choice",
-  "text": "Later."
- },
- {
   "experience": "assert_progress",
   "played": 3,
   "rank": "30k"
@@ -210,10 +198,6 @@
   "shot": "emil_result"
  },
  {
-  "experience": "choice",
-  "text": "Later."
- },
- {
   "experience": "assert_progress",
   "played": 4,
   "rank": "30k"
@@ -246,10 +230,6 @@
  },
  {
   "shot": "sora_result"
- },
- {
-  "experience": "choice",
-  "text": "Later."
  },
  {
   "experience": "assert_progress",

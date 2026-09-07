@@ -160,6 +160,7 @@ func _reconcile(quest_id: String, q: QuestData) -> void:
 ## before that step opened. Reconcile every live quest once its saved state is
 ## in GameState, so existing stuck journals repair themselves on Continue.
 func _reconcile_all() -> void:
+    _migrate_early_game()
     _reconcile_opening()
     _reconcile_events()
     for quest_id in quests.keys():
@@ -229,3 +230,33 @@ func _reconcile_events() -> void:
         if GameState.quest_step(id) >= 0 and not GameState.quest_done(id) and GameState.has_flag(pair[1]):
             GameState.set_quest(id, quests[id].steps.size() - 1, true)
             EventBus.quest_completed.emit(id)
+
+
+## Old numeric stages referred to the capture/registration/class order.
+## Rebuild only that journal from durable facts; completed quests stay complete.
+func _migrate_early_game() -> void:
+    if int(GameState.get_flag("early_game_revision", 0)) >= 2:
+        return
+    GameState.set_flag("early_game_revision", 2)
+    if GameState.has_flag("knows_the_rules"):
+        GameState.set_flag("finishing_skipped", true)
+    var enrolled := GameState.has_flag("enrolled")
+    var welcomed := enrolled or GameState.has_flag("hana_offered_puzzle") or GameState.has_flag("capture_1_solved")
+    GameState.set_flag("hana_welcomed", welcomed)
+    var class_done := GameState.has_flag("lesson_two_eyes_done")
+    if class_done:
+        GameState.set_flag("institute_class_ready", true)
+    if GameState.quest_step("enrolment") < 0 or GameState.quest_done("enrolment"):
+        return
+    var stage := 0
+    if GameState.current_map.begins_with("academy_") or welcomed:
+        stage = 1
+    if welcomed:
+        stage = 2
+    if class_done:
+        stage = 3
+    if enrolled:
+        stage = 4
+    if GameState.has_flag("read_league_board") or GameState.has_flag("played_a_novice_game"):
+        stage = 5
+    GameState.set_quest("enrolment", stage, GameState.has_flag("novice_league_completed"))

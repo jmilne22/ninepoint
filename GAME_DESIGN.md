@@ -13,11 +13,12 @@ and try its qualifying exam. The academy atmosphere was inspired by competitive
 student leagues, but an aspiring-professional exam is an optional advanced goal.
 
 - Hana introduces herself and asks the player's name before the world appears.
-- In Steenbeek, Pip teaches Capture Go, Wren teaches the rules and hosts an unrated
+- In Steenbeek, Pip teaches Capture Go, Wren teaches rules and finishing before a supported unrated
   first full game. Kesh issues the novice card and invitation, then offers optional
   unrated handicap practice. This supersedes the original required even game (PROG-02).
-- At the Instituut, Hana sets a problem, Marguerite enrols the player in the Novice
-  League, and the classroom offers Two Eyes. Five classmates share the lower west room.
+- At the Instituut, Hana welcomes the player and offers Two Eyes before registration.
+  Marguerite points to the back-wall board and lower west novice room. Noor wants company
+  through her first league and toward the Cup; five classmates share that goal in different ways.
 - Completing all five fixtures earns the main Cup invitation, regardless of wins.
   Earlier Cup entry remains available. Completing four Cup rounds at any placing is
   the beginner ending; Academy competition and its even-game exam follow by choice.
@@ -250,24 +251,19 @@ result card: fifteen detectors, an evaluator that priced each finding in points,
 voice file per character replayed the game at the player. It could say a group had one
 liberty and died but never what a move was worth — rules without judgement — and it went.
 
-What replaced it is what every real Go app shows. After the result card, the person you
-played asks whether to go over the game. Say yes and KataGo replays every position; the
-card says how far it has got and you may walk off, in which case the review waits on the
-quay noticeboard. What you get starts with what went right, because the point of the game
-is learning to play: how many of your moves were the best move on the board, which ones by
-number, and how many more gave nothing away. Then at most three positions, and the first
-of them is your best move: the one the engine itself would have played if there was one,
-otherwise one that gave nothing away, with what it did said from the stones — it took the
-corner, it joined your stones, it took stones in atari. Then the move that cost the most,
-and a second loss about a different idea. Each card is the board before the move, your
-move filled, the better move ringed, the cost in points, what your move did with the
-stones named ("Yours sat on the first line"; "Yours extended from H4, which already had
-three liberties"), what the better move would have done ("D7 would have leaned on the
-white stone at C7"), and the habit to take away — your move's own flaw when it has one,
-otherwise the better move's idea. Two moves that do the same job on the same stones are
-told apart by side or direction rather than described twice. Under three quarters of a point is noise and is never called a lesson; a game
-with nothing to say gets one honest "steady" card. Nobody teaches in it, nobody is named
-who has not been met, and nothing in it touches the result or the rank.
+The accepted score produces one recorded result. The player returns to the world for the
+opponent’s win/loss reaction, or the Cup/exam completion announcement, before the optional
+review offer. Rematches belong to the next normal interaction. Analysis may continue after
+Escape; its result waits at the quay, south past the park. Starting another match or loading
+another session cancels unfinished analysis without changing any result.
+
+The review starts with the engine tally, then a best move and at most two costly positions.
+Move numbers include both players; the tally counts placements and is not a beginner grade.
+C compares the original position, the played move and the engine preference, each applied
+independently. Only immediate captures, distinct connected groups and liberties are explained
+as board facts. The engine’s score includes later play that these comparisons do not show.
+Extra liberties never prove survival, contact alone never proves a useful attack, and the
+first line is not prohibited. Recommendations stay together across measured pages.
 
 ### Rules implemented (milestone 1)
 9×9; stone placement; liberties; capture; suicide illegal; ko (simple ko, with positional
@@ -275,17 +271,20 @@ superko available); passing; two passes ends the game; dead-stone marking; Japan
 (territory + prisoners) and Chinese (area) scoring; configurable komi; handicap placement.
 
 ### Teaching order
-Concepts are introduced by opponents and puzzles in this sequence, and the game does not
-present an opponent whose style requires a concept the player has not been shown:
+The default early route is:
 
-1. Liberties, capture, self-capture (Wren, capture puzzle)
-2. Two eyes, life and death basics (Hana)
-3. A first full game: corner starts, first-line caution and urgent stones (Wren)
-4. Connection and cutting (Kesh)
-5. Corners, sides, influence and whole-board priorities (Hana)
-5. Ladders and nets (Pip's ladders, taught properly by Bertie)
-6. Simple endgame and counting (Tomás, Bertie)
-7. Whole-board judgment at 19×19 (Marguerite, Hana)
+1. Pip’s real Capture Go encounter.
+2. Wren: extend a group, identify a capture, try a refused self-capture, then the capture exception.
+3. Wren: inspect a demonstrably living/dead position, choose a final boundary move, pass twice, inspect and confirm the count.
+4. Optional opening comparisons, then a supported unrated full 9×9. Help follows the actual position.
+5. Kesh’s provisional card and invitation to meet beginners; optional handicap practice.
+6. Hana’s welcome and first class applying survival knowledge, registration and the league board.
+7. Noor, Ivo and the remaining novice fixtures; the Cup becomes a shared ambition.
+
+Longer rules, territory shapes, ko, escape, connection, ladders and Tomás’s deeper score
+inspection remain optional. Later school classes cover life and death, capture races and
+false eyes. Whole-board judgement and a nineteen-line teaching transition remain separate
+work; this sequence does not certify beginner readiness or opponent ranks.
 
 ### Deciding the colours
 Every match opens with the ceremony a real game opens with. In an **even game** the
@@ -296,47 +295,24 @@ one sentence, why they ended up the colour they did. `GoMatchSetup` decides this
 two ranks; no opponent hard-codes a colour except a scripted story match.
 
 ### The tutorial
-Ninepoint is a game about learning Go, so it teaches Go. The order is Yasuda Yasutoshi's,
-which is how the game is taught in clubs everywhere. Thirteen lessons and, in the middle of
-them, a real game -- with a teacher for each, because who teaches a thing is part of what
-the thing means here. The last two were added in M30 to stop Hana's course repeating its
-final class for the rest of the term, and both are deliberately things the *rules* can
-settle, because `tools/check_lessons.py` can only guard a claim it can decide:
+Teaching belongs to people and demonstrated positions. Wren’s default beginner track queues
+`first_game_rules` then `finishing`; the optional `openings` lesson has two comparisons.
+All result explanations remain beside the board. Scripted proofs use real legal moves or
+real refusals, and the count uses territory, prisoners, komi and manual group marks.
 
-| # | Lesson | Where |
-|---|---|---|
-| 1 | **Liberties** -- a stone's breathing room; edges and corners have fewer; chains share them | Wren, `data/lessons/liberties.json` |
-| 2 | **Capture** -- fill the last liberty; chains die whole | Wren, `data/lessons/capture.json` |
-| 3 | **Capture Go** -- a real 7x7 game, first capture wins, no territory and no counting | Pip, in the park |
-| 4 | **No self-capture** -- and the exception that captures create | Wren, `data/lessons/self_capture.json` |
-| 5 | **Ko** -- you may not take it straight back | Wren, once the rulebook has settled |
-| 6 | **Escape** -- a group on one liberty is not dead yet | Kesh, after she has cut you apart |
-| 7 | **Connection** -- the cut, and not being on the wrong end of one | Kesh, after `escape` |
-| 8 | **Ladders** -- the one that works, and the ten seconds of counting that tells you which you have | Bertie, Molenpark |
-| 9 | **Openings** -- a usable first-game plan, then the corner/side/centre count | Wren before the first full game; Hana applies it later |
-| 10 | **Two eyes** -- what alive actually means | Hana, the class board |
-| 11 | **Life and death** -- the vital point | Hana, the class board |
-| 12 | **Counting** -- passing, territory, what a captured stone is worth | Tomas, behind his counter |
-| 13 | **The capturing race** -- your liberties, their liberties, whose move it is | Hana, the class board |
-| 14 | **False eyes** -- the way "two eyes is life" goes wrong | Hana, the class board |
+Sixteen lesson files are available. The older `liberties`, `capture` and `self_capture`
+track remains a refresher; `territory_shapes` preserves the longer enclosure examples.
+Tomás’s `counting` inspects score components rather than repeating wall construction.
+Hana’s `two_eyes` class compares secure eyes with a boundary stone that can be captured.
+The remaining files are `ko`, `escape`, `connection`, `ladders`, `life_and_death`,
+`capture_race` and `false_eyes`.
 
-One entry point, and it is a person: Wren asks, the first time you meet her, whether you
-have played before, and "never" runs the rulebook -- 1, 2 and 4 -- back to back. There is
-no menu item, because being taught by somebody is the point. Everything after the rulebook
-is offered by whoever it belongs to, at the moment in the fiction that earns it, and all of
-it is optional so a player who already knows Go is never detained. Capture Go is a real
-match against a real opponent, not a scripted set piece -- `GoGame.capture_goal` is a rule
-of the engine, not a special case in the UI.
-
-**The teaching path was repaired in M27** (ROADMAP §6, now closed). Three of those faults
-changed what a player was actually taught: `self_capture` hung off a single dialogue
-choice, `knows_the_rules` meant "has had any lesson" rather than "knows the rules", and
-four of the eleven lessons ended without their teacher saying anything. Entering the
-rulebook anywhere now teaches the rest of it; the flag distinguishes what you were taught
-from what you said; and every lesson closes on `taught_<lesson>` or `taught`, so a teacher
-with two lessons can end each in its own words. The rulebook can also be asked for again,
-and it is asked for from Wren rather than from a menu, for the reason in the paragraph
-above.
+Wren acknowledges Pip, or offers a route for someone who has not met him. Explicit
+experienced-player choices skip rules, finishing and opening advice without requiring a win.
+Leaving a lesson keeps completed lessons and permits a return. Old saves reconcile the
+changed school journal from durable facts; finished quests, ranks and fixture records remain.
+The M27 repair remains historical: teaching completion and an explicit claim of knowing the
+rules are separate facts, and lesson returns use `taught_<lesson>` or `taught`.
 
 ### Puzzles and lessons
 Puzzles are small board positions with a goal (*capture the marked group*, *make two eyes*,
@@ -352,11 +328,11 @@ is the shape the others follow:
 
 **"First Stones"**
 1. Find De Ketel, further along Ketelsteeg.
-2. Learn Wren's rules, or tell her you already know them. Opening advice is optional.
+2. Learn Wren’s rules and finishing lesson, or explicitly skip teaching. Opening advice is optional.
 3. Play Wren's unrated 9×9 first full game. (Either result advances.)
 4. Ask Kesh for your novice card. Her handicap 9×9 practice is optional and unrated.
-→ Kesh gives you provisional 30 kyu and starts `enrolment`: the tram north, Hana's capture problem,
-Marguerite's register, the league board, a class, all five novice fixtures.
+→ Kesh gives provisional 30 kyu and starts `enrolment`: tram north, Hana’s welcome/class,
+Marguerite’s register, league board and five novice fixtures. The arrival capture puzzle is optional.
 
 Tournament arcs are built -- the Cup and the exam are both quests. Two more shipped and were
 cut in M37: `the_hooks`, a second progression at De Ketel that disagreed with the league on

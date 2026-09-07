@@ -4,6 +4,7 @@ extends Control
 
 var lesson: GoLessonData
 var game: GoGame
+var lesson_actions := GoLessonActions.new()
 var board_view: GoBoardView
 var _navigation: BoardNavigation
 var _actions: MouseActions
@@ -39,74 +40,7 @@ func _ready() -> void:
 
 
 func _build_ui() -> void:
-    set_anchors_preset(Control.PRESET_FULL_RECT)
-    var bg := ColorRect.new()
-    bg.color = Color("#2a2633")
-    bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-    add_child(bg)
-
-    board_view = GoBoardView.new()
-    board_view.position = Vector2(6, 8)
-    board_view.size = Vector2(192, 192)
-    board_view.point_activated.connect(_on_point)
-    add_child(board_view)
-    _navigation = BoardNavigation.new()
-    _navigation.position = Vector2(6, 200)
-    _navigation.size = Vector2(192, 16)
-    add_child(_navigation)
-    _navigation.setup(board_view)
-    _actions = MouseActions.new()
-    _actions.position = Vector2(204, 197)
-    add_child(_actions)
-    _actions.action_selected.connect(_mouse_action)
-
-    var panel := NinePatchRect.new()
-    panel.texture = load("res://art/ui/panel.png")
-    for m in ["left", "top", "right", "bottom"]:
-        panel.set("patch_margin_%s" % m, 6)
-    panel.position = Vector2(202, 8)
-    panel.size = Vector2(176, 158)
-    panel.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-    add_child(panel)
-
-    # Two lines for the title. "You May Not Take It Straight Back" wrapped and
-    # landed on top of the step counter; a title is written for the lesson, not
-    # measured against a panel, so the panel gives it the room.
-    _title = _label(panel, Vector2(10, 8), 156, 9, "#8a6023", 22)
-    _title.text = lesson.title
-    _progress = _label(panel, Vector2(10, 30), 156, 9, "#6b6577")
-    _instruction = _label(panel, Vector2(10, 44), 156, 9, "#14121a", 52)
-    _message = _label(panel, Vector2(10, 98), 156, 9, "#367f72", 52)
-    _hints = _label(self, Vector2(204, 172), 176, 9, "#8a8494", 40)
-    _hints.text = "Click / Space: play"
-
-    _overlay = Control.new()
-    _overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
-    _overlay.visible = false
-    add_child(_overlay)
-    var dim := ColorRect.new()
-    dim.color = Color(0.08, 0.07, 0.1, 0.72)
-    dim.set_anchors_preset(Control.PRESET_FULL_RECT)
-    _overlay.add_child(dim)
-    _card = UiKit.panel(_overlay, Rect2(36, 46, 312, 124))
-    _overlay_text = UiKit.label(_card, Vector2(10, 10), 292, UiKit.INK, 104)
-    _modal_actions = MouseActions.new()
-    _modal_actions.position = Vector2(138, 197)
-    _overlay.add_child(_modal_actions)
-    _modal_actions.configure([["Continue", "interact"]])
-    _modal_actions.action_selected.connect(_mouse_action)
-
-
-func _label(parent: Node, pos: Vector2, width: int, font_size: int, colour: String,
-        height: int = 0) -> Label:
-    var l := Label.new()
-    l.position = pos
-    l.size = Vector2(width, height if height > 0 else font_size + 6)
-    l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-    l.add_theme_font_size_override("font_size", font_size)
-    l.add_theme_color_override("font_color", Color(colour))
-    parent.add_child(l)
-    return l
+    LessonLayout.build(self)
 
 
 func _ask(what: StringName) -> void:
@@ -129,7 +63,8 @@ func _run() -> void:
             return
         var explanation := str(lesson.steps[i]["explanation"])
         if explanation != "":
-            await _show_card(explanation)
+            await _show_feedback(explanation)
+        await LessonDemonstration.show_proofs(self)
     if lesson.outro.size() > 0:
         await _show_card("\n\n".join(lesson.outro))
     _finished = true
@@ -141,12 +76,24 @@ func _load_step() -> void:
     var step: Dictionary = lesson.steps[step_index]
     game = lesson.make_game(step_index)
     board_view.set_game(game)
+    lesson_actions.setup(game, step)
+    board_view.dead = lesson_actions.dead
+    board_view.show_territory = step["action"] == "count"
     board_view.show_liberties = bool(step["show_liberties"])
     board_view.highlight = step["target"]
+    _instruction.size.y = 52
+    _message.show()
+    _message.position.y = 85 if step["action"] == "count" else 98
+    _message.size.y = 66 if step["action"] == "count" else 52
     _instruction.text = str(step["instruction"])
     _progress.text = "Step %d of %d" % [step_index + 1, lesson.step_count()]
     _message.text = ""
-    if bool(step["show_liberties"]):
+    if step["action"] == "count":
+        _message.text = lesson_actions.score_text()
+        board_view.territory = lesson_actions.current_score()["territory"]
+    if step["action"] != "play":
+        _hints.text = "Click / Space: inspect"
+    elif bool(step["show_liberties"]):
         _hints.text = "Click / Space: play\nThe rings show liberties."
     else:
         _hints.text = "Click / Space: play"
@@ -154,6 +101,18 @@ func _load_step() -> void:
 
 func _on_point(point: int) -> void:
     if _finished or _busy or _awaiting != &"step":
+        return
+    if lesson.steps[step_index]["action"] != "play":
+        if lesson.steps[step_index]["action"] == "inspect":
+            board_view.liberty_targets = game.board.chain_at(point)["stones"]
+        if lesson_actions.activate(point):
+            _awaiting = &""
+        elif lesson.steps[step_index]["action"] == "inspect":
+            _message.text = "Group inspected. Now inspect the other highlighted group."
+        if lesson.steps[step_index]["action"] == "count":
+            _message.text = lesson_actions.score_text()
+            board_view.territory = lesson_actions.current_score()["territory"]
+        board_view.queue_redraw()
         return
     var code := game.legality(point)
     var legal := code == GoGame.Legality.LEGAL
@@ -166,6 +125,7 @@ func _on_point(point: int) -> void:
         _busy = true
         _sync_pointer()
         if legal:
+            _message.text = ""
             game.play(point)
             Audio.play_stone()
             board_view.animate_placement(point)
@@ -180,6 +140,12 @@ func _on_point(point: int) -> void:
             # board rather than by the paragraph underneath it.
             _show_pocket()
             await get_tree().create_timer(0.45).timeout
+            if not is_inside_tree() or _finished:
+                return
+            if not lesson_actions.play_reply():
+                push_error("Invalid authored lesson reply")
+                return
+            board_view.queue_redraw()
         else:
             Audio.play("illegal")
             _message.text = game.legality_reason(code)
@@ -199,6 +165,7 @@ func _on_point(point: int) -> void:
         return
     _busy = true
     _sync_pointer()
+    _message.text = ""
     game.play(point)
     Audio.play_stone()
     board_view.queue_redraw()
@@ -233,25 +200,25 @@ func _show_pocket() -> void:
 ## The connected empty area containing `start`. Flood fill over empty points --
 ## the same shape as the validator's pocket_after, and used for the same reason.
 func _region_at(start: int) -> PackedInt32Array:
-    var out := PackedInt32Array()
-    if game.board.get_idx(start) != GoBoard.EMPTY:
-        return out
-    var seen := {}
-    var stack: Array[int] = [start]
-    while not stack.is_empty():
-        var i: int = stack.pop_back()
-        if seen.has(i):
-            continue
-        seen[i] = true
-        out.append(i)
-        for n in game.board.neighbours(i):
-            if game.board.get_idx(n) == GoBoard.EMPTY and not seen.has(n):
-                stack.append(n)
-    return out
+    for region in GoScoring.empty_regions(game.board):
+        if region["points"].has(start):
+            return region["points"]
+    return PackedInt32Array()
 
 
 ## Long explanations are paginated rather than clipped -- the lesson text is the
 ## product here, so it must never run off the bottom of the card.
+func _show_feedback(text: String) -> void:
+    _message.hide()
+    _instruction.size.y = 110
+    for page in UiKit.paginate(text, 156, 110):
+        _instruction.text = page
+        _hints.text = "Inspect the board.\nSpace: next   Esc: leave"
+        await _ask(&"feedback")
+        if not is_inside_tree() or _finished:
+            return
+
+
 func _show_card(text: String) -> void:
     _overlay.visible = true
     var pages := UiKit.paginate(text, 292, 150)
@@ -267,8 +234,18 @@ func _show_card(text: String) -> void:
 func _unhandled_input(event: InputEvent) -> void:
     if board_view == null or not is_instance_valid(board_view):
         return
+    if event.is_action_pressed("cancel"):
+        _finished = true
+        get_viewport().set_input_as_handled()
+        MatchBridge.finish_lesson(lesson.id, false)
+        return
+    if _awaiting == &"feedback":
+        if event.is_action_pressed("interact"):
+            _awaiting = &""
+            get_viewport().set_input_as_handled()
+            return
     if _awaiting == &"card":
-        if event.is_action_pressed("interact") or event.is_action_pressed("cancel"):
+        if event.is_action_pressed("interact"):
             _awaiting = &""
             get_viewport().set_input_as_handled()
         return
@@ -288,9 +265,11 @@ func _unhandled_input(event: InputEvent) -> void:
         board_view.move_cursor(Vector2i(0, 1))
     elif event.is_action_pressed("interact"):
         board_view.activate_cursor()
-    elif event.is_action_pressed("cancel"):
-        _finished = true
-        MatchBridge.finish_lesson(lesson.id, false)
+    elif event.is_action_pressed("go_pass") and _awaiting == &"step":
+        if lesson_actions.pass_and_reply() or (lesson.steps[step_index]["action"] == "count" and lesson_actions.accept_count()):
+            _awaiting = &""
+        else:
+            _message.text = "Check the marked group twice, restore the count, then confirm."
     else:
         return
     get_viewport().set_input_as_handled()
@@ -305,12 +284,17 @@ func _sync_pointer() -> void:
         return
     var active := not _finished and not _busy and _awaiting == &"step"
     board_view.interactive = active and not _overlay.visible
-    board_view.inspection = board_view.interactive
-    var mode := BoardPointer.Mode.PLACE if board_view.interactive else BoardPointer.Mode.HIDDEN
+    board_view.inspection = board_view.interactive or _awaiting == &"feedback"
+    var mode := BoardPointer.Mode.PLACE if board_view.interactive and lesson.steps[step_index]["action"] == "play" else BoardPointer.Mode.INSPECT
     board_view.pointer.configure(mode, game.to_move if game != null else GoBoard.BLACK, board_view)
     _navigation.visible = not _overlay.visible
     _actions.visible = not _overlay.visible
-    _actions.configure([["Leave Esc", "cancel"]])
+    var specs: Array = [["Leave Esc", "cancel"]]
+    if _awaiting == &"feedback":
+        specs.push_front(["Next", "interact"])
+    elif active and lesson.steps[step_index]["action"] in ["pass", "count"]:
+        specs.push_front(["Pass P" if lesson.steps[step_index]["action"] == "pass" else "Confirm P", "go_pass"])
+    _actions.configure(specs)
 
 
 func _mouse_action(action: StringName) -> void:

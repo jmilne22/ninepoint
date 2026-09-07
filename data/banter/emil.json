@@ -1,0 +1,29 @@
+{
+ "id": "emil",
+ "lines": {
+  "you_captured": [
+   "That group comes off, then."
+  ],
+  "you_captured_big": [
+   "I'll clear the whole group."
+  ],
+  "i_captured": [
+   "I've taken these stones."
+  ],
+  "i_captured_big": [
+   "All of these come off together."
+  ],
+  "ko": [
+   "Ko. I can't take back immediately."
+  ],
+  "i_atari": [
+   "One liberty left. There's the gap."
+  ],
+  "i_pass": [
+   "I pass. Nothing more from me."
+  ],
+  "you_pass": [
+   "Let me check the remaining gaps."
+  ]
+ }
+}

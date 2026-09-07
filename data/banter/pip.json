@@ -14,10 +14,10 @@
    "Look at that pile!"
   ],
   "ko": [
-   "Wait, that's a ko!"
+   "We cannot take straight back. That would repeat the position."
   ],
   "i_atari": [
-   "Atari!"
+   "Your group has one empty neighbour left!"
   ],
   "you_atari": [
    "Uh oh."

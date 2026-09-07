@@ -181,15 +181,13 @@
    "text": [
     "You won. Well played.",
     "I want another game when you've got time."
-   ],
-   "goto": "after_result"
+   ]
   },
   "beaten_twice": {
    "portrait": "annoyed",
    "text": [
     "You've beaten me again. Right. I'm keeping this board out."
-   ],
-   "goto": "after_result"
+   ]
   },
   "won": {
    "actions": [
@@ -202,68 +200,6 @@
    "text": [
     "That's a win for me. Thanks for playing.",
     "Come back for another."
-   ],
-   "goto": "after_result"
-  },
-  "after_result": {
-   "branches": [
-    {
-     "if": [
-      [
-       "not_flag",
-       "lesson_escape_done"
-      ]
-     ],
-     "goto": "offer_escape"
-    },
-    {
-     "if": [
-      [
-       "not_flag",
-       "lesson_connection_done"
-      ]
-     ],
-     "goto": "offer_connection"
-    },
-    {
-     "goto": "rematch_offer"
-    }
-   ]
-  },
-  "offer_escape": {
-   "text": [
-    "Want to practise getting a group out of trouble? I've set up a position."
-   ],
-   "choices": [
-    {
-     "text": "Show me.",
-     "exit": {
-      "type": "start_lesson",
-      "lesson": "escape"
-     }
-    },
-    {
-     "text": "Not now.",
-     "goto": "rematch_offer"
-    }
-   ]
-  },
-  "offer_connection": {
-   "text": [
-    "I've got a connection problem ready. Want to try it?"
-   ],
-   "choices": [
-    {
-     "text": "Show me.",
-     "exit": {
-      "type": "start_lesson",
-      "lesson": "connection"
-     }
-    },
-    {
-     "text": "Not now.",
-     "goto": "rematch_offer"
-    }
    ]
   },
   "taught_escape": {
@@ -303,6 +239,20 @@
       "type": "start_match",
       "profile": "kesh_13x13",
       "context": "kesh_thirteen"
+     }
+    },
+    {
+     "text": "Practise escaping.",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "escape"
+     }
+    },
+    {
+     "text": "Practise connecting.",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "connection"
      }
     },
     {
@@ -388,6 +338,20 @@
      }
     },
     {
+     "text": "Practise escaping.",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "escape"
+     }
+    },
+    {
+     "text": "Practise connecting.",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "connection"
+     }
+    },
+    {
      "text": "Later.",
      "goto": "later"
     }
@@ -427,7 +391,7 @@
   "invitation": {
    "text": [
     "Hana teaches at the Instituut. Take Tram 4 north from the stop at the west end of this street.",
-    "You can enrol now. There's no game to pass here."
+    "The novice group takes new players. Come back and give me a game after you've met them."
    ],
    "goto": "offer"
   }

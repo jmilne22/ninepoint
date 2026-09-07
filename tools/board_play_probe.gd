@@ -239,7 +239,7 @@ static func walk_review(tree: SceneTree, screenshot: Callable) -> void:
         var page: int = cards.get("_text_page")
         var pages: PackedStringArray = cards.get("_text_pages")
         await screenshot.call("review_%d_page_%d" % [index + 1, page + 1])
-        if index == cards.call("_card_count") - 1 and page >= pages.size() - 1:
+        if index == maxi(1, int(cards.call("_card_count"))) - 1 and page >= pages.size() - 1:
             return
         await tap(tree, "move_right")
         if index == cards.get("_index") and page == cards.get("_text_page"):

@@ -6,6 +6,15 @@
     {
      "if": [
       [
+       "flag",
+       "sora_introduced"
+      ]
+     ],
+     "goto": "offer"
+    },
+    {
+     "if": [
+      [
        "played_at_least",
        "sora",
        1
@@ -20,9 +29,17 @@
   },
   "hello": {
    "text": [
-    "I've brought a spare cushion if you want one. The seats here are a bit low."
+    "I've brought a spare cushion. You can have it.",
+    "It's good to have another player here. There's room at all these tables."
    ],
-   "goto": "offer"
+   "goto": "offer",
+   "actions": [
+    [
+     "set_flag",
+     "sora_introduced",
+     true
+    ]
+   ]
   },
   "offer": {
    "text": [
@@ -80,13 +97,14 @@
    "text": [
     "That was my game. Thank you for playing."
    ],
-   "goto": "offer"
+   "goto": "reaction_offer"
   },
   "lost": {
    "text": [
     "Well played. I'll leave the board out if you want to look again."
    ],
-   "goto": "offer"
-  }
+   "goto": "reaction_offer"
+  },
+  "reaction_offer": {}
  }
 }

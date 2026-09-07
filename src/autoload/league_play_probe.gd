@@ -53,11 +53,19 @@ static func perform(tree: SceneTree, spec: Dictionary, shot: Callable) -> void:
                     await ExperienceProbe.press(tree, "interact")
             "assert_progress":
                 var state := tree.root.get_node("GameState")
+                for key in spec.get("absent_flags", []):
+                    if state.has_flag(str(key)):
+                        BoardPlayProbe.fail(tree, "Unexpected progress flag: " + str(key))
+                        return
                 for key in spec.get("flags", []):
                     if not state.has_flag(str(key)):
                         push_error("Experience expected saved flag: %s" % key)
                         tree.quit(1)
                         return
+                if spec.has("records") and state.match_records.size() != int(spec["records"]):
+                    push_error("Experience result count disagrees with the route.")
+                    tree.quit(1)
+                    return
                 var attempt := LeagueProgress.active(state)
                 if spec.has("played") and LeagueAttempt.played(attempt) != int(spec["played"]):
                     push_error("Experience fixture count disagrees with the route.")

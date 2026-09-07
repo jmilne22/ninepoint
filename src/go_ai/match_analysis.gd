@@ -182,7 +182,7 @@ static func moments_from_turns(replay: Dictionary, player: int, turns: Dictionar
             stake = maxf(0.0, player_relative(player, float(before["best_lead"]))
                 - player_relative(player, float(before["second_lead"])))
         var moment := {"move_number": i + 1, "actual": actual, "best": best,
-            "point_loss": loss, "stake": stake, "size": size, "cells": move["cells"]}
+            "point_loss": loss, "stake": stake, "size": size, "player": player, "cells": move["cells"]}
         moment.merge(explain_position(size, move["cells"], player, actual, best))
         moments.append(moment)
     return moments
@@ -298,15 +298,11 @@ static func from_turns(record_index: int, record: Dictionary, raw: Dictionary) -
     return available(record_index, version, [], select_moments(moments), meta)
 
 
-## The sentences one card needs, from the two moves on it. `does` is what the
-## player's move did ("It takes the white stone at G4"); `critique` the same in
-## the past with its flaw ("Yours sat on the first line, ..."); `changed` what
-## the better move would have done, by name; `habit` the thing to unlearn --
-## the played move's own flaw when it has one, else the better move's idea.
+## Independently describe each move's immediate effect. Engine preferences may
+## depend on later play that these factual descriptions do not attempt to prove.
 static func explain_position(size: int, cells: Array, player: int, actual: int, best: int) -> Dictionary:
     var board := GoBoard.new(size)
-    # A first-line stone is legitimate when the better move is on the first
-    # line too (the endgame) or when this was the better move.
+    # Keep the existing call contract; edge placement is never condemned alone.
     var best_on_edge := best >= 0 and _on_edge(board, best)
     var did := MoveExplainer.describe(size, cells, player, actual, best_on_edge or best == actual)
     var out := {"did_concept": did["concept"], "does": "It %s." % did["present"],

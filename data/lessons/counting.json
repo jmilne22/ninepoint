@@ -1,99 +1,93 @@
 {
  "id": "counting",
- "title": "Counting a Game",
+ "title": "Checking the Count",
  "teacher": "tomas",
- "size": 9,
+ "size": 7,
  "intro": [
-  "When both players pass, the game is counted. In Ninepoint, surrounded empty points and prisoners make your score. White also receives komi."
+  "The score includes prisoners taken earlier and the komi agreed at setup. Inspect the board, then compare the total with and without the dead group."
  ],
  "steps": [
   {
    "board": [
-    ".........",
-    "...X.....",
-    "...X.....",
-    "XXXX.....",
-    ".........",
-    ".........",
-    ".........",
-    ".........",
-    "........."
+    "OOOOOOO",
+    "O.O.OOO",
+    "OOOOOOO",
+    "XXXXXXX",
+    "..X.XOX",
+    "XXXXX.X",
+    "XXXXXXX"
    ],
    "to_move": "black",
-   "instruction": "Close the gap in the corner wall.",
-   "accept": "points",
-   "points": [
-    [
-     3,
-     0
-    ]
-   ],
-   "encloses": 9,
-   "region_at": [
-    0,
-    0
-   ],
    "show_liberties": false,
-   "hint": "The top of the wall, against the edge.",
-   "explanation": "The wall surrounds nine empty points in this corner. These are territory if White cannot live inside."
-  },
-  {
-   "board": [
-    ".........",
-    ".XXXX....",
-    ".XOOX....",
-    ".X.XX....",
-    ".........",
-    ".........",
-    ".........",
-    ".........",
-    "........."
-   ],
-   "to_move": "black",
-   "instruction": "Capture the two white stones inside.",
-   "accept": "capture",
-   "show_liberties": true,
+   "action": "inspect",
    "target": [
     [
      2,
-     2
+     3
+    ],
+    [
+     5,
+     4
     ]
    ],
-   "hint": "Underneath them.",
-   "explanation": "You gain two prisoners. The vacated intersections can also count as territory when the boundary is secure."
+   "instruction": "Inspect Black, then the white stone at F3.",
+   "proofs": [
+    {
+     "moves": [
+      [
+       "white",
+       5,
+       5
+      ]
+     ],
+     "refused": true
+    },
+    {
+     "moves": [
+      [
+       "black",
+       5,
+       5
+      ]
+     ],
+     "captured": 1
+    }
+   ],
+   "explanation": "Black has two separate empty pockets. White cannot fill its last liberty at F2: that captures nothing and leaves White without a liberty. Black could capture at F2. This white stone cannot escape."
   },
   {
    "board": [
-    ".........",
-    "....X....",
-    "....X....",
-    "XXXXX....",
-    ".........",
-    ".........",
-    ".........",
-    ".........",
-    "........."
+    "OOOOOOO",
+    "O.O.OOO",
+    "OOOOOOO",
+    "XXXXXXX",
+    "..X.XOX",
+    "XXXXX.X",
+    "XXXXXXX"
    ],
    "to_move": "black",
-   "instruction": "Close the gap in this larger corner wall.",
-   "accept": "points",
-   "points": [
+   "show_liberties": false,
+   "action": "count",
+   "dead": [
     [
-     4,
-     0
+     5,
+     4
     ]
    ],
-   "encloses": 12,
-   "region_at": [
-    0,
-    0
+   "prisoners": [
+    2,
+    1
    ],
-   "show_liberties": false,
-   "hint": "The top again.",
-   "explanation": "This wall surrounds twelve empty points. Compare the space with the smaller corner."
+   "komi": 5.5,
+   "expected_score": [
+    8,
+    8.5
+   ],
+   "instruction": "Compare the marked white group twice, then restore the mark and confirm.",
+   "explanation": "Black: 5 territory + 3 prisoners = 8. White: 2 territory + 1 prisoner + 5.5 komi = 8.5. Earlier captures still count, even though those stones are no longer on the board."
   }
  ],
  "outro": [
-  "At the count, check the groups marked dead. Change any incorrect marks, then confirm the total. You can review a completed game afterwards."
+  "Changing a dead mark changes the preview, not the rules. Confirm when you agree with the marks."
  ]
 }

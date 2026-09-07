@@ -6,6 +6,15 @@
     {
      "if": [
       [
+       "flag",
+       "lea_introduced"
+      ]
+     ],
+     "goto": "offer"
+    },
+    {
+     "if": [
+      [
        "played_at_least",
        "lea",
        1
@@ -21,9 +30,16 @@
   "hello": {
    "text": [
     "The print shop was throwing this paper away. The backs are clean.",
-    "Take a few sheets if you want to keep a game record."
+    "I copy one position after each game so I can try it again. Take a sheet if you want."
    ],
-   "goto": "offer"
+   "goto": "offer",
+   "actions": [
+    [
+     "set_flag",
+     "lea_introduced",
+     true
+    ]
+   ]
   },
   "offer": {
    "text": [
@@ -81,13 +97,14 @@
    "text": [
     "A win for me. There's plenty of paper if we want to go over it."
    ],
-   "goto": "offer"
+   "goto": "reaction_offer"
   },
   "lost": {
    "text": [
     "You won. I want to put the position back while I remember it."
    ],
-   "goto": "offer"
-  }
+   "goto": "reaction_offer"
+  },
+  "reaction_offer": {}
  }
 }

@@ -64,6 +64,14 @@ static func complete(attempt: Dictionary) -> bool:
     return not attempt.is_empty() and next_fixture(attempt).is_empty()
 
 
+static func total(attempt: Dictionary) -> int:
+    var count := 0
+    for fixture in attempt.get("fixtures", []):
+        if is_player(fixture):
+            count += 1
+    return count
+
+
 static func played(attempt: Dictionary) -> int:
     var count := 0
     for fixture in attempt.get("fixtures", []):

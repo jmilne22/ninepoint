@@ -733,10 +733,6 @@
   "shot": "noor_result"
  },
  {
-  "experience": "choice",
-  "text": "Later."
- },
- {
   "experience": "assert_progress",
   "played": 1
  },
@@ -770,10 +766,6 @@
  },
  {
   "shot": "ivo_result"
- },
- {
-  "experience": "choice",
-  "text": "Later."
  },
  {
   "experience": "assert_progress",
@@ -811,10 +803,6 @@
   "shot": "lea_result"
  },
  {
-  "experience": "choice",
-  "text": "Later."
- },
- {
   "experience": "assert_progress",
   "played": 3
  },
@@ -850,10 +838,6 @@
   "shot": "emil_result"
  },
  {
-  "experience": "choice",
-  "text": "Later."
- },
- {
   "experience": "assert_progress",
   "played": 4
  },
@@ -887,10 +871,6 @@
  },
  {
   "shot": "sora_result"
- },
- {
-  "experience": "choice",
-  "text": "Later."
  },
  {
   "experience": "assert_progress",

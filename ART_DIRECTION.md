@@ -285,3 +285,9 @@ central aisle, reached through the hall's lower west door. Noor, Ivo, Lea, Emil 
 have generated portraits and walking/action sheets; their shared identity records live in
 `tools/novice_cast.py` and extend the existing Python character pipeline. Existing cast
 art and venues are preserved.
+
+The early-game revision gives each novice a generated two-seat table with a personal detail:
+Noor’s postcard, Ivo’s pencil, Lea’s paper, Emil’s repair materials and Sora’s cushion.
+`tools/gen_venue_props.py` draws them; `venue_layouts.py` assigns them without moving
+characters or narrowing the central aisle. A contrasting HUD strip keeps fixture progress
+readable against the room. Screenshots: [early-game playtest](docs/early-game/PLAYTEST.md).

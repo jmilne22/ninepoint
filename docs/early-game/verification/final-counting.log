@@ -1,0 +1,25 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+AUTOPILOT: 12 steps from res://tools/autopilot/early_counting.json
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/01_choice_Show me..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/02_counting_1_card.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/03_counting_1_instruction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/04_counting_1_inspect.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/05_counting_1_inspect.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/06_counting_1_feedback.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/07_counting_2_instruction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/08_counting_2_toggle_0.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/09_counting_2_toggle_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/10_counting_2_feedback.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/11_counting_2_card.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/12_tomas_counting_return.png
+EXPERIENCE: verified progress {"experience":"assert_progress","flags":["lesson_counting_done"]}
+AUTOPILOT: done
+WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

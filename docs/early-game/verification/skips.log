@@ -1,0 +1,47 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+AUTOPILOT: 47 steps from res://tools/autopilot/early_skips.json
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/01_choice_Pip showed me Capture Go..png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/02_choice_I know the rules already..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/03_choice_I know enough to start..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/04_choice_Set up the practice game..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/05_BoardBrief_0.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/06_BoardBrief_1.png
+EXPERIENCE: wren_first 9x9; player Black; handicap 0; komi 5.5; unrated true
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/07_practice_capture_prompt.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/08_practice_capture_help.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/09_practice_atari_prompt.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/10_practice_atari_help.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/11_practice_rejected_move.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/12_practice_legal_move_clears_error.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/13_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/14_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/15_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/16_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/17_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/18_review_offer.png
+EXPERIENCE: verified progress {"absent_flags":["lesson_first_game_rules_done","lesson_finishing_done"],"experience":"assert_progress","flags":["said_knows_the_rules","finishing_skipped","opening_plan_skipped"],"records":1.0}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/19_rank_card_before_practice.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/20_welcome_after_card.png
+EXPERIENCE: rank card dismissed without advancing underlying dialogue
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/21_choice_I'll head to the Instituut..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/22_choice_I'll come back..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/23_choice_A capture reminder..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/24_optional_arrival_capture.png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/25_choice_I know that already. Where do I join_.png
+EXPERIENCE: verified progress {"absent_flags":["capture_1_solved"],"experience":"assert_progress","flags":["hana_welcomed","institute_class_skipped","institute_class_ready"]}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/26_choice_Sign..png
+EXPERIENCE: verified progress {"experience":"assert_progress","flags":["enrolled"],"rank":"30k","records":1.0}
+EXPERIENCE: disk reload preserved every league fixture and history index
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/27_skipping_preserves_school_access.png
+AUTOPILOT: done
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
