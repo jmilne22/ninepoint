@@ -779,8 +779,8 @@ def academy_novice():
         "npcs": [{"id": id, "tile": [x+1,y+2], "dir": "up", "idle": idle}
                  for id,x,y,idle in [("noor",3,4,"arrange"),("ivo",10,4,"play"),
                     ("lea",17,4,"read"),("emil",5,10,"arrange"),("sora",14,10,"play")]],
-        "art_props": [{"art": "playing_table", "position": [x*16,y*16]}
-                      for x,y in [(3,4),(10,4),(17,4),(5,10),(14,10)]],
+        "art_props": [{"art": "novice_"+person, "position": [x*16,y*16]}
+                      for person,x,y in [("noor",3,4),("ivo",10,4),("lea",17,4),("emil",5,10),("sora",14,10)]],
         "music": "theme_institute", "indoors": True,
     }
 

@@ -7,6 +7,19 @@
      "if": [
       [
        "flag",
+       "ranked_by_club"
+      ],
+      [
+       "not_flag",
+       "wren_saw_card"
+      ]
+     ],
+     "goto": "card_already"
+    },
+    {
+     "if": [
+      [
+       "flag",
        "kesh_match_done"
       ]
      ],
@@ -28,7 +41,7 @@
        "wren_asked_experience"
       ]
      ],
-     "goto": "opening_gate"
+     "goto": "beginner_gate"
     },
     {
      "goto": "first"
@@ -55,8 +68,26 @@
    ],
    "choices": [
     {
-     "text": "Never. I don't know the rules.",
+     "text": "Pip showed me Capture Go. What comes next?",
      "if": [
+      [
+       "flag",
+       "pip_taught_capture"
+      ],
+      [
+       "not_flag",
+       "knows_the_rules"
+      ]
+     ],
+     "goto": "pip_followup"
+    },
+    {
+     "text": "I'm new. Show me how to play.",
+     "if": [
+      [
+       "not_flag",
+       "pip_taught_capture"
+      ],
       [
        "not_flag",
        "knows_the_rules"
@@ -64,7 +95,7 @@
      ],
      "exit": {
       "type": "start_lesson",
-      "lesson": "liberties",
+      "lesson": "first_game_rules",
       "track": true
      }
     },
@@ -93,6 +124,11 @@
      "set_flag",
      "knows_the_rules",
      true
+    ],
+    [
+     "set_flag",
+     "finishing_skipped",
+     true
     ]
    ],
    "text": [
@@ -106,9 +142,9 @@
   "taught_first": {
    "portrait": "happy",
    "text": [
-    "Ready to try a full game?"
+    "We can look at the finish before setting up our game."
    ],
-   "goto": "opening_gate"
+   "goto": "finishing_gate"
   },
   "taught_again": {
    "portrait": "happy",
@@ -164,11 +200,6 @@
       "profile": "wren_9x9",
       "context": "wren_first",
       "unrated": true,
-      "guidance": [
-       "Establish a corner area.",
-       "Support or connect a loose stone nearby.",
-       "Notice a group with only one liberty."
-      ],
       "practice": true
      }
     },
@@ -183,21 +214,18 @@
    ]
   },
   "after_first_game": {
-   "text": [
-    "Kesh is by the window. She can get you a novice card and tell you where to enrol."
-   ],
-   "choices": [
+   "branches": [
     {
-     "text": "I will talk to Kesh.",
-     "goto": "after_first_end"
+     "if": [
+      [
+       "flag",
+       "ranked_by_club"
+      ]
+     ],
+     "goto": "card_already"
     },
     {
-     "text": "Play another game.",
-     "goto": "offer_rematch"
-    },
-    {
-     "text": "Could you refresh the rules?",
-     "goto": "refresher"
+     "goto": "card_referral"
     }
    ]
   },
@@ -230,6 +258,20 @@
     {
      "text": "It's coming back to me.",
      "goto": "refresher_no"
+    },
+    {
+     "text": "Finishing and counting.",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "finishing"
+     }
+    },
+    {
+     "text": "Territory shapes.",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "territory_shapes"
+     }
     }
    ]
   },
@@ -426,6 +468,160 @@
      "goto": "opening_offer"
     }
    ]
+  },
+  "taught_finishing": {
+   "text": [
+    "I'll clear these stones. Shall we start our game?"
+   ],
+   "goto": "opening_gate"
+  },
+  "beginner_gate": {
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "knows_the_rules"
+      ]
+     ],
+     "goto": "finishing_gate"
+    },
+    {
+     "goto": "rules_return"
+    }
+   ]
+  },
+  "rules_return": {
+   "text": [
+    "We can pick up the short introduction here."
+   ],
+   "choices": [
+    {
+     "text": "Show me.",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "first_game_rules",
+      "track": true
+     }
+    },
+    {
+     "text": "I know the rules already.",
+     "goto": "knows_already"
+    },
+    {
+     "text": "Later.",
+     "goto": "offer_later"
+    }
+   ]
+  },
+  "finishing_gate": {
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "lesson_finishing_done"
+      ]
+     ],
+     "goto": "opening_gate"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "finishing_skipped"
+      ]
+     ],
+     "goto": "opening_gate"
+    },
+    {
+     "goto": "finishing_offer"
+    }
+   ]
+  },
+  "finishing_offer": {
+   "text": [
+    "Would you like to look at a finished game before we play?"
+   ],
+   "choices": [
+    {
+     "text": "Show me the finish.",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "finishing"
+     }
+    },
+    {
+     "text": "I already know how to count.",
+     "actions": [
+      [
+       "set_flag",
+       "finishing_skipped",
+       true
+      ]
+     ],
+     "goto": "opening_gate"
+    },
+    {
+     "text": "Later.",
+     "goto": "offer_later"
+    }
+   ]
+  },
+  "card_referral": {
+   "text": [
+    "Kesh is by the window. She can get you a novice card and tell you where to enrol."
+   ],
+   "choices": [
+    {
+     "text": "I'll ask her.",
+     "goto": "after_first_end"
+    },
+    {
+     "text": "Another game.",
+     "goto": "offer_rematch"
+    },
+    {
+     "text": "A rules reminder.",
+     "goto": "refresher"
+    }
+   ]
+  },
+  "card_already": {
+   "text": [
+    "You've got your card. Come back when you want a quiet game."
+   ],
+   "choices": [
+    {
+     "text": "Another game.",
+     "goto": "offer_rematch"
+    },
+    {
+     "text": "A reminder.",
+     "goto": "refresher"
+    },
+    {
+     "text": "Later.",
+     "goto": "offer_later"
+    }
+   ],
+   "actions": [
+    [
+     "set_flag",
+     "wren_saw_card",
+     true
+    ]
+   ]
+  },
+  "pip_followup": {
+   "text": [
+    "Pip got you started, then. Let's try a few positions before our game."
+   ],
+   "exit": {
+    "type": "start_lesson",
+    "lesson": "first_game_rules",
+    "track": true
+   }
   }
  }
 }

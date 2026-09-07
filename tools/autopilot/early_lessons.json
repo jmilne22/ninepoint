@@ -1,0 +1,67 @@
+[
+ {
+  "save": "early_rules"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "talk_to": "wren"
+ },
+ {
+  "experience": "choice",
+  "text": "Pip showed me Capture Go."
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "lesson_run"
+ },
+ {
+  "experience": "choice",
+  "text": "Show me."
+ },
+ {
+  "experience": "lesson_run"
+ },
+ {
+  "experience": "choice",
+  "text": "Set up the practice game."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "tap": "go_help"
+ },
+ {
+  "shot": "empty_wren_help"
+ },
+ {
+  "tap": "cancel"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "experience": "save"
+ }
+]

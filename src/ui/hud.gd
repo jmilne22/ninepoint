@@ -38,6 +38,10 @@ func _ready() -> void:
     _toast_panel.visible = false
     _root.add_child(_toast_panel)
 
+    # A fixed paper strip protects both text columns from changing map colours.
+    var journal_panel := UiKit.panel(_root, Rect2(0, 186, 384, 30))
+    journal_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
     _toast = Label.new()
     _toast.position = Vector2(8, 4)
     _toast.size = Vector2(352, 12)
@@ -46,10 +50,13 @@ func _ready() -> void:
     _toast.add_theme_color_override("font_color", Color("#f2d791"))
     _toast_panel.add_child(_toast)
 
-    _rank = _make_label(_root, Vector2(6, 202), 90, 9, Color("#ddd0b8"))
+    _rank = _make_label(_root, Vector2(6, 200), 90, 9, UiKit.INK)
     # The journal wraps to two lines: quest lines are sentences, and a single
     # right-aligned line ran off the edge of the screen.
-    _journal = _make_label(_root, Vector2(100, 191), 278, 9, Color("#bda98c"))
+    _journal = _make_label(_root, Vector2(100, 189), 278, 9, UiKit.INK)
+    for label in [_rank, _journal]:
+        label.add_theme_constant_override("shadow_offset_x", 0)
+        label.add_theme_constant_override("shadow_offset_y", 0)
     _journal.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
     _journal.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     _journal.size.y = 24
@@ -72,6 +79,8 @@ func _ready() -> void:
 
 
 func _on_flag_changed(key: String, value: Variant) -> void:
+    if key in ["league_changed", "read_league_board", "institute_class_ready"]:
+        refresh()
     if key == "ranked_by_club" and bool(value):
         _show_first_rank_card(_root)
 
@@ -88,7 +97,7 @@ func _show_first_rank_card(root: Control) -> void:
     dim.set_anchors_preset(Control.PRESET_FULL_RECT)
     _rank_card.add_child(dim)
     var panel := UiKit.panel(_rank_card, Rect2(38, 22, 308, 172))
-    var text := "PROVISIONAL RANK: %s\nA starting club estimate.\n\nLower kyu numbers mean stronger ranks. After 1k comes 1d.\n\nRated results can move your rank one step. Unrated practice leaves it unchanged.\n\nYour player card is in the pause menu.\n\n[Space / Esc] continue" % GameState.rank_label()
+    var text := "PROVISIONAL RANK: %s\nThe novice starting entry.\n\nLower kyu numbers mean stronger ranks. After 1k comes 1d.\n\nRated results can move your rank one step. Unrated practice leaves it unchanged.\n\nYour player card is in the pause menu.\n\n[Space / Esc] continue" % GameState.rank_label()
     var label := UiKit.label(panel, Vector2(10, 10), 288, UiKit.INK, 152)
     label.text = text
 
@@ -138,6 +147,14 @@ func refresh() -> void:
     _rank.text = "%s   %s" % [GameState.player_name, GameState.rank_label()]
     # Which quest that is, is QuestTracker's decision and is tested there.
     _journal.text = Quests.journal_line(Quests.journal_quest_id())
+    var attempt := LeagueProgress.active(GameState)
+    if Quests.journal_quest_id() not in ["beginner_cup", "qualifying_exam"] \
+            and not attempt.is_empty() and GameState.has_flag("read_league_board") \
+            and not LeagueAttempt.complete(attempt):
+        _journal.text = "%d/%d fixtures - next: %s" % [LeagueAttempt.played(attempt),
+            LeagueAttempt.total(attempt), LeagueProgress.next_name(GameState)]
+        if GameState.current_map != "academy_novice" and attempt.get("division", "") == "novice":
+            _journal.text += ". Hall's lower west door."
 
 
 func _process(delta: float) -> void:

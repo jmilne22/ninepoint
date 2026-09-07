@@ -1,0 +1,29 @@
+{
+ "id": "ivo",
+ "lines": {
+  "you_captured": [
+   "Those go on your side."
+  ],
+  "you_captured_big": [
+   "You've got a handful there."
+  ],
+  "i_captured": [
+   "I'll move these off the board."
+  ],
+  "i_captured_big": [
+   "I'll gather this group."
+  ],
+  "ko": [
+   "Ko. No taking straight back this turn."
+  ],
+  "i_atari": [
+   "One liberty left on that group."
+  ],
+  "i_pass": [
+   "I pass. That's my last turn for now."
+  ],
+  "you_pass": [
+   "I'll check for another move."
+  ]
+ }
+}

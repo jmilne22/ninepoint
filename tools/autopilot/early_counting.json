@@ -1,0 +1,44 @@
+[
+ {
+  "save": "invited"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "experience": "visit",
+  "map": "de_ketel"
+ },
+ {
+  "talk_to": "tomas"
+ },
+ {
+  "experience": "choice",
+  "text": "Show me."
+ },
+ {
+  "experience": "lesson_run"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "shot": "tomas_counting_return"
+ },
+ {
+  "experience": "assert_progress",
+  "flags": [
+   "lesson_counting_done"
+  ]
+ }
+]

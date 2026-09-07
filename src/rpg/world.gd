@@ -157,6 +157,7 @@ func _build_ui() -> void:
 func _after_load() -> void:
     var result := MatchBridge.last_result
     if result != null:
+        var review_index := MatchBridge.last_record_index
         MatchBridge.last_result = null
         _event_finished_check(result)
         var registrar := _find_npc("marguerite")
@@ -166,6 +167,8 @@ func _after_load() -> void:
             await _talk(registrar, "exam_passed" if GameState.has_flag("exam_passed") else "exam_failed")
         else:
             await _post_match(result)
+        if is_inside_tree() and MatchBridge.pending_request == null:
+            await _offer_review(review_index, result)
         return
     if MatchBridge.last_lesson != "":
         var taught := MatchBridge.last_lesson
@@ -178,6 +181,20 @@ func _after_load() -> void:
         EventBus.quest_started.emit("first_stones")
 
 
+## Reaction and occasion announcements precede this optional, world-owned panel.
+func _offer_review(index: int, result: MatchResult) -> void:
+    if index < 0 or not MatchAnalysis.eligible(result.to_dict()):
+        return
+    player.input_locked = true
+    player.clear_target()
+    var flow := PostMatchReview.new()
+    flow.record_index = index
+    flow.opponent_name = result.opponent_name
+    add_child(flow)
+    await flow.closed
+    player.input_locked = false
+
+
 ## A review the player walked away from has landed. It waits at the quay.
 func _on_review_finished(index: int, payload: Dictionary) -> void:
     if not str(payload.get("availability", "")) in ["available", "steady"]:
@@ -185,8 +202,8 @@ func _on_review_finished(index: int, payload: Dictionary) -> void:
     if index < 0 or index >= GameState.match_records.size():
         return
     var who := str(GameState.match_records[index].get("opponent_name", ""))
-    EventBus.toast.emit("Your game with %s is ready to look at, on the quay." % who
-        if who != "" else "Your last game is ready to look at, on the quay.")
+    EventBus.toast.emit("Your game with %s is ready to look at, on the quay, south past the park." % who
+        if who != "" else "Your last game is ready to look at, on the quay, south past the park.")
 
 
 ## After a game, the opponent has something to say about it.

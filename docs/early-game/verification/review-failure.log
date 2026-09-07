@@ -1,0 +1,47 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+AUTOPILOT: 59 steps from res://tools/autopilot/early_review_failure.json
+AUTOPILOT: world transition and return conversation settled
+EXPERIENCE: dev_katago_trial 9x9; player Black; handicap 0; komi 5.5; unrated true
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/01_result.png
+KATAGO TRIAL: recorded engine evidence
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/02_review_ready_after_reaction.png
+REVIEW FLOW: checkpoint of 1 results
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/03_review_offer.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/04_unavailable_review_loading.png
+Review: 0 of 3 positions in 12.0 s on 8 threads (engine stalled)
+Review failed (engine stalled)
+AUTOPILOT: the review cards opened
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/05_review_failure_explained.png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/06_failure_returns_to_world.png
+REVIEW FLOW: results, rank and league unchanged
+EXPERIENCE: disk reload preserved every league fixture and history index
+REVIEW FLOW: results, rank and league unchanged
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/07_review_offer.png
+Review: 0 of 3 positions in 0.3 s on 8 threads (cancelled)
+EXPERIENCE: disk reload preserved every league fixture and history index
+REVIEW FLOW: results, rank and league unchanged
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/08_review_offer.png
+Review: 0 of 3 positions in 0.3 s on 8 threads (cancelled)
+EXPERIENCE: dev_katago_trial 9x9; player Black; handicap 0; komi 5.5; unrated true
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/09_result.png
+KATAGO TRIAL: recorded engine evidence
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/10_review_ready_after_reaction.png
+REVIEW FLOW: checkpoint of 2 results
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/11_review_offer.png
+REVIEW FLOW: results, rank and league unchanged
+EXPERIENCE: verified progress {"experience":"assert_progress","records":2.0}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/12_review_offer.png
+AUTOPILOT: the review cards opened
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/13_missing_engine_review.png
+REVIEW FLOW: results, rank and league unchanged
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/14_review_contracts_complete.png
+AUTOPILOT: done
+WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

@@ -1,8 +1,8 @@
-Current unmerged opening follow-up: [PROG-02 Kesh welcome evidence](docs/novice/KESH-WELCOME.md). Historical milestones below retain their original behavior and counts.
+Current verified local revision: [M45 early-game evidence](docs/early-game/PLAYTEST.md). Historical entries retain their original behavior and counts.
 
 # NINEPOINT — Milestones
 
-> Unshipped PROG-01 implementation and verification: [novice playtest record](docs/novice/PLAYTEST.md). Human strength validation is still required; no shipped milestone is claimed.
+> PROG-01/02 implementation merged in PR #25. [Original novice verification](docs/novice/PLAYTEST.md). Human strength validation is still required; the merge does not satisfy that release gate.
 
 This is the append-only history of shipped work and its verification evidence. It is **not**
 the current backlog: use `WORKBOARD.md` to select or update active work, and `ROADMAP.md` for
@@ -3058,3 +3058,58 @@ in `docs/mouse/PLAYTEST.md`.
 
 No Go rules, engine settings, rank progression, result format, town interaction or save
 schema changes. Existing shutdown ObjectDB/resource warnings remain outside this task.
+
+
+## M45 — A complete beginner opening [verified local candidate]
+
+EARLY-01 through EARLY-05 implement the owner-approved revision on
+`codex/early-game-review`. This is a verified release-sized change prepared for PR review, **not merged
+or released**. PROG-01's independent beginner and rank-label gate remains open.
+
+Lesson answers now leave their position visible beside measured explanation pages.
+Four rules exercises lead into a legal 7×7 finishing demonstration, editable exact count,
+and two optional opening comparisons. Wren's actual unrated game offers position-aware
+Help and a first-pass explanation. Tomás deepens counting; Hana applies survival knowledge
+before registration, with capture practice optional. Novices have individual concerns,
+event lines and generated table details. The HUD derives fixture progress and next opponent
+from the saved league attempt.
+
+The count previews components and proposed marks before acceptance. Accepted results are
+recorded once, the world reaction and Cup/exam announcements occur, then an optional
+record-index review opens. Background analysis, Escape, quay retrieval, missing engines
+and cancellation remain available. Review descriptions count distinct groups and describe
+immediate effects; comparisons replay each move independently. Old saves retain progress
+through additive flags and lesson fields, with no fabricated puzzle completion.
+
+**Done when:** `tools/test.sh` reported **16,730 passed, 0 failed**, **277 files all load**.
+The immediately preceding base (PROG-02, merged after M44) had **16,242** checks and **260**
+loaded files: **488** additional checks and **17** loaded scripts. Historical M44 had
+14,476 checks. All three KataGo gates passed; the review gate covered 79/79 positions in
+14.2 s on 9×9 and 241/241 in 59.4 s on 19×19, with its stalled-engine watchdog at 6.1 s.
+Lesson validator: zero problems. Printed dialogue, machine writing limits, generated-map
+validation and `git diff --check` passed.
+
+Played and opened: a manual live-input New Game route through full counted Wren, Noor
+and Ivo games, reactions, review and school navigation; separate automated `early_lessons`,
+`early_skips`, `early_counting`, `early_kesh` (74-ply bot game), `novice_losses`,
+`early_review_failure`, `early_quay`, `early_exam_pass`, `early_exam_fail`,
+`mouse_review_choice` and `mouse_review`. Automated coverage establishes contracts, not
+human difficulty. Before/after results, screenshots, SGFs, saved progress and logs are
+in [the playtest report](docs/early-game/PLAYTEST.md).
+
+### Deliberate changes and boundaries
+
+| Before | After / boundary |
+|---|---|
+| Explanation covers the lesson board | Side feedback retains position, highlights and inspection |
+| Rules followed by an unexplained full ending | Shorter rules, demonstrated finishing, optional openings and actual-position Help |
+| Arrival capture, registration, return to class | Welcome/class, registration, board, fellow beginners |
+| Analysis before the opponent speaks | Recorded result, reaction/occasion announcement, optional analysis |
+| Advice inferred from adjacency or a liberty threshold | Distinct groups and verifiable immediate effects; engine preference separately labeled |
+| Fixed journal-style fixture direction | Actual completed fixtures and next opponent, with readable table help |
+| Pending analysis can outlive a loaded session | Session reset cancels old work before replacing records |
+
+Wren's strength, all opponent profiles, stopping rules, dead-stone estimation, rank ladder
+and Go scoring rules are unchanged. ENG-09 records questionable endings for separate
+assessment. No subjective audio claims. Existing shutdown resource warnings remain;
+no script errors occurred in the successful routes.

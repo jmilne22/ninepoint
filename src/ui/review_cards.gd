@@ -23,10 +23,16 @@ var _actions: MouseActions
 var _text_pages := PackedStringArray()
 var _text_page := 0
 var _legend := ""
+var _comparison := 0
+var _plain := false
 
 
 func setup(value: Dictionary, who: String = "") -> void:
-    review = value
+    review = value.duplicate(true)
+    var source := int(review.get("source_match", -1))
+    if source >= 0 and source < GameState.match_records.size():
+        for finding in review.get("findings", []):
+            finding["player"] = int(GameState.match_records[source].get("player_color", GoBoard.BLACK))
     opponent_name = who
 
 
@@ -62,50 +68,19 @@ func _ready() -> void:
     _actions = MouseActions.new()
     _actions.position = Vector2(158, 197)
     root.add_child(_actions)
-    _actions.configure([["<", "move_left"], [">", "move_right"], ["Close", "interact"]])
+    _actions.configure([["<", "move_left"], [">", "move_right"], ["Compare C", "go_compare"], ["Close", "interact"]])
     _actions.action_selected.connect(_mouse_action)
     _show()
 
 
 func _mouse_action(action: StringName) -> void:
-    if action == &"move_left" or action == &"move_right":
+    if action == &"go_compare":
+        _comparison = (_comparison + 1) % 3
+        _show()
+    elif action == &"move_left" or action == &"move_right":
         _navigate(-1 if action == &"move_left" else 1)
     else:
         _unhandled_input(MouseActions.event(action))
-
-
-## The tally comes first: what went right, in numbers a learner can hold on
-## to, before the positions where something went wrong.
-func _tally_text() -> String:
-    var tally: Dictionary = review.get("tally", {})
-    if tally.is_empty():
-        return ""
-    var moves := int(tally.get("moves", 0))
-    var best := int(tally.get("best", 0))
-    var fine := int(tally.get("fine", 0))
-    var looked := "You played %d move%s." % [moves, "" if moves == 1 else "s"]
-    if bool(review.get("partial", false)):
-        looked = "The first %d of your %d moves were looked at." % [moves, int(review.get("total_moves", moves))]
-    var verdict := ""
-    if best > 0 and fine > 0:
-        verdict = "%d %s the best move on the board, and another %d gave nothing away." % [
-            best, "was" if best == 1 else "were", fine]
-    elif best > 0:
-        verdict = "%d %s the best move on the board." % [best, "was" if best == 1 else "were"]
-    elif fine > 0:
-        verdict = "None matched the best move exactly, but %d gave nothing away." % fine
-    else:
-        verdict = "The engine preferred a different move at each turn. Start with one position below."
-    var text := "%s %s" % [looked, verdict]
-    var best_moves: Array = tally.get("best_moves", [])
-    if not best_moves.is_empty():
-        var shown: Array = best_moves.slice(0, 12)
-        # A saved review comes back through JSON, where every number is a float.
-        var numbers := ", ".join(shown.map(func(n: Variant) -> String: return str(int(n))))
-        if best_moves.size() > shown.size():
-            numbers += " and %d more" % (best_moves.size() - shown.size())
-        text += "\n\nYour best moves: %s." % numbers
-    return text
 
 
 func _card_count() -> int:
@@ -116,18 +91,19 @@ func _card_count() -> int:
 func _show() -> void:
     _navigation.hide()
     _text_pages = PackedStringArray()
+    _plain = false
     var findings: Array = review.get("findings", [])
     if findings.is_empty():
         # No board, so no reason for a board-sized card: one message, sized to
         # its text like every other card in the game.
         _board.visible = false
         _title.visible = false
-        var text := "A steady game.\n%s\n\n[Space] close" % str(review.get("summary", "No single move gave much away."))
+        var text := "A steady game.\n%s" % str(review.get("summary", "No single move gave much away."))
         if str(review.get("availability", "")) == "steady" and review.has("tally"):
-            text = "A steady game.\n%s\n\n[Space] close" % _tally_text()
+            text = "A steady game.\n%s" % ReviewSummary.text(review)
         if str(review.get("availability", "")) != "steady":
-            text = "Review unavailable.\nThe engine could not finish this review. Your result has been saved.\n\n[Space] close"
-        UiKit.fit_card(_card, _body, text, 288)
+            text = "Review unavailable.\nThe engine could not finish this review. Your result has been saved."
+        _show_plain(text)
         return
     var total := _card_count()
     _index = clampi(_index, 0, total - 1)
@@ -141,11 +117,10 @@ func _show() -> void:
     if has_tally and _index == 0:
         _board.visible = false
         _title.visible = false
-        UiKit.fit_card(_card, _body, "How it went.\n%s\n\n%d of %d   Left/Right   [Space] close" % [
-            _tally_text(), 1, total], 288)
+        _show_plain("How it went.\n" + ReviewSummary.text(review))
         return
     var f: Dictionary = findings[_index - (1 if has_tally else 0)]
-    var game := MatchAnalysis.position(int(f.get("size", 9)), f.get("cells", []))
+    var game := ReviewComparison.position(f, _comparison)
     if game == null:
         closed.emit()
         queue_free()
@@ -167,27 +142,27 @@ func _show() -> void:
     var lines: Array[String] = []
     if str(f.get("kind", "")) == "strength":
         var matched := bool(f.get("matched", best == actual))
-        var head := "That was the best move on the board." if matched \
+        var head := "That was the engine's preferred move." if matched \
             else "A good move: it gave nothing away."
         var why := str(f.get("does", ""))
         var stake := float(f.get("stake", 0.0))
         if matched and stake >= MatchAnalysis.MEANINGFUL_LOSS:
-            why += " The next best would have given away about %s points." % _points(stake)
+            why += " The engine estimated its next choice about %s points lower." % _points(stake)
         elif not matched:
             why += " %s was best; yours was within a point of it." % game.board.label(best)
         lines.append("%s %s" % [head, why])
-        _legend = "Filled = your move" if matched else "Filled = your move\nRing = the other good move"
+        _legend = "Filled = your move" if matched else "Filled = your move\nRing = engine preference"
     else:
-        lines.append("%s was better, by about %s points." % [game.board.label(best), _points(float(f.get("point_loss", 0.0)))])
+        lines.append("The engine preferred %s, by about %s points." % [game.board.label(best), _points(float(f.get("point_loss", 0.0)))])
         lines.append("%s %s" % [str(f.get("critique", "")), str(f.get("changed", ""))])
         lines.append("Next time: %s" % str(f.get("habit", "")))
-        _legend = "Filled = your move\nRing = the better move"
+        _legend = "Filled = your move\nRing = engine preference"
     if bool(review.get("partial", false)):
         lines.append("(The first %d of your %d moves were looked at.)" % [
             int(review.get("analysed_moves", 0)), int(review.get("total_moves", 0))])
-    var prose := "\n\n".join(lines)
+    _legend = ["Before either move", "After your move", "After engine choice"][_comparison] + "\n" + _legend
     var available := int(_body.size.y) - UiKit.text_height(_legend, TEXT_W) - UiKit.LINE_H
-    _text_pages = UiKit.paginate(prose, TEXT_W, available)
+    _text_pages = ReviewComparison.pages(lines, TEXT_W, available)
     _text_page = _text_pages.size() - 1 if _text_page < 0 else mini(_text_page, _text_pages.size() - 1)
     _refresh_text()
     _refresh_navigation()
@@ -199,7 +174,23 @@ static func _points(v: float) -> String:
     return "%.1f" % v if absf(v - roundf(v)) > 0.05 else str(int(roundf(v)))
 
 
+func _show_plain(text: String) -> void:
+    _plain = true
+    var blocks: Array[String] = []
+    for block in text.split("\n\n"):
+        blocks.append(block)
+    _text_pages = ReviewComparison.pages(blocks, 288, 132)
+    _text_page = clampi(_text_page, 0, _text_pages.size() - 1)
+    _refresh_text()
+
+
 func _refresh_text() -> void:
+    if _plain:
+        var footer := "Left/Right   [Space] close"
+        if _text_pages.size() > 1:
+            footer = "Page %d/%d   " % [_text_page + 1, _text_pages.size()] + footer
+        UiKit.fit_card(_card, _body, _text_pages[_text_page] + "\n\n" + footer, 288)
+        return
     _body.text = _text_pages[_text_page] + "\n\n" + _legend
     _refresh_heading()
 
@@ -218,9 +209,12 @@ func _navigate(direction: int) -> void:
         _text_page += direction
         _refresh_text()
         return
+    if _card_count() < 1:
+        return
     var next := clampi(_index + direction, 0, _card_count() - 1)
     if next != _index:
         _index = next
+        _comparison = 0
         _text_page = -1 if direction < 0 else 0
         _show()
 
@@ -235,7 +229,10 @@ func _refresh_navigation() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-    if _board.visible and _navigation.handle_input(event):
+    if event.is_action_pressed("go_compare") and _board.visible:
+        _comparison = (_comparison + 1) % 3
+        _show()
+    elif _board.visible and _navigation.handle_input(event):
         _board.inspection = true
         _board.queue_redraw()
     elif _board.visible and _board.zoomed:

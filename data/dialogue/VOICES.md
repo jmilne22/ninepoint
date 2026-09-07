@@ -37,7 +37,14 @@ Do not mention an unfamiliar person or place without providing a useful directio
 Named people remain in their established venues. Persistent changes follow lessons,
 match records and events, without schedules or a second progression system.
 
+Post-match reactions finish before the world-owned review offer. Another game is offered
+on the next interaction after review is declined or closed. Do not invent personal performance
+judgements or fixture progress in dialogue; the league interface owns those facts.
+
 Novice classmates share the lower west practice room. Noor keeps a postcard dry and is new to Go;
-Ivo arrives by bicycle with a pencil; Lea brings print-shop scrap paper; Emil repairs lamps;
-Sora keeps a spare cushion. They welcome practice and react to the latest result. Their
+she wants company through her first league and toward the Cup. Ivo fits complete games
+around deliveries. Lea records positions to revisit, Emil investigates failed defences,
+and Sora makes room for newcomers. Postcard, pencil, paper, repair parts and cushion appear
+on their tables. Each has distinct capture, pass, ko and atari remarks; unfamiliar terms
+receive plain wording. Introductions do not repeat on return visits. Their
 30k/27k/25k/23k/20k labels are targets awaiting independent beginner playtesting.

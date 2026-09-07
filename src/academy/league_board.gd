@@ -12,6 +12,7 @@ var _cells: Array[Array] = []
 var _header: Label
 var _footer: Label
 var _shown_attempt: int = -1
+var _help_panel: Control
 
 const COL_X := [10, 26, 150, 208, 238, 268]
 const COL_W := [16, 124, 56, 28, 28, 28]
@@ -61,6 +62,19 @@ func _build() -> void:
 
     # The standing, the rule, and whether you are meeting the exam cut.
     _footer = UiKit.label(panel, Vector2(10, 126), 304, UiKit.INK_SOFT, FOOTER_H)
+    var actions := MouseActions.new()
+    actions.position = Vector2(248, 196)
+    _root.add_child(actions)
+    actions.configure([["Help H", "go_help"], ["Close", "cancel"]])
+    actions.action_selected.connect(func(action: StringName): _input(MouseActions.event(action)))
+    _help_panel = UiKit.panel(_root, Rect2(42, 20, 300, 176))
+    UiKit.label(_help_panel, Vector2(12, 10), 276, UiKit.INK, 142).text = "P: Played   W: Wins   L: Losses\n\nEntry is the rank when this attempt began. It stays fixed.\n\nWins come first, then entry rank, then name. Other players' games are simulated and saved once. Your results come from games you played.\n\nH / Esc: back to the table"
+    var back := MouseActions.new()
+    back.position = Vector2(12, 156)
+    _help_panel.add_child(back)
+    back.configure([["Back H", "go_help"]])
+    back.action_selected.connect(func(_action: StringName): _help_panel.hide())
+    _help_panel.hide()
 
 
 func show_board() -> void:
@@ -117,10 +131,20 @@ static func _exam_line(rows: Array[Dictionary]) -> String:
 func close() -> void:
     open = false
     _root.visible = false
+    _help_panel.hide()
 
 
 func _input(event: InputEvent) -> void:
     if not open:
+        return
+    if event.is_action_pressed("go_help"):
+        _help_panel.visible = not _help_panel.visible
+        get_viewport().set_input_as_handled()
+        return
+    if _help_panel.visible:
+        if event.is_action_pressed("cancel") or event.is_action_pressed("interact"):
+            _help_panel.hide()
+        get_viewport().set_input_as_handled()
         return
     if event.is_action_pressed("move_left") or event.is_action_pressed("move_right"):
         var delta := -1 if event.is_action_pressed("move_left") else 1

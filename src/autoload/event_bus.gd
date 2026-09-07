@@ -30,5 +30,7 @@ signal puzzle_finished(puzzle_id: String, solved: bool)
 signal lesson_finished(lesson_id: String, completed: bool)
 
 # --- save
+## Emitted before replacing progress, so asynchronous work cannot write into another save.
+signal session_ended
 signal game_saved(slot: int)
 signal game_loaded(slot: int)

@@ -159,7 +159,7 @@
   "enrolled_explain": {
    "text": [
     "The novice room is through the lower west door. The classroom is east.",
-    "Your five fixtures prepare you for the Cup. Read the league board behind me to find your next opponent."
+    "Your five fixtures prepare you for the Cup. Read the league board on the back wall to find your next opponent."
    ]
   },
   "enrolled_chat": {
@@ -821,7 +821,7 @@
   },
   "league_direction": {
    "text": [
-    "The league board behind me lists your next opponent and the results so far.",
+    "The league board on the back wall lists your next opponent and the results so far.",
     "Novices use the lower west room. Academy players use the study hall and classroom; Kesh is at De Ketel."
    ]
   },

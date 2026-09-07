@@ -147,26 +147,7 @@
     "See you! I'll get the stones ready."
    ]
   },
-  "again": {
-   "text": [
-    "Another?"
-   ],
-   "choices": [
-    {
-     "text": "Sure.",
-     "exit": {
-      "type": "start_match",
-      "profile": "pip_9x9",
-      "context": "pip_casual",
-      "unrated": true
-     }
-    },
-    {
-     "text": "Not right now.",
-     "goto": "later"
-    }
-   ]
-  },
+  "again": {},
   "post_match": {
    "branches": [
     {

@@ -60,15 +60,8 @@
   "note": "dismiss the result"
  },
  {
-  "wait": 0.4,
-  "shot": "e_offer"
- },
- {
-  "tap": "move_up",
-  "note": "Yes, go over the game"
- },
- {
-  "tap": "interact"
+  "experience": "review_choice",
+  "accept": true
  },
  {
   "wait": 3.0,

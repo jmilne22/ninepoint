@@ -1,0 +1,25 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+AUTOPILOT: 24 steps from res://tools/autopilot/early_quay.json
+AUTOPILOT: world transition and return conversation settled
+EXPERIENCE: verified progress {"experience":"assert_progress","played":2.0,"rank":"28k","records":4.0}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/01_two_fixtures_loaded.png
+REVIEW FLOW: checkpoint of 4 results
+AUTOPILOT: Supplemental direct map setup; not evidence of newcomer wayfinding.
+AUTOPILOT: the review cards opened
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/02_review_1_page_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/03_review_2_page_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/04_review_3_page_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/05_review_3_page_2.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/06_review_4_page_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/07_review_4_page_2.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/08_ivo_quay_played_comparison.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/09_ivo_quay_engine_comparison.png
+REVIEW FLOW: results, rank and league unchanged
+EXPERIENCE: disk reload preserved every league fixture and history index
+REVIEW FLOW: results, rank and league unchanged
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-supplement/data/godot/app_userdata/Ninepoint/shots/10_quay_after_reload.png
+AUTOPILOT: done

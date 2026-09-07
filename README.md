@@ -74,9 +74,10 @@ where to put you when all three slots are full.
 | P | pass |
 | V (19×19 development route) | whole board / close view; arrows move through the close view |
 | R | offer resignation; R confirms, Esc cancels |
-| H (handicap games) | reopen the handicap explanation without changing the game |
+| H | position help in Wren’s first practice; counting help at any count; handicap help during handicap play |
 | *after both players pass* | Space toggles a group dead or alive, **P** accepts the count |
-| Space | dismiss the result, then choose whether to review the game |
+| Space | dismiss the result, hear the opponent’s reaction, then choose whether to review |
+| C (review) | compare the original position, your move, and the engine’s preferred move |
 
 The board screens also have clickable buttons for their actions: passing, resignation,
 count acceptance, colour choices, explanations, results and review navigation.
@@ -129,20 +130,26 @@ the club, does the rules properly afterwards — liberties, capture, and why you
 your own last one. There is no tutorial on the menu, because being taught by somebody is the
 point.
 
-Before Kesh, Wren hosts the first proper 9×9: normal passing and scoring, but explicitly
-**unrated**. Her short opening refresher covers corner starts, avoiding the first line early,
-supporting nearby stones, and answering urgent atari or cuts first. Kesh then gives you a
-provisional novice card and directions to the Instituut. You can head there immediately,
-or stay for optional **unrated handicap practice**. This is not a placement test.
+Wren acknowledges Capture Go and offers four short rules exercises, then a prepared
+7×7 finish: living and dead groups, a useful final move, passing, and checking a dead-group
+mark against the score. Explanations stay beside the board until you advance. Her optional
+opening comparison distinguishes a starting position from a completed territory boundary.
+Then play her **unrated** 9×9. The side panel describes the current position; **Help H**
+highlights a capture or a group with one liberty when one exists. Passing does not concede,
+and the count shows territory, prisoners and komi before you accept the proposed marks.
 
-Thirteen lessons in all, and each belongs to whoever should be teaching it: Wren has the
-rulebook and ko, Kesh teaches you to run and to cut because she is the one cutting you,
-Bertie in the park teaches ladders, Tomás behind his counter teaches counting and the
-endgame, and Hana takes the classes at the Instituut: two eyes, life and death, the capturing race
-and the false eye. Wren offers the optional corner, side and centre comparison. The board in your room sets you
-twelve problems.
+Kesh gives you a provisional novice card and points toward fellow beginners at the
+Instituut. You can leave immediately or stay for **unrated handicap practice**. Hana
+welcomes you and offers the first class before registration: applying two-eye knowledge
+to an apparent eye that can be filled. Her capture problem remains optional. Noor wants
+company through the league and toward the Cup; Ivo fits complete games around deliveries.
 
-**Your rank is a record, not a stat.** Kesh gives you provisional 30 kyu when you ask for your novice card: a starting club estimate.
+Sixteen lesson files cover the short beginner track and optional refreshers. Wren keeps
+the longer rules and territory exercises; Kesh teaches escape and connection, Bertie
+ladders, Tomás score inspection, and Hana the school classes. Experienced players may
+explicitly skip teaching. The desk in your room also offers twelve puzzles.
+
+**Your rank is a record, not a stat.** Kesh gives you provisional 30 kyu when you ask for your novice card: the novice starting entry.
 After that it moves one step at a time: beat somebody at or above your rank and it goes up
 one, lose to somebody at or below it and it goes down one, and nothing else touches it.
 Handicap stones are priced in, so beating a 4 kyu who gave you five stones is beating a 19
@@ -197,11 +204,11 @@ the checkout with the editor/import pass first, as `tools/test.sh` does.
 **Opening** -- Hana speaks to you and asks your name (Pokemon).
 **Act 1, Steenbeek** -- you have no idea what Go is. Somebody left a board in your room.
 Pip invites you to Capture Go in the park; Wren
-teaches them properly, then hosts a safe unrated 9×9. Kesh issues your provisional novice
+teaches rules and finishing, then hosts a supported unrated 9×9. Kesh issues your provisional novice
 card and points you to Hana at the Essenveld Instituut, two tram stops north. Her
 handicap practice game is optional and leaves your rank unchanged.
-**Act 2, the Essenveld Instituut** — enrol with Marguerite in the Novice League, take
-classes, and play five classmates in the lower west room. Their target ranks range from
+**Act 2, the Essenveld Instituut** — meet Hana and take or explicitly skip the welcome
+class, enrol with Marguerite in the Novice League, and play five classmates in the lower west room. Their target ranks range from
 30k to 20k. The board shows the next fixture, games completed, and everyone's results.
 Everyone starts at zero; NPC games are simulated once after each player round. Wins
 come first, then the stronger entry rank, then name. Extra practice never changes a fixture.
@@ -244,13 +251,14 @@ There is no relationship system. The game tracks your **record** against each pe
 
 ## The vertical slice
 
-Title → New Game → leave your room on Ketelsteeg → Pip in the park teaches you Capture Go →
-down into De Ketel → Wren asks whether you have played, teaches you if needed, and gives a
-short optional opening plan → play Wren's practice full 9×9 → ask Kesh for your novice card
-and invitation → leave immediately or stay for optional unrated handicap practice →
-Tram 4 north → Hana sets you a capture problem → solve it → enrol with Marguerite → read
-the Novice League board → five classmates → the Beginner Cup ending → optional Academy
-registration. Save your progress into one of three slots.
+Title → New Game → attic note → Pip’s Capture Go → Wren’s four rules exercises →
+finishing lesson → optional opening comparison → supported unrated 9×9 → reaction/review →
+Kesh’s novice card (optional handicap practice) → tram north → Hana’s welcome and first
+class → registration → back-wall league board → Noor → Ivo → remaining novice fixtures →
+Beginner Cup ending → optional Academy registration. Save into one of three slots.
+
+[Revision playtest and before/after evidence](docs/early-game/PLAYTEST.md) separates the
+AI walkthrough from automated supplemental checks and independent human testing.
 
 ## Layout
 

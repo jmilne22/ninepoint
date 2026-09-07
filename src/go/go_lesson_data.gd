@@ -57,6 +57,13 @@ static func load_lesson(lesson_id: String) -> GoLessonData:
         if raw.has("pre"):
             pre = int(raw["pre"][1]) * l.size + int(raw["pre"][0])
         l.steps.append({
+            "action": str(raw.get("action", "play")),
+            "reply": raw.get("reply", []),
+            "dead": raw.get("dead", []),
+            "komi": float(raw.get("komi", 0.5)),
+            "prisoners": raw.get("prisoners", [0, 0]),
+            "expected_score": raw.get("expected_score", []),
+            "proofs": raw.get("proofs", []),
             "pre": pre,
             # Read by the runner to show the pocket the step claims to enclose,
             # and by tools/check_lessons.py to prove the claim is true.
@@ -97,13 +104,18 @@ func step_count() -> int:
 ## same rule that refuses it in a game.
 func make_game(index: int) -> GoGame:
     var step: Dictionary = steps[index]
-    var g := GoGame.new(size, 0.5, 0)
+    var g := GoGame.new(size, float(step["komi"]), 0)
     var pre: int = int(step.get("pre", -1))
     if pre >= 0:
         g.set_position(step["cells"], GoBoard.opponent(int(step["to_move"])))
         g.play(pre)
     else:
         g.set_position(step["cells"], int(step["to_move"]))
+    var prisoners: Array = step["prisoners"]
+    g.captures = {GoBoard.BLACK: int(prisoners[0]), GoBoard.WHITE: int(prisoners[1])}
+    if step["action"] == "count":
+        g.pass_turn()
+        g.pass_turn()
     return g
 
 

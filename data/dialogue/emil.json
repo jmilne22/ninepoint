@@ -6,6 +6,15 @@
     {
      "if": [
       [
+       "flag",
+       "emil_introduced"
+      ]
+     ],
+     "goto": "offer"
+    },
+    {
+     "if": [
+      [
        "played_at_least",
        "emil",
        1
@@ -20,10 +29,17 @@
   },
   "hello": {
    "text": [
-    "I got an old lamp working. The switch only needed cleaning.",
-    "I've cleared a place across the table."
+    "I've left the lamp parts over there. The table's clear now.",
+    "I'm trying to work out where my groups come apart. Shall we play?"
    ],
-   "goto": "offer"
+   "goto": "offer",
+   "actions": [
+    [
+     "set_flag",
+     "emil_introduced",
+     true
+    ]
+   ]
   },
   "offer": {
    "text": [
@@ -81,13 +97,14 @@
    "text": [
     "I won. Thanks for the game. Would you like to look at it?"
    ],
-   "goto": "offer"
+   "goto": "reaction_offer"
   },
   "lost": {
    "text": [
     "Well played. Let me gather these up."
    ],
-   "goto": "offer"
-  }
+   "goto": "reaction_offer"
+  },
+  "reaction_offer": {}
  }
 }

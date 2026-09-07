@@ -1,0 +1,473 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+AUTOPILOT: 1 steps from /home/user/.cache/ninepoint-revision-play/start.json
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/01_title.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/02_title_start.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/03_opening.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/04_opening_words.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/05_opening_city.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/06_opening_hook.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/07_opening_name.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/08_attic_board.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/09_attic_note.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/10_attic_take.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/11_attic_exit.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/12_street_arrival.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/13_park_wayfinding.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/14_pip_invitation.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/15_pip_capture_offer.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/16_pip_go.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/17_pip_choose_game.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/18_pip_ready.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/19_capture_board.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/20_capture_instruction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/21_capture_rules.png
+BOARD INPUT: { "move_to": [3.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/22_pip_move1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/23_pip_d4.png
+BOARD INPUT: { "move_to": [2.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/24_pip_c4.png
+BOARD INPUT: { "move_to": [1.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/25_pip_b3.png
+BOARD INPUT: { "move_to": [4.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/26_pip_e3.png
+BOARD INPUT: { "move_to": [0.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/27_pip_a3_save.png
+BOARD INPUT: { "move_to": [3.0, 5.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/28_pip_chase_d2.png
+BOARD INPUT: { "move_to": [2.0, 6.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/29_pip_c1.png
+BOARD INPUT: { "move_to": [1.0, 6.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/30_pip_b1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/31_pip_reaction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/32_pip_referral.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/33_pip_done.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/34_club_arrival.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/35_inside_ketel.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/36_club_steps.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/37_wren_greeting.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/38_wren_experience.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/39_wren_pip_choice.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/40_short_rules_intro.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/41_rules_extend.png
+BOARD INPUT: { "move_to": [3.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/42_rules_extension_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/43_rules_capture.png
+BOARD INPUT: { "move_to": [1.0, 1.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/44_rules_capture_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/45_rules_refusal_prompt.png
+BOARD INPUT: { "move_to": [3.0, 2.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/46_rules_refusal_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/47_rules_exception_prompt.png
+BOARD INPUT: { "move_to": [3.0, 2.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/48_rules_exception_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/49_rules_outro.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/50_finishing_intro.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/51_finishing_life.png
+BOARD INPUT: { "move_to": [2.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/52_finishing_black_inspect.png
+BOARD INPUT: { "move_to": [5.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/53_finishing_dead_inspect.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/54_finishing_last_move.png
+BOARD INPUT: { "move_to": [3.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/55_finishing_wrong_fill.png
+BOARD INPUT: { "move_to": [0.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/56_finishing_useful_close.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/57_finishing_pass_prompt.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/58_finishing_two_passes.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/59_finishing_count.png
+BOARD INPUT: { "move_to": [5.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/60_finishing_mark_toggled.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/61_finishing_interrupted.png
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+AUTOPILOT: 1 steps from /home/user/.cache/ninepoint-revision-play/start.json
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/01_wren_return_after_interruption.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/02_wren_recover_lesson.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/03_finishing_return_choices.png
+BOARD INPUT: { "move_to": [2.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/04_fixed_inspection.png
+BOARD INPUT: { "move_to": [5.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/05_fixed_white_inspect.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/06_two_eye_proof.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/07_dead_refusal_proof.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/08_dead_capture_proof.png
+BOARD INPUT: { "move_to": [0.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/09_fixed_count_initial.png
+BOARD INPUT: { "move_to": [5.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/10_fixed_count_unmarked.png
+BOARD INPUT: { "move_to": [5.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/11_fixed_count_restored.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/12_count_explanation.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/13_finishing_outro.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/14_wren_after_finishing.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/15_wren_opening_offer.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/16_opening_choices.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/17_opening_lesson_intro.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/18_opening_comparison1.png
+BOARD INPUT: { "move_to": [4.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/19_opening_center_rejected.png
+BOARD INPUT: { "move_to": [2.0, 2.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/20_opening_third_line.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/21_opening_response_prompt.png
+BOARD INPUT: { "move_to": [3.0, 2.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/22_opening_response_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/23_opening_outro.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/24_wren_game_offer.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/25_wren_unrated_promise.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/26_wren_unrated_words.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/27_wren_board_start.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/28_wren_general_help.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/29_wren_practice_help_intro.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/30_wren_help_empty.png
+BOARD INPUT: { "move_to": [2.0, 2.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/31_wren_01_c7.png
+BOARD INPUT: { "move_to": [3.0, 2.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/32_wren_03_d7.png
+BOARD INPUT: { "move_to": [2.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/33_wren_05_c6.png
+BOARD INPUT: { "move_to": [3.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/34_wren_07_d6.png
+BOARD INPUT: { "move_to": [4.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/35_wren_09_e6.png
+BOARD INPUT: { "move_to": [5.0, 2.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/36_wren_11_f7.png
+BOARD INPUT: { "move_to": [4.0, 2.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/37_wren_13_e7.png
+BOARD INPUT: { "move_to": [2.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/38_wren_15_c5.png
+BOARD INPUT: { "move_to": [1.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/39_wren_17_b5.png
+BOARD INPUT: { "move_to": [0.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/40_wren_19_a5.png
+BOARD INPUT: { "move_to": [4.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/41_wren_21_e5.png
+BOARD INPUT: { "move_to": [3.0, 1.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/42_wren_23_d8.png
+BOARD INPUT: { "move_to": [4.0, 0.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/43_wren_25_e9.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/44_wren_help_atari.png
+BOARD INPUT: { "move_to": [2.0, 0.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/45_wren_27_c9.png
+BOARD INPUT: { "move_to": [2.0, 1.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/46_wren_29_c8.png
+BOARD INPUT: { "move_to": [1.0, 1.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/47_wren_31_b8.png
+BOARD INPUT: { "move_to": [0.0, 2.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/48_wren_33_a7.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/49_wren_real_capture_help.png
+BOARD INPUT: { "move_to": [0.0, 0.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/50_wren_35_capture_a9.png
+BOARD INPUT: { "move_to": [3.0, 5.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/51_wren_37_chase_d4.png
+BOARD INPUT: { "move_to": [3.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/52_wren_39_connect_d5.png
+BOARD INPUT: { "move_to": [0.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/53_wren_41_a6.png
+BOARD INPUT: { "move_to": [1.0, 2.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/54_wren_43_capture_b7.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/55_wren_first_pass_help.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/56_wren_continues_after_pass.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/57_wren_second_pass_response.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/58_wren_pass3.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/59_wren_pass4.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/60_wren_pass5.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/61_wren_pass6.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/62_wren_pass7.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/63_wren_pass8.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/64_wren_pass9.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/65_wren_pass10.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/66_wren_count_help.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/67_wren_count_help_page2.png
+BOARD INPUT: { "move_to": [3.0, 5.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/68_wren_manual_mark.png
+BOARD INPUT: { "move_to": [3.0, 5.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/69_wren_marks_restored.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/70_wren_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/71_wren_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/72_wren_kesh_referral.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/73_wren_card_direction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/74_wren_review_offer_world.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/75_wren_review_loading.png
+Review: 65 of 65 positions in 14.3 s on 8 threads (complete)
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/76_wren_review_status.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/77_wren_review_best.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/78_wren_best_actual.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/79_wren_review_mistake1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/80_wren_mistake_actual.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/81_wren_mistake_suggestion.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/82_wren_review_recommendation.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/83_wren_review_mistake2.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/84_wren_review_final_advice.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/85_wren_review_closed.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/86_kesh_card_welcome.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/87_provisional_card.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/88_kesh_entry_wording.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/89_kesh_novice_invitation.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/90_kesh_people_reason.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/91_kesh_optional_practice.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/92_kesh_free_to_leave.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/93_kesh_decline_choice.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/94_kesh_declined.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/95_kesh_return_no_reissue.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/96_leave_club_for_tram.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/97_tram_stop.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/98_tram_destinations.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/99_institute_arrival.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/100_institute_hall.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/101_classroom_arrival.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/102_class_east_door.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/103_hana_welcome.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/104_hana_first_connection.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/105_hana_noor_direction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/106_hana_first_class_offer.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/107_hana_class_options.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/108_hana_class_intro.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/109_hana_two_eyes_test.png
+BOARD INPUT: { "move_to": [2.0, 2.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/110_hana_secure_eye.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/111_hana_false_eye.png
+BOARD INPUT: { "move_to": [1.0, 0.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/112_hana_apparent_eye_capture.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/113_hana_connected_boundary.png
+BOARD INPUT: { "move_to": [1.0, 0.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/114_hana_boundary_refused.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/115_hana_class_outro.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/116_hana_after_class.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/117_hana_registration_direction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/118_hana_board_direction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/119_return_registration_hall.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/120_marguerite_registration.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/121_marguerite_hana_sent.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/122_marguerite_intro.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/123_registration_explained.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/124_registration_choices.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/125_registration_room_direction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/126_registration_next.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/127_league_board_new.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/128_league_help_readable.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/129_novice_room_arrival.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/130_novice_room_personal_tables.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/131_novice_room_entered.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/132_novice_door_alignment.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/133_novice_threshold.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/134_novice_door_interact.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/135_novice_enter_visible_door.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/136_sora_first_meeting.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/137_sora_makes_room.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/138_sora_optional_offer.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/139_sora_choices.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/140_emil_first_meeting.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/141_emil_repairs_intro.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/142_emil_actual_greeting.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/143_emil_materials_dialogue.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/144_emil_interest.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/145_noor_first_greeting.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/146_noor_company.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/147_noor_shared_cup.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/148_noor_first_fixture_offer.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/149_noor_fixture_choices.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/150_noor_game_setup.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/151_noor_colour_draw.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/152_noor_colour_choice.png
+BOARD INPUT: { "move_to": [2.0, 2.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/153_noor_02_c7.png
+BOARD INPUT: { "move_to": [2.0, 5.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/154_noor_04_c4.png
+BOARD INPUT: { "move_to": [3.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/155_noor_06_d6.png
+BOARD INPUT: { "move_to": [1.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/156_noor_08_b6.png
+BOARD INPUT: { "move_to": [2.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/157_noor_10_capture_c5.png
+BOARD INPUT: { "move_to": [3.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/158_noor_12_d5.png
+BOARD INPUT: { "move_to": [4.0, 5.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/159_noor_14_e4.png
+BOARD INPUT: { "move_to": [4.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/160_noor_16_e6.png
+BOARD INPUT: { "move_to": [5.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/161_noor_18_capture_f5.png
+BOARD INPUT: { "move_to": [2.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/162_noor_20_connect_c6.png
+BOARD INPUT: { "move_to": [4.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/163_noor_22_connect_e5.png
+BOARD INPUT: { "move_to": [6.0, 6.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/164_noor_24_g3.png
+BOARD INPUT: { "move_to": [2.0, 6.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/165_noor_26_c3.png
+BOARD INPUT: { "move_to": [5.0, 6.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/166_noor_28_f3.png
+BOARD INPUT: { "move_to": [5.0, 5.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/167_noor_30_f4.png
+BOARD INPUT: { "move_to": [2.0, 7.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/168_noor_32_c2.png
+BOARD INPUT: { "move_to": [3.0, 5.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/169_noor_34_d4.png
+BOARD INPUT: { "move_to": [3.0, 7.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/170_noor_36_d2.png
+BOARD INPUT: { "move_to": [4.0, 7.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/171_noor_38_capture_e2.png
+BOARD INPUT: { "move_to": [5.0, 8.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/172_noor_40_f1_risk.png
+BOARD INPUT: { "move_to": [3.0, 2.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/173_noor_42_d7.png
+BOARD INPUT: { "move_to": [6.0, 7.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/174_noor_44_capture_g2.png
+BOARD INPUT: { "move_to": [2.0, 8.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/175_noor_46_capture_c1.png
+BOARD INPUT: { "move_to": [6.0, 8.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/176_noor_48_g1.png
+BOARD INPUT: { "move_to": [1.0, 6.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/177_noor_50_b3.png
+BOARD INPUT: { "move_to": [4.0, 2.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/178_noor_52_e7.png
+BOARD INPUT: { "move_to": [5.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/179_noor_54_f6.png
+BOARD INPUT: { "move_to": [0.0, 6.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/180_noor_56_a3.png
+BOARD INPUT: { "move_to": [1.0, 8.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/181_noor_58_b1.png
+BOARD INPUT: { "move_to": [0.0, 7.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/182_noor_60_capture_a2.png
+BOARD INPUT: { "move_to": [3.0, 6.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/183_noor_62_capture_e3.png
+BOARD INPUT: { "move_to": [1.0, 5.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/184_noor_64_b4.png
+BOARD INPUT: { "move_to": [0.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/185_noor_66_capture_b5.png
+BOARD INPUT: { "move_to": [0.0, 5.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/186_noor_68_connect_a4.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/187_noor_first_pass.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/188_noor_second_pass.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/189_noor_third_pass.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/190_noor_fourth_pass.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/191_noor_fifth_pass.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/192_noor_sixth_pass.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/193_noor_count.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/194_noor_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/195_noor_reaction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/196_noor_reaction_cup.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/197_noor_review_offer.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/198_noor_analysis_loading.png
+Review: 82 of 82 positions in 16.8 s on 8 threads (complete)
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/199_noor_analysis_progress.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/200_noor_best.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/201_noor_best_played.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/202_noor_mistake1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/203_noor_mistake1_played.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/204_noor_mistake1_preferred.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/205_noor_mistake1_advice.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/206_noor_mistake2.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/207_noor_mistake2_advice.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/208_noor_review_closed.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/209_ivo_intro.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/210_ivo_first_meeting.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/211_ivo_finish_intent.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/212_ivo_choices.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/213_ivo_fixture_options.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/214_ivo_nigiri.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/215_ivo_nigiri_guess.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/216_ivo_color_choice.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/217_ivo_start.png
+BOARD INPUT: { "move_to": [2.0, 6.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/218_ivo_01_c3.png
+BOARD INPUT: { "move_to": [2.0, 5.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/219_ivo_03_c4.png
+BOARD INPUT: { "move_to": [3.0, 6.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/220_ivo_05_d3.png
+BOARD INPUT: { "move_to": [3.0, 5.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/221_ivo_07_d4.png
+BOARD INPUT: { "move_to": [2.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/222_ivo_09_c5.png
+BOARD INPUT: { "move_to": [3.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/223_ivo_11_d5.png
+BOARD INPUT: { "move_to": [4.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/224_ivo_13_e5.png
+BOARD INPUT: { "move_to": [3.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/225_ivo_15_d6.png
+BOARD INPUT: { "move_to": [3.0, 2.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/226_ivo_17_d7.png
+BOARD INPUT: { "move_to": [1.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/227_ivo_19_b6.png
+BOARD INPUT: { "move_to": [1.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/228_ivo_21_b5.png
+BOARD INPUT: { "move_to": [1.0, 6.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/229_ivo_23_b3.png
+BOARD INPUT: { "move_to": [1.0, 2.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/230_ivo_25_b7.png
+BOARD INPUT: { "move_to": [2.0, 1.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/231_ivo_27_capture_c8.png
+BOARD INPUT: { "move_to": [3.0, 1.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/232_ivo_29_d8.png
+BOARD INPUT: { "move_to": [4.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/233_ivo_31_e6.png
+BOARD INPUT: { "move_to": [4.0, 1.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/234_ivo_33_e8.png
+BOARD INPUT: { "move_to": [0.0, 6.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/235_ivo_35_a3.png
+BOARD INPUT: { "move_to": [1.0, 7.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/236_ivo_37_b2.png
+BOARD INPUT: { "move_to": [0.0, 8.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/237_ivo_39_capture_a1.png
+BOARD INPUT: { "move_to": [0.0, 7.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/238_ivo_41_connect_a2.png
+BOARD INPUT: { "move_to": [3.0, 0.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/239_ivo_43_d9.png
+BOARD INPUT: { "move_to": [1.0, 0.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/240_ivo_45_capture_b9.png
+BOARD INPUT: { "move_to": [2.0, 0.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/241_ivo_47_connect_c9.png
+BOARD INPUT: { "move_to": [0.0, 2.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/242_ivo_49_capture_a7.png
+BOARD INPUT: { "move_to": [5.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/243_ivo_51_f5.png
+BOARD INPUT: { "move_to": [0.0, 5.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/244_ivo_53_a4.png
+BOARD INPUT: { "move_to": [0.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/245_ivo_55_capture_a6.png
+BOARD INPUT: { "move_to": [2.0, 8.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/246_ivo_57_capture_c1.png
+BOARD INPUT: { "move_to": [1.0, 8.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/247_ivo_59_connect_b1.png
+BOARD INPUT: { "move_to": [5.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/248_ivo_61_f6.png
+BOARD INPUT: { "move_to": [5.0, 1.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/249_ivo_63_f8.png
+BOARD INPUT: { "move_to": [5.0, 0.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/250_ivo_65_f9.png
+BOARD INPUT: { "move_to": [6.0, 4.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/251_ivo_67_g5.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/252_ivo_first_pass.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/253_ivo_second_pass.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/254_ivo_third_pass.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/255_ivo_fourth_pass.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/256_ivo_fifth_pass.png
+BOARD INPUT: { "move_to": [0.0, 1.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/257_ivo_count_unmark_a8.png
+BOARD INPUT: { "move_to": [0.0, 1.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/258_ivo_count_restore_a8.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/259_ivo_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/260_ivo_loss_reaction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/261_ivo_reaction_finish.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/262_ivo_review_offer.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/263_ivo_review_loading.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/264_ivo_leave_analysis.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/265_ivo_return_continuity.png
+Review: 79 of 79 positions in 17.5 s on 8 threads (complete)
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/266_ivo_return_options.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-revision-play/data/godot/app_userdata/Ninepoint/shots/267_two_fixtures_complete.png
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

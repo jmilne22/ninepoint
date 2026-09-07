@@ -1,0 +1,29 @@
+{
+ "id": "lea",
+ "lines": {
+  "you_captured": [
+   "I'll leave these by your bowl."
+  ],
+  "you_captured_big": [
+   "Let me lift them so we can see the space."
+  ],
+  "i_captured": [
+   "These come off now."
+  ],
+  "i_captured_big": [
+   "I'll clear these off together."
+  ],
+  "ko": [
+   "Ko: the immediate retake has to wait."
+  ],
+  "i_atari": [
+   "That group is down to one liberty."
+  ],
+  "i_pass": [
+   "I pass. I'll keep this position in mind."
+  ],
+  "you_pass": [
+   "I'll look once more before passing."
+  ]
+ }
+}

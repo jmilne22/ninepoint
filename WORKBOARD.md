@@ -4,7 +4,7 @@ This is the **operational source of truth** for unfinished work. An agent starts
 not in the milestone history. It answers: what may be picked up now, what is blocked, and
 what evidence makes a task done.
 
-Snapshot: `origin/main` at `2a43214`, fetched and HEAD equality verified before PROG-01.
+Revision base: `origin/main` and HEAD both `f1b02c8`, freshly fetched and verified on 2026-09-06 before EARLY-01.
 Update the snapshot when reconciling after a merge; it is not a release number.
 
 ## How to use this board
@@ -34,11 +34,52 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 | `MILESTONES.md` | Append-only shipped history and verification evidence | The current backlog |
 | Design / architecture / art docs | Durable product and technical truth | Task status |
 
-## In progress
+## Early-game revision — verified for PR review
+
+All five packages were implemented sequentially on `codex/early-game-review`. Final evidence:
+16,730 checks, 277 loaded files, all three KataGo gates, zero lesson-validator problems,
+writing and generated-map checks; opened screenshots from manual Wren/Noor/Ivo counted games
+and separate Kesh, interruption, review-failure, quay, Cup/exam and mouse routes.
+[Before/after report and evidence](docs/early-game/PLAYTEST.md). Prepared for PR review; no merge or release.
+PROG-01's independent human gate remains open.
+
+### EARLY-01 — Keep lesson positions visible
+
+- Status: `SHIPPED` (verified local implementation; not merged) · Priority: `P1` · Owner: Codex · Branch: `codex/early-game-review`.
+- Base: fetched origin/main and HEAD both `f1b02c8`, 2026-09-06.
+- Owner approved the complete early-game revision plan. Five packages are implemented sequentially.
+- Scope: side-panel lesson feedback, inspection, measured pagination, transient board errors.
+- Acceptance: played correct/refused lesson answers remain inspectable; successful moves clear old errors; compile/load and focused tests.
+
+### EARLY-02 — Teach and support a complete first game
+
+- Status: `SHIPPED` (verified local implementation; not merged) · Priority: `P1` · Dependency: EARLY-01. Owner: Codex.
+- Scope: four-exercise beginner track, finishing/counting actions, shorter optional openings, deeper optional counting, position-aware Wren help.
+- Acceptance: validated legal continuations and scoring; full unrated Wren game with inspected help/pass/count screens.
+- Reconciles CONTENT-01's early-game judgement scope. Wren's strength, stopping policy and dead-stone estimator remain unchanged; CONTENT-05 remains open.
+
+### EARLY-03 — Join fellow beginners
+
+- Status: `SHIPPED` (verified local implementation; not merged) · Priority: `P1` · Dependency: EARLY-02. Owner: Codex.
+- Scope: Hana welcome/class before registration, novice voices and continuity, fact-based old-save reconciliation; no new win gate.
+- Acceptance: New Game reaches Noor and Ivo; interrupted/skipped lessons and old saves retain access, rank and records; writing checks.
+
+### EARLY-04 — React before reviewing
+
+- Status: `SHIPPED` (verified local implementation; not merged) · Priority: `P1` · Dependency: EARLY-03. Owner: Codex.
+- Scope: record once, world reaction before optional review, supportable explanations and independent move comparisons.
+- Acceptance: Yes/No/leave/reload/unavailable/rematch and Cup/exam flows; exact-once records/rank; real-engine review gates.
+
+### EARLY-05 — Make progress and people readable
+
+- Status: `SHIPPED` (verified local implementation; not merged) · Priority: `P2` · Dependency: EARLY-04. Owner: Codex.
+- Scope: novice table details, HUD contrast and live fixture objective, league help, quay directions; final documentation and before/after playtest.
+- Acceptance: generated-map validation, full gates, isolated beginner-like Wren/Noor/Ivo counted games and separate Kesh practice coverage with opened screenshots.
+- Independent human beginner testing remains the PROG-01 release gate. PR review is authorized; no merge or release is included.
 
 ### PROG-02 — Make Kesh's opening game optional practice
 
-- Status: `SHIPPED` (verified on branch; not merged) · Priority: `P1` · Owner: Codex · Branch: `codex/novice-league`.
+- Status: `SHIPPED` (implementation merged in PR #25 at `f1b02c8`) · Priority: `P1` · Owner: Codex · Branch: `codex/novice-league`.
 - Base reverified on 2026-09-06: HEAD and fetched origin/main both `2a43214`;
   existing uncommitted PROG-01 work retained.
 - Decision: owner approved immediate provisional card/invitation followed by optional,
@@ -57,11 +98,12 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
   complete optional handicap game were played with inspected screenshots. The latter
   finished after 69 moves with rank unchanged at 30k; both result branches are tested.
 - Evidence: [Kesh welcome playtest](docs/novice/KESH-WELCOME.md). User saves untouched.
-  No merge or publication; PROG-01's broader human-strength release gate remains open.
+  Original verification preceded merge; implementation is now on the revision base.
+  PROG-01's broader human-strength release gate remains open.
 
 ### PROG-01 — Give beginners a league of their own
 
-- Status: `BLOCKED` for release; implementation verified · Priority: `P1` · Owner: Codex
+- Status: `BLOCKED` for human rank validation; implementation merged in PR #25 · Priority: `P1` · Owner: Codex
   · Branch: `codex/novice-league`.
 - Decision: owner approved the beginner-first implementation plan on 2026-09-05.
 - Scope: independently configured novice engines first; safe provisional 30k; five
@@ -327,6 +369,18 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
   a fixture proves the count screen never waits on the engine.
 - Context: `ROADMAP.md` §1, §5.
 
+### ENG-09 — Evaluate stopping in beginner and handicap games
+
+- Status: `NEEDS DECISION` · Priority: `P1`.
+- Evidence: the revision’s manually played Wren, Noor and Ivo games required repeated
+  player passes. A supplemental Kesh run ended after White/Black passed without any
+  placements on the five-stone opening; another completed 74 moves normally.
+- Scope to decide: reproduce early passes and low-value continuations separately from
+  dead-group adjudication (ENG-05). Inspect actual engine/fallback paths and saved SGFs.
+- No stopping policy, engine strength or dead estimator changed in EARLY-01..05.
+- Acceptance for future work must include actual positions and human beginner observations;
+  a shorter bot game is not proof of a better ending.
+
 ## Teaching decisions
 
 ### CONTENT-05 — Assess Wren's introductory game strength
@@ -335,7 +389,8 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 - Owner feedback (2026-09-06): Wren may still be too strong for a new player. Her
   introductory 9×9 keeps the existing engine settings and has no handicap; being
   unrated does not establish an appropriate learning difficulty.
-- Next step: compare human beginner experience with the close-ish Noor/Ivo games,
+- Confirmed revision decision: keep Wren’s strength unchanged while improving teaching and support.
+- Next step: compare independent beginner experience of that supported game with the close-ish Noor/Ivo games,
   then agree whether Wren's introductory profile needs separate strength settings.
   No engine retuning or new teaching encounter is included in PROG-01/02.
 
@@ -343,10 +398,12 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 ### CONTENT-01 — Teach whole-board judgement
 
 - Status: `NEEDS DECISION` · Priority: `P2` · Technical dependency `ENG-04` shipped in M40.
-- Decision needed: choose the next judgement concept and its place in the curriculum.
-  Engine availability no longer blocks this ticket; content scope is still unchosen.
-- UI-01 evidence: a nineteen-line review still says "a small board" in the generic
-  lone-stone habit. Explanations need board-size context when this content is scoped.
+- EARLY-02 covers the approved early subset: demonstrated finishing, survival comparisons,
+  useful last moves, optional opening comparisons and factual position Help. EARLY-04 revises
+  review explanations. These packages do not duplicate a separate curriculum implementation.
+- Remaining decision: choose a later whole-board judgement concept and its curriculum position.
+- The former generic "small board" habit and blanket first-line advice were removed in EARLY-04.
+  Later judgement teaching still needs an agreed scope and human learning evidence.
 - Scope: extend the curriculum beyond locally decidable rules into engine-backed judgement.
 - Acceptance: new teaching content has checkable positions/evaluation and a played,
   screenshot-reviewed learning route.

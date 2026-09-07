@@ -6,6 +6,15 @@
     {
      "if": [
       [
+       "flag",
+       "noor_introduced"
+      ]
+     ],
+     "goto": "offer"
+    },
+    {
+     "if": [
+      [
        "played_at_least",
        "noor",
        1
@@ -20,10 +29,17 @@
   },
   "hello": {
    "text": [
-    "I've put my postcard under the bowl so it won't get tea on it.",
-    "You can use this chair. I'm just starting too."
+    "I've kept this postcard dry all morning. Here, there's room beside my table.",
+    "I'm new too. Will you keep me company through this league? I'd like us to enter the Cup."
    ],
-   "goto": "offer"
+   "goto": "offer",
+   "actions": [
+    [
+     "set_flag",
+     "noor_introduced",
+     true
+    ]
+   ]
   },
   "offer": {
    "text": [
@@ -79,15 +95,18 @@
   },
   "won": {
    "text": [
-    "Oh, I won. Shall we put the stones away together?"
+    "Oh, I won. Thanks for playing it through with me.",
+    "Let's put the stones away. I'd like to look at our game."
    ],
-   "goto": "offer"
+   "goto": "reaction_offer"
   },
   "lost": {
    "text": [
-    "You won. I'd like another try after I've looked at that."
+    "You won. I want to look at our game before trying again.",
+    "Thanks for sitting with me."
    ],
-   "goto": "offer"
-  }
+   "goto": "reaction_offer"
+  },
+  "reaction_offer": {}
  }
 }

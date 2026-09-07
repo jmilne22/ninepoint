@@ -45,13 +45,12 @@ var _overlay_text: Label
 ## enter/exit and its own input handling, as godot-gdscript-patterns teaches,
 ## but held in one scene rather than four State nodes -- there is nothing here
 ## that needs per-frame update or physics.
-enum Phase { SETUP, PREPARING, INTRO, PLAYING, SCORING, CONFIRM, REVIEW, REVIEW_WAIT, DONE }
+enum Phase { SETUP, PREPARING, INTRO, PLAYING, SCORING, CONFIRM, DONE }
 var phase: int = Phase.SETUP
-var _review_yes := false
 
 var setup: GoMatchSetup
 var _last_message := ""
-var _guidance_index := 0
+var _teaching := MatchTeaching.new()
 var _handicap_help: HandicapHelp
 var _message_pages: PackedStringArray = []
 var _message_clock := 0.0
@@ -66,7 +65,7 @@ var _answer: Variant = null
 ## development autopilot so it does not need to duplicate phase enum values.
 func is_player_turn_ready() -> bool:
     return game != null and phase == Phase.PLAYING and _awaiting == &"move" \
-        and game.to_move == player_color and _handicap_help == null
+        and game.to_move == player_color and _handicap_help == null and not _teaching.opened
 
 
 ## Both players have passed and the count is on the board. Also for the
@@ -116,6 +115,8 @@ func _ready() -> void:
     Audio.play_music(track)
 
     _build_ui()
+    add_child(_teaching)
+    _teaching.setup(self)
     # Show the empty board straight away. The colours are not settled yet, but
     # the board you are about to play on is, and a blank half-screen during the
     # ceremony reads as a bug.
@@ -310,7 +311,6 @@ func _run() -> void:
     phase = Phase.PLAYING
     _refresh()
     while game.state == GoGame.State.PLAYING:
-        _refresh_guidance()
         if game.to_move == player_color:
             _refresh()
             await _ask(&"move")
@@ -323,19 +323,6 @@ func _run() -> void:
     if game.state == GoGame.State.SCORING:
         await _scoring_phase()
     await _finish()
-
-
-## Wren's first proper game asks for one observation at a time. The thresholds
-## are deliberately broad: a goal must never become a prescribed joseki.
-func _refresh_guidance() -> void:
-    if request.guidance.is_empty() or _guidance_index >= request.guidance.size():
-        return
-    var thresholds := [0, 4, 10]
-    var threshold: int = int(thresholds[_guidance_index]) if _guidance_index < thresholds.size() else 16
-    if game.move_number() < threshold:
-        return
-    _set_message("Practice goal: %s" % request.guidance[_guidance_index])
-    _guidance_index += 1
 
 
 # --- setup: who takes black --------------------------------------------------
@@ -423,7 +410,7 @@ func _skin_tone_for(npc_id: String) -> String:
 
 func _opponent_turn() -> void:
     var move: Dictionary = await _await_move()
-    while _handicap_help != null:
+    while _handicap_help != null or _teaching.opened:
         await get_tree().process_frame
     match str(move.get("type", "pass")):
         "pass":
@@ -450,6 +437,7 @@ func _opponent_turn() -> void:
                 push_warning("Opponent proposed an illegal move; passing instead.")
                 game.pass_turn()
             else:
+                _set_message("")
                 _announce_move(game.last_move())
                 _react()
     board_view.queue_redraw()
@@ -480,7 +468,7 @@ func _react() -> void:
 
 
 func _on_point_activated(point: int) -> void:
-    if _handicap_help != null:
+    if _handicap_help != null or _teaching.opened:
         return
     if phase == Phase.SCORING:
         _toggle_dead(point)
@@ -492,6 +480,7 @@ func _on_point_activated(point: int) -> void:
         _set_message(game.legality_reason(code))
         Audio.play("illegal")
         return
+    _set_message("")
     game.play(point)
     _announce_move(game.last_move())
     _react()
@@ -519,6 +508,7 @@ func _toggle_dead(point: int) -> void:
     if game.board.get_idx(point) == GoBoard.EMPTY:
         return
     var chain := game.board.chain_at(point)
+    var before := GoScoring.score(game.board, board_view.dead, game.captures, game.komi)
     var currently: bool = board_view.dead.has(point)
     for s in chain["stones"]:
         if currently:
@@ -526,6 +516,8 @@ func _toggle_dead(point: int) -> void:
         else:
             board_view.dead[s] = true
     _update_scoring_preview()
+    var after := GoScoring.score(game.board, board_view.dead, game.captures, game.komi)
+    _set_message("Group at %s %s. Score change: Black %+.1f, White %+.1f." % [game.board.label(point), "marked dead" if not currently else "kept alive", float(after["black"]) - float(before["black"]), float(after["white"]) - float(before["white"])])
 
 
 func _scoring_phase() -> void:
@@ -535,7 +527,7 @@ func _scoring_phase() -> void:
     # Human-SL build. Never let a counting suggestion hold the result screen;
     # the deterministic proposal below remains fully manually overridable.
     board_view.show_territory = true
-    _set_message("Both players passed. Stones marked with a cross are dead.")
+    _set_message("Both players passed. Crosses propose dead stones. Inspect the groups; H explains the count.")
     _update_scoring_preview()
     _refresh()
     await _ask(&"scoring")
@@ -545,7 +537,8 @@ func _update_scoring_preview() -> void:
     var live := GoScoring.board_without_dead(game.board, board_view.dead)
     board_view.territory = GoScoring.territory_map(live)
     var s := GoScoring.score(game.board, board_view.dead, game.captures, game.komi)
-    _details.text = "Black %s   White %s" % [_num(s["black"]), _num(s["white"])]
+    var d: Dictionary = s["detail"]
+    _details.text = "Territory B %d  W %d\nPrisoners B %d  W %d\nWhite komi: %s\nTotals B %s  W %s" % [d["black_territory"], d["white_territory"], d["black_prisoners"], d["white_prisoners"], _num(game.komi), _num(s["black"]), _num(s["white"])]
     board_view.queue_redraw()
 
 
@@ -609,15 +602,6 @@ func _finish() -> void:
     _hints.text = ""
 
     await _ask(&"dismiss")
-    # The result comes first. Once it is acknowledged, the next card is the
-    # one clear decision: go over the game with them, or back to town.
-    if MatchAnalysis.eligible(res.to_dict()) and KataGoAnalysis.is_available():
-        phase = Phase.REVIEW
-        _review_yes = false
-        _show_review_choice()
-        await _ask(&"review")
-        res.review_requested = bool(_answer)
-        phase = Phase.DONE
     opponent.shutdown()
     if request.context_id == "dev_katago_trial":
         var engine := {
@@ -635,24 +619,8 @@ func _finish() -> void:
                 "shutdown": gtp.shutdown_complete,
             }
         MatchBridge.record_dev_trial(res, engine)
-    if res.review_requested:
-        var loading := ReviewLoading.new()
-        loading.setup(request.opponent_name)
-        loading.leave_requested.connect(func(): _mouse_action(&"cancel"))
-        get_tree().root.add_child(loading)
-        var index := MatchBridge.finish_match_with_review(res)
-        var review := await _wait_for_review(index, loading)
-        loading.dismiss()
-        if not review.is_empty():
-            var cards := ReviewCards.new()
-            cards.setup(review, request.opponent_name)
-            get_tree().root.add_child(cards)
-            await cards.closed
-        await MatchBridge.return_to_world_after_review()
-        return
-    # MatchBridge owns the scene change. Awaiting it is necessary for the
-    # coroutine to begin; it does not await this scene's destruction.
-    await MatchBridge.finish_match(res)
+    # The bridge owns the transition; this scene must not await its destruction.
+    MatchBridge.finish_match(res)
 
 
 ## Model loading is deliberately visible and cancellable. Once it completes,
@@ -738,6 +706,11 @@ func _refresh() -> void:
         # Four short lines rather than two long ones: the panel is 156px wide and
         # a single line of names ran off the end of it.
         _details.text = MatchPresentation.details(request, setup, game)
+        if _teaching.enabled():
+            _details.text = "Unrated practice - %s\nWhite gets %s komi" % [GoBoard.color_name(player_color), _num(game.komi)]
+            if phase == Phase.PLAYING and game.to_move == player_color:
+                _details.text = "Unrated practice - %s\n%s" % [GoBoard.color_name(player_color),
+                    PracticeGuide.observation(game, player_color)["prompt"]]
         if game.size() == 19 and board_view.zoomed:
             _set_message(BoardNavigation.opponent_move_text(board_view, player_color))
 
@@ -748,7 +721,11 @@ func _refresh() -> void:
 func _unhandled_input(event: InputEvent) -> void:
     if not is_inside_tree():
         return
-    if _handicap_help != null:
+    if _handicap_help != null or _teaching.opened:
+        return
+    if event.is_action_pressed("go_help") and (_teaching.enabled() or phase == Phase.SCORING) and (is_player_turn_ready() or phase == Phase.SCORING):
+        get_viewport().set_input_as_handled()
+        _teaching.show_help()
         return
     if event.is_action_pressed("go_help") and setup.is_handicap() and phase in [Phase.PLAYING, Phase.SCORING]:
         get_viewport().set_input_as_handled()
@@ -762,10 +739,6 @@ func _unhandled_input(event: InputEvent) -> void:
             handled = _input_preparing(event)
         Phase.CONFIRM:
             handled = _input_confirm(event)
-        Phase.REVIEW:
-            handled = _input_review(event)
-        Phase.REVIEW_WAIT:
-            handled = _input_review_wait(event)
         Phase.DONE:
             handled = _input_done(event)
         _:
@@ -824,59 +797,6 @@ func _input_done(event: InputEvent) -> bool:
     return false
 
 
-func _show_review_choice() -> void:
-    _mouse_controls.show_review_choice(_card, _overlay_text, request.opponent_name, _review_yes)
-    _overlay.visible = true
-    _hints.text = "Up/Down: choose"
-
-
-## Waits under the loading card until the review lands or the player leaves.
-## The service owns the engine, so leaving costs nothing: the review finishes
-## on its own and waits at the quay. Returns {} when the player walked off.
-func _wait_for_review(index: int, loading: ReviewLoading) -> Dictionary:
-    phase = Phase.REVIEW_WAIT
-    _hints.text = ""
-    _set_message("")
-    var on_progress := func(i: int, done: int, total: int) -> void:
-        if i == index:
-            loading.set_progress(done, total)
-    var on_finished := func(i: int, payload: Dictionary) -> void:
-        if i == index and _awaiting == &"review_wait":
-            _answered(payload)
-    MatchReviewService.progress.connect(on_progress)
-    MatchReviewService.finished.connect(on_finished)
-    var answer: Variant = null
-    # An ineligible game or a missing engine finishes before anybody can listen.
-    var already: Variant = GameState.match_analysis.get(str(index), {})
-    if already is Dictionary and str(already.get("availability", "")) != "pending":
-        answer = already
-    else:
-        answer = await _ask(&"review_wait")
-    MatchReviewService.progress.disconnect(on_progress)
-    MatchReviewService.finished.disconnect(on_finished)
-    phase = Phase.DONE
-    return answer if answer is Dictionary else {}
-
-
-func _input_review_wait(event: InputEvent) -> bool:
-    if event.is_action_pressed("cancel"):
-        _answered(null)
-        return true
-    return event is InputEventKey and event.pressed
-
-
-func _input_review(event: InputEvent) -> bool:
-    if event.is_action_pressed("move_up") or event.is_action_pressed("move_down"):
-        _review_yes = not _review_yes
-        _show_review_choice()
-        return true
-    if event.is_action_pressed("interact") or event.is_action_pressed("cancel"):
-        _overlay.visible = false
-        _answered(_review_yes if event.is_action_pressed("interact") else false)
-        return true
-    return event is InputEventKey and event.pressed
-
-
 func _input_board(event: InputEvent) -> bool:
     if board_view == null or not is_instance_valid(board_view):
         return false
@@ -903,6 +823,7 @@ func _input_board(event: InputEvent) -> bool:
             # They have something to say about it, and it is the only warning a
             # beginner gets that passing does not end a game on its own.
             _react()
+            _teaching.first_pass()
             _refresh()
     elif event.is_action_pressed("go_resign"):
         if phase == Phase.PLAYING and _awaiting == &"move":
@@ -914,7 +835,7 @@ func _input_board(event: InputEvent) -> bool:
 
 func _process(delta: float) -> void:
     _sync_mouse()
-    if _message_pages.size() > 1 and _handicap_help == null:
+    if _message_pages.size() > 1 and _handicap_help == null and not _teaching.opened:
         _message_clock += delta
         if _message_clock >= 4.0:
             _message_clock = 0.0
@@ -923,7 +844,7 @@ func _process(delta: float) -> void:
 
 
 func _open_handicap_help(initial: bool) -> void:
-    if _handicap_help != null:
+    if _handicap_help != null or _teaching.opened:
         return
     board_view.interactive = false
     var old_highlight := board_view.highlight
@@ -947,23 +868,18 @@ func _open_handicap_help(initial: bool) -> void:
 func _sync_mouse() -> void:
     if _mouse_controls == null:
         return
-    var blocked := _handicap_help != null or phase not in [Phase.PLAYING, Phase.SCORING] or _overlay.visible
+    var blocked := _handicap_help != null or _teaching.opened or phase not in [Phase.PLAYING, Phase.SCORING] or _overlay.visible
     board_view.interactive = not blocked and (is_player_turn_ready() or (phase == Phase.SCORING and _awaiting == &"scoring"))
     board_view.inspection = not blocked
     var mode := BoardPointer.Mode.HIDDEN if blocked else BoardPointer.Mode.INSPECT
     if board_view.interactive:
         mode = BoardPointer.Mode.COUNT if phase == Phase.SCORING else BoardPointer.Mode.PLACE
     board_view.pointer.configure(mode, player_color, board_view)
-    _mouse_controls.refresh(phase, _awaiting, is_player_turn_ready(), setup.is_handicap(), _handicap_help != null)
+    _mouse_controls.refresh(phase, _awaiting, is_player_turn_ready(), setup.is_handicap() or _teaching.enabled() or phase == Phase.SCORING, _handicap_help != null or _teaching.opened)
     _hints.visible = false
 
 
 func _mouse_action(action: StringName) -> void:
-    if action in [&"review_yes", &"review_no"]:
-        if phase != Phase.REVIEW or _awaiting != &"review":
-            return
-        _review_yes = action == &"review_yes"
-        action = &"interact"
     _unhandled_input(MouseActions.event(action))
     _sync_mouse()
 
@@ -975,9 +891,3 @@ func _on_board_view_changed() -> void:
     _last_view = region
     _last_zoomed = board_view.zoomed
     _refresh()
-
-
-func _select_review_choice(yes: bool) -> void:
-    if phase == Phase.REVIEW and _awaiting == &"review":
-        _review_yes = yes
-        _show_review_choice()

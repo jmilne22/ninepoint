@@ -1,0 +1,159 @@
+{
+ "id": "first_game_rules",
+ "title": "Beyond Capture Go",
+ "teacher": "wren",
+ "size": 7,
+ "intro": [
+  "Capture Go ends at the first capture. In a full game, play continues after a capture. Connected stones share their empty neighbours, called liberties."
+ ],
+ "steps": [
+  {
+   "board": [
+    ".......",
+    "...X...",
+    "...X...",
+    ".......",
+    ".......",
+    ".......",
+    "......."
+   ],
+   "to_move": "black",
+   "instruction": "Add a stone that extends the black group. Look at its shared liberties.",
+   "accept": "points",
+   "points": [
+    [
+     3,
+     0
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     3,
+     3
+    ]
+   ],
+   "show_liberties": true,
+   "hint": "An empty crossing directly beside the group joins it.",
+   "explanation": "Touching stones of the same colour form one group. The whole group shares its liberties."
+  },
+  {
+   "board": [
+    "..X....",
+    "..OX...",
+    "..X....",
+    ".......",
+    ".......",
+    ".......",
+    "......."
+   ],
+   "to_move": "black",
+   "instruction": "Which white group can you capture now? Count its liberties.",
+   "accept": "capture",
+   "show_liberties": true,
+   "target": [
+    [
+     2,
+     1
+    ]
+   ],
+   "hint": "Put your cursor on the white stone and look at where the ring is.",
+   "explanation": "The white stone comes off. It goes into your prisoner pile for counting at the end."
+  },
+  {
+   "board": [
+    ".......",
+    "..OOO..",
+    "..O.O..",
+    "..OOO..",
+    ".......",
+    ".......",
+    "......."
+   ],
+   "to_move": "black",
+   "instruction": "Try placing Black inside the white ring.",
+   "accept": "illegal_attempt",
+   "points": [
+    [
+     3,
+     2
+    ]
+   ],
+   "show_liberties": true,
+   "explanation": "That move is refused. Your stone would have no liberties, and it would capture nothing."
+  },
+  {
+   "board": [
+    "..XXX..",
+    ".XOOOX.",
+    ".XO.OX.",
+    ".XOOOX.",
+    "..XXX..",
+    ".......",
+    "......."
+   ],
+   "to_move": "black",
+   "instruction": "White is now surrounded too. Try playing in the same empty point.",
+   "accept": "points",
+   "points": [
+    [
+     3,
+     2
+    ]
+   ],
+   "show_liberties": true,
+   "target": [
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     2,
+     3
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     4,
+     3
+    ]
+   ],
+   "hint": "It is legal this time. Ask yourself what is different.",
+   "explanation": "This move captures White. Removing those stones gives your new stone liberties, so the move is allowed."
+  }
+ ],
+ "outro": [
+  "Next, look at how a full game finishes."
+ ]
+}

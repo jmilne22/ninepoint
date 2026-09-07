@@ -38,7 +38,7 @@ func _ready() -> void:
         stone.text = "o"
         _stones.append(stone)
     var hint := UiKit.label(card, Vector2(14, 85), 224, UiKit.INK_FAINT, 26)
-    hint.text = "Esc: leave. Your review will wait on the quay noticeboard."
+    hint.text = "Esc: leave. Find the review on the quay, south past the park."
     var actions := MouseActions.new()
     actions.position = Vector2(14, 116)
     card.add_child(actions)

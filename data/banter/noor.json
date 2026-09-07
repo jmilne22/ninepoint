@@ -1,0 +1,29 @@
+{
+ "id": "noor",
+ "lines": {
+  "you_captured": [
+   "You got those. Let me move the bowl."
+  ],
+  "you_captured_big": [
+   "There's room for all those here."
+  ],
+  "i_captured": [
+   "I'll put these beside my bowl."
+  ],
+  "i_captured_big": [
+   "That's quite a few. I'll keep them together."
+  ],
+  "ko": [
+   "Ko: I have to play elsewhere before taking back."
+  ],
+  "i_atari": [
+   "That group has one liberty left. Atari."
+  ],
+  "i_pass": [
+   "I think I'm done. I pass."
+  ],
+  "you_pass": [
+   "You pass? Let me check my side."
+  ]
+ }
+}

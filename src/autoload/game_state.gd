@@ -40,9 +40,11 @@ func _process(delta: float) -> void:
 
 
 func reset() -> void:
+    EventBus.session_ended.emit()
     player_name = "Ro"
     rank_strength = -1
     flags.clear()
+    flags["early_game_revision"] = 2
     quests.clear()
     inventory.clear()
     match_records.clear()

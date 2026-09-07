@@ -29,19 +29,10 @@
      "if": [
       [
        "flag",
-       "capture_1_solved"
+       "hana_welcomed"
       ]
      ],
-     "goto": "after_puzzle"
-    },
-    {
-     "if": [
-      [
-       "flag",
-       "hana_offered_puzzle"
-      ]
-     ],
-     "goto": "puzzle_again"
+     "goto": "welcome_return"
     },
     {
      "goto": "first"
@@ -52,70 +43,30 @@
    "actions": [
     [
      "set_flag",
-     "hana_offered_puzzle",
+     "hana_welcomed",
      true
     ]
    ],
    "text": [
     "Hello again. Kesh sent you up? Come in.",
-    "Try this position with me. Take as long as you need."
+    "Noor is starting too. Her table is in the novice room, through the lower west door of the hall."
    ],
-   "goto": "offer"
-  },
-  "offer": {
-   "choices": [
-    {
-     "text": "Show me.",
-     "exit": {
-      "type": "start_puzzle",
-      "puzzle": "capture_1"
-     }
-    },
-    {
-     "text": "In a moment.",
-     "goto": "wait"
-    }
-   ]
+   "goto": "welcome_class"
   },
   "wait": {
    "text": [
-    "I'll leave the position here for you."
+    "I'll keep the position here. Come back when you're ready."
    ]
-  },
-  "puzzle_again": {
-   "text": [
-    "The position is still on the small board. Black to play."
-   ],
-   "choices": [
-    {
-     "text": "Try it.",
-     "exit": {
-      "type": "start_puzzle",
-      "puzzle": "capture_1"
-     }
-    },
-    {
-     "text": "Not now.",
-     "goto": "wait"
-    }
-   ]
-  },
-  "after_puzzle": {
-   "portrait": "happy",
-   "text": [
-    "Yes, that's the capture. Ready to join us?"
-   ],
-   "goto": "the_offer"
   },
   "the_offer": {
    "text": [
-    "This is the Essenveld Instituut. Marguerite, at the desk in the hall, keeps the register. Tell her I sent you.",
-    "They take beginners. You play in the league, and you come here for the classes."
+    "Marguerite keeps the register at the desk in the hall. Tell her I sent you.",
+    "Then look at the league board on the back wall. It shows who you'll play first."
    ]
   },
   "at_institute": {
    "text": [
-    "Use the demonstration board for a class. There are practice positions on the desk, too."
+    "The demonstration board has more classes. The practice desk has positions you can repeat."
    ],
    "goto": "teaching_offer"
   },
@@ -230,7 +181,7 @@
   "taught": {
    "portrait": "happy",
    "text": [
-    "Would you like to try another position, or take a break?"
+    "You can try another class at this board, or take a break."
    ]
   },
   "taught_capture_race": {
@@ -286,6 +237,93 @@
     "Come and sit with us for a while. There's room at this table."
    ],
    "goto": "at_institute"
+  },
+  "welcome_class": {
+   "text": [
+    "What would you like to understand before meeting the group?"
+   ],
+   "choices": [
+    {
+     "text": "How can I tell which groups are safe?",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "two_eyes"
+     }
+    },
+    {
+     "text": "A capture reminder.",
+     "exit": {
+      "type": "start_puzzle",
+      "puzzle": "capture_1"
+     }
+    },
+    {
+     "text": "I know that already. Where do I join?",
+     "goto": "skip_class"
+    },
+    {
+     "text": "I'll come back.",
+     "goto": "wait"
+    }
+   ]
+  },
+  "skip_class": {
+   "actions": [
+    [
+     "set_flag",
+     "institute_class_skipped",
+     true
+    ],
+    [
+     "set_flag",
+     "institute_class_ready",
+     true
+    ]
+   ],
+   "goto": "the_offer"
+  },
+  "welcome_return": {
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "institute_class_ready"
+      ]
+     ],
+     "goto": "the_offer"
+    },
+    {
+     "goto": "welcome_class"
+    }
+   ]
+  },
+  "taught_two_eyes": {
+   "text": [
+    "Take your time with the groups in your next game. We can look again whenever you want."
+   ],
+   "goto": "after_welcome_class"
+  },
+  "after_welcome_class": {
+   "branches": [
+    {
+     "if": [
+      [
+       "flag",
+       "enrolled"
+      ]
+     ],
+     "goto": "class_return"
+    },
+    {
+     "goto": "the_offer"
+    }
+   ]
+  },
+  "class_return": {
+   "text": [
+    "Noor and the others are in the novice room, through the lower west door of the hall."
+   ]
   }
  }
 }

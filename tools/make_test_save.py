@@ -817,6 +817,23 @@ STATES["novice_first_rank"] = {"rank_strength": -1, "map": "de_ketel",
               "wren_match_done": True},
     "quests": {"first_stones": {"step": 3, "done": False}}}
 
+# An actual isolated AI walkthrough, retained as evidence and for quay/reload checks.
+with open(os.path.join(os.path.dirname(__file__), "..", "docs", "early-game", "playthrough-save.json")) as source:
+    _early_played = json.load(source)
+STATES["early_playthrough"] = {"rank_strength": _early_played["rank_strength"],
+    "flags": _early_played["flags"], "quests": _early_played["quests"],
+    "records": _early_played["match_records"], "analysis": _early_played["match_analysis"],
+    "league_attempts": _early_played["league_attempts"], "active_league": _early_played["active_league"],
+    "map": "academy_novice", "spawn": "from_hall"}
+
+STATES["early_exam_failing"] = {**STATES["exam_final"],
+    "records": [dict(r, player_won=False) if str(r.get("context_id", "")).startswith("exam_") else dict(r)
+                for r in STATES["exam_final"]["records"]]}
+
+STATES["early_rules"] = {**STATES["novice_first_rank"],
+    "flags": {"early_game_revision": 2, "opening_seen": True, "intro_seen": True,
+              "carrying_board": True, "pip_taught_capture": True}}
+
 STATES["novice_graduate"] = {**STATES["novice_ready"],
     "flags": {**STATES["novice_ready"]["flags"], "enrolled": True,
               "read_league_board": True, "cup_finished": True,

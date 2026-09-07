@@ -108,6 +108,9 @@
   "wait": 0.3
  },
  {
+  "experience": "review_ready"
+ },
+ {
   "board_input": {
    "button": "review_no"
   }

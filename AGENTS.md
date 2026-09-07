@@ -100,9 +100,11 @@ The player begins knowing **nothing**.
    (`data/dialogue/intro.json`; gives item `old_goban`, flag `carrying_board`).
 2. **Pip** in Molenpark sees the board and teaches **Capture Go** (`pip_capture`, 7×7,
    `capture_goal = 1`). The player's first game, before any rules screen.
-3. **Wren** at De Ketel teaches the rules — liberties, capture, self-capture — then gives a
-   short, optional opening plan and hosts the first proper 9×9. It is normal Go (passing and
-   scoring) but explicitly unrated; one gentle observation at a time keeps it a practice game.
+3. **Wren** acknowledges Pip and offers four short rules exercises (`first_game_rules`),
+   followed by a prepared 7×7 `finishing` lesson and optional two-comparison `openings`.
+   Results stay beside the board. Her first full 9×9 is explicitly unrated: position-aware
+   guidance and **Help H** identify legal captures or groups in atari, followed by passing
+   and proposed-mark counting help. Her strength and stopping policy are unchanged.
 4. **Kesh** gives you a provisional 30 kyu novice card and an Instituut invitation
    before offering any game (`first_rating`: `rank`, `ranked_by_club`,
    `invited_to_institute`, starts `enrolment`). You may leave immediately or play an
@@ -110,10 +112,11 @@ The player begins knowing **nothing**.
    not a placement assessment. Existing ranks and match records are preserved.
 
 ### Act 2 — the Essenveld Instituut (quest `enrolment`)
-Tram 4 north from the stop at the west end of Ketelsteeg → **Hana** in the classroom sets a
-capture problem and sends you to the desk → enrol with **Marguerite** → read the league board
-→ take a class → play five novice fixtures, at any placing → the **Beginner Cup**
-ending. Novice classmates occupy the new `academy_novice` room through the hall's lower
+Tram 4 north from the west end of Ketelsteeg → **Hana** welcomes the player and offers the
+first class directly (or an explicit skip) → enrol with **Marguerite** → back-wall league board
+→ Noor, Ivo and the remaining novice fixtures, at any placing → the **Beginner Cup**
+ending. Hana’s capture puzzle remains optional. Noor wants company through the league and
+toward the Cup. Novice classmates occupy the new `academy_novice` room through the hall's lower
 west door. Existing early Cup eligibility remains available. After completing the Cup,
 Marguerite offers optional Academy League registration. Complete all six fixtures; the
 four highest eligible entrants excluding Marguerite may sit the advanced exam.
@@ -317,10 +320,10 @@ src/autoload/  EventBus, GameState, SaveSystem, SceneRouter, MatchBridge, KataGo
   the shipped AI. Every cast profile is `engine = "gtp"`: KataGo's Human-SL model at the
   character's rank and temperament, with the heuristic as the fallback when the engine is
   missing or slow. The binary and models are fetched by `tools/setup_katago.sh`, not in git.
-- **The review is one process per game.** `MatchBridge.finish_match_with_review()` records
-  the result exactly as `finish_match()` does, then `MatchReviewService` runs
+- **The review is one process per game.** `MatchBridge.record_completed_match()` records once before returning to the world.
+  After the reaction, `request_review(record_index)` starts `MatchReviewService`, which runs
   `KataGoAnalysis` on the SGF: one query, every position, about a core-second each on the
-  bundled CPU build. The match scene shows progress and can be left with [Esc]; the review
+  bundled CPU build. The world-owned review panel shows progress and can be left with [Esc]; the review
   finishes on its own and waits on the quay noticeboard. Nothing in it changes the result.
 - `GoMatchSetup` decides colours: nigiri for even games, automatic Black at 0.5 komi for
   handicap games, derived from the two ranks.
@@ -441,9 +444,9 @@ does not declare its live status.
 ## Current state
 
 Playable start to finish: cold open → name → the attic → Ketelsteeg → Capture Go with Pip →
-Wren's rules and opening plan → Wren's unrated first full game → Kesh's novice card
-(and optional handicap practice) → the tram north → Hana's problem → enrol → the league
-board → a class → novice fixtures → the Cup ending → optional Academy League/exam. Twelve maps, twenty characters, each on
+Wren’s short rules and finishing lessons → optional opening comparison → supported unrated
+full game → reaction/review → Kesh’s novice card (optional handicap practice) → tram north →
+Hana’s welcome and first class → enrol → league board → novice fixtures → the Cup ending → optional Academy League/exam. Twelve maps, twenty characters, each on
 exactly one map. Two board sizes. Four quests. Three save slots.
 
 **M37 was the cut.** The owner played it and found it unplayable in six ways, and none of the
@@ -575,3 +578,23 @@ card cannot rewrite earlier pairings. The existing Cup rematch fallback is prese
 plays New Game through the novice-room arrival without facing Kesh. `slice_full`
 and `novice_journey` now decline Kesh and travel onward. PROG-02 supersedes the old
 required even-game opening; old saved results remain unchanged.
+
+
+## Early-game revision contracts
+
+The accepted score returns to the opponent’s reaction before `PostMatchReview`; Cup/exam
+announcements precede it too. Rematch offers belong to the next interaction. Analysis uses
+the existing record index, never another call to `GameState.record_match`. `session_ended`
+cancels old analysis before New Game or load replaces progress. Saved pending reviews are
+marked interrupted; no result, rank step or fixture is replayed by requesting a review.
+
+Lesson fields are additive: `action`, `reply`, `proofs`, `dead`, `prisoners`, `komi` and
+`expected_score`. `GoLessonActions` owns pure action/proof state; `LessonLayout` and
+`LessonDemonstration` present it. Older single-move files still work. Validate every scripted
+action, refusal and exact count with `tools/check_lessons.py` and the focused tests.
+
+Supplemental routes: `early_lessons`, `early_skips`, `early_counting`, `early_kesh`,
+`early_quay`, `early_review_failure`, `early_exam_pass`, `early_exam_fail`; review routes use the
+world-owned offer. Main manual walkthrough evidence and limitations live in
+`docs/early-game/PLAYTEST.md`. Automated answers, direct visits and bot games establish
+coverage only. Independent human beginner testing remains open. No audio was subjectively assessed.

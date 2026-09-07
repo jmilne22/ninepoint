@@ -134,7 +134,7 @@ tests/                headless test runner + suites
 | `MatchBridge` | The single seam between world and Go: takes a `MatchRequest`, pushes the match, puzzle or lesson scene, returns a `MatchResult` | Contain Go rules |
 | `Audio` | Buses, a pool of SFX voices, one music track; listens on `EventBus` for the sounds that belong to events rather than to callers | Decide when gameplay happens |
 | `KataGoService` | Short-lived engine leases, warmed while the player is still walking to the board and handed to exactly one match or killed | Outlive a scene by accident |
-| `MatchReviewService` | The one review that may be running: starts `KataGoAnalysis` on a recorded game, reports progress, stores the payload in `GameState.match_analysis`; a new match cancels it | Resume after a quit — an interrupted review is marked failed on load |
+| `MatchReviewService` | The one review that may be running: starts `KataGoAnalysis` on a recorded game, reports progress, stores the payload in `GameState.match_analysis`; a new match or session reset cancels it | Resume after a quit — an interrupted review is marked failed on load |
 
 Rule of thumb: if two systems need to talk, they do it through `EventBus` or through
 `GameState` flags — never by reaching across the scene tree with `get_node("../../..")`.
@@ -315,8 +315,8 @@ point and follows the selection; explicit pan buttons move the view anchor.
 
 `MouseActions` provides themed buttons whose signals route to the same guarded action
 handlers as keyboard shortcuts. `MatchMouseControls` keeps phase-specific button layout
-out of the turn loop, including the review card’s hoverable Yes/No buttons. Their clicks
-use the guarded review action and keyboard arrows retain selection control. Teaching scenes block further moves/reset while a demonstration is
+out of the turn loop. `PostMatchReview` owns the later world review offer, including full-width
+hoverable Yes/No buttons; mouse and keyboard use the same guarded choice. Teaching scenes block further moves/reset while a demonstration is
 being played or undone. Modal roots stop mouse propagation while allowing their own child
 buttons to receive GUI events. All pointer state is temporary and absent from saves.
 
@@ -465,3 +465,42 @@ saved setup/result fields are never rewritten. No save format change is required
 Dialogue handles `_unhandled_input` so the HUD's first-rank modal consumes keys before
 the underlying conversation. `novice_rank_card` verifies dismissal does not also advance
 dialogue; its screenshots show the card followed by the welcome and optional choices.
+
+
+## Early-game teaching and review contracts
+
+`GoLessonData` keeps existing placement fields and defaults `action` to `play`. Additive
+actions are `inspect`, `pass` and `count`. A `reply` is an optional coordinate or `[-1]`
+for pass. Prepared counts declare group anchors in `dead`, captured prisoner counts,
+`komi` and exact `[black, white]` totals in `expected_score`. `proofs` contain ordered
+`[colour, x, y]` actions, declared refusal/capture outcomes and optional visible captions.
+
+`GoLessonActions` is pure: inspection progress, scripted replies, two real passes, whole-group
+mark toggles, count confirmation and proof outcomes. `GoLessonData.make_game` supplies the
+prepared position. `LessonDemonstration` replays proofs for inspection; `LessonLayout` and
+`go_lesson` keep result explanations beside that position. A board reset replaces its own
+mark dictionary, so it cannot clear the lesson’s shared proposed marks.
+
+`PracticeGuide` returns facts about current groups, prioritising legal captures and then the
+player’s atari. Its short prompt has its own persistent area; transient legality errors and
+opponent remarks remain separate. `MatchTeaching` shows fuller Help and highlights the
+actual group/liberties. Passing help makes no claim that an uncertain ending is safe.
+
+Completion is `go_match` → `MatchBridge.record_completed_match` → world reaction or event
+announcement → `PostMatchReview` → optional `request_review(record_index)`. Identity guards
+duplicate completion callbacks; the indexed review path only marks/request analysis for an
+existing record. Escape leaves background work owned by `MatchReviewService`; a new match
+cancels it. `GameState.reset` emits `session_ended` before replacing data, clearing transient
+bridge state and cancelling analysis from the old session. This prevents a late payload
+from writing into a different save at the same numeric index.
+
+`MoveExplainer` deduplicates complete connected groups and reports immediate captures and
+liberty changes. `ReviewComparison` applies played/preferred moves independently to the
+original board, with the saved player colour. `ReviewSummary` identifies engine preferences
+and move numbering; neither claims the comparison reproduces a full engine continuation.
+
+Save version remains 1. The additive `early_game_revision` flag distinguishes new teaching
+from old saves. `QuestTracker` rebuilds unfinished old school journal stages from existing
+flags/lessons and preserves completed quests, rank, records and league attempts. It never
+fabricates a capture-puzzle solution. The HUD’s fixture count and next name come directly
+from `LeagueAttempt`/`LeagueProgress`, while Cup/exam journal priorities remain intact.

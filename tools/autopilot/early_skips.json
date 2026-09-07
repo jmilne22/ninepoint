@@ -1,0 +1,183 @@
+[
+ {
+  "save": "early_rules"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "talk_to": "wren"
+ },
+ {
+  "experience": "choice",
+  "text": "Pip showed me Capture Go."
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 1
+ },
+ {
+  "tap": "cancel"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "talk_to": "wren"
+ },
+ {
+  "experience": "choice",
+  "text": "I know the rules already."
+ },
+ {
+  "experience": "choice",
+  "text": "I know enough to start."
+ },
+ {
+  "experience": "choice",
+  "text": "Set up the practice game."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "experience": "practice_probe"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "experience": "assert_progress",
+  "records": 1,
+  "flags": [
+   "said_knows_the_rules",
+   "finishing_skipped",
+   "opening_plan_skipped"
+  ],
+  "absent_flags": [
+   "lesson_first_game_rules_done",
+   "lesson_finishing_done"
+  ]
+ },
+ {
+  "talk_to": "kesh"
+ },
+ {
+  "experience": "rank_card"
+ },
+ {
+  "experience": "choice",
+  "text": "I'll head to the Instituut."
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "visit",
+  "map": "academy_class"
+ },
+ {
+  "talk_to": "hana"
+ },
+ {
+  "experience": "choice",
+  "text": "I'll come back."
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "hana"
+ },
+ {
+  "experience": "choice",
+  "text": "A capture reminder."
+ },
+ {
+  "wait": 1
+ },
+ {
+  "shot": "optional_arrival_capture"
+ },
+ {
+  "tap": "cancel"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "talk_to": "hana"
+ },
+ {
+  "experience": "choice",
+  "text": "I know that already. Where do I join?"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "assert_progress",
+  "flags": [
+   "hana_welcomed",
+   "institute_class_skipped",
+   "institute_class_ready"
+  ],
+  "absent_flags": [
+   "capture_1_solved"
+  ]
+ },
+ {
+  "experience": "visit",
+  "map": "academy_hall"
+ },
+ {
+  "talk_to": "marguerite"
+ },
+ {
+  "experience": "choice",
+  "text": "Sign."
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "assert_progress",
+  "rank": "30k",
+  "flags": [
+   "enrolled"
+  ],
+  "records": 1
+ },
+ {
+  "experience": "save"
+ },
+ {
+  "experience": "reload"
+ },
+ {
+  "shot": "skipping_preserves_school_access"
+ }
+]

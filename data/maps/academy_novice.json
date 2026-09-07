@@ -249,35 +249,35 @@
  ],
  "art_props": [
   {
-   "art": "playing_table",
+   "art": "novice_noor",
    "position": [
     48,
     64
    ]
   },
   {
-   "art": "playing_table",
+   "art": "novice_ivo",
    "position": [
     160,
     64
    ]
   },
   {
-   "art": "playing_table",
+   "art": "novice_lea",
    "position": [
     272,
     64
    ]
   },
   {
-   "art": "playing_table",
+   "art": "novice_emil",
    "position": [
     80,
     160
    ]
   },
   {
-   "art": "playing_table",
+   "art": "novice_sora",
    "position": [
     224,
     160
