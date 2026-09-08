@@ -112,7 +112,17 @@ Atlas families, 16 tiles per row (`python3 tools/gen_tiles.py` prints the curren
     porthole that is the only warm thing in the tile -- it is a light source as well as
     an animation, because that room has no stove and no music and the machines have to
     be what says it is warm
+ 7  thresholds: the stair up, the tram boarding slab
 ```
+
+**Thresholds are drawn, not implied.** `door_int` has a frame proud of the wall, a
+handle and daylight under the bottom rail; `floor_mat` is a coir mat laid on the floor
+rather than a green woven square that read as a patch of lawn indoors; `stairs_up` exists
+because the Instituut's stair to the dormitory was drawn as plain pavement; and
+`tram_platform` is poured, kerbed and painted with the line you stand behind, because a
+stop laid in the same flagstone as thirty tiles of pavement either side of it is not a
+stop. Every interior exit carries a mat on the tile inside it, generated from the map's
+own warps.
 
 **Whenever the atlas gains a row, `town_tileset.tres` must be regenerated and the PNG
 reimported.** A tile outside the resource is drawn as nothing, in silence: that is exactly how
@@ -140,8 +150,18 @@ Character(
   colours, same accessory. Because both come from one record, the portrait *is* the sprite,
   scaled and detailed — the classic consistency failure is structurally impossible.
 - Faces are minimal: eyes are 2×2 blocks, brows carry the whole expression, mouths are 1–3px.
-  Expression variants (`neutral`, `happy`, `annoyed`, `working`) retain the same identity;
-  the working pose adds the character’s activity and hand position.
+- **Seven expressions**, one strip of 64×64 columns per character:
+  `neutral`, `happy`, `annoyed`, `working`, `thinking`, `worried`, `pleased`. All seven
+  use the same `HEAD_X`/`EYE_Y`/`BROW_Y`/`MOUTH_Y` geometry, so identity survives the
+  change by construction; the working pose adds the character's activity and hands.
+  `worried` is `angled` inverted — inner brow ends **up**, the one shape a scowl cannot
+  be mistaken for. `thinking` moves the eyes off the board rather than lowering a lid:
+  one pixel of eyelid on a four-pixel eye is not an expression at 64px, and where
+  somebody is looking is legible at any size. `pleased` is the quiet version of `happy`,
+  whose closed-eye grin is far too much for taking four stones off.
+  The column order lives in `tools/gen_characters.EXPRESSIONS` and
+  `src/rpg/npc/portrait_moods.gd`; `tests/test_data.gd` measures a real strip against it,
+  because an unknown mood name resolves to column 0 and the face simply never changes.
 
 Character colour signatures (never reused between characters):
 | Wren `gold` · Kesh `plum+rust` · Pip `grass` · Bertie `wood+path` · Nadia `blue` ·
@@ -194,6 +214,20 @@ art -- stacked circles read as a potato), `crowd.png`.
 
 - Panels: `paper0` fill, `ink1` 1px border, `ink2` 1px drop shadow, 4px corner cut (no rounding).
 - Dialogue box: bottom-anchored, 64×64 portrait at left, name plate above the frame in `gold2`.
+- **The cold open** has its own backdrop, `art/title/opening.png`: the same dusk as the
+  title card with rain falling through it, deliberately carrying no subject, because the
+  portrait, the board and the dialogue panel are all drawn over it. It replaced a flat
+  `ink0` rectangle. The portrait gets a gold frame and the board a drop shadow for the same
+  reason — on a dim ground, an unframed 64×64 bust and a flat honey slab read as stickers.
+- **Title screen:** the illustration on the right, a dark card down the left at
+  `Rect2(12, 10, 142, 186)` holding, in order, the name at size **18**, a hairline, the
+  subtitle, the four menu rows at a 16px step with a drawn 3×5 gold cursor, a second
+  hairline, the save summary and the controls hint. The cursor never lands on a row that
+  would do nothing: with no save on disk, Continue and Load Game are greyed and stepping
+  skips them.
+  Nothing on it uses a font size that is not a multiple of 9 — the name was set at 21 for
+  the life of the project, which scaled the largest piece of type in the game by a
+  seventh. Type that sits on artwork uses `UiKit.shadow_label`.
 - Font: the generated Ninepoint bitmap font at native size 9 and integer multiples only. Text `ink0` on paper, `paper0` on ink.
 - Everything snaps to the pixel grid; the camera is pixel-snapped; no rotation, no scaling
   that is not an integer multiple.
@@ -270,6 +304,39 @@ appear during tram travel and can be skipped with Space or Esc.
 
 `gen_venue_props.py` and `gen_venue_scenes.py` draw larger readable furniture. Their base
 footprints live in `venue_layouts.py`; foreground faces remain clear of interaction paths.
+
+**The 16×24 person is the ruler.** Furniture was drawn large enough to read and then never
+measured against anybody: the go board on the club table and the attic desk was 24×22 —
+one and a half times a person's width, floating off the back edge of the table — and a
+washing machine was 32×36, twice a person's width and half again their height. A goban is
+about 45cm, which is a person's shoulders, so it is a tile; a front loader is about 60cm
+across and comes to the chest. Tables and desks may be larger than the board on them; the
+board may not be larger than the player.
+
+**Furniture that stands on the floor sorts against the cast.** Props carry a `base` — the
+pixel row where they meet the ground — and go into the y-sorted `Entities` layer at it, so
+somebody behind a table is behind it and somebody in front is in front. Before that every
+prop was added before `Entities` existed and with no `z_index` at all, and the whole cast
+drew in front of the bed, the machines and the board they were sitting at. Wall and roof
+fixtures (rafters, shop windows, hanging signs) have no `base` and stay behind everybody.
+A board table is solid for its whole drawn depth, so the far chair is a chair and not the
+tabletop.
+
+**Ketelsteeg's ground floor is shopfronts, and they are cut INTO the wall.** A hanging
+board on two brackets, a window opening with a frame and a stone sill, and nothing else:
+most of each asset is transparent, so the brick behind it is the brick and the shop is part
+of the building. The first attempt was an opaque slab with a coloured bar across the top,
+pasted over the wall with its own edges showing, and it read as a sticker. What is behind
+the glass is drawn at the size that thing really is — three small machines at the
+laundrette, warm light up out of a basement at De Ketel, a shutter down at the stationer's.
+The Tram 4 stop is a shelter with the route board on its roof, over a poured boarding slab.
+
+**The town does not end in a wall.** Ketelsteeg's pavement, road, rails and park all run
+straight off both sides of the map, and the quay's flags run off both ends, because that is
+what a street does. What stops the player is the boundary itself, at exactly the column
+where the camera stops following: the tiles are unchanged and nothing is drawn there. The
+first attempt built a brick return wall across each end, which put a building through the
+middle of the road and gave the tram something to drive through.
 `gen_arrivals.py` draws the destination views. Grass, brick, water and floor patterns are
 restrained so people, doors and boards carry more contrast. Wear belongs near chairs,
 thresholds and working surfaces.

@@ -109,6 +109,10 @@ Difficulty rises along four honest axes:
 Each NPC plays the way they talk. Bertie in the park plays fast and territorially and will tell
 you a proverb whether or not it applies. Pip attempts ladders that do not work. Kesh cuts.
 A match should read as a conversation, and the post-game dialogue should refer to what happened.
+Their face reacts while you play: seven expressions per portrait, chosen from what just
+happened on the board and how the game is going. Reactions are to **outcomes** — a capture
+landed, a group is in atari, a ko started, they are behind — never to whether your move was
+a good one. Judgement belongs to the review, after the game.
 
 ### P4 — Compact and alive over large and empty
 One town, twelve rooms, twenty people who are always where they live.
@@ -395,6 +399,21 @@ opponent ladder that runs past about 8 kyu, which is §9 of ROADMAP and the engi
 Gentle, adult, unhurried. No violence — the town's stakes are pride, friendship and a
 trophy that is mostly a shelf ornament. Humour is dry and character-driven. Text should be
 short enough to read on a dialogue box in three breaths.
+
+## 10b. What the town has to say for itself
+
+A place the player cannot read is a place they get lost in, and none of it is dialogue.
+Four rules, all of them levels and art rather than systems:
+
+- **The map boundary is closed unless it is a door** — but nothing is built there. A street
+  runs on past the edge of the frame, as a street does; you stop where the camera stops.
+- **Every threshold is drawn.** A door has a frame and daylight under it, a mat inside it,
+  and a line at the bottom of the screen naming where it goes. A tram stop has a shelter
+  and a boarding slab. The steps to the water have a path worn to them.
+- **The person is the ruler.** Furniture is drawn at the size it would be beside a person.
+  A goban is a person's shoulders wide; a table may be bigger, a board may not.
+- **You can sit down on the other side of a board.** A board is two tiles deep, so the far
+  chair is a real place to stand and the person across it answers from there.
 
 ## 11. Accessibility & quality-of-life
 

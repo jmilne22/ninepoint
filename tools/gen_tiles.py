@@ -586,12 +586,23 @@ def _(im, s):
 
 @tile("floor_mat")
 def _(im, s):
-    im.rect(0, 0, TS, TS, rgb("grass3"))
-    for y in range(TS):
-        for x in range(TS):
-            if (x + y) % 4 == 0:
-                im.set(x, y, rgb("grass2"))
-    im.frame(0, 0, TS, TS, rgb("grass2"))
+    """A coir doormat, inside every door.
+
+    It used to be a bright green woven square, which read as a patch of lawn on
+    a floorboard. It is the only thing in an interior that says which tile the
+    way out is on, so it is now a mat: laid on the floor rather than replacing
+    it, worn pale down the middle where everybody stands.
+    """
+    im.rect(0, 0, TS, TS, rgb("wood1"))
+    im.rect(0, 0, TS, 1, rgb("wood2"))
+    im.rect(1, 1, 14, 14, rgb("wood0"))
+    im.rect(2, 2, 12, 12, rgb("wood1"))
+    for y in range(3, 13):
+        for x in range(3, 13):
+            if (x + y) % 3 == 0:
+                im.set(x, y, rgb("wood2"))
+    im.rect(6, 4, 4, 8, rgb("wood2"))          # worn pale where the feet land
+    im.hline(1, 15, 14, rgb("ink2"))
 
 
 @tile("rug")
@@ -773,12 +784,23 @@ def _(im, s):
 
 @tile("door_int")
 def _(im, s):
+    """The way out, seen from inside.
+
+    The old drawing was a door and nothing else, set into a wall of identical
+    height, and it was the game's only signal that a tile was an exit. It now
+    has a frame that stands proud of the wall, a handle you can find, and --
+    the part that actually does the work -- daylight under the bottom rail.
+    """
     im.rect(0, 0, TS, TS, rgb("paper1"))
-    im.rect(2, 0, 12, 16, rgb("wood0"))
-    im.rect(3, 1, 10, 15, rgb("wood1"))
-    im.rect(4, 2, 8, 6, rgb("wood2"))
-    im.rect(4, 9, 8, 6, rgb("wood2"))
-    im.set(11, 9, rgb("gold2"))
+    im.rect(1, 0, 14, 16, rgb("wood0"))        # the frame, proud of the wall
+    im.rect(2, 1, 12, 14, rgb("wood1"))
+    im.rect(3, 2, 10, 5, rgb("wood2"))
+    im.rect(3, 8, 10, 5, rgb("wood2"))
+    im.hline(2, 7, 12, rgb("wood0"))
+    im.rect(11, 9, 2, 2, rgb("gold2"))         # the handle
+    im.set(11, 9, rgb("gold3"))
+    im.hline(2, 14, 12, rgb("gold1"))          # daylight under the door
+    im.hline(3, 15, 10, rgb("gold2"))
 
 
 # ---------------------------------------------------------------------- build
@@ -1065,6 +1087,40 @@ def _(im, s):
     im.rect(5, 8, 4, 3, rgb("gold0"))         # whoever is working the hatch
     im.hline(1, 12, 14, rgb("ink0"))
     im.hline(1, 2, 14, rgb("ink0"))
+
+
+@tile("tram_platform")
+def _(im, s):
+    """The boarding slab at the Tram 4 stop.
+
+    The stop was a pole and a board on pavement identical to the pavement for
+    thirty tiles either side of it, so the one tile in Steenbeek that takes you
+    out of Steenbeek looked like every other tile. Poured concrete, kerbed, with
+    a painted line along the road edge: a surface that is only ever laid where
+    people wait.
+    """
+    im.rect(0, 0, TS, TS, rgb("path2"))
+    speckle(im, [rgb("path1"), rgb("path3")], s, 7)
+    im.hline(0, 0, TS, rgb("path3"))
+    im.hline(0, 12, TS, rgb("path0"))
+    im.rect(0, 13, TS, 2, rgb("gold1"))        # the line you stand behind
+    im.hline(0, 15, TS, rgb("ink1"))
+
+
+@tile("stairs_up")
+def _(im, s):
+    """Three steps up, and a landing out of sight. Walkable: it is a doorway.
+
+    The Instituut's stair to the dormitory was drawn as plain pavement, so the
+    only floor tile in the school that was a way somewhere looked like the floor.
+    """
+    im.rect(0, 0, TS, TS, rgb("path1"))
+    for i, y in enumerate((10, 5, 0)):
+        im.rect(0, y, TS, 5, rgb("path2") if i % 2 else rgb("path1"))
+        im.hline(0, y, TS, rgb("path3"))
+        im.hline(0, y + 4, TS, rgb("ink2"))
+    im.rect(0, 0, TS, 2, rgb("ink1"))          # the landing, in shadow
+    im.hline(0, 15, TS, rgb("path3"))
 
 
 @tile("stairs_down")

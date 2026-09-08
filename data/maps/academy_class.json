@@ -67,6 +67,8 @@
   "8": "neon_sign",
   "9": "snack_window",
   "<": "stairs_down",
+  ">": "stairs_up",
+  "/": "tram_platform",
   "+": "concrete",
   "*": "glass_curtain",
   "$": "stove",
@@ -98,7 +100,7 @@
   "},22122212221222Q}",
   "}22,22,12,21,2212}",
   "}21,22,22,12,2122}",
-  "M1222122212221222}",
+  "M3222122212221222}",
   "}22,12,21,22,2221}",
   "}22,22,12,21,2212}",
   "}2122212221222122}",
@@ -223,28 +225,32 @@
    "position": [
     32,
     80
-   ]
+   ],
+   "base": 96
   },
   {
    "art": "student_desk",
    "position": [
     176,
     80
-   ]
+   ],
+   "base": 96
   },
   {
    "art": "student_desk",
    "position": [
     32,
     128
-   ]
+   ],
+   "base": 144
   },
   {
    "art": "student_desk",
    "position": [
     176,
     128
-   ]
+   ],
+   "base": 144
   }
  ],
  "presence_states": [

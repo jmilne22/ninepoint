@@ -80,6 +80,26 @@ static func build_warps(map: MapData, parent: Node2D) -> void:
         warp.add_child(shape)
         warp.position = map.tile_centre(Vector2i(int(tile[0]), int(tile[1])))
         parent.add_child(warp)
+        # Every warp has carried a `prompt` -- "De Ketel", "Down to the water" --
+        # since the maps were first generated, and nothing ever read it. A
+        # doorway in this game announced itself with nothing at all: no hint, no
+        # marker, no sound. Give it the same Interactable every sign has, at a
+        # priority below a sign and well below a person, so standing in front of
+        # a door says where it goes and [Space] takes you through it as well as
+        # walking in does.
+        var hint := str(w.get("prompt", ""))
+        if hint != "":
+            var door := Interactable.new()
+            door.name = "Doorway"
+            door.prompt = hint
+            door.interact_priority = Interactable.PRIORITY_DOORWAY
+            var door_shape := CollisionShape2D.new()
+            var door_rect := RectangleShape2D.new()
+            door_rect.size = Vector2(map.tile_size, map.tile_size)
+            door_shape.shape = door_rect
+            door.add_child(door_shape)
+            warp.add_child(door)
+            door.interacted.connect(func(body): warp.use(body))
 
 
 ## Signs are Interactables sitting on a solid tile: you face them and read them.
@@ -154,6 +174,11 @@ static func build_npcs(map: MapData, parent: Node2D, on_talk: Callable) -> Array
         npc.npc_id = str(spec.get("id", ""))
         npc.name = "Npc_" + npc.npc_id
         npc.position = map.stand_position(Vector2i(int(tile[0]), int(tile[1])))
+        # Set before the node enters the tree: Npc builds the extra reach in
+        # _ready(), and a chair declared afterwards would never be built.
+        if spec.has("seat_across"):
+            var seat: Array = spec["seat_across"]
+            npc.seat_across = map.stand_position(Vector2i(int(seat[0]), int(seat[1])))
         parent.add_child(npc)
         npc.facing = Facing.from_name(str(spec.get("dir", "down")))
         npc.home_facing = npc.facing

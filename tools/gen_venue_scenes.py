@@ -14,10 +14,26 @@ def draw_text(im,x,y,text,color,scale=1):
 
 
 def study_desk():
-    im=Img(48,40);im.blit(table(),0,8)
-    box(im,0,0,10,10,'teal0');box(im,32,1,14,8,'paper0')
-    for y in [3,5]:im.hline(34,y,10,rgb('ink3'))
-    im.rect(42,9,2,8,rgb('rust2'));return im
+    """The board the last tenant left, on the desk it was left on.
+
+    This was the De Ketel bar table with papers on it: 48 by 40, three tiles
+    wide and two and a half tall, in a room twelve tiles across. Standing
+    beside it the player was a third of its width. It is a writing desk now,
+    two tiles by two, with a board on it the size of a board.
+    """
+    im=Img(32,32)
+    box(im,3,24,3,8,'wood0');box(im,26,24,3,8,'wood0')
+    box(im,0,7,32,19,'wood1');im.hline(2,8,28,rgb('wood3'))
+    box(im,9,10,14,13,'gold2')
+    for i in range(5):
+        im.hline(11,12+i*2,10,rgb('wood1'));im.vline(11+i*2,12,9,rgb('wood1'))
+    for x,y,c in [(13,14,'ink0'),(17,18,'paper0'),(15,18,'ink0')]:im.set(x,y,rgb(c))
+    im.disc(4,13,2,rgb('ink1'))                     # the bowl of stones
+    box(im,0,0,9,7,'teal0');im.hline(1,1,7,rgb('teal1'))
+    box(im,23,1,9,6,'paper0')
+    for y in [3,5]:im.hline(25,y,5,rgb('ink3'))
+    im.rect(29,7,2,5,rgb('rust2'))                  # a pencil, on the edge
+    return im
 
 
 def bed():
@@ -91,9 +107,80 @@ def directions():
     draw_text(im,2,3,'< STUDY',rgb('paper0'),1);draw_text(im,2,14,'CLASS >',rgb('paper0'),1);return im
 
 
-def marker():
-    im=Img(32,48);im.rect(14,8,3,40,rgb('ink2'));box(im,0,0,32,28,'rust1')
-    draw_text(im,5,3,'TRAM',rgb('paper0'),1);draw_text(im,13,15,'4',rgb('gold3'),1);return im
+def tram_stop():
+    """The Tram 4 stop: a roof, a glazed back, a bench and the route board.
+
+    The stop used to be a tram pole and a 32x48 board hung at the map's edge,
+    on pavement identical to the pavement for thirty tiles either side. A
+    shelter is what a stop looks like from across the road, and the board
+    belongs inside it, where a route board actually is.
+    """
+    im=Img(48,48)
+    box(im,0,30,48,4,'ink2')                       # the bench
+    im.rect(3,34,3,10,rgb('ink2'));im.rect(42,34,3,10,rgb('ink2'))
+    box(im,4,8,40,24,'blue0','ink2')               # the glazed back panel
+    for x in (7,26):
+        box(im,x,11,15,17,'blue1','blue2');im.vline(x+2,13,11,rgb('blue3'))
+    box(im,2,0,44,9,'rust1','ink1')                # the roof, and the route board
+    im.hline(3,1,42,rgb('rust2'))
+    draw_text(im,7,2,'TRAM 4',rgb('paper0'),1)
+    im.rect(1,9,2,39,rgb('ink2'));im.rect(45,9,2,39,rgb('ink2'))   # the posts
+    return im
+
+
+def shopfront(kind):
+    """A ground floor that looks like a shop, set INTO the wall.
+
+    Ketelsteeg's ground floor was blank brick with two 10x9 windows a bay, and
+    the laundrette announced itself by having its four full-size interior
+    machines drawn on the outside of its brick with no frame around them. The
+    first repair went too far the other way: an opaque 48x28 slab with a
+    coloured bar across the top, pasted over the brick with its own edges
+    showing, which read as a sticker rather than as a building.
+
+    So most of this asset is transparent. What it draws is a hanging board on
+    two brackets, a window opening with a frame and a sill, and nothing else:
+    the wall behind it is the wall, and the shop is cut into it.
+    """
+    im=Img(48,32)
+    board,glass,name,ink={'wassalon':('teal0','blue0','WASSALON','paper0'),
+                          'ketel':('wood0','ink1','DE KETEL','gold3'),
+                          'stationer':('wood1','ink1','PAPIER','path1')}[kind]
+    # the board, hung off two brackets so it stands away from the brick
+    for x in (7,40):im.rect(x,0,1,3,rgb('ink1'))
+    # Full width: WASSALON is exactly forty-eight pixels of this font, so an
+    # inset frame costs two characters and the name is the whole point.
+    im.rect(0,2,48,11,rgb(board))
+    im.hline(0,2,48,rgb('ink0'));im.hline(0,12,48,rgb('ink0'))
+    im.hline(0,3,48,rgb('gold1' if kind!='stationer' else 'wood2'))
+    width=sum(advance(ch) for ch in name)
+    draw_text(im,max(0,(48-width)//2),5,name,rgb(ink),1)
+
+    # the window: an opening in the wall, not a panel on it
+    im.rect(3,16,42,14,rgb('wood0'))
+    im.rect(5,18,38,11,rgb(glass))
+    for x in (17,30):im.vline(x,18,11,rgb('wood0'))
+    if kind=='wassalon':
+        for x in (7,20,33):
+            im.rect(x,20,9,8,rgb('paper1'));im.disc(x+4,24,3,rgb('blue1'))
+            im.disc(x+4,24,2,rgb('paper0'))
+        im.rect(6,18,2,4,rgb('blue3'))            # a streak of daylight
+    elif kind=='ketel':
+        # Three steps below the pavement: what reaches the street is the light.
+        im.rect(5,24,38,5,rgb('gold1'))
+        im.rect(5,22,38,2,rgb('gold0'))
+        im.rect(8,20,6,8,rgb('wood0'))            # somebody at the near table
+        im.rect(9,18,4,3,rgb('wood0'))
+        for x in (21,25):im.rect(x,25,2,4,rgb('gold3'))   # two cups on the sill
+        im.rect(33,21,8,7,rgb('board1'))          # and a board, always
+        for i in (2,4,6):im.vline(33+i,21,7,rgb('line'))
+        for i in (2,4):im.hline(33,21+i*2,8,rgb('line'))
+    else:
+        for y in range(19,29,2):im.hline(6,y,36,rgb('ink2'))   # the shutter, down
+        im.rect(8,21,8,5,rgb('paper2'));im.hline(10,23,4,rgb('path0'))
+    im.rect(2,30,44,2,rgb('paper2'))              # the stone sill
+    im.hline(2,31,44,rgb('ink2'))
+    return im
 
 
 def demo():
@@ -125,7 +212,9 @@ def snack_stool():
 
 ASSETS={'study_desk':study_desk,'bed':bed,'laundry_basket':basket,'attic_roof':roof,
 'port_arch':arch,'dry_corner':dry_corner,'port_cargo':cargo,'review_board':lambda:notice('REVIEW'),
-'reception':reception,'school_glass':glass,'school_directions':directions,'tram_marker':marker,
+'reception':reception,'school_glass':glass,'school_directions':directions,'tram_stop':tram_stop,
+'shopfront_wassalon':lambda:shopfront('wassalon'),'shopfront_ketel':lambda:shopfront('ketel'),
+'shopfront_stationer':lambda:shopfront('stationer'),
 'demonstration':demo,'student_desk':student_desk,'snack_stool':snack_stool,'tea_station':tea}
 
 def build(out):

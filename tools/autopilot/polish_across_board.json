@@ -1,0 +1,161 @@
+[
+ {
+  "save": "invited",
+  "note": "Sitting down opposite somebody, at four different boards."
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true,
+  "timeout": 8
+ },
+ {
+  "walk_to": [
+   17,
+   15
+  ],
+  "timeout": 20
+ },
+ {
+  "wait": 0.4,
+  "shot": "bertie_table_from_the_park"
+ },
+ {
+  "walk_to": [
+   19,
+   16
+  ],
+  "timeout": 10
+ },
+ {
+  "face": [
+   18,
+   16
+  ]
+ },
+ {
+  "wait": 0.5,
+  "shot": "bertie_across_the_stone_table"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.2,
+  "shot": "bertie_talks_across_the_board"
+ },
+ {
+  "advance": 12,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.4,
+  "shot": "bertie_offer"
+ },
+ {
+  "choose": 1
+ },
+ {
+  "advance": 6
+ },
+ {
+  "walk_to": [
+   13,
+   9
+  ],
+  "timeout": 20
+ },
+ {
+  "face": [
+   13,
+   8
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true,
+  "timeout": 10
+ },
+ {
+  "walk_to": [
+   8,
+   3
+  ],
+  "timeout": 14
+ },
+ {
+  "face": [
+   8,
+   4
+  ]
+ },
+ {
+  "wait": 0.5,
+  "shot": "wren_across_the_teaching_board"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.2,
+  "shot": "wren_talks_across_the_board"
+ },
+ {
+  "advance": 14,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.4,
+  "shot": "wren_offer"
+ },
+ {
+  "choose": 2
+ },
+ {
+  "advance": 8
+ },
+ {
+  "walk_to": [
+   15,
+   3
+  ],
+  "timeout": 12
+ },
+ {
+  "face": [
+   15,
+   4
+  ]
+ },
+ {
+  "wait": 0.5,
+  "shot": "kesh_across_the_window_table"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.2,
+  "shot": "kesh_talks_across_the_board"
+ },
+ {
+  "advance": 14,
+  "stop_at_choice": true
+ },
+ {
+  "wait": 0.4,
+  "shot": "kesh_offer"
+ },
+ {
+  "quit": true
+ }
+]

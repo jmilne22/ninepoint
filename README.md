@@ -40,10 +40,18 @@ That's it. Godot 4.7 is required; on this machine it lives at `~/.local/bin/godo
 |---|---|
 | Arrow keys or WASD | walk |
 | Hold Shift while moving | run |
-| Space (or Enter / E / Z) | talk, read, advance dialogue, take the tram |
+| Space (or Enter / E / Z) | talk, read, advance dialogue, take the tram, go through a door |
 | Up / Down then Space | pick a dialogue choice |
 | Tab | menu — save game, save to another slot, back to title |
 | Esc | back out of a menu |
+
+Doorways say where they go. Stand in front of one and the name of the place appears at the
+bottom of the screen; walk into it or press Space. Inside a building the way out is the
+door with the mat in front of it.
+
+You can sit down opposite somebody at their board. Walk round to the far chair, face the
+board and press Space — Wren's teaching board, Kesh's window table, Joos's crate, Bertie's
+stone table in the park and every table in the novice room.
 
 **Saves**
 

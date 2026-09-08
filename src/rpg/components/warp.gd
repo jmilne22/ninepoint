@@ -38,6 +38,14 @@ func _player_inside() -> bool:
 
 
 func _on_body_entered(body: Node2D) -> void:
+    use(body)
+
+
+## Walking into a doorway and pressing [Space] in front of one are the same
+## thing. The step-on route has always existed; the second is what the
+## Doorway interactable MapBuilder hangs here calls, so a player who cannot
+## see which tile the door is on can still act on the prompt that names it.
+func use(body: Node2D) -> void:
     if not armed or not (body is Player):
         return
     if SceneRouter.is_busy():

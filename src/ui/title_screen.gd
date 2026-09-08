@@ -6,10 +6,18 @@ extends Control
 const ITEMS := ["New Game", "Continue", "Load Game", "Quit"]
 const OPENING_SCENE := "res://src/ui/opening.tscn"
 
+## The framed left column. Every position in it is measured off this rect.
+const CARD := Rect2(12, 10, 142, 186)
+const FIRST_ROW := 74
+const ROW_STEP := 16
+
 var _labels: Array[Label] = []
 var _index: int = 0
 var _busy := false
+var _card: Control
+var _cursor: Control
 var _info: Label
+var _hint: Label
 var _slots: SaveSlots
 
 
@@ -30,62 +38,62 @@ func _ready() -> void:
     # A title card needs a quiet place for type. The old screen put its title,
     # subtitle and save menu straight on the skyline and then placed the board
     # underneath them; it made the most important screen read like a debug
-    # overlay. The illustration now belongs to the right, the information to
-    # this framed left column.
-    UiKit.panel(self, Rect2(12, 12, 142, 192), true)
+    # overlay. The illustration belongs to the right, the information to this
+    # framed left column. Everything in the column is measured off CARD so the
+    # rules and the save line cannot drift away from the rows they divide.
+    _card = Control.new()
+    _card.set_anchors_preset(Control.PRESET_FULL_RECT)
+    _card.mouse_filter = Control.MOUSE_FILTER_IGNORE
+    add_child(_card)
+    UiKit.panel(_card, CARD, true)
 
-    var title := Label.new()
-    title.position = Vector2(24, 26)
-    title.size = Vector2(118, 24)
-    title.text = "NINEPOINT"
-    title.add_theme_font_override("font", UiKit.FONT)
-    title.add_theme_font_size_override("font_size", 21)
-    title.add_theme_color_override("font_color", Color("#f2d791"))
-    title.add_theme_color_override("font_shadow_color", Color("#14121a"))
-    title.add_theme_constant_override("shadow_offset_x", 2)
-    title.add_theme_constant_override("shadow_offset_y", 2)
-    add_child(title)
+    # Size 18, not 21. The bitmap font's native size is 9 and only whole
+    # multiples of it land on whole pixels; 21 was scaling the largest piece of
+    # type in the game by a seventh, which is the one thing a bitmap font is
+    # chosen to avoid (ART_DIRECTION 4b).
+    UiKit.shadow_label(_card, Vector2(CARD.position.x + 12, CARD.position.y + 12),
+        int(CARD.size.x) - 20, Color("#f2d791"), 18, 2).text = "NINEPOINT"
+    _rule(CARD.position.y + 36)
+    UiKit.shadow_label(_card, Vector2(CARD.position.x + 13, CARD.position.y + 42),
+        int(CARD.size.x) - 24, Color("#ddd0b8")).text = "Verhaven plays Go."
 
-    var sub := Label.new()
-    sub.position = Vector2(25, 55)
-    sub.size = Vector2(116, UiKit.LINE_H)
-    sub.text = "Verhaven plays Go."
-    sub.add_theme_font_override("font", UiKit.FONT)
-    sub.add_theme_font_size_override("font_size", 9)
-    sub.add_theme_color_override("font_color", Color("#ddd0b8"))
-    sub.add_theme_color_override("font_shadow_color", Color("#14121a"))
-    sub.add_theme_constant_override("shadow_offset_x", 1)
-    sub.add_theme_constant_override("shadow_offset_y", 1)
-    add_child(sub)
+    # A drawn cursor rather than a "> " prefix: the prefix moved every row's
+    # text two characters sideways as the selection passed it, and a menu that
+    # shuffles under the cursor is a menu that looks unfinished.
+    _cursor = Control.new()
+    _cursor.mouse_filter = Control.MOUSE_FILTER_IGNORE
+    _card.add_child(_cursor)
+    for i in 5:
+        var bar := ColorRect.new()
+        bar.color = Color("#f2d791")
+        bar.position = Vector2(0, i)
+        bar.size = Vector2(3 - absi(i - 2), 1)
+        _cursor.add_child(bar)
 
-    var y := 94
+    var y := int(CARD.position.y + FIRST_ROW)
     for item in ITEMS:
-        var l := Label.new()
-        l.position = Vector2(25, y)
-        l.size = Vector2(110, UiKit.LINE_H)
-        l.add_theme_font_override("font", UiKit.FONT)
-        l.add_theme_font_size_override("font_size", 9)
-        l.add_theme_color_override("font_shadow_color", Color("#14121a"))
-        l.add_theme_constant_override("shadow_offset_x", 1)
-        l.add_theme_constant_override("shadow_offset_y", 1)
+        var l := UiKit.shadow_label(_card, Vector2(CARD.position.x + 20, y),
+            int(CARD.size.x) - 30, Color("#ddd0b8"))
         l.text = item
-        add_child(l)
         _labels.append(l)
-        y += 16
+        y += ROW_STEP
+
+    _rule(CARD.position.y + 138)
 
     # Built once and driven by _refresh(): deleting the newest save used to
-    # leave this line describing a file that no longer existed.
-    _info = Label.new()
-    _info.position = Vector2(25, 169)
-    _info.size = Vector2(110, 24)
+    # leave this line describing a file that no longer existed. It sits inside
+    # the card now instead of over the skyline, where a known-issue note in
+    # MILESTONES has had it since M31.
+    _info = UiKit.shadow_label(_card, Vector2(CARD.position.x + 13, CARD.position.y + 145),
+        int(CARD.size.x) - 24, Color("#f2e9d8"))
+    _info.size.y = 22
     _info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-    _info.add_theme_font_override("font", UiKit.FONT)
-    _info.add_theme_font_size_override("font_size", 9)
-    _info.add_theme_color_override("font_color", Color("#f2e9d8"))
-    _info.add_theme_color_override("font_shadow_color", Color("#14121a"))
-    _info.add_theme_constant_override("shadow_offset_x", 1)
-    _info.add_theme_constant_override("shadow_offset_y", 1)
-    add_child(_info)
+
+    # Inside the card, not under it: at 384x216 there are twenty pixels below
+    # the panel and a nine-pixel line put on them lands on the letterbox.
+    _hint = UiKit.shadow_label(_card, Vector2(CARD.position.x + 13,
+        CARD.position.y + 168), int(CARD.size.x) - 24, Color("#6b6577"))
+    _hint.text = "Up Down     Space"
 
     _slots = SaveSlots.new()
     _slots.chosen.connect(_on_slot_chosen)
@@ -94,6 +102,31 @@ func _ready() -> void:
     add_child(_slots)
 
     _refresh()
+    _fade_in()
+
+
+## A hairline the width of the card's type column, between the blocks.
+func _rule(y: float) -> void:
+    var line := ColorRect.new()
+    line.color = Color("#6b6577")
+    line.position = Vector2(CARD.position.x + 13, y)
+    line.size = Vector2(CARD.size.x - 26, 1)
+    _card.add_child(line)
+
+
+## The illustration comes up, then the card. Skipped under the autopilot: a
+## hundred fixture scripts wait 0.8s and press a key, and a title screen that
+## is still fading when they do is a title screen that eats the key.
+func _fade_in() -> void:
+    if Autopilot.active:
+        return
+    _card.modulate.a = 0.0
+    _hint.modulate.a = 0.0
+    modulate = Color(1, 1, 1, 0)
+    var t := create_tween()
+    t.tween_property(self, "modulate:a", 1.0, 0.45)
+    t.parallel().tween_property(_card, "modulate:a", 1.0, 0.7).set_delay(0.25)
+    t.parallel().tween_property(_hint, "modulate:a", 1.0, 0.7).set_delay(0.45)
 
 
 func _enabled(i: int) -> bool:
@@ -111,10 +144,14 @@ func _refresh() -> void:
         _info.text = SaveSystem.slot_summary(slot)
     for l in _labels:
         l.visible = not listing
+    _card.visible = not listing
+    _hint.visible = not listing
+    _cursor.position = Vector2(CARD.position.x + 13,
+        CARD.position.y + FIRST_ROW + _index * ROW_STEP + 2)
+    _cursor.visible = not listing
     for i in _labels.size():
         var enabled := _enabled(i)
         var selected := i == _index
-        _labels[i].text = ("> " if selected else "  ") + ITEMS[i]
         var colour := Color("#f2d791") if selected else Color("#ddd0b8")
         if not enabled:
             colour = Color("#6b6577")
@@ -125,13 +162,9 @@ func _unhandled_input(event: InputEvent) -> void:
     if _busy or _slots.visible:
         return
     if event.is_action_pressed("move_down"):
-        _index = (_index + 1) % ITEMS.size()
-        Audio.play("ui_move")
-        _refresh()
+        _step(1)
     elif event.is_action_pressed("move_up"):
-        _index = (_index - 1 + ITEMS.size()) % ITEMS.size()
-        Audio.play("ui_move")
-        _refresh()
+        _step(-1)
     elif event.is_action_pressed("interact"):
         if not _enabled(_index):
             return
@@ -140,6 +173,24 @@ func _unhandled_input(event: InputEvent) -> void:
     else:
         return
     get_viewport().set_input_as_handled()
+
+
+## The cursor never lands on a row that would do nothing. With no save on disk,
+## Continue and Load Game are greyed out, and stepping onto them and pressing
+## [Space] used to be a key that produced silence -- the menu looked broken
+## rather than answered. New Game and Quit are always enabled, so this always
+## finds a row.
+func _step(by: int) -> void:
+    var next := _index
+    for _i in ITEMS.size():
+        next = (next + by + ITEMS.size()) % ITEMS.size()
+        if _enabled(next):
+            break
+    if next == _index:
+        return
+    _index = next
+    Audio.play("ui_move")
+    _refresh()
 
 
 func _activate() -> void:

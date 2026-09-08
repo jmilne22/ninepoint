@@ -54,6 +54,8 @@ src/
     go_rank.gd          the kyu/dan scale, handicap between two ranks, ranks per stone
     go_rank_ladder.gd   how a rank moves: one step, in the direction the result says
     go_table_talk.gd    what just happened at the board, as tags a person could react to
+    go_mood.gd          those tags, as the NAME of a face — never a texture, so this
+                        file still does not know that portraits or a match scene exist
 
   go_ai/              OPPONENTS — depend on go/ only
     go_opponent.gd      abstract interface: choose_move(game) -> Move  (async-capable)
@@ -80,6 +82,10 @@ src/
   rpg/                THE WORLD
     player/             player character body, input, interaction ray
     npc/                NPC body, idle behaviour, passers-by
+    npc/portrait_moods.gd  the portrait strip's column order, in one place: the
+                        generator, the dialogue box, the ceremony and the match
+                        panel all read it, and an unknown name fails a test
+                        rather than silently drawing a neutral face
     maps/               city exteriors, interiors, spawn points, doors
     components/         reusable: Interactable, Warp, Facing, CharacterSprite
     props/tram.gd       the tram: passes on its own, and pulls in when you board it
@@ -402,6 +408,22 @@ writing those slots and propagates game failures. Keep engine checks serial.
 - No script over ~300 lines; if it grows, it wants to be a component.
 - `assert()` for programmer errors, `push_error()` for data errors, never silent failure.
 - Godot 4.7: `TileMapLayer` (not `TileMap`), typed arrays, `@onready`, `await`.
+
+## 10b. Two seams added by POLISH-02
+
+**A doorway is an Interactable hung on the Warp.** Warps have always fired on
+`body_entered` and always carried a `prompt` that nothing read. `MapBuilder.build_warps`
+now gives each one a child `Interactable` at `Interactable.PRIORITY_DOORWAY` (0 — below a
+sign at 1 and a person at 2) whose `interacted` calls `Warp.use()`, the same method
+`body_entered` calls. Walking in and pressing [Space] are one code path, and the HUD prompt
+comes from the map data that was already there.
+
+**A seated opponent's Interactable has a second box on the far chair.** `seat_across` is a
+tile in the map data; `MapBuilder` converts it to a world position before the Npc enters
+the tree and `Npc._build_far_seat()` adds one more `CollisionShape2D` to the *same*
+`$Interact` area — one Interactable, one priority, one `interacted` signal. Nothing about
+the probe changed: `PROBE_REACH` is still 12.0, which `gen_maps.validate()`'s sign rules
+are written against.
 
 ## 11. Known architectural risks
 

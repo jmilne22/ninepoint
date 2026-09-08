@@ -205,6 +205,30 @@ Acceptance is observed play, with automation supporting branch coverage. See
 `docs/overhaul/PLAYTEST.md` for journeys, fixtures, mistakes found and representative screens.
 
 
+## Reading the town — POLISH-02
+
+The owner played the build and named nine presentation faults, none of which any gate
+could see. The unifying one is that the world did not tell the player what it was: the
+street ran off the edge of the map with nothing at either end, doorways carried a
+destination string that no code had ever read, the tram stop was a lamp post with a sign
+beside it, the way down to the water was two grey steps in thirty-four tiles of railing,
+and the board on the attic desk was three times the width of the person looking at it.
+
+The fixes are presentation and level composition only: no engine, rank, progression,
+curriculum or dialogue-content change. Two of them are structural rather than cosmetic and
+are worth stating as rules. **The map boundary is closed unless it is a door**, enforced in
+`gen_maps.validate()` — three separate places could have caught the twenty open tiles on
+Ketelsteeg and none of them looked. Closing it does not mean building something there: the
+street runs on off the frame and the boundary column is simply not walkable. And **a board is two tiles deep while the interaction
+probe reaches one**, so every seated opponent declares the chair on the far side of their
+board; before that you could speak to Wren from three sides and not from the one a second
+player sits at, and at Bertie's stone table the far side did nothing at all.
+
+The opponent's portrait now changes with the board. It is driven by `GoMood`, a pure
+mapping from the tags `GoTableTalk` has always emitted, which finally gives `standing()`
+and both `edge_early` tags a consumer. The line M25 drew still holds: these are reactions
+to what happened, not to what should have been played. Judgement belongs to the review.
+
 ## Board mouse support — UI-02
 
 The board encounter supports mouse targeting and clickable actions through results and

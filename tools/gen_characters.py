@@ -2,7 +2,7 @@
 
 Sprite sheet: 3 frames (idle, step A, step B) x 4 directions (down,left,right,up)
               at 16x24 -> 48x96 per character.
-Portrait:     4 expressions (neutral, happy, annoyed, working) at 64x64 -> 256x64.
+Portrait:     7 expressions at 64x64 -> 448x64, in the order of EXPRESSIONS below.
 """
 import os
 import sys
@@ -14,6 +14,13 @@ from characters import CHARACTERS
 
 W, H = 16, 24
 DIRS = ["down", "left", "right", "up"]
+
+# The portrait strip's column order. `src/rpg/npc/portrait_moods.gd` holds the
+# same list for the game side, and tests/test_data.gd measures a real strip
+# against it, because the only thing that goes wrong here goes wrong silently:
+# an unknown mood name resolves to column 0 and the face simply never changes.
+EXPRESSIONS = ["neutral", "happy", "annoyed", "working",
+               "thinking", "worried", "pleased"]
 
 
 # ============================================================== overworld sprite
@@ -230,10 +237,22 @@ def portrait(c, expression="neutral"):
     _hair_front(im, c, hair_d, hair_l)
 
     # 6. face
+    #
+    # Seven expressions, from three features and the same geometry every
+    # character shares, so identity survives the change. `annoyed` and `happy`
+    # were the whole vocabulary until the opponent's portrait started reacting
+    # to the board: one face had to carry losing a group, being cut, and being
+    # asked a question, and it read as sulking. `worried` is `angled` inverted
+    # -- inner brow ends UP, which is the one shape a scowl cannot be mistaken
+    # for -- `thinking` narrows the lids without moving the mouth, and
+    # `pleased` is the quiet version of `happy`, whose closed-eye grin is far
+    # too much for taking four stones off.
     brow = c["brow"]
     if expression == "annoyed":
         brow = "angled"
-    elif expression == "happy" and brow != "angled":
+    elif expression == "worried":
+        brow = "worried"
+    elif expression in ("happy", "pleased") and brow != "angled":
         brow = "raised"
 
     for i, ex in enumerate((23, 36)):
@@ -241,6 +260,14 @@ def portrait(c, expression="neutral"):
             im.hline(ex, EYE_Y + 2, 5, ink)
             im.set(ex, EYE_Y + 1, ink)
             im.set(ex + 4, EYE_Y + 1, ink)
+        elif expression == "thinking":
+            # Eyes off the board, up and to one side. A half-closed lid was the
+            # first attempt and it is invisible at 64px: one pixel of eyelid on
+            # a four-pixel eye is not an expression. Where somebody is looking
+            # is legible at any size.
+            im.rect(ex, EYE_Y + 1, 5, 4, rgb("paper0"))
+            im.rect(ex + 2, EYE_Y + 1, 3, 2, ink)
+            im.hline(ex, EYE_Y, 5, sk_d)
         else:
             im.rect(ex, EYE_Y + 1, 5, 4, rgb("paper0"))
             im.rect(ex + 1, EYE_Y + 2, 3, 2, ink)
@@ -254,6 +281,8 @@ def portrait(c, expression="neutral"):
             yy = by
             if brow == "angled":
                 yy = by + (k if i == 0 else 4 - k) // 2
+            elif brow == "worried":
+                yy = by - (k if i == 0 else 4 - k) // 2 + 1
             im.rect(ex + k, yy, 1, 2, hair_d)
 
     im.rect(31, NOSE_Y, 2, 4, sk_d)
@@ -262,8 +291,14 @@ def portrait(c, expression="neutral"):
     mouth = c["mouth"]
     if expression == "happy":
         mouth = "grin"
+    elif expression == "pleased":
+        mouth = "smile"
     elif expression == "annoyed":
         mouth = "frown"
+    elif expression == "worried":
+        mouth = "small"
+    elif expression == "thinking":
+        mouth = "flat"
     if mouth == "flat":
         im.rect(28, MOUTH_Y, 8, 1, rgb("ink2"))
     elif mouth == "small":
@@ -438,8 +473,8 @@ def build(out_sprites, out_portraits):
         # portrait strip of somebody with no name is dead weight in the repo.
         if c.get("extra"):
             continue
-        strip = Img(64 * 4, 64)
-        for i, expr in enumerate(("neutral", "happy", "annoyed", "working")):
+        strip = Img(64 * len(EXPRESSIONS), 64)
+        for i, expr in enumerate(EXPRESSIONS):
             strip.blit(portrait(c, expr), i * 64, 0)
         strip.save(os.path.join(out_portraits, "%s.png" % c["id"]))
     return len(CHARACTERS)

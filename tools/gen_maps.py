@@ -54,7 +54,8 @@ LEGEND = {
     "y": "bike_rack", "l": "tram_pole", "m": "wall_brick", "0": "wall_brick_win",
     "_": "wall_brick_base", "&": "graffiti", "5": "shutter", "6": "shutter_sign",
     "(": "arch_left", ")": "arch_right", "7": "arch_shade", "8": "neon_sign",
-    "9": "snack_window", "<": "stairs_down", "+": "concrete", "*": "glass_curtain",
+    "9": "snack_window", "<": "stairs_down", ">": "stairs_up", "/": "tram_platform",
+    "+": "concrete", "*": "glass_curtain",
     # interior
     "$": "stove", "?": "hooks", ",": "floor_concrete", "k": "washer",
     "1": "floor_wood_a", "2": "floor_wood_b", "3": "floor_mat", "4": "rug",
@@ -77,7 +78,7 @@ LEGEND = {
 # was found by breaking it on purpose: adding a new tile to it and taking it
 # out again changed nothing either way. Do not reintroduce it; the list that
 # decides is the one below.
-WALKABLE_OVERRIDE = set("PKcvghjfrz1234" "a=!q%7<,")
+WALKABLE_OVERRIDE = set("PKcvghjfrz1234" "a=!q%7<>,/")
 
 
 def ketelsteeg():
@@ -110,6 +111,13 @@ def ketelsteeg():
     for x in (0, 9, 18, 27):                   # the gaps between are dark alleys
         for y in range(0, 9):
             ground.set(x, y, "x")
+    # ...and the three between the buildings open onto the pavement. The street
+    # closes on brick at both ends now, so the passers-by cannot walk on from
+    # off the map any more; they come out of these instead, which is where the
+    # people on a street like this actually come from. A player who follows one
+    # in finds a shadow one tile deep, which is what an alley mouth is.
+    for x in (9, 18, 27):
+        ground.set(x, 8, "7")
 
     # doors, at the one row a standing player can face
     home_door, ketel_steps, wash_door = 4, 13, 22
@@ -152,7 +160,15 @@ def ketelsteeg():
     # street furniture. All of it solid, all of it on the upper pavement row so
     # the lower row stays a clear walk from one end of the street to the other.
     ground.set(1, 9, "l")                      # the tram pole, at the stop
-    ground.set(3, 9, "n")                      # the noticeboard
+    # A stop needs to look like a stop. The pole and a 32x48 TRAM 4 board at
+    # the map's edge were the whole of it, on pavement identical to the
+    # pavement everywhere else, so the one place in Steenbeek that takes you
+    # out of Steenbeek read as a lamp post. The shelter is a prop (dress());
+    # this is the platform under it, in poured concrete, which is what says
+    # "wait here" before you have read anything.
+    for px in (1, 2, 3):
+        ground.set(px, 10, "/")
+    ground.set(6, 9, "n")                      # the noticeboard, clear of it
     ground.set(8, 9, "y")                      # bike racks nobody uses properly
     ground.set(20, 9, "o")
     ground.set(26, 9, "L")
@@ -165,12 +181,21 @@ def ketelsteeg():
             "hggjgghjgghgggjhggjgghjgghjggjhggg"]
     for i, line in enumerate(park):
         ground.row(15 + i, 0, (line + "g" * W)[:W])
+
     ground.row(19, 0, "-" * W)
     for px in range(0, W, 6):
         ground.set(px, 19, "|")
-    quay_steps = 16
-    ground.set(quay_steps, 19, "<")            # the gap in the railing
-    ground.set(quay_steps + 1, 19, "<")
+    # The way down to the water was two grey steps in a thirty-four tile run of
+    # railing, in the same greys as the pavement, with no sign, no path and no
+    # lamp: you found the quay by walking into it. It is now a gap you can see
+    # from the road, with a gravel path worn across the grass towards it.
+    quay_steps = 15
+    for sx in range(quay_steps, quay_steps + 3):
+        ground.set(sx, 19, "<")
+    for py in range(15, 19):
+        for px in range(quay_steps, quay_steps + 3):
+            ground.set(px, py, "r")
+    ground.set(19, 18, "L")                    # a lamp at the top of the steps
 
     for tx, ty in ((4, 15), (12, 15), (25, 15)):
         ground.set(tx, ty, "T")
@@ -185,8 +210,17 @@ def ketelsteeg():
 
     walkable = {(ketel_steps, 8), (ketel_steps + 1, 8), (home_door + 1, 8),
                 (wash_door, 8), (wash_door + 1, 8),
-                (quay_steps, 19), (quay_steps + 1, 19)}
-    solid = solid_mask(ground, extra_walkable=walkable)
+                (quay_steps, 19), (quay_steps + 1, 19), (quay_steps + 2, 19)}
+    # Both ends of the street. The pavement, the road and the park are laid
+    # with full-width row fills, so column 0 and column W-1 were walkable from
+    # row 9 to row 18 -- twenty tiles of map boundary with nothing behind them.
+    # The camera is clamped to the map and the player never was, so walking
+    # west from the tram stop or east past the arch slid you off the frame.
+    # The tiles stay exactly as they are drawn: the street runs on past the
+    # edge of the screen, as a street does, and the rails run with it so the
+    # tram still crosses the whole map. You simply stop where the camera does.
+    edge = {(x, y) for x in (0, W - 1) for y in range(9, 19)}
+    solid = solid_mask(ground, extra_walkable=walkable, extra_solid=edge)
 
     return {
         "name": "Ketelsteeg",
@@ -203,7 +237,7 @@ def ketelsteeg():
             "from_arch": [arch_x, 9],
             # Coming back off the southbound tram from Essenveld.
             "from_tram": [1, 10],
-            "from_quay": [quay_steps, 18],
+            "from_quay": [quay_steps + 1, 18],
             "from_wassalon": [wash_door, 9],
             "park": [18, 17],
         },
@@ -232,6 +266,8 @@ def ketelsteeg():
              "prompt": "Down to the water"},
             {"tile": [quay_steps + 1, 19], "map": "quay", "spawn": "from_park",
              "prompt": "Down to the water"},
+            {"tile": [quay_steps + 2, 19], "map": "quay", "spawn": "from_park",
+             "prompt": "Down to the water"},
         ],
         "signs": [
             # The tram stop, at the pole. A sign with a prompt rather than a
@@ -245,7 +281,9 @@ def ketelsteeg():
                  "flag": "ranked_by_club",
                  "refused": "Tram 4 goes south to the federation hall. Nothing down there for somebody with no rank."},
             ]})},
-            {"tile": [3, 9], "text": "STEENBEEK BEGINNER CUP -- entries at the Bondszaal, by tram. All ranks 15k and below."},
+            {"tile": [quay_steps - 2, 19], "prompt": "The steps",
+             "text": "TO THE QUAY. Steps down to the water. The bench at the bottom is the driest thing in Steenbeek."},
+            {"tile": [6, 9], "text": "STEENBEEK BEGINNER CUP -- entries at the Bondszaal, by tram. All ranks 15k and below."},
             {"tile": [home_door, 8], "text": "A stationer's, shuttered since before you came. Your stairs are the door beside it, and the landlord's cat owns the landing."},
             {"tile": [ketel_steps + 2, 8], "text": "DE KETEL. Three steps down. The bar is Tomas's and so is the back room, which has had a board in it for sixty years."},
             {"tile": [wash_door - 1, 8], "text": "WASSALON -- open till two. The warmest room on Ketelsteeg, and nobody minds if you only sit."},
@@ -255,14 +293,17 @@ def ketelsteeg():
         "npcs": [
             {"id": "pip", "tile": [10, 16], "dir": "down", "idle": "wander"},
             # "Four kyu, forty years, one park bench." He sits at the stone table.
-            {"id": "bertie", "tile": [17, 16], "dir": "right", "idle": "tend"},
+            {"id": "bertie", "tile": [17, 16], "dir": "right", "idle": "tend",
+             # The far side of the stone table. Walking round it and pressing
+             # [Space] used to produce nothing at all: no prompt, no response.
+             "seat_across": [19, 16]},
         ],
         # Two pavements, and nobody walks the tram tracks between them. The
         # ends sit off the grid on purpose: a pedestrian who pops into being
         # at x=0 is a pedestrian you notice appearing.
         "routes": [
-            {"path": [[-2, 10], [35, 10]], "rate": 9.0},
-            {"path": [[-2, 14], [35, 14]], "rate": 13.0},
+            {"path": [[9, 8], [9, 10], [18, 10], [18, 8]], "rate": 9.0},
+            {"path": [[18, 8], [18, 10], [27, 10], [27, 8]], "rate": 13.0},
         ],
         "music": "theme_street",
         "indoors": False,
@@ -351,7 +392,7 @@ def wassalon():
         "signs":[
             {"tile":[4,4],"text":"Please empty your pockets. Lost buttons are in the jar by the folding counter."},
             {"tile":[17,2],"text":"ROOM TO LET. Ask at the snack window. Below it: Cup entries at the Bondszaal."},
-            {"tile":[11,6],"text":"A Go board between two bowls. Someone has put felt under the table legs."}],
+            {"tile":[10,6],"text":"A Go board between two bowls. Someone has put felt under the table legs."}],
         "npcs":[
             {"id":"abel","tile":[6,7],"dir":"left","idle":"study"},
             {"id":"dov","tile":[11,7],"dir":"up","idle":"study"},
@@ -448,6 +489,7 @@ def quay():
     for y in range(8, H):
         ground.row(y, 0, ":" * W)
 
+
     # Standing water on the flags. The puddle tile has a when_wet animation and
     # has done since M16; it just never ran, because nothing in the game ever
     # made it rain. Ketelsteeg and Onderbrug already had five between them, and
@@ -468,7 +510,10 @@ def quay():
     steps_x = 12
     ground.set(steps_x, 0, "<")
     ground.set(steps_x + 1, 0, "<")
-    solid = solid_mask(ground, extra_walkable={(steps_x, 0), (steps_x + 1, 0)})
+    # The quay's six pavement rows are laid full width too. Same treatment:
+    # the flags carry on past the frame and you stop where the camera stops.
+    solid = solid_mask(ground, extra_walkable={(steps_x, 0), (steps_x + 1, 0)},
+                       extra_solid={(x, y) for x in (0, W - 1) for y in range(1, 7)})
 
     return {
         "name": "The quay",
@@ -713,7 +758,7 @@ def academy_hall():
     ground.set(0, 7, "M")
     ground.set(0, 10, "M")
     ground.set(W - 1, 7, "M")
-    ground.set(W - 2, 3, "P")        # the stair up, drawn as pavement stone
+    ground.set(W - 2, 3, ">")        # the stair up to the dormitory
 
     solid = solid_mask(ground, extra_walkable={
         (10, H - 1), (11, H - 1), (0, 7), (0, 10), (W - 1, 7), (W - 2, 3)})
@@ -776,7 +821,12 @@ def academy_novice():
         "spawns": {"from_hall": [w-2,10]},
         "warps": [{"tile": [w-1,10], "map": "academy_hall", "spawn": "from_novice", "prompt": "Hall"}],
         "signs": [{"tile": [11,2], "text": "__LEAGUE_BOARD__"}],
-        "npcs": [{"id": id, "tile": [x+1,y+2], "dir": "up", "idle": idle}
+        # `seat_across` is the chair on the other side of each table: the board
+        # is two tiles deep and the interaction probe reaches one, so before it
+        # existed you could speak to a novice from three sides and not from the
+        # one a second player actually sits at.
+        "npcs": [{"id": id, "tile": [x+1,y+2], "dir": "up", "idle": idle,
+                  "seat_across": [x+1,y-1]}
                  for id,x,y,idle in [("noor",3,4,"arrange"),("ivo",10,4,"play"),
                     ("lea",17,4,"read"),("emil",5,10,"arrange"),("sora",14,10,"play")]],
         "art_props": [{"art": "novice_"+person, "position": [x*16,y*16]}
@@ -945,13 +995,21 @@ def academy_dorm():
     }
 
 
-def solid_mask(grid, extra_walkable=frozenset()):
+def solid_mask(grid, extra_walkable=frozenset(), extra_solid=frozenset()):
+    """`extra_solid` blocks a tile without changing what it looks like.
+
+    Used at the two open ends of the world. The first attempt walled them with
+    brick, which put a building through the middle of the road and gave the
+    tram something to drive through; the street should simply run out of screen
+    at the point the camera stops following you.
+    """
     rows = []
     for y in range(grid.h):
         line = ""
         for x in range(grid.w):
             ch = grid.rows[y][x]
-            walkable = ch in WALKABLE_OVERRIDE or (x, y) in extra_walkable
+            walkable = (ch in WALKABLE_OVERRIDE or (x, y) in extra_walkable) \
+                and (x, y) not in extra_solid
             line += "0" if walkable else "1"
         rows.append(line)
     return rows
@@ -992,6 +1050,19 @@ def validate(name, data):
     for warp in data["warps"]:
         if tuple(warp["tile"]) not in reached:
             problems.append("%s: exit to %s cannot be reached" % (name, warp["map"]))
+    # A chair on the far side of a board is only a chair if somebody can get to
+    # it and sit down; the furniture between it and its owner is solid, so it
+    # cannot be checked by the same rule as a neighbouring tile.
+    for npc in data["npcs"]:
+        seat = npc.get("seat_across")
+        if seat is None:
+            continue
+        x, y = seat
+        if not walkable(x, y):
+            problems.append("%s: %s's far seat at %d,%d is solid" % (name, npc["id"], x, y))
+        elif (x, y) not in reached:
+            problems.append("%s: %s's far seat at %d,%d cannot be reached"
+                            % (name, npc["id"], x, y))
     # Presence states are event-driven map variants, never a schedule. They
     # may replace the visible cast, but every placement is still held to the
     # same walkability rule as the base map.
@@ -1010,6 +1081,23 @@ def validate(name, data):
         x, y = w["tile"]
         if solid[y][x] != "0":
             problems.append("%s: warp to %s at %d,%d is solid" % (name, w["map"], x, y))
+    # The map boundary is a wall unless it is a door. Nothing enforced this:
+    # `solid_mask` is a whitelist over authored tiles, `MapBuilder` emits
+    # collision only for solid tiles *inside* the grid, and the player has no
+    # position clamp -- three places this could have been caught and none of
+    # them looked. Ketelsteeg shipped with twenty open boundary tiles and the
+    # quay with twelve, so walking to either end of the street took the player
+    # off the grid while the camera stayed where it was clamped.
+    doors = {tuple(w["tile"]) for w in data["warps"]}
+    height = len(solid)
+    for y in range(height):
+        width = len(solid[y])
+        for x in range(width):
+            if x not in (0, width - 1) and y not in (0, height - 1):
+                continue
+            if solid[y][x] == "0" and (x, y) not in doors:
+                problems.append("%s: the map edge at %d,%d is walkable and is not a door"
+                                % (name, x, y))
     for s_ in data["signs"]:
         x, y = s_["tile"]
         if walkable(x, y):

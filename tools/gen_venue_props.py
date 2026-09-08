@@ -9,17 +9,21 @@ def box(im,x,y,w,h,fill,edge='ink1'):
 
 
 def washer_bank():
-    im=Img(128,40)
+    """Four machines. They used to be 32 by 36 each -- twice a person's width
+    and half again their height -- which is what a screenshot of this room
+    looked wrong for. A front loader is about 60cm across beside somebody 170cm
+    tall, so beside a 16 by 24 sprite it is a little over a tile."""
+    im=Img(80,26)
     for i in range(4):
-        x=i*32
-        box(im,x,2,32,36,'paper1');im.hline(x+1,3,30,rgb('paper0'))
-        box(im,x+3,5,26,7,'paper2');im.rect(x+6,7,8,2,rgb('teal0'))
-        im.disc(x+24,8,2,rgb('ink3'))
-        im.disc(x+16,24,12,rgb('ink2'));im.disc(x+16,24,10,rgb('paper0'))
-        im.disc(x+16,24,8,rgb('blue0'));im.disc(x+16,26,5,rgb('blue1'))
-        im.rect(x+12,25,7,4,rgb('paper2' if i%2 else 'rust1'))
-        im.hline(x+11,18,6,rgb('blue2'));im.rect(x+24,22,2,5,rgb('ink2'))
-        im.hline(x+4,38,24,rgb('ink1'))
+        x=i*20
+        box(im,x,1,20,23,'paper1');im.hline(x+1,2,18,rgb('paper0'))
+        box(im,x+2,3,16,4,'paper2');im.rect(x+3,4,5,1,rgb('teal0'))
+        im.set(x+16,4,rgb('ink3'))
+        im.disc(x+10,15,7,rgb('ink2'));im.disc(x+10,15,6,rgb('paper0'))
+        im.disc(x+10,15,4,rgb('blue0'));im.disc(x+10,16,2,rgb('blue1'))
+        im.rect(x+8,16,3,3,rgb('paper2' if i%2 else 'rust1'))
+        im.hline(x+7,10,3,rgb('blue2'))
+        im.hline(x+2,24,15,rgb('ink1'))
     return im
 
 
@@ -39,14 +43,22 @@ def counter(laundry=False):
 
 
 def table():
+    """A table with a board on it.
+
+    The table is the right size for a bar; the board on it was not. It was 24
+    by 22 -- one and a half times a person's width, and it floated off the back
+    edge -- so every room with a game in it read as furniture at two different
+    scales. A goban is about 45cm across, which is a person's shoulders: on a
+    16 by 24 sprite that is a tile. The bowls came down with it.
+    """
     im=Img(48,32)
     box(im,4,25,4,7,'wood0');box(im,40,25,4,7,'wood0')
     box(im,0,5,48,22,'wood1');im.hline(2,6,44,rgb('wood3'))
-    box(im,12,2,24,22,'gold2')
-    for i in range(7):
-        im.hline(15,5+i*2,17,rgb('wood1'));im.vline(15+i*3,5,15,rgb('wood1'))
-    im.disc(7,12,4,rgb('ink1'));im.disc(41,17,4,rgb('paper0'))
-    for x,y,c in [(18,9,'ink0'),(27,15,'paper0'),(21,15,'ink0')]:im.disc(x,y,1,rgb(c))
+    box(im,16,9,16,14,'gold2')
+    for i in range(6):
+        im.hline(18,11+i*2,13,rgb('wood1'));im.vline(18+i*2,11,11,rgb('wood1'))
+    im.disc(9,15,2,rgb('ink1'));im.disc(39,18,2,rgb('paper0'))
+    for x,y,c in [(20,13,'ink0'),(26,17,'paper0'),(22,17,'ink0')]:im.set(x,y,rgb(c))
     return im
 
 

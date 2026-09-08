@@ -1,0 +1,13 @@
+[
+ {"save": {}, "note": "No saves: Continue and Load Game must be unreachable, and the cold open must not be black."},
+ {"wait": 1.0, "shot": "a_title_no_saves"},
+ {"tap": "move_down"},
+ {"wait": 0.4, "shot": "b_cursor_skipped_to_quit"},
+ {"tap": "move_up"},
+ {"wait": 0.4, "shot": "c_back_to_new_game"},
+ {"tap": "interact"},
+ {"wait": 1.5, "shot": "d_opening_backdrop"},
+ {"tap": "interact", "times": 3, "gap": 0.5},
+ {"wait": 1.0, "shot": "e_opening_name"},
+ {"quit": true}
+]

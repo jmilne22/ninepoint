@@ -1,0 +1,15 @@
+[
+ {"save": {"1": {"preset": "invited", "name": "Ro", "minutes": 22}},
+  "note": "The title card, with a save to summarise."},
+ {"wait": 1.2, "shot": "title_new_game"},
+ {"tap": "move_down"},
+ {"wait": 0.4, "shot": "title_continue"},
+ {"tap": "move_down", "times": 2, "gap": 0.2},
+ {"wait": 0.4, "shot": "title_quit"},
+ {"tap": "move_up"},
+ {"tap": "interact"},
+ {"wait": 0.6, "shot": "title_load_list"},
+ {"tap": "cancel"},
+ {"wait": 0.5, "shot": "title_after_cancel"},
+ {"quit": true}
+]
