@@ -353,6 +353,12 @@ of the building. The first attempt was an opaque slab with a coloured bar across
 pasted over the wall with its own edges showing, and it read as a sticker. What is behind
 the glass is drawn at the size that thing really is — three small machines at the
 laundrette, warm light up out of a basement at The Kettle, a shutter down at the stationer's.
+Tram 4 is a white, low-floor articulated light-rail vehicle, inspired by the owner's
+supplied photograph. Its five sections, dark continuous glazing, rounded double-ended
+cabs and rooftop equipment are drawn in `tools/gen_props.py` at 160×36. Keep the central
+door at the sprite centre so boarding aligns with the existing stop. The tram uses its
+own white/glass colors; character palettes remain untouched.
+
 The Tram 4 stop is a shelter with the route board on its roof, over a poured boarding slab.
 
 **The town does not end in a wall.** Market Lane's pavement, road, rails and park all run

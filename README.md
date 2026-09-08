@@ -313,6 +313,7 @@ old/new comparisons and actual gameplay captures for reviewing this first packag
 Market Lane, Sea Walk and the Arcade form a short walking loop. The garden steps lead
 to the water; the steps at Sea Walk's east end return through the Arcade. Joos's board
 is in the passage's quiet side alcove. The review board remains beside the shaded sea bench.
+Tram 4 is a white articulated light-rail vehicle with rounded cabs and dark windows.
 
 All existing characters, portraits and sprites are preserved. Old saves retain their
 progress; the first load after this layout change places you at a safe named entrance.

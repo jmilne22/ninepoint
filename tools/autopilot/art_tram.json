@@ -1,0 +1,451 @@
+[
+  {
+    "save": "invited"
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "walk_to": [
+      16,
+      13
+    ],
+    "timeout": 20
+  },
+  {
+    "wait": 1,
+    "shot": "passing_01"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_02"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_03"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_04"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_05"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_06"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_07"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_08"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_09"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_10"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_11"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_12"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_13"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_14"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_15"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_16"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_17"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_18"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_19"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_20"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_21"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_22"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_23"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_24"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_25"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_26"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_27"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_28"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_29"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_30"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_31"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_32"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_33"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_34"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_35"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_36"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_37"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_38"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_39"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_40"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_41"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_42"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_43"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_44"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_45"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_46"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_47"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_48"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_49"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_50"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_51"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_52"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_53"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_54"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_55"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_56"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_57"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_58"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_59"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_60"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_61"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_62"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_63"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_64"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_65"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_66"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_67"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_68"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_69"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_70"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_71"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_72"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_73"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_74"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_75"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_76"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_77"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_78"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_79"
+  },
+  {
+    "wait": 1,
+    "shot": "passing_80"
+  },
+  {
+    "walk_to": [
+      1,
+      10
+    ],
+    "timeout": 20
+  },
+  {
+    "face": [
+      1,
+      9
+    ]
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "advance": 6,
+    "stop_at_choice": true
+  },
+  {
+    "choose": 0
+  },
+  {
+    "wait": 1,
+    "shot": "route_0_moment_0"
+  },
+  {
+    "wait": 1,
+    "shot": "route_0_moment_1"
+  },
+  {
+    "wait": 1,
+    "shot": "route_0_moment_2"
+  },
+  {
+    "wait": 1,
+    "shot": "route_0_moment_3"
+  },
+  {
+    "wait": 1,
+    "shot": "route_0_moment_4"
+  },
+  {
+    "wait": 1,
+    "shot": "route_0_moment_5"
+  },
+  {
+    "experience": "visit",
+    "map": "ketelsteeg",
+    "spawn": "from_wassalon"
+  },
+  {
+    "walk_to": [
+      1,
+      10
+    ],
+    "timeout": 20
+  },
+  {
+    "face": [
+      1,
+      9
+    ]
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "advance": 6,
+    "stop_at_choice": true
+  },
+  {
+    "choose": 1
+  },
+  {
+    "wait": 1,
+    "shot": "route_1_moment_0"
+  },
+  {
+    "wait": 1,
+    "shot": "route_1_moment_1"
+  },
+  {
+    "wait": 1,
+    "shot": "route_1_moment_2"
+  },
+  {
+    "wait": 1,
+    "shot": "route_1_moment_3"
+  },
+  {
+    "wait": 1,
+    "shot": "route_1_moment_4"
+  },
+  {
+    "wait": 1,
+    "shot": "route_1_moment_5"
+  },
+  {
+    "experience": "visit",
+    "map": "bondszaal",
+    "spawn": "front"
+  },
+  {
+    "shot": "tournament_front"
+  }
+]

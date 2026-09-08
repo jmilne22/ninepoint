@@ -241,7 +241,7 @@ post-match talk), `review_leave` (walk away from the loading card, read it later
 quay), `review_unavailable` (a wedged engine must still let you out), `quay_review` /
 `quay_review_19` (the noticeboard from a save).
 
-Art routes: `art_tour` (all twelve maps, washer frames, park and novice aisle),
+Art routes: `art_tram` (white articulated tram passing and boarding both destinations), `art_tour` (all twelve maps, washer frames, park and novice aisle),
 `art_materials` (quay variants), `art_people` (working pose, far-seat sorting, conversation),
 `portrait_sprites` (ART-06's six preview people, running, conversation and activity return),
 `art_arrivals` (both tram illustrations and federation furniture), and `art_cleanup`
@@ -345,7 +345,7 @@ src/autoload/  EventBus, GameState, SaveSystem, SceneRouter, MatchBridge, KataGo
 | `tools/gen_tiles.py` + `tools/coastal_tiles.py` | `art/tiles/town_tileset.png` + its manifest **and** `town_tileset.tres` (via `gen_tileset_resource.py`, which `build_assets.py` runs — a tile outside the resource draws as nothing, silently) |
 | `tools/font5x7.py` | the bitmap font glyphs |
 | `tools/gen_audio.py` + `tools/coastal_audio.py` + `wav.py` | `audio/*.wav` — synthesised from oscillators, no samples. A track named `<t>_in` is a one-shot intro sting for `<t>` |
-| `tools/gen_props.py` | the tram (96×36, two people tall) and the "..." bubble |
+| `tools/gen_props.py` | the articulated tram (160×36) and the "..." bubble |
 | `tools/art_furniture.py`, `art_architecture.py`, `art_materials.py`, `coastal_architecture.py` | venue props, structures and tile material recipes |
 | `tools/art_specs.py` | shared prop dimensions, footprints and animation holds |
 | `tools/art_scene_details.py` | static floor/wall dressing, rebuilt with map geometry |

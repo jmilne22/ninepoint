@@ -71,6 +71,18 @@ by this explicitly approved layout redesign; Go and progression rules remain pro
 - Acceptance: normal gate, protected asset hashes, opened route evidence; replace broken
   slice_full references with current early/novice routes; beginner difficulty remains unclaimed.
 
+### SELA-04 — Modern articulated Tram 4
+
+- Status: `SHIPPED` (verified locally) · Priority: `P2` · Owner: Codex.
+- Approved follow-up: replace the red tram using the supplied white light-rail photograph.
+- Base: continuing the reviewed Sela commit `8af988d`; fresh fetch confirms its parent
+  `d64ab5f` is still `origin/main`. Starting again at main would discard the approved setting.
+- Scope: original Python-drawn white articulated vehicle, dark glazing, rounded cabs,
+  roof equipment and a longer silhouette. Preserve characters, routes and boarding flow.
+- Evidence: `art_tram` completed 93 captures, exit 0, zero script errors. Opened
+  passing frames in both directions, the stopping position and both arrival views.
+  All 16,904 Godot checks, 13 art tests, 283 file loads and three engine gates passed.
+
 ## Portrait-led sprite preview
 
 ### ART-06 — Six rounded, portrait-led characters

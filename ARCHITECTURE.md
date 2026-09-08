@@ -328,7 +328,9 @@ the existing gait while footstep cadence remains distance-based. NPC gait defaul
 
 The tram stop is a sign whose text begins `__TRAM__` followed by JSON naming its routes;
 `SignDesk.tram_stop()` offers them as choices, refuses in the box when a route's flag is not
-set, asks the `Tram` prop to pull in, and only then changes scene.
+set, asks the `Tram` prop to pull in, and only then changes scene. The articulated
+vehicle is 160×36; `Tram.WIDTH` matches its generated texture so offscreen travel and
+horizontal flipping retain the correct centre.
 
 Maps are `TileMapLayer`-based with a `YSort` entity layer; every map exposes named
 `SpawnPoint` nodes so warps and save/load can place the player deterministically.

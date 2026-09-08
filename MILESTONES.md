@@ -3348,3 +3348,13 @@ No character, portrait, Go rule, opponent profile, board/UI art, rank ladder, le
 or lesson position changed. Existing music remains. This is scripted and visual evidence;
 independent beginner strength/wayfinding, ENG-09 endings and nineteen-line town teaching
 remain separate. Initial failed routes are documented as failures rather than completion.
+
+
+**Owner tram follow-up (SELA-04):** replaced the red 96×36 tram with an original
+Python-drawn white 160×36 articulated light-rail vehicle using the owner's photograph
+as reference. Five sections, dark glazing, rounded double-ended cabs and roof equipment;
+runtime width follows the new asset, with the middle door centred at the existing stop.
+`art_tram` completed 93 captures at exit 0 with no script errors; both passing directions,
+the stopping position and both destination illustrations were opened. The gate retained
+M48's 16,904 checks, 13 art tests, 283 loads and all three real-engine passes. No character,
+route, boarding timing or Go changes. [Tram evidence](docs/sela/PLAYTEST.md#white-articulated-tram--sela-04-follow-up).

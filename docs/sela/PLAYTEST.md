@@ -90,3 +90,25 @@ route and fresh journey provide actual walking/tram evidence.
 No claim is made to resolve PROG-01 strength calibration, ENG-09 endings, nineteen-line
 town teaching, or unaided newcomer wayfinding. Human feedback remains the next quality
 check for the new setting.
+
+
+## White articulated tram — SELA-04 follow-up
+
+The owner supplied a modern white light-rail photograph. The generated tram now has
+five articulated sections, a continuous dark window band, rounded cabs at both ends,
+roof equipment and small lamps. Its 160×36 silhouette replaces the 96×36 red tram;
+`Tram.WIDTH` changes with the texture. The central door aligns with the existing stop.
+Characters, route choices, boarding timing and destination illustrations are unchanged.
+
+`art_tram` produced 93 captures, exit 0 and zero script errors. Opened the westbound
+crossing (frame 9), eastbound crossing (57), stopping position (82) and both
+arrival illustrations (84/90). No unreachable tiles were logged. `tools/test.sh` passed
+16,904 checks, 13 art tests, 283 loaded files and all three KataGo gates, unchanged from
+the prior Sela verification. No new test-only runtime hook was added.
+
+Reproduce with an isolated `XDG_DATA_HOME` and
+`tools/run_game.sh tools/autopilot/art_tram.json` (`TIMEOUT=240` permits the two ambient passes).
+
+![White articulated tram in Market Lane](screenshots/tram-west.png)
+
+![Tram stopped at the existing platform](screenshots/tram-at-stop.png)

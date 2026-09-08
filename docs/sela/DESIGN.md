@@ -68,3 +68,12 @@ spawn, avoiding furniture added in the redesign. New saves retain exact position
 The implementation and inspected evidence are recorded in [PLAYTEST.md](PLAYTEST.md).
 Independent beginner testing remains necessary for difficulty and unaided wayfinding;
 automation does not establish either.
+
+
+## Tram reference follow-up
+
+The owner supplied a photograph of a modern white articulated light-rail train after
+reviewing Sela. Tram 4 now adopts its long, low body, dark glazing, rounded cabs, flexible
+joints and roof equipment in original Python pixel art. The sprite grows from 96×36 to
+160×36 while the stop, timetable-free service and destination choices remain the same.
+The photograph is a reference only and is not included as a game asset.

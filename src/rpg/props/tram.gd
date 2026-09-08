@@ -15,7 +15,7 @@ class_name Tram
 extends Node2D
 
 const SPRITE := "res://art/props/tram.png"
-const WIDTH := 96.0
+const WIDTH := 160.0
 const HEIGHT := 36.0
 ## Below this a "run of rails" is a decoration, not a route.
 const MIN_RUN := 10
