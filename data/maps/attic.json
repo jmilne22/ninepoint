@@ -6,6 +6,8 @@
  ],
  "tile_size": 16,
  "legend": {
+  "[": "canal_b",
+  "]": "canal_c",
   "}": "wall_side",
   "^": "roof_ridge",
   "#": "roof_slate",
@@ -177,6 +179,13 @@
  "music": "",
  "indoors": true,
  "art_props": [
+  {
+   "art": "floor_details_attic",
+   "position": [
+    0,
+    0
+   ]
+  },
   {
    "art": "attic_roof",
    "position": [

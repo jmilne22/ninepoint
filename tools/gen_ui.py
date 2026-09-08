@@ -4,33 +4,35 @@ import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 from png import Img, Rand
-from palette import rgb
+from palette import rgb, mix
+from pixel_art import ellipse, panel as raised_panel
 
 
 def panel():
-    """24x24 nine-patch: 6px margins, hard corners, one-pixel drop shadow."""
-    im = Img(24, 24)
-    im.rect(0, 0, 23, 23, rgb("ink1"))
-    im.rect(1, 1, 21, 21, rgb("paper0"))
-    im.rect(2, 2, 20, 20, rgb("paper0"))
-    im.frame(1, 1, 22, 22, rgb("ink1"))
-    im.frame(2, 2, 20, 20, rgb("paper1"))
-    # drop shadow along the bottom and right
-    im.rect(1, 23, 23, 1, rgb("ink0"))
-    im.rect(23, 1, 1, 23, rgb("ink0"))
-    # corner cuts
-    for c in ((1, 1), (22, 1), (1, 22), (22, 22)):
-        im.set(c[0], c[1], (0, 0, 0, 0))
+    """The original 24px/6px nine-patch contract, with a raised paper lip."""
+    im=Img(24,24)
+    im.rect(1,1,23,23,rgb('ink0'))
+    raised_panel(im,0,0,23,23,'paper0','paper2','ink1')
+    im.hline(2,1,19,rgb('paper1'));im.vline(1,2,19,rgb('paper1'))
+    im.hline(2,21,19,rgb('paper2'));im.vline(21,2,19,rgb('paper2'))
+    for x,y in [(0,0),(22,0),(0,22),(22,22)]:im.set(x,y,(0,0,0,0))
     return im
 
 
 def dark_panel():
-    im = Img(24, 24)
-    im.rect(0, 0, 23, 23, rgb("ink0"))
-    im.rect(1, 1, 21, 21, rgb("ink1"))
-    im.frame(2, 2, 20, 20, rgb("ink2"))
-    im.rect(1, 23, 23, 1, rgb("ink0"))
-    im.rect(23, 1, 1, 23, rgb("ink0"))
+    im=Img(24,24);im.rect(1,1,23,23,rgb('ink0'))
+    raised_panel(im,0,0,23,23,'ink1','ink3','ink0')
+    im.hline(2,1,19,rgb('ink2'));im.vline(1,2,19,rgb('ink2'))
+    im.hline(2,21,19,rgb('ink0'))
+    return im
+
+
+def board_surface():
+    """Barely visible grain, tiled at native pixel size behind the playing grid."""
+    im=Img(32,32,rgb('board1'))
+    for x,y,w in [(0,5,13),(18,5,14),(3,17,18),(0,26,8),(13,26,19)]:
+        im.hline(x,y,w,mix('board1','board0',.07))
+    for x,y,w in [(2,6,9),(8,18,11),(15,27,13)]:im.hline(x,y,w,mix('board1','board2',.10))
     return im
 
 
@@ -48,7 +50,8 @@ def icon(name):
 def _(im):
     im.disc(8, 8, 6, rgb("stoneB0"))
     im.disc(6, 6, 2, rgb("stoneB1"))
-    im.disc(8, 9, 6.4, None)
+    im.hline(6, 12, 4, rgb("ink0"))
+    im.hline(5, 5, 3, rgb("ink2"))
 
 
 @icon("stone_white")
@@ -91,7 +94,7 @@ def _(im):
 @icon("key")
 def _(im):
     im.disc(5, 6, 3, rgb("gold1"))
-    im.disc(5, 6, 1.2, None)
+    im.disc(5, 6, 1.2, (0, 0, 0, 0))
     im.rect(7, 6, 7, 2, rgb("gold1"))
     im.rect(12, 8, 2, 2, rgb("gold1"))
     im.rect(9, 8, 2, 2, rgb("gold1"))
@@ -145,6 +148,7 @@ def build(out_dir):
     os.makedirs(out_dir, exist_ok=True)
     panel().save(os.path.join(out_dir, "panel.png"))
     dark_panel().save(os.path.join(out_dir, "panel_dark.png"))
+    board_surface().save(os.path.join(out_dir, "board_surface.png"))
     sheet, names = icons_sheet()
     sheet.save(os.path.join(out_dir, "icons.png"))
     app_icon().save(os.path.join(out_dir, "icon.png"))

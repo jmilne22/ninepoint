@@ -179,7 +179,10 @@ tools/setup_katago.sh --verify      # check the local KataGo package without dow
 godot --headless --path . --script res://tools/katago_review_test.gd   # the review over whole 9x9 and 19x19 games
 tools/run_game.sh tools/autopilot/slice_full.json   # drive the whole slice, screenshot each beat
 tools/run_game.sh tools/autopilot/win_path.json     # load a save, take the rival's win branch, do the puzzle
-python3 tools/build_assets.py       # regenerate all art and audio, deterministically
+python3 tools/build_assets.py       # regenerate all art, map dressing and audio, deterministically
+python3 tools/build_assets.py --groups environments --output /home/user/.cache/ninepoint-preview
+python3 tools/art_contact_sheet.py --root /home/user/.cache/ninepoint-preview --output /home/user/.cache/ninepoint-props.png
+python3 tests/test_art.py           # portrait preservation, navigation and asset contracts
 python3 tools/check_lessons.py      # verify every taught position against the rules
 python3 tools/gen_maps.py           # rebuild the town from its placement script
 python3 tools/gen_content.py        # rebuild NPC / opponent / quest resources
@@ -289,3 +292,9 @@ tests/       headless suites
 
 The M43 art, writing and beginner-experience pass has an illustrated
 [screen gallery](docs/overhaul/GALLERY.md) and [observed play report](docs/overhaul/PLAYTEST.md).
+
+
+The richer-art pass keeps the original portraits and pixel scale while giving Verhaven
+recessed architecture, material-specific furniture, local wear, moving washer drums and
+more distinct walking poses. The [art playtest](docs/art/PLAYTEST.md) includes matching
+before/after views and played screenshots from every room.

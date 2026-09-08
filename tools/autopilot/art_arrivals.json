@@ -1,0 +1,124 @@
+[
+  {
+    "save": "invited"
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "walk_to": [
+      1,
+      10
+    ],
+    "timeout": 20
+  },
+  {
+    "face": [
+      1,
+      9
+    ]
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "advance": 6,
+    "stop_at_choice": true
+  },
+  {
+    "choose": 0
+  },
+  {
+    "wait": 1,
+    "shot": "route_0_moment_0"
+  },
+  {
+    "wait": 1,
+    "shot": "route_0_moment_1"
+  },
+  {
+    "wait": 1,
+    "shot": "route_0_moment_2"
+  },
+  {
+    "wait": 1,
+    "shot": "route_0_moment_3"
+  },
+  {
+    "wait": 1,
+    "shot": "route_0_moment_4"
+  },
+  {
+    "wait": 1,
+    "shot": "route_0_moment_5"
+  },
+  {
+    "experience": "visit",
+    "map": "ketelsteeg",
+    "spawn": "from_wassalon"
+  },
+  {
+    "walk_to": [
+      1,
+      10
+    ],
+    "timeout": 20
+  },
+  {
+    "face": [
+      1,
+      9
+    ]
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "advance": 6,
+    "stop_at_choice": true
+  },
+  {
+    "choose": 1
+  },
+  {
+    "wait": 1,
+    "shot": "route_1_moment_0"
+  },
+  {
+    "wait": 1,
+    "shot": "route_1_moment_1"
+  },
+  {
+    "wait": 1,
+    "shot": "route_1_moment_2"
+  },
+  {
+    "wait": 1,
+    "shot": "route_1_moment_3"
+  },
+  {
+    "wait": 1,
+    "shot": "route_1_moment_4"
+  },
+  {
+    "wait": 1,
+    "shot": "route_1_moment_5"
+  },
+  {
+    "experience": "visit",
+    "map": "bondszaal",
+    "spawn": "front"
+  },
+  {
+    "shot": "tournament_front"
+  }
+]

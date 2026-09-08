@@ -1,0 +1,28 @@
+[
+  {
+    "save": "invited"
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "shot": "refreshed_title"
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "experience": "visit",
+    "map": "onderbrug",
+    "spawn": "from_street"
+  },
+  {
+    "shot": "clean_arches"
+  }
+]

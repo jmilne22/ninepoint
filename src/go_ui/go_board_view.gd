@@ -192,6 +192,9 @@ static func star_points(n: int) -> PackedInt32Array:
     return GoBoardInk.star_points(n)
 
 
+const BOARD_SURFACE: Texture2D = preload("res://art/ui/board_surface.png")
+
+
 func _draw() -> void:
     if game == null:
         return
@@ -203,7 +206,8 @@ func _draw() -> void:
 
     draw_rect(Rect2(_origin - Vector2(pad, pad) - Vector2(2, 2),
         Vector2(used + pad * 2 + 4, used + pad * 2 + 4)), C_BOARD_EDGE)
-    draw_rect(Rect2(_origin - Vector2(pad, pad), Vector2(used + pad * 2, used + pad * 2)), C_BOARD)
+    draw_texture_rect(BOARD_SURFACE, Rect2(_origin - Vector2(pad, pad),
+        Vector2(used + pad * 2, used + pad * 2)), true)
 
     for i in count:
         var a := _origin + Vector2(0, i * _cell)

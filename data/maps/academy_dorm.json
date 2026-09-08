@@ -6,6 +6,8 @@
  ],
  "tile_size": 16,
  "legend": {
+  "[": "canal_b",
+  "]": "canal_c",
   "}": "wall_side",
   "^": "roof_ridge",
   "#": "roof_slate",
@@ -96,11 +98,11 @@
   "IIIIIIIIIIII",
   "IIIIIIIIIIII",
   "iiiiiiiiiiii",
-  "},,1111111Q}",
+  "}111111111Q}",
   "}1111111111}",
-  "}11111111,1}",
-  "}1,111111,1}",
-  "}1,11111111}",
+  "}1111111111}",
+  "}1111111111}",
+  "}1111111111}",
   "}1111311111}",
   "}iiiiMiiiii}"
  ],
@@ -169,6 +171,13 @@
  "music": "",
  "indoors": true,
  "art_props": [
+  {
+   "art": "floor_details_academy_dorm",
+   "position": [
+    0,
+    0
+   ]
+  },
   {
    "art": "bed",
    "position": [

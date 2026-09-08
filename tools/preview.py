@@ -4,7 +4,9 @@ sys.path.insert(0, os.path.dirname(__file__))
 from png import Img
 
 def load(path):
-    d = open(path, 'rb').read(); pos = 8; w = h = 0; idat = b''
+    with open(path, 'rb') as source:
+        d = source.read()
+    pos = 8; w = h = 0; idat = b''
     while pos < len(d):
         ln = struct.unpack('>I', d[pos:pos+4])[0]; tag = d[pos+4:pos+8]
         pay = d[pos+8:pos+8+ln]; pos += 12 + ln

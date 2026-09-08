@@ -19,34 +19,22 @@ POSES = ["open", "fist", "spill"]
 
 
 def bowl():
-    """A go bowl, three-quarter view, with stones heaped in it."""
-    im = Img(44, 30)
-    # body
-    im.disc(22, 16, 15, rgb("wood0"))
-    im.disc(22, 15, 14, rgb("wood1"))
-    im.disc(19, 13, 10, rgb("wood2"))
-    # cut the top off to make a rim
-    im.rect(0, 0, 44, 8, (0, 0, 0, 0))
-    # the rim ellipse
-    for x in range(4, 40):
-        t = (x - 22) / 18.0
-        h = int(4.0 * (1.0 - t * t) ** 0.5)
-        for y in range(8 - h, 8 + h + 1):
-            im.set(x, y, rgb("wood2") if y < 8 else rgb("wood1"))
-    for x in range(4, 40):
-        t = (x - 22) / 18.0
-        h = int(4.0 * (1.0 - t * t) ** 0.5)
-        im.set(x, 8 - h, rgb("wood3"))
-        im.set(x, 8 + h, rgb("wood0"))
-    # stones heaped inside
-    r = Rand(4242)
-    for i in range(16):
-        sx = r.rng(8, 35)
-        sy = r.rng(5, 10)
-        white = r.chance(2)
-        im.disc(sx, sy, 2.4, rgb("stoneW0") if white else rgb("stoneB0"))
-        im.set(sx - 1, sy - 1, rgb("stoneW1") if white else rgb("stoneB1"))
-    im.hline(4, 28, 36, rgb("ink0"))
+    """An elliptical rim over a rounded wooden bowl, with a low contact shadow."""
+    from pixel_art import ellipse
+    im=Img(44,30)
+    ellipse(im,3,26,38,4,'ink0')
+    ellipse(im,4,7,36,22,'wood0');ellipse(im,5,7,34,20,'wood1')
+    ellipse(im,7,9,13,15,'wood2')
+    im.hline(15,23,15,rgb('wood0'));im.hline(12,21,8,rgb('wood3'))
+    im.hline(26,18,8,rgb('wood0'));im.hline(22,25,7,rgb('wood2'))
+    ellipse(im,3,4,38,12,'wood3');ellipse(im,5,6,34,8,'wood0')
+    ellipse(im,7,7,30,6,'ink1')
+    # Hand-placed overlapping stones make a heap; each keeps its upper-left glint.
+    for x,y,white in [(10,8,False),(15,7,True),(20,6,False),(25,7,False),(30,8,True),
+                      (34,10,False),(28,11,True),(22,10,True),(16,11,False),(11,11,True)]:
+        ellipse(im,x-2,y-2,5,4,'stoneW0' if white else 'stoneB0')
+        im.hline(x-1,y-1,2,rgb('stoneW1' if white else 'stoneB1'))
+    im.hline(12,15,19,rgb('wood2'));im.hline(8,13,4,rgb('wood3'))
     return im
 
 
@@ -139,6 +127,16 @@ def hand(tone, pose):
             col = lookup.get(ch)
             if col is not None:
                 im.set(ox + x, oy + y, col)
+    # Keep the authored silhouettes; give the palm and curled knuckles distinct planes.
+    creases={'open':[(5,12,4),(10,13,4)],'fist':[(5,8,3),(9,8,3),(13,8,3),(4,11,3)],
+             'spill':[(6,9,4),(11,9,3)]}
+    for x,y,w in creases[pose]:
+        for dx in range(w):
+            if im.get(ox+x+dx,oy+y)==m: im.set(ox+x+dx,oy+y,d)
+    for y,row in enumerate(HAND_ART[pose]):
+        for x,ch in enumerate(row):
+            if ch=='o' and y<8 and y+1<len(HAND_ART[pose]) and HAND_ART[pose][y+1][x] in 'ml':
+                im.set(ox+x,oy+y,d)
     return im
 
 

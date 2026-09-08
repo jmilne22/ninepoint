@@ -1,7 +1,7 @@
 {
  "tile_size": 16,
  "columns": 16,
- "rows": 7,
+ "rows": 8,
  "tiles": {
   "grass_a": [
    0,
@@ -450,6 +450,30 @@
   "wall_side": [
    15,
    6
+  ],
+  "canal_b": [
+   0,
+   7
+  ],
+  "canal_b_f1": [
+   1,
+   7
+  ],
+  "canal_b_f2": [
+   2,
+   7
+  ],
+  "canal_c": [
+   3,
+   7
+  ],
+  "canal_c_f1": [
+   4,
+   7
+  ],
+  "canal_c_f2": [
+   5,
+   7
   ]
  }
 }

@@ -43,11 +43,12 @@ static func _add(entry: Dictionary, parent: Node2D) -> Sprite2D:
     if not ResourceLoader.exists(path):
         push_error("Missing venue prop: " + path)
         return null
-    var sprite := Sprite2D.new()
+    var sprite := GeneratedProp.new()
     sprite.texture = load(path)
     sprite.centered = false
     sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
     var at: Array = entry.get("position", [0, 0])
     sprite.position = Vector2(float(at[0]), float(at[1]))
     parent.add_child(sprite)
+    sprite.configure(entry.get("animation", {}))
     return sprite

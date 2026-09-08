@@ -6,6 +6,9 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 GODOT="${GODOT:-$HOME/.local/bin/godot}"
 
+echo "== deterministic art contracts =="
+python3 tests/test_art.py
+
 echo "== compiling all scripts and importing assets =="
 IMPORT_LOG=$(mktemp)
 timeout 300 "$GODOT" --headless --path . --editor --quit > "$IMPORT_LOG" 2>&1

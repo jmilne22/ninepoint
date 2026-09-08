@@ -5,7 +5,7 @@ This document explains **why** future work matters and the trade-offs around it.
 dependencies, and acceptance criteria. `MILESTONES.md` is the append-only delivery history.
 Do not select work from this document without checking its linked board ticket first.
 
-The build is green: `tools/test.sh` runs 14235 checks plus three real-engine gates,
+The build is green: `tools/test.sh` passes 16,879 Godot checks, 10 Python art tests and three real-engine gates,
 `tools/check_lessons.py` reports no problems, and the game is playable from the cold open
 to the exam and the Cup.
 
@@ -284,3 +284,18 @@ progress make the existing setting and competition readable without another prog
 The observed long endings and an early-pass handicap ending are separate evaluation work
 (ENG-09 and ENG-05). This revision does not resolve them by altering engine behaviour.
 See `docs/early-game/PLAYTEST.md` for before/after evidence and the independent beginner gate.
+
+
+## Preserve the portraits; enrich the town — ART-01 through ART-04
+
+Owner approved a richer version of the existing Python art on 2026-09-08. The intended
+contrast remains a wet working port and informal Go rooms against the Instituut's more
+formal materials. The investment is in readable volume, specific furniture, contextual
+wear and deliberate silhouettes. Increasing texture everywhere would obscure people and
+routes, so central floors stay quiet and Go boards retain the strongest local contrast.
+
+This pass preserves portraits exactly, existing scale and navigation, all progression,
+engine profiles, teaching, dialogue, font metrics and audio. Shared drawing operations,
+geometry metadata and selective preview builds make future art iteration safer; they do
+not replace visual judgement. The workboard owns delivery status and the art playtest
+records the actual screens inspected.

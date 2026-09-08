@@ -1,0 +1,52 @@
+[
+ {
+  "save": "invited"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "experience": "visit",
+  "map": "de_ketel",
+  "spawn": "from_street"
+ },
+ {
+  "walk_to": [
+   8,
+   3
+  ],
+  "timeout": 12
+ },
+ {
+  "face": [
+   8,
+   4
+  ]
+ },
+ {
+  "shot": "wren_far_seat_sorting"
+ },
+ {
+  "wait": 0.9,
+  "shot": "wren_working"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 1.5,
+  "shot": "wren_portrait_and_sprite"
+ },
+ {
+  "quit": true
+ }
+]

@@ -1,7 +1,9 @@
 """Two tram-window arrival views, drawn at the game's native resolution."""
 from pathlib import Path
 from png import Img
-from palette import rgb
+from palette import rgb, mix
+from pixel_art import polygon, panel
+from art_sky import skyline
 from gen_venue_props import box
 from gen_venue_scenes import draw_text
 
@@ -11,6 +13,7 @@ def scene(school):
     im.rect(0,0,384,110,rgb('ink3'))
     # Distant port silhouettes and tram cables place both buildings in one city.
     for x,h in [(0,45),(22,58),(326,62),(352,47)]:box(im,x,110-h,30,h,'ink2')
+    skyline(im,110,rgb('ink2'),81,18,42)
     im.hline(0,20,384,rgb('ink1'));im.hline(0,24,384,rgb('ink2'))
     im.rect(0,137,384,79,rgb('asphalt1'))
     im.rect(0,139,384,20,rgb('path1'));im.hline(0,157,384,rgb('paper2'))
@@ -20,6 +23,8 @@ def scene(school):
         for x in range(61,326,24):
             box(im,x,64,20,52,'blue0','ink2');im.rect(x+2,66,7,47,rgb('blue2'));im.rect(x+10,67,8,45,rgb('blue1'))
             im.hline(x,86,20,rgb('paper1'))
+            panel(im,x,116,20,3,'paper2','paper0','ink2')
+            im.hline(x+1,68,5,rgb('blue3'))
         box(im,152,87,65,52,'ink2');box(im,160,94,48,43,'blue1');im.vline(183,94,43,rgb('paper1'))
         box(im,132,118,8,23,'rust1');draw_text(im,93,42,'ESSENVELD INSTITUUT',rgb('ink1'))
         im.rect(145,138,81,4,rgb('paper1'))
@@ -28,6 +33,9 @@ def scene(school):
         # Steep civic roof, tall masonry bays and a projecting entrance porch.
         for y in range(25,61):im.hline(72-(y-25)//2,y,240+(y-25),rgb('plum0'))
         box(im,55,61,276,77,'brick1');im.hline(55,62,276,rgb('brick3'))
+        for x in [57,95,133,230,268,306]:
+            panel(im,x,64,5,74,'brick1','brick2','brick0')
+        for y in [65,134]:panel(im,55,y,276,3,'brick0','brick2','brick0')
         for x in [69,105,242,278]:
             box(im,x,73,26,56,'paper2');box(im,x+4,76,18,48,'blue0')
             im.vline(x+12,76,48,rgb('gold1'));im.hline(x+4,98,18,rgb('gold1'))

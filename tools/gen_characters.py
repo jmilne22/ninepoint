@@ -23,151 +23,8 @@ EXPRESSIONS = ["neutral", "happy", "annoyed", "working",
                "thinking", "worried", "pleased"]
 
 
-# ============================================================== overworld sprite
-def sprite_frame(c, direction, frame):
-    im = Img(W, H)
-    sk_d, sk_m, sk_l = skin(c["skin"])
-    hair_d, hair_l = rgb(c["hair_col"][0]), rgb(c["hair_col"][1])
-    top_d, top_l = rgb(c["top"][0]), rgb(c["top"][1])
-    bottom = rgb(c["bottom"])
-    accent = rgb(c.get("accent", c["top"][1]))
-    ink = rgb("ink0")
-    broad = c["build"] == "broad"
-
-    bob = 1 if frame == 2 else 0          # a one-pixel bounce on the second step
-    top_y = 12 + bob
-
-    # shadow
-    for x in range(4, 12):
-        im.set(x, 23, (20, 18, 26, 90))
-    im.set(3, 23, (20, 18, 26, 60))
-    im.set(12, 23, (20, 18, 26, 60))
-
-    # torso
-    x0 = 3 if broad else 4
-    tw = 10 if broad else 8
-    im.rect(x0, top_y, tw, 7 - bob, top_d)
-    im.rect(x0, top_y, tw, 3, top_l)
-    im.vline(x0, top_y, 7 - bob, ink)
-    im.vline(x0 + tw - 1, top_y, 7 - bob, ink)
-
-    # legs, drawn over the hem so the stride reads
-    left_leg, right_leg = 19, 19
-    if frame == 1:
-        left_leg, right_leg = 18, 20
-    elif frame == 2:
-        left_leg, right_leg = 20, 18
-    im.rect(5, left_leg + bob, 3, 23 - (left_leg + bob), bottom)
-    im.rect(8, right_leg + bob, 3, 23 - (right_leg + bob), bottom)
-    im.hline(5, 22, 3, ink)
-    im.hline(8, 22, 3, ink)
-
-    # arms
-    arm_y = top_y + 1
-    im.rect(x0 - 1, arm_y, 1, 5, top_d)
-    im.rect(x0 + tw, arm_y, 1, 5, top_d)
-    im.set(x0 - 1, arm_y + 5, sk_m)
-    im.set(x0 + tw, arm_y + 5, sk_m)
-
-    # accessory on the body
-    acc = c.get("accessory", "none")
-    if acc == "scarf":
-        im.rect(x0, top_y, tw, 2, accent)
-    elif acc == "apron":
-        im.rect(x0 + 1, top_y + 2, tw - 2, 6 - bob, accent)
-    elif acc == "blazer":
-        im.vline(x0 + 1, top_y, 8 - bob, accent)
-        im.vline(x0 + tw - 2, top_y, 8 - bob, accent)
-    elif acc == "cardigan":
-        im.vline(x0 + tw // 2, top_y, 8 - bob, accent)
-
-    # head
-    hy = 3 + bob
-    im.rect(4, hy, 8, 9, sk_m)
-    im.rect(4, hy, 4, 5, sk_l)
-    im.vline(11, hy + 1, 8, sk_d)
-    im.hline(4, hy + 8, 8, sk_d)
-    im.frame(4, hy - 1, 8, 11, ink)
-    im.rect(6, hy + 9, 4, 1, sk_d)     # neck
-
-    _hair_sprite(im, c, direction, hy, hair_d, hair_l)
-
-    # face
-    if direction != "up":
-        eye_y = hy + 5
-        if direction == "down":
-            im.set(6, eye_y, ink)
-            im.set(9, eye_y, ink)
-            if c.get("beard"):
-                im.rect(5, eye_y + 2, 6, 2, hair_d)
-            else:
-                im.set(7, eye_y + 2, rgb("ink2"))
-                im.set(8, eye_y + 2, rgb("ink2"))
-        elif direction == "left":
-            im.set(5, eye_y, ink)
-            im.set(6, eye_y, ink)
-        else:
-            im.set(9, eye_y, ink)
-            im.set(10, eye_y, ink)
-        if c.get("accessory") == "glasses":
-            im.hline(5, eye_y - 1, 6, rgb("ink2"))
-            im.set(5, eye_y, rgb("ink2"))
-            im.set(10, eye_y, rgb("ink2"))
-    # Preserve the 16x24 cell and the feet baseline while varying body height.
-    out = Img(W,H)
-    height=c.get("height",22)
-    for y in range(height):
-        source_y=2+int(y*22/height)
-        for x in range(W):out.set(x,24-height+y,im.get(x,source_y))
-    return out
-
-
-def _hair_sprite(im, c, direction, hy, hair_d, hair_l):
-    style = c["hair"]
-    im.rect(4, hy - 1, 8, 3, hair_d)
-    im.rect(4, hy - 1, 4, 2, hair_l)
-    if style == "crop":
-        pass
-    elif style == "short":
-        im.set(4, hy + 2, hair_d)
-        im.set(11, hy + 2, hair_d)
-    elif style == "bob":
-        im.vline(4, hy - 1, 6, hair_d)
-        im.vline(11, hy - 1, 6, hair_d)
-    elif style == "long":
-        im.vline(4, hy - 1, 9, hair_d)
-        im.vline(11, hy - 1, 9, hair_d)
-        im.rect(3, hy + 2, 1, 8, hair_d)
-        im.rect(12, hy + 2, 1, 8, hair_d)
-    elif style == "curls":
-        im.rect(3, hy - 2, 10, 4, hair_d)
-        for x in (4, 7, 10):
-            im.set(x, hy - 3, hair_l)
-        im.set(3, hy + 2, hair_d)
-        im.set(12, hy + 2, hair_d)
-    elif style == "bun":
-        im.rect(6, hy - 3, 4, 2, hair_d)
-        im.set(7, hy - 3, hair_l)
-    elif style == "tiedback":
-        im.vline(4, hy - 1, 4, hair_d)
-        im.vline(11, hy - 1, 4, hair_d)
-        if direction != "down":
-            im.rect(7, hy + 2, 2, 7, hair_d)
-    elif style == "cap":
-        im.rect(3, hy - 2, 10, 3, rgb(c.get("accent", "#7a6a58")))
-        im.rect(3, hy - 2, 5, 2, rgb("path2"))
-        if direction == "down":
-            im.rect(4, hy + 1, 8, 1, rgb("path0"))
-        im.rect(4, hy + 2, 2, 2, hair_l)
-        im.rect(10, hy + 2, 2, 2, hair_l)
-
-
-def sprite_sheet(c):
-    sheet = Img(W * 3, H * 4)
-    for row, d in enumerate(DIRS):
-        for f in range(3):
-            sheet.blit(sprite_frame(c, d, f), f * W, row * H)
-    return sheet
+# Walking/artwork proportions are independent of the frozen portrait geometry.
+from art_people import sprite_frame, sprite_sheet, action_sheet
 
 
 # ==================================================================== portrait
@@ -428,50 +285,16 @@ def _hair_front(im, c, hair_d, hair_l):
 
 
 
-def action_sheet(c):
-    """Action beats face their furniture; the walking sheet stays 3 by 4."""
-    sheet = Img(32, 480)
-    for action_index, action in enumerate(["play", "read", "fold", "wipe", "arrange"]):
-        for direction_index, direction in enumerate(["down", "left", "right", "up"]):
-            for beat in range(2):
-                im = sprite_frame(c, direction, 0)
-                sk = skin(c["skin"])[1]
-                x, y, width = 2, 17, 12
-                if direction == "up":
-                    y = 13
-                elif direction in ["left", "right"]:
-                    x, width = (0 if direction == "left" else 9), 7
-                if action == "read":
-                    im.rect(x, y-2, width, 6, rgb("teal0"))
-                    im.rect(x+1, y-1, width-2, 3, rgb("paper1"))
-                    im.vline(x+width//2, y-1, 3, rgb("wood0"))
-                elif action == "fold":
-                    im.rect(x, y-1, width, 5, rgb("paper1"))
-                    im.hline(x+1, y+beat, width-2, rgb("blue1"))
-                elif action == "wipe":
-                    im.rect(x+beat*2, y, min(6,width-2), 3, rgb("paper0"))
-                else:
-                    im.rect(x, y, width, 3, rgb("wood2"))
-                    im.disc(x+2+beat*2, y, 1, rgb("ink0"))
-                im.set(x, y, sk)
-                im.set(x+width-1, y, sk)
-                if action == "play":
-                    im.rect(4,21,8,3,(0,0,0,0))
-                    im.rect(3,20,4,2,rgb(c["bottom"]))
-                    im.rect(10,20,3,2,rgb(c["bottom"]))
-                sheet.blit(im, beat*16, (action_index*4+direction_index)*24)
-    return sheet
-
-
-def build(out_sprites, out_portraits):
-    os.makedirs(out_sprites, exist_ok=True)
-    os.makedirs(out_portraits, exist_ok=True)
+def build(out_sprites, out_portraits, *, sprites=True, portraits=True):
+    if sprites: os.makedirs(out_sprites, exist_ok=True)
+    if portraits: os.makedirs(out_portraits, exist_ok=True)
     for c in CHARACTERS:
-        sprite_sheet(c).save(os.path.join(out_sprites, "%s.png" % c["id"]))
-        action_sheet(c).save(os.path.join(out_sprites, "%s_actions.png" % c["id"]))
+        if sprites:
+            sprite_sheet(c).save(os.path.join(out_sprites, "%s.png" % c["id"]))
+            action_sheet(c).save(os.path.join(out_sprites, "%s_actions.png" % c["id"]))
         # Passers-by never reach a dialogue box, so they get no portrait: a
         # portrait strip of somebody with no name is dead weight in the repo.
-        if c.get("extra"):
+        if c.get("extra") or not portraits:
             continue
         strip = Img(64 * len(EXPRESSIONS), 64)
         for i, expr in enumerate(EXPRESSIONS):
