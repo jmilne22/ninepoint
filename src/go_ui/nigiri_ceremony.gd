@@ -166,20 +166,16 @@ func setup(display_name: String, tone: String, portrait_tex: Texture2D) -> void:
     skin_tone = tone
     portrait = portrait_tex
     if portrait != null:
-        var at := AtlasTexture.new()
-        at.atlas = portrait
-        at.region = Rect2(0, 0, 64, 64)
-        _portrait_rect.texture = at
+        _portrait_rect.texture = PortraitMoods.slice(portrait, PortraitMoods.COLUMNS[0])
     _hand.texture = _hand_region(POSE_OPEN)
 
 
-func set_expression(index: int) -> void:
+## Named rather than numbered: the column order lives in PortraitMoods now, and
+## this was one of the two places that had a private copy of it as bare indices.
+func set_expression(mood: String) -> void:
     if portrait == null:
         return
-    var at := AtlasTexture.new()
-    at.atlas = portrait
-    at.region = Rect2(index * 64, 0, 64, 64)
-    _portrait_rect.texture = at
+    _portrait_rect.texture = PortraitMoods.slice(portrait, mood)
 
 
 # --- the sequence ------------------------------------------------------------
@@ -260,7 +256,7 @@ func _bob() -> void:
 
 ## Asks for odd or even and waits. Returns true for odd.
 func ask_guess() -> bool:
-    set_expression(2)
+    set_expression("annoyed")
     _headline.text = "A closed fist. Odd, or even?"
     _subline.text = "Click Odd or Even, or use Left/Right and Space."
     _awaiting = &"guess"
@@ -331,7 +327,7 @@ func _drop_stone(index: int, total: int) -> void:
 func verdict(count: int, guessed_right: bool, explanation: String) -> void:
     var parity := "ODD" if count % 2 == 1 else "EVEN"
     await _slam(parity)
-    set_expression(2 if guessed_right else 1)
+    set_expression("annoyed" if guessed_right else "happy")
     _headline.text = "%d stones. %s." % [count, parity]
     _subline.text = explanation
     Audio.play("game_win" if guessed_right else "game_lose")

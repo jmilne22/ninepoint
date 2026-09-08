@@ -41,7 +41,7 @@ func _ready() -> void:
 
     MapBuilder.build_backdrop(map, self)
     var ground := MapBuilder.build_layers(map, self)
-    VenueProps.build(map.art_props, self)
+    VenueProps.build_background(map.art_props, self)
     MapBuilder.build_collision(map, self)
 
     # Movement and sound. Both read the map's own tiles.
@@ -52,6 +52,8 @@ func _ready() -> void:
     entities.name = "Entities"
     entities.y_sort_enabled = true
     add_child(entities)
+    # Furniture that stands on the floor sorts against the people standing at it.
+    VenueProps.build_sorted(map.art_props, entities)
 
     npcs = MapBuilder.build_npcs(map, entities, _on_talk_requested)
     ambient_banter = AmbientBanterScene.new()

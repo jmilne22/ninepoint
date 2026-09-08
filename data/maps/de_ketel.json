@@ -67,6 +67,8 @@
   "8": "neon_sign",
   "9": "snack_window",
   "<": "stairs_down",
+  ">": "stairs_up",
+  "/": "tram_platform",
   "+": "concrete",
   "*": "glass_curtain",
   "$": "stove",
@@ -103,7 +105,7 @@
   "}112112i11111111112}",
   "}121111i21121121121}",
   "}21111121121121121Q}",
-  "}112112112112112112}",
+  "}112112113312112112}",
   "}iiiiiiiiMMiiiiiiii}"
  ],
  "decor": [
@@ -127,12 +129,12 @@
   "11111111111111111111",
   "11111111111111111111",
   "10000000000000000001",
-  "11000000000000000011",
+  "11000001110000111011",
   "11111001110000111001",
   "10000000000000000001",
   "10000000000000000001",
   "10000000000000000001",
-  "10000001000000000001",
+  "10011101000000000001",
   "10011101000000000001",
   "10000000000000000011",
   "10000000000000000001",
@@ -199,7 +201,7 @@
   },
   {
    "tile": [
-    8,
+    7,
     5
    ],
    "text": "Wren's teaching board. Spare stones are in the drawer."
@@ -214,6 +216,10 @@
    ],
    "dir": "up",
    "idle": "arrange",
+   "seat_across": [
+    8,
+    3
+   ],
    "activity_variations": [
     {
      "flag": "wren_match_done",
@@ -229,6 +235,10 @@
    ],
    "dir": "up",
    "idle": "play",
+   "seat_across": [
+    15,
+    3
+   ],
    "activity_variations": [
     {
      "flag": "kesh_match_done",
@@ -260,28 +270,32 @@
    "position": [
     16,
     64
-   ]
+   ],
+   "base": 96
   },
   {
    "art": "playing_table",
    "position": [
     112,
     64
-   ]
+   ],
+   "base": 96
   },
   {
    "art": "playing_table",
    "position": [
     224,
     64
-   ]
+   ],
+   "base": 96
   },
   {
    "art": "playing_table",
    "position": [
     48,
     144
-   ]
+   ],
+   "base": 176
   },
   {
    "art": "coat_rack",

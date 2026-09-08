@@ -36,6 +36,28 @@ static func label(parent: Node, pos: Vector2, width: int, colour: Color,
     return l
 
 
+## A label with a hard one-pixel drop shadow, for type that has to sit on
+## artwork rather than on a panel. The title screen, the pause menu and the save
+## slot list each hand-rolled the same eight theme overrides; the title screen's
+## copy also asked for font size 21, which is not a multiple of the bitmap
+## font's native 9 and so was being scaled -- the exact thing ART_DIRECTION 4b
+## forbids, in the largest piece of type in the game.
+static func shadow_label(parent: Node, pos: Vector2, width: int, colour: Color,
+        size: int = FONT_SIZE, offset: int = 1) -> Label:
+    assert(size % FONT_SIZE == 0, "the bitmap font only scales by whole multiples of 9")
+    var l := Label.new()
+    l.position = pos
+    l.size = Vector2(width, LINE_H * (size / FONT_SIZE))
+    l.add_theme_font_override("font", FONT)
+    l.add_theme_font_size_override("font_size", size)
+    l.add_theme_color_override("font_color", colour)
+    l.add_theme_color_override("font_shadow_color", INK)
+    l.add_theme_constant_override("shadow_offset_x", offset)
+    l.add_theme_constant_override("shadow_offset_y", offset)
+    parent.add_child(l)
+    return l
+
+
 static func panel(parent: Node, rect: Rect2, dark: bool = false) -> NinePatchRect:
     var p := NinePatchRect.new()
     p.texture = load("res://art/ui/panel_dark.png" if dark else "res://art/ui/panel.png")

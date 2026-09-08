@@ -149,7 +149,12 @@ func _describe(i: int) -> String:
     var d := _info[i]
     if str(d["status"]) != "ok":
         return "An unreadable save."
-    return "%s, %s, day %d at %s." % [d["player_name"], d["rank"], d["day"], d["place"]]
+    # "day %d" outlived the calendar. M37 cut days, hours and weekdays, and
+    # slot_info() stopped returning `day` -- but this line is only reached by
+    # the two confirm cards, so the game threw an "invalid access to key 'day'"
+    # every time somebody saved over another slot or deleted one, and no gate
+    # opens those cards. Found by reading an autopilot log for something else.
+    return "%s, %s, %d min at %s." % [d["player_name"], d["rank"], d["minutes"], d["place"]]
 
 
 static func _fit(text: String, width: int) -> String:

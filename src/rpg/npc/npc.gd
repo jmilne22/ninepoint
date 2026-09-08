@@ -23,6 +23,16 @@ var idle: NpcIdle = null
 ## idle behaviour returns to.
 var home: Vector2
 var home_facing: int = Facing.Dir.DOWN
+## The chair on the other side of this person's board, in world coordinates.
+##
+## A board table is two tiles deep and the player's interaction probe reaches
+## exactly one, so somebody sitting at their own board could be spoken to from
+## three sides and not from the fourth -- the one a second player actually sits
+## at. At Wren's, Joos's and the novices' boards you got the flavour text about
+## the board instead of the person; at Bertie's stone table in Molenpark there
+## was no interactable on the far side at all, so walking round and pressing
+## [Space] did nothing whatever. Set by MapBuilder from the map's `seat_across`.
+var seat_across: Vector2 = Vector2.INF
 
 @onready var sprite: CharacterSprite = $Sprite
 @onready var interactable: Interactable = $Interact
@@ -58,6 +68,7 @@ func _ready() -> void:
     # under a screenshot captioned with his name.
     interactable.interact_priority = Interactable.PRIORITY_PERSON
     home_facing = facing
+    _build_far_seat()
     sprite.face(facing)
     interactable.interacted.connect(_on_interacted)
 
@@ -157,3 +168,24 @@ func _on_interacted(by: Node) -> void:
 
 func release() -> void:
     busy = false
+
+
+## A second pickup box on the far chair, on the same Area2D, so the person keeps
+## one Interactable and one priority. Sized to the tile rather than to the 9x6
+## body box: whoever is sitting there is reaching across a board, not standing
+## nose to nose. Facing away from the board still reaches nothing, because the
+## probe is thrown twelve pixels in front of the player's feet.
+func _build_far_seat() -> void:
+    if not seat_across.is_finite():
+        return
+    var shape := CollisionShape2D.new()
+    var rect := RectangleShape2D.new()
+    rect.size = Vector2(24, 28)
+    shape.shape = rect
+    # Nudged from the chair towards the board. The probe is thrown twelve
+    # pixels ahead of the player's feet, so a box sitting exactly on the chair
+    # only just catches it, and "only just" across two tiles of table is the
+    # difference between the game answering and the game doing nothing.
+    var seat := interactable.to_local(seat_across)
+    shape.position = seat + seat.normalized() * -6.0
+    interactable.add_child(shape)

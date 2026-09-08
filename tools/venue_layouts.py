@@ -15,10 +15,17 @@ def dress(name, data):
         art('attic_roof',0,0);art('study_desk',144,40);art('bed',16,64)
     elif name=='wassalon':
         art('laundry_basket',96,120)
+        # Dov needs no far seat: Moss is already sitting in it, which is the
+        # whole point of that board.
     elif name=='ketelsteeg':
-        art('kettle_sign',176,72)
-        art('washer_bank',320,80)
-        art('tram_marker',0,112)
+        art('kettle_sign',176,64)
+        # The laundrette's interior machine bank used to be painted straight
+        # onto its outside brick, unframed, at four times life size. The three
+        # ground floors are shopfronts now: fascia, glass, stall riser.
+        art('shopfront_stationer',96,100)
+        art('shopfront_ketel',160,100)
+        art('shopfront_wassalon',304,100)
+        art('tram_stop',16,112)
     elif name=='de_ketel':
         for y in range(6,10):
             for x in range(7,13):cell(x,y,'1',False)
@@ -32,11 +39,14 @@ def dress(name, data):
         art('tall_window',208,0)
         for y in [9,10]:cell(7,y,'i',True)
         for npc in data['npcs']:
-            if npc['id']=='wren':npc.update(tile=[8,6],dir='up',idle='arrange')
-            if npc['id']=='kesh':npc.update(tile=[15,6],dir='up',idle='play')
+            if npc['id']=='wren':npc.update(tile=[8,6],dir='up',idle='arrange',seat_across=[8,3])
+            if npc['id']=='kesh':npc.update(tile=[15,6],dir='up',idle='play',seat_across=[15,3])
             if npc['id']=='tomas':npc.update(tile=[2,6],dir='up',idle='wipe')
         for sign in data['signs']:
-            if sign['tile']==[15,5]:sign.update(tile=[8,5],text="Wren's teaching board. Spare stones are in the drawer.")
+            # Beside the table, not on the seat side of it: the board's own
+            # tiles are solid now, and Wren is standing on the only walkable
+            # neighbour the middle of the table had.
+            if sign['tile']==[15,5]:sign.update(tile=[7,5],text="Wren's teaching board. Spare stones are in the drawer.")
     elif name=='onderbrug':
         for y in range(4,10):
             for x in range(1,23):
@@ -44,7 +54,7 @@ def dress(name, data):
         for x in [3,4,10,11,17,18]:cell(x,2,'m',True);cell(x,3,'7',False)
         art('port_arch',32,0);art('port_arch',240,0)
         art('dry_corner',272,80);art('port_cargo',144,112)
-        data['npcs'][0]['tile']=[19,8]
+        data['npcs'][0].update(tile=[19,8],seat_across=[19,6])
         data['spawns']['arch']=[18,8]
         for sign in data['signs']:
             if sign['tile']==[5,6]:sign.update(tile=[19,7],text='A board on a dry crate. Felt underneath stops it rocking.')
@@ -63,12 +73,14 @@ def dress(name, data):
             if sign['tile']==[1,4]:sign.update(tile=[4,3],text='ESSENVELD INSTITUUT. Novice room: lower west door. Study hall: upper west. Classroom east. Dormitory upstairs.')
     elif name=='academy_study':
         # Ilse's references, Sunny's small seat, Orla's clear playing area.
-        art('book_shelf',16,8);art('study_desk',64,64)
+        art('book_shelf',16,8);art('study_desk',80,80)
         art('playing_table',256,64);art('snack_stool',288,144)
         art('playing_table',160,144)
+        seats={'ilse':[6,4],'sunny':[18,3],'orla':[12,8]}
         for npc in data['npcs']:
             npc['idle']={'ilse':'read','sunny':'arrange','orla':'play'}[npc['id']]
-            if npc['id']=='ilse':npc['tile']=[6,7]
+            if npc['id']=='ilse':npc.update(tile=[6,7],dir='up')
+            npc['seat_across']=seats[npc['id']]
     elif name=='academy_class':
         art('demonstration',112,0);art('book_shelf',16,16)
         for x,y in [(32,80),(176,80),(32,128),(176,128)]:art('student_desk',x,y)
@@ -127,16 +139,17 @@ def rewrite_signs(name,data):
 # Pixel bounds become physical furniture footprints. Art overhangs toward the
 # back wall; collision stays at the base, where a standing person's feet reach it.
 FOOTPRINTS={
-'washer_bank':(128,40,0,24,128,16),'folding_counter':(64,32,0,16,64,16),
-'bar_counter':(64,32,0,16,64,16),'playing_table':(48,32,0,16,48,16),
-'long_bench':(48,24,0,8,48,16),'study_desk':(48,40,0,16,48,24),
+'washer_bank':(80,26,0,10,80,16),'folding_counter':(64,32,0,16,64,16),
+'bar_counter':(64,32,0,16,64,16),'playing_table':(48,32,0,0,48,32),
+'long_bench':(48,24,0,8,48,16),'study_desk':(32,32,0,0,32,32),
 'bed':(32,48,0,0,32,48),'reception':(64,40,0,16,64,24),
 'student_desk':(48,24,0,0,48,16),'tea_station':(48,32,0,16,48,16),
 'laundry_basket':(24,24,0,8,24,16),'dry_corner':(80,48,8,32,48,16),
-'port_cargo':(64,32,0,16,64,16),'review_board':(48,40,0,24,48,16)}
+'port_cargo':(64,32,0,16,64,16),'review_board':(48,40,0,24,48,16),
+'tram_stop':(48,48,16,32,32,16)}
 
 for person in ['noor','ivo','lea','emil','sora']:
-    FOOTPRINTS['novice_'+person]=(48,48,0,16,48,16)
+    FOOTPRINTS['novice_'+person]=(48,48,0,0,48,32)
 
 def finish(name,data):
     ground=[list(r) for r in data['ground']];solid=[list(r) for r in data['solid']]
@@ -152,12 +165,17 @@ def finish(name,data):
         for y,row in enumerate(ground):
             if y<3:continue
             for x,ch in enumerate(row):
-                if ch in 'GEXVZ' and (x,y) not in signs:
+                if ch in 'GEXVZk' and (x,y) not in signs:
                     ground[y][x]=floor;solid[y][x]='0'
     for prop in data.get('art_props',[]):
         spec=FOOTPRINTS.get(prop['art'])
         if not spec:continue
         w,h,bx,by,bw,bh=spec;x,y=prop['position']
+        # Where the object meets the floor, in pixels. The world y-sorts the
+        # props that have one against the people, so somebody standing behind
+        # a table is drawn behind it -- which is what makes a seat on the far
+        # side of a board read as a seat rather than as standing on the board.
+        prop['base']=y+by+bh
         # Clear the old tiny drawing from beneath the new asset.
         for ty in range(max(3,y//16),min(len(ground),(y+h+15)//16)):
             for tx in range(max(1,x//16),min(len(ground[ty])-1,(x+w+15)//16)):
@@ -167,4 +185,19 @@ def finish(name,data):
                 if 0<=ty<len(solid) and 0<=tx<len(solid[ty]):solid[ty][tx]='1'
     for sign in data['signs']:
         x,y=sign['tile'];solid[y][x]='1'
+    # A mat on the tile inside every door. Until now only the wassalon had one,
+    # and nothing else in an interior said which tile was the way out: the exit
+    # was a door drawn into a wall of doors, with no prompt, no marker and no
+    # sound. The mat is derived from the warps rather than hand-placed, so a
+    # room that gains a door gains a mat with it.
+    if data.get('indoors'):
+        doors={tuple(w['tile']) for w in data.get('warps',[])}
+        for wx,wy in doors:
+            # A stair already looks like a stair; only doors need the mat.
+            if ground[wy][wx] in '<>':continue
+            for dx,dy in ((0,-1),(0,1),(-1,0),(1,0)):
+                mx,my=wx+dx,wy+dy
+                if (mx,my) in doors:continue      # a two-tile door is one door
+                if 0<=my<len(ground) and 0<=mx<len(ground[my]) and solid[my][mx]=='0':
+                    ground[my][mx]='3'
     data['ground']=[''.join(r) for r in ground];data['solid']=[''.join(r) for r in solid]

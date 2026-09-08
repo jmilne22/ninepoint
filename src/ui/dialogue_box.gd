@@ -20,8 +20,6 @@ const TEXT_H := 44
 ## conversation happens where the player is standing, and a box that covers
 ## both people talking is a box over the wrong third of the screen.
 var anchor: Node2D = null
-const EXPRESSIONS := {"neutral": 0, "happy": 1, "annoyed": 2, "working": 3}
-
 var running: bool = false
 
 var _root: Control
@@ -198,11 +196,7 @@ func _set_speaker(who: Dictionary, expression: String) -> void:
     var tex = who.get("portrait", null)
     _portrait.visible = tex != null
     if tex != null:
-        var at := AtlasTexture.new()
-        at.atlas = tex
-        var col: int = int(EXPRESSIONS.get(expression, 0))
-        at.region = Rect2(col * 64, 0, 64, 64)
-        _portrait.texture = at
+        _portrait.texture = PortraitMoods.slice(tex, expression)
     _text.position.x = 78 if tex != null else 12
     _text.size.x = 288 if tex != null else 354
     _choice_box.position.x = _text.position.x

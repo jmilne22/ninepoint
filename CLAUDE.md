@@ -246,7 +246,11 @@ quay), `review_unavailable` (a wedged engine must still let you out), `quay_revi
 `quay_review_19` (the noticeboard from a save), `nineteen` (controls, mouse and
 resignation), `nineteen_game` (whole engine game/count/review), `nineteen_count`
 (real counting with the fallback), `nineteen_handicap`, `nineteen_missing`, and
-`nineteen_review` (distant review points).
+`nineteen_review` (distant review points). POLISH-02 adds `polish_edges` (all four ends of
+the world that used to be open air), `polish_thresholds` (the tram stop, every doorway
+prompt and mat, the steps to the water), `polish_street` (the three shopfronts and the
+rescaled furniture), `polish_across_board` (sitting down opposite Bertie, Wren and Kesh)
+and `polish_faces` (a whole game, watching the opponent's expression rather than her lines).
 
 Screenshots land in `/tmp/ninepoint-shots` (override with `OUT=`). **`run_game.sh` needs a
 script argument** — it runs on a hidden display. `DISPLAY_NUM=0` runs it on the real display
@@ -510,6 +514,42 @@ on the bundled Human-SL build.
 **Known gaps, in priority order:** see `ROADMAP.md`. The short version: engine dead-stone
 adjudication; teaching and town access for 19×19 (the development UI has overview/zoom); `world.gd` and `go_match.gd` are over the line-count convention; audio has never been heard by an assistant.
 
+---
+
+## POLISH-02 — reading the town
+
+**The map boundary is a wall unless it is a door**, and `gen_maps.validate()` fails the
+build on any walkable boundary tile that is not a warp. Ketelsteeg shipped with twenty
+open ones and the quay with twelve; the camera is clamped to the map and the player never
+was, so both ends of the street walked you off the frame. Both ends close on brick, the
+park on hedge and the quay on warehouse; the passers-by come out of the three alley mouths
+between the buildings instead of walking on from off the map.
+
+**A warp's `prompt` is displayed.** It had been generated into every map since the maps
+existed and `MapBuilder.build_warps` discarded it. A warp now carries a `Doorway`
+interactable at `PRIORITY_DOORWAY` (below a sign, well below a person), so standing in
+front of a door names where it goes and [Space] uses it as well as walking in does. Every
+interior exit has a `floor_mat` on the tile inside it, derived from the map's own warps
+rather than hand-placed.
+
+**A board is two tiles deep and the probe reaches one.** Every seated opponent carries
+`seat_across`: the chair on the far side of their board. `Npc` gives its existing
+Interactable a second box there, so the person outranks their own board's flavour text and
+the far side of Bertie's stone table stops doing nothing at all. `PROBE_REACH` is not
+touched — `validate()`'s sign rules are written against 12.0. `validate()` checks every
+declared seat is walkable, reachable and square on across its own furniture.
+
+**The 16×24 person is the ruler for furniture** (`ART_DIRECTION.md` §8), board tables are
+solid for their whole drawn depth, and props with a `base` y-sort against the cast.
+
+**The opponent's face reacts to the board.** `src/go/go_mood.gd` is pure: tags in from
+`GoTableTalk`, the name of a mood out, never a texture. Portraits carry seven expressions;
+the column order lives in `tools/gen_characters.EXPRESSIONS` and
+`src/rpg/npc/portrait_moods.gd`, and a test measures a real strip against it. Reactions are
+to outcomes only — judgement stays in the review.
+
+Play evidence and its limits: `docs/polish/PLAYTEST.md`.
+
 ## The longer documents
 
 - `GAME_DESIGN.md` — pillars, the three-act structure, the cast, the teaching order
@@ -532,12 +572,17 @@ authority. First handicap introductions are controlled by the player and saved t
 `handicap_intro_seen`; H reopens the explanation. `MatchPresentation` owns factual wording.
 Unknown ranks never generate a handicap. The first Wren and Pip boards are empty.
 
-Preferred verified routes: `overhaul_fresh` (also `slice_full`), `overhaul_shortcuts`,
+Preferred verified routes: `overhaul_fresh`, `overhaul_shortcuts`,
 `overhaul_white`, `overhaul_joos`, `overhaul_art`, `overhaul_returns`, `overhaul_activities`,
 `overhaul_cup`, `overhaul_cup_open`, `overhaul_exam_pass`, `overhaul_exam_fail`,
 `overhaul_hana_passed`, `overhaul_hana_failed`, `overhaul_arcs_3`, `overhaul_arcs_6`, `overhaul_review_return`,
 `overhaul_review_failure`, and the M42 `nineteen` regression. Play evidence and its limits
 are in `docs/overhaul/PLAYTEST.md`. Use a separate XDG_DATA_HOME for play and another for tests.
+
+`slice_full` **does not currently complete**: it has stopped a sixth of the way in since
+the early-game merge, on `origin/main` as well as anywhere else, because Wren's choices
+moved in M45 and the route was never replayed. See WORKBOARD TEST-01. Use `early_lessons`
+or `novice_journey` for a New Game journey until it is repaired.
 
 Town movement: `run_mode` starts from the isolated `invited` preset and checks Shift-run
 speed, release back to walking, exterior/interior steering, collision and input locks.

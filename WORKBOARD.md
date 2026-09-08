@@ -4,7 +4,7 @@ This is the **operational source of truth** for unfinished work. An agent starts
 not in the milestone history. It answers: what may be picked up now, what is blocked, and
 what evidence makes a task done.
 
-Revision base: `origin/main` and HEAD both `f1b02c8`, freshly fetched and verified on 2026-09-06 before EARLY-01.
+Revision base: `origin/main` and HEAD both `ee1b65e`, freshly fetched and verified on 2026-09-08 before POLISH-02.
 Update the snapshot when reconciling after a merge; it is not a release number.
 
 ## How to use this board
@@ -34,18 +34,75 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 | `MILESTONES.md` | Append-only shipped history and verification evidence | The current backlog |
 | Design / architecture / art docs | Durable product and technical truth | Task status |
 
+## In progress
+
+### POLISH-02 — Read the town: scale, edges, thresholds and faces
+
+- Status: `DOING` · Priority: `P1` · Owner: Claude · Branch: `polish/verhaven-readability`.
+- Base: fetched `origin/main` and HEAD both `ee1b65e`, 2026-09-08.
+- Why: the owner played the build and listed nine presentation faults. None of them
+  fails a gate — 16,730 checks pass — and all nine are hit inside ten minutes.
+- Scope, and the cause found for each:
+  1. **The map had no edges.** `ketelsteeg.json` carried twenty walkable boundary
+     tiles with no warp and the quay twelve, because both maps are laid with
+     full-width row fills. `validate()` had no boundary rule, `MapBuilder` adds no
+     bounding box and the player has no clamp: three places that could have caught
+     it, none of which looked. Both ends of the street close on brick, the park on
+     hedge, the quay on warehouse; `validate()` now fails the build on a walkable
+     boundary tile that is not a door.
+  2. **Doorways announced nothing.** Every warp has carried a `prompt` since the
+     maps were first generated and `build_warps` discarded it. Warps now carry a
+     `Doorway` interactable at a priority below a sign, so a door names where it
+     goes and [Space] uses it; every interior exit has a coir mat inside it,
+     derived from the warps rather than hand-placed; `door_int` has daylight under
+     it; the Instituut's dormitory stair has a `stairs_up` tile instead of pavement.
+  3. **The tram stop looked like a lamp post.** A concrete boarding platform and a
+     generated shelter carrying the route board, in place of a 32×48 sign hung half
+     over one of the twenty escape tiles.
+  4. **The water was hidden.** The railing gap is three tiles with a gravel path
+     worn to it across Molenpark, a lamp and a readable sign.
+  5. **Scale.** The attic's "board" was the De Ketel bar table (48×32, board face
+     24×22) beside a 16×24 person. `table()` keeps its size and gets a board a
+     person's width; `study_desk` is a two-tile writing desk; the laundrette's
+     machines are 20×24 rather than 32×36.
+  6. **Storefronts.** The laundrette's interior machine bank was painted on its
+     outside brick, unframed. Three generated shopfronts — fascia, frame, glass,
+     stall riser — with what is behind the glass drawn at the size it really is.
+  7. **You could stand on the table, and people drew in front of it.** Props had no
+     `z_index` and were parented before `Entities` existed. Furniture that stands on
+     the floor now sorts against the cast by the row its legs are on, and board
+     tables are solid for their whole drawn depth.
+  8. **You could not sit down opposite anybody.** The probe reaches one tile and
+     every board is two deep: at Wren's, Joos's and the novices' boards you got the
+     flavour text about the board, and at Bertie's stone table nothing happened at
+     all. A `seat_across` tile per seated opponent gives their existing Interactable
+     a second box on the far chair. `PROBE_REACH` is untouched.
+  9. **The opponent's face never moved.** `go_match.gd` set the portrait region once
+     and never again. Three new expressions, a pure `GoMood` mapping the tags
+     `GoTableTalk` already emits, and a live portrait — which also gives `standing()`
+     and both `edge_early` tags their first consumer.
+  10. **The title screen.** Font size 21 on a bitmap font whose native size is 9;
+     the save summary over the skyline; no cursor and no animation.
+- Decisions: polish the title in place, keep `ITEMS` order (≈100 autopilot scripts
+  count key presses through it); portraits only, no world emote bubbles; no engine,
+  rank, progression or dialogue-content change.
+- Acceptance: played routes with opened screenshots for every item, all eleven maps
+  validating, and the normal compile/load, rules, content and engine gates.
+- Evidence: `docs/polish/PLAYTEST.md`; routes `polish_edges`, `polish_thresholds`,
+  `polish_street`, `polish_across_board`, `polish_faces`, `polish_title`.
+
 ## Early-game revision — verified for PR review
 
-All five packages were implemented sequentially on `codex/early-game-review`. Final evidence:
+All five packages shipped in PR #26, merged at `ee1b65e`. Final evidence:
 16,730 checks, 277 loaded files, all three KataGo gates, zero lesson-validator problems,
 writing and generated-map checks; opened screenshots from manual Wren/Noor/Ivo counted games
 and separate Kesh, interruption, review-failure, quay, Cup/exam and mouse routes.
-[Before/after report and evidence](docs/early-game/PLAYTEST.md). Prepared for PR review; no merge or release.
+[Before/after report and evidence](docs/early-game/PLAYTEST.md). Merged in PR #26.
 PROG-01's independent human gate remains open.
 
 ### EARLY-01 — Keep lesson positions visible
 
-- Status: `SHIPPED` (verified local implementation; not merged) · Priority: `P1` · Owner: Codex · Branch: `codex/early-game-review`.
+- Status: `SHIPPED` (merged in PR #26 at `ee1b65e`) · Priority: `P1` · Owner: Codex · Branch: `codex/early-game-review`.
 - Base: fetched origin/main and HEAD both `f1b02c8`, 2026-09-06.
 - Owner approved the complete early-game revision plan. Five packages are implemented sequentially.
 - Scope: side-panel lesson feedback, inspection, measured pagination, transient board errors.
@@ -53,29 +110,29 @@ PROG-01's independent human gate remains open.
 
 ### EARLY-02 — Teach and support a complete first game
 
-- Status: `SHIPPED` (verified local implementation; not merged) · Priority: `P1` · Dependency: EARLY-01. Owner: Codex.
+- Status: `SHIPPED` (merged in PR #26 at `ee1b65e`) · Priority: `P1` · Dependency: EARLY-01. Owner: Codex.
 - Scope: four-exercise beginner track, finishing/counting actions, shorter optional openings, deeper optional counting, position-aware Wren help.
 - Acceptance: validated legal continuations and scoring; full unrated Wren game with inspected help/pass/count screens.
 - Reconciles CONTENT-01's early-game judgement scope. Wren's strength, stopping policy and dead-stone estimator remain unchanged; CONTENT-05 remains open.
 
 ### EARLY-03 — Join fellow beginners
 
-- Status: `SHIPPED` (verified local implementation; not merged) · Priority: `P1` · Dependency: EARLY-02. Owner: Codex.
+- Status: `SHIPPED` (merged in PR #26 at `ee1b65e`) · Priority: `P1` · Dependency: EARLY-02. Owner: Codex.
 - Scope: Hana welcome/class before registration, novice voices and continuity, fact-based old-save reconciliation; no new win gate.
 - Acceptance: New Game reaches Noor and Ivo; interrupted/skipped lessons and old saves retain access, rank and records; writing checks.
 
 ### EARLY-04 — React before reviewing
 
-- Status: `SHIPPED` (verified local implementation; not merged) · Priority: `P1` · Dependency: EARLY-03. Owner: Codex.
+- Status: `SHIPPED` (merged in PR #26 at `ee1b65e`) · Priority: `P1` · Dependency: EARLY-03. Owner: Codex.
 - Scope: record once, world reaction before optional review, supportable explanations and independent move comparisons.
 - Acceptance: Yes/No/leave/reload/unavailable/rematch and Cup/exam flows; exact-once records/rank; real-engine review gates.
 
 ### EARLY-05 — Make progress and people readable
 
-- Status: `SHIPPED` (verified local implementation; not merged) · Priority: `P2` · Dependency: EARLY-04. Owner: Codex.
+- Status: `SHIPPED` (merged in PR #26 at `ee1b65e`) · Priority: `P2` · Dependency: EARLY-04. Owner: Codex.
 - Scope: novice table details, HUD contrast and live fixture objective, league help, quay directions; final documentation and before/after playtest.
 - Acceptance: generated-map validation, full gates, isolated beginner-like Wren/Noor/Ivo counted games and separate Kesh practice coverage with opened screenshots.
-- Independent human beginner testing remains the PROG-01 release gate. PR review is authorized; no merge or release is included.
+- Independent human beginner testing remains the PROG-01 release gate.
 
 ### PROG-02 — Make Kesh's opening game optional practice
 
@@ -292,6 +349,29 @@ PROG-01's independent human gate remains open.
   engine gates passed; inherited TECH-06 limitations remain. Full evidence in M42.
 - Follow-up: CONTENT-04 owns the teaching introduction, Hana offer and progression gate.
 - Context: `ROADMAP.md` §3.
+
+### TEST-01 — `slice_full` has been broken since the early-game merge
+
+- Status: `READY` · Priority: `P2` · Found during POLISH-02, 2026-09-08.
+- What happens: the route stops after ten shots with "Experience route timed out waiting
+  for lesson_place". Wren's `ask_experience` choices and her lead-in changed in M45, so
+  `{"choose": 0}` no longer reaches the liberties lesson and one `interact` no longer
+  opens it. The remaining 150-odd steps have never run since.
+- **Not a POLISH-02 regression**: reproduced identically on a clean worktree at
+  `origin/main` `ee1b65e` — ten shots, same message, same step. M45's evidence list does
+  not include `slice_full`, and `tools/autopilot/slice_full.json` was last touched in
+  `b915a12`, before the early-game merge.
+- Why it matters: `CLAUDE.md` and `docs/overhaul/PLAYTEST.md` both name `slice_full` as a
+  preferred verified route. A fixture that stops a sixth of the way in and is still
+  described as the canonical New Game journey is the document lying quietly, which is the
+  failure mode the "sweep the documents" rule exists for.
+- Scope: replay the route by hand against the current early-game flow and rewrite its
+  choices and advances, or retire it in favour of `early_lessons` and `novice_journey`,
+  which are M45-era and do complete.
+- Acceptance: the route reaches its final step, or the documents stop naming it.
+- A partial repair was tried and reverted during POLISH-02 rather than left unproven:
+  Wren's lead-in does now need an `advance` instead of one tap, but that alone does not
+  clear it.
 
 ### TECH-02 — Replace duplicated lesson/puzzle reachability lists
 

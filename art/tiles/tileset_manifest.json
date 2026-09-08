@@ -379,68 +379,76 @@
    13,
    5
   ],
-  "stairs_down": [
+  "tram_platform": [
    14,
    5
   ],
-  "concrete": [
+  "stairs_up": [
    15,
    5
   ],
-  "glass_curtain": [
+  "stairs_down": [
    0,
    6
   ],
-  "stove": [
+  "concrete": [
    1,
    6
   ],
-  "stove_f1": [
+  "glass_curtain": [
    2,
    6
   ],
-  "hooks": [
+  "stove": [
    3,
    6
   ],
-  "floor_concrete": [
+  "stove_f1": [
    4,
    6
   ],
-  "washer": [
+  "hooks": [
    5,
    6
   ],
-  "washer_f1": [
+  "floor_concrete": [
    6,
    6
   ],
-  "prop_cups": [
+  "washer": [
    7,
    6
   ],
-  "prop_papers": [
+  "washer_f1": [
    8,
    6
   ],
-  "prop_laundry": [
+  "prop_cups": [
    9,
    6
   ],
-  "prop_satchel": [
+  "prop_papers": [
    10,
    6
   ],
-  "prop_rope": [
+  "prop_laundry": [
    11,
    6
   ],
-  "prop_chalk": [
+  "prop_satchel": [
    12,
    6
   ],
-  "wall_side": [
+  "prop_rope": [
    13,
+   6
+  ],
+  "prop_chalk": [
+   14,
+   6
+  ],
+  "wall_side": [
+   15,
    6
   ]
  }

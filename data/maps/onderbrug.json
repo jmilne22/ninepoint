@@ -67,6 +67,8 @@
   "8": "neon_sign",
   "9": "snack_window",
   "<": "stairs_down",
+  ">": "stairs_up",
+  "/": "tram_platform",
   "+": "concrete",
   "*": "glass_curtain",
   "$": "stove",
@@ -194,6 +196,10 @@
    ],
    "dir": "up",
    "idle": "arrange",
+   "seat_across": [
+    19,
+    6
+   ],
    "activity_variations": [
     {
      "flag": "joos_match_done",
@@ -224,14 +230,16 @@
    "position": [
     272,
     80
-   ]
+   ],
+   "base": 128
   },
   {
    "art": "port_cargo",
    "position": [
     144,
     112
-   ]
+   ],
+   "base": 144
   }
  ],
  "presence_states": [

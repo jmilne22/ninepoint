@@ -30,6 +30,13 @@ var _navigation: BoardNavigation
 var _mouse_controls: MatchMouseControls
 var _panel: NinePatchRect
 var _portrait: TextureRect
+## The opponent's whole portrait strip. The region used to be set once, to
+## column zero, and never touched again for the rest of the game: the face on
+## screen throughout every match was the same face whatever happened on the
+## board. `_set_expression` is what the nigiri ceremony has always done for its
+## own close-up, and this is the same call.
+var _portrait_strip: Texture2D = null
+var _mood: String = GoMood.NEUTRAL
 var _name: Label
 var _rank: Label
 var _turn: Label
@@ -175,10 +182,8 @@ func _build_ui() -> void:
     _portrait.size = Vector2(64, 64)
     _portrait.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
     if request.portrait_path != "" and ResourceLoader.exists(request.portrait_path):
-        var at := AtlasTexture.new()
-        at.atlas = load(request.portrait_path)
-        at.region = Rect2(0, 0, 64, 64)
-        _portrait.texture = at
+        _portrait_strip = load(request.portrait_path)
+        _set_expression(GoMood.NEUTRAL)
     _panel.add_child(_portrait)
 
     _name = _label(_panel, Vector2(76, 10), 92, 9, "#14121a")
@@ -429,6 +434,9 @@ func _opponent_turn() -> void:
                 await get_tree().create_timer(PASS_BEAT).timeout
         "resign":
             game.resign(GoBoard.opponent(player_color))
+            # Resigning is the one move that says how the game is going out
+            # loud. The face should not still be neutral while they say it.
+            _set_expression("worried")
             _set_message(profile.on_resign if profile.on_resign != "" \
                 else "%s resigns." % request.opponent_name)
         _:
@@ -459,12 +467,33 @@ func _await_move() -> Dictionary:
 ## Reactions are to OUTCOMES only: what happened, never what should have been
 ## played instead.
 func _react() -> void:
+    var speaker := GoBoard.opponent(player_color)
+    var tags := GoTableTalk.events(game, speaker)
+    # The face moves on every move; the voice keeps its four-move cooldown.
+    # Somebody who remarks on everything is a tutorial, but somebody whose
+    # expression never changes while you take four of their stones is a
+    # photograph, and this panel was showing a photograph.
+    # The standing is only asked for once the opening is over. Whole-board area
+    # scoring on a nearly empty board says whoever played first owns everything,
+    # which is true and useless -- it is the same trap check_lessons.py guards
+    # the taught positions against -- and it pinned the opponent's face to
+    # "losing" from move one for whoever had not moved yet.
+    var standing := ""
+    if game.move_number() > GoTableTalk.EARLY_MOVES:
+        standing = GoTableTalk.standing(game, speaker)
+    _set_expression(GoMood.for_tags(tags, standing))
     if voice == null:
         return
-    var speaker := GoBoard.opponent(player_color)
-    var line := voice.speak(GoTableTalk.events(game, speaker), game.move_number())
+    var line := voice.speak(tags, game.move_number())
     if line != "":
         _set_message(line)
+
+
+func _set_expression(mood: String) -> void:
+    _mood = mood
+    if _portrait_strip == null:
+        return
+    _portrait.texture = PortraitMoods.slice(_portrait_strip, mood)
 
 
 func _on_point_activated(point: int) -> void:

@@ -39,6 +39,8 @@ static func run(t: TestKit) -> void:
     _test_quest_reconciles_early_progress(t)
     _test_ui_text_fits(t)
     _test_runtime_font_coverage(t)
+    _test_portrait_moods(t)
+    _test_far_seats(t)
 
 
 static func _list(dir_path: String, ext: String) -> PackedStringArray:
@@ -1140,3 +1142,81 @@ static func _test_runtime_font_coverage(t: TestKit) -> void:
             if codepoint > 127:
                 t.ok(UiKit.FONT.has_char(codepoint),
                     "%s supplies U+%04X" % [path, codepoint])
+
+
+## The portrait strip, the generator that draws it and the dialogue graphs that
+## name its columns are three separate lists of the same seven words, and the
+## failure is silent all three ways: an unknown mood resolves to column zero and
+## the face simply never changes. Measure a real strip, and check every mood a
+## graph asks for exists.
+static func _test_portrait_moods(t: TestKit) -> void:
+    t.section("portrait moods")
+    t.ok(PortraitMoods.COLUMNS.size() >= 4, "there are moods to draw")
+    t.eq(PortraitMoods.column("neutral"), 0, "neutral is the fallback column")
+    t.eq(PortraitMoods.column("no-such-mood"), 0, "an unknown mood falls back to neutral")
+    var strips := _list("res://art/portraits", ".png")
+    t.ok(strips.size() > 0, "characters have portraits")
+    var expected := PortraitMoods.COLUMNS.size() * PortraitMoods.SIZE
+    for path in strips:
+        var tex: Texture2D = load(path)
+        if tex == null:
+            t.ok(false, "%s loads" % path)
+            continue
+        t.eq(tex.get_width(), expected,
+            "%s has one column per mood" % path.get_file())
+        t.eq(tex.get_height(), PortraitMoods.SIZE, "%s is one row" % path.get_file())
+    for path in _list("res://data/dialogue", ".json"):
+        var graph := DialogueGraph.load_graph(path)
+        if graph == null:
+            continue
+        for id in graph.nodes.keys():
+            var node: Dictionary = graph.nodes[id]
+            if not node.has("portrait"):
+                continue
+            var mood := str(node["portrait"])
+            t.ok(PortraitMoods.COLUMNS.has(mood),
+                "%s/%s asks for a mood that exists (%s)" % [path.get_file(), id, mood])
+    # Every tag the rules layer can emit has to produce a face, or the panel
+    # goes blank-eyed exactly when something happened.
+    for tag in GoMood.BY_TAG.keys():
+        t.ok(PortraitMoods.COLUMNS.has(str(GoMood.BY_TAG[tag])),
+            "the mood for '%s' is a real column" % tag)
+    for standing in GoMood.BY_STANDING.keys():
+        t.ok(PortraitMoods.COLUMNS.has(str(GoMood.BY_STANDING[standing])),
+            "the mood for '%s' is a real column" % standing)
+    t.eq(GoMood.for_tags(PackedStringArray(["you_captured_big"]), "winning"), "worried",
+        "a tag outranks the standing")
+    t.eq(GoMood.for_tags(PackedStringArray(), "losing"), "worried",
+        "with nothing to react to, the face says how it is going")
+    t.eq(GoMood.for_tags(PackedStringArray(["unheard_of"]), ""), "neutral",
+        "an unknown tag and no standing is a neutral face")
+
+
+## The chair on the far side of a board: walkable, and next to the furniture it
+## belongs to rather than across the room from it.
+static func _test_far_seats(t: TestKit) -> void:
+    t.section("far seats")
+    var seats := 0
+    for path in _list("res://data/maps", ".json"):
+        var map_id := path.get_file().trim_suffix(".json")
+        var m := MapData.load_map(map_id)
+        if m == null:
+            continue
+        for npc in m.npcs:
+            if not npc.has("seat_across"):
+                continue
+            seats += 1
+            var seat: Array = npc["seat_across"]
+            var tile: Array = npc["tile"]
+            var sx := int(seat[0])
+            var sy := int(seat[1])
+            t.ok(not m.is_solid(sx, sy),
+                "%s: %s's far seat is somewhere you can stand" % [map_id, npc["id"]])
+            # Same row or same column as the person, and near enough that the
+            # thing between the two of you is their board.
+            var dx: int = absi(sx - int(tile[0]))
+            var dy: int = absi(sy - int(tile[1]))
+            t.ok((dx == 0) != (dy == 0), "%s: %s's far seat is square on" % [map_id, npc["id"]])
+            t.ok(dx + dy >= 2 and dx + dy <= 3,
+                "%s: %s's far seat is across their board, not across the room" % [map_id, npc["id"]])
+    t.ok(seats >= 10, "the boards people sit at have a chair on the other side")

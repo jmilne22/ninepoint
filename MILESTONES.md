@@ -1,4 +1,4 @@
-Current verified local revision: [M45 early-game evidence](docs/early-game/PLAYTEST.md). Historical entries retain their original behavior and counts.
+Current verified local revision: [M46 polish evidence](docs/polish/PLAYTEST.md). Historical entries retain their original behavior and counts.
 
 # NINEPOINT — Milestones
 
@@ -3060,11 +3060,11 @@ No Go rules, engine settings, rank progression, result format, town interaction 
 schema changes. Existing shutdown ObjectDB/resource warnings remain outside this task.
 
 
-## M45 — A complete beginner opening [verified local candidate]
+## M45 — A complete beginner opening  [done]
 
 EARLY-01 through EARLY-05 implement the owner-approved revision on
-`codex/early-game-review`. This is a verified release-sized change prepared for PR review, **not merged
-or released**. PROG-01's independent beginner and rank-label gate remains open.
+`codex/early-game-review`, merged in PR #26 at `ee1b65e`. PROG-01's independent beginner
+and rank-label gate remains open.
 
 Lesson answers now leave their position visible beside measured explanation pages.
 Four rules exercises lead into a legal 7×7 finishing demonstration, editable exact count,
@@ -3113,3 +3113,103 @@ Wren's strength, all opponent profiles, stopping rules, dead-stone estimation, r
 and Go scoring rules are unchanged. ENG-09 records questionable endings for separate
 assessment. No subjective audio claims. Existing shutdown resource warnings remain;
 no script errors occurred in the successful routes.
+
+## M46 — Reading the town (POLISH-02)  [done]
+
+The owner played the build and named nine presentation faults. None of them failed a gate,
+all of them are hit inside ten minutes, and the thread running through them is that the
+world did not tell the player what it was.
+
+**The map had no edges.** `ketelsteeg.json` shipped twenty walkable boundary tiles with no
+warp behind them and the quay twelve, because both maps are laid with full-width row fills.
+`gen_maps.validate()` had no boundary rule, `MapBuilder.build_collision` emits collision
+only for solid tiles *inside* the grid, and `Player` has no position clamp: three places
+this could have been caught, none of which looked. The camera is clamped to the map and the
+player never was, so walking west from the tram stop or east past the arch slid you off the
+frame into a hundred and ninety-two pixels of backdrop. Both ends of the street close on
+brick, the park on hedge and the quay on warehouse flank, and `validate()` now fails the
+build on any walkable map-edge tile that is not a door. The passers-by, who used to walk on
+from off the map, come out of the three alley mouths between the buildings instead.
+
+**Doorways announced nothing.** Every warp has carried a `prompt` — "De Ketel", "Down to
+the water" — since the maps were first generated, and `build_warps` discarded it. A warp
+carries a `Doorway` interactable now, at a priority below a sign and well below a person,
+so a door names where it goes and [Space] uses it as well as walking in does. Every interior
+exit has a coir mat on the tile inside it, derived from the map's own warps rather than
+hand-placed; `door_int` has daylight under its bottom rail; the Instituut's stair to the
+dormitory is a `stairs_up` tile rather than a piece of pavement.
+
+**The tram stop looked like a lamp post** and the way down to the water was two grey steps
+in a thirty-four tile run of railing. The stop is a shelter over a poured, kerbed boarding
+slab with the route board on its roof; the steps are a three-tile gap with a gravel path
+worn to them, a lamp and a sign.
+
+**Scale.** The "go board" in the attic was the De Ketel bar table — 48×32, with a 24×22
+board face floating off its back edge — beside a 16×24 person, and a washing machine was
+32×36. A goban is a person's shoulders wide and a front loader comes to the chest. Tables
+keep their size; what is on them does not.
+
+**Storefronts.** The laundrette announced itself by having its four full-size interior
+machines painted on the outside of its brick with no frame around them. Three generated
+shopfronts: fascia, timber frame, glass, stall riser, and what is behind the glass drawn at
+the size it really is.
+
+**People drew in front of the furniture they were sitting at,** because `VenueProps` added
+every prop with no `z_index`, parented before `Entities` existed. Furniture that stands on
+the floor carries a `base` and sorts against the cast at it. Board tables are solid for
+their whole drawn depth, so the far chair is a chair rather than the tabletop.
+
+**You could not sit down opposite anybody.** The interaction probe reaches exactly one tile
+and every board is two deep, so from the far side you got the flavour text about the board —
+and at Bertie's stone table in Molenpark, where there is no sign, nothing at all: no prompt,
+no response, in the one place in the game whose entire furniture is a board. Each seated
+opponent declares `seat_across`, and `Npc` gives its existing Interactable a second box
+there. `PROBE_REACH` is untouched; `validate()` checks every seat is walkable, reachable
+and square on across its own furniture.
+
+**The opponent's face never moved.** `go_match.gd` set the portrait region once, to column
+zero, and never again — the face on screen for every match was the same face whatever
+happened on the board. Portraits carry seven expressions now; `src/go/go_mood.gd` maps the
+tags `GoTableTalk` has always emitted to the *name* of one, which keeps rule 1 intact, and
+finally gives `standing()` and both `edge_early` tags their first consumer. The line M25
+drew still holds: reactions are to outcomes, never to whether the move was a good one.
+
+**The title screen** set "NINEPOINT" at font size 21 on a bitmap font whose native size is
+9 — the largest piece of type in the game, scaled by a seventh, for the life of the project.
+It is 18 now, on a measured card with a drawn cursor, the save summary inside the frame
+rather than over the skyline (a known issue since M31), a controls hint and a fade-in that
+is skipped under the autopilot so the hundred fixture scripts still land their first key.
+
+**Done when:** `tools/test.sh` reported **16,863 passed, 0 failed** and **279 files all
+load**, against M45's **16,730** and **277**: **133** additional checks and **2** loaded
+files. All three KataGo gates passed — the service gate, 79/79 positions in 14.5 s on 9×9
+and 241/241 in 60.9 s on 19×19, and the stalled-engine watchdog at 6.1 s. Lesson validator:
+zero problems. All twelve generated maps validate under the two new rules.
+
+Played and opened: `polish_edges`, `polish_thresholds`, `polish_street`,
+`polish_across_board`, `polish_faces`, `polish_faces_capture` and `polish_title`, plus the
+`saves`, `run_mode`, `overhaul_art` and `slice_full` regressions. Evidence, the five faults
+found by looking at the frames, and the limits of the expression evidence are in
+[the playtest report](docs/polish/PLAYTEST.md).
+
+### Deliberate changes and boundaries
+
+| Before | After / boundary |
+|---|---|
+| Ketelsteeg and the quay walkable off the map edge | Both close on scenery; `validate()` fails the build on an open boundary |
+| A warp's `prompt` generated and discarded | A `Doorway` interactable names the destination and [Space] uses it |
+| One floor mat in the game, beside its own door | A mat inside every interior exit, derived from the warps |
+| A goban one and a half times a person's width | A goban a person's width; the table it sits on unchanged |
+| The laundrette's machines on its exterior brick | Three shopfronts, with the interior seen through glass at its real size |
+| The cast drawing in front of every prop | Standing furniture y-sorts against people at its base row |
+| The far side of a board unreachable, or silent | `seat_across`, checked by the map generator |
+| One frozen portrait for a whole match | Seven expressions, chosen from the tags the rules already emitted |
+| "NINEPOINT" at font size 21 | 18, on a measured card; menu order untouched |
+
+Engine strength, rank arithmetic, the ladder, scoring, the review, the curriculum, quests
+and every line of dialogue are unchanged. A capture-driven expression was not filmed: every
+automated game reached the count through early passes (ENG-09), so the remaining tag
+reactions rest on `tests/test_data.gd` rather than on a screenshot. Incidental fix, found by
+reading an autopilot log: `SaveSlots._describe` still read `d["day"]`, cut with the calendar
+in M37, so overwriting or deleting another slot threw a script error behind the confirm card
+that no gate opens.

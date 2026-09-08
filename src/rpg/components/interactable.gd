@@ -16,6 +16,9 @@ signal interacted(by: Node)
 ## A sign was 1 and a person was the default 0, so a notice on the wall
 ## outranked somebody standing in front of you whenever the probe held both.
 ## Nothing errored: the dialogue box opens for either.
+## A doorway sits below both: a notice on a wall beside a door, or somebody
+## standing in one, is what you meant to press [Space] on.
+const PRIORITY_DOORWAY := 0
 const PRIORITY_SIGN := 1
 const PRIORITY_PERSON := 2
 
