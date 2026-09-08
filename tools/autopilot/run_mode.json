@@ -1,5 +1,5 @@
 [
- {"save": "invited", "note": "Isolated run-mode route starts outside De Ketel."},
+ {"save": "invited", "note": "Isolated run-mode route starts outside The Kettle."},
  {"wait": 0.8},
  {"tap": "move_down"},
  {"tap": "interact", "note": "Continue the invited save."},

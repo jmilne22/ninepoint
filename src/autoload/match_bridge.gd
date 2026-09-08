@@ -123,7 +123,7 @@ func start_puzzle(puzzle_id: String, player_position: Vector2) -> void:
     await SceneRouter.go_to(PUZZLE_SCENE)
 
 
-## The teaching order. Wren walks a beginner through it at De Ketel; there is no
+## The teaching order. Wren walks a beginner through it at The Kettle; there is no
 ## menu item, because being taught by somebody is the point.
 const TUTORIAL_TRACK := ["liberties", "capture", "self_capture"]
 
@@ -174,7 +174,7 @@ func finish_lesson(lesson_id: String, completed: bool) -> void:
 
 ## `knows_the_rules` gates the study desk, Joos, Bertie, Tomas and Wren's ko
 ## lesson. It used to be set by *any* lesson finishing with an empty queue, so
-## Bertie's ladders or Tomas's counting or a class at the Instituut all declared
+## Bertie's ladders or Tomas's counting or a class at the Institute all declared
 ## the rulebook taught -- a flag measuring something far broader than its own
 ## name, which is why it was never wrong and never right either. The worst of it
 ## was Kesh: `offer_escape` is not gated on this flag, so one lesson from her

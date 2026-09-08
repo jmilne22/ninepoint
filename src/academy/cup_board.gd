@@ -1,4 +1,4 @@
-## The draw, pinned to the board at the front of the Bondszaal.
+## The draw, pinned to the board at the front of the Assembly Hall.
 ##
 ## The same shape as LeagueBoard, and for the same reason: this is the thing the
 ## player comes back and looks at between rounds. It shows the crosstable and

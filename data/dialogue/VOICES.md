@@ -1,4 +1,4 @@
-# Writing Verhaven
+# Writing Sela
 
 Write the exchange in its situation. Establish what the person means, why they say it
 here and what they want from the listener. Read the whole conversation, including its
@@ -21,8 +21,8 @@ basis for confident commentary. Warmth and congratulations are welcome.
 | Wren | Prepares a table and makes room for beginners. Unsure about her own Go, but able to offer help without continual apologies. |
 | Kesh | Issues the novice card before offering optional handicap practice; never presents it as placement. Wants another opponent and another game. Preparation, impatience and requests for rematches show competitiveness. |
 | Tomás | Runs the bar while games happen around him. Cups, cloths, counter work and keeping tables usable occupy him. |
-| Bertie | A familiar park regular. Knows where the spare lid goes and which part of the bench is wet. His proverb is occasional. |
-| Joos | Keeps a dry place to play under the arches. Private, short and practical; no cryptic speeches about ranks. |
+| Bertie | A familiar park regular. Knows where the spare lid goes and which part of the bench is shaded. His proverb is occasional. |
+| Joos | Keeps a sheltered place to play in an alcove of the Arcade. Private, short and practical; no cryptic speeches about ranks. |
 | Abel | Visiting for the Cup and meeting unfamiliar opponents. Laundry gives him something to do while he finds his feet. |
 | Dov | Counts and sorts things in front of him. He does not introduce himself by explaining a counting personality. |
 | Moss | Checks entry eligibility and has grown comfortable in the beginners' section. Let defensiveness emerge through repeated encounters. |

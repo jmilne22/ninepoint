@@ -1,5 +1,5 @@
 {
- "name": "Essenveld Instituut -- Hall",
+ "name": "Sela Go Institute \u2014 Garden Court",
  "size": [
   22,
   14
@@ -92,21 +92,22 @@
   "Y": "kifu_board",
   "Q": "plant_int",
   "Z": "kettle_table",
-  "M": "door_int"
+  "M": "door_int",
+  "@": "coast_sky"
  },
  "ground": [
   "++++++++++++++++++++++",
   "**********************",
   "+V++++++++YY++++++++V+",
-  "+,,,,,+,,,,,,,,+,,,,>+",
-  "+O,,,,+,,,,,,,,+,,,,Q+",
-  "+,,,,,+,,,,,,,,+,,,,,+",
-  "+,,,,,,,,,,,,,,,,,,,,+",
-  "M3,,,,,,,,,,,,,,,,,,3M",
-  "+,,,,,,,,,,,,,,,,,,,,+",
-  "+,,,,,+,,,,,,,,+,,,,,+",
-  "M3,,,,+,,,,,,,,+,,,,,+",
-  "+,,,,,,,,,,,,,,,,,,,Q+",
+  "+,,,,,+,PPPPPP,+,,,,>+",
+  "+O,,,,,,PPPPPP,,,,,,Q+",
+  "+,,,,,,,,PPPPP,,,,,,,+",
+  "+,,,,,,,PPPPPP,,,,,,,+",
+  "M3,,,,,,PPPPPP,,,,,,3M",
+  "+,,,,,,,PPPPPP,,,,,,,+",
+  "+,,,,,,,PPPP,,,,,,,,,+",
+  "M3,,,,,,PPPPPP,,,,,,,+",
+  "+,,,,,,,PPPPPP,,,,,,Q+",
   "+,,,,,,,,,33,,,,,,,,,+",
   "++++++++++MM++++++++++"
  ],
@@ -131,13 +132,13 @@
   "1111111111111111111111",
   "1111111111111111111111",
   "1111101000000001000001",
-  "1100001000000001000011",
-  "1000001000000001000001",
+  "1100000000000000000011",
+  "1000001110000000000001",
   "1000000000000000000001",
   "0000000000000000000000",
   "1000000000000000000001",
-  "1000001000000001111001",
-  "0000001000000001111001",
+  "1000000000001110111001",
+  "0000000000000000111001",
   "1000000000000000000011",
   "1000000000000000000001",
   "1111111111001111111111"
@@ -172,7 +173,7 @@
    ],
    "map": "ketelsteeg",
    "spawn": "from_tram",
-   "prompt": "Back to Steenbeek"
+   "prompt": "Market Lane"
   },
   {
    "tile": [
@@ -181,7 +182,7 @@
    ],
    "map": "ketelsteeg",
    "spawn": "from_tram",
-   "prompt": "Back to Steenbeek"
+   "prompt": "Market Lane"
   },
   {
    "tile": [
@@ -240,7 +241,7 @@
     4,
     3
    ],
-   "text": "ESSENVELD INSTITUUT. Novice room: lower west door. Study hall: upper west. Classroom east. Dormitory upstairs."
+   "text": "SELA GO INSTITUTE. Novice room: lower west door. Study hall: upper west. Classroom east. Dormitory upstairs."
   }
  ],
  "npcs": [
@@ -324,6 +325,22 @@
     128,
     8
    ]
+  },
+  {
+   "art": "sela_garden",
+   "position": [
+    96,
+    64
+   ],
+   "base": 96
+  },
+  {
+   "art": "sela_garden",
+   "position": [
+    192,
+    128
+   ],
+   "base": 160
   }
  ],
  "presence_states": [

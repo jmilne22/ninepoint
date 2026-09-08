@@ -12,7 +12,7 @@ steps = [{
 "journal": "Tell Marguerite you are ready to sit it.",
 "advance_on": {"type": "flag", "key": "exam_started"}
 }, {
-"journal": "Sit Marguerite's problem paper at the Bondszaal.",
+"journal": "Sit Marguerite's problem paper at the Assembly Hall.",
 "advance_on": {"type": "flag", "key": "exam_paper_done"}
 }, {
 "journal": "Read the exam list, then see Marguerite.",

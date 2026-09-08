@@ -29,7 +29,7 @@ var home_facing: int = Facing.Dir.DOWN
 ## exactly one, so somebody sitting at their own board could be spoken to from
 ## three sides and not from the fourth -- the one a second player actually sits
 ## at. At Wren's, Joos's and the novices' boards you got the flavour text about
-## the board instead of the person; at Bertie's stone table in Molenpark there
+## the board instead of the person; at Bertie's stone table in Boulevard Garden there
 ## was no interactable on the far side at all, so walking round and pressing
 ## [Space] did nothing whatever. Set by MapBuilder from the map's `seat_across`.
 var seat_across: Vector2 = Vector2.INF
@@ -88,7 +88,7 @@ func _physics_process(delta: float) -> void:
 
 ## Somebody walking past you is worth looking up for. Every NPC gets this,
 ## whatever else they are doing -- before it, you could walk the length of
-## Ketelsteeg and nobody in the city would register that you existed.
+## Market Lane and nobody in the city would register that you existed.
 ##
 ## Returns true while it owns the NPC, so an idle behaviour does not fight it.
 func _notice(delta: float) -> bool:

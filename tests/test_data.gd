@@ -1122,7 +1122,7 @@ static func _test_ui_text_fits(t: TestKit) -> void:
     var rows: Array[Dictionary] = []
     for i in 7:
         rows.append({"is_player": i == 6, "played": 0})
-    var footer := "%s\n%s\nThe top four sit the qualifying exam at the Bondszaal. As it stands, you are not." % [
+    var footer := "%s\n%s\nThe top four sit the qualifying exam at the Assembly Hall. As it stands, you are not." % [
         LeagueTable.summary(rows), GoRankLadder.explain()]
     t.ok(UiKit.text_height(footer, 304) <= UiKit.LINE_H * 6,
         "the longest league footer fits its six-line panel")

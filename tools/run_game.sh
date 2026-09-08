@@ -5,7 +5,7 @@
 #
 # To actually play the game, use:  tools/play.sh
 #
-#   tools/run_game.sh tools/autopilot/slice_full.json
+#   tools/run_game.sh tools/autopilot/kesh_skip.json
 #
 # Ctrl-C works: the whole process group is torn down.
 set -uo pipefail
@@ -32,7 +32,7 @@ run_game.sh needs an autopilot script -- it runs on a hidden display, so without
 one it would sit there invisibly until it timed out.
 
   To play the game:      tools/play.sh
-  To drive the slice:    tools/run_game.sh tools/autopilot/slice_full.json
+  To drive the slice:    tools/run_game.sh tools/autopilot/kesh_skip.json
 
 Available scripts:
 USAGE

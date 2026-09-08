@@ -1,5 +1,9 @@
 # Verhaven overhaul: observed play
 
+Historical evidence for that branch. The early-game flow subsequently changed;
+`slice_full` was retired in SELA. Current routes and limits are in
+[the Sela play report](../sela/PLAYTEST.md).
+
 Branch: `codex/verhaven-overhaul`, started from verified `origin/main` `277b51d`.
 All play used a separate `XDG_DATA_HOME`; the player's save slots were not used.
 

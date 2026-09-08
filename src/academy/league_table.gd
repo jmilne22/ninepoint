@@ -63,7 +63,7 @@ static func standings(records: Array, roster: Array, player_name: String,
             continue        # a game against somebody outside the league
         # Only a league fixture is a league fixture. The exam and the Cup are
         # played against league members and are not; neither is a rematch with
-        # Kesh at De Ketel, which used to appear on the Instituut's board
+        # Kesh at The Kettle, which used to appear on the Institute's board
         # because she is on its roster.
         if not str(record.get("context_id", "")).begins_with("league_"):
             continue

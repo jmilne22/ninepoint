@@ -1,4 +1,4 @@
-## The exam list, pinned up at the Bondszaal.
+## The exam list, pinned up at the Assembly Hall.
 ##
 ## The same shape as CupBoard and LeagueBoard, and for the same reason: this is
 ## the thing the player comes back and looks at between rounds. It shows the
@@ -38,7 +38,7 @@ func _build() -> void:
 
     var panel := UiKit.panel(_root, Rect2(30, 12, 324, 192))
     _header = UiKit.label(panel, Vector2(10, 8), 304, UiKit.GOLD)
-    _header.text = "ESSENVELD INSTITUUT -- QUALIFYING EXAM"
+    _header.text = "SELA GO INSTITUTE -- QUALIFYING EXAM"
 
     var headings := ["", "NAME", "RANK", "P", "W", "L"]
     for c in headings.size():
@@ -141,7 +141,7 @@ func show_board() -> void:
 static func summary(state: Dictionary) -> String:
     var rows: Array = state["rows"]
     if not bool(state.get("player_in_field", true)):
-        return "Complete the Academy League. Its top %d eligible entrants sit this exam; Marguerite is excluded.\nCheck the league board at the Instituut." % Exam.FIELD_SIZE
+        return "Complete the Academy League. Its top %d eligible entrants sit this exam; Marguerite is excluded.\nCheck the league board at the Institute." % Exam.FIELD_SIZE
     var place := Exam.placing(rows, PLAYER_ID)
     if bool(state["complete"]):
         if bool(state["passed"]):

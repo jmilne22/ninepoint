@@ -75,7 +75,7 @@ def dress(name, data):
         art('reception',16,24);art('long_bench',256,144)
         art('school_directions',128,8)
         for sign in data['signs']:
-            if sign['tile']==[1,4]:sign.update(tile=[4,3],text='ESSENVELD INSTITUUT. Novice room: lower west door. Study hall: upper west. Classroom east. Dormitory upstairs.')
+            if sign['tile']==[1,4]:sign.update(tile=[4,3],text='SELA GO INSTITUTE. Novice room: lower west door. Study hall: upper west. Classroom east. Dormitory upstairs.')
     elif name=='academy_study':
         # Ilse's references, Sunny's small seat, Orla's clear playing area.
         art('book_shelf',16,8);art('study_desk',80,80)
@@ -111,29 +111,29 @@ def dress(name, data):
 
 SIGN_TEXTS={
 'attic':{(9,4):'__DESK__A board and a bowl of stones. The drawer underneath holds blank paper and a pencil.',
-(2,5):'__BED__Your bed, tucked under the low roof.',(5,2):'Rain taps the skylight. Beyond the tram wires, a crane turns over the quay.'},
-'ketelsteeg':{(3,9):'CUP ENTRIES: Bondszaal. Take Tram 4 south. Register at the entrance desk.',
+(2,5):'__BED__Your bed beside the terrace window.',(5,2):'The shutters open onto a planted terrace. Beyond the tram wires is the sea.'},
+'ketelsteeg':{(3,9):'CUP ENTRIES: Assembly Hall. Take Tram 4 south. Register at the entrance desk.',
 (4,8):'The stationer is closed. Your stairs are through the door beside the shutters.',
-(15,8):'DE KETEL. Go, tea and a place out of the rain. Beginners welcome. Ask for Wren.',
-(21,8):'WASSALON. Washing, drying and a folding counter. Please leave a machine free for work clothes.',
+(15,8):'THE KETTLE. Go, tea and a table in the shade. Beginners welcome. Ask for Wren.',
+(21,8):'LAUNDRY. Washing, drying and a folding counter. Please leave a machine free for work clothes.',
 (25,8):'The snack window. A tray of chips waits beside a stack of paper bags.',
-(29,8):'UNDERBRIDGE. Keep the loading lane clear. Someone has drawn a Go board below the notice.'},
-'de_ketel':{(9,2):'Coats on brass hooks. A spare umbrella has a note: BORROW IT. BRING IT BACK.',
-(18,4):'A coal stove. A pair of wet gloves dries on the guard.',
+(29,8):'THE ARCADE. Passage to Sea Walk. Please keep the loading lane clear.'},
+'de_ketel':{(9,2):'Coats on brass hooks. A spare sunhat hangs beside them.',
+(18,4):'A potted palm by the open shutters. The leaves stir in the breeze.',
 (1,5):'Please bring empty cups back to the counter. Tomás has left a cloth beside the kettle.',
-(1,4):'DE KETEL. Ask Wren to learn the rules or play a practice game. Kesh plays rated games by the window.',
+(1,4):'THE KETTLE. Ask Wren to learn the rules or play a practice game. Kesh plays rated games by the window.',
 (15,5):"Wren's teaching board. Spare stones are kept in the drawer."},
 'onderbrug':{(5,6):'A board on an upturned crate. A strip of felt stops it rocking.',
-(11,8):'A tin of spare stones and a cloth, kept clear of the damp wall.',
-(2,4):'A lamp wired under the arch. Joos has fixed a sheet above the board to catch the drips.'},
-'quay':{(12,4):'A bench facing the water. The middle slats are dry.',(5,6):'Rope has worn a groove in the mooring post.'},
-'academy_hall':{(1,4):'ESSENVELD INSTITUUT. Registration here. Novice room: lower west door. Study hall: upper west. Classroom east. Dormitory upstairs.'},
+(11,8):'A tin of spare stones and a cloth, kept clear of the passage.',
+(2,4):'A lamp wired under the arch. Joos has fixed a shade above the board.'},
+'quay':{(12,4):'A bench facing the sea. The middle seat is in the shade.',(5,6):'Rope has worn a groove in the mooring post.'},
+'academy_hall':{(1,4):'SELA GO INSTITUTE. Registration here. Novice room: lower west door. Study hall: upper west. Classroom east. Dormitory upstairs.'},
 'academy_study':{(1,6):'Tea and biscuits. Please wash your cup and leave some biscuits for the next person.',
 (10,2):'ACADEMY LEAGUE. Register with Marguerite after the Cup. Results and standings are on the board in the hall.',
 (5,5):"Ilse's notes. Several pages are tucked into the back of her book.",
 (11,5):'A clear table and two spare bowls. Please put the stones away when you finish.'},
 'academy_dorm':{(9,6):'__DESK__A study board beside a stack of exercise paper.',(2,6):'__BED__A made bed. Your bag fits underneath.'},
-'bondszaal':{(1,20):'VERHAVEN GO FEDERATION. Register with Marguerite beside the entrance. Draws and results are at the far end.',
+'bondszaal':{(1,20):'SELA GO FEDERATION. Register with Marguerite beside the entrance. Draws and results are at the far end.',
 (16,3):'Bound tournament records. The oldest pages are patched along the binding.'}}
 
 def rewrite_signs(name,data):

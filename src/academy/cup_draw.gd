@@ -1,4 +1,4 @@
-## The Steenbeek Beginner Cup: four rounds, paired on score.
+## The Sela Beginner Cup: four rounds, paired on score.
 ##
 ## Like LeagueTable this stores nothing. The whole crosstable is a function of
 ## the field and the games the player has actually played -- pairings follow from
@@ -36,8 +36,8 @@ static func colour_rule_for(section_id: String) -> String:
 ## what a city tournament is for.
 const FIELD_BEGINNERS := ["wren", "pip", "abel", "dov", "moss"]
 
-## The open section: no ceiling, so for the first time the Instituut and De Ketel
-## register for the same event. The Bondszaal is the federation and therefore
+## The open section: no ceiling, so for the first time the Institute and The Kettle
+## register for the same event. The Assembly Hall is the federation and therefore
 ## neutral ground, which is the only place in the city these two halves meet
 ## across a board with a result form on it.
 ##
@@ -73,8 +73,8 @@ static func board_for(section_id: String) -> int:
 
 
 static func title_for(section_id: String) -> String:
-    return "STEENBEEK CUP -- OPEN SECTION" if section_id == OPEN \
-        else "STEENBEEK BEGINNER CUP -- 15k AND BELOW"
+    return "SELA CUP -- OPEN SECTION" if section_id == OPEN \
+        else "SELA BEGINNER CUP -- 15k AND BELOW"
 
 ## The context_id a round's game is recorded under, so the player's own results
 ## can be found again in GameState.match_records.
@@ -171,8 +171,8 @@ static func summary(state: Dictionary, section_id: String = BEGINNERS) -> String
     if bool(state["complete"]):
         if place == 1:
             if section_id == OPEN:
-                return "Four rounds played. You won the Steenbeek Cup, open section."
-            return "Four rounds played. You won the Steenbeek Beginner Cup."
+                return "Four rounds played. You won the Sela Cup, open section."
+            return "Four rounds played. You won the Sela Beginner Cup."
         return "Four rounds played. You finished %d of %d." % [place, rows.size()]
     var round_number: int = int(state["next_round"]) + 1
     var who := str(state["next_opponent"])

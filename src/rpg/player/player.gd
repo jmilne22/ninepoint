@@ -12,7 +12,7 @@ const STEP_DISTANCE := 15.0
 
 ## What the ground sounds like, by tile name. Anything not listed is the
 ## default -- stone, which is most of a port city. The whole point is that
-## stepping off the pavement into De Ketel is audible.
+## stepping off the pavement into The Kettle is audible.
 const SURFACES := {
     "floor_wood_a": "wood", "floor_wood_b": "wood", "floor_mat": "wood",
     "rug": "wood", "plank": "wood",

@@ -7,12 +7,12 @@
 script = ExtResource("1_script")
 id = &"beginner_cup"
 title = "The Beginner Cup"
-summary = "Four rounds in a hired room at the Bondszaal. Two sections: beginners', fifteen kyu and weaker on nine lines with rank-based handicap, and open, no ceiling at all on thirteen."
+summary = "Four rounds in a hired room at the Assembly Hall. Two sections: beginners', fifteen kyu and weaker on nine lines with rank-based handicap, and open, no ceiling at all on thirteen."
 steps = [{
-"journal": "Tell Marguerite at the Bondszaal you are ready to play.",
+"journal": "Tell Marguerite at the Assembly Hall you are ready to play.",
 "advance_on": {"type": "flag", "key": "cup_started"}
 }, {
-"journal": "Read the draw at the Bondszaal, then see Marguerite.",
+"journal": "Read the draw at the Assembly Hall, then see Marguerite.",
 "advance_on": {"type": "flag", "key": "read_cup_board"}
 }, {
 "journal": "Play your four rounds.",

@@ -876,6 +876,15 @@ for milestone in [3, 6]:
             arc_flags["arc_%s_3" % who] = True
     STATES["overhaul_arcs_%d" % milestone] = {**STATES["league_ready"], "flags": arc_flags}
 
+# The old exact coordinate now intersects the Sea Walk bench. Loading must use
+# the named arrival once, while preserving the established rank and record.
+STATES["sela_legacy"] = {**STATES["invited"], "map": "quay", "spawn": "from_park",
+                         "world_layout_revision": 0, "return_position": [56, 72],
+                         "has_return_position": True}
+
+STATES["sela_current"] = {**STATES["sela_legacy"], "world_layout_revision": 1,
+                          "return_position": [200, 56]}
+
 def slot_path(slot):
     return os.path.join(USER_DIR, "save_%d.json" % slot)
 
@@ -890,6 +899,7 @@ def build(name, slot=1, who="Ro", minutes=None):
     st = STATES[name]
     save = {
         "version": 1,
+        "world_layout_revision": st.get("world_layout_revision", 1),
         "saved_at": "2026-09-03T12:00:00",
         "player_name": who,
         "rank_strength": st["rank_strength"],

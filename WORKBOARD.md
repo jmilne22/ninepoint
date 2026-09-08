@@ -4,7 +4,7 @@ This is the **operational source of truth** for unfinished work. An agent starts
 not in the milestone history. It answers: what may be picked up now, what is blocked, and
 what evidence makes a task done.
 
-Revision base: `origin/main` and HEAD both `ee53775`, freshly fetched and verified on 2026-09-08 before ART-06.
+Revision base: `origin/main` and HEAD both `d64ab5f`, freshly fetched and verified on 2026-09-08 before SELA.
 Update the snapshot when reconciling after a merge; it is not a release number.
 
 ## How to use this board
@@ -33,6 +33,43 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 | `ROADMAP.md` | Product direction, trade-offs, and why a task matters | Whether work is currently underway or done |
 | `MILESTONES.md` | Append-only shipped history and verification evidence | The current backlog |
 | Design / architecture / art docs | Durable product and technical truth | Task status |
+
+## Sela coastal redesign — approved 2026-09-08
+
+Approved in conversation: a fictional Tel Aviv-inspired city, warm/worn/leafy, a neighborhood
+walking loop plus Tram 4, setting and journey changes with every character and portrait frozen.
+Base: freshly fetched HEAD = origin/main = `d64ab5f`. Owner: Codex.
+Branch: `codex/sela-coastal-redesign`. Existing art-navigation freeze is superseded only
+by this explicitly approved layout redesign; Go and progression rules remain protected.
+
+### SELA-01 — Coastal palette and three playable benchmarks
+
+- Status: `SHIPPED` (local benchmark implementation; complete-city verification follows) · Priority: `P1`.
+- Evidence: environment build validated all twelve maps; art_tour completed 18 frames at exit 0.
+  Opened bar, home, street, arcade and institute captures; canopy refinement included in SELA-02.
+- Scope: environment-only colors and architecture; Market Lane, The Kettle, institute court.
+- Acceptance: deterministic Python assets, exact preservation of all portraits/sprites,
+  played and opened benchmark screenshots with clear thresholds and board approaches.
+
+### SELA-02 — Complete the city and preserve saved journeys
+
+- Status: `SHIPPED` (verified locally) · Priority: `P1`.
+- Evidence: twelve-map tour, both tram views/title and all six walking connections
+  passed and were opened. Legacy/current save tests pass; all 73 protected hashes match.
+- Scope: all twelve maps, Market Lane/Arcade/Sea Walk loop, names and environmental speech,
+  title and tram views, coastal ambience, one-time legacy saved-position migration.
+- Acceptance: all venues and both travel destinations inspected, loop walked both ways,
+  old progress retained and all services reachable. No character/Go/engine changes.
+
+### SELA-03 — Journey verification and document reconciliation
+
+- Status: `SHIPPED` (verified locally, M48) · Priority: `P1`.
+- Evidence: 16,904 Godot checks, 13 art tests, 283 loaded files, three engine gates and
+  audible-output gate passed. Nine final routes / 273 captures, representative images
+  opened. Full boundaries and source references: [Sela report](docs/sela/PLAYTEST.md).
+- Scope: navigation contracts, cold-start/skip/loss/Cup/review/save coverage, documentation.
+- Acceptance: normal gate, protected asset hashes, opened route evidence; replace broken
+  slice_full references with current early/novice routes; beginner difficulty remains unclaimed.
 
 ## Portrait-led sprite preview
 
@@ -453,7 +490,12 @@ PROG-01's independent human gate remains open.
 
 ### TEST-01 — `slice_full` has been broken since the early-game merge
 
-- Status: `READY` · Priority: `P2` · Found during POLISH-02, 2026-09-08.
+- Status: `SHIPPED` (SELA-03 / M48) · Priority: `P2`.
+- Resolution: retired `slice_full`; repaired `kesh_skip` around current named choices,
+  lesson execution and return timing. Its fresh journey reached novice registration
+  and disk reload (80 captures, exit 0, zero script errors). Current docs/runner point
+  to it and prepared early/novice routes; older play reports are marked historical.
+- Original diagnosis follows (found during POLISH-02, 2026-09-08).
 - What happens: the route stops after ten shots with "Experience route timed out waiting
   for lesson_place". Wren's `ask_experience` choices and her lead-in changed in M45, so
   `{"choose": 0}` no longer reaches the liberties lesson and one `interact` no longer

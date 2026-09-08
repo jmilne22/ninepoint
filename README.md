@@ -2,9 +2,11 @@
 
 A top-down 2D RPG about learning to play **Go (baduk)**, built in Godot 4.7.
 
-You have just moved to Steenbeek. There is a salon three steps below the pavement, regulars
-in the park who keep a table free, and a beginner tournament at the federation hall. The
-previous tenant left a board and a bowl of stones in your room, and no instructions.
+You have just moved to **Sela**, a fictional coastal city of pale balconies, shady trees,
+and little tables outside shops. Your room is above a closed stationer's on Market Lane.
+Pip plays in the boulevard garden, Wren welcomes beginners at The Kettle, and Tram 4
+connects the neighborhood to the institute and the Beginner Cup at Assembly Hall.
+The previous tenant left a board and a bowl of stones in your room, and no instructions.
 
 You do not know what it is. That is where the game starts.
 
@@ -147,7 +149,7 @@ highlights a capture or a group with one liberty when one exists. Passing does n
 and the count shows territory, prisoners and komi before you accept the proposed marks.
 
 Kesh gives you a provisional novice card and points toward fellow beginners at the
-Instituut. You can leave immediately or stay for **unrated handicap practice**. Hana
+Institute. You can leave immediately or stay for **unrated handicap practice**. Hana
 welcomes you and offers the first class before registration: applying two-eye knowledge
 to an apparent eye that can be filled. Her capture problem remains optional. Noor wants
 company through the league and toward the Cup; Ivo fits complete games around deliveries.
@@ -177,7 +179,7 @@ tools/test.sh                       # compile check + headless suite (Go rules, 
 tools/setup_katago.sh               # download + checksum-verify Linux x64 KataGo for local play
 tools/setup_katago.sh --verify      # check the local KataGo package without downloading
 godot --headless --path . --script res://tools/katago_review_test.gd   # the review over whole 9x9 and 19x19 games
-tools/run_game.sh tools/autopilot/slice_full.json   # drive the whole slice, screenshot each beat
+tools/run_game.sh tools/autopilot/kesh_skip.json   # drive the whole slice, screenshot each beat
 tools/run_game.sh tools/autopilot/win_path.json     # load a save, take the rival's win branch, do the puzzle
 python3 tools/build_assets.py       # regenerate all art, map dressing and audio, deterministically
 python3 tools/build_assets.py --groups environments --output /home/user/.cache/ninepoint-preview
@@ -214,12 +216,12 @@ the checkout with the editor/import pass first, as `tools/test.sh` does.
 ## Structure
 
 **Opening** -- Hana speaks to you and asks your name (Pokemon).
-**Act 1, Steenbeek** -- you have no idea what Go is. Somebody left a board in your room.
+**Act 1, Sela** -- you have no idea what Go is. Somebody left a board in your room.
 Pip invites you to Capture Go in the park; Wren
 teaches rules and finishing, then hosts a supported unrated 9×9. Kesh issues your provisional novice
-card and points you to Hana at the Essenveld Instituut, two tram stops north. Her
+card and points you to Hana at the Sela Go Institute, two tram stops north. Her
 handicap practice game is optional and leaves your rank unchanged.
-**Act 2, the Essenveld Instituut** — meet Hana and take or explicitly skip the welcome
+**Act 2, the Sela Go Institute** — meet Hana and take or explicitly skip the welcome
 class, enrol with Marguerite in the Novice League, and play five classmates in the lower west room. Their target ranks range from
 30k to 20k. The board shows the next fixture, games completed, and everyone's results.
 Everyone starts at zero; NPC games are simulated once after each player round. Wins
@@ -231,7 +233,7 @@ Finish all five novice fixtures, at any placing, to receive the main Cup invitat
 You can also enter earlier with a rank. The beginners' section is 15k and weaker on 9×9,
 with handicap based on rank. The open section has no ceiling and uses 13×13 with handicap.
 With three rated wins you may play up into open while still under the beginner ceiling.
-Those same three wins open Tomás's 13×13 back table at De Ketel.
+Those same three wins open Tomás's 13×13 back table at The Kettle.
 
 **Finishing the Cup is the beginner ending**, whatever your placing. Afterwards Marguerite
 can register you for the optional Academy League: opponents from Kesh's 12k to her own 1d.
@@ -253,8 +255,8 @@ There is no clock. Everyone is where they live, all the time, and a game costs n
 the game. The exam and the Cup start when you tell Marguerite you are ready, and run round
 after round until they are done.
 
-**The wassalon**, three doors east of the bar, has washing machines, a folding counter
-and a shared Go table. Three people you can meet again at the Beginner Cup do their washing there: Abel at twenty-one kyu, who has come to Verhaven for the Cup; Dov at nineteen, who counts out
+**The Laundry**, three doors east of the bar, has washing machines, a folding counter
+and a shared Go table. Three people you can meet again at the Beginner Cup do their washing there: Abel at twenty-one kyu, who has come to Sela for the Cup; Dov at nineteen, who counts out
 loud; and Moss at sixteen, who has spent three years under the section ceiling on purpose.
 Two of them will play you for nothing, off the record. Moss will not: his game counts, and
 he is the only one there who wants it to.
@@ -276,7 +278,7 @@ AI walkthrough from automated supplemental checks and independent human testing.
 
 ```
 src/go/      pure Go rules, nigiri/handicap, lessons -- no engine coupling, unit tested
-src/academy/ the Instituut league and the federation's events: standings and draws,
+src/academy/ the Institute league and the federation's events: standings and draws,
              saved attempts, player game history and explicit simulated NPC results
 src/go_ai/   opponent interface, KataGo at the board and over a finished game, the
              heuristic AI that stands in when the engine is missing
@@ -295,9 +297,9 @@ The M43 art, writing and beginner-experience pass has an illustrated
 [screen gallery](docs/overhaul/GALLERY.md) and [observed play report](docs/overhaul/PLAYTEST.md).
 
 
-The richer-art pass keeps the original portraits and pixel scale while giving Verhaven
-recessed architecture, material-specific furniture, local wear, moving washer drums and
-more distinct walking poses. The [art playtest](docs/art/PLAYTEST.md) includes matching
+The earlier richer-art pass established recessed architecture, material-specific
+furniture, local wear, moving washer drums and more distinct walking poses. Its
+screenshots show the former Verhaven setting. The [art playtest](docs/art/PLAYTEST.md) includes matching
 before/after views and played screenshots from every room.
 
 The [portrait-led sprite preview](docs/sprite-preview/PLAYTEST.md) revises Ro, Wren,
@@ -305,3 +307,13 @@ Kesh, Tomás, Nadia and Sunny with rounded silhouettes and more distinct working
 The other world sprites are unchanged. Portrait faces remain exact; four broad-shouldered
 portraits now share the existing floating-neck style, while scarves stay connected. The report includes
 old/new comparisons and actual gameplay captures for reviewing this first package.
+
+## The coastal neighborhood
+
+Market Lane, Sea Walk and the Arcade form a short walking loop. The garden steps lead
+to the water; the steps at Sea Walk's east end return through the Arcade. Joos's board
+is in the passage's quiet side alcove. The review board remains beside the shaded sea bench.
+
+All existing characters, portraits and sprites are preserved. Old saves retain their
+progress; the first load after this layout change places you at a safe named entrance.
+The [Sela playtest report](docs/sela/PLAYTEST.md) records the verified routes and screenshots.

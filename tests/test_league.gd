@@ -100,7 +100,7 @@ static func _test_rematches(t: TestKit) -> void:
 
     # And the same for a Cup round, which was true and unguarded until the open
     # section put four league members in the draw. A tournament game at the
-    # Bondszaal is not a fixture in the Instituut's term, and the standings the
+    # Assembly Hall is not a fixture in the Institute's term, and the standings the
     # exam is decided on must not move because somebody entered a Cup.
     var entered := [{"npc_id": "ilse", "player_won": true, "unrated": false,
                      "context_id": CupDraw.context_for(0)}]
@@ -109,7 +109,7 @@ static func _test_rematches(t: TestKit) -> void:
     for r in played:
         if bool(r["is_player"]):
             t.eq(int(r["played"]), 0, "a Cup round is not a league game either")
-    # The whole table, not just the player's row: beating Ilse at the Bondszaal
+    # The whole table, not just the player's row: beating Ilse at the Assembly Hall
     # must not show up as a league defeat for Ilse.
     t.eq(played.size(), untouched.size(), "and the Cup adds nobody to the table")
     for i in played.size():

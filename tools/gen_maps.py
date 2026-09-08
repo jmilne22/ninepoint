@@ -9,6 +9,7 @@ import os
 import sys
 from venue_layouts import dress, rewrite_signs, finish
 from venue_presence import states as activity_states
+from coastal_layouts import apply as coastal_layout
 
 here = os.path.dirname(os.path.abspath(__file__))
 root = os.path.join(here, "..")
@@ -85,7 +86,7 @@ WALKABLE_OVERRIDE = set("PKcvghjfrz1234" "a=!q%7<>,/")
 def ketelsteeg():
     """The street. Brick, tram rails, the salon steps, the arch, the park.
 
-    Layered on purpose: rooms above (your attic), rooms below (De Ketel), the
+    Layered on purpose: rooms above (your attic), rooms below (The Kettle), the
     viaduct at the east end and the water past the park at the south.
     """
     W, H = 34, 20
@@ -93,7 +94,7 @@ def ketelsteeg():
     decor = Grid(W, H, " ")
 
     # --- the north side: three buildings, then the flank of the viaduct
-    # home is the shuttered stationer's with your stairs behind it; De Ketel is
+    # home is the shuttered stationer's with your stairs behind it; The Kettle is
     # the bar whose back room you actually want; the wassalon never closes.
     buildings = [(1, 8, "home"), (10, 8, "ketel"), (19, 8, "wassalon")]
     for bx, bw, kind in buildings:
@@ -163,8 +164,8 @@ def ketelsteeg():
     ground.set(1, 9, "l")                      # the tram pole, at the stop
     # A stop needs to look like a stop. The pole and a 32x48 TRAM 4 board at
     # the map's edge were the whole of it, on pavement identical to the
-    # pavement everywhere else, so the one place in Steenbeek that takes you
-    # out of Steenbeek read as a lamp post. The shelter is a prop (dress());
+    # pavement everywhere else, so the one place in Sela that takes you
+    # out of Sela read as a lamp post. The shelter is a prop (dress());
     # this is the platform under it, in poured concrete, which is what says
     # "wait here" before you have read anything.
     for px in (1, 2, 3):
@@ -175,7 +176,7 @@ def ketelsteeg():
     ground.set(26, 9, "L")
     ground.set(12, 9, "p")
 
-    # --- Molenpark, below the road
+    # --- Boulevard Garden, below the road
     park = ["gghjgghgjgghggjhggjgghjgghggjhggjg",
             "ghgjgghjggjhgghgjgghggjhgghggjhggg",
             "gjhggjgghgjgghjggjhgghgjgghggjhggg",
@@ -224,7 +225,7 @@ def ketelsteeg():
     solid = solid_mask(ground, extra_walkable=walkable, extra_solid=edge)
 
     return {
-        "name": "Ketelsteeg",
+        "name": "Market Lane",
         "size": [W, H],
         "tile_size": 16,
         "legend": LEGEND,
@@ -236,7 +237,7 @@ def ketelsteeg():
             "from_home": [home_door + 1, 9],
             "from_ketel": [ketel_steps, 9],
             "from_arch": [arch_x, 9],
-            # Coming back off the southbound tram from Essenveld.
+            # Coming back off the southbound tram from the Institute.
             "from_tram": [1, 10],
             "from_quay": [quay_steps + 1, 18],
             "from_wassalon": [wash_door, 9],
@@ -244,9 +245,9 @@ def ketelsteeg():
         },
         "warps": [
             {"tile": [ketel_steps, 8], "map": "de_ketel", "spawn": "from_street",
-             "prompt": "De Ketel"},
+             "prompt": "The Kettle"},
             {"tile": [ketel_steps + 1, 8], "map": "de_ketel", "spawn": "from_street",
-             "prompt": "De Ketel"},
+             "prompt": "The Kettle"},
             {"tile": [home_door + 1, 8], "map": "attic", "spawn": "from_street",
              "prompt": "Up to your room"},
             # The wassalon was a facade with a door, a sign, neon and no warp
@@ -256,13 +257,13 @@ def ketelsteeg():
             # two could never have been the same tile. Ungated: the room is
             # open from day one and asks nothing of anybody.
             {"tile": [wash_door, 8], "map": "wassalon", "spawn": "from_street",
-             "prompt": "Wassalon"},
+             "prompt": "The Laundry"},
             {"tile": [wash_door + 1, 8], "map": "wassalon", "spawn": "from_street",
-             "prompt": "Wassalon"},
+             "prompt": "The Laundry"},
             {"tile": [arch_x, 8], "map": "onderbrug", "spawn": "from_street",
-             "prompt": "Onderbrug"},
+             "prompt": "The Arcade"},
             {"tile": [arch_x + 1, 8], "map": "onderbrug", "spawn": "from_street",
-             "prompt": "Onderbrug"},
+             "prompt": "The Arcade"},
             {"tile": [quay_steps, 19], "map": "quay", "spawn": "from_park",
              "prompt": "Down to the water"},
             {"tile": [quay_steps + 1, 19], "map": "quay", "spawn": "from_park",
@@ -275,19 +276,19 @@ def ketelsteeg():
             # walk-on warp at the map's edge: you press [Space] and choose a
             # direction, and the tram that passes is the tram you board.
             {"tile": [1, 9], "prompt": "Tram 4", "text": "__TRAM__" + json.dumps({"routes": [
-                {"label": "North, to Essenveld.", "map": "academy_hall", "spawn": "from_tram",
+                {"label": "North, to the Institute.", "map": "academy_hall", "spawn": "from_tram",
                  "flag": "invited_to_institute",
-                 "refused": "Tram 4 goes north to the Instituut. Nobody up there is expecting you yet."},
-                {"label": "South, to the Bondszaal.", "map": "bondszaal", "spawn": "from_tram",
+                 "refused": "Tram 4 goes north to the Institute. Nobody up there is expecting you yet."},
+                {"label": "South, to the Assembly Hall.", "map": "bondszaal", "spawn": "from_tram",
                  "flag": "ranked_by_club",
                  "refused": "Tram 4 goes south to the federation hall. Nothing down there for somebody with no rank."},
             ]})},
             {"tile": [quay_steps - 2, 19], "prompt": "The steps",
-             "text": "TO THE QUAY. Steps down to the water. The bench at the bottom is the driest thing in Steenbeek."},
-            {"tile": [6, 9], "text": "STEENBEEK BEGINNER CUP -- entries at the Bondszaal, by tram. All ranks 15k and below."},
+             "text": "TO THE QUAY. Steps down to the water. The bench at the bottom is the driest thing in Sela."},
+            {"tile": [6, 9], "text": "SELA BEGINNER CUP -- entries at the Assembly Hall, by tram. All ranks 15k and below."},
             {"tile": [home_door, 8], "text": "A stationer's, shuttered since before you came. Your stairs are the door beside it, and the landlord's cat owns the landing."},
-            {"tile": [ketel_steps + 2, 8], "text": "DE KETEL. Three steps down. The bar is Tomas's and so is the back room, which has had a board in it for sixty years."},
-            {"tile": [wash_door - 1, 8], "text": "WASSALON -- open till two. The warmest room on Ketelsteeg, and nobody minds if you only sit."},
+            {"tile": [ketel_steps + 2, 8], "text": "THE KETTLE. Three steps down. The bar is Tomas's and so is the back room, which has had a board in it for sixty years."},
+            {"tile": [wash_door - 1, 8], "text": "LAUNDRY -- open till two. The warmest room on Market Lane, and nobody minds if you only sit."},
             {"tile": [wash_door + 3, 8], "text": "A hatch in the wall with a fryer behind it and no name over it. Open when the wassalon is, which is to say later than anything else on this street."},
             {"tile": [29, 8], "text": "Under the viaduct the brick is black with a century of smoke. Somebody has chalked a 3-4 point on it, and somebody else has chalked the answer."},
         ],
@@ -351,7 +352,7 @@ def attic():
         # at a board somebody else left behind.
         "spawns": {"start": [8, 4], "from_street": [door_x, H - 2], "desk": [8, 4]},
         "warps": [{"tile": [door_x, H - 1], "map": "ketelsteeg", "spawn": "from_home",
-                   "prompt": "Down to Ketelsteeg"}],
+                   "prompt": "Down to Market Lane"}],
         "signs": [
             {"tile": [9, 4], "text": "__DESK__The board the last tenant left, on a desk exactly the right size for it. You have turned it over twice looking for instructions."},
             {"tile": [2, 5], "text": "__BED__A bed under the slope of the roof. You have hit your head on that roof twice."},
@@ -380,7 +381,7 @@ def wassalon():
     for x in range(10,13):ground.set(x,6,"G")
     for x in range(15,18):ground.set(x,9,"b")
     return {
-        "name":"Wassalon", "size":[W,H],"tile_size":16,"legend":LEGEND,
+        "name":"The Laundry", "size":[W,H],"tile_size":16,"legend":LEGEND,
         "ground":ground.out(),"decor":decor.out(),"solid":solid_mask(ground,extra_walkable={(7,H-1)}),
         "art_props":[
             {"art":"washer_bank","position":[32,40]},
@@ -389,10 +390,10 @@ def wassalon():
             {"art":"long_bench","position":[240,136]},
             {"art":"coat_rack","position":[240,24]}],
         "spawns":{"from_street":[7,H-2],"bench":[14,10]},
-        "warps":[{"tile":[7,H-1],"map":"ketelsteeg","spawn":"from_wassalon","prompt":"Out to Ketelsteeg"}],
+        "warps":[{"tile":[7,H-1],"map":"ketelsteeg","spawn":"from_wassalon","prompt":"Out to Market Lane"}],
         "signs":[
             {"tile":[4,4],"text":"Please empty your pockets. Lost buttons are in the jar by the folding counter."},
-            {"tile":[17,2],"text":"ROOM TO LET. Ask at the snack window. Below it: Cup entries at the Bondszaal."},
+            {"tile":[17,2],"text":"ROOM TO LET. Ask at the snack window. Below it: Cup entries at the Assembly Hall."},
             {"tile":[10,6],"text":"A Go board between two bowls. Someone has put felt under the table legs."}],
         "npcs":[
             {"id":"abel","tile":[6,7],"dir":"left","idle":"study"},
@@ -446,15 +447,15 @@ def onderbrug():
     solid = solid_mask(ground, extra_walkable={(0, exit_y), (0, exit_y + 1)})
 
     return {
-        "name": "Onderbrug",
+        "name": "The Arcade",
         "size": [W, H], "tile_size": 16, "legend": LEGEND,
         "ground": ground.out(), "decor": decor.out(), "solid": solid,
         "spawns": {"from_street": [1, exit_y], "arch": [18, 7]},
         "warps": [
             {"tile": [0, exit_y], "map": "ketelsteeg", "spawn": "from_arch",
-             "prompt": "Out to Ketelsteeg"},
+             "prompt": "Out to Market Lane"},
             {"tile": [0, exit_y + 1], "map": "ketelsteeg", "spawn": "from_arch",
-             "prompt": "Out to Ketelsteeg"},
+             "prompt": "Out to Market Lane"},
         ],
         "signs": [
             {"tile": [5, 6], "text": "A board on an upturned crate, the lines worn pale in the middle where sixty years of hands have rested."},
@@ -493,7 +494,7 @@ def quay():
 
     # Standing water on the flags. The puddle tile has a when_wet animation and
     # has done since M16; it just never ran, because nothing in the game ever
-    # made it rain. Ketelsteeg and Onderbrug already had five between them, and
+    # made it rain. Market Lane and The Arcade already had five between them, and
     # the quay -- the map you come to after losing, in a port that drizzles --
     # had none.
     ground.set(8, 5, "q")
@@ -523,12 +524,12 @@ def quay():
         "spawns": {"from_park": [steps_x, 1], "bench": [12, 5]},
         "warps": [
             {"tile": [steps_x, 0], "map": "ketelsteeg", "spawn": "from_quay",
-             "prompt": "Up to Molenpark"},
+             "prompt": "Up to Boulevard Garden"},
             {"tile": [steps_x + 1, 0], "map": "ketelsteeg", "spawn": "from_quay",
-             "prompt": "Up to Molenpark"},
+             "prompt": "Up to Boulevard Garden"},
         ],
         "signs": [
-            {"tile": [12, 4], "text": "A bench facing the water. It is the only place in Steenbeek where nobody will ask you how the game went."},
+            {"tile": [12, 4], "text": "A bench facing the water. It is the only place in Sela where nobody will ask you how the game went."},
             {"tile": [5, 6], "text": "A mooring bollard, worn smooth. The water is the colour of the sky, which today is the colour of the water."},
             {"tile": [17, 3], "text": "__QUAY_REVIEW__"},
         ],
@@ -587,7 +588,7 @@ def de_ketel():
         ground.set(tx, ty - 1, "X")
         ground.set(tx, ty + 1, "X")
 
-    # the double door back up the steps onto Ketelsteeg
+    # the double door back up the steps onto Market Lane
     ground.set(door_x, H - 1, "M")
     ground.set(door_x + 1, H - 1, "M")
 
@@ -595,7 +596,7 @@ def de_ketel():
 
 
     return {
-        "name": "De Ketel",
+        "name": "The Kettle",
         "size": [W, H],
         "tile_size": 16,
         "legend": LEGEND,
@@ -608,9 +609,9 @@ def de_ketel():
         },
         "warps": [
             {"tile": [door_x, H - 1], "map": "ketelsteeg", "spawn": "from_ketel",
-             "prompt": "Ketelsteeg"},
+             "prompt": "Market Lane"},
             {"tile": [door_x + 1, H - 1], "map": "ketelsteeg", "spawn": "from_ketel",
-             "prompt": "Ketelsteeg"},
+             "prompt": "Market Lane"},
         ],
         "signs": [
             {"tile": [9, 2], "text": "A row of brass hooks on the back wall. Coats, mostly, and one umbrella nobody has claimed."},
@@ -620,7 +621,7 @@ def de_ketel():
             {"tile": [15, 5], "text": "Wren's teaching table. A chalk note says: RULES, FIRST GAME, THEN KESH. Someone has underlined FIRST GAME twice."},
         ],
         # Kesh and Hana are the two people the setting says cross between the
-        # Instituut and the salon, and until M26 that was expressed by placing
+        # Institute and the salon, and until M26 that was expressed by placing
         # two permanent copies of each. Now it is one person with an evening.
         # Both keep the afternoon on both maps, because Act 1 meets them here on
         # day one at that hour and a schedule may not break the opening.
@@ -642,8 +643,8 @@ def de_ketel():
 def bondszaal():
     """The federation hall: where a result becomes a record.
 
-    Neither De Ketel nor the Instituut. The salon is warm and unofficial and the
-    Instituut is cold and official; the Bondszaal is a hired room in a civic
+    Neither The Kettle nor the Institute. The salon is warm and unofficial and the
+    Institute is cold and official; the Assembly Hall is a hired room in a civic
     building -- wood floor, plaster, too many chairs, and a board at the front
     with the draw pinned to it. It is only ever full four times a year.
     """
@@ -670,7 +671,7 @@ def bondszaal():
     # The draw is pinned at the front, on the wall base where it can be faced.
     ground.set(9, 2, "Y")
     ground.set(10, 2, "Y")
-    # And the exam list beside it, because the Instituut hires this room too and
+    # And the exam list beside it, because the Institute hires this room too and
     # pins its own paper up next to the federation's.
     ground.set(13, 2, "Y")
     ground.set(14, 2, "Y")
@@ -691,22 +692,22 @@ def bondszaal():
     solid = solid_mask(ground, extra_walkable={(9, H - 1), (10, H - 1)})
 
     return {
-        "name": "The Bondszaal",
+        "name": "The Assembly Hall",
         "size": [W, H], "tile_size": 16, "legend": LEGEND,
         "ground": ground.out(), "decor": decor.out(), "solid": solid,
         "spawns": {"from_tram": [9, H - 2], "front": [9, 3]},
         "warps": [
             {"tile": [9, H - 1], "map": "ketelsteeg", "spawn": "from_tram",
-             "prompt": "Tram 4, back to Steenbeek"},
+             "prompt": "Tram 4, back to Sela"},
             {"tile": [10, H - 1], "map": "ketelsteeg", "spawn": "from_tram",
-             "prompt": "Tram 4, back to Steenbeek"},
+             "prompt": "Tram 4, back to Sela"},
         ],
         "signs": [
             {"tile": [9, 2], "text": "__CUP_BOARD__"},
             {"tile": [10, 2], "text": "__CUP_BOARD__"},
             {"tile": [13, 2], "text": "__EXAM_BOARD__"},
             {"tile": [14, 2], "text": "__EXAM_BOARD__"},
-            {"tile": [1, 20], "text": "THE VERHAVEN GO FEDERATION. A hired room, four times a year, and a cupboard the rest of it. The urn is municipal and so is the tea."},
+            {"tile": [1, 20], "text": "THE SELA GO FEDERATION. A hired room, four times a year, and a cupboard the rest of it. The urn is municipal and so is the tea."},
             {"tile": [W - 2, 3], "text": "Bound volumes of every result the federation has recorded since 1954. Somebody's first game is in here and they are dead now."},
         ],
         "npcs": [
@@ -721,7 +722,7 @@ def academy_hall():
     """The entrance hall: glass, concrete, and the league board.
 
     Deliberately the coldest room in the game -- it is the half of the city
-    that writes things down, and it should not look like De Ketel.
+    that writes things down, and it should not look like The Kettle.
     """
     W, H = 22, 14
     ground = Grid(W, H, "1")
@@ -765,16 +766,16 @@ def academy_hall():
         (10, H - 1), (11, H - 1), (0, 7), (0, 10), (W - 1, 7), (W - 2, 3)})
 
     return {
-        "name": "Essenveld Instituut -- Hall",
+        "name": "Sela Go Institute -- Hall",
         "size": [W, H], "tile_size": 16, "legend": LEGEND,
         "ground": ground.out(), "decor": decor.out(), "solid": solid,
         "spawns": {"from_tram": [10, H - 2], "from_study": [1, 7],
                    "from_class": [W - 2, 7], "from_dorm": [W - 3, 3], "from_novice": [1, 10]},
         "warps": [
             {"tile": [10, H - 1], "map": "ketelsteeg", "spawn": "from_tram",
-             "prompt": "Back to Steenbeek"},
+             "prompt": "Back to Sela"},
             {"tile": [11, H - 1], "map": "ketelsteeg", "spawn": "from_tram",
-             "prompt": "Back to Steenbeek"},
+             "prompt": "Back to Sela"},
             {"tile": [0, 7], "map": "academy_study", "spawn": "from_hall",
              "prompt": "Study hall"},
             {"tile": [0, 10], "map": "academy_novice", "spawn": "from_hall",
@@ -787,7 +788,7 @@ def academy_hall():
         "signs": [
             {"tile": [10, 2], "text": "__LEAGUE_BOARD__"},
             {"tile": [11, 2], "text": "__LEAGUE_BOARD__"},
-            {"tile": [1, 4], "text": "THE ESSENVELD INSTITUUT. Founded so that people who were going to spend their lives on this anyway could do it somewhere warm."},
+            {"tile": [1, 4], "text": "THE SELA GO INSTITUTE. Founded so that people who were going to spend their lives on this anyway could do it somewhere warm."},
         ],
         "npcs": [{"id": "marguerite", "tile": [2, 4], "dir": "down", "idle": "tend"}],
         # Students crossing the hall between the study hall and the classroom,
@@ -816,7 +817,7 @@ def academy_novice():
     ground.set(w - 1, 10, "M")
     ground.set(11, 2, "Y")
     return {
-        "name": "Essenveld Instituut -- Novice Room", "size": [w,h],
+        "name": "Sela Go Institute -- Novice Room", "size": [w,h],
         "tile_size": 16, "legend": LEGEND, "ground": ground.out(), "decor": decor.out(),
         "solid": solid_mask(ground, extra_walkable={(w-1,10)}),
         "spawns": {"from_hall": [w-2,10]},
@@ -874,7 +875,7 @@ def academy_study():
     solid = solid_mask(ground, extra_walkable={(door_x, 7)})
 
     return {
-        "name": "Essenveld Instituut -- Study Hall",
+        "name": "Sela Go Institute -- Study Hall",
         "size": [W, H], "tile_size": 16, "legend": LEGEND,
         "ground": ground.out(), "decor": decor.out(), "solid": solid,
         "spawns": {"from_hall": [door_x - 1, 7], "middle": [12, 7]},
@@ -886,7 +887,7 @@ def academy_study():
             {"tile": [5, 5], "text": "Table 1. A neat card: PRACTICE / REVIEW."},
             {"tile": [11, 5], "text": "Table 2. A neat card: LEAGUE GAMES."},
         ],
-        # The three students you can play any time. Kesh is at De Ketel.
+        # The three students you can play any time. Kesh is at The Kettle.
         "npcs": [
             {"id": "ilse", "tile": [6, 6], "dir": "right", "idle": "study"},
             {"id": "sunny", "tile": [18, 6], "dir": "left", "idle": "wander"},
@@ -929,7 +930,7 @@ def academy_class():
     solid = solid_mask(ground, extra_walkable={(door_x, 7)})
 
     return {
-        "name": "Essenveld Instituut -- Classroom",
+        "name": "Sela Go Institute -- Classroom",
         "size": [W, H], "tile_size": 16, "legend": LEGEND,
         "ground": ground.out(), "decor": decor.out(), "solid": solid,
         "spawns": {"from_hall": [1, 7], "front": [9, 4]},
@@ -980,7 +981,7 @@ def academy_dorm():
     solid = solid_mask(ground, extra_walkable={(door_x, H - 1)})
 
     return {
-        "name": "Essenveld Instituut -- Your Room",
+        "name": "Sela Go Institute -- Your Room",
         "size": [W, H], "tile_size": 16, "legend": LEGEND,
         "ground": ground.out(), "decor": decor.out(), "solid": solid,
         "spawns": {"from_hall": [door_x, H - 2], "bed": [3, 6]},
@@ -1086,7 +1087,7 @@ def validate(name, data):
     # `solid_mask` is a whitelist over authored tiles, `MapBuilder` emits
     # collision only for solid tiles *inside* the grid, and the player has no
     # position clamp -- three places this could have been caught and none of
-    # them looked. Ketelsteeg shipped with twenty open boundary tiles and the
+    # them looked. Market Lane shipped with twenty open boundary tiles and the
     # quay with twelve, so walking to either end of the street took the player
     # off the grid while the camera stayed where it was clamped.
     doors = {tuple(w["tile"]) for w in data["warps"]}
@@ -1115,7 +1116,7 @@ def validate(name, data):
         # dormer sign sat on the upper wall course with the wall base below it
         # and the floor below that, two tiles from anywhere a player can stand,
         # which is the same "interactables go on the base row" fact the hooks
-        # at De Ketel had to learn separately.
+        # at The Kettle had to learn separately.
         elif not any(walkable(x + dx, y + dy)
                      for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
             problems.append("%s: sign at %d,%d has nowhere to stand and read it"
@@ -1168,6 +1169,7 @@ def build(output_root=None):
         data = dress(name, fn())
         rewrite_signs(name,data)
         finish(name,data)
+        coastal_layout(name,data)
         # Water stays physically identical while broad quiet patches interrupt tiling.
         rows=[list(row) for row in data['ground']]
         for y,row in enumerate(rows):

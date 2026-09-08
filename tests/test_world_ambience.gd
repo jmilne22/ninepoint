@@ -13,7 +13,7 @@ extends RefCounted
 const AudioScript := preload("res://src/autoload/audio.gd")
 const Presence := preload("res://src/rpg/world_presence.gd")
 
-## Every map, and it has to stay every map. The Bondszaal was missing from the
+## Every map, and it has to stay every map. The Assembly Hall was missing from the
 ## hand-kept version of this list and spent its whole life declaring a track
 ## name that did not exist ("institute", where the file is theme_institute.wav)
 ## -- so the hall the Cup and the exam are held in played whatever the last map
@@ -24,7 +24,7 @@ const Presence := preload("res://src/rpg/world_presence.gd")
 ## from the list is not checked and nothing says so. That is the shape ROADMAP
 ## section 8 records for LESSONS_REACHED_BY_TRACK, and
 ## the fix is M30's -- derive it. M36's wassalon was the eleventh map and would
-## have been the second Bondszaal.
+## have been the second Assembly Hall.
 static func _maps() -> Array:
     var ids: Array = []
     for f in DirAccess.get_files_at(MAP_DIR):
@@ -80,7 +80,7 @@ static func _test_sounds_exist(t: TestKit) -> void:
         var spec: Dictionary = Soundscape.SOUND_SOURCES[name]
         t.ok(_sound_exists(str(spec.get("sound", ""))),
             "'%s' plays a real sound" % name)
-    for bed in ["amb_room", "amb_rain", "amb_canal"]:
+    for bed in ["amb_room", "amb_coast", "amb_breeze"]:
         t.ok(_sound_exists(bed), "bed '%s' exists" % bed)
     for pair_name in AudioScript.FOOTSTEPS:
         for s in AudioScript.FOOTSTEPS[pair_name]:
@@ -174,13 +174,13 @@ static func _test_music(t: TestKit) -> void:
             "theme_rival_in", "theme_ghost_in", "theme_cup_in"]:
         t.ok(FileAccess.file_exists("res://audio/%s.wav" % track),
             "'%s' exists for the scene that plays it" % track)
-    # The bar and the Instituut are the setting's two halves and must not be
+    # The bar and the Institute are the setting's two halves and must not be
     # the same track; that was true for four maps until this pass.
     var ketel := MapData.load_map("de_ketel")
     var hall := MapData.load_map("academy_hall")
     if ketel != null and hall != null:
         t.ok(ketel.music != hall.music,
-            "De Ketel and the Instituut do not share a theme")
+            "The Kettle and the Institute do not share a theme")
 
 
 static func _test_map_routes(t: TestKit) -> void:

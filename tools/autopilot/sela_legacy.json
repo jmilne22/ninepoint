@@ -1,0 +1,141 @@
+[
+  {
+    "save": {
+      "1": "sela_legacy",
+      "2": "sela_current"
+    }
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "tap": "move_down",
+    "times": 2
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "wait": 0.5
+  },
+  {
+    "tap": "move_up"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "shot": "legacy_safe_arrival"
+  },
+  {
+    "experience": "assert_progress",
+    "rank": "22k",
+    "records": 1,
+    "flags": [
+      "invited_to_institute"
+    ]
+  },
+  {
+    "walk_to": [
+      12,
+      3
+    ]
+  },
+  {
+    "shot": "legacy_walked_clear"
+  },
+  {
+    "tap": "menu"
+  },
+  {
+    "wait": 0.5
+  },
+  {
+    "tap": "move_down",
+    "times": 4
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "wait": 1
+  },
+  {
+    "tap": "move_down",
+    "times": 2
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "wait": 0.5
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "shot": "current_stored_position_loaded"
+  },
+  {
+    "experience": "assert_progress",
+    "rank": "22k",
+    "records": 1,
+    "flags": [
+      "invited_to_institute"
+    ]
+  },
+  {
+    "tap": "menu"
+  },
+  {
+    "wait": 0.5
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "wait": 0.5
+  },
+  {
+    "shot": "saved_current_position"
+  },
+  {
+    "tap": "move_down",
+    "times": 3
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "wait": 1
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "shot": "current_exact_position_reloaded"
+  },
+  {
+    "experience": "assert_progress",
+    "rank": "22k",
+    "records": 1,
+    "flags": [
+      "invited_to_institute"
+    ]
+  }
+]

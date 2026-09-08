@@ -14,18 +14,40 @@ pipeline is an intentional part of Ninepoint's visual identity.
 
 ## 1. Visual identity in one paragraph
 
-A working port city in the wet: brick, tram rails set into cobbles, grey stucco, slate and
-rust roofs, a canal the colour of the sky, one damp green park. Top-down 3/4 perspective at
-16×16 tiles, chunky readable pixels, no anti-aliasing, no dithering except in large flat
-areas. Colour is muted everywhere **except the Go board**, which is warm honey wood with pure
-black and off-white stones — the one saturated, high-contrast object in the world. The eye
-should always be able to find a board. The city is where you live; the board is where you
-*are*.
+Sela is a warm, worn, leafy fictional coastal city. Pale plaster, deep teal shutters,
+recessed balconies and flat planted roofs face a street of small working shops. The
+boulevard garden gathers people under trees; broad steps and a pergola open onto the sea.
+The bar stays intimate, the institute is a welcoming modernist building, and Assembly
+Hall has a civic scale. One mild afternoon, with no clock or weather simulation.
 
-The city is drawn at one hour: the muted daylight register above. It had four hours and
-rain from M16 to M36 (`Ambient`, a `CanvasModulate` and a glow per lit tile), cut in M37
-with the calendar. The tiles still carry their lit windows, the neon still faults and the
-snack window still glows in its own pixels; nothing tints the world over them.
+Draw at the existing 16×16 grid and 384×216 viewport. Use broad pixel clusters, clear
+silhouettes and one upper-left light direction. More color is permitted in the town:
+boards attract attention through contrast, quiet surrounding surfaces and a clear approach.
+Keep all existing character, portrait, expression and activity pixels exactly unchanged.
+
+## 1b. Coastal environment recipes
+
+`tools/coastal_palette.py` adds environment-only ramps without changing shared cast,
+board or UI colors. `coastal_tiles.py` draws the materials under retained semantic tile
+names; `coastal_architecture.py` draws balconies, recessed windows, trees and shade structures.
+`coastal_layouts.py` supplies the approved map composition and walking loop after the common
+furniture pass; `coastal_views.py` draws title and tram-view backgrounds.
+
+| Surface | Base | Supporting colors |
+|---|---|---|
+| Plaster | `#e6d8bb` | light `#f5e8ca`, stone `#b9af96` |
+| Paving | `#c5b99e` | quiet joints `#b3a98f` |
+| Shade | `#536366` | deep recesses `#33494e` |
+| Shutters | `#548c83` | edge `#85aba0` |
+| Awnings/pots | `#bb795f` | faded edge `#d7a080` |
+| Foliage | `#71825a` | shade `#455f49`, light `#95a06b` |
+| Sea | `#568b92` | sparse ripples `#75a3a1` |
+
+These recipes supersede the wet-city material description below. The original shared
+palette remains the source of cast/board/UI colors. Logical atlas names such as `canal`
+and `wall_brick` are retained for animation, sound and compatibility; their coastal
+appearance comes from the environment recipes. No image service or imported photograph
+is used to generate assets. See [reference rationale](docs/sela/DESIGN.md).
 
 ## 2. Palette
 
@@ -58,16 +80,14 @@ truth and this section mirrors it.
 | `rust0` `#5e2a2a` | `rust1` `#8c4034` | `rust2` `#b8624a` | `rust3` `#d99070` |
 | `gold0` `#8a6023` | `gold1` `#c08f3a` | `gold2` `#e0b25c` | `gold3` `#f2d791` |
 
-### The city — wet brick, wet road, one cold tube
+### Original city ramps — retained for compatibility
 | `brick0` `#43292b` | `brick1` `#63403c` | `brick2` `#85574c` | `brick3` `#a57263` |
 | `asphalt0` `#26232c` | `asphalt1` `#3a3644` | `asphalt2` `#524d5e` | |
 | `neon0` `#4fb8c8` | `neon1` `#9fe4ec` | | |
 
 Brick is deliberately browner and greyer than `rust`, which stays a roof-and-signage red.
-There is **no sodium ramp**: a Verhaven street lamp is exactly `gold1`/`gold2`, which is why
-the town's warm accents were already the right colour for night. The neon is cold and
-deliberately dimmer than `board1` — nothing in the city may out-saturate the board, so the
-one tube on Ketelsteeg is a cyan and not a pink.
+These original colors remain available to the cast, UI and retained props. Coastal
+environment recipes use the separate `sela_*` colors above.
 
 ### Cool accents — plum (club/teacher), teal (café)
 | `plum0` `#3a2340` | `plum1` `#63406b` | `plum2` `#96699e` |
@@ -96,7 +116,7 @@ one tube on Ketelsteeg is a cyan and not a pink.
   make a room or route feel used without changing collision, hiding a doorway, or
   competing with an interactable. Reuse generated prop tiles rather than placing one-off pixels.
 - Interiors reuse the same atlas plus an interior strip (floorboards, mats, shelving, tables,
-  De Ketel's board tables).
+  The Kettle's board tables).
 - **Nothing in code refers to an atlas index.** `TileAtlas.at(name)` resolves every tile
   through `art/tiles/tileset_manifest.json`, so the atlas can grow a row without touching
   GDScript. The manifest is the truth; the table below is a summary of it.
@@ -110,7 +130,7 @@ Atlas families, 16 tiles per row (`python3 tools/gen_tiles.py` prints the curren
  4  the city: asphalt, puddle, tram rails, wet cobble, canal, quay, bollard, bike rack,
     tram pole, brick window, wet brick base, graffiti, shutter, dead sign, arch
  5  the city: arch, arch shade, neon, snack window, steps down, concrete, glass curtain,
-    the stove and the coat hooks at De Ketel, poured floor
+    the stove and the coat hooks at The Kettle, poured floor
  6  the wassalon: the washing machine, two frames. Enamel and a control panel, and a
     porthole that is the only warm thing in the tile -- it is a light source as well as
     an animation, because that room has no stove and no music and the machines have to
@@ -121,7 +141,7 @@ Atlas families, 16 tiles per row (`python3 tools/gen_tiles.py` prints the curren
 **Thresholds are drawn, not implied.** `door_int` has a frame proud of the wall, a
 handle and daylight under the bottom rail; `floor_mat` is a coir mat laid on the floor
 rather than a green woven square that read as a patch of lawn indoors; `stairs_up` exists
-because the Instituut's stair to the dormitory was drawn as plain pavement; and
+because the Institute's stair to the dormitory was drawn as plain pavement; and
 `tram_platform` is poured, kerbed and painted with the line you stand behind, because a
 stop laid in the same flagstone as thirty tiles of pavement either side of it is not a
 stop. Every interior exit carries a mat on the tile inside it, generated from the map's
@@ -219,8 +239,8 @@ art -- stacked circles read as a potato), `crowd.png`.
 
 - Panels: `paper0` fill, `ink1` 1px border, `ink2` 1px drop shadow, 4px corner cut (no rounding).
 - Dialogue box: bottom-anchored, 64×64 portrait at left, name plate above the frame in `gold2`.
-- **The cold open** has its own backdrop, `art/title/opening.png`: the same dusk as the
-  title card with rain falling through it, deliberately carrying no subject, because the
+- **The cold open** has its own backdrop, `art/title/opening.png`: the same coastal afternoon as the
+  title card, deliberately carrying no subject, because the
   portrait, the board and the dialogue panel are all drawn over it. It replaced a flat
   `ink0` rectangle. The portrait gets a gold frame and the board a drop shadow for the same
   reason — on a dim ground, an unframed 64×64 bust and a flat honey slab read as stickers.
@@ -291,19 +311,18 @@ Two rules the look depends on:
   for 4.5 seconds and dark for 0.16 — an even blink is a decoration, an uneven one is a fault.
 
 The go table is the one that earns the most: its three frames are the *same game with more
-stones on it*, so a table in the corner of De Ketel is a game getting longer while you talk to
+stones on it*, so a table in the corner of The Kettle is a game getting longer while you talk to
 somebody. Paired with the `stone_place` emitter in `Soundscape`, that is the whole of "somebody
 is playing over there", and it costs one row in a table.
 
 ## 8. Venue composition and activity
 
-The twelve maps have different dominant objects. The attic has a sloping roof and skylight;
-De Ketel has a counter, teaching table and recessed back table; the wassalon has a machine
-bank, folding counter and bench; Onderbrug has sheltered arches and Joos's dry equipment
-corner. The quay keeps open water and a clearly labelled review board.
+The twelve maps have different dominant objects. Rooftop Room has shutters and a view of the sea;
+The Kettle has a counter, teaching table and recessed back table; the wassalon has a machine
+bank, folding counter and bench; The Arcade has pale sheltered arches, a through-passage and Joos's secluded equipment corner. The quay keeps open water and a clearly labelled review board.
 
-The Instituut is a broad glass-and-concrete reception room with branching corridors.
-The Bondszaal is a long civic hall with tall windows, twelve numbered tournament tables,
+The Institute is a modernist building with a planted garden court and clearly marked room entrances.
+The Assembly Hall is a long civic hall with tall windows, twelve numbered tournament tables,
 coats and tea, with registration beside the entrance. Distinct generated exterior views
 appear during tram travel and can be skipped with Space or Esc.
 
@@ -327,16 +346,16 @@ fixtures (rafters, shop windows, hanging signs) have no `base` and stay behind e
 A board table is solid for its whole drawn depth, so the far chair is a chair and not the
 tabletop.
 
-**Ketelsteeg's ground floor is shopfronts, and they are cut INTO the wall.** A hanging
+**Market Lane's ground floor is shopfronts, and they are cut INTO the wall.** A hanging
 board on two brackets, a window opening with a frame and a stone sill, and nothing else:
 most of each asset is transparent, so the brick behind it is the brick and the shop is part
 of the building. The first attempt was an opaque slab with a coloured bar across the top,
 pasted over the wall with its own edges showing, and it read as a sticker. What is behind
 the glass is drawn at the size that thing really is — three small machines at the
-laundrette, warm light up out of a basement at De Ketel, a shutter down at the stationer's.
+laundrette, warm light up out of a basement at The Kettle, a shutter down at the stationer's.
 The Tram 4 stop is a shelter with the route board on its roof, over a poured boarding slab.
 
-**The town does not end in a wall.** Ketelsteeg's pavement, road, rails and park all run
+**The town does not end in a wall.** Market Lane's pavement, road, rails and park all run
 straight off both sides of the map, and the quay's flags run off both ends, because that is
 what a street does. What stops the player is the boundary itself, at exactly the column
 where the camera stops following: the tiles are unchanged and nothing is drawn there. The
@@ -366,7 +385,7 @@ characters or narrowing the central aisle. A contrasting HUD strip keeps fixture
 readable against the room. Screenshots: [early-game playtest](docs/early-game/PLAYTEST.md).
 
 
-## 9. Richer surfaces, preserved portraits (ART-01–04)
+## 9. Earlier richer-surface work (ART-01–04; historical constraints)
 
 The 384×216 viewport, 16px tiles, 16×24 people, 9px font and top-left lighting remain.
 That pass preserved all 21 portrait strips byte-for-byte; their original hashes remain
@@ -443,3 +462,11 @@ of the original face regions, supplementing the unchanged M47 baseline.
 on actual wood and concrete floor tiles. `portrait_sprites` plays the preview cast,
 running, far-side table overlap, conversations and resumed activities. See
 [the preview report](docs/sprite-preview/PLAYTEST.md) for images and verification.
+
+## Sela verification boundary
+
+SELA replaces the old art pass's navigation freeze with map validation, bidirectional
+loop reachability, retained destination spawn names and exact character-image hashes.
+Runtime prop animation uses the existing GeneratedProp frame/hold metadata: trees change
+small leaf tips and the kiosk changes its fringe while their trunks/feet stay fixed.
+Music and cast assets remain unchanged. Surf and breeze beds are synthesized separately.

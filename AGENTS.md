@@ -54,36 +54,28 @@ These are the spine of the design. Check any new feature against them before bui
 
 ## The setting
 
-**Verhaven** — a working port, always drizzling. Trams, canals, brick, warehouse rent. You
-live in **Steenbeek**, an inner district on the wrong side of a canal; the Instituut is two
-stops north in **Essenveld**.
+**Sela** is a fictional coastal city inspired by Tel Aviv's shaded streets, balconies,
+planted setbacks and sea terraces. One warm, mild afternoon; no clock or weather system.
+The bar, institute and laundry offer familiar practice, organized learning and everyday
+company. The former institution-above / authentic-players-below opposition is retired.
+All portraits, sprites, character identities and ranks are preserved.
 
-The city is built on one opposition, and the player lives between its two halves:
+Internal map IDs stay stable for saves and match venues:
 
-```
-ABOVE GROUND                        BELOW
-Essenveld Instituut                 De Ketel · Onderbrug
-glass, concrete, timetables         dark wood, coal stove, a slate
-the league board on the wall        a board on a crate
-a rank is a document                a rank is what happens at the table
-Hana · Marguerite · Ilse ·          Tomás · Wren · Kesh · Joos
-Nadia · Orla · Sunny
-```
-
-| Place | What it is |
+| ID | Displayed place and role |
 |---|---|
-| `attic` | over the shuttered stationer's. **The game starts here**, at the board the last tenant left. The study desk sets puzzles |
-| `ketelsteeg` | your street: tram rails, brick, the snack window, **the tram stop at the west end** |
-| `wassalon` | the laundrette, three doors east. The city's third register: no board on the wall, no card, nothing written down. Abel, Dov and Moss |
-| `de_ketel` | the salon, three steps below the pavement. Wren teaches and hosts safe practice; Kesh issues novice cards and offers optional handicap practice; Tomás has the 13×13 under the coats |
-| `onderbrug` | the viaduct arches, east: a board on a crate and Joos |
-| Molenpark | the park end of Ketelsteeg — stone tables, Pip and Bertie |
-| `quay` | grey water, one bench, south past the park. Nobody lives there; the noticeboard holds the last game you asked somebody to go over |
-| `academy_*` | the Essenveld Instituut: hall (Marguerite and the league board), study (Ilse, Sunny, Orla), class (Hana and Nadia), novice (five classmates), dorm |
-| Bondszaal | the federation hall — the Beginner Cup and the qualifying exam |
+| `attic` | Rooftop Room above the closed stationer; abandoned board, study desk, home |
+| `ketelsteeg` | Market Lane and Boulevard Garden; Pip, Bertie, shops, Tram 4 at west end |
+| `de_ketel` | The Kettle; Wren, Kesh, Tomás, lessons and the back table |
+| `wassalon` | The Laundry; Abel, Dov and Moss |
+| `onderbrug` | The Arcade; a public passage with Joos's quiet side alcove |
+| `quay` | Sea Walk; shaded bench and the asynchronous review noticeboard |
+| `academy_*` | Sela Go Institute; garden court, study, class, novices and dorm |
+| `bondszaal` | Assembly Hall; Cup and advanced exam |
 
-There is one hour and one sky. `Ambient` (the hours and the light) was cut in M37 with the
-calendar; the tiles still carry their lit windows and the neon still faults.
+Market Lane ↔ Sea Walk ↔ Arcade ↔ Market Lane is a bidirectional ungated walking loop.
+Tram 4 retains its existing invitation/entry gates and destination maps. All people stay
+in their established internal venues. Presence changes still follow existing progress flags.
 
 ---
 
@@ -93,26 +85,26 @@ calendar; the tiles still carry their lit windows and the neon still faults.
 Hana speaks to the player directly over an empty board (the Professor Oak position), then
 asks their name. Sets `player_name`, `opening_seen`, then goes to the attic.
 
-### Act 1 — Steenbeek (quest `first_stones`)
+### Act 1 — Sela (quest `first_stones`)
 The player begins knowing **nothing**.
 
 1. The previous tenant left a board and a bowl of stones. No instructions
    (`data/dialogue/intro.json`; gives item `old_goban`, flag `carrying_board`).
-2. **Pip** in Molenpark sees the board and teaches **Capture Go** (`pip_capture`, 7×7,
+2. **Pip** in Boulevard Garden sees the board and teaches **Capture Go** (`pip_capture`, 7×7,
    `capture_goal = 1`). The player's first game, before any rules screen.
 3. **Wren** acknowledges Pip and offers four short rules exercises (`first_game_rules`),
    followed by a prepared 7×7 `finishing` lesson and optional two-comparison `openings`.
    Results stay beside the board. Her first full 9×9 is explicitly unrated: position-aware
    guidance and **Help H** identify legal captures or groups in atari, followed by passing
    and proposed-mark counting help. Her strength and stopping policy are unchanged.
-4. **Kesh** gives you a provisional 30 kyu novice card and an Instituut invitation
+4. **Kesh** gives you a provisional 30 kyu novice card and an Institute invitation
    before offering any game (`first_rating`: `rank`, `ranked_by_club`,
    `invited_to_institute`, starts `enrolment`). You may leave immediately or play an
    optional **unrated** 9×9 with rank-based handicap. The card is a starting entry,
    not a placement assessment. Existing ranks and match records are preserved.
 
-### Act 2 — the Essenveld Instituut (quest `enrolment`)
-Tram 4 north from the west end of Ketelsteeg → **Hana** welcomes the player and offers the
+### Act 2 — the Sela Go Institute (quest `enrolment`)
+Tram 4 north from the west end of Market Lane → **Hana** welcomes the player and offers the
 first class directly (or an explicit skip) → enrol with **Marguerite** → back-wall league board
 → Noor, Ivo and the remaining novice fixtures, at any placing → the **Beginner Cup**
 ending. Hana’s capture puzzle remains optional. Noor wants company through the league and
@@ -129,18 +121,18 @@ Legacy saves retain their old Academy table and may explicitly enrol in novices.
 
 | id | name | rank | where |
 |---|---|---|---|
-| `wren` | Wren Calloway | 20k | De Ketel — teaches the rules and ko; considerate host, uncertain about her Go |
-| `pip` | Pip Arnesen | 18k | Molenpark — teaches Capture Go; attempts ladders that never work |
-| `kesh` | Kesh Idowu | 12k | De Ketel — the rival; hands out the first rank; teaches escape and connection |
+| `wren` | Wren Calloway | 20k | The Kettle — teaches the rules and ko; considerate host, uncertain about her Go |
+| `pip` | Pip Arnesen | 18k | Boulevard Garden — teaches Capture Go; attempts ladders that never work |
+| `kesh` | Kesh Idowu | 12k | The Kettle — the rival; hands out the first rank; teaches escape and connection |
 | `ilse` | Ilse Brandt | 9k | study hall — plays out of a book, stiffens when you leave it |
-| `tomas` | Tomás Beir | 8k | De Ketel — owns the bar, teaches counting, keeps the 13×13 |
+| `tomas` | Tomás Beir | 8k | The Kettle — owns the bar, teaches counting, keeps the 13×13 |
 | `sunny` | Sunny Achebe | 6k | study hall — nine years old, alarmingly strong |
 | `orla` | Orla Finn | 4k | study hall — an advanced Academy League player; blunt |
-| `bertie` | Bertie Vale | 4k | Molenpark — teaches ladders; one proverb |
+| `bertie` | Bertie Vale | 4k | Boulevard Garden — teaches ladders; one proverb |
 | `nadia` | Nadia Ferreira | 2k | classroom — senior student |
-| `marguerite` | Marguerite Sable | 1d | hall and Bondszaal — registrar, runs the league, the exam and the Cup |
+| `marguerite` | Marguerite Sable | 1d | hall and Assembly Hall — registrar, runs the league, the exam and the Cup |
 | `hana` | Hana Oyelaran | 5d | classroom — the teacher; asks questions |
-| `joos` | Joos | **`?`** | Onderbrug — no card; `rank_label = "?"`, a real `strength_override`, games `unrated` |
+| `joos` | Joos | **`?`** | The Arcade — no card; `rank_label = "?"`, a real `strength_override`, games `unrated` |
 | `abel` | Abel Roos | 21k | wassalon — the weakest of the original town cast |
 | `dov` | Dov Halevi | 19k | wassalon — counts out loud |
 | `moss` | Moss Lindqvist | 16k | wassalon — three years under the section ceiling, on purpose |
@@ -232,11 +224,10 @@ python3 tools/make_test_save.py invited 2 Ada 42 # ...in slot 2, as Ada, at 42 m
                                                 # exam_failed exam_missed exam_final
                                                 # beat_kesh lost_to_kesh
                                                 # quay_review quay_review_19 quay_empty
-                                                # thirteen_ketel (thirteen_ready, but in De Ketel where Kesh is)
+                                                # thirteen_ketel (thirteen_ready, but in The Kettle where Kesh is)
 ```
 
-Autopilot scripts in `tools/autopilot/`: `opening`, `prologue`, `slice_full` (New Game to
-the league board: Pip, Wren, Kesh, the rank, the tram, Hana, Marguerite), `institute`,
+Autopilot scripts in `tools/autopilot/`: `opening`, `prologue`, `institute`,
 `nigiri`, `win_path`, `feel`, `resign`, `city`, `joos`, `banter`, `desk`, `handicap`,
 `endgame`, `board`, `saves`, `lessons`, `taught`, `thirteen`, `cup` / `cup_round` /
 `cup_outgrown` / `cup_playing_up` / `cup_enter_open` / `cup_open`, `exam` /
@@ -245,7 +236,7 @@ the league board: Pip, Wren, Kesh, the rank, the tram, Hana, Marguerite), `insti
 `katago_style_fighting` (the engine at the board, no world), `review_e2e` / `review_13x13`
 / `review_win` (a whole game to the count, then the cards; the last one against the
 weakest heuristic so the player wins -- the autoplay brain cannot beat even Abel's engine), `review_world_wren_loss` / `review_world_wren` /
-`review_world_13` (the same through the town: Wren at De Ketel, Kesh's thirteen, then the
+`review_world_13` (the same through the town: Wren at The Kettle, Kesh's thirteen, then the
 post-match talk), `review_leave` (walk away from the loading card, read it later on the
 quay), `review_unavailable` (a wedged engine must still let you out), `quay_review` /
 `quay_review_19` (the noticeboard from a save).
@@ -254,7 +245,7 @@ Art routes: `art_tour` (all twelve maps, washer frames, park and novice aisle),
 `art_materials` (quay variants), `art_people` (working pose, far-seat sorting, conversation),
 `portrait_sprites` (ART-06's six preview people, running, conversation and activity return),
 `art_arrivals` (both tram illustrations and federation furniture), and `art_cleanup`
-(title composition and cleaned Onderbrug masonry).
+(title composition and cleaned The Arcade masonry).
 
 Screenshots land in `/tmp/ninepoint-shots` (override with `OUT=`). **`run_game.sh` needs a
 script argument** — it runs on a hidden display. `DISPLAY_NUM=0` runs it on the real display
@@ -348,14 +339,14 @@ src/autoload/  EventBus, GameState, SaveSystem, SceneRouter, MatchBridge, KataGo
 
 | Edit this | To change this |
 |---|---|
-| `tools/gen_maps.py` | `data/maps/*.json` — the maps, including walls, spawns, warps, signs, the tram stop, who stands where |
+| `tools/gen_maps.py` + `tools/coastal_layouts.py` | `data/maps/*.json` — the maps, including walls, spawns, warps, signs, the tram stop, who stands where |
 | `tools/gen_content.py` | `data/npcs/*.tres`, `data/opponents/*.tres`, `data/quests/*.tres` |
 | `tools/characters.py` | shared identity; `art_people.py` dispatches walking/actions; six ART-06 identities use `portrait_sprite_people.py` / `portrait_sprite_heads.py`; `gen_characters.py` draws approved portraits |
-| `tools/gen_tiles.py` | `art/tiles/town_tileset.png` + its manifest **and** `town_tileset.tres` (via `gen_tileset_resource.py`, which `build_assets.py` runs — a tile outside the resource draws as nothing, silently) |
+| `tools/gen_tiles.py` + `tools/coastal_tiles.py` | `art/tiles/town_tileset.png` + its manifest **and** `town_tileset.tres` (via `gen_tileset_resource.py`, which `build_assets.py` runs — a tile outside the resource draws as nothing, silently) |
 | `tools/font5x7.py` | the bitmap font glyphs |
-| `tools/gen_audio.py` + `wav.py` | `audio/*.wav` — synthesised from oscillators, no samples. A track named `<t>_in` is a one-shot intro sting for `<t>` |
+| `tools/gen_audio.py` + `tools/coastal_audio.py` + `wav.py` | `audio/*.wav` — synthesised from oscillators, no samples. A track named `<t>_in` is a one-shot intro sting for `<t>` |
 | `tools/gen_props.py` | the tram (96×36, two people tall) and the "..." bubble |
-| `tools/art_furniture.py`, `art_architecture.py`, `art_materials.py` | venue props, structures and tile material recipes |
+| `tools/art_furniture.py`, `art_architecture.py`, `art_materials.py`, `coastal_architecture.py` | venue props, structures and tile material recipes |
 | `tools/art_specs.py` | shared prop dimensions, footprints and animation holds |
 | `tools/art_scene_details.py` | static floor/wall dressing, rebuilt with map geometry |
 
@@ -455,7 +446,7 @@ does not declare its live status.
 
 ## Current state
 
-Playable start to finish: cold open → name → the attic → Ketelsteeg → Capture Go with Pip →
+Playable start to finish: cold open → name → the attic → Market Lane → Capture Go with Pip →
 Wren’s short rules and finishing lessons → optional opening comparison → supported unrated
 full game → reaction/review → Kesh’s novice card (optional handicap practice) → tram north →
 Hana’s welcome and first class → enrol → league board → novice fixtures → the Cup ending → optional Academy League/exam. Twelve maps, twenty characters, each on
@@ -535,7 +526,7 @@ authority. First handicap introductions are controlled by the player and saved t
 `handicap_intro_seen`; H reopens the explanation. `MatchPresentation` owns factual wording.
 Unknown ranks never generate a handicap. The first Wren and Pip boards are empty.
 
-Preferred verified routes: `overhaul_fresh` (also `slice_full`), `overhaul_shortcuts`,
+Historical M43 routes: `overhaul_fresh`, `overhaul_shortcuts`,
 `overhaul_white`, `overhaul_joos`, `overhaul_art`, `overhaul_returns`, `overhaul_activities`,
 `overhaul_cup`, `overhaul_cup_open`, `overhaul_exam_pass`, `overhaul_exam_fail`,
 `overhaul_hana_passed`, `overhaul_hana_failed`, `overhaul_arcs_3`, `overhaul_arcs_6`, `overhaul_review_return`,
@@ -561,7 +552,7 @@ Use isolated XDG data and run these serially with the existing runner lock.
 
 ## PROG-01 novice progression verification
 
-Use `tools/autopilot/novice_journey.json` for the complete New Game route and
+Use `tools/autopilot/kesh_skip.json` for New Game through novice arrival and
 `novice_losses.json` for five losses, the handicap Cup ending, and a fresh attempt.
 `novice_academy.json` covers optional registration, six fixtures with byes, a disk reload,
 a losing retry and archive browsing from the `novice_graduate` fixture.
@@ -587,8 +578,7 @@ card cannot rewrite earlier pairings. The existing Cup rematch fallback is prese
 
 `novice_rank_card` checks the card before any game, declining and returning after reload.
 `kesh_practice` plays the optional handicap game from `novice_first_rank`; `kesh_skip`
-plays New Game through the novice-room arrival without facing Kesh. `slice_full`
-and `novice_journey` now decline Kesh and travel onward. PROG-02 supersedes the old
+plays New Game through the novice-room arrival without facing Kesh. `novice_losses` covers subsequent league/Cup completion; `slice_full` is retired (TEST-01). PROG-02 supersedes the old
 required even-game opening; old saved results remain unchanged.
 
 
@@ -610,3 +600,19 @@ Supplemental routes: `early_lessons`, `early_skips`, `early_counting`, `early_ke
 world-owned offer. Main manual walkthrough evidence and limitations live in
 `docs/early-game/PLAYTEST.md`. Automated answers, direct visits and bot games establish
 coverage only. Independent human beginner testing remains open. No audio was subjectively assessed.
+
+## Sela environment and save contracts
+
+Use `coastal_palette.py`, `coastal_tiles.py`, `coastal_architecture.py`,
+`coastal_layouts.py`, `coastal_views.py` and `coastal_audio.py` for the coastal setting.
+Edit generators, never generated maps/images. All 73 character PNGs are protected by
+`tests/sela_characters.sha256.json`; shared character palettes must not change.
+
+Saves carry `world_layout_revision`. Missing/older values clear only exact return coordinates
+on load, retaining the internal map and named spawn plus all progress. New saves preserve
+positions normally. The old navigation hash freeze is superseded by the approved loop's
+reachability contracts. `sela_loop` walks all six directed connections and reloads the save.
+`sela_legacy` loads an old coordinate inside the new bench, walks from the safe arrival,
+then loads and saves/reloads a current stored position through the title/menu UI.
+Use `art_tour`, `art_arrivals`, `art_people`, current early-game and novice routes with
+isolated XDG directories; `slice_full` is retired. See `docs/sela/PLAYTEST.md` for evidence.

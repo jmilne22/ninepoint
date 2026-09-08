@@ -7,9 +7,9 @@
 script = ExtResource("1_script")
 id = &"enrolment"
 title = "The Novice League"
-summary = "Hana teaches at the Essenveld Instituut, two stops north. They take beginners."
+summary = "Hana teaches at the Sela Go Institute, two stops north. They take beginners."
 steps = [{
-"journal": "Take tram 4 north, from the stop at the west end of Ketelsteeg.",
+"journal": "Take tram 4 north, from the stop at the west end of Market Lane.",
 "advance_on": {"type": "enter_map", "map": "academy_hall"}
 }, {
 "journal": "Find Hana in the classroom, east of the hall.",

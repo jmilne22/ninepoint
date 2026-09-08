@@ -188,14 +188,14 @@
    "portrait": "happy",
    "text": [
     "You won! Want to learn the rest?",
-    "Go to De Ketel, down the steps under the kettle sign. Ask for Wren."
+    "Go to The Kettle, down the steps under the kettle sign. Ask for Wren."
    ]
   },
   "capture_lost": {
    "portrait": "happy",
    "text": [
     "I won this one! Thanks for trying it.",
-    "Wren teaches the full game at De Ketel, down the steps under the kettle sign."
+    "Wren teaches the full game at The Kettle, down the steps under the kettle sign."
    ]
   },
   "after_win": {

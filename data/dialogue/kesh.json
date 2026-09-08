@@ -58,7 +58,7 @@
   "offer": {
    "text": [
     "Want a practice game before you go? We'll use handicap if our ranks call for it.",
-    "It won't change your rank. You can go straight to the Instituut, too."
+    "It won't change your rank. You can go straight to the Institute, too."
    ],
    "choices": [
     {
@@ -79,7 +79,7 @@
      }
     },
     {
-     "text": "I'll head to the Instituut.",
+     "text": "I'll head to the Institute.",
      "goto": "wait"
     }
    ]
@@ -384,13 +384,13 @@
    ],
    "text": [
     "I'll put you down as provisional 30 kyu. It's a starting estimate; your results will move it.",
-    "Hana teaches at the Instituut. Take Tram 4 north from the stop at the west end of this street."
+    "Hana teaches at the Institute. Take Tram 4 north from the stop at the west end of this street."
    ],
    "goto": "result"
   },
   "invitation": {
    "text": [
-    "Hana teaches at the Instituut. Take Tram 4 north from the stop at the west end of this street.",
+    "Hana teaches at the Institute. Take Tram 4 north from the stop at the west end of this street.",
     "The novice group takes new players. Come back and give me a game after you've met them."
    ],
    "goto": "offer"

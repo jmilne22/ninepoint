@@ -1,5 +1,5 @@
 {
- "name": "Essenveld Instituut -- Your Room",
+ "name": "Sela Go Institute \u2014 Dormitory",
  "size": [
   12,
   10
@@ -92,7 +92,8 @@
   "Y": "kifu_board",
   "Q": "plant_int",
   "Z": "kettle_table",
-  "M": "door_int"
+  "M": "door_int",
+  "@": "coast_sky"
  },
  "ground": [
   "IIIIIIIIIIII",
@@ -208,6 +209,13 @@
     96
    ],
    "base": 120
+  },
+  {
+   "art": "school_glass",
+   "position": [
+    48,
+    0
+   ]
   }
  ],
  "presence_states": [

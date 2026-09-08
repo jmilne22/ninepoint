@@ -12,6 +12,7 @@ from png import Img, Rand
 from palette import rgb, mix
 from pixel_art import seed
 import art_materials as materials
+import coastal_tiles
 
 TS = 16
 TILES = []
@@ -1227,6 +1228,9 @@ for family, quiet in [('canal_b', True), ('canal_c', False)]:
                       materials.canal_variant(im,s,frame,quiet)))
 
 
+TILES.append(('coast_sky', lambda im,s: None))
+
+
 def build(out_dir):
     cols = 16
     rows = (len(TILES) + cols - 1) // cols
@@ -1236,6 +1240,7 @@ def build(out_dir):
         t = Img(TS, TS)
         family, separator, frame = name.rpartition("_f")
         fn(t, seed(family if separator and frame.isdigit() else name, "tile"))
+        t = coastal_tiles.paint(name, t)
         cx, cy = i % cols, i // cols
         atlas.blit(t, cx * TS, cy * TS)
         manifest[name] = [cx, cy]

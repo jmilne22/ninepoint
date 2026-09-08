@@ -108,7 +108,7 @@ src/
                         not a preference: cup_board.gd reads autoloads, so in a
                         `--script` run it does not compile and its statics all
                         return null, silently
-    cup_board.gd        the draw pinned up at the Bondszaal
+    cup_board.gd        the draw pinned up at the Assembly Hall
 
   dialogue/           dialogue graph runner + typewriter box (data-driven from JSON)
   quest/              quest definitions, tracker, objective evaluation
@@ -360,10 +360,11 @@ positions. Page state is presentation-only too.
 ## 8. Save format
 
 `user://save_1.json` .. `user://save_3.json` — plain JSON, versioned, human-readable for
-debugging. These are the real keys, which is `GameState.to_dict()` and nothing else:
+debugging. `GameState.to_dict()` supplies state; `SaveSystem` stamps the file version
+and save time:
 
 ```json
-{ "version": 1, "saved_at": "2026-09-04T12:00:00", "playtime": 640.0,
+{ "version": 1, "world_layout_revision": 1, "saved_at": "2026-09-04T12:00:00", "playtime": 640.0,
   "player_name": "Ro", "rank_strength": 8,
   "flags": {...}, "quests": {"first_stones": {"step": 2, "done": false}},
   "inventory": ["old_goban"],
@@ -547,3 +548,17 @@ from old saves. `QuestTracker` rebuilds unfinished old school journal stages fro
 flags/lessons and preserves completed quests, rank, records and league attempts. It never
 fabricates a capture-puzzle solution. The HUD’s fixture count and next name come directly
 from `LeagueAttempt`/`LeagueProgress`, while Cup/exam journal priorities remain intact.
+
+## Coastal environments and saved positions
+
+The internal twelve-map IDs remain unchanged. Generator-owned `coastal_layouts.py` adds
+the Arcade/Sea Walk connection and updates displayed names after common venue dressing.
+Environmental recipes are isolated from character, portrait, board and UI palettes.
+New frame strips use the existing GeneratedProp/PropSpec contracts, without a lighting
+or weather autoload. Soundscape selects synthesized surf beside the water and breeze on
+other outdoor maps, with existing music routing untouched.
+
+GameState writes `world_layout_revision: 1`. When that field is absent or older, loading
+clears `has_return_position` and resets `return_position` only. Map ID, spawn name and all
+progress are retained. This deliberately does not depend on SaveSystem's format version;
+World's existing blocked/occupied-spawn guard still applies to current-layout saves.

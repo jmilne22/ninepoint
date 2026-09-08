@@ -132,11 +132,11 @@
       [
        "give",
        "institute_card",
-       "Essenveld Instituut card"
+       "Sela Go Institute card"
       ],
       [
        "toast",
-       "Enrolled at the Essenveld Instituut."
+       "Enrolled at the Sela Go Institute."
       ],
       [
        "league_start",
@@ -173,7 +173,7 @@
     ]
    ],
    "text": [
-    "You've finished your novice fixtures. The Cup is at the Bondszaal; take the southbound tram.",
+    "You've finished your novice fixtures. The Cup is at the Assembly Hall; take the southbound tram.",
     "You can enter whatever your placing here. Register at the desk when you're ready."
    ],
    "goto": "enrolled_chat"
@@ -186,7 +186,7 @@
     ]
    ],
    "text": [
-    "You can enter the Cup's open section at the Bondszaal. Take the southbound tram.",
+    "You can enter the Cup's open section at the Assembly Hall. Take the southbound tram.",
     "The registration desk is beside the entrance."
    ],
    "goto": "enrolled_chat"
@@ -199,7 +199,7 @@
     ]
    ],
    "text": [
-    "You're in the top four. You can enter the qualifying exam at the Bondszaal.",
+    "You're in the top four. You can enter the qualifying exam at the Assembly Hall.",
     "Register there and tell me when you're ready to start."
    ],
    "goto": "enrolled_chat"
@@ -356,7 +356,7 @@
   },
   "cup_refuse": {
    "text": [
-    "You need a rank to enter. Play Kesh at De Ketel first, then come back to this desk."
+    "You need a rank to enter. Ask Kesh at The Kettle for a card, then come back to this desk."
    ]
   },
   "cup_enter": {
@@ -392,7 +392,7 @@
     ],
     [
      "toast",
-     "Entered: the Steenbeek Beginner Cup."
+     "Entered: the Sela Beginner Cup."
     ],
     [
      "cup_rules",
@@ -528,7 +528,7 @@
     ],
     [
      "toast",
-     "Entered: the Steenbeek Cup, open section."
+     "Entered: the Sela Cup, open section."
     ],
     [
      "cup_rules",
@@ -597,7 +597,7 @@
   },
   "exam_refuse": {
    "text": [
-    "Finish an Academy League attempt in the top four eligible places. The Instituut board has the details."
+    "Finish an Academy League attempt in the top four eligible places. The Institute board has the details."
    ]
   },
   "exam_enter": {
@@ -735,7 +735,7 @@
     [
      "give",
      "instituut_certificate",
-     "Instituut certificate"
+     "Institute certificate"
     ]
    ],
    "text": [
@@ -746,7 +746,7 @@
   "exam_failed": {
    "text": [
     "You didn't qualify this time. Your results are on the board.",
-    "Thank you for playing all your rounds. You're welcome back at the Instituut."
+    "Thank you for playing all your rounds. You're welcome back at the Institute."
    ]
   },
   "cup_champion": {
@@ -759,7 +759,7 @@
   "cup_completed": {
    "text": [
     "Four rounds played. Your first Cup is complete; the results are on the board.",
-    "Come back to the Instituut if you'd like to try the Academy League. There is no hurry."
+    "Come back to the Institute if you'd like to try the Academy League. There is no hurry."
    ]
   },
   "league_desk": {
@@ -822,7 +822,7 @@
   "league_direction": {
    "text": [
     "The league board on the back wall lists your next opponent and the results so far.",
-    "Novices use the lower west room. Academy players use the study hall and classroom; Kesh is at De Ketel."
+    "Novices use the lower west room. Academy players use the study hall and classroom; Kesh is at The Kettle."
    ]
   },
   "novice_register": {

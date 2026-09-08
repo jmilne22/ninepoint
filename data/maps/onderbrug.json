@@ -1,5 +1,5 @@
 {
- "name": "Onderbrug",
+ "name": "The Arcade",
  "size": [
   24,
   12
@@ -92,7 +92,8 @@
   "Y": "kifu_board",
   "Q": "plant_int",
   "Z": "kettle_table",
-  "M": "door_int"
+  "M": "door_int",
+  "@": "coast_sky"
  },
  "ground": [
   "mmmmmmmmmmmmmmmmmmmmmmmm",
@@ -100,8 +101,8 @@
   "mmmmmmmmmmmmmm&mmmmmmmmm",
   "___77_____77_____77_____",
   "maLaaaaaaLaaaaaaLaaaaaam",
-  "maaaaaaaaaaaaaaaaaaaaaam",
-  "maaaaaaaaaaaqaaaaaaaaaam",
+  "mPPPPPPPPPPPPPPPPPPPPPP>",
+  "maaaaaaaaaaaqaaaaaaaaaa>",
   "7aaaaaaaaaaaaaaaaaaaaaam",
   "7aaaaqaaaaaaaaaaaaaaaaam",
   "maaaaaaaaaaaaaaaaaaaqaam",
@@ -128,8 +129,8 @@
   "111111111111111111111111",
   "111001111100111110011111",
   "101000000100000010000001",
-  "100000000000000000000001",
-  "100000000000000000000001",
+  "100000000000000000000000",
+  "100000000000000000000000",
   "000000000000000001111001",
   "000000000111100000000001",
   "100000000000000000000001",
@@ -144,6 +145,10 @@
   "arch": [
    18,
    8
+  ],
+  "from_quay": [
+   22,
+   5
   ]
  },
  "warps": [
@@ -154,7 +159,7 @@
    ],
    "map": "ketelsteeg",
    "spawn": "from_arch",
-   "prompt": "Out to Ketelsteeg"
+   "prompt": "Out to Market Lane"
   },
   {
    "tile": [
@@ -163,7 +168,25 @@
    ],
    "map": "ketelsteeg",
    "spawn": "from_arch",
-   "prompt": "Out to Ketelsteeg"
+   "prompt": "Out to Market Lane"
+  },
+  {
+   "tile": [
+    23,
+    5
+   ],
+   "map": "quay",
+   "spawn": "from_arcade",
+   "prompt": "Sea Walk"
+  },
+  {
+   "tile": [
+    23,
+    6
+   ],
+   "map": "quay",
+   "spawn": "from_arcade",
+   "prompt": "Sea Walk"
   }
  ],
  "signs": [
@@ -179,14 +202,14 @@
     11,
     8
    ],
-   "text": "A tin of spare stones and a cloth, kept clear of the damp wall."
+   "text": "A tin of spare stones and a cloth, kept clear of the passage."
   },
   {
    "tile": [
     2,
     4
    ],
-   "text": "A lamp wired under the arch. Joos has fixed a sheet above the board to catch the drips."
+   "text": "A lamp wired under the arch. Joos has fixed a shade above the board."
   }
  ],
  "npcs": [

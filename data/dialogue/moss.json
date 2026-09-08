@@ -90,12 +90,12 @@
   },
   "no_rules": {
    "text": [
-    "Wren can show you the rules at De Ketel, down the steps under the kettle sign."
+    "Wren can show you the rules at The Kettle, down the steps under the kettle sign."
    ]
   },
   "no_card": {
    "text": [
-    "You'll need a rank first. Play Kesh at De Ketel and she'll put you on the register."
+    "You'll need a rank first. Ask Kesh at The Kettle for a novice card."
    ]
   },
   "outgrown": {
@@ -159,7 +159,7 @@
   "after_win": {
    "text": [
     "You won. I'll put that in the record.",
-    "See you at the Bondszaal, if you're entering."
+    "See you at the Assembly Hall, if you're entering."
    ]
   },
   "after_loss": {

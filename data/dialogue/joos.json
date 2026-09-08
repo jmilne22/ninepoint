@@ -37,12 +37,12 @@
   },
   "no_rules": {
    "text": [
-    "Wren teaches at De Ketel, down the steps. Learn with her first. This board will be here."
+    "Wren teaches at The Kettle, down the steps. Learn with her first. This board will be here."
    ]
   },
   "cold": {
    "text": [
-    "Joos. Step in out of the rain."
+    "Joos. There is shade under here."
    ],
    "goto": "rank_question"
   },
@@ -76,7 +76,7 @@
   },
   "shrug": {
    "text": [
-    "Suit yourself. Watch the puddle by the arch."
+    "Suit yourself. Keep the passage clear."
    ]
   },
   "offer": {
@@ -124,7 +124,7 @@
   },
   "rematch": {
    "text": [
-    "Back for another? The seat's dry."
+    "Back for another? The seat's free."
    ],
    "choices": [
     {
@@ -164,7 +164,7 @@
   },
   "papers": {
    "text": [
-    "Enrolled at the Instituut? Good. You'll find plenty of games up there."
+    "Enrolled at the Institute? Good. You'll find plenty of games up there."
    ],
    "goto": "rank_question"
   },
@@ -186,13 +186,13 @@
   "post_win": {
    "text": [
     "You won. Well played.",
-    "Leave the board out. I'll dry the lid."
+    "Leave the board out. I'll wipe the lid."
    ]
   },
   "post_loss": {
    "text": [
     "That's mine. Thanks for the game.",
-    "Come back whenever you want another. It's dry under this arch."
+    "Come back whenever you want another. It's cool under this arch."
    ]
   }
  }

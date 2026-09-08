@@ -1,5 +1,5 @@
 {
- "name": "Wassalon",
+ "name": "The Laundry",
  "size": [
   20,
   13
@@ -92,7 +92,8 @@
   "Y": "kifu_board",
   "Q": "plant_int",
   "Z": "kettle_table",
-  "M": "door_int"
+  "M": "door_int",
+  "@": "coast_sky"
  },
  "ground": [
   "IIIIIIIIIIIIIIIIIIII",
@@ -202,6 +203,13 @@
     120
    ],
    "base": 144
+  },
+  {
+   "art": "school_glass",
+   "position": [
+    112,
+    0
+   ]
   }
  ],
  "spawns": {
@@ -222,7 +230,7 @@
    ],
    "map": "ketelsteeg",
    "spawn": "from_wassalon",
-   "prompt": "Out to Ketelsteeg"
+   "prompt": "Out to Market Lane"
   }
  ],
  "signs": [
@@ -238,7 +246,7 @@
     17,
     2
    ],
-   "text": "ROOM TO LET. Ask at the snack window. Below it: Cup entries at the Bondszaal."
+   "text": "ROOM TO LET. Ask at the snack window. Below it: Cup entries at the Assembly Hall."
   },
   {
    "tile": [

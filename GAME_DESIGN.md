@@ -1,6 +1,6 @@
 # NINEPOINT — Game Design
 
-> A top-down RPG about learning to play Go, set in **Verhaven**, a rainy port city.
+> A top-down RPG about learning to play Go, set in **Sela**, a warm, leafy coastal city.
 > There are no combat statistics. The only thing that gets stronger is the person holding the controller.
 
 ---
@@ -13,10 +13,10 @@ and try its qualifying exam. The academy atmosphere was inspired by competitive
 student leagues, but an aspiring-professional exam is an optional advanced goal.
 
 - Hana introduces herself and asks the player's name before the world appears.
-- In Steenbeek, Pip teaches Capture Go, Wren teaches rules and finishing before a supported unrated
+- In Sela, Pip teaches Capture Go, Wren teaches rules and finishing before a supported unrated
   first full game. Kesh issues the novice card and invitation, then offers optional
   unrated handicap practice. This supersedes the original required even game (PROG-02).
-- At the Instituut, Hana welcomes the player and offers Two Eyes before registration.
+- At the Institute, Hana welcomes the player and offers Two Eyes before registration.
   Marguerite points to the back-wall board and lower west novice room. Noor wants company
   through her first league and toward the Cup; five classmates share that goal in different ways.
 - Completing all five fixtures earns the main Cup invitation, regardless of wins.
@@ -45,34 +45,29 @@ start when you tell Marguerite you are ready.
 
 ## 1. Premise
 
-You have just moved into an attic over a shuttered stationer's on Ketelsteeg, in
-**Steenbeek** -- an inner district of the port city of **Verhaven**, on the wrong side of a
-canal. Three steps below the pavement next door is **De Ketel**, a bar whose back room has
-had a Go board in it for sixty years. At the end of the street the viaduct crosses, and under
-the arches men play for coins in the dark.
+You have just moved into a rooftop room above a closed stationer's on **Market Lane**,
+in the fictional coastal city of **Sela**. The last tenant left a Go board and no instructions.
+Outside, shutters open over shop awnings and a shaded boulevard garden. Pip and Bertie
+keep a table there. Three steps below the pavement, **The Kettle** is Tomás's neighborhood
+bar; Wren makes room for beginners and Kesh wants another opponent.
 
-That is why an unusual number of people here play Go: it is a port, they always have, and
-nobody ever stopped. Two stops north there is an institute that will certify you. Nobody
-under the arches has ever been near it.
+Tram 4 links the neighborhood to the **Sela Go Institute** and **Assembly Hall**. The
+institute occupies a modernist building with a planted court; the hall hosts the Cup.
+Go belongs to the city's ordinary shared spaces. You begin knowing nothing about it.
 
-You start without knowing the rules.
+### Three ways to belong
 
-*Ninepoint* is the story of one season in Steenbeek: the people you meet over a board, the
-rival who keeps finding you, and the slow, real business of getting better.
+The bar provides familiar opponents and patient practice. The institute offers a group
+of fellow learners and organized competition. The laundry provides casual company while
+people finish everyday chores. These are equally valid ways to enjoy Go. Joos keeps his
+own quiet alcove in the Arcade, off the public passage to Sea Walk.
 
-### The two Go cultures
+This replaces the former above-ground institution / underground authenticity opposition.
+Hana and Marguerite are welcoming people; their setting should support their established
+voices. The neighborhood remains useful after enrolment and after the Cup.
 
-The city is built on one opposition, and the player lives between its halves. Above ground,
-in daylight, the **Essenveld Instituut**: glass, timetables, a league board on the wall, an
-exam that culls you, and everything recorded. Below, **De Ketel** and **Onderbrug**: an
-hourly rate chalked on a slate, cash on the crate, and nobody asking to see your papers.
-
-The Instituut says a rank is a document. Joos under the arches says a rank is what happens at
-the table. Both are telling the truth, which is what makes it a setting rather than a
-backdrop. Nothing supernatural, and no statistics -- this is simply what Go culture is.
-
-The title refers to the nine star points of a full 19×19 board — the shape you grow into.
-You begin on 9×9.
+The title refers to the nine star points of a full 19×19 board. The player's first game
+is Capture Go on 7×7; the first full game is 9×9. Nineteen-line town teaching remains future work.
 
 ## 2. Design pillars
 
@@ -87,7 +82,7 @@ Anything that would let a weaker human beat a stronger opponent by grinding is f
 | Rank | A record of results, like a real club rank. Never a modifier. |
 | Handicap | Fewer stones needed against an opponent = evidence of improvement. |
 | Unlocked opponents/locations | Access gating, not power. |
-| Relationships | Changes dialogue, lessons offered, and who will play you. |
+| Head-to-head record | Results inform greetings and repeat conversations; no affection score. |
 | Key items | A rank certificate and a tournament entry slip. Narrative keys. |
 | Knowledge | Lessons, puzzles, proverbs. Lives in the human's head. |
 
@@ -127,7 +122,7 @@ Defeat advances the story and never blocks progress. There is no game-over scree
 ```
         ┌──────────────────────────────────────────────────┐
         │                                                  │
-   Explore Steenbeek  ──► Talk to NPCs ──► Discover challenges,
+   Explore Sela  ──► Talk to NPCs ──► Discover challenges,
         ▲                                    lessons, quests
         │                                          │
         │                                          ▼
@@ -146,28 +141,27 @@ The UI supports nineteen lines through a development route; town access and the 
 bridge from thirteen remain unbuilt. Interface inspection is available to every learner
 using that board and never depends on rank or an earned ability.
 
-## 4. Steenbeek
+## 4. Sela
 
-Compact, walkable, vertical: a street with rooms above it and rooms below it. Nine locations:
+Compact and walkable: Market Lane, Sea Walk and the Arcade form a loop. The park remains part of Market Lane; twelve maps retain their internal IDs:
 
 | Location | Role | Regulars |
 |---|---|---|
-| **The attic** (player's home) | The study desk (puzzles) | — |
-| **De Ketel** | Informal lessons, practice games, then the rival | Tomás, Wren, Kesh |
-| **Onderbrug** (the arches) | Nine stones from a man with no card | Joos |
-| **Molenpark** | Fast outdoor games, the stone tables | Bertie, Pip |
-| **Ketelsteeg** | The street: the tram stop, noticeboard, snack window, the stationer's | — |
-| **The wassalon** | The laundrette. The city's third register: nothing at all is written down | Abel, Dov, Moss |
-| **The quay** | Grey water and one bench. Where you go after losing; the noticeboard holds the last game you asked somebody to go over | — |
-| **Essenveld Instituut** | Classes, the internal league, the study hall | Hana, Marguerite, the students |
-| **Bondszaal** | The federation hall: tournaments and the exam | Marguerite |
+| **Rooftop Room** (player's home) | The study desk (puzzles) | — |
+| **The Kettle** | Informal lessons, practice games, then the rival | Tomás, Wren, Kesh |
+| **The Arcade** (the arches) | Nine stones from a man with no card | Joos |
+| **Boulevard Garden** | Fast outdoor games, the stone tables | Bertie, Pip |
+| **Market Lane** | The street: the tram stop, noticeboard, snack window, the stationer's | — |
+| **The Laundry** | The laundrette. The city's third register: nothing at all is written down | Abel, Dov, Moss |
+| **Sea Walk** | Sea water and one bench. Where you go after losing; the noticeboard holds the last game you asked somebody to go over | — |
+| **Sela Go Institute** | Classes, the internal league, the study hall | Hana, Marguerite, the students |
+| **Assembly Hall** | The federation hall: tournaments and the exam | Marguerite |
 
-**Built:** all nine, plus the attic — Ketelsteeg (street + park end), the wassalon, De Ketel,
-Onderbrug, the quay, the Bondszaal and the five Instituut rooms. Twelve maps.
+**Built:** Rooftop Room, Market Lane (street + garden), The Laundry, The Kettle,
+The Arcade, Sea Walk, Assembly Hall and the five institute rooms. Twelve maps.
 
-The wassalon (M36) is the one location that is neither half of section 1's opposition. The
-Instituut records you and De Ketel remembers you; at street level, in the warm, nobody does
-either. Two of the three games played there are unrated for that reason, and the third is
+The laundry provides everyday company alongside the bar and institute. Two residents
+prefer unrated games; Moss wants a record. Two of the three games played there are unrated for that reason, and the third is
 rated because the one person who wants a record is the one who has spent three years managing
 his.
 
@@ -178,14 +172,14 @@ and the same person stood in different rooms at different times. It was the larg
 of complexity in the game and it decided nothing a player could act on: a quest step could
 hide behind an hour, and the tests needed a 56-combination cover just to prove nobody had
 been scheduled out of existence. Everyone now stands on one map, always. The one design
-consequence worth keeping: Hana cannot be both at De Ketel for Act 1 and in the classroom
+consequence worth keeping: Hana cannot be both at The Kettle for Act 1 and in the classroom
 for Act 2, so Kesh hands out the first rank and the tram, and Hana meets you at the
-Instituut.
+Institute.
 
 Locations can still remember progress. After lessons, matches, enrolment and events, a map
 may change its conversation pair, clutter, notices or overheard remarks. These **presence
 states** are persistent, legible on revisits and never make a person or service unavailable;
-they give Verhaven social movement without putting a clock back in the player's pocket.
+they give Sela social movement without putting a clock back in the player's pocket.
 
 ## 5. Cast
 
@@ -227,8 +221,7 @@ a rolling performance rating under which three losses from 22 kyu were a promoti
 
 ### The rival: Kesh Idowu
 Kesh is 12k and knows it. She meets you at the club the day you arrive, plays you at 9×9,
-and — win or lose — files the result away. She reappears at every milestone: the park,
-the Beginner Cup, and eventually across a 19×19 board as an equal. Her dialogue tracks the
+and — win or lose — files the result away. She remains available at The Kettle throughout the journey, including for her scheduled league fixture. Her dialogue tracks the
 head-to-head score. She is never a villain; she is the reason you study.
 
 ## 6. Go as the combat system
@@ -331,7 +324,7 @@ Quests are data. **Four ship**: `first_stones` (below), `enrolment` ("The Novice
 is the shape the others follow:
 
 **"First Stones"**
-1. Find De Ketel, further along Ketelsteeg.
+1. Find The Kettle, further along Market Lane.
 2. Learn Wren’s rules and finishing lesson, or explicitly skip teaching. Opening advice is optional.
 3. Play Wren's unrated 9×9 first full game. (Either result advances.)
 4. Ask Kesh for your novice card. Her handicap 9×9 practice is optional and unrated.
@@ -339,13 +332,13 @@ is the shape the others follow:
 Marguerite’s register, league board and five novice fixtures. The arrival capture puzzle is optional.
 
 Tournament arcs are built -- the Cup and the exam are both quests. Two more shipped and were
-cut in M37: `the_hooks`, a second progression at De Ketel that disagreed with the league on
+cut in M37: `the_hooks`, a second progression at The Kettle that disagreed with the league on
 purpose, and `page_forty`, a borrowed book in a game with no inventory screen. One
 progression is enough for a player to read, and it is the league board.
 
 ## 8. Tournaments (post-slice design)
 
-The Steenbeek Cup: 4 rounds in a hired room at the Bondszaal, run round after round once
+The Sela Cup: 4 rounds in a hired room at the Assembly Hall, run round after round once
 you tell Marguerite you are ready. Placing changes your rank the way every other result
 does -- through the record.
 
@@ -384,7 +377,7 @@ Each rank step is gated on the human actually winning games at the appropriate h
 The game will not hand out a rank for time served.
 
 **Chapter 2's gate is real.** Three rated games won opens a 13×13 -- Tomás's back table at
-De Ketel, which Kesh will also play you on -- through the `rated_wins_at_least` condition,
+The Kettle, which Kesh will also play you on -- through the `rated_wins_at_least` condition,
 counted off the record rather than kept in a flag.
 
 **Chapter 3's board is real too.** §8's open section is built (M33) and is played on
@@ -430,7 +423,7 @@ Four rules, all of them levels and art rather than systems:
 Online play, real-time clocks, SGF import/export UI (games are recorded, but there is no
 kifu browser), a second town, romance systems, crafting.
 
-## Verhaven presentation and teaching
+## Sela presentation and teaching
 
 Dialogue is written around a person's immediate situation: clearing cups, finding a chair,
 preparing for the Cup or marking a book. Short exchanges may stay ordinary. Repeat visits
@@ -452,3 +445,21 @@ Persistent activities and ordered conversations use existing lesson, match, enro
 event flags. Exam and Cup conclusions state the outcome and allow warm acknowledgements
 at familiar places. No schedules, affection, errands, character statistics or new currencies
 are introduced. Actual observed play is the acceptance test for this presentation.
+
+## Sela journey and setting revision
+
+Tel Aviv's recessed balconies, planted setbacks, shaded kiosks and stepped waterfronts
+inform original pixel architecture. They are references for the fictional city, not literal
+geography or a new identity for any character. One fixed mild afternoon replaces perpetual
+drizzle; no clock, weather simulation, heat meter or shop economy is introduced.
+
+The complete teaching/league/Cup sequence stays intact. Home and Pip are close together;
+the kettle sign identifies Wren's venue; the institute court shows the league board,
+registration and labeled room entrances. The same named people stay in the same internal
+venues. After lessons and the Cup, existing progress-based exchanges and details supply
+return-visit changes without schedules.
+
+Market Lane connects to Sea Walk through the garden steps and to the Arcade through its
+east entrance. Sea Walk's east steps join the Arcade's east exit. The reverse connections
+are always available. Tram 4 remains at Market Lane's west end; its existing invitations
+and eligibility gates remain unchanged. Sea Walk keeps the asynchronous review noticeboard.

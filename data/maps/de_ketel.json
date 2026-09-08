@@ -1,5 +1,5 @@
 {
- "name": "De Ketel",
+ "name": "The Kettle",
  "size": [
   20,
   14
@@ -92,14 +92,15 @@
   "Y": "kifu_board",
   "Q": "plant_int",
   "Z": "kettle_table",
-  "M": "door_int"
+  "M": "door_int",
+  "@": "coast_sky"
  },
  "ground": [
   "IIIIIIIIIIIIIIIIIIII",
   "IIIIIIIIIIIIIIIIIIII",
   "iVViiiiii??iiiiiiVVi",
   "}112112112112112112}",
-  "}12112112112112112$}",
+  "}12112112112112112Q}",
   "}111111111211211111}",
   "}112112111111111112}",
   "}121121111111121121}",
@@ -137,7 +138,7 @@
   "10000000000000000001",
   "10000000000000000001",
   "10011101000000000001",
-  "10011101000000000001",
+  "10011101001110000001",
   "10000000000000000011",
   "10000000000000000001",
   "11111111100111111111"
@@ -160,7 +161,7 @@
    ],
    "map": "ketelsteeg",
    "spawn": "from_ketel",
-   "prompt": "Ketelsteeg"
+   "prompt": "Market Lane"
   },
   {
    "tile": [
@@ -169,7 +170,7 @@
    ],
    "map": "ketelsteeg",
    "spawn": "from_ketel",
-   "prompt": "Ketelsteeg"
+   "prompt": "Market Lane"
   }
  ],
  "signs": [
@@ -178,14 +179,14 @@
     9,
     2
    ],
-   "text": "Coats on brass hooks. A spare umbrella has a note: BORROW IT. BRING IT BACK."
+   "text": "Coats on brass hooks. A spare sunhat hangs beside them."
   },
   {
    "tile": [
     18,
     4
    ],
-   "text": "A coal stove. A pair of wet gloves dries on the guard."
+   "text": "A potted palm by the open shutters. The leaves stir in the breeze."
   },
   {
    "tile": [
@@ -199,7 +200,7 @@
     1,
     4
    ],
-   "text": "DE KETEL. Ask Wren to learn the rules or play a practice game. Kesh plays rated games by the window."
+   "text": "THE KETTLE. Ask Wren to learn the rules or play a practice game. Kesh plays rated games by the window."
   },
   {
    "tile": [
@@ -321,11 +322,26 @@
    ]
   },
   {
-   "art": "tall_window",
+   "art": "school_glass",
+   "position": [
+    112,
+    0
+   ]
+  },
+  {
+   "art": "school_glass",
    "position": [
     208,
     0
    ]
+  },
+  {
+   "art": "sela_garden",
+   "position": [
+    160,
+    144
+   ],
+   "base": 176
   }
  ],
  "presence_states": [

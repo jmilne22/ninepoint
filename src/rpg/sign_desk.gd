@@ -144,7 +144,7 @@ func next_puzzle() -> String:
 func study_desk(prose: String) -> void:
     if not GameState.has_flag("knows_the_rules"):
         await narrate([prose.strip_edges(),
-            "Pip plays in the park across the road. Wren teaches at De Ketel, under the kettle sign."])
+            "Pip plays in the park across the road. Wren teaches at The Kettle, under the kettle sign."])
         return
     var puzzle := next_puzzle()
     var solved_all := GameState.has_flag("%s_solved" % PUZZLE_TRACK[PUZZLE_TRACK.size() - 1])

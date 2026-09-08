@@ -1173,6 +1173,10 @@ def _():
     return s.lowpass(4400).fade_edges(0.03).normalise(0.46)
 
 
+from coastal_audio import surf, breeze
+SOUNDS.update(amb_coast=surf, amb_breeze=breeze)
+
+
 def build(out_dir):
     os.makedirs(out_dir, exist_ok=True)
     written = []

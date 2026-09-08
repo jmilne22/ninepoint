@@ -1,5 +1,5 @@
 {
- "name": "Your attic",
+ "name": "Rooftop Room",
  "size": [
   12,
   9
@@ -92,7 +92,8 @@
   "Y": "kifu_board",
   "Q": "plant_int",
   "Z": "kettle_table",
-  "M": "door_int"
+  "M": "door_int",
+  "@": "coast_sky"
  },
  "ground": [
   "IIIIIIIIIIII",
@@ -149,7 +150,7 @@
    ],
    "map": "ketelsteeg",
    "spawn": "from_home",
-   "prompt": "Down to Ketelsteeg"
+   "prompt": "Down to Market Lane"
   }
  ],
  "signs": [
@@ -165,14 +166,14 @@
     2,
     5
    ],
-   "text": "__BED__Your bed, tucked under the low roof."
+   "text": "__BED__Your bed beside the terrace window."
   },
   {
    "tile": [
     5,
     2
    ],
-   "text": "Rain taps the skylight. Beyond the tram wires, a crane turns over the quay."
+   "text": "The shutters open onto a planted terrace. Beyond the tram wires is the sea."
   }
  ],
  "npcs": [],

@@ -80,7 +80,7 @@ static func build_warps(map: MapData, parent: Node2D) -> void:
         warp.add_child(shape)
         warp.position = map.tile_centre(Vector2i(int(tile[0]), int(tile[1])))
         parent.add_child(warp)
-        # Every warp has carried a `prompt` -- "De Ketel", "Down to the water" --
+        # Every warp has carried a `prompt` -- "The Kettle", "Down to the water" --
         # since the maps were first generated, and nothing ever read it. A
         # doorway in this game announced itself with nothing at all: no hint, no
         # marker, no sound. Give it the same Interactable every sign has, at a
