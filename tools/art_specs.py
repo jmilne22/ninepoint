@@ -33,7 +33,7 @@ SPECS={
     'dry_corner':PropSpec((80,48),(8,32,48,16)),
     'port_cargo':PropSpec((64,32),(0,16,64,16)),
     'review_board':PropSpec((48,40),(0,24,48,16)),
-    'tram_stop':PropSpec((48,48),(16,32,32,16)),
+    'tram_stop':PropSpec((64,48),(16,32,32,16)),
     'coat_rack':PropSpec((48,32)), 'tall_window':PropSpec((32,48)),
     'book_shelf':PropSpec((48,32)), 'kettle_sign':PropSpec((48,40)),
     'attic_roof':PropSpec((192,48)), 'port_arch':PropSpec((112,88)),
@@ -45,6 +45,12 @@ SPECS={
 for person in ('noor','ivo','lea','emil','sora'):
     SPECS['novice_'+person]=PropSpec((48,48),(0,0,48,32))
 for number in range(1,13):SPECS['board_number_'+str(number)]=PropSpec((16,9))
+for facade in ('home','bar','laundry'):
+    SPECS['sela_'+facade]=PropSpec((128,128))
+SPECS.update(sela_pergola=PropSpec((128,48)),
+             sela_kiosk=PropSpec((48,48),(0,32,48,16),(2.8,.25,.5)),
+             sela_garden=PropSpec((48,32),(0,16,48,16)),
+             sela_tree=PropSpec((64,56),(24,40,16,16),(2.4,.5,1.3)))
 
 
 def validate_asset(name,image):

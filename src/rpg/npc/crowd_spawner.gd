@@ -9,7 +9,7 @@ extends Node2D
 ## How many may be on a map at once.
 const CAP := 3
 ## The street's default cast of nobodies. A route may name its own instead --
-## the Instituut's hall gets students, and a dockworker in it would be a
+## the Institute's hall gets students, and a dockworker in it would be a
 ## costume error nobody would be able to name but everybody would feel.
 const SHEETS := ["extra_commuter", "extra_shopper", "extra_docker", "extra_kid"]
 

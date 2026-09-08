@@ -1,4 +1,4 @@
-## The Essenveld Instituut's qualifying exam: four players, three rounds, two pass.
+## The Sela Go Institute's qualifying exam: four players, three rounds, two pass.
 ##
 ## Like LeagueTable and CupDraw this stores nothing. The whole crosstable is a
 ## function of the field and the games the player has actually played -- the

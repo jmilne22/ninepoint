@@ -6,6 +6,9 @@
     "wait": 0.8
   },
   {
+    "shot": "coastal_title"
+  },
+  {
     "tap": "move_down"
   },
   {

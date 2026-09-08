@@ -1,5 +1,5 @@
 {
- "name": "Essenveld Instituut -- Novice Room",
+ "name": "Sela Go Institute \u2014 Novice Room",
  "size": [
   24,
   16
@@ -92,7 +92,8 @@
   "Y": "kifu_board",
   "Q": "plant_int",
   "Z": "kettle_table",
-  "M": "door_int"
+  "M": "door_int",
+  "@": "coast_sky"
  },
  "ground": [
   "IIIIIIIIIIIIIIIIIIIIIIII",
@@ -318,6 +319,13 @@
     160
    ],
    "base": 192
+  },
+  {
+   "art": "school_glass",
+   "position": [
+    144,
+    0
+   ]
   }
  ],
  "music": "theme_institute",

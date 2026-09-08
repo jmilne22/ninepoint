@@ -20,7 +20,7 @@
  {"wait":2.5,"shot":"wren_resumed"},
  {"talk_to":"kesh","timeout":12},
  {"wait":1.5,"shot":"kesh_portrait"},
- {"experience":"choice","text":"Later.","alternatives":["Later.","I'll head to the Instituut."]},
+ {"experience":"choice","text":"Later.","alternatives":["Later.","I'll head to the Institute."]},
  {"advance":3,"stop_at_choice":true},
  {"world_wait":true},
  {"talk_to":"tomas","timeout":12},

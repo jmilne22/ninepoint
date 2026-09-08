@@ -1,5 +1,5 @@
 [
- {"save": "invited", "note": "The opponent's face, move by move, in a real game at De Ketel."},
+ {"save": "invited", "note": "The opponent's face, move by move, in a real game at The Kettle."},
  {"wait": 0.8},
  {"tap": "move_down"},
  {"tap": "interact"},

@@ -1,0 +1,200 @@
+[
+ {
+  "save": "invited"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "experience": "visit",
+  "map": "ketelsteeg",
+  "spawn": "from_quay"
+ },
+ {
+  "shot": "market_garden"
+ },
+ {
+  "walk_to": [
+   16,
+   18
+  ],
+  "timeout": 20
+ },
+ {
+  "face": [
+   16,
+   19
+  ]
+ },
+ {
+  "shot": "sea_walk_threshold"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "map",
+  "map": "quay",
+  "timeout": 15
+ },
+ {
+  "shot": "sea_walk"
+ },
+ {
+  "walk_to": [
+   24,
+   2
+  ],
+  "timeout": 20
+ },
+ {
+  "face": [
+   25,
+   2
+  ]
+ },
+ {
+  "shot": "arcade_from_sea_threshold"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "map",
+  "map": "onderbrug",
+  "timeout": 15
+ },
+ {
+  "shot": "arcade_from_sea"
+ },
+ {
+  "walk_to": [
+   1,
+   7
+  ],
+  "timeout": 20
+ },
+ {
+  "face": [
+   0,
+   7
+  ]
+ },
+ {
+  "shot": "market_from_arcade_threshold"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "map",
+  "map": "ketelsteeg",
+  "timeout": 15
+ },
+ {
+  "shot": "market_from_arcade"
+ },
+ {
+  "walk_to": [
+   30,
+   9
+  ],
+  "timeout": 20
+ },
+ {
+  "face": [
+   30,
+   8
+  ]
+ },
+ {
+  "shot": "arcade_from_market_threshold"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "map",
+  "map": "onderbrug",
+  "timeout": 15
+ },
+ {
+  "shot": "arcade_from_market"
+ },
+ {
+  "walk_to": [
+   22,
+   5
+  ],
+  "timeout": 20
+ },
+ {
+  "face": [
+   23,
+   5
+  ]
+ },
+ {
+  "shot": "sea_from_arcade_threshold"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "map",
+  "map": "quay",
+  "timeout": 15
+ },
+ {
+  "shot": "sea_from_arcade"
+ },
+ {
+  "walk_to": [
+   12,
+   1
+  ],
+  "timeout": 20
+ },
+ {
+  "face": [
+   12,
+   0
+  ]
+ },
+ {
+  "shot": "garden_return_threshold"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "map",
+  "map": "ketelsteeg",
+  "timeout": 15
+ },
+ {
+  "shot": "garden_return"
+ },
+ {
+  "experience": "save"
+ },
+ {
+  "experience": "reload"
+ },
+ {
+  "experience": "map",
+  "map": "ketelsteeg"
+ },
+ {
+  "shot": "loop_saved_and_loaded"
+ }
+]

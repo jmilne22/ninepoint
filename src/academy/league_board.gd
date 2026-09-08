@@ -41,7 +41,7 @@ func _build() -> void:
     # gave its six lines 62 px, so the final line landed on the frame.
     var panel := UiKit.panel(_root, Rect2(30, 8, 324, 200))
     _header = UiKit.label(panel, Vector2(10, 8), 304, UiKit.GOLD)
-    _header.text = "ESSENVELD INSTITUUT -- LEAGUES"
+    _header.text = "SELA GO INSTITUTE -- LEAGUES"
 
     var headings := ["", "NAME", "ENTRY", "P", "W", "L"]
     for c in headings.size():
@@ -89,7 +89,7 @@ func show_board() -> void:
 func _draw_attempt() -> void:
     var attempt: Dictionary = GameState.league_attempts[_shown_attempt] if _shown_attempt >= 0 and _shown_attempt < GameState.league_attempts.size() else {}
     var rows := LeagueAttempt.rows(attempt, GameState.match_records)
-    _header.text = "ESSENVELD INSTITUUT -- LEAGUES"
+    _header.text = "SELA GO INSTITUTE -- LEAGUES"
     if not attempt.is_empty():
         var title := "NOVICE" if str(attempt["division"]) == LeagueAttempt.NOVICE else "ACADEMY"
         _header.text = "%s LEAGUE - ATTEMPT %d%s" % [title, attempt["number"],
@@ -124,7 +124,7 @@ func _draw_attempt() -> void:
 ## could state the rule and say nothing about whether you were meeting it.
 static func _exam_line(rows: Array[Dictionary]) -> String:
     if LeagueProgress.exam_eligible(GameState):
-        return "You are eligible. Register at the Bondszaal desk."
+        return "You are eligible. Register at the Assembly Hall desk."
     return "Complete the Academy League to qualify for the exam."
 
 

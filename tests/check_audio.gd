@@ -26,7 +26,7 @@ const MUSIC := ["theme_title", "theme_match", "theme_institute", "theme_quay",
     # that could actually break.
     "theme_battle", "theme_rival", "theme_ghost", "theme_teacher",
     "theme_wall", "theme_exam", "theme_cup"]
-const BEDS := ["amb_rain", "amb_room", "amb_canal"]
+const BEDS := ["amb_room", "amb_coast", "amb_breeze"]
 
 ## Tracks that ship a "<track>_in" sting. Audio.play_music() starts the sting
 ## and _loop_music() swaps the loop in when it ends, which is the one piece of

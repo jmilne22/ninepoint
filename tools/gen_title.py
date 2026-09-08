@@ -1,6 +1,6 @@
 """The two illustrated screens: the title card, and the backdrop behind the cold open.
 
-Both are 384x216 and both are the same dusk over the same city, because they are
+Both are 384x216 and share the same coastal light, because they are
 thirty seconds apart and the second one used to be a flat #14121a rectangle --
 "why is this screen just black" was a fair question about the first thing a new
 player sees.
@@ -11,7 +11,7 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 from png import Img, Rand
 from palette import rgb, mix
-from art_sky import sky, skyline as draw_skyline
+from coastal_views import title as coastal_title
 from pixel_art import polygon, ellipse, grain, mask
 
 W, H = 384, 216
@@ -28,46 +28,15 @@ def _vignette(im, edge=0.86, strength=300, cap=150):
 
 
 def opening(out_dir):
-    """Behind the cold open: dusk and rain, and nothing that competes.
-
-    Hana's portrait, the empty board and the dialogue panel are all drawn over
-    this at runtime, so it carries no subject of its own -- the first version
-    put the skyline behind them and it fought the type. What it has to do is
-    stop the first screen of the game being a flat #14121a rectangle, and say
-    "a wet evening in a port" before anybody has said it in words.
-    """
-    im = Img(W, H, fill=rgb("ink1"))
-    r = Rand(20260908)
-
-    # A short, quiet ramp: the title card owns the gold end of the sky.
-    sky(im,H,quiet=True)
-
-    # Rain, falling the way rain falls past a window: many, thin, and slanted.
-    for _ in range(150):
-        x, y = r.rng(-8, W), r.rng(0, H)
-        length = r.rng(5, 13)
-        for k in range(length):
-            im.set(x + k // 3, y + k, (216, 208, 184, 26))
-
-    # A crane light and a couple of windows a long way off, low and small.
-    for _ in range(18):
-        x, y = r.rng(8, W - 8), r.rng(int(H * 0.62), H - 10)
-        im.rect(x, y, 2, 1, (rgb("gold1")[0], rgb("gold1")[1], rgb("gold1")[2], 90))
-
-    _vignette(im, 0.42, 240, 165)
+    """Quiet coastal backdrop under Hana, the empty board and dialogue."""
+    im = coastal_title(quiet=True)
     os.makedirs(out_dir, exist_ok=True)
     im.save(os.path.join(out_dir, "opening.png"))
     return W, H
 
 
 def build(out_dir):
-    im = Img(W, H)
-    # A quiet port beyond a real table. The menu owns the left third of the view.
-    sky(im,150,quiet=True)
-    polygon(im,[(0,119),(75,114),(128,118),(198,112),(265,115),(328,110),
-                (384,116),(384,157),(0,157)],mix('rust0','plum1',.5))
-    draw_skyline(im,139,mix('plum0','ink2',.45),7,10,29)
-    draw_skyline(im,154,rgb('ink1'),11,8,22)
+    im = coastal_title()
 
     # The terrace rail sits behind the table; none of its uprights crosses the board.
     im.rect(0,154,W,62,rgb('ink1'))

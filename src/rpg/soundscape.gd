@@ -69,7 +69,7 @@ func apply() -> void:
         Audio.play_ambience(bed)
 
 
-## Leaving the map takes the bed with it. Otherwise the rain from Ketelsteeg
+## Leaving the map takes the bed with it. Otherwise the breeze from Market Lane
 ## carries on underneath a Go match and the title screen.
 func _exit_tree() -> void:
     Audio.stop_ambience()
@@ -86,8 +86,8 @@ func _choose_bed() -> String:
         return "amb_room" if _map.music == "" else ""
     for tile_name in BED_CANAL_TILES:
         if not _cells_named(tile_name).is_empty():
-            return "amb_canal"
-    return ""
+            return "amb_coast"
+    return "amb_breeze"
 
 
 # --- emitters ----------------------------------------------------------------

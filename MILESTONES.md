@@ -1,4 +1,4 @@
-Current verified local revision: [M47 art evidence](docs/art/PLAYTEST.md). Historical entries retain their original behavior and counts.
+Current verified local revision: [M48 Sela evidence](docs/sela/PLAYTEST.md). Historical entries retain their original behavior and counts.
 
 # NINEPOINT — Milestones
 
@@ -3296,3 +3296,101 @@ now rests on a visible terrace table, bowls beside it, with a muted skyline beyo
 Ten art tests passed; a fresh editor import and `art_cleanup` replay had no script/parse
 errors. Native and 3× gameplay images were opened; see the updated art playtest report.
 No runtime, navigation, portrait or menu geometry changes in this follow-up.
+
+
+## M48 — Sela, a coastal neighborhood (SELA-01–03)  [done]
+
+Implemented on `codex/sela-coastal-redesign` from freshly fetched and verified
+`d64ab5f` (ART-06 head). The owner approved a fictional Tel Aviv-inspired setting,
+warm/worn/leafy architecture, a walking neighborhood and retained tram. Every character
+and portrait was explicitly protected. The [design rationale](docs/sela/DESIGN.md) links
+the inspected high-resolution photographs and explains the departures from Verhaven.
+
+All twelve maps retain their internal IDs. Environment-only Python recipes introduce
+pale plaster, shutters, balconies, planted roofs, shade structures and quieter sea tiles.
+Market Lane, Sea Walk and the Arcade connect in both directions. The Kettle stays intimate;
+the institute becomes a planted modernist court. Title/tram views, local foliage/awning
+motion and synthesized breeze/surf share that setting. Visible names and environmental
+writing were reconciled without changing the curriculum or post-match branches.
+
+A separate world-layout revision discards old exact return coordinates once, retaining
+the named spawn and progress. Current stored return coordinates remain intact. Protected
+hashes cover all 73 portrait, walking and activity PNGs. New route checks prove every
+spawn, warp, NPC and sign has a connected approach; the old exact-navigation fixture
+is superseded by the approved redesign.
+
+**Done when:** 16,904 Godot checks pass (predecessor M47 / pre-redesign ART-06 head:
+16,879); all 13 Python art tests pass (ART-06: 12), 283 files load, and all three real
+KataGo gates pass. The real audio-driver check finds all 18 tracks audible and all four
+intro stings handing over. Nine final gameplay routes complete at exit 0 with no script
+errors or unreachable-tile messages. They produce 273 captures, with representative
+frames opened and all twelve venues inspected. [Full evidence and limits](docs/sela/PLAYTEST.md).
+
+The fresh route reaches the novice room from New Game through real walks/tram travel,
+Pip, Wren, the card and Hana. Losses complete the novice league and Cup and permit another
+attempt. Review comparisons survive reload. Legacy/current position behavior was inspected
+through actual title/save menus. Running, work poses, dialogue portraits and far-seat
+sorting were inspected against the new surroundings.
+
+### Deliberate changes and boundaries
+
+| Before | After / evidence |
+|---|---|
+| Perpetually wet working port and above/below opposition | Mild coastal afternoon; bar, institute and laundry offer complementary Go spaces |
+| A dead-end quay and separate arch | Six directed walking connections, physically walked and saved/reloaded |
+| Old exact coordinates could intersect new furniture | One-time layout migration; old/current slots inspected through the UI |
+| Navigation frozen by a whole-map hash | Connected-service assertions; an in-memory blocked route correctly failed |
+| Characters approved before the setting change | All 73 exports fixed; an in-memory incorrect digest correctly failed |
+| Pergola crossed the Sea Walk arrival composition | Shelter and bench moved aside, then rebuilt, replayed and inspected |
+| Obsolete `slice_full` and duplicated lesson answers in `kesh_skip` | Retired old route; named choices/current lesson runner and settled world return; 80-frame fresh route completes |
+
+No character, portrait, Go rule, opponent profile, board/UI art, rank ladder, league rule
+or lesson position changed. Existing music remains. This is scripted and visual evidence;
+independent beginner strength/wayfinding, ENG-09 endings and nineteen-line town teaching
+remain separate. Initial failed routes are documented as failures rather than completion.
+
+
+**Owner tram follow-up (SELA-04):** replaced the red 96×36 tram with an original
+Python-drawn white 160×36 articulated light-rail vehicle using the owner's photograph
+as reference. Five sections, dark glazing, rounded double-ended cabs and roof equipment;
+runtime width follows the new asset, with the middle door centred at the existing stop.
+`art_tram` completed 93 captures at exit 0 with no script errors; both passing directions,
+the stopping position and both destination illustrations were opened. The gate retained
+M48's 16,904 checks, 13 art tests, 283 loads and all three real-engine passes. No character,
+route, boarding timing or Go changes. [Tram evidence](docs/sela/PLAYTEST.md#white-articulated-tram--sela-04-follow-up).
+
+
+**Owner tree follow-up (SELA-05):** replaced stacked oval crowns with original Python
+boulevard ficus art: pale branching trunks, irregular dark crowns and local leaf motion.
+Removed tree-like pots from façades/balconies/arches and all title-roof greenery; lowered
+short-leaf room pots to the floor. Existing tree footprints and all 73 cast images remain
+unchanged. `art_ficus` completed 20 captures; garden, façade, title, room and both arrivals
+were opened. The cold opening was inspected separately. M48's 16,904 checks, 13 art tests,
+283 loads and three engine gates pass; final pot alignment was rebuilt, imported,
+replayed and art-tested. [Evidence and limits](docs/sela/PLAYTEST.md#boulevard-ficus--sela-05-follow-up).
+
+
+**Owner stop follow-up (SELA-06):** replaced the small blue shelter with a Jerusalem-inspired
+cantilever canopy, glazing, seating, machine column and route number. An 80×32 marked
+platform offers boarding regardless of facing; ordinary faced signs/people still win.
+The shelter keeps its collision footprint and all cast/tram images stay fixed. Final
+`art_stop` (30 captures) and `stop_gates` (four) prove multiple positions/directions,
+cancel, outside bounds, the nearby notice, walked home stairs, both rides and both gates.
+Representative frames were opened. The initial narrow-zone play failure led to the larger
+platform. **Done when:** 16,922 checks (predecessor SELA-05: 16,904), 13 art tests, 283
+loads and all three engine gates pass. [Evidence and limits](docs/sela/PLAYTEST.md#shelter-and-boarding-platform--sela-06-follow-up).
+
+
+**Owner signage follow-up (SELA-07):** Laundry, The Kettle and Paper now use original
+mixed-case display lettering and trade symbols inside distinct, padded sign panels.
+Window/balcony spacing reserves the fascia; UI type, geometry, cast and tram stay fixed.
+`art_signs` completed seven captures; the three names and three walked entrances were
+opened at native scale. **Done when:** the SELA-06 gate remains at 16,922 Godot checks,
+13 art tests, 283 loads and three engine gates. Only the three facade exports changed.
+[Evidence and limits](docs/sela/PLAYTEST.md#shop-signs--sela-07-follow-up).
+
+
+SELA-07 tram-label correction: extended the display lettering to Tram and a separate
+route-number cell. Only the stop texture changed. Thirteen art tests and editor import
+passed; `art_stop` completed 30 captures, with the lettering and boarding prompt opened.
+The preceding runtime gate was not rerun for this art-only correction.

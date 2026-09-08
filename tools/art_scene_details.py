@@ -6,6 +6,7 @@ from palette import rgb
 from pixel_art import polygon, ellipse, seed
 from art_specs import SPECS
 from art_materials import WOOD, CONCRETE
+from coastal_palette import color as coastal
 
 
 def tint(a,b,t):
@@ -14,9 +15,10 @@ def tint(a,b,t):
 
 def render(name,data):
     w,h=data['size'];im=Img(w*16,h*16)
-    floors={'floor_wood_a':WOOD,'floor_wood_b':WOOD,'floor_concrete':CONCRETE,
-            'asphalt':rgb('asphalt1'),'pavement':rgb('path2'),'grass_a':rgb('grass1'),
-            'grass_b':rgb('grass1'),'grass_c':rgb('grass1'),'arch_shade':rgb('asphalt1')}
+    floors={'floor_wood_a':coastal('wood'),'floor_wood_b':coastal('wood'),
+            'floor_concrete':coastal('paving'),'asphalt':coastal('road'),
+            'pavement':coastal('paving'),'grass_a':coastal('leaf'),
+            'grass_b':coastal('leaf'),'grass_c':coastal('leaf'),'arch_shade':coastal('shadow')}
     def surface(x,y):
         tx,ty=x//16,y//16
         if not (0<=tx<w and 0<=ty<h):return None
@@ -62,6 +64,11 @@ def render(name,data):
         x,y=warp['tile']
         for dx in [-5,3,12]:marks.hline(x*16+dx,y*16+21,4,(22,0,0,255))
     if not data.get('indoors'):
+        # Shade stays on the ground: it never tints portraits or hides a door.
+        for yy,row in enumerate(data['ground']):
+            for xx,ch in enumerate(row):
+                if data['legend'].get(ch)=='tree_tl':
+                    ellipse(marks,xx*16-8,yy*16+20,66,34,(36,0,0,255))
         r=Rand(seed(name,'damp'))
         for y,row in enumerate(data['ground']):
             for x,ch in enumerate(row):

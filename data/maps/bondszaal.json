@@ -1,5 +1,5 @@
 {
- "name": "The Bondszaal",
+ "name": "Assembly Hall",
  "size": [
   18,
   24
@@ -92,7 +92,8 @@
   "Y": "kifu_board",
   "Q": "plant_int",
   "Z": "kettle_table",
-  "M": "door_int"
+  "M": "door_int",
+  "@": "coast_sky"
  },
  "ground": [
   "IIIIIIIIIIIIIIIIII",
@@ -190,7 +191,7 @@
    ],
    "map": "ketelsteeg",
    "spawn": "from_tram",
-   "prompt": "Tram 4, back to Steenbeek"
+   "prompt": "Market Lane"
   },
   {
    "tile": [
@@ -199,7 +200,7 @@
    ],
    "map": "ketelsteeg",
    "spawn": "from_tram",
-   "prompt": "Tram 4, back to Steenbeek"
+   "prompt": "Market Lane"
   }
  ],
  "signs": [
@@ -236,7 +237,7 @@
     1,
     20
    ],
-   "text": "VERHAVEN GO FEDERATION. Register with Marguerite beside the entrance. Draws and results are at the far end."
+   "text": "SELA GO FEDERATION. Register with Marguerite beside the entrance. Draws and results are at the far end."
   },
   {
    "tile": [

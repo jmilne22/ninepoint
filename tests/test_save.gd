@@ -34,12 +34,32 @@ static func run(t: TestKit) -> void:
     _test_counting(t)
     _test_delete(t)
     _test_short_return_position(t)
+    _test_coastal_location_migration(t)
     _test_borrowing(t)
     _restore(backup)
     _gs.reset()
 
 
 # --- the borrowed files ------------------------------------------------------
+
+static func _test_coastal_location_migration(t: TestKit) -> void:
+    t.section("coastal layout migration preserves the playthrough")
+    _populate("Mira", "18k", 4)
+    var original: Dictionary = _gs.to_dict().duplicate(true)
+    var legacy: Dictionary = original.duplicate(true)
+    legacy.erase("world_layout_revision")
+    _gs.from_dict(legacy)
+    t.ok(not _gs.has_return_position, "legacy coordinates give way to a named safe spawn")
+    for key in ["current_map", "spawn_point", "flags", "quests", "inventory",
+            "match_records", "rank_strength", "playtime"]:
+        t.eq(_normal({"v": _gs.to_dict()[key]}), _normal({"v": original[key]}),
+            "layout migration preserves " + key)
+    _gs.return_position = Vector2(152, 184)
+    _gs.has_return_position = true
+    var current: Dictionary = _gs.to_dict().duplicate(true)
+    _gs.from_dict(current)
+    t.ok(_gs.has_return_position, "current layout retains exact position")
+    t.eq(_gs.return_position, Vector2(152, 184), "migration does not repeat")
 
 static func _backup() -> Dictionary:
     var b := {}
@@ -174,7 +194,7 @@ static func _test_slot_info(t: TestKit) -> void:
     t.eq(info["status"], "ok", "a written slot reads as ok")
     t.eq(info["player_name"], "Ada", "it names the player")
     t.eq(info["rank"], "12k", "it gives the rank as a rank, not a number")
-    t.eq(info["place"], "De Ketel", "it names the place the way the map does")
+    t.eq(info["place"], "The Kettle", "it names the place the way the map does")
     t.eq(info["minutes"], 2, "it gives the playtime in minutes")
     t.ok(str(info["saved_at"]) != "", "and when it was written")
 
@@ -251,6 +271,7 @@ static func _test_short_return_position(t: TestKit) -> void:
     # only became reachable when the player could aim the loader at any slot.
     _write_raw(1, JSON.stringify({
         "version": _ss.SAVE_VERSION,
+        "world_layout_revision": _gs.WORLD_LAYOUT_REVISION,
         "player_name": "Eze",
         "return_position": [4],
         # Read *after* the position, and that is the whole point of them: an

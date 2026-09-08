@@ -1,9 +1,10 @@
-"""Architectural landmarks and used furniture for Verhaven, in code pixels."""
+"""Architectural landmarks and used furniture for Sela, in code pixels."""
 from pathlib import Path
 from png import Img
 from palette import rgb
 import art_furniture as furniture
 import art_architecture as architecture
+import coastal_architecture as coastal
 from gen_venue_props import box,table,counter,coats
 from font5x7 import trimmed,advance
 
@@ -18,7 +19,7 @@ def draw_text(im,x,y,text,color,scale=1):
 def study_desk():
     """The board the last tenant left, on the desk it was left on.
 
-    This was the De Ketel bar table with papers on it: 48 by 40, three tiles
+    This was the The Kettle bar table with papers on it: 48 by 40, three tiles
     wide and two and a half tall, in a room twelve tiles across. Standing
     beside it the player was a third of its width. It is a writing desk now,
     two tiles by two, with a board on it the size of a board.
@@ -37,11 +38,11 @@ def basket():
 
 
 def roof():
-    return architecture.roof()
+    return coastal.roof_room()
 
 
 def arch():
-    return architecture.arch()
+    return coastal.arcade()
 
 
 def dry_corner():
@@ -66,7 +67,7 @@ def reception():
 
 
 def glass():
-    return architecture.glass()
+    return coastal.court_windows()
 
 
 def directions():
@@ -75,30 +76,13 @@ def directions():
 
 
 def tram_stop():
-    """The Tram 4 stop: a roof, a glazed back, a bench and the route board.
-
-    The stop used to be a tram pole and a 32x48 board hung at the map's edge,
-    on pavement identical to the pavement for thirty tiles either side. A
-    shelter is what a stop looks like from across the road, and the board
-    belongs inside it, where a route board actually is.
-    """
-    im=Img(48,48)
-    box(im,0,30,48,4,'ink2')                       # the bench
-    im.rect(3,34,3,10,rgb('ink2'));im.rect(42,34,3,10,rgb('ink2'))
-    box(im,4,8,40,24,'blue0','ink2')               # the glazed back panel
-    for x in (7,26):
-        box(im,x,11,15,17,'blue1','blue2');im.vline(x+2,13,11,rgb('blue3'))
-    box(im,2,0,44,9,'rust1','ink1')                # the roof, and the route board
-    im.hline(3,1,42,rgb('rust2'))
-    draw_text(im,7,2,'TRAM 4',rgb('paper0'),1)
-    im.rect(1,9,2,39,rgb('ink2'));im.rect(45,9,2,39,rgb('ink2'))   # the posts
-    return im
+    return coastal.tram_shelter()
 
 
 def shopfront(kind):
     """A ground floor that looks like a shop, set INTO the wall.
 
-    Ketelsteeg's ground floor was blank brick with two 10x9 windows a bay, and
+    Market Lane's ground floor was blank brick with two 10x9 windows a bay, and
     the laundrette announced itself by having its four full-size interior
     machines drawn on the outside of its brick with no frame around them. The
     first repair went too far the other way: an opaque 48x28 slab with a
@@ -110,12 +94,12 @@ def shopfront(kind):
     the wall behind it is the wall, and the shop is cut into it.
     """
     im=Img(48,32)
-    board,glass,name,ink={'wassalon':('teal0','blue0','WASSALON','paper0'),
-                          'ketel':('wood0','ink1','DE KETEL','gold3'),
+    board,glass,name,ink={'wassalon':('teal0','blue0','LAUNDRY','paper0'),
+                          'ketel':('wood0','ink1','THE KETTLE','gold3'),
                           'stationer':('wood1','ink1','PAPIER','path1')}[kind]
     # the board, hung off two brackets so it stands away from the brick
     for x in (7,40):im.rect(x,0,1,3,rgb('ink1'))
-    # Full width: WASSALON is exactly forty-eight pixels of this font, so an
+    # Full width: LAUNDRY is exactly forty-eight pixels of this font, so an
     # inset frame costs two characters and the name is the whole point.
     im.rect(0,2,48,11,rgb(board))
     im.hline(0,2,48,rgb('ink0'));im.hline(0,12,48,rgb('ink0'))
@@ -181,12 +165,18 @@ ASSETS={'facade_detail':architecture.facade_detail, 'study_desk':study_desk,'bed
 'shopfront_wassalon':lambda:shopfront('wassalon'),'shopfront_ketel':lambda:shopfront('ketel'),
 'shopfront_stationer':lambda:shopfront('stationer'),
 'demonstration':demo,'student_desk':student_desk,'snack_stool':snack_stool,'tea_station':tea}
+ASSETS.update(coastal.ASSETS)
 
 def build(out):
     Path(out).mkdir(parents=True,exist_ok=True)
-    from art_specs import validate_asset
+    from art_specs import validate_asset, SPECS
     for name,fn in ASSETS.items():
-        im=fn();validate_asset(name,im)
+        spec=SPECS[name]
+        if spec.holds:
+            w,h=spec.size;im=Img(w*len(spec.holds),h)
+            for frame in range(len(spec.holds)):im.blit(fn(frame),frame*w,0)
+        else:im=fn()
+        validate_asset(name,im)
         im.save(str(Path(out)/(name+'.png')))
     for n in range(1,13):number(n).save(str(Path(out)/('board_number_%d.png'%n)))
     return len(ASSETS)+12

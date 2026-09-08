@@ -16,7 +16,7 @@ const STUCK_TIME := 2.5
 ## Their own collision layer, which the player deliberately does not mask.
 ##
 ## They started on layer 1 with the NPCs, and the first autopilot run through a
-## populated Ketelsteeg could not reach De Ketel at all: the routes run along
+## populated Market Lane could not reach The Kettle at all: the routes run along
 ## the pavements, which is also the way the player walks, so somebody was
 ## always in the way. Being unable to get through a door because an extra is
 ## standing in it is much worse than the half-second of overlap you get from

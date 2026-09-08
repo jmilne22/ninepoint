@@ -1,0 +1,198 @@
+[
+  {
+    "save": "invited"
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "shot": "clear_title_roofline"
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "walk_to": [
+      20,
+      10
+    ]
+  },
+  {
+    "shot": "facades_without_trees"
+  },
+  {
+    "walk_to": [
+      10,
+      16
+    ]
+  },
+  {
+    "shot": "ficus_garden"
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "shot": "ficus_leaves"
+  },
+  {
+    "walk_to": [
+      17,
+      15
+    ]
+  },
+  {
+    "shot": "tables_and_roots"
+  },
+  {
+    "walk_to": [
+      16,
+      18
+    ]
+  },
+  {
+    "face": [
+      16,
+      19
+    ]
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "experience": "map",
+    "map": "quay"
+  },
+  {
+    "shot": "sea_walk_planting"
+  },
+  {
+    "experience": "visit",
+    "map": "attic",
+    "spawn": "desk"
+  },
+  {
+    "shot": "room_plants"
+  },
+  {
+    "experience": "visit",
+    "map": "ketelsteeg",
+    "spawn": "from_wassalon"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "walk_to": [
+      1,
+      10
+    ],
+    "timeout": 20
+  },
+  {
+    "face": [
+      1,
+      9
+    ]
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "advance": 6,
+    "stop_at_choice": true
+  },
+  {
+    "choose": 0
+  },
+  {
+    "wait": 1,
+    "shot": "route_0_moment_0"
+  },
+  {
+    "wait": 1,
+    "shot": "route_0_moment_1"
+  },
+  {
+    "wait": 1,
+    "shot": "route_0_moment_2"
+  },
+  {
+    "wait": 1,
+    "shot": "route_0_moment_3"
+  },
+  {
+    "wait": 1,
+    "shot": "route_0_moment_4"
+  },
+  {
+    "wait": 1,
+    "shot": "route_0_moment_5"
+  },
+  {
+    "experience": "visit",
+    "map": "ketelsteeg",
+    "spawn": "from_wassalon"
+  },
+  {
+    "walk_to": [
+      1,
+      10
+    ],
+    "timeout": 20
+  },
+  {
+    "face": [
+      1,
+      9
+    ]
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "advance": 6,
+    "stop_at_choice": true
+  },
+  {
+    "choose": 1
+  },
+  {
+    "wait": 1,
+    "shot": "route_1_moment_0"
+  },
+  {
+    "wait": 1,
+    "shot": "route_1_moment_1"
+  },
+  {
+    "wait": 1,
+    "shot": "route_1_moment_2"
+  },
+  {
+    "wait": 1,
+    "shot": "route_1_moment_3"
+  },
+  {
+    "wait": 1,
+    "shot": "route_1_moment_4"
+  },
+  {
+    "wait": 1,
+    "shot": "route_1_moment_5"
+  },
+  {
+    "experience": "visit",
+    "map": "bondszaal",
+    "spawn": "front"
+  },
+  {
+    "shot": "tournament_front"
+  }
+]

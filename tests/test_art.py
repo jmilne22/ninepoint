@@ -37,15 +37,48 @@ class ArtContracts(unittest.TestCase):
                     self.assertEqual(hashlib.sha256(face.buf).hexdigest(),
                                      necklines[name]['face_sha256'],name+' original faces')
 
-    def test_navigation_is_unchanged(self):
-        reference=json.loads((ROOT/'tests/art_navigation.sha256.json').read_text())
-        fields=('size','solid','spawns','warps','signs','npcs')
-        for name,digest in reference.items():
-            data=json.loads((ROOT/('data/maps/'+name+'.json')).read_text())
-            actual=hashlib.sha256(json.dumps({k:data[k] for k in fields},sort_keys=True).encode()).hexdigest()
-            self.assertEqual(actual,digest,name)
-            if name in ('academy_class','academy_dorm'):
-                self.assertNotIn(',', ''.join(data['ground']), name+' must retain wooden flooring')
+    def test_coastal_navigation_and_protected_cast(self):
+        from gen_maps import validate
+        from coastal_layouts import NAMES
+        maps={p.stem:json.loads(p.read_text()) for p in (ROOT/'data/maps').glob('*.json')}
+        self.assertEqual(set(maps),set(NAMES))
+        for name,data in maps.items():
+            self.assertEqual(validate(name,data),[],name)
+            for warp in data['warps']:
+                self.assertIn(warp['spawn'],maps[warp['map']]['spawns'])
+        for a,b in [('ketelsteeg','quay'),('quay','onderbrug'),('onderbrug','ketelsteeg')]:
+            for source,target in ((a,b),(b,a)):
+                self.assertTrue(any(w['map']==target and not w.get('required_flag')
+                                    for w in maps[source]['warps']), (source,target))
+        baseline=json.loads((ROOT/'tests/sela_characters.sha256.json').read_text())
+        for name,digest in baseline.items():
+            self.assertEqual(hashlib.sha256((ROOT/name).read_bytes()).hexdigest(),digest,name)
+
+        # A future shelter edit must not make part of the advertised boarding area solid.
+        stop=next(s for s in maps['ketelsteeg']['signs'] if 'standing_zone' in s)
+        stop['standing_zone']=[1,9,4,2]
+        self.assertTrue(any('standing zone' in e for e in validate('ketelsteeg',maps['ketelsteeg'])))
+
+    def test_coastal_services_share_a_walkable_route(self):
+        # A legal spawn alone does not prove a new planter has left a route out.
+        for path in (ROOT/'data/maps').glob('*.json'):
+            data=json.loads(path.read_text());solid=data['solid']
+            w,h=data['size'];start=tuple(next(iter(data['spawns'].values())))
+            reached={start};pending=[start]
+            while pending:
+                x,y=pending.pop()
+                for point in ((x-1,y),(x+1,y),(x,y-1),(x,y+1)):
+                    px,py=point
+                    if 0<=px<w and 0<=py<h and solid[py][px]=='0' and point not in reached:
+                        reached.add(point);pending.append(point)
+            for name,point in data['spawns'].items():
+                self.assertIn(tuple(point),reached,(path.stem,'spawn',name))
+            for warp in data['warps']:
+                self.assertIn(tuple(warp['tile']),reached,(path.stem,'warp',warp))
+            for item in data['signs']+data['npcs']:
+                x,y=item['tile']
+                self.assertTrue(any(p in reached for p in ((x-1,y),(x+1,y),(x,y-1),(x,y+1))),
+                                (path.stem,'approach',item))
 
     def test_portrait_neck_gap_is_consistent_without_a_scarf(self):
         from characters import CHARACTERS

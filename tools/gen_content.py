@@ -43,7 +43,7 @@ CAST = [
          aggr=1.2, terr=1.6, resign=0.0, style="balanced",
          blurb="Plays under the arches for coins. Will not say what he is.",),
 
-    # --- Essenveld Instituut students
+    # --- Sela Go Institute students
     dict(id="ilse", name="Ilse Brandt", rank="9k", mistake=0.15, depth=1,
          aggr=0.7, terr=1.5, resign=35.0,
          book=6, style="steady",
@@ -57,7 +57,7 @@ CAST = [
          cut=0.6, style="balanced",
          blurb="An Academy League regular, in no hurry to explain her Go.",),
 
-    # --- the Beginner Cup field: strangers from the rest of Verhaven. They exist
+    # --- the Beginner Cup field: strangers from the rest of Sela. They exist
     # to be played, not visited, so they are on no map and have a line each.
     dict(id="abel", name="Abel Roos", rank="21k", mistake=0.44, depth=0,
          aggr=0.8, terr=1.1, resign=0.0, style="balanced",
@@ -221,23 +221,23 @@ steps = [{steps}]
 # fixed nothing. Both quests are generated now.
 QUESTS = [
     dict(id="first_stones", title="First Stones",
-         summary="Take the board to Pip in the park, then learn and play at De Ketel.",
+         summary="Take the board to Pip in the park, then learn and play at The Kettle.",
          steps=[
              ('"journal": "Find Pip in the park, across the road."',
               '"advance_on": {"type": "match", "context": "pip_capture"}'),
-             ('"journal": "Ask Wren at De Ketel to show you the rules."',
+             ('"journal": "Ask Wren at The Kettle to show you the rules."',
               '"advance_on": {"type": "flag", "key": "knows_the_rules"}'),
-             ('"journal": "Play a practice game with Wren at De Ketel."',
+             ('"journal": "Play a practice game with Wren at The Kettle."',
               '"advance_on": {"type": "match", "context": "wren_first"}'),
-             ('"journal": "Ask Kesh by the window at De Ketel for your novice card."',
+             ('"journal": "Ask Kesh by the window at The Kettle for your novice card."',
               '"advance_on": {"type": "flag", "key": "ranked_by_club"}'),
          ]),
     dict(id="beginner_cup", title="The Beginner Cup",
-         summary="Four rounds in a hired room at the Bondszaal. Two sections: beginners', fifteen kyu and weaker on nine lines with rank-based handicap, and open, no ceiling at all on thirteen.",
+         summary="Four rounds in a hired room at the Assembly Hall. Two sections: beginners', fifteen kyu and weaker on nine lines with rank-based handicap, and open, no ceiling at all on thirteen.",
          steps=[
-             ('"journal": "Tell Marguerite at the Bondszaal you are ready to play."',
+             ('"journal": "Tell Marguerite at the Assembly Hall you are ready to play."',
               '"advance_on": {"type": "flag", "key": "cup_started"}'),
-             ('"journal": "Read the draw at the Bondszaal, then see Marguerite."',
+             ('"journal": "Read the draw at the Assembly Hall, then see Marguerite."',
               '"advance_on": {"type": "flag", "key": "read_cup_board"}'),
              ('"journal": "Play your four rounds."',
               '"advance_on": {"type": "flag", "key": "cup_finished"}'),
@@ -248,7 +248,7 @@ QUESTS = [
          steps=[
              ('"journal": "Tell Marguerite you are ready to sit it."',
               '"advance_on": {"type": "flag", "key": "exam_started"}'),
-             ('"journal": "Sit Marguerite\'s problem paper at the Bondszaal."',
+             ('"journal": "Sit Marguerite\'s problem paper at the Assembly Hall."',
               '"advance_on": {"type": "flag", "key": "exam_paper_done"}'),
              ('"journal": "Read the exam list, then see Marguerite."',
               '"advance_on": {"type": "flag", "key": "read_exam_board"}'),
@@ -257,9 +257,9 @@ QUESTS = [
          ]),
 
     dict(id="enrolment", title="The Novice League",
-         summary="Hana teaches at the Essenveld Instituut, two stops north. They take beginners.",
+         summary="Hana teaches at the Sela Go Institute, two stops north. They take beginners.",
          steps=[
-             ('"journal": "Take tram 4 north, from the stop at the west end of Ketelsteeg."',
+             ('"journal": "Take tram 4 north, from the stop at the west end of Market Lane."',
               '"advance_on": {"type": "enter_map", "map": "academy_hall"}'),
              ('"journal": "Find Hana in the classroom, east of the hall."',
               '"advance_on": {"type": "flag", "key": "hana_welcomed"}'),

@@ -228,7 +228,7 @@ func _post_match(result: MatchResult) -> void:
 ## player has not finished, so a class is never repeated by accident and can
 ## always be repeated on purpose from the study desk.
 ## Hana's course, taught at the demonstration board. Counting is not on it: it
-## belongs to Tomas at De Ketel, who has a suspiciously good endgame and now,
+## belongs to Tomas at The Kettle, who has a suspiciously good endgame and now,
 ## finally, a map to stand on.
 ##
 ## Five now rather than three. The last entry used to repeat for the rest of the

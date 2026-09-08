@@ -13,7 +13,7 @@ extends RefCounted
 const AudioScript := preload("res://src/autoload/audio.gd")
 const Presence := preload("res://src/rpg/world_presence.gd")
 
-## Every map, and it has to stay every map. The Bondszaal was missing from the
+## Every map, and it has to stay every map. The Assembly Hall was missing from the
 ## hand-kept version of this list and spent its whole life declaring a track
 ## name that did not exist ("institute", where the file is theme_institute.wav)
 ## -- so the hall the Cup and the exam are held in played whatever the last map
@@ -24,7 +24,7 @@ const Presence := preload("res://src/rpg/world_presence.gd")
 ## from the list is not checked and nothing says so. That is the shape ROADMAP
 ## section 8 records for LESSONS_REACHED_BY_TRACK, and
 ## the fix is M30's -- derive it. M36's wassalon was the eleventh map and would
-## have been the second Bondszaal.
+## have been the second Assembly Hall.
 static func _maps() -> Array:
     var ids: Array = []
     for f in DirAccess.get_files_at(MAP_DIR):
@@ -43,6 +43,7 @@ static func run(t: TestKit) -> void:
     _test_animations_well_formed(t)
     _test_sprites_exist(t)
     _test_interaction_priority(t)
+    _test_tram_platform(t)
     _test_map_idles(t)
     _test_map_routes(t)
     _test_presence_states(t)
@@ -80,7 +81,7 @@ static func _test_sounds_exist(t: TestKit) -> void:
         var spec: Dictionary = Soundscape.SOUND_SOURCES[name]
         t.ok(_sound_exists(str(spec.get("sound", ""))),
             "'%s' plays a real sound" % name)
-    for bed in ["amb_room", "amb_rain", "amb_canal"]:
+    for bed in ["amb_room", "amb_coast", "amb_breeze"]:
         t.ok(_sound_exists(bed), "bed '%s' exists" % bed)
     for pair_name in AudioScript.FOOTSTEPS:
         for s in AudioScript.FOOTSTEPS[pair_name]:
@@ -174,13 +175,13 @@ static func _test_music(t: TestKit) -> void:
             "theme_rival_in", "theme_ghost_in", "theme_cup_in"]:
         t.ok(FileAccess.file_exists("res://audio/%s.wav" % track),
             "'%s' exists for the scene that plays it" % track)
-    # The bar and the Instituut are the setting's two halves and must not be
+    # The bar and the Institute are the setting's two halves and must not be
     # the same track; that was true for four maps until this pass.
     var ketel := MapData.load_map("de_ketel")
     var hall := MapData.load_map("academy_hall")
     if ketel != null and hall != null:
         t.ok(ketel.music != hall.music,
-            "De Ketel and the Instituut do not share a theme")
+            "The Kettle and the Institute do not share a theme")
 
 
 static func _test_map_routes(t: TestKit) -> void:
@@ -275,3 +276,33 @@ static func _test_activity_contracts(t: TestKit) -> void:
                 for line in exchange:
                     t.ok(residents.has(str(line.get("npc",""))),str(id)+" exchange speaker is present")
                     t.ok(UiKit.text_height(str(line.get("text","")),124)<=44,str(id)+" exchange fits a short bubble")
+
+
+static func _test_tram_platform(t: TestKit) -> void:
+    t.section("tram: boarding from the whole platform")
+    var map := MapData.load_map("ketelsteeg")
+    var parent := Node2D.new()
+    MapBuilder.build_signs(map, parent, func(_text): pass)
+    var stop := parent.get_node("Sign_1_9") as Interactable
+    for x in range(1, 6):
+        var feet := map.stand_position(Vector2i(x, 10))
+        t.ok(not map.is_solid(x, 10), "platform %d is walkable" % x)
+        t.eq(Player.select_target([], [stop], feet), stop,
+            "platform %d works without facing the shelter" % x)
+    for tile in [Vector2i(6,10), Vector2i(1,12), Vector2i(5,9), Vector2i(1,9)]:
+        t.eq(Player.select_target([stop], [stop], map.stand_position(tile)), null,
+            "facing cannot board beyond platform: %s" % tile)
+    t.eq(Player.select_target([], [stop], map.stand_position(Vector2i(3,11))), stop,
+        "the front waiting row also boards")
+    var notice := parent.get_node("Sign_6_9") as Interactable
+    var feet := map.stand_position(Vector2i(4,10))
+    t.eq(Player.select_target([notice], [stop], feet), notice,
+        "a faced notice wins over boarding")
+    var person := Interactable.new()
+    person.interact_priority = Interactable.PRIORITY_PERSON
+    t.eq(Player.select_target([person, notice], [stop], feet), person,
+        "a faced person wins over boarding and notices")
+    stop.enabled = false
+    t.eq(Player.select_target([], [stop], feet), null, "disabled platform cannot board")
+    person.free()
+    parent.free()

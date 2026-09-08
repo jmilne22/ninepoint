@@ -5,7 +5,7 @@ This document explains **why** future work matters and the trade-offs around it.
 dependencies, and acceptance criteria. `MILESTONES.md` is the append-only delivery history.
 Do not select work from this document without checking its linked board ticket first.
 
-The build is green: `tools/test.sh` passes 16,879 Godot checks, 12 Python art tests and three real-engine gates,
+The build is green: `tools/test.sh` passes 16,922 Godot checks, 13 Python art tests and three real-engine gates,
 `tools/check_lessons.py` reports no problems, and the game is playable from the cold open
 to the exam and the Cup.
 
@@ -14,6 +14,21 @@ ladder, the borrowed book, the performance rating and the calendar. M40 rebuilt 
 review on engine analysis; the other cuts remain. Read `MILESTONES.md` M37 for why.
 
 ---
+
+## Sela coastal setting — SELA-01 through SELA-03
+
+The owner approved a fictional Tel Aviv-inspired setting with warm, worn, leafy streets,
+a neighborhood walking loop and Tram 4 retained for the institute and Cup. All characters,
+portraits, sprite sheets, ranks, Go rules and teaching order stay fixed. Three equally valid
+Go cultures replace the old above/below opposition: familiar bar practice, organized
+institute learning and everyday laundry company. Architecture and shade improve readability;
+return visits remain meaningful through existing progress-based details.
+
+This explicitly supersedes the previous art facelift's navigation freeze. Map IDs and
+spawn names remain stable, and old exact coordinates migrate once to a safe entrance.
+Delivery evidence belongs in the workboard and `docs/sela/PLAYTEST.md`. Earlier sections
+retain their original project history; current setting truth is in GAME_DESIGN/ART_DIRECTION.
+The new setting does not close beginner-strength or whole-board teaching decisions.
 
 ## Beginner-first progression — PROG-01
 

@@ -12,7 +12,7 @@ const STEP_DISTANCE := 15.0
 
 ## What the ground sounds like, by tile name. Anything not listed is the
 ## default -- stone, which is most of a port city. The whole point is that
-## stepping off the pavement into De Ketel is audible.
+## stepping off the pavement into The Kettle is audible.
 const SURFACES := {
     "floor_wood_a": "wood", "floor_wood_b": "wood", "floor_mat": "wood",
     "rug": "wood", "plank": "wood",
@@ -114,11 +114,8 @@ func _update_probe() -> void:
 
 ## The interactable in front of the player, if any. Highest priority wins.
 func _refresh_target() -> void:
-    var best: Interactable = null
-    for area in probe.get_overlapping_areas():
-        if area is Interactable and area.enabled:
-            if best == null or area.interact_priority > best.interact_priority:
-                best = area
+    var best := select_target(probe.get_overlapping_areas(),
+        get_tree().get_nodes_in_group("standing_interactables"), global_position)
     if best == _current_target:
         return
     _current_target = best
@@ -131,3 +128,18 @@ func _refresh_target() -> void:
 func clear_target() -> void:
     _current_target = null
     EventBus.interaction_cleared.emit()
+
+
+## Platform bounds use the feet, so turning never loses the boarding prompt.
+## Probe hits cannot extend a platform onto the road or a neighbouring doorway.
+static func select_target(faced: Array, standing: Array, feet: Vector2) -> Interactable:
+    var best: Interactable = null
+    for area in faced:
+        if area is Interactable and area.enabled and area.standing_size == Vector2.ZERO:
+            if best == null or area.interact_priority > best.interact_priority:
+                best = area
+    for area in standing:
+        if area is Interactable and area.contains_feet(feet):
+            if best == null or area.interact_priority > best.interact_priority:
+                best = area
+    return best

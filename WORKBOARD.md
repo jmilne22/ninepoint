@@ -4,7 +4,7 @@ This is the **operational source of truth** for unfinished work. An agent starts
 not in the milestone history. It answers: what may be picked up now, what is blocked, and
 what evidence makes a task done.
 
-Revision base: `origin/main` and HEAD both `ee53775`, freshly fetched and verified on 2026-09-08 before ART-06.
+Revision base: `origin/main` and HEAD both `d64ab5f`, freshly fetched and verified on 2026-09-08 before SELA.
 Update the snapshot when reconciling after a merge; it is not a release number.
 
 ## How to use this board
@@ -33,6 +33,108 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 | `ROADMAP.md` | Product direction, trade-offs, and why a task matters | Whether work is currently underway or done |
 | `MILESTONES.md` | Append-only shipped history and verification evidence | The current backlog |
 | Design / architecture / art docs | Durable product and technical truth | Task status |
+
+## Sela coastal redesign — approved 2026-09-08
+
+Approved in conversation: a fictional Tel Aviv-inspired city, warm/worn/leafy, a neighborhood
+walking loop plus Tram 4, setting and journey changes with every character and portrait frozen.
+Base: freshly fetched HEAD = origin/main = `d64ab5f`. Owner: Codex.
+Branch: `codex/sela-coastal-redesign`. Existing art-navigation freeze is superseded only
+by this explicitly approved layout redesign; Go and progression rules remain protected.
+
+### SELA-01 — Coastal palette and three playable benchmarks
+
+- Status: `SHIPPED` (local benchmark implementation; complete-city verification follows) · Priority: `P1`.
+- Evidence: environment build validated all twelve maps; art_tour completed 18 frames at exit 0.
+  Opened bar, home, street, arcade and institute captures; canopy refinement included in SELA-02.
+- Scope: environment-only colors and architecture; Market Lane, The Kettle, institute court.
+- Acceptance: deterministic Python assets, exact preservation of all portraits/sprites,
+  played and opened benchmark screenshots with clear thresholds and board approaches.
+
+### SELA-02 — Complete the city and preserve saved journeys
+
+- Status: `SHIPPED` (verified locally) · Priority: `P1`.
+- Evidence: twelve-map tour, both tram views/title and all six walking connections
+  passed and were opened. Legacy/current save tests pass; all 73 protected hashes match.
+- Scope: all twelve maps, Market Lane/Arcade/Sea Walk loop, names and environmental speech,
+  title and tram views, coastal ambience, one-time legacy saved-position migration.
+- Acceptance: all venues and both travel destinations inspected, loop walked both ways,
+  old progress retained and all services reachable. No character/Go/engine changes.
+
+### SELA-03 — Journey verification and document reconciliation
+
+- Status: `SHIPPED` (verified locally, M48) · Priority: `P1`.
+- Evidence: 16,904 Godot checks, 13 art tests, 283 loaded files, three engine gates and
+  audible-output gate passed. Nine final routes / 273 captures, representative images
+  opened. Full boundaries and source references: [Sela report](docs/sela/PLAYTEST.md).
+- Scope: navigation contracts, cold-start/skip/loss/Cup/review/save coverage, documentation.
+- Acceptance: normal gate, protected asset hashes, opened route evidence; replace broken
+  slice_full references with current early/novice routes; beginner difficulty remains unclaimed.
+
+### SELA-04 — Modern articulated Tram 4
+
+- Status: `SHIPPED` (verified locally) · Priority: `P2` · Owner: Codex.
+- Approved follow-up: replace the red tram using the supplied white light-rail photograph.
+- Base: continuing the reviewed Sela commit `8af988d`; fresh fetch confirms its parent
+  `d64ab5f` is still `origin/main`. Starting again at main would discard the approved setting.
+- Scope: original Python-drawn white articulated vehicle, dark glazing, rounded cabs,
+  roof equipment and a longer silhouette. Preserve characters, routes and boarding flow.
+- Evidence: `art_tram` completed 93 captures, exit 0, zero script errors. Opened
+  passing frames in both directions, the stopping position and both arrival views.
+  All 16,904 Godot checks, 13 art tests, 283 file loads and three engine gates passed.
+
+### SELA-05 — Boulevard ficus and grounded planting
+
+- Status: `SHIPPED` (verified locally) · Priority: `P2` · Owner: Codex · Branch: `codex/sela-coastal-redesign`.
+- Approved: replace the rounded trees with Tel Aviv tree references and remove tree-like
+  planting on buildings/title roofs. Continue reviewed `947522b`; fresh origin/main is
+  still the underlying `d64ab5f`, with the approved Sela/tram work retained.
+- Scope: pale branching ficus trunks, irregular dark crowns, clearer low potted plants;
+  remove roof, balcony and arch plants that appear suspended. Keep tree footprints,
+  navigation, portraits and characters fixed.
+- Acceptance: reference inspected, deterministic rebuild, garden/title/facade/arrival
+  screenshots opened, route approaches preserved and normal gate passes.
+
+- Evidence: `art_ficus` completed 20 captures; garden, clear façades/title, room pots
+  and both tram arrivals opened. `opening` completed eight captures; cold open inspected.
+  16,904 checks, 13 art tests, 283 loads and all three KataGo gates pass; all 73 character
+  hashes unchanged. Final pot alignment rebuilt, imported, replayed and art-tested.
+
+### SELA-06 — Light-rail shelter and forgiving boarding area
+
+- Status: `SHIPPED` (verified locally) · Priority: `P2` · Owner: Codex · Branch: `codex/sela-coastal-redesign`.
+- Approved: redesign the stop from current Jerusalem/Tel Aviv references and fix its tiny
+  interaction target. Fresh fetch: `origin/main` remains `d64ab5f`; continue approved
+  Sela work at `8b19938` rather than discard it by restarting at main.
+- Scope: thin canopy, glazing, seating, machine column, marked five-by-two tile platform;
+  boarding prompt anywhere on that strip, independent of facing. Preserve nearby signs,
+  home approach, route gates, cancel, tram and all cast pixels.
+- Acceptance: inspect references and actual game; board both routes from opposite ends,
+  cancel and gated destination, no prompt beyond platform; focused regression and normal gate.
+
+- Evidence: final `art_stop` completed 30 captures, `stop_gates` four; five platform
+  positions, four facing directions, cancellation, bounds, notice, walked home stairs,
+  both actual destinations and both refusals inspected. 16,922 checks (prior 16,904),
+  13 art tests, 283 loads and all three engine gates pass. Cast/tram hashes unchanged.
+  Details and shutdown-warning limits: `docs/sela/PLAYTEST.md`.
+
+### SELA-07 — Legible shop signs
+
+- Status: `SHIPPED` (verified locally) · Priority: `P2` · Owner: Codex · Branch: `codex/sela-coastal-redesign`.
+- Approved: improve building text beyond the bare utility-font LAUNDRY label. Continue
+  reviewed `a4ead1a`; fresh `origin/main` remains its underlying `d64ab5f`.
+- Scope: dedicated mixed-case shop lettering, clear sign panels, spacing and small trade
+  symbols for Laundry, The Kettle and Paper. Keep UI type, cast and navigation fixed.
+- Acceptance: deterministic environment rebuild, actual street/threshold screenshots
+  opened at native scale, protected cast and normal verification gate pass.
+
+- Evidence: `art_signs` completed seven captures; three shopfront names and three walked
+  interiors opened. 16,922 Godot checks, 13 art tests, 283 loads and three engine gates
+  pass. Only the three facade PNGs changed; UI type, maps, cast and tram remain fixed.
+
+- Tram-label correction: same mixed-case lettering on a dark fascia, separate teal 4.
+  Only the stop PNG changed; 13 art tests and editor import passed, `art_stop` completed
+  30 captures and the lettering/prompt were opened. Runtime tests remain the preceding run.
 
 ## Portrait-led sprite preview
 
@@ -453,7 +555,12 @@ PROG-01's independent human gate remains open.
 
 ### TEST-01 — `slice_full` has been broken since the early-game merge
 
-- Status: `READY` · Priority: `P2` · Found during POLISH-02, 2026-09-08.
+- Status: `SHIPPED` (SELA-03 / M48) · Priority: `P2`.
+- Resolution: retired `slice_full`; repaired `kesh_skip` around current named choices,
+  lesson execution and return timing. Its fresh journey reached novice registration
+  and disk reload (80 captures, exit 0, zero script errors). Current docs/runner point
+  to it and prepared early/novice routes; older play reports are marked historical.
+- Original diagnosis follows (found during POLISH-02, 2026-09-08).
 - What happens: the route stops after ten shots with "Experience route timed out waiting
   for lesson_place". Wren's `ask_experience` choices and her lead-in changed in M45, so
   `{"choose": 0}` no longer reaches the liberties lesson and one `interact` no longer

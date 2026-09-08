@@ -23,7 +23,7 @@
  {"shot": "d_cursor_on_two"},
  {"tap": "interact"},
  {"wait": 2.6},
- {"shot": "e_loaded", "note": "the study hall in daylight, not slot 3's De Ketel at night"},
+ {"shot": "e_loaded", "note": "the study hall in daylight, not slot 3's The Kettle at night"},
 
  {"tap": "menu"},
  {"wait": 0.5},

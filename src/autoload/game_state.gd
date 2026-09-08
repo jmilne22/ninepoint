@@ -4,6 +4,7 @@ extends Node
 ## The game opens in the attic, because the first thing the story does is
 ## point at the board the last tenant left on the desk.
 const DEFAULT_MAP := "attic"
+const WORLD_LAYOUT_REVISION := 1
 
 var player_name: String = "Ro"
 ## Rank as a GoRank strength value; -1 means unranked.
@@ -212,6 +213,7 @@ func head_to_head(npc_id: String) -> Dictionary:
 func to_dict() -> Dictionary:
     return {
         "version": 3,
+        "world_layout_revision": WORLD_LAYOUT_REVISION,
         "player_name": player_name,
         "rank_strength": rank_strength,
         "flags": flags,
@@ -258,5 +260,10 @@ func from_dict(d: Dictionary) -> void:
     var rp: Array = d.get("return_position", [0, 0])
     return_position = Vector2(float(rp[0]), float(rp[1])) if rp.size() >= 2 else Vector2.ZERO
     has_return_position = bool(d.get("has_return_position", false))
+    # Even a walkable old coordinate can now be behind the wrong table. Migrate
+    # location once, independently of records, ranks and the save format version.
+    if int(d.get("world_layout_revision", 0)) < WORLD_LAYOUT_REVISION:
+        has_return_position = false
+        return_position = Vector2.ZERO
     playtime = float(d.get("playtime", 0.0))
     started = true

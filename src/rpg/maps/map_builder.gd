@@ -80,7 +80,7 @@ static func build_warps(map: MapData, parent: Node2D) -> void:
         warp.add_child(shape)
         warp.position = map.tile_centre(Vector2i(int(tile[0]), int(tile[1])))
         parent.add_child(warp)
-        # Every warp has carried a `prompt` -- "De Ketel", "Down to the water" --
+        # Every warp has carried a `prompt` -- "The Kettle", "Down to the water" --
         # since the maps were first generated, and nothing ever read it. A
         # doorway in this game announced itself with nothing at all: no hint, no
         # marker, no sound. Give it the same Interactable every sign has, at a
@@ -116,6 +116,14 @@ static func build_signs(map: MapData, parent: Node2D, on_read: Callable) -> void
         shape.shape = rect
         area.add_child(shape)
         area.position = map.tile_centre(Vector2i(int(tile[0]), int(tile[1])))
+        var zone: Array = s.get("standing_zone", [])
+        if zone.size() == 4:
+            area.standing_size = Vector2(float(zone[2]), float(zone[3])) * map.tile_size
+            rect.size = area.standing_size
+            area.position = (Vector2(float(zone[0]), float(zone[1])) * map.tile_size
+                + area.standing_size / 2.0)
+            # A nearby person or notice should remain reachable from the platform.
+            area.interact_priority = Interactable.PRIORITY_DOORWAY
         parent.add_child(area)
         var text := str(s.get("text", ""))
         area.interacted.connect(func(_by): on_read.call(text))

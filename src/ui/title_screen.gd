@@ -55,7 +55,7 @@ func _ready() -> void:
         int(CARD.size.x) - 20, Color("#f2d791"), 18, 2).text = "NINEPOINT"
     _rule(CARD.position.y + 36)
     UiKit.shadow_label(_card, Vector2(CARD.position.x + 13, CARD.position.y + 42),
-        int(CARD.size.x) - 24, Color("#ddd0b8")).text = "Verhaven plays Go."
+        int(CARD.size.x) - 24, Color("#ddd0b8")).text = "Sela plays Go."
 
     # A drawn cursor rather than a "> " prefix: the prefix moved every row's
     # text two characters sideways as the selection passed it, and a menu that
@@ -197,7 +197,7 @@ func _activate() -> void:
     match _index:
         0:
             # New Game goes to the cold open, which names the player and then
-            # sends them to Steenbeek itself. It only asks which slot when it
+            # sends them to Sela itself. It only asks which slot when it
             # has to: a menu in front of the cold open every time would be a
             # tax on the common case to cover the rare one.
             var empty := SaveSystem.first_empty_slot()
