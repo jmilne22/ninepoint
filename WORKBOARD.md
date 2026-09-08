@@ -38,7 +38,7 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 
 ### POLISH-02 — Read the town: scale, edges, thresholds and faces
 
-- Status: `DOING` · Priority: `P1` · Owner: Claude · Branch: `polish/verhaven-readability`.
+- Status: `SHIPPED` (verified on branch `polish/verhaven-readability` at `fe75d81`; not merged) · Priority: `P1` · Owner: Claude.
 - Base: fetched `origin/main` and HEAD both `ee1b65e`, 2026-09-08.
 - Why: the owner played the build and listed nine presentation faults. None of them
   fails a gate — 16,730 checks pass — and all nine are hit inside ten minutes.
@@ -88,8 +88,20 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
   rank, progression or dialogue-content change.
 - Acceptance: played routes with opened screenshots for every item, all eleven maps
   validating, and the normal compile/load, rules, content and engine gates.
-- Evidence: `docs/polish/PLAYTEST.md`; routes `polish_edges`, `polish_thresholds`,
-  `polish_street`, `polish_across_board`, `polish_faces`, `polish_title`.
+- Verified: `tools/test.sh` **16,863 passed, 0 failed**, **279 files load** (M45: 16,730
+  and 277). All three KataGo gates passed; lesson validator zero problems; all twelve
+  generated maps validate under the two new rules. `polish_edges`, `polish_thresholds`,
+  `polish_street`, `polish_across_board`, `polish_faces`, `polish_faces_capture` and
+  `polish_title` were played and their frames opened, along with the `saves`, `run_mode`,
+  `overhaul_art` and `early_lessons` regressions.
+- Limit: a capture-driven expression was never filmed. Every automated game reached the
+  count through early passes (ENG-09), so the remaining tag reactions rest on
+  `tests/test_data.gd` rather than on a screenshot. A human playing a real fight is what
+  would confirm they read.
+- Discovered work: TEST-01 (`slice_full` broken since the early-game merge, reproduced on
+  `origin/main`). Incidental fix, no ticket: `SaveSlots._describe` read `d["day"]`, cut
+  with the calendar in M37, and threw behind the overwrite and delete confirm cards.
+- Evidence and the frames: [`docs/polish/PLAYTEST.md`](docs/polish/PLAYTEST.md).
 
 ## Early-game revision — verified for PR review
 
@@ -613,6 +625,10 @@ PROG-01's independent human gate remains open.
 
 ## Shipped recently
 
+- `M46` — reading the town: closed map edges and a boundary rule in the map
+  generator, doorway prompts and mats, the tram stop and the steps to the water,
+  furniture measured against the person, three shopfronts, a chair on the far side of
+  every board, seven reacting expressions and a rebuilt title card.
 - `M42` — development-only nineteen-line overview/zoom, match/count/review navigation,
   isolated fixture tools and observed-play evidence. Teaching transition remains CONTENT-04.
 - `M41` — the cast's strength measured in whole games for the first time; the steady
