@@ -4,8 +4,9 @@
 
 All art remains deterministic Python-generated pixel art. Use `tools/build_assets.py` to
 rebuild assets through the pure-Python PNG writer. Shared records in `tools/characters.py`
-drive walking sprites, action sheets and portraits. This pipeline is an intentional part of
-Ninepoint's visual identity.
+drive walking sprites, action sheets and portraits. `art_people.py` draws the walking
+and activity poses at their native proportions; portrait geometry remains frozen. This
+pipeline is an intentional part of Ninepoint's visual identity.
 
 ---
 
@@ -148,8 +149,8 @@ Character(
   top colour must identify the character at 100% zoom from across the street.
 - **Portrait:** 64×64 bust for dialogue, same skin ramp, same hair colours, same garment
   colours, same accessory. Because both come from one record, the portrait *is* the sprite,
-  scaled and detailed — the classic consistency failure is structurally impossible.
-- Faces are minimal: eyes are 2×2 blocks, brows carry the whole expression, mouths are 1–3px.
+  interpreted at its own native resolution. Neither image is resized into the other.
+- Faces use a few pixel clusters; brows and eye direction carry the expression.
 - **Seven expressions**, one strip of 64×64 columns per character:
   `neutral`, `happy`, `annoyed`, `working`, `thinking`, `worried`, `pleased`. All seven
   use the same `HEAD_X`/`EYE_Y`/`BROW_Y`/`MOUTH_Y` geometry, so identity survives the
@@ -343,18 +344,71 @@ thresholds and working surfaces.
 
 Walking sheets retain their 3-by-4 frame contract. Optional action sheets contain two
 frames in each facing direction for seated play, reading, folding, wiping and arranging. Heights, head shapes,
-shoulders and props distinguish characters; portraits have a fourth working pose. Activities
+shoulders and props distinguish characters; the seven portrait expressions include a working pose. Activities
 pause immediately for conversation, then resume. Match backgrounds borrow quiet venue
 colours while preserving the board and text contrast; standalone matches use a neutral room.
 
 The novice practice room (`academy_novice`) uses five separate playing tables and a clear
 central aisle, reached through the hall's lower west door. Noor, Ivo, Lea, Emil and Sora
 have generated portraits and walking/action sheets; their shared identity records live in
-`tools/novice_cast.py` and extend the existing Python character pipeline. Existing cast
-art and venues are preserved.
+`tools/novice_cast.py` and extend the existing Python character pipeline. That addition
+preserved existing cast art and venues; the later ART-01–04 pass below
+retains their portraits while redrawing environments and world sprites.
 
 The early-game revision gives each novice a generated two-seat table with a personal detail:
 Noor’s postcard, Ivo’s pencil, Lea’s paper, Emil’s repair materials and Sora’s cushion.
 `tools/gen_venue_props.py` draws them; `venue_layouts.py` assigns them without moving
 characters or narrowing the central aisle. A contrasting HUD strip keeps fixture progress
 readable against the room. Screenshots: [early-game playtest](docs/early-game/PLAYTEST.md).
+
+
+## 9. Richer surfaces, preserved portraits (ART-01–04)
+
+The 384×216 viewport, 16px tiles, 16×24 people, 9px font and top-left lighting remain.
+All 21 portrait strips are preserved byte-for-byte by `tests/art_portraits.sha256.json`.
+New environments use opaque colours drawn from the existing ramps and restrained mixes;
+no image service, external art library, filtering, weather system or dynamic lighting is involved.
+
+`pixel_art.py` supplies integer polygons, ellipses, clipping masks, stamps, remapping and
+independently seeded grain. `art_materials.py` authors the final tile surface: the atlas
+packer never paints over a recipe. Seeds derive from asset/detail names, not atlas indices.
+Animation frames share a family seed. The atlas currently contains **118 named tiles in
+8 rows**; three canal families interrupt the repeated ripple pattern, including quiet water.
+
+`art_furniture.py` separates table tops, aprons, legs, bowls and boards. Club wood,
+steel-legged school tables, folding federation frames and Joos's actual crate differ
+in construction. Beds have broad folds, coats have sleeves, and book sizes vary. `art_architecture.py` draws
+recessed arches, roof beams, windows and façade downpipes at the existing sizes.
+`art_scene_details.py` places opaque, quiet floor-colour mixes beside walls, furniture,
+seats, thresholds and windows. It masks out doors, decor and non-floor tiles. These are
+static drawings, not scene lights. The generator rebuilds them with the maps.
+
+`art_specs.py` owns prop image dimensions, collision footprints and optional frame holds.
+The washer is a four-frame 320×26 strip whose frame size stays 80×26. `GeneratedProp`
+changes only the displayed frame; floor origin and collision remain fixed. Frame-to-frame
+pixel checks and real gameplay captures verify that the cloth moves and the shell does not.
+
+`art_people.py` explicitly draws short/tall torsos and side-facing bodies instead of
+resampling finished sprites. Walking stays 3×4 frames and activities stay 2×20 frames;
+colours/accessories still come from the same character records as the protected portraits.
+
+The title places a perspective goban on a visible terrace table with separate stone
+bowls, against a muted port skyline. The old lamp over the playing surface is removed.
+Arch joints follow the curve as continuous radial seams and the piers share its spring line.
+Nigiri retains its original
+window geometry and timing, with a rounded bowl and shaded hands. UI nine-patch margins
+and text interiors remain unchanged. `board_surface.png` tiles at native size behind the
+unchanged playing grid; its grain is deliberately much quieter than any stone or marker.
+
+Build an environment preview with:
+
+```bash
+python3 tools/build_assets.py --groups environments --output /home/user/.cache/ninepoint-preview
+python3 tools/art_contact_sheet.py --root /home/user/.cache/ninepoint-preview --output /home/user/.cache/ninepoint-props.png
+python3 tests/test_art.py
+```
+
+No flags still rebuilds everything. `sprites` and `portraits` are separate groups;
+`presentation` covers title, UI and ceremony. Preview roots mirror the project layout,
+including matching map JSON and TileSet resources. Judge contact sheets beside a person
+and on actual floors, then inspect the played game. Evidence: `docs/art/PLAYTEST.md`.

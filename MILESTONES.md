@@ -1,4 +1,4 @@
-Current verified local revision: [M46 polish evidence](docs/polish/PLAYTEST.md). Historical entries retain their original behavior and counts.
+Current verified local revision: [M47 art evidence](docs/art/PLAYTEST.md). Historical entries retain their original behavior and counts.
 
 # NINEPOINT — Milestones
 
@@ -3228,3 +3228,71 @@ reactions rest on `tests/test_data.gd` rather than on a screenshot. Incidental f
 reading an autopilot log: `SaveSlots._describe` still read `d["day"]`, cut with the calendar
 in M37, so overwriting or deleting another slot threw a script error behind the confirm card
 that no gate opens.
+
+
+## M47 — A richer version of the same art (ART-01–04)  [done]
+
+Implemented on `codex/richer-verhaven-art`, based on PR #27 (`c51f085`), verified locally.
+The owner approved a complete Python-authored facelift with every portrait protected.
+The aim was stronger shape, material and local identity at the existing pixel scale.
+
+A small integer drawing toolkit adds polygons, ellipses, masks, stamps, palette remapping
+and separately seeded grain. Tile recipes now produce their final surfaces; the atlas
+builder no longer repaints concrete, wood or walls. Name-based seeds survive atlas order
+changes, and animation families share a material seed. Selective groups and an alternate
+output root make environment revisions possible without regenerating portraits or audio.
+
+All twelve maps retain their navigation geometry. Furniture has tops, aprons, legs and
+contact shadows; the Academy has pale school furniture, federation tables have folding
+frames, and Joos plays on an actual crate. Windows recess into walls, façades have
+sills/downpipes, arches have deep openings, and floors carry quiet localized wear.
+Water alternates three compatible ripple families. The washer bank has four generated
+frames, consumed by `GeneratedProp`, with dimensions and footprints shared in `art_specs.py`.
+
+Walking and activity sprites use explicit body proportions in their original cells.
+Colour and accessory identity still comes from the portrait records. The title has broad
+cloud shapes and a working port skyline; both title backgrounds are fully opaque (the old
+zero-alpha vignette/lamp paint erased rows). Tram views, nigiri bowl/hands and UI framing
+received the same treatment. Subtle board grain leaves the grid and feedback readable.
+
+**Done when:** `tools/test.sh` passed **16,879 Godot checks, 0 failed**, **282 files all
+load**, **10 Python art tests**, and all three KataGo integration gates. Its predecessor,
+M46, recorded **16,863 checks and 279 loaded files**. `tools/check_lessons.py` reported
+zero problems. Art checks protect exact portrait bytes and regenerated pixels, map
+navigation, deterministic selective exports, atlas/resource agreement, prop geometry,
+washer shell stability, sprite contracts and quiet/opaque presentation surfaces.
+The final federation-frame drawing and classroom/dorm floor correction were regenerated,
+replayed and followed by fresh art tests and the full gate. Full evidence and reproduction commands: [art playtest](docs/art/PLAYTEST.md).
+
+Opened the twelve-room tour at native size and integer enlargement; compared identical
+camera positions for De Ketel, Ketelsteeg and the Academy hall; inspected the novice aisle,
+park, Wren's work/conversation and far-seat sorting. Two live washer frames changed cloth
+pixels without changing the shell. Played title/save menus, cold opening, doorway prompts,
+both tram arrival illustrations, nigiri, and 7×7/9×9/13×13 boards plus 19×19 development
+overview/zoom. All recorded final routes exited without script errors.
+
+### Deliberate changes and boundaries
+
+| Before | After / boundary |
+|---|---|
+| Tile appearance depends on atlas index and export repainting | Stable family names and explicit final material recipes |
+| Same outlined table across institutions and club | Authored tops/legs, school and folding federation frames, a crate under the arch |
+| Large washer replacement is static | Four cloth frames; shell, footprint and base position fixed |
+| Short characters are resized finished rows | Explicit torso/head/limb proportions in unchanged sheet contracts |
+| Title sky contains abrupt bands and transparent cuts | Broad clouds and fully opaque dusk backgrounds |
+| Every build touches all asset categories | Group selection and project-shaped preview output |
+| Portraits provide the visual identity | All 21 strips preserved exactly; font and audio also unchanged |
+
+No new progression, schedule, weather, dialogue, ranks, engine settings, board geometry
+or save schema. Inspection covers representative animation moments, not every possible
+NPC pose and occlusion. Independent beginner playtesting and the existing ENG-09 ending
+work remain separate; this milestone makes no claim to resolve them.
+
+
+**Owner cleanup (ART-05):** after reviewing the images, the owner requested clean arch
+masonry and a refreshed title without the lamp intersecting the goban. Radial joints
+replace the diagonal noise and pillars align to the arch spring line. A smaller goban
+now rests on a visible terrace table, bowls beside it, with a muted skyline beyond.
+Ten art tests passed; a fresh editor import and `art_cleanup` replay had no script/parse
+errors. Native and 3× gameplay images were opened; see the updated art playtest report.
+No runtime, navigation, portrait or menu geometry changes in this follow-up.

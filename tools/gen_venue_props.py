@@ -2,44 +2,34 @@
 from pathlib import Path
 from png import Img
 from palette import rgb
+import art_furniture as furniture
 
 
 def box(im,x,y,w,h,fill,edge='ink1'):
     im.rect(x,y,w,h,rgb(fill));im.frame(x,y,w,h,rgb(edge))
 
 
-def washer_bank():
-    """Four machines. They used to be 32 by 36 each -- twice a person's width
-    and half again their height -- which is what a screenshot of this room
-    looked wrong for. A front loader is about 60cm across beside somebody 170cm
-    tall, so beside a 16 by 24 sprite it is a little over a tile."""
+def washer_bank(frame=0):
+    """Four human-scale machines. Only the cloth inside each drum moves."""
+    from pixel_art import panel, ellipse
     im=Img(80,26)
     for i in range(4):
         x=i*20
-        box(im,x,1,20,23,'paper1');im.hline(x+1,2,18,rgb('paper0'))
-        box(im,x+2,3,16,4,'paper2');im.rect(x+3,4,5,1,rgb('teal0'))
-        im.set(x+16,4,rgb('ink3'))
-        im.disc(x+10,15,7,rgb('ink2'));im.disc(x+10,15,6,rgb('paper0'))
-        im.disc(x+10,15,4,rgb('blue0'));im.disc(x+10,16,2,rgb('blue1'))
-        im.rect(x+8,16,3,3,rgb('paper2' if i%2 else 'rust1'))
-        im.hline(x+7,10,3,rgb('blue2'))
-        im.hline(x+2,24,15,rgb('ink1'))
+        panel(im,x,1,20,24,'paper1','paper0','ink2')
+        im.rect(x+2,3,16,3,rgb('paper2'));im.hline(x+3,3,5,rgb('teal0'))
+        im.set(x+15,4,rgb('ink3'));im.set(x+17,4,rgb('ink2'))
+        ellipse(im,x+3,8,15,16,'paper2');ellipse(im,x+3,8,14,14,'ink2')
+        ellipse(im,x+4,9,12,12,'paper0');ellipse(im,x+5,10,10,10,'blue0')
+        offsets=[(1,4),(3,4),(4,2),(2,1)]
+        dx,dy=offsets[(frame+i)%4]
+        ellipse(im,x+5+dx,10+dy,5,4,'rust1' if i%2 else 'paper2')
+        im.hline(x+7,11,3,rgb('blue2'));im.vline(x+15,14,3,rgb('ink1'))
+        im.hline(x+2,24,16,rgb('ink2'));im.hline(x+2,7,15,rgb('paper0'))
     return im
 
 
 def counter(laundry=False):
-    im=Img(64,32)
-    box(im,1,12,62,18,'wood1');im.hline(2,13,60,rgb('wood2'))
-    for x in [4,23,43]:box(im,x,16,17,12,'wood0');im.rect(x+11,18,3,1,rgb('gold1'))
-    box(im,0,6,64,10,'paper1' if laundry else 'wood2');im.hline(2,7,60,rgb('paper0' if laundry else 'wood3'))
-    im.hline(4,15,12,rgb('wood1'))
-    if laundry:
-        for x,c in [(7,'teal1'),(32,'rust1')]:
-            box(im,x,0,20,9,c);im.hline(x+2,3,16,rgb('paper1'));im.hline(x+2,6,16,rgb('paper1'))
-    else:
-        for x in [7,17,43]:
-            box(im,x,2,6,7,'paper0');im.rect(x+6,4,2,3,rgb('paper2'))
-    return im
+    return furniture.counter(laundry)
 
 
 def table():
@@ -51,46 +41,23 @@ def table():
     scales. A goban is about 45cm across, which is a person's shoulders: on a
     16 by 24 sprite that is a tile. The bowls came down with it.
     """
-    im=Img(48,32)
-    box(im,4,25,4,7,'wood0');box(im,40,25,4,7,'wood0')
-    box(im,0,5,48,22,'wood1');im.hline(2,6,44,rgb('wood3'))
-    box(im,16,9,16,14,'gold2')
-    for i in range(6):
-        im.hline(18,11+i*2,13,rgb('wood1'));im.vline(18+i*2,11,11,rgb('wood1'))
-    im.disc(9,15,2,rgb('ink1'));im.disc(39,18,2,rgb('paper0'))
-    for x,y,c in [(20,13,'ink0'),(26,17,'paper0'),(22,17,'ink0')]:im.set(x,y,rgb(c))
-    return im
+    return furniture.table()
 
 
 def bench():
-    im=Img(48,24)
-    box(im,2,0,44,10,'wood1');im.hline(3,1,42,rgb('wood3'))
-    box(im,0,12,48,6,'wood2');im.rect(3,18,3,6,rgb('ink1'));im.rect(42,18,3,6,rgb('ink1'))
-    return im
+    return furniture.bench()
 
 
 def coats():
-    im=Img(48,32);box(im,0,2,48,4,'wood1')
-    for x,c in [(4,'blue1'),(18,'rust1'),(33,'teal0')]:
-        im.rect(x+4,3,1,5,rgb('gold2'));box(im,x,10,13,17,c)
-        im.rect(x+4,7,5,5,rgb(c));im.vline(x+6,12,15,rgb('ink2'))
-    return im
+    return furniture.coats()
 
 
 def window():
-    im=Img(32,48);box(im,0,0,32,48,'paper1');box(im,3,3,26,41,'blue0')
-    for x in [5,17]:
-        for y in [5,25]:box(im,x,y,10,17,'blue1','blue2');im.vline(x+2,y+2,10,rgb('blue3'))
-    im.hline(1,45,30,rgb('paper0'));return im
+    return furniture.window()
 
 
 def shelf():
-    im=Img(48,32);box(im,0,0,48,32,'wood0')
-    for y in [2,17]:
-        for x,c in [(3,'rust1'),(10,'teal1'),(18,'paper1'),(25,'blue1'),(34,'plum1')]:
-            box(im,x,y,6,11,c);im.hline(x+1,y+3,4,rgb('paper2'))
-        im.hline(1,y+12,46,rgb('wood2'))
-    return im
+    return furniture.shelf()
 
 
 def kettle_sign():
@@ -102,7 +69,7 @@ def kettle_sign():
 
 
 def novice_table(person):
-    source=table();im=Img(48,48)
+    source=furniture.table('school');im=Img(48,48)
     for y in range(source.h):
         for x in range(source.w):im.set(x,y,source.get(x,y))
     # Seats are behind the standing sprites; the aisle remains clear.
@@ -122,7 +89,8 @@ def novice_table(person):
     return im
 
 
-ASSETS={'washer_bank':washer_bank,'folding_counter':lambda:counter(True),'bar_counter':counter,
+ASSETS={'school_table':lambda:furniture.table('school'),
+        'tournament_table':lambda:furniture.table('tournament'), 'washer_bank':washer_bank,'folding_counter':lambda:counter(True),'bar_counter':counter,
         'playing_table':table,'long_bench':bench,'coat_rack':coats,'tall_window':window,'book_shelf':shelf,'kettle_sign':kettle_sign}
 
 for person in ['noor','ivo','lea','emil','sora']:
@@ -130,7 +98,16 @@ for person in ['noor','ivo','lea','emil','sora']:
 
 def build(out):
     Path(out).mkdir(parents=True,exist_ok=True)
-    for name,fn in ASSETS.items():fn().save(str(Path(out)/(name+'.png')))
+    from art_specs import SPECS, validate_asset
+    for name,fn in ASSETS.items():
+        spec=SPECS[name]
+        if spec.holds:
+            w,h=spec.size
+            im=Img(w*len(spec.holds),h)
+            for frame in range(len(spec.holds)):im.blit(fn(frame),frame*w,0)
+        else:im=fn()
+        validate_asset(name,im)
+        im.save(str(Path(out)/(name+'.png')))
     return len(ASSETS)
 
 if __name__=='__main__':print(build(Path(__file__).resolve().parent.parent/'art/props'))

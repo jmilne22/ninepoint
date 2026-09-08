@@ -1,28 +1,48 @@
-"""Rebuilds every generated asset -- art and audio -- deterministically."""
-import os
-import sys
-
-here = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, here)
-root = os.path.join(here, "..")
-
+"""Selective, deterministic asset builds. Output roots mirror the project layout."""
+import argparse
+from pathlib import Path
 import gen_tiles, gen_characters, gen_ui, gen_title, gen_audio
 import gen_venue_props, gen_venue_scenes, gen_arrivals
 import gen_font, gen_nigiri_art, gen_tileset_resource, gen_props
+import gen_maps
 
-print("tiles     ", gen_tiles.build(os.path.join(root, "art", "tiles")))
-# The TileSet resource lists one entry per atlas cell, so it MUST be rebuilt
-# whenever the atlas gains a row -- a tile outside it is drawn as a hole, in
-# silence. That is exactly how the city's windows and road came out black.
-print("tileset   ", gen_tileset_resource.build()[1], "cells")
-print("characters", gen_characters.build(os.path.join(root, "art", "sprites"),
-                                         os.path.join(root, "art", "portraits")))
-print("props     ", len(gen_props.build(os.path.join(root, "art", "props"))))
-print("venues    ", gen_venue_props.build(os.path.join(root, "art", "props")))
-print("landmarks ", gen_venue_scenes.build(os.path.join(root, "art", "props")))
-print("arrivals  ", gen_arrivals.build(os.path.join(root,"art","props")))
-print("ui        ", gen_ui.build(os.path.join(root, "art", "ui")))
-print("title     ", gen_title.build(os.path.join(root, "art", "title")))
-print("font      ", gen_font.build(os.path.join(root, "art", "ui")))
-print("ceremony  ", gen_nigiri_art.build(os.path.join(root, "art", "ui"))["hands"])
-print("audio     ", len(gen_audio.build(os.path.join(root, "audio"))), "sounds")
+ROOT=Path(__file__).resolve().parent.parent
+GROUPS=('tiles','props','venues','arrivals','sprites','portraits','ui','title','font','ceremony','audio')
+ALIASES={'environments':('tiles','props','venues','arrivals'),
+         'characters':('sprites','portraits'),
+         'presentation':('ui','title','ceremony')}
+
+
+def build(groups, output):
+    art=output/'art'
+    for group in GROUPS:
+        if group not in groups:continue
+        if group=='tiles':
+            result=gen_tiles.build(art/'tiles')
+            gen_tileset_resource.build(output)
+        elif group=='props':result=gen_props.build(art/'props')
+        elif group=='venues':
+            result=gen_venue_props.build(art/'props')+gen_venue_scenes.build(art/'props')
+            gen_maps.build(output)
+        elif group=='arrivals':result=gen_arrivals.build(art/'props')
+        elif group in ('sprites','portraits'):
+            result=gen_characters.build(art/'sprites',art/'portraits',
+                                       sprites=group=='sprites',portraits=group=='portraits')
+        else:
+            module={'ui':gen_ui,'title':gen_title,'font':gen_font,'ceremony':gen_nigiri_art,'audio':gen_audio}[group]
+            destination=output/'audio' if group=='audio' else art/('title' if group=='title' else 'ui')
+            result=module.build(destination)
+        print(group,result)
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--groups',nargs='+',default=['all'],choices=['all',*GROUPS,*ALIASES])
+    parser.add_argument('--output',type=Path,default=ROOT,help='Project-shaped output root; default is this checkout.')
+    args=parser.parse_args()
+    groups=set()
+    for group in args.groups:groups.update(GROUPS if group=='all' else ALIASES.get(group,(group,)))
+    build(groups,args.output.resolve())
+
+
+if __name__=='__main__':main()

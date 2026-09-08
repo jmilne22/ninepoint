@@ -6,6 +6,8 @@
  ],
  "tile_size": 16,
  "legend": {
+  "[": "canal_b",
+  "]": "canal_c",
   "}": "wall_side",
   "^": "roof_ridge",
   "#": "roof_slate",
@@ -97,12 +99,12 @@
   "IIIIIIIIIIIIIIIIII",
   "iiiiiiiYYYYiiiiiii",
   "}1222122212221222}",
-  "},22122212221222Q}",
-  "}22,22,12,21,2212}",
-  "}21,22,22,12,2122}",
+  "}122122212221222Q}",
+  "}2212211212112212}",
+  "}2112212211212122}",
   "M3222122212221222}",
-  "}22,12,21,22,2221}",
-  "}22,22,12,21,2212}",
+  "}2211212112212221}",
+  "}2212211212112212}",
   "}2122212221222122}",
   "}iiiiiiiiiiiiiiii}"
  ],
@@ -206,6 +208,13 @@
  "music": "theme_institute",
  "indoors": true,
  "art_props": [
+  {
+   "art": "floor_details_academy_class",
+   "position": [
+    0,
+    0
+   ]
+  },
   {
    "art": "demonstration",
    "position": [

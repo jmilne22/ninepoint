@@ -4,7 +4,7 @@ This is the **operational source of truth** for unfinished work. An agent starts
 not in the milestone history. It answers: what may be picked up now, what is blocked, and
 what evidence makes a task done.
 
-Revision base: `origin/main` and HEAD both `ee1b65e`, freshly fetched and verified on 2026-09-08 before POLISH-02.
+Revision base: `origin/main` and HEAD both `c51f085`, freshly fetched and verified on 2026-09-08 before ART-01.
 Update the snapshot when reconciling after a merge; it is not a release number.
 
 ## How to use this board
@@ -34,11 +34,75 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 | `MILESTONES.md` | Append-only shipped history and verification evidence | The current backlog |
 | Design / architecture / art docs | Durable product and technical truth | Task status |
 
+## Approved art facelift — ART-01 through ART-04
+
+Owner approved the complete richer-same-style plan on 2026-09-08. Base: freshly
+fetched HEAD and origin/main both `c51f0853e897e07f3681e163729ef9754275a018`.
+Owner: Codex · Branch: `codex/richer-verhaven-art`. Portraits, font metrics, world
+scale, navigation and Go behaviour are protected. Work proceeds one package at a time.
+
+### ART-01 — Drawing tools and three benchmark scenes
+
+- Status: `SHIPPED` (verified on branch) · Priority: `P1`.
+- Evidence: eight Python art-contract tests pass; `overhaul_art` completed with zero
+  script errors. Opened De Ketel, Ketelsteeg and Academy hall benchmark captures: table
+  volume, restrained surfaces, recessed windows and street drainage all visible.
+- Scope: masked shapes/materials, stable seeds, selective builds and contact sheets;
+  De Ketel, Ketelsteeg and Academy hall benchmark artwork.
+- Acceptance: deterministic exports and exact portrait preservation; opened matching
+  gameplay views show coherent depth, quiet routes and the existing board scale.
+
+### ART-02 — All venues and local prop animation
+
+- Status: `SHIPPED` (verified on branch) · Priority: `P1`; follows ART-01.
+- Evidence: `art_tour` inspected all twelve maps, the novice aisle and park; zero
+  script errors. Washer captures differ on 78 cloth pixels and zero shell pixels.
+  `art_materials` verifies quieter water families after the first quay review.
+- Scope: remaining environments, shared prop geometry metadata, localized floor wear,
+  distinct crate/school/tournament furniture and generated washer animation.
+- Acceptance: all twelve maps inspected; doors, far seats and sorting preserved;
+  two different washer frames seen in game without movement of the machine shell.
+
+### ART-03 — Walking and activity silhouettes
+
+- Status: `SHIPPED` (verified on branch) · Priority: `P2`; follows ART-02.
+- Evidence: all 21 portrait/sprite comparisons opened; nine art-contract tests pass.
+  `art_people` played Wren’s working pose, far-seat sorting and conversation with
+  zero errors and opened screenshots. The 26 walking/action sheets retain their contracts.
+- Scope: explicitly drawn height/build differences, directional bodies and activity
+  poses within the existing sheets. All portrait pixels stay unchanged.
+- Acceptance: cast contact sheet and played movement/activity/conversation inspected;
+  sheet sizes, feet baselines and portrait hashes checked.
+
+### ART-04 — Title, ceremony, UI and final visual verification
+
+- Status: `SHIPPED` (verified on branch) · Priority: `P2`; follows verified ART-03.
+- Evidence: 10 Python art tests, 16,879 Godot checks, 282 loaded files and all three
+  KataGo gates passed. Final title, opening, nigiri, 7/9/13/19-line boards, twelve maps,
+  thresholds and both tram illustrations played and inspected. See [art evidence](docs/art/PLAYTEST.md).
+- Scope: title skyline/sky, bowl/hand volume, UI framing/icons and quiet board surface;
+  full technical gate, visual evidence and document reconciliation.
+- Acceptance: played title/opening/nigiri/board/room captures, normal gate and art
+  checks pass; images opened and limitations recorded in the art playtest report.
+
+### ART-05 — Clean arch masonry and title composition
+
+- Status: `SHIPPED` (verified on branch) · Priority: `P1` · Owner: Codex · Branch: `codex/richer-verhaven-art`.
+- Requested from the owner's screenshots: remove the broken diagonal arch joints and
+  disconnected column caps; refresh the title and remove the lamp crossing the goban.
+- Scope: Python arch/title artwork only, preserving portrait pixels and menu geometry.
+- Acceptance: clean radial masonry and continuous pillars; grounded board composition;
+  regenerated assets pass art checks and both views are played and inspected.
+
+- Evidence: 10 art tests passed; fresh Godot import reported no parse errors;
+  `art_cleanup` completed with zero script errors. Opened title/arch gameplay captures
+  at native size and 3×. Existing map footprints, portraits and menu geometry unchanged.
+
 ## In progress
 
 ### POLISH-02 — Read the town: scale, edges, thresholds and faces
 
-- Status: `SHIPPED` (verified on branch `polish/verhaven-readability` at `fe75d81`; not merged) · Priority: `P1` · Owner: Claude.
+- Status: `SHIPPED` (merged in PR #27 at `c51f085`) · Priority: `P1` · Owner: Claude.
 - Base: fetched `origin/main` and HEAD both `ee1b65e`, 2026-09-08.
 - Why: the owner played the build and listed nine presentation faults. None of them
   fails a gate — 16,730 checks pass — and all nine are hit inside ten minutes.

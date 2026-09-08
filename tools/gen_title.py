@@ -11,59 +11,10 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 from png import Img, Rand
 from palette import rgb, mix
+from art_sky import sky, skyline as draw_skyline
+from pixel_art import polygon, ellipse, grain, mask
 
 W, H = 384, 216
-
-
-RAMP = ["ink1", "plum0", "plum0", "plum1", "plum1", "rust0", "rust0",
-        "rust1", "rust1", "rust2", "gold0", "gold1", "gold2"]
-
-
-def _dusk(im, r, bottom):
-    """The sky, in narrow bands with a dithered seam between each, and stars
-    where it is still dark enough to see them."""
-    ramp = RAMP
-    top = 0
-    step = (bottom - top) / float(len(ramp))
-    for i, col in enumerate(ramp):
-        y0 = int(top + i * step)
-        y1 = int(top + (i + 1) * step)
-        im.rect(0, y0, W, y1 - y0, rgb(col))
-    for i in range(1, len(ramp)):
-        y = int(top + i * step)
-        prev = rgb(ramp[i - 1])
-        for x in range(W):
-            if (x // 2 + y) % 2 == 0:
-                im.set(x, y, prev)
-                im.set(x, y + 1, prev)
-        for x in range(0, W, 3):
-            im.set(x, y - 1, rgb(ramp[i]))
-
-    # stars, only where the sky is still dark
-    for _ in range(60):
-        x, y = r.rng(0, W - 1), r.rng(2, max(4, bottom // 3))
-        im.set(x, y, rgb("paper1") if r.chance(3) else rgb("ink3"))
-
-
-def _skyline(im, r, y_base, colour, seed, min_h, max_h):
-    rr = Rand(seed)
-    x = -4
-    while x < W:
-        w = rr.rng(14, 34)
-        h = rr.rng(min_h, max_h)
-        im.rect(x, y_base - h, w, h + 40, colour)
-        for k in range(6):
-            im.rect(x - 2 + k, y_base - h - 6 + k, w + 4 - 2 * k, 1, colour)
-        if rr.chance(2):
-            im.rect(x + w // 2, y_base - h - 12, 4, 8, colour)
-        x += w + rr.rng(0, 3)
-
-
-def _lit_windows(im, r, count, y0, y1):
-    for _ in range(count):
-        x, y = r.rng(4, W - 8), r.rng(y0, y1)
-        if im.get(x, y)[:3] == rgb("ink1")[:3]:
-            im.rect(x, y, 3, 2, rgb("gold2") if r.chance(2) else rgb("gold1"))
 
 
 def _vignette(im, edge=0.86, strength=300, cap=150):
@@ -72,7 +23,8 @@ def _vignette(im, edge=0.86, strength=300, cap=150):
             d = max(abs(x - W / 2) / (W / 2), abs(y - H / 2) / (H / 2))
             if d > edge:
                 a = int((d - edge) * strength)
-                im.set(x, y, (20, 18, 26, min(cap, a)))
+                if a > 0:
+                    im.set(x, y, (20, 18, 26, min(cap, a)))
 
 
 def opening(out_dir):
@@ -88,18 +40,7 @@ def opening(out_dir):
     r = Rand(20260908)
 
     # A short, quiet ramp: the title card owns the gold end of the sky.
-    ramp = ["ink0", "ink1", "plum0", "plum0", "plum1", "rust0", "rust0", "wood0"]
-    step = H / float(len(ramp))
-    for i, col in enumerate(ramp):
-        y0, y1 = int(i * step), int((i + 1) * step)
-        im.rect(0, y0, W, y1 - y0, rgb(col))
-    for i in range(1, len(ramp)):
-        y = int(i * step)
-        prev = rgb(ramp[i - 1])
-        for x in range(W):
-            if (x // 2 + y) % 2 == 0:
-                im.set(x, y, prev)
-                im.set(x, y + 1, prev)
+    sky(im,H,quiet=True)
 
     # Rain, falling the way rain falls past a window: many, thin, and slanted.
     for _ in range(150):
@@ -121,124 +62,72 @@ def opening(out_dir):
 
 def build(out_dir):
     im = Img(W, H)
-    r = Rand(20260903)
+    # A quiet port beyond a real table. The menu owns the left third of the view.
+    sky(im,150,quiet=True)
+    polygon(im,[(0,119),(75,114),(128,118),(198,112),(265,115),(328,110),
+                (384,116),(384,157),(0,157)],mix('rust0','plum1',.5))
+    draw_skyline(im,139,mix('plum0','ink2',.45),7,10,29)
+    draw_skyline(im,154,rgb('ink1'),11,8,22)
 
-    _dusk(im, r, 140)
+    # The terrace rail sits behind the table; none of its uprights crosses the board.
+    im.rect(0,154,W,62,rgb('ink1'))
+    im.rect(0,146,W,3,rgb('ink2'))
+    im.hline(0,146,W,rgb('ink3'))
+    for x in range(14,W,48):im.rect(x,149,3,67,rgb('ink0'))
 
-    # --- town silhouette, two depths
-    def skyline(y_base, colour, seed, min_h, max_h):
-        rr = Rand(seed)
-        x = -4
-        while x < W:
-            w = rr.rng(14, 34)
-            h = rr.rng(min_h, max_h)
-            im.rect(x, y_base - h, w, h + 40, colour)
-            for k in range(6):
-                im.rect(x - 2 + k, y_base - h - 6 + k, w + 4 - 2 * k, 1, colour)
-            if rr.chance(2):
-                im.rect(x + w // 2, y_base - h - 12, 4, 8, colour)
-            x += w + rr.rng(0, 3)
+    tabletop=mix('wood0','wood1',.65)
+    polygon(im,[(166,133),(354,133),(401,207),(116,207)],tabletop)
+    grain(im,mask(im,[tabletop]),'title-table',mix('wood0','wood1',.4),
+          mix('wood0','wood1',.8),16)
+    polygon(im,[(116,207),(401,207),(401,216),(116,216)],'wood0')
+    im.hline(116,207,268,rgb('wood2'))
 
-    skyline(150, rgb("plum0"), 7, 12, 34)
-    skyline(166, rgb("ink1"), 11, 8, 26)
+    # Parallel front/back slab edges give the goban thickness without flaring its base.
+    polygon(im,[(207,127),(319,127),(359,200),(169,200)],'wood0')
+    polygon(im,[(202,125),(318,125),(354,195),(166,195)],'board0')
+    polygon(im,[(202,120),(318,120),(354,190),(166,190)],'board1')
+    im.hline(203,120,115,rgb('board2'));im.hline(167,190,187,rgb('board2'))
+    grain(im,mask(im,['board1']),'title-goban',mix('board0','board1',.9),
+          mix('board1','board2',.15),9)
 
-    for _ in range(50):
-        x, y = r.rng(4, W - 8), r.rng(134, 172)
-        if im.get(x, y)[:3] == rgb("ink1")[:3]:
-            im.rect(x, y, 3, 2, rgb("gold2") if r.chance(2) else rgb("gold1"))
-
-    # --- foreground terrace
-    im.rect(0, 172, W, H - 172, rgb("ink1"))
-    im.rect(0, 172, W, 2, rgb("ink2"))
-    for x in range(0, W, 26):
-        im.vline(x, 174, H - 174, rgb("ink0"))
-
-    # --- the board, in true perspective: a trapezoid receding from the viewer.
-    # It deliberately sits on the right half: title_screen.gd reserves the
-    # left third for the poster card, rather than laying lettering on skyline
-    # noise and asking a player to read through it.
-    cx = 260
-    rows_y, rows_hw = [], []
-    y, gap = 116.0, 5.0
-    for i in range(9):
-        rows_y.append(int(y))
-        rows_hw.append(52 + i * 7)
-        y += gap
-        gap += 1.35
-
-    # the wooden slab, one pixel wider than the grid all round
-    for i in range(len(rows_y) - 1):
-        y0, y1 = rows_y[i], rows_y[i + 1]
-        for yy in range(y0, y1):
-            t = (yy - rows_y[0]) / float(rows_y[-1] - rows_y[0])
-            hw = rows_hw[0] + (rows_hw[-1] - rows_hw[0]) * t
-            im.rect(int(cx - hw - 7), yy, int(2 * hw + 14), 1, rgb("board1"))
-    im.rect(int(cx - rows_hw[0] - 7), rows_y[0] - 6, int(2 * rows_hw[0] + 14), 6, rgb("board2"))
-    for yy in range(rows_y[-1], rows_y[-1] + 12):
-        t = 1.0 + (yy - rows_y[-1]) / 40.0
-        hw = rows_hw[-1] * t
-        im.rect(int(cx - hw - 7), yy, int(2 * hw + 14), 1, rgb("board0"))
-
-    def grid_point(col, row):
-        hw = rows_hw[row]
-        return int(cx - hw + (col / 8.0) * 2 * hw), rows_y[row]
+    def point(col,row):
+        v=row/8.0
+        t=v/(1.65-.65*v)
+        hw=44+30*t
+        return round(260-hw+col/8*2*hw),round(127+56*t),t
 
     for row in range(9):
-        x0, yy = grid_point(0, row)
-        x1, _ = grid_point(8, row)
-        im.hline(x0, yy, x1 - x0 + 1, rgb("line"))
+        x,y,_=point(0,row);right,_,_=point(8,row)
+        im.hline(x,y,right-x+1,rgb('line'))
     for col in range(9):
-        for row in range(8):
-            xa, ya = grid_point(col, row)
-            xb, yb = grid_point(col, row + 1)
-            for yy in range(ya, yb + 1):
-                t = (yy - ya) / float(max(1, yb - ya))
-                im.set(int(xa + (xb - xa) * t), yy, rgb("line"))
+        x0,y0,_=point(col,0);x1,y1,_=point(col,8)
+        for y in range(y0,y1+1):
+            im.set(round(x0+(x1-x0)*(y-y0)/(y1-y0)),y,rgb('line'))
 
-    def stone(col, row, black):
-        xx, yy = grid_point(col, row)
-        rad = 3.0 + row * 0.42
-        if black:
-            im.disc(xx, yy, rad, rgb("stoneB0"))
-            im.disc(xx - rad * 0.35, yy - rad * 0.4, rad * 0.42, rgb("stoneB1"))
-        else:
-            im.disc(xx, yy, rad, rgb("stoneW0"))
-            im.disc(xx - rad * 0.25, yy - rad * 0.3, rad * 0.62, rgb("stoneW1"))
+    # Flattened silhouettes and contact shadows place stones on the receding surface.
+    for col,row,black in [(2,1,True),(5,1,False),(3,3,True),(6,3,False),
+                           (2,4,True),(4,5,False),(6,5,True),(3,6,False),
+                           (5,7,True),(1,6,False),(7,7,False)]:
+        x,y,t=point(col,row);r=round(2+2*t);h=max(3,round(r*1.6))
+        ellipse(im,x-r+1,y-h//2+2,r*2+1,h,'board0')
+        ellipse(im,x-r,y-h//2,r*2+1,h,'stoneB0' if black else 'stoneW0')
+        ellipse(im,x-r+1,y-h//2,max(2,r),max(1,h//2),
+                'stoneB1' if black else 'stoneW1')
 
-    for c, ro, b in ((2, 1, True), (5, 1, False), (3, 3, True), (6, 3, False),
-                     (2, 4, True), (4, 5, False), (6, 5, True), (3, 6, False),
-                     (5, 7, True), (1, 6, False), (7, 7, False)):
-        stone(c, ro, b)
+    # Bowls have their own place on the table, outside the playing surface.
+    for x,y,white in [(341,138,False),(362,179,True)]:
+        ellipse(im,x-11,y+4,25,11,'wood0')
+        ellipse(im,x-11,y,23,14,'wood1');ellipse(im,x-11,y-1,23,9,'wood3')
+        ellipse(im,x-9,y,19,6,'wood0')
+        for dx,dy in [(-5,2),(1,1),(5,3),(-1,4)]:
+            ellipse(im,x+dx-2,y+dy,5,3,'stoneW1' if white else 'stoneB1')
+        im.hline(x-5,y+11,10,rgb('wood2'))
 
-    # a lamp at the right, throwing the warm light
-    im.rect(330, 96, 4, 74, rgb("ink0"))
-    im.rect(322, 84, 20, 12, rgb("ink0"))
-    im.rect(324, 86, 16, 8, rgb("gold2"))
-    im.rect(326, 88, 12, 4, rgb("gold3"))
-    for i in range(30):
-        a = 60 - i * 2
-        im.rect(316 - i, 96 + i, 48 + i * 2, 1, (rgb("gold3")[0], rgb("gold3")[1], rgb("gold3")[2], max(0, a // 6)))
-
-    # two cups on the terrace, because someone is about to sit down
-    for cxx, cyy, body, lip in ((28, 188, "paper1", "paper0"), (46, 196, "paper2", "paper1")):
-        im.rect(cxx, cyy, 11, 9, rgb(body))
-        im.rect(cxx, cyy, 11, 2, rgb(lip))
-        im.rect(cxx + 11, cyy + 2, 3, 4, rgb(body))
-        im.hline(cxx, cyy + 9, 11, rgb("ink0"))
-        im.rect(cxx + 2, cyy - 3, 2, 3, (rgb("paper0")[0], rgb("paper0")[1], rgb("paper0")[2], 70))
-
-    # vignette
-    for x in range(W):
-        for y in range(H):
-            d = max(abs(x - W / 2) / (W / 2), abs(y - H / 2) / (H / 2))
-            if d > 0.86:
-                a = int((d - 0.86) * 300)
-                im.set(x, y, (20, 18, 26, min(150, a)))
-
+    _vignette(im)
     os.makedirs(out_dir, exist_ok=True)
-    im.save(os.path.join(out_dir, "title.png"))
+    im.save(os.path.join(out_dir, 'title.png'))
     opening(out_dir)
-    return W, H
+    return W,H
 
 
 if __name__ == "__main__":

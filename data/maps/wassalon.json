@@ -6,6 +6,8 @@
  ],
  "tile_size": 16,
  "legend": {
+  "[": "canal_b",
+  "]": "canal_c",
   "}": "wall_side",
   "^": "roof_ridge",
   "#": "roof_slate",
@@ -139,12 +141,28 @@
  ],
  "art_props": [
   {
+   "art": "floor_details_wassalon",
+   "position": [
+    0,
+    0
+   ]
+  },
+  {
    "art": "washer_bank",
    "position": [
     32,
     40
    ],
-   "base": 66
+   "base": 66,
+   "animation": {
+    "frames": 4,
+    "holds": [
+     0.8,
+     1.1,
+     0.9,
+     1.2
+    ]
+   }
   },
   {
    "art": "folding_counter",

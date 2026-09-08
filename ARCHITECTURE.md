@@ -287,7 +287,20 @@ flags and match records on load and after progression events. Completed progress
 complete; knowing the rules or skipping optional opening advice cannot strand the objective.
 
 `art_props` names generated images and pixel positions; physical footprints are baked into
-map collision by the generator. `VenueProps` renders them. `presence_exchanges` is an ordered
+map collision by the generator. `tools/art_specs.py` is the shared source for export
+size, footprint and optional frame holds. Map entries retain `art`/`position`/`base` and
+may add `animation: {frames: 4, holds: [0.8, 1.1, 0.9, 1.2]}`. `VenueProps` renders them
+using `GeneratedProp`, a Sprite2D that selects a horizontal strip frame while retaining
+its floor origin. Static entries disable processing. The washer's four frames occupy
+320×26 pixels, with an unchanged 80×26 displayed frame and 80×16 collision footprint.
+
+Map generation also emits `floor_details_<map>.png` from the same map geometry: static
+wall trim, floor wear and restrained shadow/light colours, masked clear of doors and
+decor. `build_assets.py --groups environments --output <root>` exports matching assets,
+map JSON and the TileSet into a project-shaped preview root. Source art lives in the
+small `tools/art_*.py` modules; the PNG canvas and portrait rendering remain unchanged.
+
+`presence_exchanges` is an ordered
 list of exchanges, each containing speaker/text lines. Legacy individual lines remain
 standalone exchanges. `AmbientBanter` plays each exchange once per visit, leaves silence
 between them and suspends during conversation, menus and transitions. Activity variations

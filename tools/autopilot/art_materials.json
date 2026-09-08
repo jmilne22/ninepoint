@@ -1,0 +1,40 @@
+[
+ {
+  "save": "invited"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "experience": "visit",
+  "map": "quay",
+  "spawn": "bench"
+ },
+ {
+  "shot": "quay_variants"
+ },
+ {
+  "experience": "visit",
+  "map": "academy_novice",
+  "spawn": "from_hall"
+ },
+ {
+  "walk_to": [
+   11,
+   10
+  ],
+  "timeout": 15
+ },
+ {
+  "shot": "novice_aisle"
+ }
+]

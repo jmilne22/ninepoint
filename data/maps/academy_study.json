@@ -6,6 +6,8 @@
  ],
  "tile_size": 16,
  "legend": {
+  "[": "canal_b",
+  "]": "canal_c",
   "}": "wall_side",
   "^": "roof_ridge",
   "#": "roof_slate",
@@ -254,6 +256,13 @@
  "indoors": true,
  "art_props": [
   {
+   "art": "floor_details_academy_study",
+   "position": [
+    0,
+    0
+   ]
+  },
+  {
    "art": "book_shelf",
    "position": [
     16,
@@ -269,7 +278,7 @@
    "base": 112
   },
   {
-   "art": "playing_table",
+   "art": "school_table",
    "position": [
     256,
     64
@@ -284,7 +293,7 @@
    ]
   },
   {
-   "art": "playing_table",
+   "art": "school_table",
    "position": [
     160,
     144

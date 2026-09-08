@@ -31,6 +31,14 @@ const ANIMATIONS := {
         "frames": ["canal", "canal_f1", "canal_f2"],
         "hold": [0.50, 0.50, 0.50], "phase": "wave",
     },
+    "canal_b": {
+        "frames": ["canal_b", "canal_b_f1", "canal_b_f2"],
+        "hold": [0.50, 0.50, 0.50], "phase": "wave",
+    },
+    "canal_c": {
+        "frames": ["canal_c", "canal_c_f1", "canal_c_f2"],
+        "hold": [0.50, 0.50, 0.50], "phase": "wave",
+    },
     "neon_sign": {
         "frames": ["neon_sign", "neon_sign_f1"],
         "hold": [4.50, 0.16], "sync": true,

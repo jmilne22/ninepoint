@@ -1,5 +1,7 @@
 """Composition pass for existing maps. Entrances and services remain reachable."""
 
+from art_specs import SPECS, footprints
+
 def dress(name, data):
     ground=[list(row) for row in data['ground']]
     solid=[list(row) for row in data['solid']]
@@ -21,6 +23,7 @@ def dress(name, data):
         # Beside the steps, not over the window: the shopfront takes the two
         # lower wall rows now, and a sign hung above it landed on the roof.
         art('kettle_sign',240,72)
+        for x in (16,160,304): art('facade_detail',x,80)
         # The laundrette's interior machine bank used to be painted straight
         # onto its outside brick, unframed, at four times life size. The three
         # ground floors are shopfronts now: fascia, glass, stall riser.
@@ -76,8 +79,8 @@ def dress(name, data):
     elif name=='academy_study':
         # Ilse's references, Sunny's small seat, Orla's clear playing area.
         art('book_shelf',16,8);art('study_desk',80,80)
-        art('playing_table',256,64);art('snack_stool',288,144)
-        art('playing_table',160,144)
+        art('school_table',256,64);art('snack_stool',288,144)
+        art('school_table',160,144)
         seats={'ilse':[6,4],'sunny':[18,3],'orla':[12,8]}
         for npc in data['npcs']:
             npc['idle']={'ilse':'read','sunny':'arrange','orla':'play'}[npc['id']]
@@ -97,7 +100,7 @@ def dress(name, data):
         for y in [80,160,240]:art('tall_window',0,y)
         for row,y in enumerate([80,144,208,272]):
             for col,x in enumerate([48,112,176]):
-                art('playing_table',x,y)
+                art('tournament_table',x,y)
                 art('board_number_%d'%(row*3+col+1),x+17,y-6)
         art('reception',16,304);art('coat_rack',208,304)
         art('tea_station',208,336);art('long_bench',192,64)
@@ -140,22 +143,13 @@ def rewrite_signs(name,data):
 
 # Pixel bounds become physical furniture footprints. Art overhangs toward the
 # back wall; collision stays at the base, where a standing person's feet reach it.
-FOOTPRINTS={
-'washer_bank':(80,26,0,10,80,16),'folding_counter':(64,32,0,16,64,16),
-'bar_counter':(64,32,0,16,64,16),'playing_table':(48,32,0,0,48,32),
-'long_bench':(48,24,0,8,48,16),'study_desk':(32,32,0,0,32,32),
-'bed':(32,48,0,0,32,48),'reception':(64,40,0,16,64,24),
-'student_desk':(48,24,0,0,48,16),'tea_station':(48,32,0,16,48,16),
-'laundry_basket':(24,24,0,8,24,16),'dry_corner':(80,48,8,32,48,16),
-'port_cargo':(64,32,0,16,64,16),'review_board':(48,40,0,24,48,16),
-'tram_stop':(48,48,16,32,32,16)}
-
-for person in ['noor','ivo','lea','emil','sora']:
-    FOOTPRINTS['novice_'+person]=(48,48,0,0,48,32)
+FOOTPRINTS=footprints()
 
 def finish(name,data):
     ground=[list(r) for r in data['ground']];solid=[list(r) for r in data['solid']]
-    floor=',' if name.startswith('academy') or name=='wassalon' else '1'
+    # Classroom and dorm have wooden floors too; clearing an old desk must not
+    # leave a concrete rectangle beneath its smaller replacement.
+    floor=',' if name in ('academy_hall','academy_study','academy_novice','wassalon') else '1'
     if data.get('indoors'):
         for y,row in enumerate(ground):
             for x,ch in enumerate(row):
@@ -203,3 +197,7 @@ def finish(name,data):
                 if 0<=my<len(ground) and 0<=mx<len(ground[my]) and solid[my][mx]=='0':
                     ground[my][mx]='3'
     data['ground']=[''.join(r) for r in ground];data['solid']=[''.join(r) for r in solid]
+    for entry in data.get('art_props', []):
+        spec = SPECS.get(entry['art'])
+        if spec: spec.decorate(entry)
+    data.setdefault('art_props', []).insert(0, {'art': 'floor_details_'+name, 'position': [0,0]})

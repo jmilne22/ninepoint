@@ -6,6 +6,8 @@
  ],
  "tile_size": 16,
  "legend": {
+  "[": "canal_b",
+  "]": "canal_c",
   "}": "wall_side",
   "^": "roof_ridge",
   "#": "roof_slate",
@@ -270,6 +272,13 @@
   }
  ],
  "art_props": [
+  {
+   "art": "floor_details_academy_novice",
+   "position": [
+    0,
+    0
+   ]
+  },
   {
    "art": "novice_noor",
    "position": [

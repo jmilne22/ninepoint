@@ -2,6 +2,8 @@
 from pathlib import Path
 from png import Img
 from palette import rgb
+import art_furniture as furniture
+import art_architecture as architecture
 from gen_venue_props import box,table,counter,coats
 from font5x7 import trimmed,advance
 
@@ -21,25 +23,11 @@ def study_desk():
     beside it the player was a third of its width. It is a writing desk now,
     two tiles by two, with a board on it the size of a board.
     """
-    im=Img(32,32)
-    box(im,3,24,3,8,'wood0');box(im,26,24,3,8,'wood0')
-    box(im,0,7,32,19,'wood1');im.hline(2,8,28,rgb('wood3'))
-    box(im,9,10,14,13,'gold2')
-    for i in range(5):
-        im.hline(11,12+i*2,10,rgb('wood1'));im.vline(11+i*2,12,9,rgb('wood1'))
-    for x,y,c in [(13,14,'ink0'),(17,18,'paper0'),(15,18,'ink0')]:im.set(x,y,rgb(c))
-    im.disc(4,13,2,rgb('ink1'))                     # the bowl of stones
-    box(im,0,0,9,7,'teal0');im.hline(1,1,7,rgb('teal1'))
-    box(im,23,1,9,6,'paper0')
-    for y in [3,5]:im.hline(25,y,5,rgb('ink3'))
-    im.rect(29,7,2,5,rgb('rust2'))                  # a pencil, on the edge
-    return im
+    return furniture.desk()
 
 
 def bed():
-    im=Img(32,48);box(im,0,0,32,48,'wood0');box(im,2,3,28,40,'paper1')
-    box(im,5,5,22,10,'paper0');box(im,3,18,26,23,'blue1');im.hline(3,19,26,rgb('blue2'))
-    im.rect(3,37,26,3,rgb('blue0'));return im
+    return furniture.bed()
 
 
 def basket():
@@ -49,36 +37,19 @@ def basket():
 
 
 def roof():
-    im=Img(192,48)
-    for x in range(192):
-        h=max(8,32-min(x,191-x)//3);im.vline(x,0,h,rgb('wood0'))
-        if x%32==0:im.vline(x,0,h+5,rgb('wood2'))
-    box(im,78,5,40,26,'wood2');box(im,82,7,32,19,'blue1')
-    im.vline(98,7,19,rgb('paper1'));im.hline(82,16,32,rgb('paper1'));return im
+    return architecture.roof()
 
 
 def arch():
-    im=Img(112,88)
-    for x in range(112):
-        dx=(x-56)/48
-        roof=20+int(28*(1-min(1,dx*dx))**.5)
-        im.vline(x,0,88 if abs(x-56)>46 else 62-roof,rgb('brick0'))
-        if abs(x-56)<47:im.vline(x,62-roof,5,rgb('brick2'))
-    for y in range(0,88,12):
-        im.hline(0,y,10,rgb('brick1'));im.hline(102,y,10,rgb('brick1'))
-    return im
+    return architecture.arch()
 
 
 def dry_corner():
-    im=Img(80,48);box(im,0,0,80,8,'teal0');im.hline(1,1,78,rgb('teal1'))
-    im.blit(table(),8,16);box(im,60,28,18,18,'wood1');im.frame(62,30,14,14,rgb('wood3'));return im
+    return furniture.crate_corner()
 
 
 def cargo():
-    im=Img(64,32)
-    for x,y in [(0,8),(24,4),(43,12)]:
-        box(im,x,y,20,20,'wood1');im.frame(x+2,y+2,16,16,rgb('wood3'));im.vline(x+9,y,20,rgb('wood0'))
-    return im
+    return architecture.cargo()
 
 
 def notice(title):
@@ -95,11 +66,7 @@ def reception():
 
 
 def glass():
-    im=Img(96,48)
-    box(im,0,0,96,48,'ink2');box(im,3,2,90,41,'blue0')
-    for x in range(4,96,16):
-        box(im,x,3,13,37,'blue1','blue2');im.vline(x+2,5,27,rgb('blue3'))
-    im.hline(0,43,96,rgb('paper1'));return im
+    return architecture.glass()
 
 
 def directions():
@@ -192,9 +159,7 @@ def demo():
 
 
 def student_desk():
-    im=Img(48,24);box(im,0,0,48,18,'wood2');im.hline(1,1,46,rgb('wood3'))
-    box(im,8,3,14,10,'paper1');im.hline(10,7,10,rgb('ink3'))
-    im.rect(3,18,3,6,rgb('wood0'));im.rect(41,18,3,6,rgb('wood0'));return im
+    return furniture.desk(True)
 
 
 def number(n):
@@ -210,7 +175,7 @@ def snack_stool():
     box(im,7,3,12,7,'paper1');im.disc(10,5,2,rgb('gold1'));im.disc(15,5,2,rgb('gold1'));return im
 
 
-ASSETS={'study_desk':study_desk,'bed':bed,'laundry_basket':basket,'attic_roof':roof,
+ASSETS={'facade_detail':architecture.facade_detail, 'study_desk':study_desk,'bed':bed,'laundry_basket':basket,'attic_roof':roof,
 'port_arch':arch,'dry_corner':dry_corner,'port_cargo':cargo,'review_board':lambda:notice('REVIEW'),
 'reception':reception,'school_glass':glass,'school_directions':directions,'tram_stop':tram_stop,
 'shopfront_wassalon':lambda:shopfront('wassalon'),'shopfront_ketel':lambda:shopfront('ketel'),
@@ -219,7 +184,10 @@ ASSETS={'study_desk':study_desk,'bed':bed,'laundry_basket':basket,'attic_roof':r
 
 def build(out):
     Path(out).mkdir(parents=True,exist_ok=True)
-    for name,fn in ASSETS.items():fn().save(str(Path(out)/(name+'.png')))
+    from art_specs import validate_asset
+    for name,fn in ASSETS.items():
+        im=fn();validate_asset(name,im)
+        im.save(str(Path(out)/(name+'.png')))
     for n in range(1,13):number(n).save(str(Path(out)/('board_number_%d.png'%n)))
     return len(ASSETS)+12
 if __name__=='__main__':print(build(Path(__file__).resolve().parent.parent/'art/props'))

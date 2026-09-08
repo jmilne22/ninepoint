@@ -201,7 +201,10 @@ out at the end of the session, not the start.
 tools/play.sh                                    # play it, on the real display
 tools/test.sh                                    # compile gate + load check + all suites
 tools/run_game.sh tools/autopilot/<script>.json  # drive the game, screenshot each beat
-python3 tools/build_assets.py                    # regenerate ALL art, audio and the font
+python3 tools/build_assets.py                    # regenerate ALL art, map dressing, audio and the font
+python3 tools/build_assets.py --groups environments --output /home/user/.cache/ninepoint-preview
+python3 tools/art_contact_sheet.py --root /home/user/.cache/ninepoint-preview --output /home/user/.cache/ninepoint-props.png
+python3 tests/test_art.py                         # art contracts, also included in test.sh
 python3 tools/check_lessons.py                   # verify every taught position vs the rules
 python3 tools/check_melody.py                    # does each track's wav match its note list?
 python3 tools/check_dialogue.py [id ...]         # print a graph as a script a person can read
@@ -246,6 +249,11 @@ weakest heuristic so the player wins -- the autoplay brain cannot beat even Abel
 post-match talk), `review_leave` (walk away from the loading card, read it later on the
 quay), `review_unavailable` (a wedged engine must still let you out), `quay_review` /
 `quay_review_19` (the noticeboard from a save).
+
+Art routes: `art_tour` (all twelve maps, washer frames, park and novice aisle),
+`art_materials` (quay variants), `art_people` (working pose, far-seat sorting, conversation),
+`art_arrivals` (both tram illustrations and federation furniture), and `art_cleanup`
+(title composition and cleaned Onderbrug masonry).
 
 Screenshots land in `/tmp/ninepoint-shots` (override with `OUT=`). **`run_game.sh` needs a
 script argument** — it runs on a hidden display. `DISPLAY_NUM=0` runs it on the real display
@@ -341,11 +349,14 @@ src/autoload/  EventBus, GameState, SaveSystem, SceneRouter, MatchBridge, KataGo
 |---|---|
 | `tools/gen_maps.py` | `data/maps/*.json` — the maps, including walls, spawns, warps, signs, the tram stop, who stands where |
 | `tools/gen_content.py` | `data/npcs/*.tres`, `data/opponents/*.tres`, `data/quests/*.tres` |
-| `tools/characters.py` | every character's sprite **and** portrait (one record drives both) |
+| `tools/characters.py` | shared identity; `art_people.py` draws walking/actions, `gen_characters.py` preserves portraits |
 | `tools/gen_tiles.py` | `art/tiles/town_tileset.png` + its manifest **and** `town_tileset.tres` (via `gen_tileset_resource.py`, which `build_assets.py` runs — a tile outside the resource draws as nothing, silently) |
 | `tools/font5x7.py` | the bitmap font glyphs |
 | `tools/gen_audio.py` + `wav.py` | `audio/*.wav` — synthesised from oscillators, no samples. A track named `<t>_in` is a one-shot intro sting for `<t>` |
-| `tools/gen_props.py` | `art/props/*.png` — the tram (96×36, two people tall) and the "..." bubble |
+| `tools/gen_props.py` | the tram (96×36, two people tall) and the "..." bubble |
+| `tools/art_furniture.py`, `art_architecture.py`, `art_materials.py` | venue props, structures and tile material recipes |
+| `tools/art_specs.py` | shared prop dimensions, footprints and animation holds |
+| `tools/art_scene_details.py` | static floor/wall dressing, rebuilt with map geometry |
 
 Hand-authored (edit directly): `data/dialogue/*.json` (and `VOICES.md`), `data/lessons/*.json`,
 `data/puzzles/*.json`, `data/banter/*.json`, everything in `src/`.

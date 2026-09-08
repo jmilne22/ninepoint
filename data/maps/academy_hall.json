@@ -6,6 +6,8 @@
  ],
  "tile_size": 16,
  "legend": {
+  "[": "canal_b",
+  "]": "canal_c",
   "}": "wall_side",
   "^": "roof_ridge",
   "#": "roof_slate",
@@ -279,6 +281,13 @@
  "music": "theme_institute",
  "indoors": true,
  "art_props": [
+  {
+   "art": "floor_details_academy_hall",
+   "position": [
+    0,
+    0
+   ]
+  },
   {
    "art": "school_glass",
    "position": [

@@ -6,6 +6,8 @@
  ],
  "tile_size": 16,
  "legend": {
+  "[": "canal_b",
+  "]": "canal_c",
   "}": "wall_side",
   "^": "roof_ridge",
   "#": "roof_slate",
@@ -265,6 +267,13 @@
  "indoors": true,
  "art_props": [
   {
+   "art": "floor_details_bondszaal",
+   "position": [
+    0,
+    0
+   ]
+  },
+  {
    "art": "tall_window",
    "position": [
     32,
@@ -307,7 +316,7 @@
    ]
   },
   {
-   "art": "playing_table",
+   "art": "tournament_table",
    "position": [
     48,
     80
@@ -322,7 +331,7 @@
    ]
   },
   {
-   "art": "playing_table",
+   "art": "tournament_table",
    "position": [
     112,
     80
@@ -337,7 +346,7 @@
    ]
   },
   {
-   "art": "playing_table",
+   "art": "tournament_table",
    "position": [
     176,
     80
@@ -352,7 +361,7 @@
    ]
   },
   {
-   "art": "playing_table",
+   "art": "tournament_table",
    "position": [
     48,
     144
@@ -367,7 +376,7 @@
    ]
   },
   {
-   "art": "playing_table",
+   "art": "tournament_table",
    "position": [
     112,
     144
@@ -382,7 +391,7 @@
    ]
   },
   {
-   "art": "playing_table",
+   "art": "tournament_table",
    "position": [
     176,
     144
@@ -397,7 +406,7 @@
    ]
   },
   {
-   "art": "playing_table",
+   "art": "tournament_table",
    "position": [
     48,
     208
@@ -412,7 +421,7 @@
    ]
   },
   {
-   "art": "playing_table",
+   "art": "tournament_table",
    "position": [
     112,
     208
@@ -427,7 +436,7 @@
    ]
   },
   {
-   "art": "playing_table",
+   "art": "tournament_table",
    "position": [
     176,
     208
@@ -442,7 +451,7 @@
    ]
   },
   {
-   "art": "playing_table",
+   "art": "tournament_table",
    "position": [
     48,
     272
@@ -457,7 +466,7 @@
    ]
   },
   {
-   "art": "playing_table",
+   "art": "tournament_table",
    "position": [
     112,
     272
@@ -472,7 +481,7 @@
    ]
   },
   {
-   "art": "playing_table",
+   "art": "tournament_table",
    "position": [
     176,
     272

@@ -10,6 +10,8 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 from png import Img, Rand
 from palette import rgb, mix
+from pixel_art import seed
+import art_materials as materials
 
 TS = 16
 TILES = []
@@ -42,35 +44,22 @@ def _mini_grid(im, x, y, w, h, spacing=3):
 # ---------------------------------------------------------------- row 0: ground
 @tile("grass_a")
 def _(im, s):
-    im.rect(0, 0, TS, TS, rgb("grass1"))
-    speckle(im, [rgb("grass2"), rgb("grass0")], s, 5)
+    materials.grass(im,s)
 
 
 @tile("grass_b")
 def _(im, s):
-    im.rect(0, 0, TS, TS, rgb("grass1"))
-    speckle(im, [rgb("grass2"), rgb("grass0")], s + 1, 6)
-    for bx, by in ((3, 5), (10, 9), (6, 12)):
-        im.vline(bx, by, 3, rgb("grass2"))
-        im.set(bx + 1, by, rgb("grass3"))
+    materials.grass(im,s,'tufts')
 
 
 @tile("grass_c")
 def _(im, s):
-    im.rect(0, 0, TS, TS, rgb("grass1"))
-    speckle(im, [rgb("grass2"), rgb("grass0")], s + 2, 7)
-    for px, py in ((4, 4), (11, 6), (7, 11)):
-        im.rect(px, py, 2, 2, rgb("path1"))
-        im.set(px, py, rgb("path2"))
+    materials.grass(im,s,'tufts')
 
 
 @tile("grass_flowers")
 def _(im, s):
-    im.rect(0, 0, TS, TS, rgb("grass1"))
-    speckle(im, [rgb("grass2")], s + 3, 5)
-    for fx, fy, c in ((3, 4, "gold2"), (9, 7, "paper0"), (12, 12, "rust3"), (5, 11, "gold3")):
-        im.set(fx, fy, rgb(c))
-        im.set(fx, fy + 1, rgb("grass0"))
+    materials.grass(im,s,'flowers')
 
 
 def _cobble(im, seed, base="path1"):
@@ -101,11 +90,7 @@ def _(im, s):
 
 @tile("pavement")
 def _(im, s):
-    im.rect(0, 0, TS, TS, rgb("path2"))
-    speckle(im, [rgb("path1"), rgb("path3")], s, 6)
-    im.hline(0, 8, TS, rgb("path1"))
-    im.vline(8, 0, 8, rgb("path1"))
-    im.vline(4, 8, 8, rgb("path1"))
+    materials.paving(im,s)
 
 
 @tile("gravel")
@@ -134,14 +119,7 @@ def _water(im, s, frame=0):
     TileAnimator cycles these by name, and offsets each cell's phase by (x+y) --
     water where every tile ripples in step reads as a screensaver.
     """
-    im.rect(0, 0, TS, TS, rgb("blue1"))
-    r = Rand(s)
-    for y in range(TS):
-        for x in range(TS):
-            if r.next() % 9 == 0:
-                im.set(x, y, rgb("blue0"))
-    for wy in (3, 9, 13):
-        im.hline(2 + ((wy % 3) + frame * 2) % 5, wy, 5, rgb("blue2"))
+    materials.water(im,s,frame)
 
 
 @tile("water")
@@ -222,17 +200,7 @@ def _(im, s):
 
 def _brick(im, seed, base="brick1", mortar="brick0", hi="brick2"):
     """Wet Verhaven brick. Courses of four, staggered, mortar in shadow."""
-    im.rect(0, 0, TS, TS, rgb(base))
-    r = Rand(seed)
-    for row in range(2):
-        y = row * 8
-        im.hline(0, y, TS, rgb(mortar))
-        off = 0 if row % 2 == 0 else 4
-        for x in range(off, TS, 8):
-            im.vline(x, y, 8, rgb(mortar))
-        for x in range(TS):
-            if r.next() % 32 == 0:
-                im.set(x, y + 2, rgb(hi))
+    materials.brick(im,seed,base,mortar,hi)
 
 
 @tile("wall_brick")
@@ -284,40 +252,17 @@ def _(im, s):
 
 @tile("roof_slate")
 def _(im, s):
-    im.rect(0, 0, TS, TS, rgb("ink2"))
-    r = Rand(s)
-    for row in range(4):
-        y = row * 4
-        off = 0 if row % 2 == 0 else 3
-        im.hline(0, y, TS, rgb("ink1"))
-        for x in range(off, TS, 6):
-            im.vline(x, y, 4, rgb("ink1"))
-        for x in range(TS):
-            if r.next() % 7 == 0:
-                im.set(x, y + 1, rgb("ink3"))
+    materials.roof(im,s)
 
 
 @tile("roof_rust")
 def _(im, s):
-    im.rect(0, 0, TS, TS, rgb("rust1"))
-    r = Rand(s)
-    for row in range(4):
-        y = row * 4
-        im.hline(0, y, TS, rgb("rust0"))
-        for x in range(0 if row % 2 else 3, TS, 6):
-            im.vline(x, y, 4, rgb("rust0"))
-        for x in range(TS):
-            if r.next() % 7 == 0:
-                im.set(x, y + 1, rgb("rust2"))
+    materials.roof(im,s,True)
 
 
 @tile("roof_eave")
 def _(im, s):
-    im.rect(0, 0, TS, TS, rgb("ink2"))
-    im.hline(0, 0, TS, rgb("ink1"))
-    im.rect(0, 10, TS, 3, rgb("ink1"))
-    im.hline(0, 13, TS, rgb("ink0"))
-    im.rect(0, 14, TS, 2, rgb("wood0"))
+    materials.eave(im,s)
 
 
 @tile("roof_ridge")
@@ -405,36 +350,11 @@ def _(im, s):
 
 @tile("hedge")
 def _(im, s):
-    im.rect(0, 0, TS, TS, rgb("grass0"))
-    r = Rand(s)
-    for y in range(TS):
-        for x in range(TS):
-            n = r.next() % 8
-            if n == 0:
-                im.set(x, y, rgb("grass2"))
-            elif n == 1:
-                im.set(x, y, rgb("grass1"))
-    im.hline(0, 0, TS, rgb("grass2"))
-    im.hline(0, 15, TS, rgb("ink1"))
+    materials.foliage(im,s,True)
 
 
 def _canopy(im, seed, quad):
-    im.rect(0, 0, TS, TS, rgb("grass0"))
-    r = Rand(seed)
-    for y in range(TS):
-        for x in range(TS):
-            n = r.next() % 7
-            if n == 0:
-                im.set(x, y, rgb("grass1"))
-            elif n == 1:
-                im.set(x, y, rgb("grass2"))
-    if quad in ("tl", "tr"):
-        im.hline(0, 0, TS, rgb("grass1"))
-    if quad == "tl":
-        im.disc(5, 5, 4, rgb("grass2"))
-        im.disc(4, 4, 2, rgb("grass3"))
-    if quad in ("bl", "br"):
-        im.hline(0, 15, TS, rgb("ink1"))
+    materials.tree_quad(im,seed,quad)
 
 
 @tile("tree_tl")
@@ -574,14 +494,12 @@ def _boards(im, seed, base="wood2", line="wood1", hi="wood3"):
 
 @tile("floor_wood_a")
 def _(im, s):
-    _boards(im, s)
+    materials.wood_floor(im,s,0)
 
 
 @tile("floor_wood_b")
 def _(im, s):
-    _boards(im, s + 3)
-    im.vline(5, 0, 8, rgb("wood1"))
-    im.vline(11, 8, 8, rgb("wood1"))
+    materials.wood_floor(im,s,1)
 
 
 @tile("floor_mat")
@@ -617,9 +535,7 @@ def _(im, s):
 
 @tile("wall_int")
 def _(im, s):
-    im.rect(0, 0, TS, TS, rgb("paper1"))
-    speckle(im, [rgb("paper0"), rgb("paper2")], s, 9)
-    im.hline(0, 0, TS, rgb("paper2"))
+    materials.plaster(im,s)
 
 
 @tile("wall_int_base")
@@ -809,8 +725,7 @@ def _(im, s):
 # from the top-left, same three values. The board stays the brightest thing.
 
 def _asphalt(im, seed, base="asphalt1"):
-    im.rect(0, 0, TS, TS, rgb(base))
-    speckle(im, [rgb("asphalt0"), rgb("asphalt2")], seed, 4)
+    materials.asphalt(im,seed,base)
 
 
 @tile("asphalt")
@@ -819,18 +734,7 @@ def _(im, s):
 
 
 def _puddle(im, s, frame=0):
-    _asphalt(im, s)
-    im.disc(6, 9, 4, rgb("blue0"))
-    im.disc(6, 9, 3, rgb("blue1"))
-    # the sky, upside down in the road: the only reason a puddle reads as one
-    if frame == 0:
-        im.hline(4, 7, 4, rgb("blue2"))
-        im.set(9, 11, rgb("blue2"))
-    else:
-        # something landed in it
-        im.hline(5, 8, 3, rgb("blue2"))
-        im.set(4, 10, rgb("blue2"))
-        im.set(8, 7, rgb("blue2"))
+    materials.puddle(im,s,frame)
 
 
 @tile("puddle")
@@ -889,14 +793,7 @@ def _(im, s):
 
 def _canal(im, s, frame=0):
     """The ripple lines march down a pixel per frame, so the canal drifts."""
-    im.rect(0, 0, TS, TS, rgb("blue0"))
-    r = Rand(s)
-    for y0 in range(2, TS, 8):
-        y = (y0 + frame) % TS
-        im.hline(2, y, 9, mix("blue0", "blue1", 0.55))
-        for x in range(TS):
-            if r.next() % 40 == 0:
-                im.set(x, y, rgb("blue1"))
+    materials.water(im,s,frame,True)
 
 
 @tile("canal")
@@ -958,13 +855,7 @@ def _(im, s):
 
 @tile("wall_brick_win")
 def _(im, s):
-    _brick(im, s)
-    im.rect(3, 3, 10, 9, rgb("brick0"))
-    im.rect(4, 4, 8, 7, rgb("blue1"))
-    im.rect(4, 4, 4, 3, rgb("blue2"))
-    im.vline(8, 4, 7, rgb("brick0"))
-    im.hline(4, 7, 8, rgb("brick0"))
-    im.hline(3, 12, 10, rgb("ink1"))           # the sill, in shadow
+    materials.window(im,s)
 
 
 @tile("wall_brick_base")
@@ -1202,10 +1093,7 @@ def _(im, s):
 @tile("floor_concrete")
 def _(im, s):
     """The Instituut's floor: poured, ground smooth, with expansion joints."""
-    im.rect(0, 0, TS, TS, rgb("path2"))
-    speckle(im, [rgb("path1"), rgb("path3")], s, 9)
-    im.hline(0, 0, TS, rgb("path1"))
-    im.vline(0, 0, TS, rgb("path1"))
+    materials.concrete_floor(im,s)
 
 
 def _washer(im, s, frame=0):
@@ -1331,6 +1219,14 @@ def _(im,s):
     im.vline(15,0,16,rgb("wood0"))
 
 
+# Named families keep their base pattern across frames and atlas repacking.
+for family, quiet in [('canal_b', True), ('canal_c', False)]:
+    for frame in range(3):
+        name=family + ('_f%d' % frame if frame else '')
+        TILES.append((name, lambda im,s,frame=frame,quiet=quiet:
+                      materials.canal_variant(im,s,frame,quiet)))
+
+
 def build(out_dir):
     cols = 16
     rows = (len(TILES) + cols - 1) // cols
@@ -1338,15 +1234,8 @@ def build(out_dir):
     manifest = {}
     for i, (name, fn) in enumerate(TILES):
         t = Img(TS, TS)
-        fn(t, 1000 + i * 37)
-        if name == "floor_concrete":
-            t.rect(0,0,16,16,rgb("path2"))
-        elif name in ("floor_wood_a", "floor_wood_b"):
-            t.rect(0,0,16,16,mix("wood1","wood2",0.58))
-            t.hline(0,15,16,mix("wood1","wood2",0.38))
-            if name.endswith("a"): t.vline(8,0,15,mix("wood1","wood2",0.44))
-        elif name == "wall_int":
-            t.rect(0,0,16,16,rgb("paper1"))
+        family, separator, frame = name.rpartition("_f")
+        fn(t, seed(family if separator and frame.isdigit() else name, "tile"))
         cx, cy = i % cols, i // cols
         atlas.blit(t, cx * TS, cy * TS)
         manifest[name] = [cx, cy]

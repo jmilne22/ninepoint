@@ -6,6 +6,8 @@
  ],
  "tile_size": 16,
  "legend": {
+  "[": "canal_b",
+  "]": "canal_c",
   "}": "wall_side",
   "^": "roof_ridge",
   "#": "roof_slate",
@@ -428,10 +430,38 @@
  "indoors": false,
  "art_props": [
   {
+   "art": "floor_details_ketelsteeg",
+   "position": [
+    0,
+    0
+   ]
+  },
+  {
    "art": "kettle_sign",
    "position": [
     240,
     72
+   ]
+  },
+  {
+   "art": "facade_detail",
+   "position": [
+    16,
+    80
+   ]
+  },
+  {
+   "art": "facade_detail",
+   "position": [
+    160,
+    80
+   ]
+  },
+  {
+   "art": "facade_detail",
+   "position": [
+    304,
+    80
    ]
   },
   {

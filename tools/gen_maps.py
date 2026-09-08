@@ -38,6 +38,7 @@ class Grid:
 
 # tile name for every legend character, shared by both maps
 LEGEND = {
+    "[": "canal_b", "]": "canal_c",
     "}": "wall_side",
     "^": "roof_ridge", "#": "roof_slate", "R": "roof_rust", "~": "roof_eave",
     "C": "chimney", "W": "wall_plaster", "w": "wall_plaster_win", "B": "wall_base",
@@ -1152,8 +1153,9 @@ def validate(name, data):
     return problems
 
 
-def build():
-    out_dir = os.path.join(root, "data", "maps")
+def build(output_root=None):
+    target = str(output_root) if output_root is not None else root
+    out_dir = os.path.join(target, "data", "maps")
     os.makedirs(out_dir, exist_ok=True)
     written = []
     maps = (("ketelsteeg", ketelsteeg), ("de_ketel", de_ketel),
@@ -1166,6 +1168,15 @@ def build():
         data = dress(name, fn())
         rewrite_signs(name,data)
         finish(name,data)
+        # Water stays physically identical while broad quiet patches interrupt tiling.
+        rows=[list(row) for row in data['ground']]
+        for y,row in enumerate(rows):
+            for x,ch in enumerate(row):
+                if ch==':':
+                    variant=(x*7+y*13)%11
+                    if variant<4: rows[y][x]='['
+                    elif variant<7: rows[y][x]=']'
+        data['ground']=[''.join(row) for row in rows]
         data["presence_states"] = activity_states(name, data)
         problems = validate(name, data)
         if problems:
@@ -1173,6 +1184,9 @@ def build():
         path = os.path.join(out_dir, name + ".json")
         json.dump(data, open(path, "w"), indent=1)
         written.append((name, data["size"]))
+    # Floor wear and shadows must follow the same geometry even for a maps-only rebuild.
+    from art_scene_details import build as build_details
+    build_details(out_dir, os.path.join(target, "art", "props"))
     return written
 
 
