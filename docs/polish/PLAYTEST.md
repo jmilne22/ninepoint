@@ -55,6 +55,8 @@ Native 384×216 captures, kept here so the claims above can be checked against t
 | [Wren's teaching board](screenshots/wren-far-side.png) | the prompt reaches over it |
 | [The title card](screenshots/title.png) | and [its load list](screenshots/title-load.png) |
 | [A portrait after a game](screenshots/portrait-after-a-game.png) | Wren, happy, through the shared column map |
+| [The novice room](screenshots/novice-room.png) | five two-seat tables at the new scale |
+| [Ivo, from the far chair](screenshots/novice-far-seat.png) | and the player drawn behind his table |
 
 ## Routes played
 
