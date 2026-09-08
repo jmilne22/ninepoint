@@ -132,6 +132,10 @@ by this explicitly approved layout redesign; Go and progression rules remain pro
   interiors opened. 16,922 Godot checks, 13 art tests, 283 loads and three engine gates
   pass. Only the three facade PNGs changed; UI type, maps, cast and tram remain fixed.
 
+- Tram-label correction: same mixed-case lettering on a dark fascia, separate teal 4.
+  Only the stop PNG changed; 13 art tests and editor import passed, `art_stop` completed
+  30 captures and the lettering/prompt were opened. Runtime tests remain the preceding run.
+
 ## Portrait-led sprite preview
 
 ### ART-06 — Six rounded, portrait-led characters

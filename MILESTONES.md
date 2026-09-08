@@ -3388,3 +3388,9 @@ Window/balcony spacing reserves the fascia; UI type, geometry, cast and tram sta
 opened at native scale. **Done when:** the SELA-06 gate remains at 16,922 Godot checks,
 13 art tests, 283 loads and three engine gates. Only the three facade exports changed.
 [Evidence and limits](docs/sela/PLAYTEST.md#shop-signs--sela-07-follow-up).
+
+
+SELA-07 tram-label correction: extended the display lettering to Tram and a separate
+route-number cell. Only the stop texture changed. Thirteen art tests and editor import
+passed; `art_stop` completed 30 captures, with the lettering and boarding prompt opened.
+The preceding runtime gate was not rerun for this art-only correction.

@@ -138,3 +138,9 @@ symbol. Each symbol/name pair is centred with padding. Shop names stay the same,
 new subtitle or lore. Upper windows and balconies move up enough to reserve the sign
 fascia, and awnings/windows beneath it leave the whole name unobstructed. Map geometry,
 entrances, characters, portraits and tram assets are unchanged.
+
+
+The owner's follow-up extends this lettering to **Tram 4**. The old thin uppercase word
+on the roof is removed. A dark fascia below the canopy carries the mixed-case name and
+a separate teal route-number cell, giving both the word and number enough contrast and
+height. The approved shop signs, shelter footprint and boarding area remain unchanged.

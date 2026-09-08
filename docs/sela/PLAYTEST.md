@@ -208,3 +208,21 @@ regeneration and the protected character hashes. Only the three facade PNGs chan
 ![Distinct shop signs at gameplay scale](screenshots/sign-shopfronts.png)
 
 ![Laundry lettering and wash symbol](screenshots/sign-laundry.png)
+
+
+### Tram lettering correction
+
+The owner approved the shop signs but requested the same improvement for the remaining
+TRAM label. The stop now has heavier mixed-case Tram lettering on a dark fascia and a
+separate teal cell with a ten-pixel 4. Only `art/props/tram_stop.png` changed; the shop
+exports, cast, map geometry and boarding behavior remain unchanged.
+
+The environment rebuild and all 13 art tests passed, including deterministic exports and
+protected cast hashes. Godot's editor import completed without parse errors. The Go/runtime
+suite is unchanged from the preceding 16,922-check run and was not rerun for this lettering
+correction. `art_stop` completed 30 captures at exit 0 with no script errors or unreachable
+tiles; the new lettering and boarding prompt were opened at native scale. The route also
+exercised cancellation and both tram destinations. Existing resource-in-use warnings
+remain at shutdown.
+
+![Tram lettering at gameplay scale](screenshots/tram-lettering.png)

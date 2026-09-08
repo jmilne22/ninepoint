@@ -4,7 +4,7 @@ from coastal_palette import color as c
 from palette import rgb
 from pixel_art import panel, polygon, ellipse
 from font5x7 import trimmed, advance
-from coastal_signage import shop_sign
+from coastal_signage import shop_sign, lettering
 
 
 def label(im,x,y,text,color='deep'):
@@ -218,6 +218,9 @@ def tram_shelter():
     polygon(im,[(0,5),(7,0),(59,0),(64,5),(59,9),(0,9)],'sela_stone')
     polygon(im,[(1,4),(8,1),(58,1),(62,4)],'sela_light')
     im.hline(1,9,59,c('deep'));im.hline(5,11,39,c('light'))
-    im.rect(48,10,15,13,c('teal'));label(im,53,13,'4','light')
-    label(im,5,5,'TRAM','deep')
+    # A readable fascia hangs below the canopy, with a separate route-number cell.
+    im.rect(3,7,60,15,c('deep'));im.hline(3,7,60,c('teal_light'))
+    im.rect(47,8,15,13,c('teal'))
+    lettering(im,10,10,'Tram',c('light'))
+    lettering(im,52,10,'4',c('light'))
     return im

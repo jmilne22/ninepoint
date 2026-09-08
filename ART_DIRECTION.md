@@ -212,7 +212,8 @@ Their mixed-case lettering has ten-pixel capitals, seven-pixel lowercase bodies,
 counters and two-pixel stems. Names and trade symbols sit together inside padded panels:
 teal enamel for Laundry, a warm framed sign for The Kettle, and pale painted Paper.
 Keep the name readable at native scale; do not add tiny decorative subtitles or change
-the interface font to make a shop sign larger. `coastal_architecture.py` reserves a
+the interface font to make a shop sign larger. The tram fascia uses the same heavier
+mixed-case lettering, with a clearly separated 4. `coastal_architecture.py` reserves a
 clear fascia beneath the balconies and above the awning.
 
 Rules that follow from using a bitmap font:
@@ -373,7 +374,8 @@ door at the sprite centre so boarding aligns with the existing stop. The tram us
 own white/glass colors; character palettes remain untouched.
 
 The Tram 4 stop uses a thin cantilever canopy, pale glazing, silver seating, a ticket-machine
-column and a suspended teal route number, based on Jerusalem light-rail shelters. Its
+column and a dark sign fascia reading Tram with a separate teal route-number cell,
+based on Jerusalem light-rail shelters. Its
 64×48 drawing retains the old solid footprint, keeping the home stairs clear. A five-by-two
 tile platform reaches toward the rails; the tactile strip marks only the track-facing edge.
 Boarding works anywhere inside the marked platform, independent of facing. The machine
