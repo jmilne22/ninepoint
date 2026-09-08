@@ -47,7 +47,10 @@ Native 384×216 captures, kept here so the claims above can be checked against t
 | [A doorway](screenshots/door-prompt.png) | `De Ketel   [Space]` from the pavement |
 | [The way out](screenshots/exit-mat.png) | `Ketelsteeg   [Space]`, mat inside the door |
 | [The steps to the water](screenshots/steps-to-the-water.png) | the gravel path from the kerb |
-| [The shopfronts](screenshots/shopfronts.png) | DE KETEL and WASSALON, no machines on brick |
+| [The shopfronts](screenshots/shopfronts.png) | PAPIER, DE KETEL and the kettle sign, cut into the brick |
+| [The laundrette front](screenshots/shopfronts-wassalon.png) | WASSALON, and no machines on the outside wall |
+| [The title with no saves](screenshots/title-no-saves.png) | the cursor has stepped over the greyed rows to Quit |
+| [The cold open](screenshots/cold-open.png) | dusk and rain, not a black rectangle |
 | [Inside the wassalon](screenshots/wassalon-inside.png) | machines, counter and board at one scale |
 | [The attic desk](screenshots/attic-desk.png) | the board is the width of the player |
 | [Bertie's far side](screenshots/bertie-far-side.png) | where nothing used to happen |
@@ -57,6 +60,30 @@ Native 384×216 captures, kept here so the claims above can be checked against t
 | [A portrait after a game](screenshots/portrait-after-a-game.png) | Wren, happy, through the shared column map |
 | [The novice room](screenshots/novice-room.png) | five two-seat tables at the new scale |
 | [Ivo, from the far chair](screenshots/novice-far-seat.png) | and the player drawn behind his table |
+
+## Owner review, and what it changed
+
+The owner looked at the first pass and found four more things. All four were right.
+
+- **The cursor sat on greyed-out rows.** With no save on disk, Continue and Load Game are
+  disabled, and stepping onto one and pressing [Space] produced silence — a menu that looks
+  broken rather than answered. The cursor steps over them now.
+  ([frame](screenshots/title-no-saves.png))
+- **"Why is this screen just black?"** The cold open — the first screen of the game — was a
+  flat `#14121a` rectangle with a portrait and a board floating on it. It now has the title
+  card's dusk with rain falling through it, and the portrait and board have a frame and a
+  shadow so they sit on it. ([frame](screenshots/cold-open.png))
+- **"Why put a brick at the edge? Now the tram goes through it."** Exactly so: walling both
+  ends of Ketelsteeg put a building across the middle of the road and the tram drove through
+  it every thirty seconds. `solid_mask` grew an `extra_solid` set: the pavement, the road,
+  the rails and the park run straight off both sides as they always did, nothing is drawn
+  at the boundary, and the column is simply not walkable. You stop where the camera stops.
+  ([west](screenshots/street-west-end.png), [east](screenshots/street-east-end.png))
+- **"This building is sloppy."** The shopfronts were opaque slabs with a coloured bar across
+  the top, laid over the brick with their own edges showing. They are cut into the wall now:
+  a hanging board on two brackets, a window opening with a frame and a stone sill, and
+  everything else transparent. The kettle sign moved off the roof to beside the steps.
+  ([frame](screenshots/shopfronts.png))
 
 ## Routes played
 
@@ -69,6 +96,7 @@ Native 384×216 captures, kept here so the claims above can be checked against t
 | `polish_faces` | A real game at De Ketel, hand-clicked move by move, with the opponent panel photographed after each reply. |
 | `polish_faces_capture` | Pip's Capture Go from a New Game, same sampling. |
 | `polish_title` | The restyled card at each menu row, the load list over it, and the return. |
+| `polish_fixes` | With no saves on disk: the cursor stepping over Continue and Load Game, and the cold open's backdrop. |
 
 ## The expression evidence, and its limit
 

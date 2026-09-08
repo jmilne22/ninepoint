@@ -518,12 +518,15 @@ adjudication; teaching and town access for 19×19 (the development UI has overvi
 
 ## POLISH-02 — reading the town
 
-**The map boundary is a wall unless it is a door**, and `gen_maps.validate()` fails the
+**The map boundary is closed unless it is a door**, and `gen_maps.validate()` fails the
 build on any walkable boundary tile that is not a warp. Ketelsteeg shipped with twenty
 open ones and the quay with twelve; the camera is clamped to the map and the player never
-was, so both ends of the street walked you off the frame. Both ends close on brick, the
-park on hedge and the quay on warehouse; the passers-by come out of the three alley mouths
-between the buildings instead of walking on from off the map.
+was, so both ends of the street walked you off the frame. The fix is `solid_mask`'s
+`extra_solid`: the tiles are left exactly as drawn — the street and its rails run on past
+the frame — and the boundary column is simply not walkable, so you stop where the camera
+stops. Walling the ends with brick was tried first and put a building through the middle of
+the road. The passers-by come out of the three alley mouths between the buildings instead
+of walking on from off the map.
 
 **A warp's `prompt` is displayed.** It had been generated into every map since the maps
 existed and `MapBuilder.build_warps` discarded it. A warp now carries a `Doorway`

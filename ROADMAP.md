@@ -216,9 +216,10 @@ and the board on the attic desk was three times the width of the person looking 
 
 The fixes are presentation and level composition only: no engine, rank, progression,
 curriculum or dialogue-content change. Two of them are structural rather than cosmetic and
-are worth stating as rules. **The map boundary is a wall unless it is a door**, enforced in
+are worth stating as rules. **The map boundary is closed unless it is a door**, enforced in
 `gen_maps.validate()` — three separate places could have caught the twenty open tiles on
-Ketelsteeg and none of them looked. And **a board is two tiles deep while the interaction
+Ketelsteeg and none of them looked. Closing it does not mean building something there: the
+street runs on off the frame and the boundary column is simply not walkable. And **a board is two tiles deep while the interaction
 probe reaches one**, so every seated opponent declares the chair on the far side of their
 board; before that you could speak to Wren from three sides and not from the one a second
 player sits at, and at Bertie's stone table the far side did nothing at all.

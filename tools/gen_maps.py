@@ -182,21 +182,6 @@ def ketelsteeg():
     for i, line in enumerate(park):
         ground.row(15 + i, 0, (line + "g" * W)[:W])
 
-    # --- both ends of the street, which used to be open air.
-    # The pavement, the road and the park were all laid with full-width row
-    # fills, so column 0 and column W-1 were walkable from row 9 to row 18 --
-    # twenty tiles of map boundary with no wall and no warp behind it. The
-    # camera is clamped to the map and the player never was, so walking west
-    # from the tram stop or east past the arch slid you off the frame into the
-    # backdrop with nothing to walk back towards. Ketelsteeg is a short inner
-    # street: it closes on brick at both ends, and the park closes on hedge.
-    for y in range(9, 15):
-        ground.set(0, y, "_" if y == 14 else "m")
-        ground.set(W - 1, y, "_" if y == 14 else "m")
-    for y in range(15, 19):
-        ground.set(0, y, "H")
-        ground.set(W - 1, y, "H")
-
     ground.row(19, 0, "-" * W)
     for px in range(0, W, 6):
         ground.set(px, 19, "|")
@@ -226,7 +211,16 @@ def ketelsteeg():
     walkable = {(ketel_steps, 8), (ketel_steps + 1, 8), (home_door + 1, 8),
                 (wash_door, 8), (wash_door + 1, 8),
                 (quay_steps, 19), (quay_steps + 1, 19), (quay_steps + 2, 19)}
-    solid = solid_mask(ground, extra_walkable=walkable)
+    # Both ends of the street. The pavement, the road and the park are laid
+    # with full-width row fills, so column 0 and column W-1 were walkable from
+    # row 9 to row 18 -- twenty tiles of map boundary with nothing behind them.
+    # The camera is clamped to the map and the player never was, so walking
+    # west from the tram stop or east past the arch slid you off the frame.
+    # The tiles stay exactly as they are drawn: the street runs on past the
+    # edge of the screen, as a street does, and the rails run with it so the
+    # tram still crosses the whole map. You simply stop where the camera does.
+    edge = {(x, y) for x in (0, W - 1) for y in range(9, 19)}
+    solid = solid_mask(ground, extra_walkable=walkable, extra_solid=edge)
 
     return {
         "name": "Ketelsteeg",
@@ -495,13 +489,6 @@ def quay():
     for y in range(8, H):
         ground.row(y, 0, ":" * W)
 
-    # The quay's six pavement rows were laid full width, which left twelve
-    # walkable boundary tiles -- the same defect as Ketelsteeg's street ends.
-    # A working quay is bounded by warehouse: the flats stop where the sheds
-    # begin, north and south of the steps.
-    for y in range(1, 7):
-        ground.set(0, y, "_" if y == 6 else "m")
-        ground.set(W - 1, y, "_" if y == 6 else "m")
 
     # Standing water on the flags. The puddle tile has a when_wet animation and
     # has done since M16; it just never ran, because nothing in the game ever
@@ -523,7 +510,10 @@ def quay():
     steps_x = 12
     ground.set(steps_x, 0, "<")
     ground.set(steps_x + 1, 0, "<")
-    solid = solid_mask(ground, extra_walkable={(steps_x, 0), (steps_x + 1, 0)})
+    # The quay's six pavement rows are laid full width too. Same treatment:
+    # the flags carry on past the frame and you stop where the camera stops.
+    solid = solid_mask(ground, extra_walkable={(steps_x, 0), (steps_x + 1, 0)},
+                       extra_solid={(x, y) for x in (0, W - 1) for y in range(1, 7)})
 
     return {
         "name": "The quay",
@@ -1005,13 +995,21 @@ def academy_dorm():
     }
 
 
-def solid_mask(grid, extra_walkable=frozenset()):
+def solid_mask(grid, extra_walkable=frozenset(), extra_solid=frozenset()):
+    """`extra_solid` blocks a tile without changing what it looks like.
+
+    Used at the two open ends of the world. The first attempt walled them with
+    brick, which put a building through the middle of the road and gave the
+    tram something to drive through; the street should simply run out of screen
+    at the point the camera stops following you.
+    """
     rows = []
     for y in range(grid.h):
         line = ""
         for x in range(grid.w):
             ch = grid.rows[y][x]
-            walkable = ch in WALKABLE_OVERRIDE or (x, y) in extra_walkable
+            walkable = (ch in WALKABLE_OVERRIDE or (x, y) in extra_walkable) \
+                and (x, y) not in extra_solid
             line += "0" if walkable else "1"
         rows.append(line)
     return rows

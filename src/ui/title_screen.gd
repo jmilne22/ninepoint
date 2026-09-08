@@ -148,7 +148,7 @@ func _refresh() -> void:
     _hint.visible = not listing
     _cursor.position = Vector2(CARD.position.x + 13,
         CARD.position.y + FIRST_ROW + _index * ROW_STEP + 2)
-    _cursor.visible = _enabled(_index)
+    _cursor.visible = not listing
     for i in _labels.size():
         var enabled := _enabled(i)
         var selected := i == _index
@@ -162,13 +162,9 @@ func _unhandled_input(event: InputEvent) -> void:
     if _busy or _slots.visible:
         return
     if event.is_action_pressed("move_down"):
-        _index = (_index + 1) % ITEMS.size()
-        Audio.play("ui_move")
-        _refresh()
+        _step(1)
     elif event.is_action_pressed("move_up"):
-        _index = (_index - 1 + ITEMS.size()) % ITEMS.size()
-        Audio.play("ui_move")
-        _refresh()
+        _step(-1)
     elif event.is_action_pressed("interact"):
         if not _enabled(_index):
             return
@@ -177,6 +173,24 @@ func _unhandled_input(event: InputEvent) -> void:
     else:
         return
     get_viewport().set_input_as_handled()
+
+
+## The cursor never lands on a row that would do nothing. With no save on disk,
+## Continue and Load Game are greyed out, and stepping onto them and pressing
+## [Space] used to be a key that produced silence -- the menu looked broken
+## rather than answered. New Game and Quit are always enabled, so this always
+## finds a row.
+func _step(by: int) -> void:
+    var next := _index
+    for _i in ITEMS.size():
+        next = (next + by + ITEMS.size()) % ITEMS.size()
+        if _enabled(next):
+            break
+    if next == _index:
+        return
+    _index = next
+    Audio.play("ui_move")
+    _refresh()
 
 
 func _activate() -> void:

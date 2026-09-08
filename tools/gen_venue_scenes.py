@@ -129,46 +129,57 @@ def tram_stop():
 
 
 def shopfront(kind):
-    """A ground floor that looks like a shop.
+    """A ground floor that looks like a shop, set INTO the wall.
 
     Ketelsteeg's ground floor was blank brick with two 10x9 windows a bay, and
-    the laundrette announced itself by having its four full-size washing
-    machines drawn on the outside of its wall with no frame around them. A
-    shopfront is a fascia, a frame, glass, a stall riser and something behind
-    the glass at the size that thing really is.
+    the laundrette announced itself by having its four full-size interior
+    machines drawn on the outside of its brick with no frame around them. The
+    first repair went too far the other way: an opaque 48x28 slab with a
+    coloured bar across the top, pasted over the brick with its own edges
+    showing, which read as a sticker rather than as a building.
+
+    So most of this asset is transparent. What it draws is a hanging board on
+    two brackets, a window opening with a frame and a sill, and nothing else:
+    the wall behind it is the wall, and the shop is cut into it.
     """
-    im=Img(48,28)
-    fascia,glass,name={'wassalon':('teal0','blue0','WASSALON'),
-                       'ketel':('plum0','ink1','DE KETEL'),
-                       'stationer':('wood0','ink1','PAPIER')}[kind]
-    # The fascia carries the name, so it is the full width of the board: an
-    # inset frame cost two pixels and WASSALON is exactly forty-eight wide.
-    im.rect(0,0,48,11,rgb(fascia))
-    im.hline(0,0,48,rgb('ink0'));im.hline(0,10,48,rgb('ink0'))
-    im.hline(0,1,48,rgb('paper2' if kind=='stationer' else 'gold1'))
+    im=Img(48,32)
+    board,glass,name,ink={'wassalon':('teal0','blue0','WASSALON','paper0'),
+                          'ketel':('wood0','ink1','DE KETEL','gold3'),
+                          'stationer':('wood1','ink1','PAPIER','path1')}[kind]
+    # the board, hung off two brackets so it stands away from the brick
+    for x in (7,40):im.rect(x,0,1,3,rgb('ink1'))
+    # Full width: WASSALON is exactly forty-eight pixels of this font, so an
+    # inset frame costs two characters and the name is the whole point.
+    im.rect(0,2,48,11,rgb(board))
+    im.hline(0,2,48,rgb('ink0'));im.hline(0,12,48,rgb('ink0'))
+    im.hline(0,3,48,rgb('gold1' if kind!='stationer' else 'wood2'))
     width=sum(advance(ch) for ch in name)
-    draw_text(im,max(0,(48-width)//2),3,name,
-              rgb('path1' if kind=='stationer' else 'paper0'),1)
-    box(im,0,11,48,17,'wood0')                      # the frame
-    box(im,2,13,44,12,glass,'wood1')
-    for x in (16,31):im.vline(x,13,12,rgb('wood1'))  # mullions
+    draw_text(im,max(0,(48-width)//2),5,name,rgb(ink),1)
+
+    # the window: an opening in the wall, not a panel on it
+    im.rect(3,16,42,14,rgb('wood0'))
+    im.rect(5,18,38,11,rgb(glass))
+    for x in (17,30):im.vline(x,18,11,rgb('wood0'))
     if kind=='wassalon':
-        for x in (5,20,35):
-            box(im,x,15,9,9,'paper1');im.disc(x+4,20,3,rgb('blue1'))
-            im.disc(x+4,20,2,rgb('paper0'))
-        im.rect(3,13,2,3,rgb('blue3'))              # a sheen on the glass
+        for x in (7,20,33):
+            im.rect(x,20,9,8,rgb('paper1'));im.disc(x+4,24,3,rgb('blue1'))
+            im.disc(x+4,24,2,rgb('paper0'))
+        im.rect(6,18,2,4,rgb('blue3'))            # a streak of daylight
     elif kind=='ketel':
-        im.rect(3,14,42,10,rgb('gold0'))            # lit, from three steps down
-        im.rect(6,17,10,6,rgb('gold2'));im.rect(9,15,4,2,rgb('gold2'))
-        for x in (22,27):im.rect(x,19,3,4,rgb('gold3'))
-        im.rect(34,16,9,7,rgb('board1'))
-        for i in range(1,7,2):im.vline(34+i,16,7,rgb('line'))
+        # Three steps below the pavement: what reaches the street is the light.
+        im.rect(5,24,38,5,rgb('gold1'))
+        im.rect(5,22,38,2,rgb('gold0'))
+        im.rect(8,20,6,8,rgb('wood0'))            # somebody at the near table
+        im.rect(9,18,4,3,rgb('wood0'))
+        for x in (21,25):im.rect(x,25,2,4,rgb('gold3'))   # two cups on the sill
+        im.rect(33,21,8,7,rgb('board1'))          # and a board, always
+        for i in (2,4,6):im.vline(33+i,21,7,rgb('line'))
+        for i in (2,4):im.hline(33,21+i*2,8,rgb('line'))
     else:
-        for y in range(14,24,2):im.hline(3,y,42,rgb('ink2'))   # the shutter, down
-        im.rect(6,16,9,6,rgb('paper2'));im.hline(8,18,5,rgb('path0'))
-        im.rect(30,17,8,5,rgb('path0'))
-    im.rect(0,25,48,3,rgb('paper2'))                # the stall riser
-    im.hline(0,27,48,rgb('ink1'))
+        for y in range(19,29,2):im.hline(6,y,36,rgb('ink2'))   # the shutter, down
+        im.rect(8,21,8,5,rgb('paper2'));im.hline(10,23,4,rgb('path0'))
+    im.rect(2,30,44,2,rgb('paper2'))              # the stone sill
+    im.hline(2,31,44,rgb('ink2'))
     return im
 
 

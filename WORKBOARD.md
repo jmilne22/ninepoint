@@ -88,6 +88,11 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
   rank, progression or dialogue-content change.
 - Acceptance: played routes with opened screenshots for every item, all eleven maps
   validating, and the normal compile/load, rules, content and engine gates.
+- Owner review found four more, all fixed and replayed: the title cursor landed on
+  greyed-out rows; the cold open was a flat black rectangle; walling the street ends put a
+  building across the road for the tram to drive through (`solid_mask` grew `extra_solid`,
+  and nothing is drawn at the boundary now); and the shopfronts were opaque slabs laid over
+  the brick rather than openings cut into it.
 - Verified: `tools/test.sh` **16,863 passed, 0 failed**, **279 files load** (M45: 16,730
   and 277). All three KataGo gates passed; lesson validator zero problems; all twelve
   generated maps validate under the two new rules. `polish_edges`, `polish_thresholds`,

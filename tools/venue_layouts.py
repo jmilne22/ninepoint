@@ -18,13 +18,15 @@ def dress(name, data):
         # Dov needs no far seat: Moss is already sitting in it, which is the
         # whole point of that board.
     elif name=='ketelsteeg':
-        art('kettle_sign',176,64)
+        # Beside the steps, not over the window: the shopfront takes the two
+        # lower wall rows now, and a sign hung above it landed on the roof.
+        art('kettle_sign',240,72)
         # The laundrette's interior machine bank used to be painted straight
         # onto its outside brick, unframed, at four times life size. The three
         # ground floors are shopfronts now: fascia, glass, stall riser.
-        art('shopfront_stationer',96,100)
-        art('shopfront_ketel',160,100)
-        art('shopfront_wassalon',304,100)
+        art('shopfront_stationer',96,96)
+        art('shopfront_ketel',160,96)
+        art('shopfront_wassalon',304,96)
         art('tram_stop',16,112)
     elif name=='de_ketel':
         for y in range(6,10):

@@ -214,10 +214,17 @@ art -- stacked circles read as a potato), `crowd.png`.
 
 - Panels: `paper0` fill, `ink1` 1px border, `ink2` 1px drop shadow, 4px corner cut (no rounding).
 - Dialogue box: bottom-anchored, 64×64 portrait at left, name plate above the frame in `gold2`.
+- **The cold open** has its own backdrop, `art/title/opening.png`: the same dusk as the
+  title card with rain falling through it, deliberately carrying no subject, because the
+  portrait, the board and the dialogue panel are all drawn over it. It replaced a flat
+  `ink0` rectangle. The portrait gets a gold frame and the board a drop shadow for the same
+  reason — on a dim ground, an unframed 64×64 bust and a flat honey slab read as stickers.
 - **Title screen:** the illustration on the right, a dark card down the left at
   `Rect2(12, 10, 142, 186)` holding, in order, the name at size **18**, a hairline, the
   subtitle, the four menu rows at a 16px step with a drawn 3×5 gold cursor, a second
-  hairline and the save summary; the controls hint sits on the artwork under the card.
+  hairline, the save summary and the controls hint. The cursor never lands on a row that
+  would do nothing: with no save on disk, Continue and Load Game are greyed and stepping
+  skips them.
   Nothing on it uses a font size that is not a multiple of 9 — the name was set at 21 for
   the life of the project, which scaled the largest piece of type in the game by a
   seventh. Type that sits on artwork uses `UiKit.shadow_label`.
@@ -315,11 +322,21 @@ fixtures (rafters, shop windows, hanging signs) have no `base` and stay behind e
 A board table is solid for its whole drawn depth, so the far chair is a chair and not the
 tabletop.
 
-**Ketelsteeg's ground floor is shopfronts.** Fascia, timber frame with mullions, glass and
-a stone stall riser, one per building, with what is behind the glass drawn at the size it
-really is. The laundrette used to announce itself by having its four full-size interior
-machines painted on the outside of its brick with no frame around them. The Tram 4 stop is
-a shelter with the route board on its roof, over a poured boarding slab.
+**Ketelsteeg's ground floor is shopfronts, and they are cut INTO the wall.** A hanging
+board on two brackets, a window opening with a frame and a stone sill, and nothing else:
+most of each asset is transparent, so the brick behind it is the brick and the shop is part
+of the building. The first attempt was an opaque slab with a coloured bar across the top,
+pasted over the wall with its own edges showing, and it read as a sticker. What is behind
+the glass is drawn at the size that thing really is — three small machines at the
+laundrette, warm light up out of a basement at De Ketel, a shutter down at the stationer's.
+The Tram 4 stop is a shelter with the route board on its roof, over a poured boarding slab.
+
+**The town does not end in a wall.** Ketelsteeg's pavement, road, rails and park all run
+straight off both sides of the map, and the quay's flags run off both ends, because that is
+what a street does. What stops the player is the boundary itself, at exactly the column
+where the camera stops following: the tiles are unchanged and nothing is drawn there. The
+first attempt built a brick return wall across each end, which put a building through the
+middle of the road and gave the tram something to drive through.
 `gen_arrivals.py` draws the destination views. Grass, brick, water and floor patterns are
 restrained so people, doors and boards carry more contrast. Wear belongs near chairs,
 thresholds and working surfaces.

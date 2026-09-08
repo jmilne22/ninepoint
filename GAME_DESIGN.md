@@ -405,8 +405,8 @@ short enough to read on a dialogue box in three breaths.
 A place the player cannot read is a place they get lost in, and none of it is dialogue.
 Four rules, all of them levels and art rather than systems:
 
-- **The map boundary is a wall unless it is a door.** Verhaven is a compact walkable town;
-  its streets end where the next district begins, and you should be able to see that they do.
+- **The map boundary is closed unless it is a door** — but nothing is built there. A street
+  runs on past the edge of the frame, as a street does; you stop where the camera stops.
 - **Every threshold is drawn.** A door has a frame and daylight under it, a mat inside it,
   and a line at the bottom of the screen naming where it goes. A tram stop has a shelter
   and a boarding slab. The steps to the water have a path worn to them.

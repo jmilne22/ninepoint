@@ -15,6 +15,7 @@ const MAX_NAME := 10
 
 var _board: Control
 var _portrait: TextureRect
+var _portrait_frame: Control
 var _text: Label
 var _more: Label
 var _field: LineEdit
@@ -33,14 +34,44 @@ func _ready() -> void:
 
 
 func _build() -> void:
+    # The first screen of the game was a flat #14121a rectangle with a portrait
+    # and a board floating on it, which reads as a screen that has not finished
+    # loading. It is the same dusk as the title card, thirty seconds later and
+    # with the rain in it, and it carries no subject of its own: everything on
+    # this screen is drawn over it.
     var bg := ColorRect.new()
     bg.color = Color("#14121a")
     bg.set_anchors_preset(Control.PRESET_FULL_RECT)
     add_child(bg)
 
+    const BACKDROP := "res://art/title/opening.png"
+    if ResourceLoader.exists(BACKDROP):
+        var art := TextureRect.new()
+        art.texture = load(BACKDROP)
+        art.set_anchors_preset(Control.PRESET_FULL_RECT)
+        art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+        art.stretch_mode = TextureRect.STRETCH_SCALE
+        art.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+        add_child(art)
+
     # An empty board, lit from nowhere. It is the only thing on screen at first.
     _board = _draw_board()
     add_child(_board)
+
+    # A frame, for the same reason the board gets a shadow: a 64x64 bust with
+    # its own pale background, dropped straight onto the sky, is a sticker.
+    _portrait_frame = Control.new()
+    _portrait_frame.position = Vector2(22, 32)
+    _portrait_frame.modulate.a = 0.0
+    add_child(_portrait_frame)
+    for spec in [[Vector2(3, 3), Vector2(68, 68), Color(0.08, 0.07, 0.10, 0.55)],
+            [Vector2(0, 0), Vector2(68, 68), Color("#2a2633")],
+            [Vector2(1, 1), Vector2(66, 66), Color("#8a6023")]]:
+        var piece := ColorRect.new()
+        piece.position = spec[0]
+        piece.size = spec[1]
+        piece.color = spec[2]
+        _portrait_frame.add_child(piece)
 
     _portrait = TextureRect.new()
     _portrait.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -92,11 +123,24 @@ func _draw_board() -> Control:
     var holder := Control.new()
     holder.position = Vector2(232, 26)
     holder.size = Vector2(128, 100)
+    # A shadow first, so the board sits on the evening rather than in front of
+    # it. It is the one saturated object in the game (ART_DIRECTION 1) and on a
+    # dim backdrop that made it read as a rectangle pasted on.
+    var shade := ColorRect.new()
+    shade.color = Color(0.08, 0.07, 0.10, 0.55)
+    shade.size = Vector2(112, 112)
+    shade.position = Vector2(11, 3)
+    holder.add_child(shade)
     var slab := ColorRect.new()
     slab.color = Color("#d9ac66")
     slab.size = Vector2(112, 112)
     slab.position = Vector2(8, 0)
     holder.add_child(slab)
+    var rim := ColorRect.new()
+    rim.color = Color("#a97b3c")
+    rim.size = Vector2(112, 2)
+    rim.position = Vector2(8, 110)
+    holder.add_child(rim)
     for i in 9:
         var h := ColorRect.new()
         h.color = Color("#3a2a18")
@@ -118,6 +162,7 @@ func _run() -> void:
     tw.tween_property(_board, "modulate:a", 1.0, 1.1)
     tw.tween_interval(0.3)
     tw.parallel().tween_property(_portrait, "modulate:a", 1.0, 0.7)
+    tw.parallel().tween_property(_portrait_frame, "modulate:a", 1.0, 0.7)
     await tw.finished
 
     for i in LINES.size():

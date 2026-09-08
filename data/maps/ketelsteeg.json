@@ -102,16 +102,16 @@
   "xmmmmmmmmxmmmmmmmmxmmmmmmmmxm&mmmm",
   "xm0m6mm0mxm0mSmm0mxm0mmmm98xmm()mm",
   "x___5D___7___<<___7___FF___7__77__",
-  "mlPPPPnPyPPPpPPPPPPPoPPPPPLPPPPPPm",
-  "m///PPPPPPPPPPPPPPPPPPPPPPPPPPPPPm",
-  "maaaaaqaaaaaaaaaaaaaaaaaaaaaaaaaam",
-  "m================================m",
-  "maaaaaaaaaaaaaaazaaaaaaaqaaaaaaaam",
-  "_KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK_",
-  "HghjTthgjgghTtjrrrjgghjggTtgjhggjH",
-  "HhgjUuhjggjhUuhrrrshggjhgUuggjeggH",
-  "HjeggjggbgjgghjrrrhggbgjgghggjhggH",
-  "HggjgghjgghgggjrrrjLghjgghjggjhggH",
+  "PlPPPPnPyPPPpPPPPPPPoPPPPPLPPPPPPP",
+  "P///PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+  "aaaaaaqaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "==================================",
+  "aaaaaaaaaaaaaaaazaaaaaaaqaaaaaaaaa",
+  "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK",
+  "gghjTthgjgghTtjrrrjgghjggTtgjhggjg",
+  "ghgjUuhjggjhUuhrrrshggjhgUuggjeggg",
+  "gjeggjggbgjgghjrrrhggbgjgghggjhggg",
+  "hggjgghjgghgggjrrrjLghjgghjggjhggg",
   "|-----|-----|--<<<|-----|-----|---"
  ],
  "decor": [
@@ -430,29 +430,29 @@
   {
    "art": "kettle_sign",
    "position": [
-    176,
-    64
+    240,
+    72
    ]
   },
   {
    "art": "shopfront_stationer",
    "position": [
     96,
-    100
+    96
    ]
   },
   {
    "art": "shopfront_ketel",
    "position": [
     160,
-    100
+    96
    ]
   },
   {
    "art": "shopfront_wassalon",
    "position": [
     304,
-    100
+    96
    ]
   },
   {

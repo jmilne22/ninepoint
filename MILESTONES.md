@@ -3126,10 +3126,14 @@ warp behind them and the quay twelve, because both maps are laid with full-width
 only for solid tiles *inside* the grid, and `Player` has no position clamp: three places
 this could have been caught, none of which looked. The camera is clamped to the map and the
 player never was, so walking west from the tram stop or east past the arch slid you off the
-frame into a hundred and ninety-two pixels of backdrop. Both ends of the street close on
-brick, the park on hedge and the quay on warehouse flank, and `validate()` now fails the
-build on any walkable map-edge tile that is not a door. The passers-by, who used to walk on
-from off the map, come out of the three alley mouths between the buildings instead.
+frame into a hundred and ninety-two pixels of backdrop. `validate()` now fails the build on
+any walkable map-edge tile that is not a door, and `solid_mask` grew `extra_solid` to close
+one without drawing anything: the pavement, the road, the rails and the park run straight
+off both sides as they always did, and the boundary column is simply not walkable, so you
+stop where the camera stops. The first attempt walled both ends in brick, which put a
+building through the middle of the road and gave the tram something to drive through — the
+owner said so on sight. The passers-by, who used to walk on from off the map, come out of
+the three alley mouths between the buildings instead.
 
 **Doorways announced nothing.** Every warp has carried a `prompt` — "De Ketel", "Down to
 the water" — since the maps were first generated, and `build_warps` discarded it. A warp
@@ -3151,8 +3155,10 @@ keep their size; what is on them does not.
 
 **Storefronts.** The laundrette announced itself by having its four full-size interior
 machines painted on the outside of its brick with no frame around them. Three generated
-shopfronts: fascia, timber frame, glass, stall riser, and what is behind the glass drawn at
-the size it really is.
+shopfronts, cut *into* the wall rather than laid over it: a hanging board on two brackets,
+a window opening with a frame and a stone sill, and everything else transparent, so the
+brick behind is the brick. The first version was an opaque slab with a coloured bar across
+the top and its own edges showing, which the owner called sloppy and was.
 
 **People drew in front of the furniture they were sitting at,** because `VenueProps` added
 every prop with no `z_index`, parented before `Entities` existed. Furniture that stands on
@@ -3179,6 +3185,13 @@ drew still holds: reactions are to outcomes, never to whether the move was a goo
 It is 18 now, on a measured card with a drawn cursor, the save summary inside the frame
 rather than over the skyline (a known issue since M31), a controls hint and a fade-in that
 is skipped under the autopilot so the hundred fixture scripts still land their first key.
+The cursor also skips the rows it cannot use: with no save on disk, Continue and Load Game
+grey out, and stepping onto one and pressing [Space] used to be a key that produced silence.
+
+**The cold open was a flat `#14121a` rectangle** with a portrait and a board floating on it
+— the first screen of the game, reading as one that had not finished loading. It has the
+same dusk as the title card with rain falling through it (`art/title/opening.png`), and the
+portrait and board have a frame and a shadow so they sit on it rather than over it.
 
 **Done when:** `tools/test.sh` reported **16,863 passed, 0 failed** and **279 files all
 load**, against M45's **16,730** and **277**: **133** additional checks and **2** loaded
@@ -3196,7 +3209,9 @@ found by looking at the frames, and the limits of the expression evidence are in
 
 | Before | After / boundary |
 |---|---|
-| Ketelsteeg and the quay walkable off the map edge | Both close on scenery; `validate()` fails the build on an open boundary |
+| Ketelsteeg and the quay walkable off the map edge | The tiles run on off the frame; the boundary column is not walkable, and `validate()` fails the build on an open one |
+| The cold open on flat `#14121a` | The title card's dusk, with rain; the portrait framed and the board shadowed |
+| The cursor sitting on a greyed-out menu row | It steps over the rows that would do nothing |
 | A warp's `prompt` generated and discarded | A `Doorway` interactable names the destination and [Space] uses it |
 | One floor mat in the game, beside its own door | A mat inside every interior exit, derived from the warps |
 | A goban one and a half times a person's width | A goban a person's width; the table it sits on unchanged |
