@@ -1,5 +1,5 @@
 """Original coastal buildings: silhouettes and sheltered thresholds, not photo filters."""
-from png import Img
+from png import Img, Rand
 from coastal_palette import color as c
 from palette import rgb
 from pixel_art import panel, polygon, ellipse
@@ -15,10 +15,12 @@ def label(im,x,y,text,color='deep'):
 
 
 def plant(im,x,y,large=False):
+    # Low strap leaves belong to a visible pot, rather than a miniature tree.
+    reach=10 if large else 7
     im.rect(x-5,y+3,11,8,c('coral'));im.hline(x-6,y+2,13,c('coral_light'))
-    for dx,dy,r in ((-4,0,5),(3,-3,6),(0,-7,5)):
-        im.disc(x+dx,y+dy,r+(2 if large else 0),c('leaf_dark'))
-        im.disc(x+dx-1,y+dy-2,r-2,c('leaf'))
+    for dx,dy in ((-reach,-3),(-4,-8),(1,-10),(5,-7),(reach,-2)):
+        polygon(im,[(x,y+3),(x+dx,y+dy),(x+dx+2,y+dy+1),(x+2,y+3)],'sela_leaf_dark')
+        polygon(im,[(x,y+2),(x+dx,y+dy),(x+dx+1,y+dy+2)],'sela_leaf')
 
 
 def window(im,x,y,w,h,shutters=True):
@@ -51,7 +53,6 @@ def facade(kind):
         im.rect(x0+6,yy+16,103,9,c('plaster'))
         im.hline(x0+6,yy+16,103,c('light'))
         im.hline(x0+8,yy+25,101,c('stone'))
-        plant(im,x0+94,yy+14)
     # Street level stays at the common door row, irrespective of roof height.
     color='coral' if kind=='bar' else 'teal'
     im.rect(x0+5,101,104,23,c('deep'))
@@ -75,7 +76,6 @@ def facade(kind):
     # Local repairs and a drain pipe belong to one facade, never a tile grid.
     im.rect(x0+112,78,3,46,c('stone'))
     im.rect(x0+1,84,5,9,c('coral_light'))
-    plant(im,x0+110,122)
     return im
 
 
@@ -90,7 +90,7 @@ def roof_room():
         for y in range(5,30,4):im.hline(x,y,9,c('deep'))
     im.rect(36,32,121,4,c('light'));im.hline(36,36,121,c('stone'))
     for x in (39,90,147):im.vline(x,23,9,c('stone'))
-    plant(im,18,29,True);plant(im,172,25)
+    plant(im,18,37,True);plant(im,172,37)
     return im
 
 
@@ -104,7 +104,6 @@ def arcade():
     for x in (8,94):
         im.rect(x,46,10,42,c('plaster'));im.hline(x-2,46,14,c('light'))
         im.rect(x,81,10,7,c('stone'))
-    plant(im,8,28)
     return im
 
 
@@ -148,16 +147,43 @@ def garden():
 
 
 def tree(frame=0):
+    """Boulevard ficus: branching pale wood under a broad, uneven crown."""
     im=Img(64,56)
-    im.rect(27,27,8,27,c('wood'))
-    polygon(im,[(28,35),(18,20),(22,18),(32,31),(44,17),(47,20),(34,38)],'sela_wood')
-    for x,y,rx,ry in ((1,12,30,24),(23,3,36,31),(9,1,35,28),(32,18,31,22)):
-        ellipse(im,x,y,rx,ry,'sela_leaf_dark')
-        ellipse(im,x+2,y+1,rx-6,ry-7,'sela_leaf')
-        ellipse(im,x+5,y+2,rx-15,ry-14,'sela_leaf_light')
-    im.hline(25,54,13,c('deep'))
-    for x,y in ((4,24),(56,26),(15,9),(45,13)):
-        im.hline(x+(1 if frame==1 else 0),y,3,c('leaf_light'))
+    bark,lit,crease=map(rgb,('#a4a596','#d1cdba','#737d71'))
+    dark,leaf,light=map(rgb,('#293f35','#416149','#65805a'))
+    # The roots stay inside the existing 16x16 collision foot.
+    polygon(im,[(24,55),(27,48),(28,34),(22,28),(15,21),(18,20),
+                (29,29),(31,18),(34,18),(34,31),(44,22),(48,20),
+                (45,26),(35,37),(35,48),(39,55)],bark)
+    polygon(im,[(25,54),(29,47),(30,34),(21,25),(18,22),(23,25),
+                (32,32),(33,23),(34,35),(32,49),(32,54)],lit)
+    im.vline(34,39,11,crease);im.vline(29,42,7,bark)
+    polygon(im,[(33,52),(37,55),(34,55)],crease)
+    crown=Img(64,56)
+    polygon(crown,[(3,15),(6,14),(5,10),(11,9),(12,6),(20,6),
+        (23,2),(30,3),(34,1),(40,4),(46,3),(48,7),(54,9),(53,12),
+        (60,15),(61,21),(58,23),(62,26),(59,31),(54,33),(48,32),
+        (45,35),(38,33),(33,35),(28,32),(22,35),(18,32),(11,32),
+        (8,29),(3,28),(4,24),(1,21)],dark)
+    for points in [ [(6,15),(14,9),(24,10),(28,17),(20,23),(8,22)],
+                    [(19,9),(24,4),(34,5),(41,10),(36,18),(28,16)],
+                    [(38,8),(46,6),(51,12),(57,17),(52,24),(42,22)],
+                    [(17,23),(24,19),(33,21),(37,27),(29,31),(19,30)] ]:
+        polygon(crown,points,leaf)
+    # Small connected leaf clusters break the mass, without rings or oval blobs.
+    rng=Rand(509)
+    for i in range(85):
+        x=rng.rng(4,57);y=rng.rng(5,30)
+        shade=light if y<18 and x<48 else leaf
+        if all(crown.get(xx,yy)[3] for xx,yy in ((x,y),(x+2,y),(x,y+1))):
+            crown.hline(x,y,2+(i%2),shade)
+            if i%3==0:crown.hline(x+1,y+1,2,shade)
+    # The lowest leaves leave narrow gaps where the fork enters the crown.
+    for x,y in ((20,29),(32,29),(43,27)):
+        crown.rect(x,y,2,3,(0,0,0,0))
+    for x,y in ((5,17),(55,23),(17,8)):
+        crown.hline(x+(1 if frame==1 else 0),y,3,light)
+    im.blit(crown,0,0)
     return im
 
 

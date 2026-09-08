@@ -15,7 +15,7 @@ pipeline is an intentional part of Ninepoint's visual identity.
 ## 1. Visual identity in one paragraph
 
 Sela is a warm, worn, leafy fictional coastal city. Pale plaster, deep teal shutters,
-recessed balconies and flat planted roofs face a street of small working shops. The
+recessed balconies and clear flat roofs face a street of small working shops. The
 boulevard garden gathers people under trees; broad steps and a pergola open onto the sea.
 The bar stays intimate, the institute is a welcoming modernist building, and Assembly
 Hall has a civic scale. One mild afternoon, with no clock or weather simulation.
@@ -24,6 +24,11 @@ Draw at the existing 16×16 grid and 384×216 viewport. Use broad pixel clusters
 silhouettes and one upper-left light direction. More color is permitted in the town:
 boards attract attention through contrast, quiet surrounding surfaces and a clear approach.
 Keep all existing character, portrait, expression and activity pixels exactly unchanged.
+
+Street trees take their form from Tel Aviv boulevard ficus: pale branching trunks,
+broad irregular dark-green crowns and small connected leaf clusters. Keep trunks
+rooted in garden beds or pavement; no canopies, miniature trees or pots on façades,
+arches or the title skyline. Interior and entrance pots use low strap-shaped leaves.
 
 ## 1b. Coastal environment recipes
 

@@ -2,7 +2,7 @@
 
 A top-down 2D RPG about learning to play **Go (baduk)**, built in Godot 4.7.
 
-You have just moved to **Sela**, a fictional coastal city of pale balconies, shady trees,
+You have just moved to **Sela**, a fictional coastal city of pale balconies, shady ficus trees,
 and little tables outside shops. Your room is above a closed stationer's on Market Lane.
 Pip plays in the boulevard garden, Wren welcomes beginners at The Kettle, and Tram 4
 connects the neighborhood to the institute and the Beginner Cup at Assembly Hall.

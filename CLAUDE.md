@@ -246,7 +246,7 @@ prompt and mat, the steps to the water), `polish_street` (the three shopfronts a
 rescaled furniture), `polish_across_board` (sitting down opposite Bertie, Wren and Kesh)
 and `polish_faces` (a whole game, watching the opponent's expression rather than her lines).
 
-Art routes: `art_tram` (white articulated tram passing and boarding both destinations), `art_tour` (all twelve maps, washer frames, park and novice aisle),
+Art routes: `art_ficus` (grounded ficus, clear façades/title roofs and arrivals), `art_tram` (white articulated tram passing and boarding both destinations), `art_tour` (all twelve maps, washer frames, park and novice aisle),
 `art_materials` (quay variants), `art_people` (working pose, far-seat sorting, conversation),
 `portrait_sprites` (ART-06's six preview people, running, conversation and activity return),
 `art_arrivals` (both tram illustrations and federation furniture), and `art_cleanup`
@@ -646,6 +646,8 @@ Use `coastal_palette.py`, `coastal_tiles.py`, `coastal_architecture.py`,
 `coastal_layouts.py`, `coastal_views.py` and `coastal_audio.py` for the coastal setting.
 Edit generators, never generated maps/images. All 73 character PNGs are protected by
 `tests/sela_characters.sha256.json`; shared character palettes must not change.
+Street trees use the boulevard ficus silhouette; keep trees off roofs, façades and arches.
+Small pots use low foliage, with a visible supporting floor or ledge.
 
 Saves carry `world_layout_revision`. Missing/older values clear only exact return coordinates
 on load, retaining the internal map and named spawn plus all progress. New saves preserve

@@ -59,6 +59,9 @@ save slots were not used. The runner's exclusive lock kept gameplay runs sequent
 Nine final routes produced 273 captures. The table identifies what was inspected; not every
 intermediate lesson frame was individually opened. No final route logged an unreachable tile.
 
+The initial city sheet below predates the SELA-05 planting correction; current tree and
+roofline screenshots are in the follow-up at the end of this report.
+
 ![All twelve venues at native scale](city-sheet.png)
 
 ![Sea Walk arrival with the shelter clear of the steps](screenshots/loop-03_sea_walk.png)
@@ -112,3 +115,35 @@ Reproduce with an isolated `XDG_DATA_HOME` and
 ![White articulated tram in Market Lane](screenshots/tram-west.png)
 
 ![Tram stopped at the existing platform](screenshots/tram-at-stop.png)
+
+
+## Boulevard ficus — SELA-05 follow-up
+
+The owner found the round trees unconvincing and the building/title plants misplaced.
+The replacement uses a pale forked trunk and an irregular dark crown, based on an
+inspected Rothschild Boulevard ficus photograph. Balcony, façade, arch and title-roof
+plants were removed; remaining pots have low strap leaves. The indoor pots were lowered
+to meet the floor after visual inspection. [References and rationale](DESIGN.md#tree-correction--sela-05).
+
+The final `art_ficus` route completed 20 captures at exit 0, with no script errors or
+unreachable tiles. Opened garden, façade, title, room and both arrival frames. The route
+walks through the garden to the Sea Walk and boards both real tram trips; room setup
+uses a direct visit. `opening` completed eight captures; Hana's cold open and the room
+were inspected. That earlier run logged a resource-still-in-use warning on shutdown;
+the final `art_ficus` run did not. No gameplay failure was observed.
+
+The normal gate passed 16,904 Godot checks, 13 Python art tests, 283 resource loads and
+all three KataGo gates, unchanged from SELA-04. After the final indoor-pot adjustment,
+environment/title assets were rebuilt and imported, `art_ficus` was replayed, and all
+13 art tests passed again, including deterministic regeneration and the 73 protected
+character/portrait hashes. Existing footprints, navigation and tram assets are unchanged.
+
+![Ficus rooted in the boulevard garden](screenshots/ficus-garden.png)
+
+![Clear shopfronts](screenshots/clear-facades.png)
+
+![Clear title roofline](screenshots/clear-title.png)
+
+![Institute arrival with grounded ficus](screenshots/ficus-institute.png)
+
+![Room pots meet the floor](screenshots/low-room-plants.png)

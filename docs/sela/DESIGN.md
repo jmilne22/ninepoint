@@ -12,7 +12,7 @@ none is incorporated into the game or redistributed in this repository.
 | Reference | Useful visual information | Translation into the game |
 |---|---|---|
 | [Rothschild coffee kiosk, Time Out](https://www.timeout.com/israel/restaurants/rothschild-coffee-kiosk) — [2048×1536 photo](https://media.timeout.com/images/103613109/image.jpg) | Small kiosk within a planted, inhabited boulevard | Garden tables, tree shade and a modest awning kiosk beside the walking route |
-| [Liebling House, Greyscape](https://www.greyscape.com/liebling-haus-tel-aviv/) — [1000×667 photo](https://www.greyscape.com/wp-content/uploads/2020/01/Liebling-House-Image-via-Sharon-Golan-Yaron-.jpg) | Pale plaster, deep horizontal balconies and shutters | Broad facade shapes, recessed teal shutters, planted balconies and institute windows |
+| [Liebling House, Greyscape](https://www.greyscape.com/liebling-haus-tel-aviv/) — [1000×667 photo](https://www.greyscape.com/wp-content/uploads/2020/01/Liebling-House-Image-via-Sharon-Golan-Yaron-.jpg) | Pale plaster, deep horizontal balconies and shutters | Broad facade shapes, recessed balconies, teal shutters and institute windows |
 | [Levinsky street, Time Out](https://timeout.co.il/לוינסקי-ב/) — [2000×1125 photo](https://medias.timeout.co.il/www/uploads/2022/10/Levinski01-2000x1125.jpg) | Close shopfronts, awnings and ordinary street activity | Three recognizable neighborhood thresholds and warm, slightly mismatched finishes |
 | [Central Beach Promenade, Mayslits Kassif Roytman](https://mkarchitects.com/tel-avivs-central-beach-promenade-2/) — [1920×1080 photo](https://mkarchitects.com/wp-content/uploads/2019/08/026.jpg) | An open sea edge with places to sit and pause | A quiet Sea Walk, shaded bench and a return through the Arcade |
 
@@ -77,3 +77,24 @@ reviewing Sela. Tram 4 now adopts its long, low body, dark glazing, rounded cabs
 joints and roof equipment in original Python pixel art. The sprite grows from 96×36 to
 160×36 while the stop, timetable-free service and destination choices remain the same.
 The photograph is a reference only and is not included as a game asset.
+
+
+## Tree correction — SELA-05
+
+The first trees used overlapping shaded ovals. Reusing tree-shaped potted plants on
+balconies and the arch made them look suspended; the title's tree was actually placed
+above a roof. Those were composition mistakes, not a feature of the intended city.
+
+The replacement follows the boulevard ficus: a pale branching trunk, a broad uneven
+crown and dense dark leaves. [Visit Tel Aviv identifies the ficus trees on Rothschild](https://www.visit-tel-aviv.com/en/rothschild-blvd/).
+[Sambach's Rothschild photograph](https://commons.wikimedia.org/wiki/File:Ficus_in_Rothschild_Boulevard.JPG)
+was opened and visually inspected for the trunk, branch forks and canopy silhouette.
+[Tel Aviv University's Ficus Avenue](https://en-lifesci.tau.ac.il/botanical/garden/ficus)
+provides local botanical context. The art is a stylized boulevard ficus, not a botanical
+identification of the photograph to species. No reference photograph is incorporated
+into the generated sprite.
+
+Trees remain grounded in the boulevard garden and the arrival-view pavement. Roof,
+balcony, façade and arch greenery is removed. Remaining room/entrance pots have short
+strap-shaped foliage. The existing trunk footprints, walking routes, cast, portraits,
+tram and Go behavior are preserved.

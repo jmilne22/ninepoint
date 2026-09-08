@@ -83,6 +83,23 @@ by this explicitly approved layout redesign; Go and progression rules remain pro
   passing frames in both directions, the stopping position and both arrival views.
   All 16,904 Godot checks, 13 art tests, 283 file loads and three engine gates passed.
 
+### SELA-05 — Boulevard ficus and grounded planting
+
+- Status: `SHIPPED` (verified locally) · Priority: `P2` · Owner: Codex · Branch: `codex/sela-coastal-redesign`.
+- Approved: replace the rounded trees with Tel Aviv tree references and remove tree-like
+  planting on buildings/title roofs. Continue reviewed `947522b`; fresh origin/main is
+  still the underlying `d64ab5f`, with the approved Sela/tram work retained.
+- Scope: pale branching ficus trunks, irregular dark crowns, clearer low potted plants;
+  remove roof, balcony and arch plants that appear suspended. Keep tree footprints,
+  navigation, portraits and characters fixed.
+- Acceptance: reference inspected, deterministic rebuild, garden/title/facade/arrival
+  screenshots opened, route approaches preserved and normal gate passes.
+
+- Evidence: `art_ficus` completed 20 captures; garden, clear façades/title, room pots
+  and both tram arrivals opened. `opening` completed eight captures; cold open inspected.
+  16,904 checks, 13 art tests, 283 loads and all three KataGo gates pass; all 73 character
+  hashes unchanged. Final pot alignment rebuilt, imported, replayed and art-tested.
+
 ## Portrait-led sprite preview
 
 ### ART-06 — Six rounded, portrait-led characters

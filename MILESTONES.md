@@ -3358,3 +3358,13 @@ runtime width follows the new asset, with the middle door centred at the existin
 the stopping position and both destination illustrations were opened. The gate retained
 M48's 16,904 checks, 13 art tests, 283 loads and all three real-engine passes. No character,
 route, boarding timing or Go changes. [Tram evidence](docs/sela/PLAYTEST.md#white-articulated-tram--sela-04-follow-up).
+
+
+**Owner tree follow-up (SELA-05):** replaced stacked oval crowns with original Python
+boulevard ficus art: pale branching trunks, irregular dark crowns and local leaf motion.
+Removed tree-like pots from façades/balconies/arches and all title-roof greenery; lowered
+short-leaf room pots to the floor. Existing tree footprints and all 73 cast images remain
+unchanged. `art_ficus` completed 20 captures; garden, façade, title, room and both arrivals
+were opened. The cold opening was inspected separately. M48's 16,904 checks, 13 art tests,
+283 loads and three engine gates pass; final pot alignment was rebuilt, imported,
+replayed and art-tested. [Evidence and limits](docs/sela/PLAYTEST.md#boulevard-ficus--sela-05-follow-up).

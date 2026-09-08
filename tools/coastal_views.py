@@ -11,17 +11,15 @@ def title(quiet=False):
     im.rect(0,83,384,72,c('sea'))
     for x,y,w in ((20,102,33),(149,91,46),(286,110,40),(91,129,30)):
         im.hline(x,y,w,c('sea_light'))
-    # A low inhabited skyline, with roofs used as terraces rather than chimneys.
+    # A clear roofline keeps the skyline separate from ground-level planting.
     for x,y,w,h in ((9,44,45,100),(59,60,63,91),(300,45,60,109),(353,70,31,84)):
         im.rect(x,y,w,h,c('stone' if quiet else 'plaster'))
         im.rect(x-2,y,w+4,4,c('light'))
         for yy in range(y+15,y+h-12,24):
             im.rect(x+6,yy,w-13,11,c('shadow'))
             im.hline(x+4,yy+11,w-9,c('light'))
-        plant(im,x+18,y-4)
     im.rect(0,154,384,62,c('stone'))
     im.rect(0,147,384,7,c('plaster'));im.hline(0,147,384,c('light'))
-    im.blit(tree(),325,3)
     return im
 
 
