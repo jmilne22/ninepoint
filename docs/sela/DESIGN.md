@@ -123,3 +123,18 @@ The canopy grows to 64×48 while its collision footprint stays unchanged. The ma
 anywhere inside it offers boarding, without aiming at the pole. Facing a nearby person
 or notice still takes priority. The first narrow version failed a turning-at-the-edge
 play check; extending the actual platform provides the space the interaction needs.
+
+
+## Shop lettering — SELA-07
+
+The owner found the bare uppercase LAUNDRY label unattractive and hard to read. Utility
+lettering treated every business as a label stamped onto plaster. Shop names now use
+original mixed-case pixel lettering with taller capitals, heavier stems and open counters.
+This is environment art in `tools/coastal_signage.py`; the established UI font is unchanged.
+
+Laundry gets a teal enamel panel and wash symbol; The Kettle has a warm brown framed sign
+with cream lettering and a kettle; Paper has a quiet pale painted panel and folded-sheet
+symbol. Each symbol/name pair is centred with padding. Shop names stay the same, with no
+new subtitle or lore. Upper windows and balconies move up enough to reserve the sign
+fascia, and awnings/windows beneath it leave the whole name unobstructed. Map geometry,
+entrances, characters, portraits and tram assets are unchanged.

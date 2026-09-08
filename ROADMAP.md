@@ -5,7 +5,7 @@ This document explains **why** future work matters and the trade-offs around it.
 dependencies, and acceptance criteria. `MILESTONES.md` is the append-only delivery history.
 Do not select work from this document without checking its linked board ticket first.
 
-The build is green: `tools/test.sh` passes 16,904 Godot checks, 13 Python art tests and three real-engine gates,
+The build is green: `tools/test.sh` passes 16,922 Godot checks, 13 Python art tests and three real-engine gates,
 `tools/check_lessons.py` reports no problems, and the game is playable from the cold open
 to the exam and the Cup.
 

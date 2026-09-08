@@ -118,6 +118,20 @@ by this explicitly approved layout redesign; Go and progression rules remain pro
   13 art tests, 283 loads and all three engine gates pass. Cast/tram hashes unchanged.
   Details and shutdown-warning limits: `docs/sela/PLAYTEST.md`.
 
+### SELA-07 — Legible shop signs
+
+- Status: `SHIPPED` (verified locally) · Priority: `P2` · Owner: Codex · Branch: `codex/sela-coastal-redesign`.
+- Approved: improve building text beyond the bare utility-font LAUNDRY label. Continue
+  reviewed `a4ead1a`; fresh `origin/main` remains its underlying `d64ab5f`.
+- Scope: dedicated mixed-case shop lettering, clear sign panels, spacing and small trade
+  symbols for Laundry, The Kettle and Paper. Keep UI type, cast and navigation fixed.
+- Acceptance: deterministic environment rebuild, actual street/threshold screenshots
+  opened at native scale, protected cast and normal verification gate pass.
+
+- Evidence: `art_signs` completed seven captures; three shopfront names and three walked
+  interiors opened. 16,922 Godot checks, 13 art tests, 283 loads and three engine gates
+  pass. Only the three facade PNGs changed; UI type, maps, cast and tram remain fixed.
+
 ## Portrait-led sprite preview
 
 ### ART-06 — Six rounded, portrait-led characters

@@ -199,13 +199,21 @@ Hana `plum0 deep` · Tomás `teal` · Marguerite `ink+gold` · Player `paper+blu
 
 ## 4b. Type
 
-Text is set in a **generated 5x7 bitmap font** (`tools/font5x7.py`, rendered by
+Interface and dialogue text use a **generated 5x7 bitmap font** (`tools/font5x7.py`, rendered by
 `tools/gen_font.py` to a PNG page plus a BMFont `.fnt` that Godot imports as a `FontFile`).
 
 Godot's default face is a vector font: at 9px it anti-aliased every glyph and put **157
 distinct colours** into one small patch of the match panel, which at 384x216 reads as fuzz.
 The bitmap font uses exactly two colours -- paper and ink -- and lands on whole pixels. The
 same patch now measures 2 colours.
+
+Shop names are environmental art, drawn separately by `tools/coastal_signage.py`.
+Their mixed-case lettering has ten-pixel capitals, seven-pixel lowercase bodies, open
+counters and two-pixel stems. Names and trade symbols sit together inside padded panels:
+teal enamel for Laundry, a warm framed sign for The Kettle, and pale painted Paper.
+Keep the name readable at native scale; do not add tiny decorative subtitles or change
+the interface font to make a shop sign larger. `coastal_architecture.py` reserves a
+clear fascia beneath the balconies and above the awning.
 
 Rules that follow from using a bitmap font:
 - **Native size is 9, and only integer multiples of it are allowed** (9, 18, 27). Anything

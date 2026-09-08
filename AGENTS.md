@@ -243,7 +243,7 @@ post-match talk), `review_leave` (walk away from the loading card, read it later
 quay), `review_unavailable` (a wedged engine must still let you out), `quay_review` /
 `quay_review_19` (the noticeboard from a save).
 
-Art routes: `art_stop` (platform directions, cancel, bounds, home approach and both rides),
+Art routes: `art_signs` (shop lettering and all three entrances), `art_stop` (platform directions, cancel, bounds, home approach and both rides),
 `stop_gates` (both refusals before the novice card), `art_ficus` (grounded ficus, clear façades/title roofs and arrivals), `art_tram` (white articulated tram passing and boarding both destinations), `art_tour` (all twelve maps, washer frames, park and novice aisle),
 `art_materials` (quay variants), `art_people` (working pose, far-seat sorting, conversation),
 `portrait_sprites` (ART-06's six preview people, running, conversation and activity return),
@@ -607,7 +607,7 @@ coverage only. Independent human beginner testing remains open. No audio was sub
 ## Sela environment and save contracts
 
 Use `coastal_palette.py`, `coastal_tiles.py`, `coastal_architecture.py`,
-`coastal_layouts.py`, `coastal_views.py` and `coastal_audio.py` for the coastal setting.
+`coastal_layouts.py`, `coastal_views.py`, `coastal_signage.py` and `coastal_audio.py` for the coastal setting.
 Edit generators, never generated maps/images. All 73 character PNGs are protected by
 `tests/sela_characters.sha256.json`; shared character palettes must not change.
 Street trees use the boulevard ficus silhouette; keep trees off roofs, façades and arches.

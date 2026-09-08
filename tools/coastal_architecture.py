@@ -4,6 +4,7 @@ from coastal_palette import color as c
 from palette import rgb
 from pixel_art import panel, polygon, ellipse
 from font5x7 import trimmed, advance
+from coastal_signage import shop_sign
 
 
 def label(im,x,y,text,color='deep'):
@@ -46,7 +47,7 @@ def facade(kind):
     im.rect(x0,top+12,width,116-top,c('plaster'))
     im.rect(x0+width-7,top+13,7,115-top,c('stone'))
     im.rect(x0-1,top+10,width+2,4,c('light'))
-    for yy in (top+24,top+55):
+    for yy in (top+17,top+42):
         if yy>86:continue
         im.rect(x0+9,yy,96,22,c('shadow'))
         for xx in (x0+17,x0+54,x0+86):window(im,xx,yy+2,13,17,False)
@@ -56,22 +57,21 @@ def facade(kind):
     # Street level stays at the common door row, irrespective of roof height.
     color='coral' if kind=='bar' else 'teal'
     im.rect(x0+5,101,104,23,c('deep'))
-    im.rect(x0+4,99,106,4,c(color))
-    for xx in range(x0+7,x0+107,12):im.rect(xx,99,5,4,c('plaster'))
-    name={'home':'PAPER','bar':'THE KETTLE','laundry':'LAUNDRY'}[kind]
-    label(im,x0+8,89,name)
+    shop_sign(im,kind,x0+4)
+    im.rect(x0+4,107,106,3,c(color))
+    for xx in range(x0+7,x0+107,12):im.rect(xx,107,5,3,c('plaster'))
     if kind=='home':
-        for yy in range(105,124,3):im.hline(x0+7,yy,100,c('shadow'))
+        for yy in range(111,124,3):im.hline(x0+7,yy,100,c('shadow'))
         im.rect(9,114,11,8,c('plaster'))
     else:
         for xx in range(x0+9,x0+106,24):
-            im.rect(xx,106,18,15,c('shadow'));im.vline(xx+1,106,11,c('teal_light'))
+            im.rect(xx,111,18,13,c('shadow'));im.vline(xx+1,111,10,c('teal_light'))
         if kind=='bar':
             im.rect(34,116,16,6,rgb('board1'))
             for xx in (37,41,45):im.vline(xx,116,6,rgb('line'))
         else:
             for xx in (16,40,64):
-                im.rect(xx,110,12,12,c('plaster'));im.disc(xx+6,116,4,c('deep'))
+                im.rect(xx,112,12,12,c('plaster'));im.disc(xx+6,118,4,c('deep'))
     im.hline(x0,126,width,c('stone'))
     # Local repairs and a drain pipe belong to one facade, never a tile grid.
     im.rect(x0+112,78,3,46,c('stone'))

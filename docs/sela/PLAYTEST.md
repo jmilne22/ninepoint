@@ -185,3 +185,26 @@ cleanup was regenerated, replayed and passed all 13 art tests again.
 ![Boarding also works at the front of the platform](screenshots/stop-front-row.png)
 
 ![Invitation restriction remains intact](screenshots/stop-invitation-gate.png)
+
+
+## Shop signs — SELA-07 follow-up
+
+Laundry, The Kettle and Paper now have distinct sign panels, trade symbols and original
+mixed-case pixel lettering. Ten-pixel capitals, heavier stems and open counters replace
+the bare uppercase utility labels. The fascia has room beneath the balconies and above
+the awning. The UI font, all 73 cast images, tram and map geometry remain unchanged.
+[Design rationale](DESIGN.md#shop-lettering--sela-07).
+
+`art_signs` completed seven captures at exit 0, with no script errors or unreachable
+positions. Opened all three shopfront views at the native 384×216 size and all three
+interiors reached by walking through their doors. The seventh frame is garden context;
+the camera crops the sign band there, so it is not evidence of reading the names from
+the garden. The runner logged the existing ObjectDB/resource-in-use shutdown warnings.
+
+The normal gate retained SELA-06's **16,922 checks, zero failures**, 13 Python art tests,
+283 loaded files and all three KataGo gates. The art tests include deterministic
+regeneration and the protected character hashes. Only the three facade PNGs changed.
+
+![Distinct shop signs at gameplay scale](screenshots/sign-shopfronts.png)
+
+![Laundry lettering and wash symbol](screenshots/sign-laundry.png)

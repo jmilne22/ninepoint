@@ -3379,3 +3379,12 @@ cancel, outside bounds, the nearby notice, walked home stairs, both rides and bo
 Representative frames were opened. The initial narrow-zone play failure led to the larger
 platform. **Done when:** 16,922 checks (predecessor SELA-05: 16,904), 13 art tests, 283
 loads and all three engine gates pass. [Evidence and limits](docs/sela/PLAYTEST.md#shelter-and-boarding-platform--sela-06-follow-up).
+
+
+**Owner signage follow-up (SELA-07):** Laundry, The Kettle and Paper now use original
+mixed-case display lettering and trade symbols inside distinct, padded sign panels.
+Window/balcony spacing reserves the fascia; UI type, geometry, cast and tram stay fixed.
+`art_signs` completed seven captures; the three names and three walked entrances were
+opened at native scale. **Done when:** the SELA-06 gate remains at 16,922 Godot checks,
+13 art tests, 283 loads and three engine gates. Only the three facade exports changed.
+[Evidence and limits](docs/sela/PLAYTEST.md#shop-signs--sela-07-follow-up).
