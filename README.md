@@ -314,6 +314,8 @@ Market Lane, Sea Walk and the Arcade form a short walking loop. The garden steps
 to the water; the steps at Sea Walk's east end return through the Arcade. Joos's board
 is in the passage's quiet side alcove. The review board remains beside the shaded sea bench.
 Tram 4 is a white articulated light-rail vehicle with rounded cabs and dark windows.
+At its glass shelter, stand anywhere on the marked platform and press Space when
+**Board Tram 4** appears. You do not need to face the pole. Choose a destination or Not now.
 
 All existing characters, portraits and sprites are preserved. Old saves retain their
 progress; the first load after this layout change places you at a safe named entrance.

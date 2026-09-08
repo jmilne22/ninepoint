@@ -43,6 +43,7 @@ static func run(t: TestKit) -> void:
     _test_animations_well_formed(t)
     _test_sprites_exist(t)
     _test_interaction_priority(t)
+    _test_tram_platform(t)
     _test_map_idles(t)
     _test_map_routes(t)
     _test_presence_states(t)
@@ -275,3 +276,33 @@ static func _test_activity_contracts(t: TestKit) -> void:
                 for line in exchange:
                     t.ok(residents.has(str(line.get("npc",""))),str(id)+" exchange speaker is present")
                     t.ok(UiKit.text_height(str(line.get("text","")),124)<=44,str(id)+" exchange fits a short bubble")
+
+
+static func _test_tram_platform(t: TestKit) -> void:
+    t.section("tram: boarding from the whole platform")
+    var map := MapData.load_map("ketelsteeg")
+    var parent := Node2D.new()
+    MapBuilder.build_signs(map, parent, func(_text): pass)
+    var stop := parent.get_node("Sign_1_9") as Interactable
+    for x in range(1, 6):
+        var feet := map.stand_position(Vector2i(x, 10))
+        t.ok(not map.is_solid(x, 10), "platform %d is walkable" % x)
+        t.eq(Player.select_target([], [stop], feet), stop,
+            "platform %d works without facing the shelter" % x)
+    for tile in [Vector2i(6,10), Vector2i(1,12), Vector2i(5,9), Vector2i(1,9)]:
+        t.eq(Player.select_target([stop], [stop], map.stand_position(tile)), null,
+            "facing cannot board beyond platform: %s" % tile)
+    t.eq(Player.select_target([], [stop], map.stand_position(Vector2i(3,11))), stop,
+        "the front waiting row also boards")
+    var notice := parent.get_node("Sign_6_9") as Interactable
+    var feet := map.stand_position(Vector2i(4,10))
+    t.eq(Player.select_target([notice], [stop], feet), notice,
+        "a faced notice wins over boarding")
+    var person := Interactable.new()
+    person.interact_priority = Interactable.PRIORITY_PERSON
+    t.eq(Player.select_target([person, notice], [stop], feet), person,
+        "a faced person wins over boarding and notices")
+    stop.enabled = false
+    t.eq(Player.select_target([], [stop], feet), null, "disabled platform cannot board")
+    person.free()
+    parent.free()

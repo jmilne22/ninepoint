@@ -74,7 +74,9 @@ Internal map IDs stay stable for saves and match venues:
 | `bondszaal` | Assembly Hall; Cup and advanced exam |
 
 Market Lane ↔ Sea Walk ↔ Arcade ↔ Market Lane is a bidirectional ungated walking loop.
-Tram 4 retains its existing invitation/entry gates and destination maps. All people stay
+Tram 4 retains its existing invitation/entry gates and destination maps. Its marked
+five-by-two tile platform accepts Space regardless of facing (`standing_zone` on the sign);
+faced people and notices keep priority. All people stay
 in their established internal venues. Presence changes still follow existing progress flags.
 
 ---
@@ -246,7 +248,8 @@ prompt and mat, the steps to the water), `polish_street` (the three shopfronts a
 rescaled furniture), `polish_across_board` (sitting down opposite Bertie, Wren and Kesh)
 and `polish_faces` (a whole game, watching the opponent's expression rather than her lines).
 
-Art routes: `art_ficus` (grounded ficus, clear façades/title roofs and arrivals), `art_tram` (white articulated tram passing and boarding both destinations), `art_tour` (all twelve maps, washer frames, park and novice aisle),
+Art routes: `art_stop` (platform directions, cancel, bounds, home approach and both rides),
+`stop_gates` (both refusals before the novice card), `art_ficus` (grounded ficus, clear façades/title roofs and arrivals), `art_tram` (white articulated tram passing and boarding both destinations), `art_tour` (all twelve maps, washer frames, park and novice aisle),
 `art_materials` (quay variants), `art_people` (working pose, far-seat sorting, conversation),
 `portrait_sprites` (ART-06's six preview people, running, conversation and activity return),
 `art_arrivals` (both tram illustrations and federation furniture), and `art_cleanup`

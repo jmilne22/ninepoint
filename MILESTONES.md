@@ -3368,3 +3368,14 @@ unchanged. `art_ficus` completed 20 captures; garden, façade, title, room and b
 were opened. The cold opening was inspected separately. M48's 16,904 checks, 13 art tests,
 283 loads and three engine gates pass; final pot alignment was rebuilt, imported,
 replayed and art-tested. [Evidence and limits](docs/sela/PLAYTEST.md#boulevard-ficus--sela-05-follow-up).
+
+
+**Owner stop follow-up (SELA-06):** replaced the small blue shelter with a Jerusalem-inspired
+cantilever canopy, glazing, seating, machine column and route number. An 80×32 marked
+platform offers boarding regardless of facing; ordinary faced signs/people still win.
+The shelter keeps its collision footprint and all cast/tram images stay fixed. Final
+`art_stop` (30 captures) and `stop_gates` (four) prove multiple positions/directions,
+cancel, outside bounds, the nearby notice, walked home stairs, both rides and both gates.
+Representative frames were opened. The initial narrow-zone play failure led to the larger
+platform. **Done when:** 16,922 checks (predecessor SELA-05: 16,904), 13 art tests, 283
+loads and all three engine gates pass. [Evidence and limits](docs/sela/PLAYTEST.md#shelter-and-boarding-platform--sela-06-follow-up).

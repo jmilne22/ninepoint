@@ -449,6 +449,14 @@ the tree and `Npc._build_far_seat()` adds one more `CollisionShape2D` to the *sa
 the probe changed: `PROBE_REACH` is still 12.0, which `gen_maps.validate()`'s sign rules
 are written against.
 
+**Boarding platforms can use a standing zone.** A sign's optional `standing_zone` is
+`[tile_x, tile_y, width, height]`; the map generator validates every covered tile as
+walkable and connected. `MapBuilder` converts it to the Interactable's pixel rectangle.
+`Player.select_target` tests the player's feet against that rectangle regardless of facing;
+probe overlap alone cannot activate it from outside. Ordinary faced signs and people
+outrank boarding, while disabled platforms cannot be selected. This uses the same prompt,
+interaction signal and SignDesk route handling; no second boarding state is stored.
+
 ## 11. Known architectural risks
 
 - **Dead-stone marking** at game end is heuristic + player override. The bundled Human-SL

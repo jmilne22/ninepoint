@@ -192,3 +192,32 @@ ASSETS={
     'sela_laundry':lambda:facade('laundry'), 'sela_pergola':pergola,
     'sela_kiosk':kiosk, 'sela_garden':garden, 'sela_tree':tree,
 }
+
+
+def tram_shelter():
+    """Jerusalem-inspired cantilever canopy and glazing, at the existing stop."""
+    im=Img(64,48)
+    # Glazing stays quiet enough to distinguish the open waiting space from a shop.
+    im.rect(4,13,42,25,c('shadow'))
+    for x in (5,19):
+        im.rect(x,14,13,23,c('sky'))
+        polygon(im,[(x,15),(x+9,15),(x,28)],'sela_light')
+        im.hline(x,29,13,c('plaster'))
+    for x in (3,18,46):
+        im.rect(x,12,2,36,c('deep'));im.vline(x,13,33,c('stone'))
+    # Silver seats with armrests; the wide aisle remains in front of this footprint.
+    im.rect(6,35,23,3,c('light'));im.rect(6,38,23,3,c('stone'))
+    for x in (8,25):im.rect(x,41,2,6,c('deep'))
+    for x in (6,17,28):im.vline(x,33,5,c('deep'))
+    # Ticket / route column is visual furniture, not a second interaction target.
+    im.rect(33,17,12,30,c('stone'));im.rect(33,17,2,29,c('light'))
+    im.rect(36,21,7,9,c('deep'));im.rect(37,22,5,5,c('teal_light'))
+    im.hline(37,28,5,c('light'));im.hline(37,34,5,c('deep'))
+    im.rect(37,38,4,5,c('shadow'))
+    # A thin overhanging roof and suspended route number keep the home stairs clear.
+    polygon(im,[(0,5),(7,0),(59,0),(64,5),(59,9),(0,9)],'sela_stone')
+    polygon(im,[(1,4),(8,1),(58,1),(62,4)],'sela_light')
+    im.hline(1,9,59,c('deep'));im.hline(5,11,39,c('light'))
+    im.rect(48,10,15,13,c('teal'));label(im,53,13,'4','light')
+    label(im,5,5,'TRAM','deep')
+    return im

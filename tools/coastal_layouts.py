@@ -31,6 +31,13 @@ def apply(name, data):
                     solid[ty][tx]='1'
 
     if name=='ketelsteeg':
+        data['legend']['`']='tram_platform_inner'
+        for y in (10,11):
+            for x in range(1,6):cell(x,y,'`' if y==10 else '/',False)
+        # One visible boarding strip, measured at the feet rather than the facing probe.
+        for sign in data['signs']:
+            if sign['text'].startswith('__TRAM__'):
+                sign.update(prompt='Board Tram 4', standing_zone=[1,10,5,2])
         props[:]=[p for p in props if not p['art'].startswith(('facade_detail','shopfront_'))]
         for x in range(34):
             for y in range(8):cell(x,y,'@')

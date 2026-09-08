@@ -98,3 +98,28 @@ Trees remain grounded in the boulevard garden and the arrival-view pavement. Roo
 balcony, façade and arch greenery is removed. Remaining room/entrance pots have short
 strap-shaped foliage. The existing trunk footprints, walking routes, cast, portraits,
 tram and Go behavior are preserved.
+
+
+## Stop correction — SELA-06
+
+The small blue box and single sign tile did not communicate a comfortable light-rail stop.
+The replacement uses the shallow cantilever roof, glazed wind screens, integrated seats
+and ticket-machine column visible in [IM Segev's Jerusalem project photographs](https://www.imsegev.co.il/project/jlrt-%D7%A8%D7%9B%D7%91%D7%AA-%D7%A7%D7%9C%D7%94-%D7%99%D7%A8%D7%95%D7%A9%D7%9C%D7%99%D7%9D/).
+The supplier's 1080×1080 photograph was opened, as was a street photograph in
+[Mynet's July 16, 2025 report](https://jerusalem.mynet.co.il/local_news/article/bkquv0nixe).
+That report distinguishes existing pale shelters from newer black versions; the inspected
+pale-shelter photo corroborates the form. These are dated references checked on September
+8, 2026, not a claim to have live imagery of every stop today.
+
+[Cfir's current ticket-machine leaflet](https://www.cfir.co.il/en/files/A5_EN_new.pdf)
+confirms platform ticket machines. [NTA's Red Line station information](https://www.nta.co.il/en/light-rail/red-line/ben-gurion/)
+confirms prominent platform route/destination displays. For Sela, a clear route number
+replaces a real-time display, and the machine is only scenery: no fare or clock is added.
+All reference images remain external; the exported game art is original Python drawing.
+
+The pale roof and teal sign fit Sela and keep the shelter distinct from the shopfront.
+The canopy grows to 64×48 while its collision footprint stays unchanged. The marked
+80×32 platform reaches the rail edge, with a tactile strip along its front. Standing
+anywhere inside it offers boarding, without aiming at the pole. Facing a nearby person
+or notice still takes priority. The first narrow version failed a turning-at-the-edge
+play check; extending the actual platform provides the space the interaction needs.

@@ -50,6 +50,14 @@ def paint(name, original):
     if name.startswith(('grass', 'tree', 'bush', 'hedge')):
         return remap(original, {'grass0':'sela_leaf_dark','grass1':'sela_leaf',
                                'grass2':'sela_leaf_light','grass3':'sela_plaster'})
+    if name in ('tram_platform', 'tram_platform_inner'):
+        paving(im)
+        if name == 'tram_platform_inner':return im
+        # A continuous tactile strip makes the whole boarding area recognizable.
+        im.rect(0,10,16,4,c('plaster'))
+        for x in (1,5,9,13):im.rect(x,11,2,2,c('stone'))
+        im.hline(0,14,16,c('light'));im.hline(0,15,16,c('deep'))
+        return im
     if name == 'quay_edge':
         paving(im)
         im.rect(0,8,16,8,c('stone'));im.hline(0,8,16,c('light'))

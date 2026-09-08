@@ -981,6 +981,11 @@ def _(im, s):
     im.hline(1, 2, 14, rgb("ink0"))
 
 
+@tile("tram_platform_inner")
+def _(im, s):
+    im.rect(0, 0, TS, TS, rgb("path2"))
+
+
 @tile("tram_platform")
 def _(im, s):
     """The boarding slab at the Tram 4 stop.

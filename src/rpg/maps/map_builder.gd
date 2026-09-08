@@ -116,6 +116,14 @@ static func build_signs(map: MapData, parent: Node2D, on_read: Callable) -> void
         shape.shape = rect
         area.add_child(shape)
         area.position = map.tile_centre(Vector2i(int(tile[0]), int(tile[1])))
+        var zone: Array = s.get("standing_zone", [])
+        if zone.size() == 4:
+            area.standing_size = Vector2(float(zone[2]), float(zone[3])) * map.tile_size
+            rect.size = area.standing_size
+            area.position = (Vector2(float(zone[0]), float(zone[1])) * map.tile_size
+                + area.standing_size / 2.0)
+            # A nearby person or notice should remain reachable from the platform.
+            area.interact_priority = Interactable.PRIORITY_DOORWAY
         parent.add_child(area)
         var text := str(s.get("text", ""))
         area.interacted.connect(func(_by): on_read.call(text))

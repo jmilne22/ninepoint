@@ -100,6 +100,24 @@ by this explicitly approved layout redesign; Go and progression rules remain pro
   16,904 checks, 13 art tests, 283 loads and all three KataGo gates pass; all 73 character
   hashes unchanged. Final pot alignment rebuilt, imported, replayed and art-tested.
 
+### SELA-06 — Light-rail shelter and forgiving boarding area
+
+- Status: `SHIPPED` (verified locally) · Priority: `P2` · Owner: Codex · Branch: `codex/sela-coastal-redesign`.
+- Approved: redesign the stop from current Jerusalem/Tel Aviv references and fix its tiny
+  interaction target. Fresh fetch: `origin/main` remains `d64ab5f`; continue approved
+  Sela work at `8b19938` rather than discard it by restarting at main.
+- Scope: thin canopy, glazing, seating, machine column, marked five-by-two tile platform;
+  boarding prompt anywhere on that strip, independent of facing. Preserve nearby signs,
+  home approach, route gates, cancel, tram and all cast pixels.
+- Acceptance: inspect references and actual game; board both routes from opposite ends,
+  cancel and gated destination, no prompt beyond platform; focused regression and normal gate.
+
+- Evidence: final `art_stop` completed 30 captures, `stop_gates` four; five platform
+  positions, four facing directions, cancellation, bounds, notice, walked home stairs,
+  both actual destinations and both refusals inspected. 16,922 checks (prior 16,904),
+  13 art tests, 283 loads and all three engine gates pass. Cast/tram hashes unchanged.
+  Details and shutdown-warning limits: `docs/sela/PLAYTEST.md`.
+
 ## Portrait-led sprite preview
 
 ### ART-06 — Six rounded, portrait-led characters

@@ -93,7 +93,8 @@
   "Q": "plant_int",
   "Z": "kettle_table",
   "M": "door_int",
-  "@": "coast_sky"
+  "@": "coast_sky",
+  "`": "tram_platform_inner"
  },
  "ground": [
   "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
@@ -106,8 +107,8 @@
   "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
   "x___5D___7___<<___7___FF___7__77__",
   "PlPPPPnPyPPPpPPPPPPPoPPPPPLPPPPPPP",
-  "P///PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP",
-  "aaaaaaqaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "P`````PPPPPPPPPPPPPPPPPPPPPPPPPPPP",
+  "a/////qaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   "==================================",
   "aaaaaaaaaaaaaaaazaaaaaaaqaaaaaaaaa",
   "KKKKKKKKKPPKKKKKKKKKKKKKKKKKKKKKKK",
@@ -293,8 +294,14 @@
     1,
     9
    ],
-   "prompt": "Tram 4",
-   "text": "__TRAM__{\"routes\": [{\"label\": \"North, to the Institute.\", \"map\": \"academy_hall\", \"spawn\": \"from_tram\", \"flag\": \"invited_to_institute\", \"refused\": \"Tram 4 goes north to the Institute. Nobody up there is expecting you yet.\"}, {\"label\": \"South, to the Assembly Hall.\", \"map\": \"bondszaal\", \"spawn\": \"from_tram\", \"flag\": \"ranked_by_club\", \"refused\": \"Tram 4 goes south to the federation hall. Nothing down there for somebody with no rank.\"}]}"
+   "prompt": "Board Tram 4",
+   "text": "__TRAM__{\"routes\": [{\"label\": \"North, to the Institute.\", \"map\": \"academy_hall\", \"spawn\": \"from_tram\", \"flag\": \"invited_to_institute\", \"refused\": \"Tram 4 goes north to the Institute. Nobody up there is expecting you yet.\"}, {\"label\": \"South, to the Assembly Hall.\", \"map\": \"bondszaal\", \"spawn\": \"from_tram\", \"flag\": \"ranked_by_club\", \"refused\": \"Tram 4 goes south to the federation hall. Nothing down there for somebody with no rank.\"}]}",
+   "standing_zone": [
+    1,
+    10,
+    5,
+    2
+   ]
   },
   {
    "tile": [

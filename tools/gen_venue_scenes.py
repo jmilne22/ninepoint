@@ -76,24 +76,7 @@ def directions():
 
 
 def tram_stop():
-    """The Tram 4 stop: a roof, a glazed back, a bench and the route board.
-
-    The stop used to be a tram pole and a 32x48 board hung at the map's edge,
-    on pavement identical to the pavement for thirty tiles either side. A
-    shelter is what a stop looks like from across the road, and the board
-    belongs inside it, where a route board actually is.
-    """
-    im=Img(48,48)
-    box(im,0,30,48,4,'ink2')                       # the bench
-    im.rect(3,34,3,10,rgb('ink2'));im.rect(42,34,3,10,rgb('ink2'))
-    box(im,4,8,40,24,'blue0','ink2')               # the glazed back panel
-    for x in (7,26):
-        box(im,x,11,15,17,'blue1','blue2');im.vline(x+2,13,11,rgb('blue3'))
-    box(im,2,0,44,9,'rust1','ink1')                # the roof, and the route board
-    im.hline(3,1,42,rgb('rust2'))
-    draw_text(im,7,2,'TRAM 4',rgb('paper0'),1)
-    im.rect(1,9,2,39,rgb('ink2'));im.rect(45,9,2,39,rgb('ink2'))   # the posts
-    return im
+    return coastal.tram_shelter()
 
 
 def shopfront(kind):

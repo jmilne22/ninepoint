@@ -1122,6 +1122,19 @@ def validate(name, data):
             problems.append("%s: sign at %d,%d has nowhere to stand and read it"
                             % (name, x, y))
 
+    for sign in data['signs']:
+        if 'standing_zone' not in sign:
+            continue
+        zone=sign['standing_zone']
+        if (not isinstance(zone,list) or len(zone)!=4
+                or not all(type(n) is int for n in zone) or min(zone[2:])<=0):
+            problems.append('%s: invalid standing zone' % name)
+            continue
+        x,y,w,h=zone
+        if any(not walkable(tx,ty) or (tx,ty) not in reached
+               for ty in range(y,y+h) for tx in range(x,x+w)):
+            problems.append('%s: standing zone must be entirely reachable and walkable' % name)
+
     # Crowd routes. A passer-by is launched down these with no pathfinding at
     # all, so the whole segment has to be clear, not just its ends -- two
     # walkable endpoints with a wall between them is the bug this catches.

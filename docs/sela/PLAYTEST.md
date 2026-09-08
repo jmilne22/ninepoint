@@ -147,3 +147,41 @@ character/portrait hashes. Existing footprints, navigation and tram assets are u
 ![Institute arrival with grounded ficus](screenshots/ficus-institute.png)
 
 ![Room pots meet the floor](screenshots/low-room-plants.png)
+
+
+## Shelter and boarding platform — SELA-06 follow-up
+
+The stop now has a 64×48 cantilever canopy, glazed screens, seating, machine column and
+teal route number. The 80×32 marked platform reaches the rail edge. Its whole area accepts
+Space regardless of facing, while faced people/notices retain priority. Neither the
+shelter's solid footprint nor any cast or tram pixels changed. [Reference research](DESIGN.md#stop-correction--sela-06).
+
+Final `art_stop` completed 30 captures at exit 0; `stop_gates` completed four at exit 0.
+Opened five platform positions (including the front/east end), choices, four facing
+directions, prompt absence outside the platform, nearby notice, actual home-stair arrival,
+institute arrival illustration, hall arrival and both pre-card refusals. Each tested
+platform position was cancelled before the route continued walking. Both destinations
+were reached through actual tram choices. Runs used isolated saves and the exclusive
+runner lock. They logged no script errors or unreachable tiles, but did log ObjectDB/
+resource-in-use warnings on shutdown; this work does not claim to fix engine cleanup.
+
+The first narrow platform failed: the facing action stepped beyond its edge and selected
+the nearby notice. That run stopped with an expected-choice failure and is not evidence
+of completion. The marked platform was then extended to five tiles wide and two deep;
+its tactile strip marks only the track-facing edge. The final routes above were replayed
+against the larger platform and inspected.
+
+`tools/test.sh`: **16,922 checks, zero failures** (SELA-05: 16,904), 13 art tests, 283
+loaded files and all three KataGo gates. New checks build the actual map sign and test
+boarding throughout the zone, boundaries, disabled state and person/notice priority.
+The map validator rejects blocked or disconnected standing zones, including a deliberately
+invalid zone in the art tests. All 73 cast hashes remain fixed. The final map-legend
+cleanup was regenerated, replayed and passed all 13 art tests again.
+
+![New shelter and boarding prompt](screenshots/stop-platform.png)
+
+![Destination choice from the platform](screenshots/stop-choices.png)
+
+![Boarding also works at the front of the platform](screenshots/stop-front-row.png)
+
+![Invitation restriction remains intact](screenshots/stop-invitation-gate.png)

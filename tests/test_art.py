@@ -54,6 +54,11 @@ class ArtContracts(unittest.TestCase):
         for name,digest in baseline.items():
             self.assertEqual(hashlib.sha256((ROOT/name).read_bytes()).hexdigest(),digest,name)
 
+        # A future shelter edit must not make part of the advertised boarding area solid.
+        stop=next(s for s in maps['ketelsteeg']['signs'] if 'standing_zone' in s)
+        stop['standing_zone']=[1,9,4,2]
+        self.assertTrue(any('standing zone' in e for e in validate('ketelsteeg',maps['ketelsteeg'])))
+
     def test_coastal_services_share_a_walkable_route(self):
         # A legal spawn alone does not prove a new planter has left a route out.
         for path in (ROOT/'data/maps').glob('*.json'):

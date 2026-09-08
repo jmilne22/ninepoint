@@ -364,7 +364,12 @@ cabs and rooftop equipment are drawn in `tools/gen_props.py` at 160×36. Keep th
 door at the sprite centre so boarding aligns with the existing stop. The tram uses its
 own white/glass colors; character palettes remain untouched.
 
-The Tram 4 stop is a shelter with the route board on its roof, over a poured boarding slab.
+The Tram 4 stop uses a thin cantilever canopy, pale glazing, silver seating, a ticket-machine
+column and a suspended teal route number, based on Jerusalem light-rail shelters. Its
+64×48 drawing retains the old solid footprint, keeping the home stairs clear. A five-by-two
+tile platform reaches toward the rails; the tactile strip marks only the track-facing edge.
+Boarding works anywhere inside the marked platform, independent of facing. The machine
+is visual furniture; it adds no fare, ticket or timetable system.
 
 **The town does not end in a wall.** Market Lane's pavement, road, rails and park all run
 straight off both sides of the map, and the quay's flags run off both ends, because that is

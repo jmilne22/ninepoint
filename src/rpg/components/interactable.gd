@@ -22,6 +22,9 @@ const PRIORITY_DOORWAY := 0
 const PRIORITY_SIGN := 1
 const PRIORITY_PERSON := 2
 
+## Optional area used at the player's feet, independent of their facing probe.
+## This is for boarding platforms; ordinary signs and people still require facing.
+var standing_size: Vector2 = Vector2.ZERO
 var enabled: bool = true
 
 
@@ -30,8 +33,15 @@ func _ready() -> void:
     collision_mask = 0
     monitorable = true
     monitoring = false
+    if standing_size != Vector2.ZERO:
+        add_to_group("standing_interactables")
 
 
 func interact(by: Node) -> void:
     if enabled:
         interacted.emit(by)
+
+
+func contains_feet(feet: Vector2) -> bool:
+    return (enabled and standing_size != Vector2.ZERO
+        and Rect2(-standing_size / 2.0, standing_size).has_point(to_local(feet)))
