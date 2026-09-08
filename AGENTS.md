@@ -252,6 +252,7 @@ quay), `review_unavailable` (a wedged engine must still let you out), `quay_revi
 
 Art routes: `art_tour` (all twelve maps, washer frames, park and novice aisle),
 `art_materials` (quay variants), `art_people` (working pose, far-seat sorting, conversation),
+`portrait_sprites` (ART-06's six preview people, running, conversation and activity return),
 `art_arrivals` (both tram illustrations and federation furniture), and `art_cleanup`
 (title composition and cleaned Onderbrug masonry).
 
@@ -349,7 +350,7 @@ src/autoload/  EventBus, GameState, SaveSystem, SceneRouter, MatchBridge, KataGo
 |---|---|
 | `tools/gen_maps.py` | `data/maps/*.json` — the maps, including walls, spawns, warps, signs, the tram stop, who stands where |
 | `tools/gen_content.py` | `data/npcs/*.tres`, `data/opponents/*.tres`, `data/quests/*.tres` |
-| `tools/characters.py` | shared identity; `art_people.py` draws walking/actions, `gen_characters.py` preserves portraits |
+| `tools/characters.py` | shared identity; `art_people.py` dispatches walking/actions; six ART-06 identities use `portrait_sprite_people.py` / `portrait_sprite_heads.py`; `gen_characters.py` draws approved portraits |
 | `tools/gen_tiles.py` | `art/tiles/town_tileset.png` + its manifest **and** `town_tileset.tres` (via `gen_tileset_resource.py`, which `build_assets.py` runs — a tile outside the resource draws as nothing, silently) |
 | `tools/font5x7.py` | the bitmap font glyphs |
 | `tools/gen_audio.py` + `wav.py` | `audio/*.wav` — synthesised from oscillators, no samples. A track named `<t>_in` is a one-shot intro sting for `<t>` |

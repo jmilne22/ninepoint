@@ -1,0 +1,18 @@
+{
+  "art/portraits/abel.png": {
+    "export_sha256": "f49721dda6984f3c5e39fbca605cea768692dea94043a58cbb9cf34b46b79119",
+    "face_sha256": "ef8d9d97fc321a4d025498d8a6914e15d46ee985fc47701c459826f06061a320"
+  },
+  "art/portraits/bertie.png": {
+    "export_sha256": "66a7bc9566010981708f3d81540423773e0a753c78856d584482758dca0680e1",
+    "face_sha256": "e3d5bfc64a312eabc5fec51a991b92aa0734692b27f9432cce0fc028816cc7d8"
+  },
+  "art/portraits/emil.png": {
+    "export_sha256": "aa15c5f300b4185960d7a0d2aabf25e14d7ddc817a7fa9cbb21449edd032b0ff",
+    "face_sha256": "91c05acc93febbd8ab27f31d15716499460ed6035972e75fe746fee6da6f4c9d"
+  },
+  "art/portraits/tomas.png": {
+    "export_sha256": "7306bab3f0dceee7da8fdc6e496ca2ce3696f4b193d85cfec24a07b849620c72",
+    "face_sha256": "cb8f5114636db01e465410cf9c786762298d69c6ec11f6de0a682bebd22c0afc"
+  }
+}

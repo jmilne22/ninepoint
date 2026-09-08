@@ -5,7 +5,7 @@ This document explains **why** future work matters and the trade-offs around it.
 dependencies, and acceptance criteria. `MILESTONES.md` is the append-only delivery history.
 Do not select work from this document without checking its linked board ticket first.
 
-The build is green: `tools/test.sh` passes 16,879 Godot checks, 10 Python art tests and three real-engine gates,
+The build is green: `tools/test.sh` passes 16,879 Godot checks, 12 Python art tests and three real-engine gates,
 `tools/check_lessons.py` reports no problems, and the game is playable from the cold open
 to the exam and the Cup.
 
@@ -299,3 +299,15 @@ engine profiles, teaching, dialogue, font metrics and audio. Shared drawing oper
 geometry metadata and selective preview builds make future art iteration safer; they do
 not replace visual judgement. The workboard owns delivery status and the art playtest
 records the actual screens inspected.
+
+## Portrait-led sprite preview — ART-06
+
+The owner likes the portraits but rejected the overworld figures' likeness and rigid
+style. Shared colours alone do not preserve identity. The selected direction uses
+rounded hair/face silhouettes, shaped garments and distinct working postures at the
+existing world scale. The first package covers Ro, Wren, Kesh, Tomás, Nadia and Sunny;
+remaining characters keep their current artwork until the six-person direction is reviewed.
+The owner subsequently chose a consistent floating neckline for portraits, with scarves
+remaining connected. Tomás, Bertie, Abel and Emil receive that shoulder-only correction;
+faces and expressions stay exact. This is a visual revision, not a
+change to the cast, progression, environment or animation interfaces.

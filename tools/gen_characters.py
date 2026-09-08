@@ -23,7 +23,7 @@ EXPRESSIONS = ["neutral", "happy", "annoyed", "working",
                "thinking", "worried", "pleased"]
 
 
-# Walking/artwork proportions are independent of the frozen portrait geometry.
+# Walking proportions are independent of the portrait faces and approved shoulders.
 from art_people import sprite_frame, sprite_sheet, action_sheet
 
 
@@ -72,8 +72,12 @@ def portrait(c, expression="neutral"):
     _hair_back(im, c, hair_d, hair_l)
 
     # 3. shoulders
-    im.disc(32, 78, 29 if c["build"] == "broad" else 24, top_d)
-    im.disc(30, 80, 27 if c["build"] == "broad" else 22, top_l)
+    # Broad shoulders used to start five rows higher, joining Tomás's neck to
+    # his shirt. The owner chose the same floating neckline as the slim cast;
+    # scarves keep their deliberate connection between neck and clothing.
+    shoulder_drop = 5 if c["build"] == "broad" and acc != "scarf" else 0
+    im.disc(32, 78 + shoulder_drop, 29 if c["build"] == "broad" else 24, top_d)
+    im.disc(30, 80 + shoulder_drop, 27 if c["build"] == "broad" else 22, top_l)
     im.rect(0, 62, 64, 2, top_d)
     if acc == "scarf":
         im.rect(16, 50, 32, 6, accent)

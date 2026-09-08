@@ -1,0 +1,38 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+AUTOPILOT: 46 steps from res://tools/autopilot/portrait_sprites.json
+AUTOPILOT: ART-06: six characters, real movement and activity/conversation changes; isolated XDG required.
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-sprite-preview-play/godot/app_userdata/Ninepoint/shots/01_running_ketelsteeg.png
+EXPERIENCE: run 1.750x; release, collision and menu lock passed
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-sprite-preview-play/godot/app_userdata/Ninepoint/shots/02_club_cast.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-sprite-preview-play/godot/app_userdata/Ninepoint/shots/03_wren_far_seat.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-sprite-preview-play/godot/app_userdata/Ninepoint/shots/04_wren_working.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-sprite-preview-play/godot/app_userdata/Ninepoint/shots/05_wren_portrait.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-sprite-preview-play/godot/app_userdata/Ninepoint/shots/06_choice_Later..png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-sprite-preview-play/godot/app_userdata/Ninepoint/shots/07_wren_resumed.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-sprite-preview-play/godot/app_userdata/Ninepoint/shots/08_kesh_portrait.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-sprite-preview-play/godot/app_userdata/Ninepoint/shots/09_choice_Later..png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-sprite-preview-play/godot/app_userdata/Ninepoint/shots/10_tomas_portrait.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-sprite-preview-play/godot/app_userdata/Ninepoint/shots/11_choice_Not today..png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-sprite-preview-play/godot/app_userdata/Ninepoint/shots/12_nadia_working.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-sprite-preview-play/godot/app_userdata/Ninepoint/shots/13_nadia_working_second.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-sprite-preview-play/godot/app_userdata/Ninepoint/shots/14_nadia_portrait.png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-sprite-preview-play/godot/app_userdata/Ninepoint/shots/15_sunny_seated.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-sprite-preview-play/godot/app_userdata/Ninepoint/shots/16_sunny_seated_second.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-sprite-preview-play/godot/app_userdata/Ninepoint/shots/17_sunny_portrait.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-sprite-preview-play/godot/app_userdata/Ninepoint/shots/18_choice_Not now..png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-sprite-preview-play/godot/app_userdata/Ninepoint/shots/19_sunny_resumed.png
+AUTOPILOT: done
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

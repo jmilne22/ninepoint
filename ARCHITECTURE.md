@@ -298,7 +298,15 @@ Map generation also emits `floor_details_<map>.png` from the same map geometry: 
 wall trim, floor wear and restrained shadow/light colours, masked clear of doors and
 decor. `build_assets.py --groups environments --output <root>` exports matching assets,
 map JSON and the TileSet into a project-shaped preview root. Source art lives in the
-small `tools/art_*.py` modules; the PNG canvas and portrait rendering remain unchanged.
+small `tools/art_*.py` modules; the PNG canvas remains unchanged.
+For ART-06, `art_people.py` delegates six preview identities to
+`portrait_sprite_people.py` and `portrait_sprite_heads.py`. Their sprite-only shape
+profiles leave shared identity records and the other twenty character sets untouched.
+Both paths export the same walking/action layouts consumed by `CharacterSprite`;
+there is no runtime selection flag or save migration.
+The later owner-approved floating neckline lowers broad unscarved portrait shoulders
+in `gen_characters.py`. Separate approved hashes cover four changed strips while the
+original face-region hashes and seventeen untouched strips remain protected.
 
 `presence_exchanges` is an ordered
 list of exchanges, each containing speaker/text lines. Legacy individual lines remain
