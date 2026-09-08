@@ -4,7 +4,7 @@ This is the **operational source of truth** for unfinished work. An agent starts
 not in the milestone history. It answers: what may be picked up now, what is blocked, and
 what evidence makes a task done.
 
-Revision base: `origin/main` and HEAD both `c51f085`, freshly fetched and verified on 2026-09-08 before ART-01.
+Revision base: `origin/main` and HEAD both `ee53775`, freshly fetched and verified on 2026-09-08 before ART-06.
 Update the snapshot when reconciling after a merge; it is not a release number.
 
 ## How to use this board
@@ -33,6 +33,26 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 | `ROADMAP.md` | Product direction, trade-offs, and why a task matters | Whether work is currently underway or done |
 | `MILESTONES.md` | Append-only shipped history and verification evidence | The current backlog |
 | Design / architecture / art docs | Durable product and technical truth | Task status |
+
+## Portrait-led sprite preview
+
+### ART-06 — Six rounded, portrait-led characters
+
+- Status: `SHIPPED` (six-person preview verified locally; ready for visual review) · Priority: `P1` · Owner: Codex · Branch: `codex/portrait-led-sprites`.
+- Owner approved the preview plan; recorded as ready and claimed on 2026-09-08.
+- Scope: Ro, Wren, Kesh, Tomás, Nadia and Sunny; Python-authored head, hair,
+  garment and pose variants in the existing walking/activity sheets.
+- Owner clarification: floating necks refer to **portraits**, with scarves excepted.
+  Lower broad unscarved shoulders for Tomás, Bertie, Abel and Emil. Preserve all
+  face/expression pixels and the other seventeen complete portrait strips.
+- Acceptance: approved portrait bytes and unchanged remaining world sprites; native/3× comparisons
+  with actual floors; played walking, running, conversation and furniture overlap;
+  existing art contracts and technical gate pass. Review target is these six only.
+- ART-03 remains historical; its shared colours did not establish portrait likeness.
+- Evidence: 12 Python art tests, 16,879 Godot checks, 283 loaded files and three
+  real-engine gates passed. `portrait_sprites` produced 19 opened screenshots,
+  exit 0 and zero script errors; walking/running, five conversations, working poses
+  and table overlap inspected. [Preview and exact scope](docs/sprite-preview/PLAYTEST.md).
 
 ## Approved art facelift — ART-01 through ART-04
 

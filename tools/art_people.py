@@ -2,6 +2,7 @@
 from png import Img
 from palette import rgb, skin
 from pixel_art import polygon, ellipse, panel
+import portrait_sprite_people as portrait_led
 
 W,H=16,24
 DIRS=['down','left','right','up']
@@ -44,6 +45,8 @@ def _hair(im,c,direction,hy,hx,hw):
 
 
 def sprite_frame(c,direction,frame):
+    if c['id'] in portrait_led.PROFILES:
+        return portrait_led.sprite_frame(c,direction,frame)
     im=Img(W,H)
     sd,sm,sl=skin(c['skin']);dark,light=map(rgb,c['top'])
     ink=rgb('ink0');bottom=rgb(c['bottom']);accent=rgb(c.get('accent',c['top'][1]))
@@ -115,6 +118,8 @@ def sprite_sheet(c):
 
 
 def action_sheet(c):
+    if c['id'] in portrait_led.PROFILES:
+        return portrait_led.action_sheet(c)
     sheet=Img(32,480)
     for row,action in enumerate(ACTIONS):
         for direction,d in enumerate(DIRS):

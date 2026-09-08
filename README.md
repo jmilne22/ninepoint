@@ -181,6 +181,7 @@ tools/run_game.sh tools/autopilot/slice_full.json   # drive the whole slice, scr
 tools/run_game.sh tools/autopilot/win_path.json     # load a save, take the rival's win branch, do the puzzle
 python3 tools/build_assets.py       # regenerate all art, map dressing and audio, deterministically
 python3 tools/build_assets.py --groups environments --output /home/user/.cache/ninepoint-preview
+python3 tools/portrait_sprite_preview.py   # six-character portrait/sprite comparison
 python3 tools/art_contact_sheet.py --root /home/user/.cache/ninepoint-preview --output /home/user/.cache/ninepoint-props.png
 python3 tests/test_art.py           # portrait preservation, navigation and asset contracts
 python3 tools/check_lessons.py      # verify every taught position against the rules
@@ -298,3 +299,9 @@ The richer-art pass keeps the original portraits and pixel scale while giving Ve
 recessed architecture, material-specific furniture, local wear, moving washer drums and
 more distinct walking poses. The [art playtest](docs/art/PLAYTEST.md) includes matching
 before/after views and played screenshots from every room.
+
+The [portrait-led sprite preview](docs/sprite-preview/PLAYTEST.md) revises Ro, Wren,
+Kesh, Tomás, Nadia and Sunny with rounded silhouettes and more distinct working poses.
+The other world sprites are unchanged. Portrait faces remain exact; four broad-shouldered
+portraits now share the existing floating-neck style, while scarves stay connected. The report includes
+old/new comparisons and actual gameplay captures for reviewing this first package.

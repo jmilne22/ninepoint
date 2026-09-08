@@ -21,8 +21,10 @@ import gen_venue_scenes
 
 
 class ArtContracts(unittest.TestCase):
-    def test_portraits_are_original_pixels_and_exports(self):
+    def test_portraits_match_approved_pixels_and_exports(self):
         baseline=json.loads((ROOT/'tests/art_portraits.sha256.json').read_text())
+        necklines=json.loads((ROOT/'tests/art_portrait_necklines.sha256.json').read_text())
+        baseline.update({name:spec['export_sha256'] for name,spec in necklines.items()})
         with tempfile.TemporaryDirectory() as temp:
             gen_characters.build(Path(temp)/'sprites',Path(temp)/'portraits',sprites=False)
             self.assertFalse((Path(temp)/'sprites').exists())
@@ -30,6 +32,10 @@ class ArtContracts(unittest.TestCase):
                 actual=ROOT/name;rebuilt=Path(temp)/'portraits'/actual.name
                 self.assertEqual(hashlib.sha256(actual.read_bytes()).hexdigest(),digest,name)
                 self.assertEqual(rebuilt.read_bytes(),actual.read_bytes(),name)
+                if name in necklines:
+                    face=load(actual).sub(0,0,448,49)
+                    self.assertEqual(hashlib.sha256(face.buf).hexdigest(),
+                                     necklines[name]['face_sha256'],name+' original faces')
 
     def test_navigation_is_unchanged(self):
         reference=json.loads((ROOT/'tests/art_navigation.sha256.json').read_text())
@@ -40,6 +46,19 @@ class ArtContracts(unittest.TestCase):
             self.assertEqual(actual,digest,name)
             if name in ('academy_class','academy_dorm'):
                 self.assertNotIn(',', ''.join(data['ground']), name+' must retain wooden flooring')
+
+    def test_portrait_neck_gap_is_consistent_without_a_scarf(self):
+        from characters import CHARACTERS
+        for c in CHARACTERS:
+            if c.get('extra') or c['accessory']=='scarf':
+                continue
+            strip=load(ROOT/('art/portraits/'+c['id']+'.png'))
+            # Working props can cross the neckline; ordinary expressions cannot.
+            for expression in (0,1,2,4,5,6):
+                x=expression*64
+                background=strip.get(x+1,51)
+                for neck_x in range(27,37):
+                    self.assertEqual(strip.get(x+neck_x,51),background,(c['id'],expression))
 
     def test_masked_material_stays_inside_shape(self):
         silhouette=Img(8,8);polygon(silhouette,[(1,1),(7,1),(7,3),(3,3),(3,7),(1,7)],'wood1')
@@ -134,6 +153,16 @@ class ArtContracts(unittest.TestCase):
             self.assertEqual(len(list((target/'data/maps').glob('*.json'))),12)
             for path in ['audio','art/portraits','art/sprites','art/ui']:
                 self.assertFalse((target/path).exists(),path)
+
+    def test_preview_activities_remain_visible_from_every_direction(self):
+        # Wren's long rear hair once covered both working frames completely.
+        # Check the exported result, where compositing/occlusion has happened.
+        from portrait_sprite_people import PROFILES
+        for name in PROFILES:
+            sheet=load(ROOT/('art/sprites/'+name+'_actions.png'))
+            for row in range(20):
+                self.assertNotEqual(sheet.sub(0,row*24,16,24).buf,
+                                    sheet.sub(16,row*24,16,24).buf,(name,row))
 
 
 if __name__=='__main__':unittest.main()

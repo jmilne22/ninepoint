@@ -5,7 +5,9 @@
 All art remains deterministic Python-generated pixel art. Use `tools/build_assets.py` to
 rebuild assets through the pure-Python PNG writer. Shared records in `tools/characters.py`
 drive walking sprites, action sheets and portraits. `art_people.py` draws the walking
-and activity poses at their native proportions; portrait geometry remains frozen. This
+and activity poses at their native proportions. The ART-06 six-character preview delegates
+to `portrait_sprite_people.py` / `portrait_sprite_heads.py`; portrait faces stay fixed,
+with the approved neckline adjustment described in section 10. This
 pipeline is an intentional part of Ninepoint's visual identity.
 
 ---
@@ -133,7 +135,8 @@ does the reimport pass.
 
 ## 4. Characters
 
-**One template, many people.** Every character is drawn by the same routine from a record:
+**Shared identities, distinct shapes.** Character records supply colours and identity;
+native sprite shapes interpret those records without changing the portraits:
 
 ```python
 Character(
@@ -148,8 +151,9 @@ Character(
   4 directions × 3 frames (idle, step-left, step-right). Silhouette first: hair shape and
   top colour must identify the character at 100% zoom from across the street.
 - **Portrait:** 64×64 bust for dialogue, same skin ramp, same hair colours, same garment
-  colours, same accessory. Because both come from one record, the portrait *is* the sprite,
-  interpreted at its own native resolution. Neither image is resized into the other.
+  colours, same accessory. Sharing a record prevents palette drift; likeness also needs
+  matching hair volume, face silhouette and garment shape, checked visually. Neither
+  image is resized into the other.
 - Faces use a few pixel clusters; brows and eye direction carry the expression.
 - **Seven expressions**, one strip of 64×64 columns per character:
   `neutral`, `happy`, `annoyed`, `working`, `thinking`, `worried`, `pleased`. All seven
@@ -365,7 +369,8 @@ readable against the room. Screenshots: [early-game playtest](docs/early-game/PL
 ## 9. Richer surfaces, preserved portraits (ART-01–04)
 
 The 384×216 viewport, 16px tiles, 16×24 people, 9px font and top-left lighting remain.
-All 21 portrait strips are preserved byte-for-byte by `tests/art_portraits.sha256.json`.
+That pass preserved all 21 portrait strips byte-for-byte; their original hashes remain
+in `tests/art_portraits.sha256.json`. ART-06's later neckline exception is documented below.
 New environments use opaque colours drawn from the existing ramps and restrained mixes;
 no image service, external art library, filtering, weather system or dynamic lighting is involved.
 
@@ -412,3 +417,29 @@ No flags still rebuilds everything. `sprites` and `portraits` are separate group
 `presentation` covers title, UI and ceremony. Preview roots mirror the project layout,
 including matching map JSON and TileSet resources. Judge contact sheets beside a person
 and on actual floors, then inspect the played game. Evidence: `docs/art/PLAYTEST.md`.
+
+## 10. Portrait-led sprite preview (ART-06)
+
+Ro, Wren, Kesh, Tomás, Nadia and Sunny use rounded native pixel silhouettes with
+shaped crowns/fringes, portrait-derived jaws, readable eyes/glasses, sloping shoulders
+and bent working arms. Their stance and body width vary; Sunny retains short child
+proportions. Walking, side/back views and activities carry the same hair and garment
+identity. Rear working hands remain visible beside long hair.
+
+This is the six-person review package, not a cast-wide replacement. The other twenty
+sprite sets retain M47's renderer. Character identity records remain unchanged. Both renderers keep 16×24 cells,
+48×96 walk sheets, 32×480 action sheets and the existing floor origin. Runtime
+animation timing, collision, world scale and map navigation are unchanged.
+
+During preview the owner clarified that the preferred floating neck is a **portrait**
+style, citing Tomás; Wren's scarf is an intentional exception. Broad unscarved shoulders
+now begin at the same height as slim shoulders. This changes only Tomás, Bertie, Abel and
+Emil below row 48; all seven faces per strip and the other seventeen portrait strips stay
+exact. Scarves retain their connection. Working props may naturally cross the neck gap.
+`tests/art_portrait_necklines.sha256.json` records those four approved exports and hashes
+of the original face regions, supplementing the unchanged M47 baseline.
+
+`python3 tools/portrait_sprite_preview.py` produces native and 3× old/new comparisons
+on actual wood and concrete floor tiles. `portrait_sprites` plays the preview cast,
+running, far-side table overlap, conversations and resumed activities. See
+[the preview report](docs/sprite-preview/PLAYTEST.md) for images and verification.
