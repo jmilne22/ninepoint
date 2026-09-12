@@ -5,7 +5,7 @@ This document explains **why** future work matters and the trade-offs around it.
 dependencies, and acceptance criteria. `MILESTONES.md` is the append-only delivery history.
 Do not select work from this document without checking its linked board ticket first.
 
-The build is green: `tools/test.sh` passes 18,017 Godot checks, 13 Python art tests, a capture-scene gate and three real-engine gates,
+The build is green: `tools/test.sh` passes 18,200 Godot checks, 13 Python art tests, a capture-scene gate and three real-engine gates,
 `tools/check_lessons.py` reports no problems, and the game is playable from the cold open
 to the exam and the Cup.
 
@@ -128,9 +128,14 @@ kyu, which makes Pip and Wren unplayable for a beginner.
 **What the review costs, measured.** One KataGo evaluation of one position is about a
 core-second on the bundled Eigen CPU build, at one visit or eight; a finished 9×9 game is
 fifty to eighty positions and a 19×19 game two to three hundred. That is why the review is
-one `katago analysis` query per game with the results streamed, why the loading card shows
-"move N of M" and can be left, and why the first version — two GTP searches per move
+one `katago analysis` process per game with the results streamed, why the loading card shows
+position/comparison progress and can be left, and why the first version — two GTP searches per move
 inside an eighteen-second budget — timed out on every real game and looked like a hang.
+
+REV-01 adds deeper analysis only for selected review moments: at most nine
+comparisons (200 visits actual/best, 50 pass) after the eight-visit score pass. The 9×9 detail budget is 45 seconds; lowering
+visits requires the owner’s decision with measurements. Live teaching and LLM narration
+are separate, unstarted work.
 
 **Strength, measured (M41).** M39's calibration never played a game out. The probe
 (`tools/katago_strength_probe.gd`) puts every beginner profile on a ladder of the same
@@ -343,7 +348,8 @@ board visible. Wren’s actual practice uses position-aware guidance, Help and a
 her engine strength and stopping policy stay unchanged until human experience warrants a
 different decision. Proposed dead marks remain manually editable and are still heuristic.
 
-Reactions now precede analysis. Review language reports immediate verifiable changes, with
+Reactions now precede analysis. Review language reports immediate verifiable changes and coordinate-grounded engine
+estimates, with
 independent board comparisons and qualified engine preferences. Requesting analysis never
 records another result. Visual novice belongings, contrasting HUD text and league-derived
 progress make the existing setting and competition readable without another progression.

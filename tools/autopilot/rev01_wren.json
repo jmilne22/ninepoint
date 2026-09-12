@@ -1,0 +1,8 @@
+[
+ {"save":"lost_to_kesh"},{"wait":0.8},{"tap":"move_down"},{"tap":"interact"},{"world_wait":true},
+ {"experience":"review_wren_start"},{"experience":"setup"},{"shot":"ready"},
+ {"experience":"review_abandon","require_black":true},
+ {"experience":"result"},{"experience":"review_snapshot"},{"experience":"review_choice","accept":true},
+ {"wait":0.8,"shot":"review_loading"},{"review_card_wait":true,"timeout":180},
+ {"experience":"review_acceptance"},{"world_wait":true},{"experience":"review_unchanged"},{"shot":"lesson_return"},{"tap":"cancel"},{"world_wait":true},{"shot":"back_in_room"}
+]

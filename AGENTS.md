@@ -201,6 +201,7 @@ tools/play.sh -- --katago-trial=res://tools/fixtures/katago_trial_19x19.tres # d
 tools/play_ps1.sh                                # isolated De Ketel 2.5D experiment; never saves
 tools/run_ps1.sh tools/autopilot/ps1_tour.json     # disposable user data, rendered-room acceptance
 tools/test.sh                                    # compile gate + load check + all suites
+tools/test_review_pure.sh                        # facts/narrator with the game and engine absent
 tools/run_game.sh tools/autopilot/<script>.json  # drive the game, screenshot each beat
 python3 tools/build_assets.py                    # regenerate ALL assets (Blender + Pillow required)
 python3 tools/build_world_art.py --maps de_ketel   # selective rendered room rebuild
@@ -247,7 +248,8 @@ Autopilot scripts in `tools/autopilot/`: `opening`, `prologue`, `institute`,
 `cup_outgrown` / `cup_playing_up` / `cup_enter_open` / `cup_open`, `exam` /
 `exam_round` / `exam_play` / `exam_result` / `exam_missed` / `exam_final`, `wassalon` /
 `wassalon_game`, `katago_trial` / `katago_style_steady` / `katago_style_balanced` /
-`katago_style_fighting` (the engine at the board, no world), `review_e2e` / `review_13x13`
+`katago_style_fighting` (the engine at the board, no world), `rev01_wren` (deliberate two-liberty abandonment against Wren’s shipped engine) /
+`review_e2e` / `review_13x13`
 / `review_win` (a whole game to the count, then the cards; the last one against the
 weakest heuristic so the player wins -- the autoplay brain cannot beat even Abel's engine), `review_world_wren_loss` / `review_world_wren` /
 `review_world_13` (the same through the town: Wren at The Kettle, Kesh's thirteen, then the
@@ -323,7 +325,8 @@ src/go/        pure rules: board, game, scoring, ranks, the rank ladder, nigiri/
 src/go_ai/     GoOpponent interface, GoEndgame (which ground is finished), the heuristic AI
                (style as well as strength), EnginePipe (one child process, read a line at a
                time off the scene thread), GtpOpponent (KataGo at the board), KataGoAnalysis
-               (KataGo's analysis mode over a whole game) + MatchAnalysis (the review, pure)
+               (KataGo's analysis mode over a whole game) + MatchAnalysis (the review, pure),
+               ReviewFacts / ReviewContinuation / ReviewNarrator / ReviewEnrichment (pure evidence and payloads)
 src/go_ui/     board view, match scene, puzzle scene, lesson runner, nigiri ceremony
 src/rpg/       world, player, NPCs, maps, components (Warp, Interactable, CharacterSprite),
                SignDesk (everything you read on a wall or sit down at: the boards, the
@@ -350,8 +353,9 @@ src/autoload/  EventBus, GameState, SaveSystem, SceneRouter, MatchBridge, KataGo
   missing or slow. The binary and models are fetched by `tools/setup_katago.sh`, not in git.
 - **The review is one process per game.** `MatchBridge.record_completed_match()` records once before returning to the world.
   After the reaction, `request_review(record_index)` starts `MatchReviewService`, which runs
-  `KataGoAnalysis` on the SGF: one query, every position, about a core-second each on the
-  bundled CPU build. The world-owned review panel shows progress and can be left with [Esc]; the review
+  `KataGoAnalysis` on the SGF: an eight-visit query over every position, then up to nine
+  actual/best (200 visits) and pass (50 visits) comparisons on the same process (REV-01 Step 1).
+  Both phases stream progress; detail failures preserve the existing score-based cards. The world-owned review panel shows progress and can be left with [Esc]; the review
   finishes on its own and waits on the quay noticeboard. Nothing in it changes the result.
 - `GoMatchSetup` decides colours: nigiri for even games, automatic Black at 0.5 komi for
   handicap games, derived from the two ranks.
@@ -490,6 +494,13 @@ full game → reaction/review → Kesh’s novice card (optional handicap practi
 Hana’s welcome and first class → enrol → league board → novice fixtures → the Cup ending → optional Academy League/exam. Twelve maps, twenty characters, each on
 exactly one map. Capture Go uses 7×7; town games use 9×9 and 13×13, with 19×19 available
 in development play. Four quests. Three save slots.
+
+REV-01/M51 adds coordinate-grounded review facts, ownership comparisons and Lesson L.
+Pure facts/narration run without engine or game files. Capture examples are explicitly
+labelled possible lines and legally replayed on load; they never establish forced death.
+Steps 1–4 are complete; live teaching and LLM narration remain unstarted. Reproduce the
+inspected Black/White cards with `rev01_fixture_keyboard` / `rev01_fixture` and the saved
+engine payloads in `docs/review/PLAYTEST.md`.
 
 **M37 was the cut.** The owner played it and found it unplayable in six ways, and none of the
 verification this project had done — 7,081 checks and thirty autopilot scripts — had asked

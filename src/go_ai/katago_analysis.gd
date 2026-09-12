@@ -1,4 +1,4 @@
-## KataGo's analysis engine over a pipe: one query for a whole game, results
+## KataGo's analysis engine over one pipe: scores, then selected comparisons, results
 ## arriving one turn at a time. It knows a match record and nothing about the
 ## town; MatchAnalysis turns what comes back into cards.
 ##
@@ -10,6 +10,7 @@ class_name KataGoAnalysis
 extends RefCounted
 
 signal progress(done: int, total: int)
+signal phase_progress(phase: String, done: int, total: int)
 
 const COMMAND := "res://packaging/katago/katago-gtp.sh"
 const MODEL := "res://packaging/katago/models/kata1-b18c384nbt-s9996604416-d4316597426.bin.gz"
@@ -29,6 +30,7 @@ static var stall_override := -1.0
 
 var _pipe := EnginePipe.new()
 var _cancelled := false
+var _started := 0
 
 
 static func is_available() -> bool:
@@ -56,120 +58,128 @@ static func thread_count() -> int:
 ## value before and after each move is known. Handicap stones are setup, not
 ## moves, and then White moves first.
 static func query_for(replay: Dictionary, komi: float, id: String = "review") -> Dictionary:
-    var size := int(replay.get("size", 0))
-    var board := GoBoard.new(size)
-    var moves: Array = []
-    for move_value in replay.get("moves", []):
-        var move: Dictionary = move_value
-        var point := int(move.get("point", GoGame.PASS))
-        moves.append(["B" if int(move["color"]) == GoBoard.BLACK else "W",
-            "pass" if point < 0 else board.label(point)])
-    var turns: Array = []
-    for turn in moves.size() + 1:
-        turns.append(turn)
-    var query := {
-        "id": id, "moves": moves, "rules": "japanese", "komi": komi,
-        "boardXSize": size, "boardYSize": size, "analyzeTurns": turns,
-        "includePolicy": false, "includeOwnership": false,
-    }
-    var handicap := int(replay.get("handicap", 0))
-    if handicap >= 2:
-        var stones: Array = []
-        for point in GoGame.handicap_points(size, handicap):
-            stones.append(["B", board.label(point)])
-        query["initialStones"] = stones
-        query["initialPlayer"] = "W"
-    return query
+    return KataGoReviewQuery.query_for(replay, komi, id)
 
 
-## One line of KataGo analysis output -> {turn, score_lead, best, best_lead,
-## second_lead}. Anything that is not a turn result is {}; an engine error
-## comes back as {"error": ...}. Malformed lines never become a lesson.
-static func parse_line(line: String) -> Dictionary:
-    var text := line.strip_edges()
-    if not text.begins_with("{"):
-        return {}
-    var parsed: Variant = JSON.parse_string(text)
-    if not (parsed is Dictionary):
-        return {}
-    if parsed.has("error"):
-        return {"error": str(parsed["error"])}
-    if not parsed.has("turnNumber") or not (parsed.get("rootInfo") is Dictionary):
-        return {}
-    var root: Dictionary = parsed["rootInfo"]
-    if not root.has("scoreLead"):
-        return {}
-    var out := {"turn": int(parsed["turnNumber"]), "score_lead": float(root["scoreLead"]),
-        "winrate": float(root.get("winrate", 0.5)), "best": "", "best_lead": float(root["scoreLead"]),
-        "second_lead": null}
-    var infos: Array = parsed.get("moveInfos", []) if parsed.get("moveInfos") is Array else []
-    if infos.size() > 0 and infos[0] is Dictionary:
-        out["best"] = str(infos[0].get("move", ""))
-        out["best_lead"] = float(infos[0].get("scoreLead", root["scoreLead"]))
-    if infos.size() > 1 and infos[1] is Dictionary and infos[1].has("scoreLead"):
-        out["second_lead"] = float(infos[1]["scoreLead"])
-    return out
+static func parse_line(line: String, size: int = 0) -> Dictionary:
+    return KataGoReviewQuery.parse_line(line, size)
 
 
 ## Runs the whole query. Returns {"turns": {turn: {...}}, "total", "complete",
 ## "reason", "engine_version"}. Never throws, never blocks the scene thread,
-## and always leaves no child process behind.
-func run(record: Dictionary) -> Dictionary:
+## and closes the child unless keep_open is requested for run_details().
+func run(record: Dictionary, keep_open: bool = false) -> Dictionary:
     var replay := MatchAnalysis.replay(str(record.get("sgf", "")))
     if replay.is_empty():
-        return _finish({}, 0, "malformed sgf")
+        return _result({}, 0, "malformed sgf")
     var query := query_for(replay, float(record.get("komi", 5.5)))
     var total: int = query["analyzeTurns"].size()
     if not is_available():
-        return _finish({}, total, "engine files missing")
+        return _result({}, total, "engine files missing")
     var command := command_override if command_override != "" else COMMAND
     var args := PackedStringArray(["analysis", "-config", CONFIG, "-model", MODEL,
         "-override-config", "numAnalysisThreads=%d" % thread_count()])
     if not _pipe.open(command, args):
-        return _finish({}, total, "engine could not start")
-    _pipe.write_line(JSON.stringify(query))
+        return _result({}, total, "engine could not start")
+    _started = Time.get_ticks_msec()
+    var collected: Dictionary = await _collect([query], int(replay["size"]), "positions", 0, true)
     var turns := {}
+    for parsed in collected["results"].values():
+        turns[int(parsed["turn"])] = parsed
+    var out := _result(turns, total, str(collected["reason"]))
+    out["pass1_seconds"] = float(Time.get_ticks_msec() - _started) / 1000.0
+    if not keep_open or not out["complete"] or _cancelled:
+        close()
+    return out
+
+
+## The service chooses pass-one cards before asking for details. A failed second
+## pass never discards the already usable first pass. Raw detail maps are ephemeral.
+func run_details(record: Dictionary, raw: Dictionary) -> Dictionary:
+    var out := raw.duplicate(true)
+    out.merge({"details": {}, "pass2_seconds": 0.0, "detail_total": 0, "detail_reason": ""}, true)
+    if not _pipe.is_open() or _cancelled or not bool(raw.get("complete", false)):
+        close()
+        return out
+    var payload := MatchAnalysis.from_turns(0, record, raw)
+    var findings: Array = payload.get("findings", [])
+    var replay := MatchAnalysis.replay(str(record.get("sgf", "")))
+    var queries := KataGoReviewQuery.detail_queries(replay, float(record.get("komi", 5.5)), findings)
+    out["detail_total"] = queries.size()
     var started := Time.get_ticks_msec()
-    var last_line := started
+    var collected: Dictionary = await _collect(queries, int(replay["size"]), "comparisons", int(raw["total"]))
+    out["pass2_seconds"] = float(Time.get_ticks_msec() - started) / 1000.0
+    out["detail_reason"] = collected["reason"]
+    var details := {}
+    for n in findings.size():
+        var branches := {}
+        for branch in ["actual", "best", "pass"]:
+            var id := "f%d_%s" % [n, branch]
+            var key := "%s:%d" % [id, int(findings[n]["move_number"])]
+            if collected["results"].has(key):
+                branches[branch] = collected["results"][key]
+        details[int(findings[n]["move_number"])] = branches
+    out["details"] = details
+    close()
+    return out
+
+
+func _collect(queries: Array, size: int, phase: String, offset: int,
+        startup_allowed: bool = false) -> Dictionary:
+    var expected := {}
+    for query in queries:
+        for turn in query["analyzeTurns"]:
+            expected["%s:%d" % [query["id"], int(turn)]] = true
+        _pipe.write_line(JSON.stringify(query))
+    var results := {}
+    var last_line := Time.get_ticks_msec()
     var stall := stall_override if stall_override > 0.0 else STALL_SECONDS
     var startup := minf(STARTUP_SECONDS, stall * 3.0) if stall_override > 0.0 else STARTUP_SECONDS
     var reason := ""
-    while not _cancelled and turns.size() < total:
+    phase_progress.emit(phase, 0, expected.size())
+    while not _cancelled and results.size() < expected.size():
         var read: Dictionary = await _pipe.read_line(0.25)
         var now := Time.get_ticks_msec()
+        if float(now - _started) / 1000.0 > TOTAL_CAP_SECONDS:
+            reason = "took too long"
+            break
         if not bool(read.get("ready", false)):
             var quiet := float(now - last_line) / 1000.0
-            if quiet > (stall if not turns.is_empty() else startup):
+            if quiet > (startup if startup_allowed and results.is_empty() else stall):
                 reason = "engine stalled"
-                break
-            if float(now - started) / 1000.0 > TOTAL_CAP_SECONDS:
-                reason = "took too long"
                 break
             continue
         var line := str(read.get("line", ""))
         if line.strip_edges() == "" and not _pipe.is_running():
             reason = "engine exited"
             break
-        last_line = now
-        var parsed := parse_line(line)
+        var parsed := parse_line(line, size)
         if parsed.has("error"):
             reason = "engine rejected the game: %s" % str(parsed["error"])
             break
         if parsed.is_empty():
             continue
-        turns[int(parsed["turn"])] = parsed
-        progress.emit(turns.size(), total)
-    if _cancelled and reason == "":
+        var key := "%s:%d" % [parsed["id"], parsed["turn"]]
+        if not expected.has(key) or results.has(key):
+            continue
+        last_line = now
+        results[key] = parsed
+        progress.emit(offset + results.size(), offset + expected.size())
+        phase_progress.emit(phase, results.size(), expected.size())
+    if _cancelled:
         reason = "cancelled"
-    return _finish(turns, total, reason)
+    return {"results": results, "reason": reason}
 
 
 func cancel() -> void:
     _cancelled = true
+    close()
+
+
+func close() -> void:
     _pipe.close()
 
 
-func _finish(turns: Dictionary, total: int, reason: String) -> Dictionary:
-    _pipe.close()
+func _result(turns: Dictionary, total: int, reason: String) -> Dictionary:
     return {"turns": turns, "total": total, "complete": total > 0 and turns.size() == total,
         "reason": reason, "engine_version": engine_version()}

@@ -5,6 +5,7 @@
 extends Node
 
 signal progress(record_index: int, done: int, total: int)
+signal phase_progress(record_index: int, phase: String, done: int, total: int)
 signal finished(record_index: int, payload: Dictionary)
 
 var _runner: KataGoAnalysis = null
@@ -58,8 +59,13 @@ func _run(record_index: int) -> void:
         _index = record_index
         runner.progress.connect(func(done: int, total: int) -> void:
             progress.emit(record_index, done, total))
+        runner.phase_progress.connect(func(phase: String, done: int, total: int) -> void:
+            phase_progress.emit(record_index, phase, done, total))
         var started := Time.get_ticks_msec()
-        var raw: Dictionary = await runner.run(record)
+        var raw: Dictionary = await runner.run(record, true)
+        if _runner != runner:
+            return
+        raw = await runner.run_details(record, raw)
         print("Review: %d of %d positions in %.1f s on %d threads (%s)" % [
             raw.get("turns", {}).size(), int(raw.get("total", 0)),
             float(Time.get_ticks_msec() - started) / 1000.0, KataGoAnalysis.thread_count(),

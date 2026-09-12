@@ -1,0 +1,80 @@
+[
+  {
+    "save": "quay_review"
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "experience": "review_fixture"
+  },
+  {
+    "walk_to": [
+      17,
+      4
+    ]
+  },
+  {
+    "face": [
+      17,
+      3
+    ]
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "review_card_wait": true,
+    "timeout": 5
+  },
+  {
+    "experience": "review_acceptance",
+    "click": false
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "shot": "returned_from_lesson"
+  },
+  {
+    "walk_to": [
+      17,
+      4
+    ]
+  },
+  {
+    "face": [
+      17,
+      3
+    ]
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "review_card_wait": true,
+    "timeout": 5
+  },
+  {
+    "review_walk": true
+  },
+  {
+    "tap": "cancel"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "shot": "review_retained"
+  }
+]

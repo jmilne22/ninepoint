@@ -16,7 +16,7 @@
   ],
   "config": {"path": "katago/config/gtp_human_fast.cfg", "humanSLProfiles": "generated human_{rank}_{style}.cfg (steady, balanced, fighting; 20k..9d)"},
   "launch": ["gtp", "-config", "{config}", "-model", "{model}", "-human-model", "{human-model}"],
-  "review": {"config": "katago/config/analysis.cfg", "model": "normal", "launch": ["analysis", "-config", "{config}", "-model", "{model}", "-override-config", "numAnalysisThreads={threads}"], "note": "one query per game, every turn analysed, about one core-second per position on the Eigen build"},
+  "review": {"config": "katago/config/analysis.cfg", "model": "normal", "launch": ["analysis", "-config", "{config}", "-model", "{model}", "-override-config", "numAnalysisThreads={threads}"], "note": "one process per game: every turn at eight visits, then up to nine ownership comparisons at 200 actual/best or 50 pass visits; phase progress and graceful detail fallback"},
   "licenses": ["KataGo license: https://github.com/lightvector/KataGo/blob/master/LICENSE", "Network license: https://katagotraining.org/network_license/"],
   "verification": "2026-09-04: `katago version` and a 9x9 GTP genmove smoke test passed on Linux x64."
 }

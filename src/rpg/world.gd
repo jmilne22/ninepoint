@@ -204,6 +204,8 @@ func _offer_review(index: int, result: MatchResult) -> void:
     add_child(flow)
     await flow.closed
     player.input_locked = false
+    if flow.requested_lesson != "":
+        MatchBridge.start_lesson(flow.requested_lesson, player.global_position)
 
 
 ## A review the player walked away from has landed. It waits at the quay.

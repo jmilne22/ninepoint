@@ -3,6 +3,7 @@ class_name PostMatchReview
 extends CanvasLayer
 
 signal closed
+var requested_lesson := ""
 var record_index := -1
 var opponent_name := ""
 var leave_hint := ""
@@ -92,10 +93,10 @@ func _choose(yes: bool) -> void:
     _loading.leave_requested.connect(func(): _waiting = false)
     add_child(_loading)
     _waiting = true
-    var progress := func(index: int, done: int, total: int):
+    var progress := func(index: int, phase: String, done: int, total: int):
         if index == record_index and is_instance_valid(_loading):
-            _loading.set_progress(done, total)
-    MatchReviewService.progress.connect(progress)
+            _loading.set_phase_progress(phase, done, total)
+    MatchReviewService.phase_progress.connect(progress)
     if not MatchBridge.request_review(record_index):
         _waiting = false
     var payload: Dictionary = {}
@@ -104,7 +105,7 @@ func _choose(yes: bool) -> void:
         if not payload.is_empty() and payload.get("availability", "") != "pending":
             break
         await get_tree().process_frame
-    MatchReviewService.progress.disconnect(progress)
+    MatchReviewService.phase_progress.disconnect(progress)
     _loading.dismiss()
     if not _waiting:
         _close()
@@ -115,6 +116,7 @@ func _choose(yes: bool) -> void:
     cards.setup(payload, opponent_name)
     add_child(cards)
     await cards.closed
+    requested_lesson = cards.requested_lesson
     _close()
 
 

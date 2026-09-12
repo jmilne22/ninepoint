@@ -86,7 +86,7 @@ static func available(record_index: int, engine_version: String, positions: Arra
         seen_moves[move_number] = true
     return _with_meta({"source_match": record_index, "availability": "available",
         "engine_version": engine_version, "positions": positions.duplicate(true),
-        "findings": findings.duplicate(true)}, meta)
+        "findings": findings.map(ReviewEnrichment.clean)}, meta)
 
 
 static func _with_meta(payload: Dictionary, meta: Dictionary) -> Dictionary:
@@ -298,7 +298,7 @@ static func from_turns(record_index: int, record: Dictionary, raw: Dictionary) -
     var meta := {"partial": not bool(raw.get("complete", false)),
         "analysed_moves": moments.size(), "total_moves": total_moves,
         "tally": tally(moments)}
-    return available(record_index, version, [], select_moments(moments), meta)
+    return available(record_index, version, [], ReviewEnrichment.enrich(select_moments(moments), raw), meta)
 
 
 ## Independently describe each move's immediate effect. Engine preferences may

@@ -3524,3 +3524,51 @@ completed, stale Noor invitations after the Cup and route choices overtaken by n
 Map labels were regenerated; render provenance was refreshed only after proving all actual
 geometry inputs unchanged. The legacy arrival caption was regenerated and opened. Core
 product, implementation, voice and task documents were swept; historical reports remain history.
+
+## M51 — Coordinate-grounded reviews and lesson cards [done]
+
+REV-01 Steps 1–4 retain the eight-visit whole-game score pass, then compare actual,
+best and pass branches for the selected cards on the same engine process. Pure facts
+normalize Black-positive scores/ownership once for the player and name the affected
+regions, chains, liberties and legal continuations. Deterministic cards show estimated
+point costs, ownership comparisons and links to existing lessons. Invalid enrichment
+falls back to the legacy card; saves without facts keep their old rendering and controls.
+
+**Done when:** 18,200 Godot checks pass with zero failures (predecessor M50's technical
+implementation: 18,017), 325 files load, 13 Python art tests and every integration gate
+pass. The isolated facts/narrator project passes 101 checks without game/engine files.
+Failure, cancellation, stale-session, watchdog, save round-trip and legacy checks pass.
+The real Wren 9×9 game deliberately abandons F2 with two liberties and Wren captures it;
+its re-analysed mistake card and the White developer mirror name F2, G2/F1, a legally
+replayed capturing example, about 19 points and Kesh's escape lesson. Both pages were
+opened. Keyboard/clickable L, all three lesson steps, normal world return and save/reopen
+retain the review. Quiet/legacy cards, ownership and nineteen-line zoom were also opened.
+[Inspected evidence and reproduction payloads](docs/review/PLAYTEST.md).
+
+| Measurement | 9×9, 78 moves | 19×19, 242 moves |
+|---|---:|---:|
+| Pass 1 / pass 2 | 14.888 / 31.112 s | 64.443 / 47.909 s |
+| Review bytes before → after | 4,639 → 10,055 (+5,416) | 13,947 → 48,279 (+34,332) |
+| Complete save bytes before → after | 6,957 → 13,721 (+6,764) | 20,613 → 64,565 (+43,952) |
+
+Each size uses nine detail queries, identical source games/JSON formatting and isolated
+absolute XDG data. All engine/game acceptance runs were serial. Actual Wren SGF passes
+were 10.372 / 29.872 s as Black and 10.593 / 30.535 s in the White mirror.
+
+### Deliberate changes and boundaries
+
+| Before | Shipped behavior |
+|---|---|
+| Immediate mechanics were the only explanation | Named groups/regions, liberties, qualified costs and legal continuation evidence |
+| No deeper selected-position analysis | At most nine comparisons, 200 actual/best visits and owner-approved 50 pass visits |
+| Ownership absent from comparisons | Subtle empty-point tint plus lost-region outlines, with tested storage ordering and White perspective |
+| Lessons used only the old immediate concept | Existing-lesson mapping from new facts; duplicate/unsupported lesson cards omitted without replacement queries |
+| A PV predicted death without showing capture | Owner-approved, separately labelled legal example can demonstrate capture after two PV moves; this is not a forced line or the engine's preference |
+| Saved text was trusted as legacy prose | Enriched coordinates are checked, examples replayed and malformed enrichment removed safely |
+
+The first 9×9 detail pass took 50.377 seconds; work stopped before the owner approved
+reducing only pass-branch visits. Real asymmetric ownership probes preceded the sole
+conversion function, and White fixtures preceded fact functions. Steps 1–3 each have a
+separate green-gate commit; this milestone closes Step 4. Step 5, LLM narration, opponent
+strength/ranks, policy commentary and new teaching content remain unstarted. M50's
+independent human learning/transfer acceptance remains unresolved and is not claimed here.

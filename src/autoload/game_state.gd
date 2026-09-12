@@ -226,7 +226,7 @@ func to_dict() -> Dictionary:
         "match_records": match_records,
         "league_attempts": league_attempts,
         "active_league": active_league,
-        "match_analysis": match_analysis,
+        "match_analysis": ReviewEnrichment.save_entries(match_analysis),
         "current_map": current_map,
         "spawn_point": spawn_point,
         "return_position": [return_position.x, return_position.y],
@@ -251,6 +251,7 @@ func from_dict(d: Dictionary) -> void:
     match_analysis = d.get("match_analysis", {})
     if not (match_analysis is Dictionary):
         match_analysis = {}
+    match_analysis = ReviewEnrichment.restore_entries(match_analysis)
     # A review that was running when the game was saved is not resumed: the
     # engine is gone and pretending otherwise would leave the quay waiting.
     for key in match_analysis.keys():

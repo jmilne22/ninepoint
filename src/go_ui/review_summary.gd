@@ -25,7 +25,10 @@ static func text(review: Dictionary) -> String:
         verdict = "None matched its preferred move exactly, but %d were close in its estimate." % fine
     else:
         verdict = "The engine preferred a different move at each turn. Start with one position below."
-    var text := "%s %s\n\nThis compares engine choices, not a beginner pass mark. Move numbers include both players.\n\nComparisons show immediate changes. The engine score also considers later play." % [looked, verdict]
+    var comparison := "Comparisons show immediate changes. The engine score also considers later play."
+    if review.get("findings", []).any(func(f: Variant) -> bool: return f is Dictionary and f.has("facts")):
+        comparison = "These boards compare the moves. Tint estimates who will keep each point."
+    var text := "%s %s\n\nThis compares engine choices, not a beginner pass mark. Move numbers include both players.\n\n%s" % [looked, verdict, comparison]
     var best_moves: Array = tally.get("best_moves", [])
     if not best_moves.is_empty():
         var shown: Array = best_moves.slice(0, 12)

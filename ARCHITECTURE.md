@@ -64,6 +64,8 @@ src/
     engine_pipe.gd      one child process on a pipe, read a line at a time off the scene thread
     gtp_opponent.gd     GTP adapter: KataGo's Human-SL model at the character's rank, at the board
     katago_analysis.gd  KataGo's analysis mode over a whole finished game, one turn at a time
+    review_facts.gd / review_continuation.gd / review_narrator.gd   pure board evidence and prose
+    review_enrichment.gd   optional detail fields, validation and packed/JSON conversion
     match_analysis.gd   the review, pure: what a move cost, which three positions, the payload
     opponent_factory.gd  OpponentProfile resource -> live opponent instance
 
@@ -222,14 +224,40 @@ rather than one player of it, and skips the blunders. `tools/katago_strength_pro
 measures what a config actually plays at, in whole games against the same model at
 temperature 1.0; the temperaments were set from its numbers (M41), not by feel.
 
-The review uses the same pipe against `katago analysis`: `KataGoAnalysis.run(record)` writes
+The review uses the same pipe against `katago analysis`: `KataGoAnalysis.run(record, true)` writes
 one JSON query for the whole game (`analyzeTurns` = every position, handicap as
 `initialStones`, the game's komi, Japanese rules to match `GoScoring`) and reads one line per
-position as it arrives. `MatchAnalysis` is pure: it parses those lines, charges each of the
+position as it arrives. `KataGoReviewQuery` owns pure query/parsing and the single
+ownership-order conversion. `MatchAnalysis` is pure: it charges each of the
 player's moves the difference between the position before and after from their side,
 tallies how many matched the engine's move or gave nothing away, and picks at most three
 positions. Cost is about one core-second per position on the Eigen build, so the
 service streams progress and the caller may leave; a watchdog fails a silent engine.
+REV-01 Step 1 keeps that process open for `run_details(record, raw)`: actual, best and pass
+branches for up to three selected findings, at 200 visits for actual/best and 50 for pass, with ownership enabled.
+The score pass stays at eight visits. Query IDs disambiguate identical turn numbers;
+optional detail failures retain pass-one cards. Full raw analysis stays transient;
+only selected quantized maps and supporting fact lines reach saved reviews.
+
+REV-01 Step 2 adds `ReviewFacts` and `ReviewContinuation`, pure static RefCounted
+components taking arrays/dictionaries. Ownership/score signs are normalized exactly once
+for the player before detection; all findings identify board coordinates or regions.
+Ownership predicts group outcomes; replayed legal PV captures provide separate proof.
+The lesson table maps group loss to Kesh's existing escape lesson. These components
+feed `ReviewEnrichment` before ownership is rounded. Pure `ReviewNarrator` templates are limited to three
+sentences, qualify estimates and validate every coordinate against the facts. `tools/test_review_pure.sh` tests both in a project without game/engine files.
+`ReviewEnrichment` seals optional facts/narration/lesson and player-relative ownership
+fields. Runtime maps are one-decimal PackedFloat32Arrays; GameState writes plain numeric
+arrays and restores packed maps on load. Invalid enrichment drops to legacy critique.
+If the engine PV does not demonstrate a predicted group death, `ReviewContinuation` may
+retain its first two legal moves and demonstrate an immediate atari capture as a separate
+`capture_example`. It must capture all named original stones. This is labelled “One legal
+example”, never a forced line or the engine PV; its cost stays the engine's move comparison.
+Sealing and loading replay examples and check their capture evidence before displaying them.
+The detail pass never selects replacement queries for duplicate/unsupported lessons.
+`ReviewOwnershipInk` tints empty intersections beneath markers and outlines lost regions
+using the board geometry, including nineteen-line zoom. ReviewCards returns a requested
+lesson to its world owner, which calls the existing MatchBridge lesson runner.
 
 Strength knobs on `OpponentProfile` (all honest, none of them "the AI plays badly on purpose
 because you levelled up"): `engine`, `rank_label`, `board_size`, `komi`, `handicap`,

@@ -48,6 +48,8 @@ var mark_point: int = -1
 ## The review's one positive card: the same mark, in the paper's gold rather
 ## than the liberty teal, so praise and correction never look alike.
 var mark_good: bool = false
+var review_ownership := PackedFloat32Array()
+var review_regions: Array = []
 
 var zoomed := false
 var inspection := false
@@ -71,6 +73,8 @@ func set_game(g: GoGame) -> void:
     game = g
     clear_animations()
     dead = {}
+    review_ownership = PackedFloat32Array()
+    review_regions = []
     liberty_targets = PackedInt32Array()
     territory = PackedByteArray()
     zoomed = false
@@ -227,6 +231,8 @@ func _draw() -> void:
 
     if show_territory and territory.size() == game.board.cells.size():
         GoBoardInk.territory_marks(self, game, geometry, territory)
+
+    ReviewOwnershipInk.draw(self, game, geometry, review_ownership, review_regions)
 
     for point in _ghosts:
         if not geometry.contains(int(point)):

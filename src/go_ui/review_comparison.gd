@@ -32,3 +32,20 @@ static func pages(blocks: Array[String], width: int, height: int) -> PackedStrin
     if current != "":
         result.append(current)
     return result
+
+
+static func overlay(finding: Dictionary, mode: int) -> Dictionary:
+    var out := {"ownership":PackedFloat32Array(), "regions":[]}
+    var safe := ReviewEnrichment.clean(finding)
+    if not safe.has("facts") or mode == 0:
+        return out
+    out["ownership"] = safe["own_actual" if mode == 1 else "own_best"]
+    var board := GoBoard.new(int(safe["size"]))
+    for region in safe["facts"]["region_lost"]:
+        var points := PackedInt32Array()
+        for label in region["members"]:
+            var point := board.from_label(label)
+            if point >= 0:
+                points.append(point)
+        out["regions"].append(points)
+    return out

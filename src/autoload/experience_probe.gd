@@ -22,6 +22,15 @@ static func set_action(action: String, pressed: bool) -> void:
 
 static func perform(tree: SceneTree, spec: Dictionary, shot: Callable) -> void:
     var mode := str(spec["experience"])
+    if mode in ["review_fixture", "review_acceptance", "review_legacy_assert", "review_focus_best"]:
+        await ReviewAcceptanceProbe.perform(tree,spec,shot)
+        return
+    if mode == "review_wren_start":
+        ReviewPlayProbe.start_wren(tree)
+        return
+    if mode == "review_abandon":
+        await ReviewPlayProbe.run(tree, shot, bool(spec.get("require_black", false)))
+        return
     if mode == "practice_probe":
         await PracticePlayProbe.run(tree, shot)
         return

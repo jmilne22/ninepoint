@@ -180,6 +180,8 @@ func quay_review() -> void:
     await cards.closed
     _end()
     GameState.set_flag("quay_review_seen", true)
+    if cards.requested_lesson != "":
+        MatchBridge.start_lesson(cards.requested_lesson, _player.global_position)
 
 
 # --- the tram stop -------------------------------------------------------------
