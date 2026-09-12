@@ -60,7 +60,7 @@ static func shadow_label(parent: Node, pos: Vector2, width: int, colour: Color,
 
 static func panel(parent: Node, rect: Rect2, dark: bool = false) -> NinePatchRect:
     var p := NinePatchRect.new()
-    p.texture = load("res://art/ui/panel_dark.png" if dark else "res://art/ui/panel.png")
+    p.texture = load("res://art/rendered/ui/panel_dark.png" if dark else "res://art/rendered/ui/panel.png")
     for m in ["left", "top", "right", "bottom"]:
         p.set("patch_margin_%s" % m, 6)
     p.position = rect.position

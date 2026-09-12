@@ -1,0 +1,26 @@
+[
+  {
+    "save": "invited"
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "experience": "visit",
+    "map": "attic",
+    "spawn": "desk"
+  },
+  {
+    "wait": 0.4,
+    "shot": "attic_balanced"
+  }
+]

@@ -1,4 +1,4 @@
-Current verified local revision: [M48 Sela evidence](docs/sela/PLAYTEST.md). Historical entries retain their original behavior and counts.
+Current verified local revision: [M49 rendered game evidence](docs/ps1/world/verification.md) and [ART-09 polish](docs/ps1/polish/verification.md). Historical entries retain their original behavior and counts.
 
 # NINEPOINT — Milestones
 
@@ -3394,3 +3394,86 @@ SELA-07 tram-label correction: extended the display lettering to Tram and a sepa
 route-number cell. Only the stop texture changed. Thirteen art tests and editor import
 passed; `art_stop` completed 30 captures, with the lettering and boarding prompt opened.
 The preceding runtime gate was not rerun for this art-only correction.
+
+
+## M49 — PS1-inspired rendered game (ART-07–08)  [done]
+
+Built locally on `codex/ps1-ketel-prototype` from freshly fetched and verified `f459336`.
+The owner first approved one isolated De Ketel room, then approved converting the whole
+game after reviewing it. The owner rejected AI portrait illustrations: the characters,
+portraits and scenery are original Blender models generated through Python source.
+
+The opt-in ART-07 room provides layered scenery, eight-way people, measured dialogue
+with model busts, session-only progress and the existing Wren match/reaction/review loop.
+The production conversion extends that method to all twelve current Sela maps, twenty
+NPCs, the player and five passer types. All required room activities and seven facial
+expressions have exports. The normal title launch now uses this presentation.
+
+The existing logical map remains authoritative for physics, interaction, doors, records
+and saves. A separate fixed-angle projection controls visual positions and a following
+camera. Scenery carries a ground-depth mask for furniture/character overlap; the same
+camera supplies the colour and mask renders. Input stays screen-relative at equal
+diagonal speed, and a logical-player audio listener preserves sound distances.
+
+The Go board stays overhead. The wood slab, slate/shell stones, bowls, table and nigiri
+hands share the new rendering method. Grid geometry, Go rules, lessons, counting,
+review, mouse input and nineteen-line zoom remain unchanged. Title, opening, travel,
+shared frames and compact portraits are converted too.
+
+Tram 4 follows the owner's TLV light-rail photograph plus inspected CRRC references:
+white articulated body, dark wraparound glazing, curved cabs, silver headlight belt,
+flush doors and roof equipment. Five separately sorted sections retain the existing
+route and platform. Boarding now cancels an in-flight pass before controlling position.
+[Reference and build method](docs/ps1/world/tram.md).
+
+**Done when:** 17,239 Godot checks pass (predecessor M48/SELA-07: 16,922), 13 Python art
+tests pass and 310 files load. The full technical gate also passed all three real KataGo
+gates before the final tram refinement; final editor/load/unit/art passes cover that
+refinement. All 18 audio tracks are audible and four intro stings hand over. Isolated
+normal-entry routes exercise all 22 doorway connections, the fresh journey through
+registration, novice losses/Cup ending/repeat, save compatibility, a real Wren game and
+review, input/counting/zoom and both tram directions/destinations. Actual native frames
+and normal 3× window captures were opened. [Evidence and limits](docs/ps1/world/verification.md).
+
+### Deliberate changes and boundaries
+
+| Before | After / evidence |
+|---|---|
+| Python raster generators were the only art tooling | Python coordinates reproducible Blender models/renders; sources and editable snapshots accompany exports |
+| Character pixels and portrait faces were frozen | Owner-authorized models share identity, body, activity and portrait geometry; no AI illustrations |
+| Top-down tile rendering | Fixed 45°/30° projected presentation; twelve maps retain their logical coordinates and old saves |
+| One sorting point for large scenery | Surface-depth masks for furniture; five separate ground contacts for the long tram |
+| Pixel board/ceremony assets | Rendered materials and objects with the same overhead intersections, rules and controls |
+| Experimental scene would normally save/return to the town | Session-only SaveSystem guard and explicit MatchBridge return scene; production saves still work normally |
+| Old route targets assumed screen axes equalled map axes | Projected analog input, precise door waypoints and screen-distance running probes; actual movement verified |
+
+Inspection caught and corrected doubled texture colour, an invisible rank modal caused
+by hiding the entire HUD, narrow-door waypoint clipping, detached ambient speech and
+conflicting tram tweens. Early incomplete/stale autopilot routes are excluded from success
+claims and recorded in the evidence guide. This does not claim independent beginner
+strength or wayfinding acceptance, and does not change Go progression or teaching order.
+
+
+### M49 follow-up — ART-09 coastal and movement polish
+
+Owner play feedback led to connected arm poses, a shallower passing step, neutral exterior
+daylight, doors aligned to existing warp groups and opaque surrounding scenery. The owner
+then requested more varied White City buildings and a Jaffa Port influence. Five original
+facade types, stone storehouses/arches, working boats and harbor details now provide that
+variation. Python/Blender remains the asset source; no photographs or AI illustrations are
+used as game textures. Title/opening/travel frames share the revised architecture.
+
+**Done when:** the full gate remains at **17,239 / 0** (M49 predecessor: 17,239), 13 art tests,
+310 loads and three real-engine gates pass. Final exports were imported and loaded again.
+Six isolated routes produced 116 frames: all connections/maps, 1.750× running, activities
+and dialogue return, both tram arrivals and the coastal approaches. Native and 3× frames,
+motion crops and route contact sheets were opened. Inspection caught stale preview imports
+and a sea-tile boundary seam; both were corrected. [Evidence](docs/ps1/polish/verification.md).
+Gameplay coordinates, saves, Go rules and progression remain unchanged.
+
+Final owner review before PR identified clipped pale interiors. Eight non-bar rooms were
+rebuilt with lower sky/area fills; exterior daylight and the bar lighting are unchanged.
+An actual attic benchmark and fresh 18-frame twelve-map tour were opened, including a
+3× attic view. Floor grain, bedding color and plaster detail remain visible. Documentation
+was reconciled across player/design/architecture/art guides; `CLAUDE.md` now points to the
+canonical `AGENTS.md` rather than maintaining stale duplicate rules.

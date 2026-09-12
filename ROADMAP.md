@@ -5,7 +5,7 @@ This document explains **why** future work matters and the trade-offs around it.
 dependencies, and acceptance criteria. `MILESTONES.md` is the append-only delivery history.
 Do not select work from this document without checking its linked board ticket first.
 
-The build is green: `tools/test.sh` passes 16,922 Godot checks, 13 Python art tests and three real-engine gates,
+The build is green: `tools/test.sh` passes 17,239 Godot checks, 13 Python art tests and three real-engine gates,
 `tools/check_lessons.py` reports no problems, and the game is playable from the cold open
 to the exam and the Cup.
 
@@ -14,6 +14,36 @@ ladder, the borrowed book, the performance rating and the calendar. M40 rebuilt 
 review on engine analysis; the other cuts remain. Read `MILESTONES.md` M37 for why.
 
 ---
+
+## ART-08: full-game rendered presentation
+
+After reviewing ART-07, the owner approved this style for the whole game, including
+Go assets. All twelve maps and the full cast share a repeatable Blender/Python method.
+The overhead Go surface preserves fast, unambiguous intersection reading; rendered
+materials, stones, bowls and table carry the visual direction into matches.
+
+The simulation keeps its logical coordinates. Projection, camera following and per-pixel
+furniture occlusion sit above it, preserving saves and avoiding a second implementation
+of doors, interactions or progression. Large rooms pan at a fixed angle to keep people
+legible at 384×216. Sela remains the setting; this approval supersedes SELA's art freeze.
+[Production method](docs/ps1/world/README.md).
+
+## ART-09: coastal polish
+
+Owner play feedback exposed disconnected arm poses, sunset-like exterior lighting,
+missing door art and black scene edges. The follow-up corrects those and develops the
+approved regional references: varied White City building forms on Market Lane and a
+Jaffa-inspired working harbor on Sea Walk. Variation comes from massing and shade,
+with restrained small detail at 384×216. Existing routes and the Go loop stay stable.
+[Reference study](docs/ps1/polish/references.md).
+
+## ART-07: fixed-view 2.5D experiment
+
+The owner approved a single De Ketel room to test PS1-inspired presentation before
+committing to a town-wide conversion. The experiment uses Blender/Python room layers
+and original character models shared by sprites and portraits. Its cost is chiefly
+asset production and navigation/occlusion authoring; the Go loop remains the same.
+Sela remains the shipped setting. [Prototype guide](docs/ps1/README.md).
 
 ## Sela coastal setting — SELA-01 through SELA-03
 

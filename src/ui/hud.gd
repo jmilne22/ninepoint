@@ -4,6 +4,8 @@ extends CanvasLayer
 
 const TOAST_TIME := 3.0
 
+var _journal_panel: NinePatchRect
+var _prompt_panel: NinePatchRect
 var _prompt: Label
 var _toast: Label
 var _toast_panel: NinePatchRect
@@ -21,7 +23,9 @@ func _ready() -> void:
     _root.mouse_filter = Control.MOUSE_FILTER_IGNORE
     add_child(_root)
 
-    _prompt = _make_label(_root, Vector2(0, 124), 384, 9, Color("#f2e9d8"))
+    _prompt_panel = UiKit.panel(_root, Rect2(8, 163, 368, 21), true)
+    _prompt_panel.hide()
+    _prompt = _make_label(_prompt_panel, Vector2(8, 5), 352, 9, Color("#f2e9d8"))
     _prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
     _prompt.add_theme_color_override("font_shadow_color", Color("#14121a"))
     _prompt.add_theme_constant_override("shadow_offset_y", 1)
@@ -29,7 +33,7 @@ func _ready() -> void:
     _prompt.visible = false
 
     _toast_panel = NinePatchRect.new()
-    _toast_panel.texture = load("res://art/ui/panel_dark.png")
+    _toast_panel.texture = load("res://art/rendered/ui/panel_dark.png")
     for m in ["left", "top", "right", "bottom"]:
         _toast_panel.set("patch_margin_%s" % m, 5)
     _toast_panel.position = Vector2(8, 6)
@@ -39,8 +43,8 @@ func _ready() -> void:
     _root.add_child(_toast_panel)
 
     # A fixed paper strip protects both text columns from changing map colours.
-    var journal_panel := UiKit.panel(_root, Rect2(0, 186, 384, 30))
-    journal_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+    _journal_panel = UiKit.panel(_root, Rect2(0, 186, 384, 30))
+    _journal_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
     _toast = Label.new()
     _toast.position = Vector2(8, 4)
@@ -64,7 +68,9 @@ func _ready() -> void:
     _journal.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 
     EventBus.interaction_available.connect(_on_prompt)
-    EventBus.interaction_cleared.connect(func(): _prompt.visible = false)
+    EventBus.interaction_cleared.connect(func():
+        _prompt.hide()
+        _prompt_panel.hide())
     EventBus.toast.connect(show_toast)
     EventBus.rank_changed.connect(func(_o, _n): refresh())
     EventBus.flag_changed.connect(_on_flag_changed)
@@ -128,6 +134,7 @@ func _make_label(parent: Node, pos: Vector2, width: int, size: int, colour: Colo
 func _on_prompt(text: String) -> void:
     _prompt.text = "%s   [Space]" % text
     _prompt.visible = true
+    _prompt_panel.show()
 
 
 func show_toast(text: String) -> void:
@@ -162,3 +169,11 @@ func _process(delta: float) -> void:
         _toast_t -= delta
         if _toast_t <= 0.0:
             _toast_panel.visible = false
+
+
+## Keep modal rank cards and toasts visible while the room dialogue owns its strip.
+func set_conversation(active: bool) -> void:
+    _journal_panel.visible = not active
+    _rank.visible = not active
+    _journal.visible = not active
+    _prompt_panel.visible = _prompt.visible and not active

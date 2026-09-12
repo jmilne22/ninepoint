@@ -1,0 +1,27 @@
+{
+  "id": "attic",
+  "size": [
+    445,
+    319
+  ],
+  "origin": [
+    194.91740238538054,
+    96
+  ],
+  "basis": 1.131370849898476,
+  "span": 336,
+  "camera": [
+    45,
+    30
+  ],
+  "source_size": [
+    12,
+    9
+  ],
+  "source_sha256": "d5b98c5615c927cb9a3e0488e94c0ab1da03d9267dadb7262b3e3a64f79a9e64",
+  "mask_channels": {
+    "r": "ground_depth",
+    "g": "water",
+    "b": "washer"
+  }
+}

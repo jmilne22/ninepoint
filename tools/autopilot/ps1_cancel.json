@@ -1,0 +1,16 @@
+[
+ {"save": {}},
+ {"wait": 1},
+ {"ketel": {"seat": "wren"}},
+ {"ketel": {"talk": "wren"}},
+ {"advance": 20, "stop_at_choice": true},
+ {"choose": 0},
+ {"wait": 0.3},
+ {"tap": "cancel"},
+ {"world_wait": true, "timeout": 10},
+ {"ketel": {"assert": "free"}},
+ {"ketel": {"assert": "no_record"}},
+ {"shot": "cancel_returns_to_seat"},
+ {"ketel": {"assert": "isolation"}},
+ {"quit": true}
+]

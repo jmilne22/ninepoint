@@ -1,0 +1,20 @@
+[
+ {"save": {}},
+ {"wait": 1},
+ {"note": "Synthetic result regressions; actual board/count/review is ps1_match."},
+ {"ketel": {"seat": "wren"}},
+ {"ketel": {"fixture_result": true}},
+ {"wait": 1.1, "shot": "win_reaction"},
+ {"advance": 25, "stop_at_choice": true},
+ {"wait": 0.5, "shot": "win_review_offer"},
+ {"tap": "cancel"},
+ {"ketel": {"assert": "free"}},
+ {"ketel": {"fixture_result": false}},
+ {"wait": 1.1, "shot": "loss_reaction"},
+ {"advance": 25, "stop_at_choice": true},
+ {"wait": 0.5},
+ {"tap": "cancel"},
+ {"ketel": {"assert": "free"}},
+ {"ketel": {"assert": "isolation"}},
+ {"quit": true}
+]

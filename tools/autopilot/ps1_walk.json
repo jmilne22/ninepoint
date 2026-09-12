@@ -1,0 +1,21 @@
+[
+ {"save": {}},
+ {"wait": 1},
+ {"ketel": {"walk": [92,128]}, "shot": "window_aisle"},
+ {"ketel": {"seat": "kesh"}, "shot": "kesh_seat"},
+ {"ketel": {"walk": [216,111]}, "shot": "behind_bar"},
+ {"ketel": {"seat": "tomas"}, "shot": "bar_front"},
+ {"ketel": {"walk": [289,158]}, "shot": "stove_aisle"},
+ {"ketel": {"walk": "door"}, "shot": "doorway"},
+ {"tap": "interact"},
+ {"shot": "exit_card"},
+ {"tap": "cancel"},
+ {"ketel": {"walk": [249,188]}, "shot": "stove_front"},
+ {"ketel": {"walk": "review"}, "shot": "back_table_front"},
+ {"ketel": {"walk": "spawn"}},
+ {"hold": "move_left", "seconds": 0.5},
+ {"shot": "walking_west"},
+ {"hold": "move_right", "seconds": 0.5},
+ {"ketel": {"assert": "free"}},
+ {"quit": true}
+]

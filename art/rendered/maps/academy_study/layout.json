@@ -1,0 +1,27 @@
+{
+  "id": "academy_study",
+  "size": [
+    752,
+    472
+  ],
+  "origin": [
+    285.42707037725864,
+    96
+  ],
+  "basis": 1.131370849898476,
+  "span": 608,
+  "camera": [
+    45,
+    30
+  ],
+  "source_size": [
+    24,
+    14
+  ],
+  "source_sha256": "43bd33afcf351549563899a3c46eef017394f2660e7df2e3312d734a876e6f43",
+  "mask_channels": {
+    "r": "ground_depth",
+    "g": "water",
+    "b": "washer"
+  }
+}

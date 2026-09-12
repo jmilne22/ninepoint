@@ -1,6 +1,6 @@
 # NINEPOINT — Game Design
 
-> A top-down RPG about learning to play Go, set in **Sela**, a warm, leafy coastal city.
+> A PS1-inspired 2.5D RPG about learning to play Go, set in **Sela**, a warm, leafy coastal city.
 > There are no combat statistics. The only thing that gets stronger is the person holding the controller.
 
 ---
@@ -398,8 +398,9 @@ short enough to read on a dialogue box in three breaths.
 A place the player cannot read is a place they get lost in, and none of it is dialogue.
 Four rules, all of them levels and art rather than systems:
 
-- **The map boundary is closed unless it is a door** — but nothing is built there. A street
-  runs on past the edge of the frame, as a street does; you stop where the camera stops.
+- **The playable boundary is closed unless it is a door.** Scenery continues beyond it:
+  paving, neighboring buildings and sea fill the camera view. Existing collision defines
+  where walking ends; background buildings do not imply additional playable entrances.
 - **Every threshold is drawn.** A door has a frame and daylight under it, a mat inside it,
   and a line at the bottom of the screen naming where it goes. A tram stop has a shelter
   and a boarding slab. The steps to the water have a path worn to them.
@@ -449,7 +450,7 @@ are introduced. Actual observed play is the acceptance test for this presentatio
 ## Sela journey and setting revision
 
 Tel Aviv's recessed balconies, planted setbacks, shaded kiosks and stepped waterfronts
-inform original pixel architecture. They are references for the fictional city, not literal
+inform original model-rendered architecture. They are references for the fictional city, not literal
 geography or a new identity for any character. One fixed mild afternoon replaces perpetual
 drizzle; no clock, weather simulation, heat meter or shop economy is introduced.
 
@@ -463,3 +464,9 @@ Market Lane connects to Sea Walk through the garden steps and to the Arcade thro
 east entrance. Sea Walk's east steps join the Arcade's east exit. The reverse connections
 are always available. Tram 4 remains at Market Lane's west end; its existing invitations
 and eligibility gates remain unchanged. Sea Walk keeps the asynchronous review noticeboard.
+
+White City balcony forms and Jaffa Port stonework/boats inform distinct city and harbor
+compositions. Rooms and streets use a fixed 45°/30° view with screen-relative movement;
+the camera follows large maps. Go stays overhead for clear intersections. Character
+models supply both eight-way sprites and dialogue busts. This presentation changes no
+teaching order, ranks, cast identities or progression rules. [Art direction](ART_DIRECTION.md).

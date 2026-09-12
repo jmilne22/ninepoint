@@ -1,0 +1,24 @@
+driver: PulseAudio
+  theme_title        peak   -13.7 dB  playing true   ok
+  theme_match        peak   -16.3 dB  playing true   ok
+  theme_institute    peak   -14.6 dB  playing true   ok
+  theme_quay         peak   -20.7 dB  playing true   ok
+  theme_arches       peak   -16.7 dB  playing true   ok
+  theme_club         peak   -13.2 dB  playing true   ok
+  theme_street       peak   -16.4 dB  playing true   ok
+  theme_night        peak   -17.2 dB  playing true   ok
+  theme_battle       peak   -13.7 dB  playing true   ok
+  theme_rival        peak   -13.7 dB  playing true   ok
+  theme_ghost        peak   -14.1 dB  playing true   ok
+  theme_teacher      peak   -14.6 dB  playing true   ok
+  theme_wall         peak   -13.9 dB  playing true   ok
+  theme_exam         peak   -14.7 dB  playing true   ok
+  theme_cup          peak   -17.5 dB  playing true   ok
+  amb_room           peak   -32.2 dB  playing true   ok
+  amb_coast          peak   -25.3 dB  playing true   ok
+  amb_breeze         peak   -33.4 dB  playing true   ok
+  theme_battle_in    sting first true, loop took over true after 2.1s   ok
+  theme_rival_in     sting first true, loop took over true after 1.8s   ok
+  theme_ghost_in     sting first true, loop took over true after 2.6s   ok
+  theme_cup_in       sting first true, loop took over true after 2.6s   ok
+all 18 tracks audible, 4 intro stings hand over

@@ -76,6 +76,7 @@ func _physics_process(delta: float) -> void:
     move_and_slide()
     _sprite.walking = true
     _sprite.face(Facing.from_vector(dir, _sprite.direction))
+    _sprite.motion_vector = dir
 
     if get_slide_collision_count() > 0:
         _stuck += delta

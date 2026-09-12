@@ -1,0 +1,68 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  go rules       99 checks
+  go scoring     27 checks
+WARNING: Falling back to the heuristic opponent for 'test'.
+     at: push_warning (core/variant/variant_utility.cpp:1033)
+     GDScript backtrace (most recent call first):
+         [0] create (res://src/go_ai/opponent_factory.gd:20)
+         [1] _test_interface (res://tests/test_go_ai.gd:60)
+         [2] run (res://tests/test_go_ai.gd:39)
+         [3] _run_suites (res://tests/test_runner.gd:48)
+  go ai          322 checks
+  go setup       42 checks
+  league         47 checks
+  content data   12502 checks
+  league attempts 261 checks
+  ambience       555 checks
+  match music    20 checks
+  exam           65 checks
+ERROR: Parse JSON failed. Error at line 0: Expected 'true', 'false', or 'null', got 'this'
+   at: parse_string (core/io/json.cpp:629)
+   GDScript backtrace (most recent call first):
+       [0] slot_info (res://src/autoload/save_system.gd:94)
+       [1] _test_corrupt (res://tests/test_save.gd:213)
+       [2] run (res://tests/test_save.gd:33)
+       [3] _run_suites (res://tests/test_runner.gd:48)
+ERROR: Parse JSON failed. Error at line 0: Expected 'true', 'false', or 'null', got 'this'
+   at: parse_string (core/io/json.cpp:629)
+   GDScript backtrace (most recent call first):
+       [0] slot_info (res://src/autoload/save_system.gd:94)
+       [1] slot_summary (res://src/autoload/save_system.gd:110)
+       [2] _test_corrupt (res://tests/test_save.gd:214)
+       [3] run (res://tests/test_save.gd:33)
+       [4] _run_suites (res://tests/test_runner.gd:48)
+ERROR: Parse JSON failed. Error at line 0: Expected 'true', 'false', or 'null', got 'this'
+   at: parse_string (core/io/json.cpp:629)
+   GDScript backtrace (most recent call first):
+       [0] load_game (res://src/autoload/save_system.gd:75)
+       [1] _test_corrupt (res://tests/test_save.gd:218)
+       [2] run (res://tests/test_save.gd:33)
+       [3] _run_suites (res://tests/test_runner.gd:48)
+ERROR: SaveSystem: slot 3 is corrupt
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] load_game (res://src/autoload/save_system.gd:79)
+       [1] _test_corrupt (res://tests/test_save.gd:218)
+       [2] run (res://tests/test_save.gd:33)
+       [3] _run_suites (res://tests/test_runner.gd:48)
+  save           84 checks
+  rating         69 checks
+  cup            115 checks
+  table talk     374 checks
+  match analysis 85 checks
+  board view     2005 checks
+  onboarding     134 checks
+  player movement 9 checks
+  early game     107 checks
+  projected world 264 checks
+  room presentation 53 checks
+
+17239 passed, 0 failed
+
+WARNING: 1 RID of type "CanvasItem" was leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2733)
+WARNING: 3 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

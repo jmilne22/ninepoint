@@ -1,0 +1,27 @@
+{
+  "id": "academy_dorm",
+  "size": [
+    463,
+    328
+  ],
+  "origin": [
+    213.01933598375615,
+    96
+  ],
+  "basis": 1.131370849898476,
+  "span": 352,
+  "camera": [
+    45,
+    30
+  ],
+  "source_size": [
+    12,
+    10
+  ],
+  "source_sha256": "26c17368fd8533fd3e2a9e35c95ab760ba23052eecc68ad514918c20cc238c3e",
+  "mask_channels": {
+    "r": "ground_depth",
+    "g": "water",
+    "b": "washer"
+  }
+}

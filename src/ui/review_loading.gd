@@ -11,6 +11,7 @@ var _stones: Array[Label] = []
 var _title: Label
 var _body: Label
 var _who := ""
+var leave_hint := "Esc: leave. Find the review on the quay, south past the park."
 
 
 func setup(who: String) -> void:
@@ -38,7 +39,7 @@ func _ready() -> void:
         stone.text = "o"
         _stones.append(stone)
     var hint := UiKit.label(card, Vector2(14, 85), 224, UiKit.INK_FAINT, 26)
-    hint.text = "Esc: leave. Find the review on the quay, south past the park."
+    hint.text = leave_hint
     var actions := MouseActions.new()
     actions.position = Vector2(14, 116)
     card.add_child(actions)

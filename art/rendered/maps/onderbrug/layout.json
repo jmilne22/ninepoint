@@ -1,0 +1,27 @@
+{
+  "id": "onderbrug",
+  "size": [
+    716,
+    454
+  ],
+  "origin": [
+    249.22320318050743,
+    96
+  ],
+  "basis": 1.131370849898476,
+  "span": 576,
+  "camera": [
+    45,
+    30
+  ],
+  "source_size": [
+    24,
+    12
+  ],
+  "source_sha256": "b6fb2936e50ced4df78c0c76b7fb54bbde44825585044c20225527f723c15f29",
+  "mask_channels": {
+    "r": "ground_depth",
+    "g": "water",
+    "b": "washer"
+  }
+}

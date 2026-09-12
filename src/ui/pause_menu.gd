@@ -35,7 +35,7 @@ func _ready() -> void:
     _root.add_child(dim)
 
     var panel := NinePatchRect.new()
-    panel.texture = load("res://art/ui/panel.png")
+    panel.texture = load("res://art/rendered/ui/panel.png")
     for m in ["left", "top", "right", "bottom"]:
         panel.set("patch_margin_%s" % m, 6)
     panel.position = Vector2(112, 36)

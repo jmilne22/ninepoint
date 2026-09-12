@@ -149,10 +149,9 @@ func _debug_request() -> MatchRequest:
 
 func _build_ui() -> void:
     set_anchors_preset(Control.PRESET_FULL_RECT)
-    var bg := ColorRect.new()
-    var venue_colors := {"wassalon": "#45404f", "de_ketel": "#3b2a1f",
-        "onderbrug": "#23324e", "ketelsteeg": "#2f4a30", "bondszaal": "#3a2340"}
-    bg.color = Color(str(venue_colors.get(request.venue_id, "#2a2633")))
+    var bg := TextureRect.new()
+    bg.texture = load("res://art/rendered/ui/table.png")
+    bg.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
     bg.set_anchors_preset(Control.PRESET_FULL_RECT)
     add_child(bg)
 
@@ -169,7 +168,7 @@ func _build_ui() -> void:
     board_view.view_changed.connect(_on_board_view_changed)
 
     _panel = NinePatchRect.new()
-    _panel.texture = load("res://art/ui/panel.png")
+    _panel.texture = load("res://art/rendered/ui/panel.png")
     for m in ["left", "top", "right", "bottom"]:
         _panel.set("patch_margin_%s" % m, 6)
     _panel.position = Vector2(202, 8)

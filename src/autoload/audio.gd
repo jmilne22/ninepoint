@@ -141,9 +141,9 @@ func play_footstep(surface: String = "") -> void:
     play(str(pair[0] if randf() < 0.5 else pair[1]), 0.09, -4.0)
 
 
-## A sound that comes from somewhere. The player owns the Camera2D, which is
-## what an AudioStreamPlayer2D measures distance against, so this needs no
-## listener of its own.
+## A sound that comes from somewhere in gameplay coordinates. Grid maps use the
+## player camera; projected maps attach an AudioListener2D to the logical player
+## so moving the presentation camera does not move the listener away from them.
 ##
 ## The player frees itself when the sound ends: these fire every few seconds at
 ## most, and a pool would be state to keep correct for no measurable gain.

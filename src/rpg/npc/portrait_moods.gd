@@ -29,6 +29,9 @@ static func region(mood: String) -> Rect2:
 static func slice(texture: Texture2D, mood: String) -> AtlasTexture:
     if texture == null:
         return null
+    var rendered := "res://art/rendered/people/%s_portraits.png" % texture.resource_path.get_file().get_basename()
+    if ResourceLoader.exists(rendered):
+        texture = load(rendered)
     var at := AtlasTexture.new()
     at.atlas = texture
     at.region = region(mood)

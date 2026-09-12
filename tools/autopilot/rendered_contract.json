@@ -1,0 +1,5 @@
+[
+ {"save":"invited"},{"wait":0.8},{"tap":"move_down"},{"tap":"interact"},{"world_wait":true},
+ {"experience":"visit","map":"de_ketel","spawn":"from_street"},
+ {"projected":true},{"shot":"room_colour_and_feet"}
+]

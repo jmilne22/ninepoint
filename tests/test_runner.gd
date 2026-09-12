@@ -35,6 +35,8 @@ func _run_suites() -> void:
         "board view": "res://tests/test_board_view.gd", "onboarding": "res://tests/test_onboarding.gd",
         "player movement": "res://tests/test_player_movement.gd",
         "early game": "res://tests/test_early_game.gd",
+        "projected world": "res://tests/test_projected_world.gd",
+        "room presentation": "res://tests/test_room_presentation.gd",
     }
     for name in suites:
         var before := kit.passed + kit.failed

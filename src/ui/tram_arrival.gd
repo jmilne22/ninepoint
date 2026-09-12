@@ -8,7 +8,7 @@ var _leaving := false
 func _ready() -> void:
     layer = 120
     var art := TextureRect.new()
-    art.texture = load("res://art/props/arrival_%s.png" % destination)
+    art.texture = load("res://art/rendered/ui/arrival_%s.png" % destination)
     art.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
     add_child(art)
     var card := UiKit.panel(art, Rect2(28, 180, 328, 29), true)

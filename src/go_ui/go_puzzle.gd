@@ -64,7 +64,7 @@ func _build_ui() -> void:
     _actions.action_selected.connect(_mouse_action)
 
     var panel := NinePatchRect.new()
-    panel.texture = load("res://art/ui/panel.png")
+    panel.texture = load("res://art/rendered/ui/panel.png")
     for m in ["left", "top", "right", "bottom"]:
         panel.set("patch_margin_%s" % m, 6)
     panel.position = Vector2(202, 8)

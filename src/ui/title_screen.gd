@@ -28,7 +28,7 @@ func _ready() -> void:
     # the moment the city exists.
     Audio.play_music("theme_title")
     var art := TextureRect.new()
-    art.texture = load("res://art/title/title.png")
+    art.texture = load("res://art/rendered/ui/title.png")
     art.set_anchors_preset(Control.PRESET_FULL_RECT)
     art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
     art.stretch_mode = TextureRect.STRETCH_SCALE

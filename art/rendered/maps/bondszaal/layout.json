@@ -1,0 +1,27 @@
+{
+  "id": "bondszaal",
+  "size": [
+    825,
+    509
+  ],
+  "origin": [
+    466.44640636101485,
+    96
+  ],
+  "basis": 1.131370849898476,
+  "span": 672,
+  "camera": [
+    45,
+    30
+  ],
+  "source_size": [
+    18,
+    24
+  ],
+  "source_sha256": "c60f6c4ee034cd87b24f68203d7dcd2c71f59bd6997d36093c2b45bca5c66b00",
+  "mask_channels": {
+    "r": "ground_depth",
+    "g": "water",
+    "b": "washer"
+  }
+}

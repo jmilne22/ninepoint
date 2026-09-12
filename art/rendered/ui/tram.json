@@ -1,0 +1,47 @@
+{
+  "size": [
+    384,
+    272
+  ],
+  "origin": [
+    192,
+    156
+  ],
+  "sections": [
+    {
+      "texture": "tram_0.png",
+      "ground": [
+        -98.4,
+        0
+      ]
+    },
+    {
+      "texture": "tram_1.png",
+      "ground": [
+        -49.2,
+        0
+      ]
+    },
+    {
+      "texture": "tram_2.png",
+      "ground": [
+        0,
+        0
+      ]
+    },
+    {
+      "texture": "tram_3.png",
+      "ground": [
+        49.2,
+        0
+      ]
+    },
+    {
+      "texture": "tram_4.png",
+      "ground": [
+        98.4,
+        0
+      ]
+    }
+  ]
+}

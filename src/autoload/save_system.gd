@@ -4,6 +4,9 @@ extends Node
 const SLOT_COUNT := 3
 const SAVE_VERSION := 1
 
+## Opt-in art experiments own no save slot, including through board/review callbacks.
+var session_only := false
+
 ## Map display names, read from the map's own JSON the first time a slot asks
 ## for one. There is no second table of place names to drift out of date.
 var _place_names := {}
@@ -47,6 +50,8 @@ func first_empty_slot() -> int:
 
 
 func save_game(slot: int = 1) -> bool:
+    if session_only:
+        return false
     var data := GameState.to_dict()
     data["version"] = SAVE_VERSION
     data["saved_at"] = Time.get_datetime_string_from_system()
@@ -62,6 +67,8 @@ func save_game(slot: int = 1) -> bool:
 
 
 func load_game(slot: int = 1) -> bool:
+    if session_only:
+        return false
     if not has_save(slot):
         return false
     var text := FileAccess.get_file_as_string(path_for(slot))
@@ -107,6 +114,8 @@ func slot_summary(slot: int) -> String:
 
 
 func delete_save(slot: int) -> bool:
+    if session_only:
+        return false
     if not has_save(slot):
         return false
     DirAccess.remove_absolute(ProjectSettings.globalize_path(path_for(slot)))

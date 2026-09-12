@@ -1,0 +1,93 @@
+== deterministic art contracts ==
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 5.082s
+
+OK
+== compiling all scripts and importing assets ==
+   import pass produced no parse errors
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+User data verified: /home/user/.cache/ninepoint-polish-test-data/godot/app_userdata/Ninepoint
+load check: 310 files, all load
+== test suites ==
+  go rules       99 checks
+  go scoring     27 checks
+  go ai          322 checks
+  go setup       42 checks
+  league         47 checks
+  content data   12502 checks
+  league attempts 261 checks
+  ambience       555 checks
+  match music    20 checks
+  exam           65 checks
+  save           84 checks
+  rating         69 checks
+  cup            115 checks
+  table talk     374 checks
+  match analysis 85 checks
+  board view     2005 checks
+  onboarding     134 checks
+  player movement 9 checks
+  early game     107 checks
+  projected world 264 checks
+  room presentation 53 checks
+17239 passed, 0 failed
+== KataGo Linux integration gates ==
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+WARNING: Falling back to the heuristic opponent for 'katago_smoke'.
+     at: push_warning (core/variant/variant_utility.cpp:1033)
+     GDScript backtrace (most recent call first):
+         [0] create (res://src/go_ai/opponent_factory.gd:20)
+         [1] _negative_fallbacks (res://tools/katago_smoke.gd:47)
+         [2] _initialize (res://tools/katago_smoke.gd:21)
+         [3] choose_move (res://src/go_ai/gtp_opponent.gd:98)
+         [4] _command (res://src/go_ai/gtp_opponent.gd:191)
+         [5] read_line (res://src/go_ai/engine_pipe.gd:69)
+KataGo fallback (The analysis engine timed out; using the local opponent., startup=-1ms, move=-1ms)
+KataGo smoke: missing artifact and tiny timeout both fell back safely
+KataGo smoke: legal C4 reply on 9x9
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  ok: KataGo service autoload is present
+  ok: prewarm reaches ready exactly once
+  ok: ready lease is reusable by the match
+  ok: a lease cannot be handed to two scenes
+  ok: scene return shuts down its lease
+  ok: cancelled preparation leaves no service lease
+WARNING: Falling back to the heuristic opponent for 'katago_trial_9x9'.
+     at: push_warning (core/variant/variant_utility.cpp:1033)
+     GDScript backtrace (most recent call first):
+         [0] create (res://src/go_ai/opponent_factory.gd:20)
+         [1] _failure_paths (res://tools/katago_service_test.gd:46)
+         [2] _initialize (res://tools/katago_service_test.gd:17)
+         [3] _prewarm_reuse_and_cleanup (res://tools/katago_service_test.gd:39)
+  ok: missing package falls back before a match starts
+KataGo fallback (The analysis engine timed out; using the local opponent., startup=-1ms, move=-1ms)
+KataGo fallback (The analysis engine sent an invalid move (DEFINITELY-NOT-A-VERTEX); using the local opponent., startup=-1ms, move=-1ms)
+  ok: malformed GTP move uses a legal local fallback
+KataGo fallback (The analysis engine rejected a command; using the local opponent., startup=-1ms, move=-1ms)
+  ok: rejected GTP warmup fails cleanly
+  ok: handicap engine prepares before the match
+  measurement: warmed handicap reply 986ms
+  ok: handicap setup synchronises
+  ok: Capture Go engine prepares before the match
+  measurement: warmed Capture Go reply 635ms
+  ok: Capture Go board synchronises
+KataGo service gate: passed
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  ok  review engine files are present
+  ok  9x9: every one of 79 positions was analysed ()
+  ok  9x9: progress counted up to the end
+  ok  9x9: the analysis became a review (available)
+KataGo review 9x9: 78 moves, 79 positions, 15.7 s, 0.20 s per position on 8 threads, 3 findings
+  ok  19x19: every one of 241 positions was analysed ()
+  ok  19x19: progress counted up to the end
+  ok  19x19: the analysis became a review (available)
+KataGo review 19x19: 240 moves, 241 positions, 74.2 s, 0.31 s per position on 8 threads, 3 findings
+  ok  a silent engine is failed by the watchdog (engine stalled)
+  ok  and within its budget (6.1 s)
+  ok  which the payload records as failed
+KataGo review gate: passed

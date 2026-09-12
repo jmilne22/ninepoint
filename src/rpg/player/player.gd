@@ -30,6 +30,7 @@ var map: MapData = null
 @onready var sprite: CharacterSprite = $Sprite
 @onready var probe: Area2D = $Probe
 
+var _look_vector := Vector2.DOWN
 var _current_target: Interactable = null
 var _distance_walked: float = 0.0
 
@@ -53,14 +54,21 @@ func _physics_process(_delta: float) -> void:
         Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
     )
     var running := Input.is_action_pressed("run")
-    velocity = movement_velocity(dir, running)
+    var logical_dir := dir
+    if map != null and map.presentation != null:
+        logical_dir = map.presentation.unproject_vector(dir.normalized() if dir.length() > 1.0 else dir)
+        velocity = logical_dir * movement_speed(running)
+    else:
+        velocity = movement_velocity(dir, running)
     move_and_slide()
 
     sprite.walking = dir.length_squared() > 0.01
     sprite.gait_scale = RUN_MULTIPLIER if sprite.walking and running else 1.0
     if sprite.walking:
-        facing = Facing.from_vector(dir, facing)
+        facing = Facing.from_vector(logical_dir, facing)
         sprite.face(facing)
+        sprite.motion_vector = logical_dir
+        _look_vector = logical_dir.normalized()
         _update_probe()
         _distance_walked += velocity.length() * get_physics_process_delta_time()
         if _distance_walked >= STEP_DISTANCE:
@@ -105,11 +113,14 @@ func _surface() -> String:
 func face_towards(point: Vector2) -> void:
     facing = Facing.from_vector(point - global_position, facing)
     sprite.face(facing)
+    sprite.motion_vector = point - global_position
+    _look_vector = (point - global_position).normalized()
     _update_probe()
 
 
 func _update_probe() -> void:
-    probe.position = Facing.to_vector(facing) * PROBE_REACH + Vector2(0, -8)
+    var vector := _look_vector if map != null and map.presentation != null else Facing.to_vector(facing)
+    probe.position = vector * PROBE_REACH + Vector2(0, -8)
 
 
 ## The interactable in front of the player, if any. Highest priority wins.

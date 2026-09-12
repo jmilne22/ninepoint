@@ -7,7 +7,7 @@ import gen_font, gen_nigiri_art, gen_tileset_resource, gen_props
 import gen_maps
 
 ROOT=Path(__file__).resolve().parent.parent
-GROUPS=('tiles','props','venues','arrivals','sprites','portraits','ui','title','font','ceremony','audio')
+GROUPS=('tiles','props','venues','arrivals','sprites','portraits','ui','title','font','ceremony','audio','rendered')
 ALIASES={'environments':('tiles','props','venues','arrivals'),
          'characters':('sprites','portraits'),
          'presentation':('ui','title','ceremony')}
@@ -17,7 +17,18 @@ def build(groups, output):
     art=output/'art'
     for group in GROUPS:
         if group not in groups:continue
-        if group=='tiles':
+        if group=='rendered':
+            from build_world_art import maps, blender
+            from ps1.production_people import build as people
+            from ps1.production_board import build as board
+            from ps1.production_actions import build as actions
+            destination=art/'rendered'
+            maps([p.stem for p in sorted((ROOT/'data/maps').glob('*.json'))],destination)
+            people(blender,ROOT,destination)
+            board(blender,ROOT,destination)
+            actions(blender,ROOT,destination)
+            result='twelve maps, full cast, activities and Go set'
+        elif group=='tiles':
             result=gen_tiles.build(art/'tiles')
             gen_tileset_resource.build(output)
         elif group=='props':result=gen_props.build(art/'props')

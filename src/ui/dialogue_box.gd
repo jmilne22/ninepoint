@@ -53,7 +53,7 @@ func _build() -> void:
     add_child(_root)
 
     _panel = NinePatchRect.new()
-    _panel.texture = load("res://art/ui/panel.png")
+    _panel.texture = load("res://art/rendered/ui/panel.png")
     _panel.patch_margin_left = 6
     _panel.patch_margin_top = 6
     _panel.patch_margin_right = 6

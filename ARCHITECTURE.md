@@ -1,6 +1,6 @@
 # NINEPOINT — Architecture
 
-Godot 4.7 · GDScript · 2D · `gl_compatibility` renderer.
+Godot 4.7 · GDScript · 2D runtime with rendered 2.5D presentation · `gl_compatibility` renderer.
 
 ## 1. The one rule
 
@@ -123,7 +123,8 @@ data/
   quests/*.tres       QuestData resources
   puzzles/*.json      puzzle definitions
 
-art/                  generated pixel art (see ART_DIRECTION.md)
+art/rendered/         production scenery, depth masks, people/busts and Go textures
+art/prototype/        opt-in room exports; other art directories retain the grid fallback
 audio/                generated sound and music (see tools/gen_audio.py)
 tools/                python art generators + run/screenshot harness
 tests/                headless test runner + suites
@@ -286,7 +287,8 @@ dialogue branches on quest step. The opening quest additionally reconciles durab
 flags and match records on load and after progression events. Completed progress remains
 complete; knowing the rules or skipping optional opening advice cannot strand the objective.
 
-`art_props` names generated images and pixel positions; physical footprints are baked into
+The retained grid fallback uses `art_props` image names and logical pixel positions;
+production map renders consume those same prop records. Physical footprints are baked into
 map collision by the generator. `tools/art_specs.py` is the shared source for export
 size, footprint and optional frame holds. Map entries retain `art`/`position`/`base` and
 may add `animation: {frames: 4, holds: [0.8, 1.1, 0.9, 1.2]}`. `VenueProps` renders them
@@ -299,7 +301,7 @@ wall trim, floor wear and restrained shadow/light colours, masked clear of doors
 decor. `build_assets.py --groups environments --output <root>` exports matching assets,
 map JSON and the TileSet into a project-shaped preview root. Source art lives in the
 small `tools/art_*.py` modules; the PNG canvas remains unchanged.
-For ART-06, `art_people.py` delegates six preview identities to
+In the retained ART-06 grid fallback, `art_people.py` delegates six preview identities to
 `portrait_sprite_people.py` and `portrait_sprite_heads.py`. Their sprite-only shape
 profiles leave shared identity records and the other twenty character sets untouched.
 Both paths export the same walking/action layouts consumed by `CharacterSprite`;
@@ -572,3 +574,44 @@ GameState writes `world_layout_revision: 1`. When that field is absent or older,
 clears `has_return_position` and resets `return_position` only. Map ID, spawn name and all
 progress are retained. This deliberately does not depend on SaveSystem's format version;
 World's existing blocked/occupied-spawn guard still applies to current-layout saves.
+
+
+## Opt-in rendered-room experiment (ART-07)
+
+`src/prototype/ketel/` is a separate presentation consumer of dialogue graphs and
+MatchBridge. `RoomPresentation` reads Blender-projected layers, collision polygons and
+foot/seat positions. It is independent of the normal MapData/MapBuilder world, whose
+production projection is described below.
+`SceneRouter.world_scene()` resolves the ordinary world unless a runtime-only
+`session_world_scene` is set. MatchBridge uses it for match, lesson and puzzle returns.
+`SaveSystem.session_only` refuses save/load/delete before touching a slot or progress.
+The prototype sets both at entry and exits the application rather than entering a
+persistent playthrough. Neither field is serialized. [Build and play](docs/ps1/README.md).
+
+## ART-08 production presentation
+
+`MapData.presentation` optionally loads `RoomProjection` from `art/rendered/maps/<id>`.
+All twelve current maps provide it. `World` retains grid collision, NPC logic, signs,
+warps and save positions, hides the fallback tile visuals and adds `ProjectedWorld`.
+`CharacterSprite` keeps its existing activity/facing interface; rendered visuals use
+top-level projected positions, a ground-depth shader and projected foot sorting.
+The camera follows projected coordinates; an AudioListener2D stays with the logical player.
+Player input is inverse-projected with constant screen speed. Autopilot projects its
+logical target vectors into analog input; it still drives actual movement and interaction.
+
+`RenderedDialogue` inherits the same graph interpreter and measured choice controls.
+`PortraitMoods.slice` resolves model-rendered compact strips for all board/panel callers.
+GoBoardGeometry, pointer/navigation and all of `src/go/` remain unchanged; GoBoardInk and
+GoBoardView draw the rendered stone/surface textures. [Asset/mask format](docs/ps1/world/README.md).
+
+
+The production tram's manifest declares one camera origin and five ground contacts.
+Each section uses a separate projected sprite/shadow and the same scenery depth shader.
+Its visual facing remains fixed in both travel directions; the underlying rail path is
+unchanged. `arrive()` cancels any existing travel/bell tweens before taking ownership.
+
+ART-09's lighting, White City facades, harbor and extended surroundings are baked scenery.
+They do not expand map collision or modify save coordinates. Door meshes are derived from
+existing warp groups. Selective motion exports replace only locomotion cells; all callers
+keep the current CharacterSprite facing/activity interface. See the production pipeline
+for `--motion` and `--stills` commands and the separate photo-reference study.

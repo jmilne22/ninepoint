@@ -4,7 +4,7 @@ This is the **operational source of truth** for unfinished work. An agent starts
 not in the milestone history. It answers: what may be picked up now, what is blocked, and
 what evidence makes a task done.
 
-Revision base: `origin/main` and HEAD both `d64ab5f`, freshly fetched and verified on 2026-09-08 before SELA.
+Revision base: `origin/main` and HEAD both `f459336`, freshly fetched and verified on 2026-09-12 before ART-07.
 Update the snapshot when reconciling after a merge; it is not a release number.
 
 ## How to use this board
@@ -33,6 +33,77 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 | `ROADMAP.md` | Product direction, trade-offs, and why a task matters | Whether work is currently underway or done |
 | `MILESTONES.md` | Append-only shipped history and verification evidence | The current backlog |
 | Design / architecture / art docs | Durable product and technical truth | Task status |
+
+## Fixed-view art experiment
+
+### ART-07 — PS1-inspired De Ketel experiment
+
+- Status: `SHIPPED` (prototype verified locally; town conversion remains separate) · Priority: `P1` · Owner: Codex · Branch: `codex/ps1-ketel-prototype`.
+- Explicitly approved 2026-09-12; READY scope claimed after fresh HEAD = origin/main = `f459336`.
+- Scope: opt-in fixed-view 2.5D room, Blender/Python layered renders and eight-direction
+  characters, model-rendered busts, existing conversations/match/review, session-only progress.
+- Exception: new art tooling and new versions of the four prototype characters are approved;
+  shipped Sela maps, character art, Go rules and normal launch remain unchanged.
+- Acceptance: inspect composition before animation; walk all aisles and approaches; verify
+  furniture sorting, dialogue/choices, match cancel and win/loss return, review and save isolation;
+  run normal checks and inspect isolated route screenshots. Full-town conversion is separate.
+- Evidence: 16,975 checks (predecessor 16,922), 13 art tests, 292 file loads and all three
+  KataGo gates pass. Six final prototype routes / 34 captures plus the unchanged 18-frame
+  twelve-map tour passed; representative images opened. Real Wren 9×9 count/loss/review
+  analysed 59 positions; synthetic win/loss branches are labelled separately. Save API
+  byte preservation, cancelled setup, every aisle and leave/reopen review verified.
+- Corrections from play: wider bar/table aisle, inset door approach, measured five-choice
+  menu, correct review return hint, missing font glyph removed; Xvfb no longer inherits
+  the harness lock. [Build, play and evidence](docs/ps1/README.md).
+
+### ART-08 — Complete rendered presentation
+
+- Status: `SHIPPED` (verified locally, M49) · Priority: `P1` · Owner: Codex · Branch: `codex/ps1-ketel-prototype`.
+- Approved 2026-09-12 after ART-07 visual review; HEAD again matched freshly fetched origin/main `f459336`.
+- Scope: all twelve existing maps, full cast and passers, model-rendered portraits,
+  overhead Go surfaces/stones/bowls, title/opening/travel and shared presentation.
+- Owner tram steering: white articulated TLV Red Line appearance, original Blender mesh
+  informed by the supplied image and CRRC exterior photographs; five independently sorted sections.
+- Preserve Sela's current places, story, rules, board controls, records and saved logical positions.
+- Method: Python-coordinated Blender sources, fixed-angle projected scenery and people;
+  retain logical map coordinates underneath the presentation for saves and interactions.
+- Acceptance: complete map/cast asset coverage, screen-relative normalized movement,
+  correct foot occlusion, full technical gate, inspected city/journey/board/review captures.
+- No AI-generated illustration assets. Full conversion becomes the normal launch path.
+
+- Evidence: 17,239 checks (predecessor M48: 16,922), 13 art tests, 310 file loads;
+  full KataGo integration/review gate and real audio driver pass. All 22 doorway
+  connections and all twelve maps inspected; fresh journey, novice losses/Cup/repeat,
+  saved positions, actual Wren count/review and 7/9/13/19-line input verified.
+  Running measures 1.750× with release/collision/pause lock; activity/portrait return
+  inspected. Tram passes both directions, boards both destinations and holds its stop
+  when a pass is interrupted. Native and 3× captures opened.
+- Corrections from play: texture colour multiplication, waypoint corner clipping,
+  rank modal visibility, offscreen speech and competing tram tweens. The running
+  harness now projects its physical lane and measures screen distance.
+  [Pipeline](docs/ps1/world/README.md) · [Evidence and limits](docs/ps1/world/verification.md).
+
+### ART-09 — Movement, daylight and coastal architecture polish
+
+- Status: `SHIPPED` (local, verified) · Priority: `P1` · Owner: Codex · Branch: `codex/ps1-ketel-prototype`.
+- Owner feedback: walking/running arms appear dislocated; city lighting reads as sunset;
+  buildings lack doors; black surrounds expose the ends of the renders.
+- Fresh fetch verified HEAD = origin/main = `f459336` before this follow-up.
+- Scope: connected, fixed-length arm poses; neutral daytime lighting; physical entrance
+  art aligned to existing warps; surrounding scenery beyond playable map edges.
+  Follow-up direction: varied White City architecture and a Jaffa-inspired working harbor,
+  researched from photographs and rebuilt as original meshes.
+- Acceptance: inspect motion at walk/run speed, street/daylight/door approaches and all
+  map edges; preserve logical collision, transitions, Go rules and saves; run technical
+  checks and isolated routes. Python/Blender source remains authoritative.
+
+- Evidence: 17,239 checks, 13 art tests, 310 loads and all three engine gates; six isolated
+  routes, 116 frames. Native and 3× coastal frames, gait sequences and all-map contact
+  sheets opened. [ART-09 verification](docs/ps1/polish/verification.md).
+
+- Final owner feedback resolved: reduced sky/area-light fill in eight pale interiors;
+  attic benchmark (1 frame) and final twelve-map tour (18 frames) passed and were opened.
+  Documentation reconciles the production pipeline, fallback/history and shared instructions.
 
 ## Sela coastal redesign — approved 2026-09-08
 

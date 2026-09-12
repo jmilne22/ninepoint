@@ -1,0 +1,9 @@
+[
+ {"save":"invited"},
+ {"wait":0.8,"shot":"title"},
+ {"tap":"move_down"},{"tap":"interact"},{"world_wait":true},
+ {"experience":"visit","map":"de_ketel","spawn":"from_street"},
+ {"shot":"room"},
+ {"talk_to":"wren"},{"shot":"dialogue"},
+ {"advance":20,"stop_at_choice":true},{"shot":"choices"}
+]
