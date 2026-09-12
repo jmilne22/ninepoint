@@ -262,8 +262,12 @@ another session cancels unfinished analysis without changing any result.
 The review starts with the engine tally, then a best move and at most two costly positions.
 Move numbers include both players; the tally counts placements and is not a beginner grade.
 C compares the original position, the played move and the engine preference, each applied
-independently. Only immediate captures, distinct connected groups and liberties are explained
-as board facts. The engine’s score includes later play that these comparisons do not show.
+independently. Immediate effects remain board facts. Deeper comparisons identify named
+groups, their liberties and lost regions; ownership predictions are qualified as estimates.
+A capturing sequence is claimed only when legal replay captures the named chain.
+A separately labelled “One legal example” can illustrate a possible capture after the
+first two engine moves; it does not establish that capture is forced.
+Lesson L opens a related existing lesson, with the review retained afterward.
 Extra liberties never prove survival, contact alone never proves a useful attack, and the
 first line is not prohibited. Recommendations stay together across measured pages.
 

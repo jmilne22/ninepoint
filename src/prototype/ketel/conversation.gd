@@ -91,3 +91,5 @@ func offer_review(index: int) -> void:
     room.add_child(offer)
     await offer.closed
     room.set_busy(false)
+    if offer.requested_lesson != "":
+        MatchBridge.start_lesson(offer.requested_lesson, room.player.position)

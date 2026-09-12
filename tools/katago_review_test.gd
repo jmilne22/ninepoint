@@ -24,6 +24,7 @@ func _initialize() -> void:
         return
     await _whole_game(19, 240)
     await _detail_failure()
+    await _stale_session()
     await _hang()
     print("KataGo review gate: %s" % ("FAILED" if _failed else "passed"))
     quit(1 if _failed else 0)
@@ -61,8 +62,30 @@ func _whole_game(size: int, cap: int) -> void:
         _check(branches.size() == 3, "all three branches returned")
         for branch in branches.values():
             _check(branch.get("ownership",[]).size() == size * size, "branch ownership covers the board")
-    var bytes := JSON.stringify(payload, "  ").to_utf8_buffer().size()
-    print("REV-01 %dx%d saved review: before %d bytes; after %d bytes (Step 1 retains legacy payload)" % [size,size,bytes,bytes])
+    var legacy_raw := raw.duplicate(true)
+    legacy_raw.erase("details")
+    var legacy := MatchAnalysis.from_turns(0, record, legacy_raw)
+    var saved := ReviewEnrichment.save_entries({"0":payload})
+    var before_bytes := JSON.stringify(legacy, "  ").to_utf8_buffer().size()
+    var after_bytes := JSON.stringify(saved["0"], "  ").to_utf8_buffer().size()
+    var state := root.get_node("GameState")
+    var complete_save: Dictionary = state.to_dict().duplicate(true)
+    complete_save["version"] = root.get_node("SaveSystem").SAVE_VERSION
+    complete_save["saved_at"] = Time.get_datetime_string_from_system()
+    complete_save["match_records"] = [record]
+    complete_save["match_analysis"] = {"0":legacy}
+    var save_before := JSON.stringify(complete_save, "  ").to_utf8_buffer().size()
+    complete_save["match_analysis"] = saved
+    var save_after := JSON.stringify(complete_save, "  ").to_utf8_buffer().size()
+    print("REV-01 %dx%d saved review: before %d bytes; after %d bytes; delta %+d" % [size,size,before_bytes,after_bytes,after_bytes-before_bytes])
+    print("REV-01 %dx%d complete save: before %d bytes; after %d bytes; delta %+d" % [size,size,save_before,save_after,save_after-save_before])
+    for finding in payload.get("findings", []):
+        if finding.has("facts"):
+            _check(ReviewNarrator.valid(finding["facts"],finding["narration"],size), "enriched narration is coordinate-grounded")
+    _check(payload.get("findings", []).any(func(f: Dictionary) -> bool: return f.has("facts")), "valid detail comparisons are retained in the payload")
+    var evidence_path := "user://review_gate_%d.json" % size
+    var evidence := FileAccess.open(evidence_path, FileAccess.WRITE)
+    evidence.store_string(JSON.stringify({"record":record,"review":saved["0"]},"  "))
     if size == 9 and float(raw.get("pass2_seconds",0.0)) > 45.0:
         _budget_exceeded = true
         printerr("REV-01 BUDGET EXCEEDED: stop and ask owner before adjusting visits.")
@@ -136,3 +159,27 @@ func _check(ok: bool, what: String) -> void:
     if not ok:
         _failed = true
     print("%s %s" % ["  ok " if ok else "FAIL ", what])
+
+
+func _stale_session() -> void:
+    var state := root.get_node("GameState")
+    var service := root.get_node("MatchReviewService")
+    KataGoAnalysis.command_override = "res://tools/fixtures/analysis_detail_error.py"
+    state.match_records = [{"sgf":"(;GM[1]SZ[9];B[dd];W[ee];B[cc])", "komi":5.5,"player_color":GoBoard.BLACK}]
+    var changed := [false]
+    var reset_session := func(_index: int, phase: String, _done: int, _total: int) -> void:
+        if phase == "comparisons":
+            changed[0] = true
+            state.reset()
+            state.match_records = [{"context_id":"replacement_session"}]
+    service.phase_progress.connect(reset_session)
+    service.start(0)
+    var deadline := Time.get_ticks_msec()+15000
+    while service.is_running() and Time.get_ticks_msec()<deadline:
+        await process_frame
+    await create_timer(0.2).timeout
+    _check(changed[0],"session reset happened during pass two")
+    _check(state.match_analysis.is_empty(),"stale pass-two results never enter the replacement save")
+    service.phase_progress.disconnect(reset_session)
+    state.reset()
+    KataGoAnalysis.command_override = ""

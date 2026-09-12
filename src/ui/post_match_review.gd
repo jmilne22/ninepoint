@@ -3,6 +3,7 @@ class_name PostMatchReview
 extends CanvasLayer
 
 signal closed
+var requested_lesson := ""
 var record_index := -1
 var opponent_name := ""
 var leave_hint := ""
@@ -115,6 +116,7 @@ func _choose(yes: bool) -> void:
     cards.setup(payload, opponent_name)
     add_child(cards)
     await cards.closed
+    requested_lesson = cards.requested_lesson
     _close()
 
 

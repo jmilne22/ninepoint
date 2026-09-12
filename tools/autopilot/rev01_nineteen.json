@@ -1,0 +1,9 @@
+[
+ {"save":"quay_review_19"},{"wait":0.8},{"tap":"move_down"},{"tap":"interact"},{"world_wait":true},
+ {"experience":"review_fixture"},{"walk_to":[17,4]},{"face":[17,3]},{"tap":"interact"},
+ {"review_card_wait":true,"timeout":5},{"review_walk":true},
+ {"tap":"go_compare"},{"shot":"nineteen_actual"},{"tap":"go_compare"},{"shot":"nineteen_best"},
+ {"board_input":{"key":"V","size":19,"zoomed":true}},{"shot":"nineteen_zoom"},{"experience":"review_focus_best"},{"shot":"nineteen_lost_region_zoom"},
+ {"tap":"move_left"},{"tap":"move_up"},{"shot":"nineteen_pan"},
+ {"board_input":{"key":"V","size":19,"zoomed":false}},{"tap":"cancel"},{"world_wait":true}
+]

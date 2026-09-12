@@ -21,7 +21,10 @@ SCRIPT
 GODOT="${GODOT:-$HOME/.local/bin/godot}"
 export XDG_DATA_HOME="$PURE_ROOT/user-data"
 "$GODOT" --headless --path "$PURE_ROOT" --editor --quit > "$PURE_ROOT/import.log" 2>&1
-"$GODOT" --headless --path "$PURE_ROOT" --script res://run.gd > "$PURE_ROOT/run.log" 2>&1
+if ! "$GODOT" --headless --path "$PURE_ROOT" --script res://run.gd > "$PURE_ROOT/run.log" 2>&1; then
+    cat "$PURE_ROOT/run.log"
+    exit 1
+fi
 cat "$PURE_ROOT/run.log"
 if rg -q 'SCRIPT ERROR|Parse Error|Compile Error' "$PURE_ROOT/import.log" "$PURE_ROOT/run.log"; then
     cat "$PURE_ROOT/import.log"

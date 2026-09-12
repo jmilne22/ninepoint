@@ -33,6 +33,7 @@ func _run_suites() -> void:
         "exam": "res://tests/test_exam.gd",
         "save": "res://tests/test_save.gd",
         "rating": "res://tests/test_rating.gd", "cup": "res://tests/test_cup.gd", "table talk": "res://tests/test_table_talk.gd",
+        "review enrichment": "res://tests/test_review_enrichment.gd",
         "review narrator": "res://tests/test_review_narrator.gd",
         "review facts": "res://tests/test_review_facts.gd",
         "match analysis": "res://tests/test_match_analysis.gd",

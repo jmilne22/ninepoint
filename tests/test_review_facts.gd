@@ -46,6 +46,7 @@ static func run(t: TestKit) -> void:
         t.ok(silent[key].is_empty(), "quiet position has no " + key)
     t.eq(silent["concept"], "unknown", "identical estimates do not invent an idea")
     t.eq(silent["lesson_id"], "", "quiet position does not invent a lesson")
+    _examples(t)
     _boundaries(t)
 
 
@@ -170,3 +171,32 @@ static func _boundaries(t: TestKit) -> void:
     f = spared_group()
     f["pv_best"] = ["H7", "D3"]
     t.eq(ReviewFacts.build(ReviewFacts.player_input(f))["group_saved"][0]["captured_at"], "", "wrong-start PV cannot prove the preferred capture")
+
+
+static func capture_example() -> Dictionary:
+    var f := dying_group()
+    f["pv_after_actual"] = ["D3", "H5", "H7", "D6"]
+    return f
+
+
+static func _examples(t: TestKit) -> void:
+    var f := capture_example()
+    var facts := ReviewFacts.build(ReviewFacts.player_input(f))
+    t.eq(ReviewFacts.build(ReviewFacts.player_input(mirror(f))), facts,
+        "illustrative captures preserve exact White orientation")
+    var group: Dictionary = facts["group_died"][0]
+    t.eq(group["captured_at"], "", "a legal example does not rewrite the engine's proof")
+    var example: Array = group.get("capture_example", [])
+    t.eq(example.map(func(m: Dictionary) -> String: return m["label"]), ["D3","H5","C4"],
+        "example keeps two engine moves then fills the remaining liberty")
+    t.eq(ReviewContinuation.captured_at(["C3"],example), "C4", "example captures the named chain by legal replay")
+    t.eq(facts["refutation"][2]["label"], "H7", "the engine PV remains separate")
+    f["pv_after_actual"] = ["H7", "H5", "D3", "D4"]
+    t.ok(ReviewFacts.build(ReviewFacts.player_input(f))["group_died"][0].get("capture_example",[]).is_empty(),
+        "no immediate capture is invented for a group with two remaining liberties")
+    f["pv_after_actual"] = ["D3", "H5", "B3"]
+    t.ok(ReviewFacts.build(ReviewFacts.player_input(f))["group_died"][0].get("capture_example",[]).is_empty(),
+        "an illegal engine line cannot seed an example")
+    f["pv_after_actual"] = []
+    t.ok(ReviewFacts.build(ReviewFacts.player_input(f))["group_died"][0].get("capture_example",[]).is_empty(),
+        "ownership alone cannot seed an example")

@@ -68,6 +68,10 @@ static func build(input: Dictionary) -> Dictionary:
         var group := {"anchor":labels[0], "stones":labels,
             "liberties_before":chain["liberties"].size(), "liberties":_labels(board, chain["liberties"]),
             "captured_at":ReviewContinuation.captured_at(labels, line)}
+        if ours and group["captured_at"] == "":
+            var example := ReviewContinuation.capture_example(input,labels,actual_line)
+            if not example.is_empty():
+                group["capture_example"] = example
         out["group_died" if ours else "group_saved"].append(group)
     if (not out["region_lost"].is_empty() or not out["group_died"].is_empty()) and actual_line.size() >= 2:
         out["refutation"] = actual_line

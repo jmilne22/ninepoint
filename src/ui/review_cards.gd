@@ -6,6 +6,8 @@ class_name ReviewCards
 extends CanvasLayer
 
 signal closed
+var requested_lesson := ""
+var _lesson_id := ""
 
 const BOARD_PX := 140
 const TEXT_X := 160
@@ -28,7 +30,7 @@ var _plain := false
 
 
 func setup(value: Dictionary, who: String = "") -> void:
-    review = value.duplicate(true)
+    review = ReviewEnrichment.restore_entries({"review":value})["review"]
     var source := int(review.get("source_match", -1))
     if source >= 0 and source < GameState.match_records.size():
         for finding in review.get("findings", []):
@@ -90,6 +92,8 @@ func _card_count() -> int:
 
 func _show() -> void:
     _navigation.hide()
+    _lesson_id = ""
+    _configure_actions()
     _text_pages = PackedStringArray()
     _plain = false
     var findings: Array = review.get("findings", [])
@@ -126,6 +130,11 @@ func _show() -> void:
         queue_free()
         return
     _board.set_game(game)
+    var overlay := ReviewComparison.overlay(f, _comparison)
+    _board.review_ownership = overlay["ownership"]
+    _board.review_regions = overlay["regions"]
+    _lesson_id = str(f.get("lesson_id", "")) if f.has("facts") else ""
+    _configure_actions()
     var actual := int(f.get("actual", -1))
     var best := int(f.get("best", -1))
     # The two marks mean the same thing on every card: filled = the move
@@ -153,14 +162,19 @@ func _show() -> void:
         lines.append("%s %s" % [head, why])
         _legend = "Filled = your move" if matched else "Filled = your move\nRing = engine preference"
     else:
-        lines.append("The engine preferred %s, by about %s points." % [game.board.label(best), _points(float(f.get("point_loss", 0.0)))])
-        lines.append("%s %s" % [str(f.get("critique", "")), str(f.get("changed", ""))])
-        lines.append("Next time: %s" % str(f.get("habit", "")))
+        if f.has("facts") and not f.get("narration", []).is_empty():
+            lines.assign(f["narration"])
+        else:
+            lines.append("The engine preferred %s, by about %s points." % [game.board.label(best), _points(float(f.get("point_loss", 0.0)))])
+            lines.append("%s %s" % [str(f.get("critique", "")), str(f.get("changed", ""))])
+            lines.append("Next time: %s" % str(f.get("habit", "")))
         _legend = "Filled = your move\nRing = engine preference"
     if bool(review.get("partial", false)):
         lines.append("(The first %d of your %d moves were looked at.)" % [
             int(review.get("analysed_moves", 0)), int(review.get("total_moves", 0))])
     _legend = ["Before either move", "After your move", "After engine choice"][_comparison] + "\n" + _legend
+    if not _board.review_ownership.is_empty():
+        _legend += "\nBlue: yours / red: theirs"
     var available := int(_body.size.y) - UiKit.text_height(_legend, TEXT_W) - UiKit.LINE_H
     _text_pages = ReviewComparison.pages(lines, TEXT_W, available)
     _text_page = _text_pages.size() - 1 if _text_page < 0 else mini(_text_page, _text_pages.size() - 1)
@@ -229,7 +243,11 @@ func _refresh_navigation() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-    if event.is_action_pressed("go_compare") and _board.visible:
+    if event.is_action_pressed("go_lesson") and _lesson_id != "":
+        requested_lesson = _lesson_id
+        closed.emit()
+        queue_free()
+    elif event.is_action_pressed("go_compare") and _board.visible:
         _comparison = (_comparison + 1) % 3
         _show()
     elif _board.visible and _navigation.handle_input(event):
@@ -262,3 +280,12 @@ func _unhandled_input(event: InputEvent) -> void:
     else:
         return
     get_viewport().set_input_as_handled()
+
+
+func _configure_actions() -> void:
+    var specs: Array = [["<", "move_left"], [">", "move_right"], ["Compare C", "go_compare"]]
+    if _lesson_id != "":
+        specs.append(["Lesson L", "go_lesson"])
+    specs.append(["Close", "interact"])
+    _actions.position.x = 110 if _lesson_id != "" else 158
+    _actions.configure(specs)

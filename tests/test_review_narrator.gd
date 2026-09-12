@@ -10,6 +10,7 @@ static func run(t: TestKit) -> void:
     var text := " ".join(lines)
     for required in ["C3", "2 liberties", "White D3", "Black C4", "White D4", "about 9 points", "Kesh", "escaping"]:
         t.ok(text.contains(required), "dying-group card includes " + required)
+    t.ok(lines[0].contains("C4, D3"), "the group sentence names its liberty coordinates")
     t.ok(text.contains("captures"), "proven continuation may name the capture")
     t.ok(ReviewNarrator.valid(facts, lines, 9), "generated coordinates are all grounded")
     var white := ReviewNarrator.describe(facts, GoBoard.WHITE)
@@ -33,3 +34,11 @@ static func run(t: TestKit) -> void:
     t.ok(not ReviewNarrator.valid(facts, ["Try C30."], 9), "out-of-bounds row is rejected")
     t.ok(not ReviewNarrator.valid(facts, ["One.","Two.","Three.","Four."], 9), "four sentences are rejected")
     t.ok(not ReviewNarrator.valid(facts, ["One. Two. Three. Four."], 9), "array packing cannot bypass sentence limit")
+
+    var illustration := ReviewFacts.build(ReviewFacts.player_input(ReviewFactsTests.capture_example()))
+    var example_lines := ReviewNarrator.describe(illustration, GoBoard.BLACK)
+    var example_text := " ".join(example_lines)
+    for required in ["One legal example", "White D3", "Black H5", "White C4", "captures", "engine estimates", "Kesh"]:
+        t.ok(example_text.contains(required), "example identifies its source and includes " + required)
+    t.ok(ReviewNarrator.valid(illustration,example_lines,9), "example is grounded and within three sentences")
+    t.ok(not example_text.contains("forced"), "example makes no forced-capture claim")

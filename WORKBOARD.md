@@ -36,7 +36,7 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 
 ## REV-01 — Reviews that explain why
 
-- Status: `DOING` · Priority: `P1` · Owner: Codex · Branch: `codex/rev-01-review-facts`.
+- Status: `SHIPPED` (Steps 1–4, M51) · Priority: `P1` · Owner: Codex · Branch: `codex/rev-01-review-facts`.
 - Approved Steps 1–4 only; fresh HEAD = origin/main = `37d007c` before branching.
 - Scope: two-pass analysis, pure coordinate-grounded facts and template narration,
   ownership comparisons and existing-lesson links. No live teaching or LLM backend.
@@ -71,6 +71,20 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
   legal-capture wording and Black/White tests. Full gate **18,138 / 0**, 322 loads,
   13 art tests and integration gates pass; isolated facts/narrator gate **83 / 0**.
   Runtime cards are unchanged until Step 4.
+- Step 4 technical gate passes: **18,200 / 0**, 325 loads, pure gate **101 / 0**,
+  13 art tests and all integrations, including stale-session cancellation during pass 2.
+  9×9 passes **14.888 / 31.112 s**, review **4,639 → 10,055 B**, complete save
+  **6,957 → 13,721 B**. 19×19 passes **64.443 / 47.909 s**, review
+  **13,947 → 48,279 B**, complete save **20,613 → 64,565 B**.
+  Wren's actual Black game finished (White +13.5), and F2 was deliberately abandoned
+  with two liberties and captured. Black/White cards, ownership and lesson/save-return
+  inspected. The selected later error's PV does not finish the capture; a proposed
+  explicitly labelled rules-verified continuation was approved after explaining that it
+  proves a possible capture, not a forced result. Complete Black/White cards are now
+  inspected: F2, G2/F1, the legal three-move capture, about 19 points and Kesh's escape
+  lesson. Keyboard/clickable L, normal return and disk reload pass. Final actual-SGF
+  analyses: Black 10.372 / 29.872 s; White 10.593 / 30.535 s. All criteria met;
+  [opened screenshots and reproduction payloads](docs/review/PLAYTEST.md).
 - Plan: [REV-01](docs/review/REV-01.md). Strengths, ranks, policy commentary and new curriculum
   remain outside this task; ask before changing any non-goal.
 

@@ -64,6 +64,9 @@ run_integration_gate() {
   rm -f "$gate_log"
 }
 
+echo "== review facts and narrator with engine/game absent =="
+tools/test_review_pure.sh
+
 echo "== capture scene and KataGo Linux integration gates =="
 run_integration_gate 30 res://tools/capture_scene_probe.gd
 run_integration_gate 90 res://tools/katago_smoke.gd

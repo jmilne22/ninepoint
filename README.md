@@ -100,10 +100,16 @@ where to put you when all three slots are full.
 | *after both players pass* | Space toggles a group dead or alive, **P** accepts the count |
 | Space | dismiss the result, hear the opponent’s reaction, then choose whether to review |
 | C (review) | compare the original position, your move, and the engine’s preferred move |
+| L (review, when offered) | open the related lesson; return to the world afterward |
 
 The board screens also have clickable buttons for their actions: passing, resignation,
 count acceptance, colour choices, explanations, results and review navigation.
-Review Yes/No choices can be clicked directly inside their card. Keyboard
+Review Yes/No choices can be clicked directly inside their card. New reviews explain
+engine-estimated group or region losses beside the board. In comparisons, blue tint
+means expected player ownership and red means opponent ownership; outlined areas
+show lost ground. A “legal example” illustrates a possible capture, not a forced result.
+Lesson L opens the linked existing lesson. Older reviews keep their
+original text and controls. Keyboard
 shortcuts remain available. Hover previews indicate placement only: illegal moves are
 explained when clicked, exactly as before. During the opponent's turn, hovering identifies
 a point without previewing a stone. At the count, hovering outlines the whole group.

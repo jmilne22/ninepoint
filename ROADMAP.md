@@ -5,7 +5,7 @@ This document explains **why** future work matters and the trade-offs around it.
 dependencies, and acceptance criteria. `MILESTONES.md` is the append-only delivery history.
 Do not select work from this document without checking its linked board ticket first.
 
-The build is green: `tools/test.sh` passes 18,138 Godot checks, 13 Python art tests, a capture-scene gate and three real-engine gates,
+The build is green: `tools/test.sh` passes 18,200 Godot checks, 13 Python art tests, a capture-scene gate and three real-engine gates,
 `tools/check_lessons.py` reports no problems, and the game is playable from the cold open
 to the exam and the Cup.
 
@@ -348,7 +348,8 @@ board visible. Wren’s actual practice uses position-aware guidance, Help and a
 her engine strength and stopping policy stay unchanged until human experience warrants a
 different decision. Proposed dead marks remain manually editable and are still heuristic.
 
-Reactions now precede analysis. Review language reports immediate verifiable changes, with
+Reactions now precede analysis. Review language reports immediate verifiable changes and coordinate-grounded engine
+estimates, with
 independent board comparisons and qualified engine preferences. Requesting analysis never
 records another result. Visual novice belongings, contrasting HUD text and league-derived
 progress make the existing setting and competition readable without another progression.

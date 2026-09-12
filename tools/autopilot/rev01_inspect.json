@@ -1,0 +1,10 @@
+[
+ {"save":"quay_review"},{"wait":0.8},{"tap":"move_down"},{"tap":"interact"},{"world_wait":true},
+ {"experience":"review_fixture"},{"walk_to":[17,4]},{"face":[17,3]},{"tap":"interact"},
+ {"review_card_wait":true,"timeout":5},{"review_walk":true},{"tap":"go_compare"},{"shot":"ownership_actual"},
+ {"tap":"go_compare"},{"shot":"ownership_best"},{"tap":"go_lesson"},
+ {"experience":"lesson_run"},{"world_wait":true},{"shot":"returned_from_lesson"},
+ {"experience":"save"},{"experience":"reload"},{"world_wait":true},
+ {"walk_to":[17,4]},{"face":[17,3]},{"tap":"interact"},{"review_card_wait":true,"timeout":5},
+ {"review_walk":true},{"tap":"cancel"},{"world_wait":true},{"shot":"review_retained_after_reload"}
+]

@@ -4,6 +4,26 @@ Handoff for an agent working in `jmilne22/ninepoint` (Godot 4.7, GDScript). Read
 `AGENTS.md` first; every rule there still applies, especially rule 2 (`src/go/` knows
 nothing about the game) and rule 9 (play it before calling it done).
 
+## Approved session boundary
+
+Implement Steps 1–4 only. Step 5 and the optional narrator backend remain unstarted.
+The approved execution plan uses query-level `maxVisits` overrides on one process:
+8 for the score pass, 200 for actual/best comparisons. The first nine-query 9×9
+measurement took 50.377 seconds in pass 2; work stopped and the owner approved
+50 visits for pass branches only. Further visit changes require the owner’s decision
+with measurements. The budget is 45 seconds for 9×9 pass 2.
+Ownership is copied in documented top-left-first row-major order, after validation;
+real A1/B3 probes and asymmetric tests establish the ordering. After enrichment,
+duplicate or unsupported lesson cards are omitted without replacement queries.
+The owner also approved a labelled “One legal example” when the selected engine PV
+predicts group death without showing the capture. Keep the first two legally replayed PV
+moves and demonstrate an immediate capture only if rules replay captures the entire named
+chain. Preserve the original PV and its `captured_at` separately. This illustrates a
+possible continuation; it establishes neither a forced capture nor the engine's preferred
+line. The cost is still the engine's move comparison, not a valuation of that example.
+No additional query or visit change is authorized. Revalidate examples on save load.
+The original proposal below remains as context; this authorization takes precedence.
+
 ## Problem
 
 Review cards say things like *"Yours placed a stone at E5 with 4 liberties. D4 would have

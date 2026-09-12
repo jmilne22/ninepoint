@@ -21,6 +21,9 @@ static func describe(facts: Dictionary, player: int, immediate: String = "") -> 
         var line: Array = facts.get("refutation", [])
         if str(group.get("captured_at", "")) != "" and not line.is_empty():
             lines.append("%s captures it; this choice cost about %s." % [_sequence(line,player,group["stones"]),cost])
+        elif not group.get("capture_example", []).is_empty():
+            lines.append("One legal example: %s captures it; the engine estimates your move cost about %s." % [
+                _sequence(group["capture_example"],player,group["stones"]),cost])
         elif not line.is_empty():
             lines.append("After %s, the engine expects that group to die; your choice cost about %s." % [_sequence(line,player),cost])
         else:
@@ -70,7 +73,8 @@ static func _colour(player: int) -> String:
 
 static func _liberties(group: Dictionary) -> String:
     var count := int(group["liberties_before"])
-    return "%d %s" % [count, "liberty" if count == 1 else "liberties"]
+    var labels := ", ".join(group["liberties"])
+    return "%d %s (%s)" % [count, "liberty" if count == 1 else "liberties",labels]
 
 
 static func _points(count: int) -> String:
