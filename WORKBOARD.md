@@ -57,6 +57,8 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
      as a strip; measure the caption with `UiKit.text_height` as the card already does.
      Numbers on the board only when the cell is at least 14 px (9×9, 13×13, 19×19 zoomed);
      otherwise coloured dots and the caption list.
+- Mockup, drawn from the recorded Wren position (candidate costs illustrative):
+  `docs/review/graph/rev06_mockup.png`.
 - Out of scope, deliberately: win rate, visit counts, policy, variation strings, and
   expected-territory shading on every move (it needs ownership per turn, which the
   eight-visit pass does not request and a 19×19 save could not hold; the tints stay on
