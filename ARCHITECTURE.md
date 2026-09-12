@@ -236,6 +236,13 @@ branches for up to three selected findings, at 200 visits for actual/best and 50
 The score pass stays at eight visits. Query IDs disambiguate identical turn numbers;
 optional detail failures retain pass-one cards. Raw maps/PVs are not saved in Step 1.
 
+REV-01 Step 2 adds `ReviewFacts` and `ReviewContinuation`, pure static RefCounted
+components taking arrays/dictionaries. Ownership/score signs are normalized exactly once
+for the player before detection; all findings identify board coordinates or regions.
+Ownership predicts group outcomes; replayed legal PV captures provide separate proof.
+The lesson table maps group loss to Kesh's existing escape lesson. These components
+remain unwired to cards until Step 4.
+
 Strength knobs on `OpponentProfile` (all honest, none of them "the AI plays badly on purpose
 because you levelled up"): `engine`, `rank_label`, `board_size`, `komi`, `handicap`,
 `mistake_rate`, `reading_depth`, `aggression`, `territory_bias`, `resign_threshold`.

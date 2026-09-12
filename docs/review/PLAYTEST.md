@@ -34,8 +34,21 @@ detail cancellation terminates its pipe; the stalled engine fails within 6.1 sec
 The 45-second acceptance budget applies to 9×9 pass 2. Shutdown resource-leak warnings
 remain visible in logs; no script or parse errors occurred.
 
+## Step 2
+
+Fixtures, including White orientation, were written and registered before functions.
+The recorded red run failed because `ReviewFacts` did not exist. The final pure tests
+cover all six detectors, region ordering/limits, thresholds, coordinate validation,
+legal capture proof, malformed lines and exact colour-mirrored equivalence.
+
+Full gate: **18,110 / 0**, **320 loads**, 13 art tests and all engine gates pass.
+9×9 pass 1 / pass 2: **15.032 / 34.285 s**; 19×19: **61.904 / 45.073 s**.
+`tools/test_review_pure.sh` copied only Go rules, the facts/continuation helpers and
+fixtures into a disposable project: **55 passed / 0 failed**, with no engine files,
+scene tree access by the helpers, or game autoloads. No player-facing change in this step.
+
 ## Remaining acceptance
 
-Steps 2–4, full Black/White abandoned-group games, the new mistake card and lesson
+Steps 3–4, full Black/White abandoned-group games, the new mistake card and lesson
 action, ownership comparison inspection, save-size deltas and legacy regression
 remain unverified. No completion or shipped milestone is claimed yet.

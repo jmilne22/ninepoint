@@ -61,6 +61,12 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
   9×9 (78 moves): 14.846 / 31.850 s; finished 19×19 (242 moves): 61.661 / 45.597 s.
   Legacy review bytes: 4,639 / 13,946, unchanged. `rendered_match` passed with 18 frames;
   loading, mistake and room-return captures opened. [Evidence](docs/review/PLAYTEST.md).
+- Step 2 fixtures were registered before implementation; the red run reported missing
+  `ReviewFacts`. Pure fixtures now cover all detectors and mirrored White orientation;
+  legal PV capture proof is separate from ownership prediction. Full gate: **18,110 / 0**,
+  320 loads, 13 art tests and all engine gates pass; 9×9 passes 15.032 / 34.285 s,
+  19×19 passes 61.904 / 45.073 s. `tools/test_review_pure.sh`: **55 / 0** with
+  game/autoloads/engine absent. Step 2 complete; runtime cards are unchanged.
 - Plan: [REV-01](docs/review/REV-01.md). Strengths, ranks, policy commentary and new curriculum
   remain outside this task; ask before changing any non-goal.
 

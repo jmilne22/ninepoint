@@ -201,6 +201,7 @@ tools/play.sh -- --katago-trial=res://tools/fixtures/katago_trial_19x19.tres # d
 tools/play_ps1.sh                                # isolated De Ketel 2.5D experiment; never saves
 tools/run_ps1.sh tools/autopilot/ps1_tour.json     # disposable user data, rendered-room acceptance
 tools/test.sh                                    # compile gate + load check + all suites
+tools/test_review_pure.sh                        # review facts with the game and engine absent
 tools/run_game.sh tools/autopilot/<script>.json  # drive the game, screenshot each beat
 python3 tools/build_assets.py                    # regenerate ALL assets (Blender + Pillow required)
 python3 tools/build_world_art.py --maps de_ketel   # selective rendered room rebuild
