@@ -9,7 +9,7 @@ AUTOPILOT: accept the count
 KATAGO TRIAL: recorded engine evidence
 AUTOPILOT: dismiss the result
 AUTOPILOT: Yes, go over the game
-Review: 100 of 100 positions in 49.2 s on 8 threads (complete)
+Review: 100 of 100 positions in 48.9 s on 8 threads (complete)
 AUTOPILOT: the review cards opened
 AUTOPILOT SHOT: /home/user/.cache/graph-poc/user/godot/app_userdata/Ninepoint/shots/01_a_graph_praised_move.png
 AUTOPILOT SHOT: /home/user/.cache/graph-poc/user/godot/app_userdata/Ninepoint/shots/02_b_graph_three_moves_earlier.png

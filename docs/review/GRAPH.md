@@ -17,9 +17,12 @@ existing analysis so both can be played and compared. Nothing is cut yet.
   "behind" rather than numbers: an early frame with "+50 / -50" and a bare "63" under
   the cursor was read as "a -63 advantage", so the number now lives only in the caption.
 - Left/Right walk your moves. Up/Down jump between the explained positions, drawn as
-  marks (teal for the praised move, rust for losses). Space opens that position's card;
-  Left from the cards returns to the graph at the same move. Compare C and the
-  nineteen-line zoom work as before. Escape closes. Clicking the graph selects a move.
+  dots; the legend says "Green dot = a good move, red = a costly one". Space or the
+  **Open card** button opens that position's card, and the button is greyed on moves
+  that have none. Left from the cards returns to the graph at the same move. Compare C
+  works as on the cards and the title says what is showing ("Showing: after your
+  move"). Nineteen-line zoom works as before. Escape closes. Clicking the graph selects
+  a move.
 - It opens on your praised move, so what went right still comes first.
 - Saves without a curve (every review before this branch) render the old tally card.
 

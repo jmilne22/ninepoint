@@ -277,13 +277,14 @@ func _show_graph() -> void:
     elif best >= 0 and best != actual:
         verdict = "The engine preferred %s, about %d points." % [game.board.label(best), roundi(loss)]
     var lead := float(point.get("lead", 0.0))
-    var standing := "About level after this move."
+    var standing := "About level here."
     if absf(lead) >= 1.0:
-        standing = "About %d points %s after this move." % [roundi(absf(lead)), "ahead" if lead > 0 else "behind"]
+        standing = "About %d points %s here." % [roundi(absf(lead)), "ahead" if lead > 0 else "behind"]
     var lines: Array[String] = [standing, verdict]
-    _legend = ["Before either move", "After your move", "After engine choice"][_comparison] + "\nFilled = your move"
-    if best >= 0 and best != actual:
-        _legend += "\nRing = engine preference"
+    _legend = "Filled = your move, ring = the engine's."
+    if best < 0 or best == actual:
+        _legend = "Filled = your move."
+    _legend += "\nGreen dot = a good move, red = a costly one."
     _title.text = "Move %d. You played %s.\n" % [move, game.board.label(actual)]
     _body.text = "\n".join(lines) + "\n\n" + _legend
     _refresh_navigation()
@@ -315,8 +316,14 @@ func _refresh_text() -> void:
 func _refresh_heading() -> void:
     if _on_graph():
         var heading := _title.text.split("\n")[0]
-        _title.text = heading + "\n" + ("Arrows: look   V: whole" if _board.zoomed else
-            "Left/Right  Up/Down  [Space]")
+        var hint := "Left/Right  Up/Down  [Space]"
+        if _board.zoomed:
+            hint = "Arrows: look   V: whole"
+        elif _comparison == 1:
+            hint = "Showing: after your move.  C"
+        elif _comparison == 2:
+            hint = "Showing: after the engine's.  C"
+        _title.text = heading + "\n" + hint
         return
     if _text_pages.is_empty():
         return
@@ -418,7 +425,9 @@ func _unhandled_input(event: InputEvent) -> void:
 func _configure_actions() -> void:
     var specs: Array = [["<", "move_left"], [">", "move_right"], ["Compare C", "go_compare"]]
     if _on_graph():
-        specs.append(["Open", "interact"])
+        # Only explained positions have a card; say so with a greyed button.
+        var move := int(_graph.selected_move().get("move", 0))
+        specs.append(["Open card", "interact", _graph.marked.has(move)])
         specs.append(["Close", "cancel"])
         _actions.position.x = 122
         _actions.configure(specs)

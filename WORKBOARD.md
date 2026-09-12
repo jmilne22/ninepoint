@@ -51,6 +51,11 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
   (a whole 9×9 to the count, the review, graph walking, opening a card, Compare C, return,
   close) with opened frames in `docs/review/GRAPH.md`; legacy saves without a curve
   render exactly as before.
+- Owner playtest feedback folded in: axis reads ahead/behind with the number in words;
+  the dots are named in the legend; Compare states what it shows in the title; Open card
+  greys out where there is no card. Separately, the practice Help fallback ("look at the
+  empty space near your stones") now names your group with the fewest liberties and the
+  opponent's, with coordinates, since empty space was not something a beginner could act on.
 - Decision this POC is meant to inform: if the graph is the spine, the second analysis
   pass (about 32 of 45 seconds and most of the card code) is only needed for the
   ownership tints and continuation lines. Keep them or cut them after playing both.
