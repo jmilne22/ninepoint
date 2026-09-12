@@ -8,6 +8,7 @@ static func run(t: TestKit) -> void:
     t.section("match analysis")
     _eligibility(t)
     _parsing(t)
+    _details(t)
     _accounting(t)
     _payload(t)
     _query(t)
@@ -217,3 +218,45 @@ static func _explain(t: TestKit) -> void:
     t.eq(best.board.get_idx(0),GoBoard.EMPTY,"suggestion starts from original position")
     t.eq(best.board.get_idx(2),GoBoard.WHITE,"suggestion is applied independently")
     t.eq(f["cells"][0],0,"previews leave the saved position unchanged")
+
+
+static func _details(t: TestKit) -> void:
+    var values: Array = []
+    for i in 81:
+        values.append(float(i) / 100.0)
+    var converted := KataGoReviewQuery.ownership_to_board(values, 9)
+    t.eq(converted.size(), 81, "ownership has exactly one value per intersection")
+    t.eq(converted[55], 0.55, "B3 is index 55, not transpose 15 or flipped row 19")
+    t.eq(converted[72], 0.72, "A1 is index 72, not A9 or J9")
+    t.eq(converted[8], 0.08, "J9 is index 8")
+    t.ok(KataGoReviewQuery.ownership_to_board(values.slice(1), 9).is_empty(), "short ownership is absent")
+    values[3] = "bad"
+    t.ok(KataGoReviewQuery.ownership_to_board(values, 9).is_empty(), "nonnumeric ownership is absent")
+    values[3] = INF
+    t.ok(KataGoReviewQuery.ownership_to_board(values, 9).is_empty(), "infinite ownership is absent")
+    var line := {"id":"f0_actual", "turnNumber":1, "rootInfo":{"scoreLead":-3.0},
+        "moveInfos":[{"move":"B3", "scoreLead":-2.0, "pv":["B3","C4","D5","E6","F7","G8","H9"]}],
+        "ownership":Array(converted)}
+    var parsed := KataGoAnalysis.parse_line(JSON.stringify(line),9)
+    t.eq(parsed["id"], "f0_actual", "detail response keeps its query id")
+    t.eq(parsed["pv"].size(), 6, "only six top-PV moves are retained")
+    t.eq(parsed["best_lead"], -2.0, "top move lead stays Black-positive")
+    t.eq(parsed["ownership"][55], 0.55, "parser uses the sole ownership conversion")
+    line["isDuringSearch"] = true
+    t.ok(KataGoAnalysis.parse_line(JSON.stringify(line),9).is_empty(), "partial reports cannot complete queries")
+    var replay := MatchAnalysis.replay("(;GM[1]SZ[9]HA[2];W[ee];B[dd];W[cc])")
+    var finding := {"move_number":3,"actual":20,"best":55}
+    var queries := KataGoReviewQuery.detail_queries(replay,0.5,[finding])
+    t.eq(queries.size(),3,"one finding requests three independent branches")
+    for q in queries:
+        t.eq(q["moves"].slice(0,2),[["W","E5"],["B","D6"]],"full prior history survives")
+        t.eq(q["analyzeTurns"],[3],"only branch end is analysed")
+        t.eq(q["initialStones"].size(),2,"handicap remains setup")
+        t.eq(q["initialPlayer"],"W","handicap initial colour remains White")
+        t.eq(q["maxVisits"],50 if str(q["id"]).ends_with("_pass") else 200,"detail search uses approved visit budget")
+        t.eq(q["includePolicy"],false,"policy stays disabled")
+        t.eq(q["includeOwnership"],true,"detail queries request ownership")
+    t.eq(queries[0]["moves"][2],["W","C7"],"actual branch includes actual once")
+    t.eq(queries[1]["moves"][2],["W","B3"],"best branch replaces actual")
+    t.eq(queries[2]["moves"][2],["W","pass"],"pass branch has player's colour")
+    t.eq(KataGoAnalysis.query_for(replay,0.5)["maxVisits"],8,"pass one retains eight visits")

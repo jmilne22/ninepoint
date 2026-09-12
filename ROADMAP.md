@@ -128,9 +128,14 @@ kyu, which makes Pip and Wren unplayable for a beginner.
 **What the review costs, measured.** One KataGo evaluation of one position is about a
 core-second on the bundled Eigen CPU build, at one visit or eight; a finished 9×9 game is
 fifty to eighty positions and a 19×19 game two to three hundred. That is why the review is
-one `katago analysis` query per game with the results streamed, why the loading card shows
-"move N of M" and can be left, and why the first version — two GTP searches per move
+one `katago analysis` process per game with the results streamed, why the loading card shows
+position/comparison progress and can be left, and why the first version — two GTP searches per move
 inside an eighteen-second budget — timed out on every real game and looked like a hang.
+
+REV-01 adds deeper analysis only for selected review moments: at most nine
+comparisons (200 visits actual/best, 50 pass) after the eight-visit score pass. The 9×9 detail budget is 45 seconds; lowering
+visits requires the owner’s decision with measurements. Live teaching and LLM narration
+are separate, unstarted work.
 
 **Strength, measured (M41).** M39's calibration never played a game out. The probe
 (`tools/katago_strength_probe.gd`) puts every beginner profile on a ladder of the same

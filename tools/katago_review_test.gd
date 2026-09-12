@@ -8,6 +8,7 @@
 extends SceneTree
 
 var _failed := false
+var _budget_exceeded := false
 var _last := -1
 var _monotonic := true
 
@@ -18,7 +19,11 @@ func _initialize() -> void:
         quit(1)
         return
     await _whole_game(9, 120)
+    if _budget_exceeded:
+        quit(2)
+        return
     await _whole_game(19, 240)
+    await _detail_failure()
     await _hang()
     print("KataGo review gate: %s" % ("FAILED" if _failed else "passed"))
     quit(1 if _failed else 0)
@@ -27,6 +32,7 @@ func _initialize() -> void:
 ## Two heuristic players finish a game; the review must account for all of it.
 func _whole_game(size: int, cap: int) -> void:
     var game := _play_out(size, cap)
+    _check(game.state != GoGame.State.PLAYING, "%dx%d: fixture reached an ending" % [size,size])
     var record := {"sgf": GoSgf.to_sgf(game), "komi": game.komi, "board_size": size,
         "player_color": GoBoard.BLACK, "by_capture": false}
     var runner := KataGoAnalysis.new()
@@ -34,18 +40,32 @@ func _whole_game(size: int, cap: int) -> void:
     _monotonic = true
     runner.progress.connect(_on_progress)
     var started := Time.get_ticks_msec()
-    var raw: Dictionary = await runner.run(record)
+    var raw: Dictionary = await runner.run(record, true)
+    raw = await runner.run_details(record, raw)
     var seconds := float(Time.get_ticks_msec() - started) / 1000.0
     var total := int(raw.get("total", 0))
     _check(bool(raw.get("complete", false)), "%dx%d: every one of %d positions was analysed (%s)" % [
         size, size, total, str(raw.get("reason", ""))])
-    _check(_monotonic and _last == total, "%dx%d: progress counted up to the end" % [size, size])
+    _check(_monotonic and _last == total + int(raw.get("detail_total", 0)), "%dx%d: progress counted up to the end" % [size, size])
     var payload := MatchAnalysis.from_turns(0, record, raw)
     _check(str(payload.get("availability", "")) in ["available", "steady"],
         "%dx%d: the analysis became a review (%s)" % [size, size, str(payload.get("reason", payload.get("availability")))])
     print("KataGo review %dx%d: %d moves, %d positions, %.1f s, %.2f s per position on %d threads, %d findings" % [
         size, size, game.moves.size(), total, seconds, seconds / maxf(total, 1),
         KataGoAnalysis.thread_count(), payload.get("findings", []).size()])
+
+    print("REV-01 %dx%d: pass-1 %.3f s; pass-2 %.3f s; %d detail queries" % [size,size,
+        float(raw.get("pass1_seconds",0.0)),float(raw.get("pass2_seconds",0.0)),int(raw.get("detail_total",0))])
+    _check(str(raw.get("detail_reason","")) == "", "detail pass completed: " + str(raw.get("detail_reason","")))
+    for branches in raw.get("details",{}).values():
+        _check(branches.size() == 3, "all three branches returned")
+        for branch in branches.values():
+            _check(branch.get("ownership",[]).size() == size * size, "branch ownership covers the board")
+    var bytes := JSON.stringify(payload, "  ").to_utf8_buffer().size()
+    print("REV-01 %dx%d saved review: before %d bytes; after %d bytes (Step 1 retains legacy payload)" % [size,size,bytes,bytes])
+    if size == 9 and float(raw.get("pass2_seconds",0.0)) > 45.0:
+        _budget_exceeded = true
+        printerr("REV-01 BUDGET EXCEEDED: stop and ask owner before adjusting visits.")
 
 
 func _on_progress(done: int, _total: int) -> void:
@@ -71,6 +91,9 @@ func _play_out(size: int, cap: int) -> GoGame:
             game.play(point)
         else:
             game.pass_turn()
+    # A move cap bounds the fixture, but an unfinished SGF is not a whole-game gate.
+    while game.state == GoGame.State.PLAYING:
+        game.pass_turn()
     return game
 
 
@@ -87,6 +110,26 @@ func _hang() -> void:
         "which the payload records as failed")
     KataGoAnalysis.command_override = ""
     KataGoAnalysis.stall_override = -1.0
+
+
+func _detail_failure() -> void:
+    KataGoAnalysis.command_override = "res://tools/fixtures/analysis_detail_error.py"
+    var record := {"sgf":"(;GM[1]SZ[9];B[dd];W[ee];B[cc])", "komi":5.5,"player_color":GoBoard.BLACK}
+    var runner := KataGoAnalysis.new()
+    var raw: Dictionary = await runner.run(record,true)
+    var before := MatchAnalysis.from_turns(0,record,raw)
+    var detailed: Dictionary = await runner.run_details(record,raw)
+    _check(str(detailed["detail_reason"]).contains("detail unavailable"),"a rejected detail query is reported")
+    _check(MatchAnalysis.from_turns(0,record,detailed) == before,"detail failure retains the exact old review")
+    runner = KataGoAnalysis.new()
+    raw = await runner.run(record,true)
+    runner.phase_progress.connect(func(phase: String, _done: int, _total: int) -> void:
+        if phase == "comparisons":
+            runner.cancel())
+    detailed = await runner.run_details(record,raw)
+    _check(detailed["detail_reason"] == "cancelled","detail cancellation terminates the pipe")
+    _check(bool(detailed["complete"]),"cancellation does not erase pass-one coverage")
+    KataGoAnalysis.command_override = ""
 
 
 func _check(ok: bool, what: String) -> void:

@@ -55,6 +55,11 @@ func set_progress(done: int, total: int) -> void:
         _body.text = "Move %d of %d." % [done, total]
 
 
+func set_phase_progress(phase: String, done: int, total: int) -> void:
+    if is_instance_valid(_body):
+        _body.text = ("Position %d of %d." if phase == "positions" else "Comparison %d of %d.") % [done, total]
+
+
 func _pulse() -> void:
     # Staggered, looping stone pulses make progress visible without pretending
     # the engine can estimate an exact remaining time.

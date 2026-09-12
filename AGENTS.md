@@ -350,8 +350,9 @@ src/autoload/  EventBus, GameState, SaveSystem, SceneRouter, MatchBridge, KataGo
   missing or slow. The binary and models are fetched by `tools/setup_katago.sh`, not in git.
 - **The review is one process per game.** `MatchBridge.record_completed_match()` records once before returning to the world.
   After the reaction, `request_review(record_index)` starts `MatchReviewService`, which runs
-  `KataGoAnalysis` on the SGF: one query, every position, about a core-second each on the
-  bundled CPU build. The world-owned review panel shows progress and can be left with [Esc]; the review
+  `KataGoAnalysis` on the SGF: an eight-visit query over every position, then up to nine
+  actual/best (200 visits) and pass (50 visits) comparisons on the same process (REV-01 Step 1).
+  Both phases stream progress; detail failures preserve the existing score-based cards. The world-owned review panel shows progress and can be left with [Esc]; the review
   finishes on its own and waits on the quay noticeboard. Nothing in it changes the result.
 - `GoMatchSetup` decides colours: nigiri for even games, automatic Black at 0.5 komi for
   handicap games, derived from the two ranks.

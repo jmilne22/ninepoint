@@ -34,6 +34,36 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 | `MILESTONES.md` | Append-only shipped history and verification evidence | The current backlog |
 | Design / architecture / art docs | Durable product and technical truth | Task status |
 
+## REV-01 — Reviews that explain why
+
+- Status: `DOING` · Priority: `P1` · Owner: Codex · Branch: `codex/rev-01-review-facts`.
+- Approved Steps 1–4 only; fresh HEAD = origin/main = `37d007c` before branching.
+- Scope: two-pass analysis, pure coordinate-grounded facts and template narration,
+  ownership comparisons and existing-lesson links. No live teaching or LLM backend.
+- Order: green `tools/test.sh`, document sweep and named commit after each step.
+- Acceptance: engine-absent fixtures including colour-mirrored White; single tested ownership
+  ordering conversion; real whole 9×9/19×19 analysis with separate pass times; pass-2
+  failure/cancellation fallback; saved-review and complete-save bytes before/after.
+- Budget: nine detail queries at 200 visits maximum. Stop and ask before lowering visits
+  if 9×9 pass 2 exceeds 45 seconds. Omit duplicate-concept lesson cards without extra queries.
+- Played acceptance: Wren 9×9 with an abandoned two-liberty group; mistake card names group,
+  liberties, capturing sequence and point cost, and opens Kesh's escape lesson. Repeat as
+  White; inspect overlays, quiet/legacy cards and leave/reopen. Open screenshots and record
+  them in `docs/review/PLAYTEST.md`; add a milestone only when all criteria are met.
+- Step 1 measurement stop: whole 9×9, 78 moves / 79 positions, eight analysis threads:
+  pass 1 **14.661 s**, pass 2 **50.377 s** (nine queries × 200 visits; budget 45 s).
+  All nine detail branches returned full ownership. Legacy saved-review size remains
+  **4,640 bytes** before/after. Unit suite: **18,055 passed / 0 failed**.
+  Owner approved reducing only pass-branch visits to 50 after this measurement. No step commit,
+  full gate, 19×19 measurement or later step is claimed at this stop.
+- Step 1 complete: final full gate 18,055 / 0, 317 loads, 13 art tests and integration
+  gates pass, including real-pipe detail rejection/cancellation and watchdog. Finished
+  9×9 (78 moves): 14.846 / 31.850 s; finished 19×19 (242 moves): 61.661 / 45.597 s.
+  Legacy review bytes: 4,639 / 13,946, unchanged. `rendered_match` passed with 18 frames;
+  loading, mistake and room-return captures opened. [Evidence](docs/review/PLAYTEST.md).
+- Plan: [REV-01](docs/review/REV-01.md). Strengths, ranks, policy commentary and new curriculum
+  remain outside this task; ask before changing any non-goal.
+
 ## Beginner experience and premise — approved baseline, 2026-09-12
 
 The owner requested played investigation, approved [the plan](docs/design-audit/PLAN.md),

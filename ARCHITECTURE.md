@@ -222,14 +222,19 @@ rather than one player of it, and skips the blunders. `tools/katago_strength_pro
 measures what a config actually plays at, in whole games against the same model at
 temperature 1.0; the temperaments were set from its numbers (M41), not by feel.
 
-The review uses the same pipe against `katago analysis`: `KataGoAnalysis.run(record)` writes
+The review uses the same pipe against `katago analysis`: `KataGoAnalysis.run(record, true)` writes
 one JSON query for the whole game (`analyzeTurns` = every position, handicap as
 `initialStones`, the game's komi, Japanese rules to match `GoScoring`) and reads one line per
-position as it arrives. `MatchAnalysis` is pure: it parses those lines, charges each of the
+position as it arrives. `KataGoReviewQuery` owns pure query/parsing and the single
+ownership-order conversion. `MatchAnalysis` is pure: it charges each of the
 player's moves the difference between the position before and after from their side,
 tallies how many matched the engine's move or gave nothing away, and picks at most three
 positions. Cost is about one core-second per position on the Eigen build, so the
 service streams progress and the caller may leave; a watchdog fails a silent engine.
+REV-01 Step 1 keeps that process open for `run_details(record, raw)`: actual, best and pass
+branches for up to three selected findings, at 200 visits for actual/best and 50 for pass, with ownership enabled.
+The score pass stays at eight visits. Query IDs disambiguate identical turn numbers;
+optional detail failures retain pass-one cards. Raw maps/PVs are not saved in Step 1.
 
 Strength knobs on `OpponentProfile` (all honest, none of them "the AI plays badly on purpose
 because you levelled up"): `engine`, `rank_label`, `board_size`, `komi`, `handicap`,
