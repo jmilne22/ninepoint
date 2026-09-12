@@ -112,6 +112,8 @@ for the game. Teaching is optional and does not change rank or opponent strength
 
 The board screens also have clickable buttons for their actions: passing, resignation,
 count acceptance, colour choices, explanations, results and review navigation.
+The review opens on a graph of your lead through the game; walk it with Left/Right, jump
+to the green and red dots with Up/Down, and open a dot's card with Space or the button.
 Review Yes/No choices can be clicked directly inside their card. New reviews explain
 engine-estimated group or region losses beside the board. In comparisons, blue tint
 means expected player ownership and red means opponent ownership; outlined areas

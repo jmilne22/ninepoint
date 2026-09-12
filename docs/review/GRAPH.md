@@ -1,9 +1,11 @@
-# REV-04 — Graph-first review POC
+# REV-04 — Graph-first review
 
-Branch `claude/review-graph-poc` from `origin/main` `725aa6c`, 2026-09-12. A proof of
-concept for the owner's question after REV-03: is the card review worth keeping, or
-should the game show the score graph every Go site shows? This builds the graph on the
-existing analysis so both can be played and compared. Nothing is cut yet.
+Branch `claude/review-graph-poc` from `origin/main` `725aa6c`, 2026-09-12; delivered as
+M54. It began as a proof of concept for the owner's question after REV-03: is the card
+review worth keeping, or should the game show the score graph every Go site shows? The
+graph was built on the existing analysis, the owner played it and preferred it to main,
+and the feedback was folded in. Nothing is cut yet: the cards and the second analysis
+pass are unchanged (see REV-05 in the workboard).
 
 ## What it does
 
@@ -47,7 +49,18 @@ then the graph interactions. Frames opened:
 ![Space opens that position's card](graph/e_card_from_graph.png)
 ![Left twice: back on the graph at the praised move](graph/f_graph_return.png)
 
-Gate: `tools/test.sh` **18,236 / 0** (predecessor main 18,229), 332 files load, 13 art tests, all engine gates, exit 0. Route log: [graph/route.log](graph/route.log).
+Thirteen and nineteen lines use the `quay_review_13` / `quay_review_19` save presets,
+whose review is a synthetic fixture: a scattered replayable game, a fixed random-walk
+curve, and the preset's three findings on Black's moves. They prove layout and controls,
+not engine output. `quay_review` (nine lines) keeps the pre-graph payload on purpose and
+still shows the old tally card.
+
+![Nineteen lines](graph/nineteen_graph.png)
+![Nineteen lines, zoomed](graph/nineteen_graph_zoomed.png)
+![Thirteen lines](graph/thirteen_a_graph.png)
+![Legacy save: the old tally card](graph/legacy_tally_card.png)
+
+Gate: **18,239 / 0**, 332 files load, 13 art tests, all engine gates, exit 0.
 
 ## The decision this is for
 

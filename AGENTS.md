@@ -7,9 +7,9 @@ cast, art or branding. Combat does not exist; encounters are games of Go.
 The loop is the one Pokémon TCG and Yu-Gi-Oh! Tag Force run on: walk around, talk to
 people, play, your record climbs, a tournament at the end. Everyone is always where they
 live. A rated game moves your rank one step. After a game, the person you played reacts to
-the game you just played, and if you ask, goes over it with you: how many of your moves
-were the best on the board and which, then your best move with why it was good, then up
-to two positions where a move cost points (M40). Nothing else — no clock, no schedules, no
+the game you just played, and if you ask, goes over it with you: a graph of the whole game
+you can walk move by move (M54), your best move with why it was good, then up to two
+positions where a move cost points (M40). Nothing else — no clock, no schedules, no
 second progression — because M37 cut all of it, and the reasons are in `MILESTONES.md`.
 
 ---
@@ -238,7 +238,7 @@ python3 tools/make_test_save.py invited 2 Ada 42 # ...in slot 2, as Ada, at 42 m
                                                 # exam_ready exam_day exam_round2 exam_passed
                                                 # exam_failed exam_missed exam_final
                                                 # beat_kesh lost_to_kesh
-                                                # quay_review quay_review_19 quay_empty
+                                                # quay_review quay_review_13 quay_review_19 quay_empty
                                                 # thirteen_ketel (thirteen_ready, but in The Kettle where Kesh is)
 ```
 
@@ -256,7 +256,8 @@ weakest heuristic so the player wins -- the autoplay brain cannot beat even Abel
 `review_world_13` (the same through the town: Wren at The Kettle, Kesh's thirteen, then the
 post-match talk), `review_leave` (walk away from the loading card, read it later on the
 quay), `review_unavailable` (a wedged engine must still let you out), `quay_review` /
-`quay_review_19` (the noticeboard from a save).
+`quay_review_19` / `quay_review_13` (the noticeboard from a save; nine keeps the pre-graph
+payload so the legacy card stays covered, thirteen and nineteen carry a synthetic curve).
 
 Production acceptance: `rendered_doors` (all 22 connections plus GPU/input checks),
 `rendered_match` (current Wren rematch/count/review flow), `rendered_tram` (boarding interrupts

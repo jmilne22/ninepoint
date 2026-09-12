@@ -1,6 +1,6 @@
 [
  {
-  "save": "quay_review_19"
+  "save": "quay_review_13"
  },
  {
   "wait": 0.8
@@ -37,24 +37,6 @@
  {
   "wait": 0.6,
   "shot": "a_graph"
- },
- {
-  "board_input": {
-   "key": "V",
-   "size": 19,
-   "zoomed": true
-  }
- },
- {
-  "wait": 0.3,
-  "shot": "a2_graph_zoomed"
- },
- {
-  "board_input": {
-   "key": "V",
-   "size": 19,
-   "zoomed": false
-  }
  },
  {
   "tap": "move_right"

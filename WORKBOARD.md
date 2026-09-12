@@ -36,8 +36,8 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 
 ## REV-04 — Graph-first review POC
 
-- Status: `DOING` (POC on a branch, owner to judge by playing) · Priority: `P1` ·
-  Owner: Claude · Branch: `claude/review-graph-poc`, from `origin/main` `725aa6c`.
+- Status: `SHIPPED` (M54, awaiting merge) · Priority: `P1` · Owner: Claude ·
+  Branch: `claude/review-graph-poc`, from `origin/main` `725aa6c`.
 - Why: REV-03 showed the review's prose layer cannot be made to say more than the
   templates; the owner asked whether reviews are worth keeping at all versus the
   graph-style review every Go site uses. This POC answers by building the graph on the
@@ -47,10 +47,12 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
   of the whole game; Left/Right walk your moves on the board, Up/Down jump between the
   explained positions, Space opens that card, Compare C still works. Opens on the praised
   move. The existing cards, facts, lessons and the second analysis pass are untouched.
-- Acceptance: `tools/test.sh` green with the curve unit checks; `review_graph` route
-  (a whole 9×9 to the count, the review, graph walking, opening a card, Compare C, return,
-  close) with opened frames in `docs/review/GRAPH.md`; legacy saves without a curve
-  render exactly as before.
+- Acceptance (met): `tools/test.sh` **18,239 / 0**, 332 files load, 13 art tests, all engine gates, exit 0; `review_graph` route (a whole 9×9 to the
+  count, the review, graph walking, opening a card, Compare C, return, close);
+  `quay_review_13` and `quay_review_19` synthetic-curve presets show the graph at thirteen
+  and nineteen lines including zoom; `quay_review` still shows the legacy tally card. All
+  frames opened, retained in `docs/review/GRAPH.md`. Owner played it on 9×9 and the
+  feedback is folded in; independent beginner testing of the review remains open.
 - Owner playtest feedback folded in: axis reads ahead/behind with the number in words;
   the dots are named in the legend; Compare states what it shows in the title; Open card
   greys out where there is no card. Separately, the practice Help fallback ("look at the

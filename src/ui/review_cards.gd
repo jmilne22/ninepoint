@@ -191,6 +191,10 @@ func _show() -> void:
         elif not matched:
             why += " %s was best; yours was within a point of it." % game.board.label(best)
         lines.append("%s %s" % [head, why])
+        var tally: Dictionary = review.get("tally", {})
+        if _has_graph() and not tally.is_empty():
+            # The graph card gave up the tally line; praise is where it belongs anyway.
+            lines.append("%d of your %d moves matched the engine." % [int(tally.get("best", 0)), int(tally.get("moves", 0))])
         _legend = "Filled = your move" if matched else "Filled = your move\nRing = engine preference"
     else:
         if f.has("facts") and not f.get("narration", []).is_empty():

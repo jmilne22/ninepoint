@@ -5,7 +5,7 @@ This document explains **why** future work matters and the trade-offs around it.
 dependencies, and acceptance criteria. `MILESTONES.md` is the append-only delivery history.
 Do not select work from this document without checking its linked board ticket first.
 
-The build is green: `tools/test.sh` passes 18,229 Godot checks, 13 Python art tests,
+The build is green: `tools/test.sh` passes 18,239 Godot checks, 13 Python art tests,
 the teaching protocol/scene gates, a capture-scene gate and three real-engine gates,
 `tools/check_lessons.py` reports no problems, and the game is playable from the cold open
 to the exam and the Cup.
@@ -104,7 +104,7 @@ position, already computed in the eight-visit pass. REV-03 established that the 
 top of it cannot be made to explain more than the deterministic templates, and the owner
 asked whether the review should go entirely in favour of the graph every Go site shows.
 
-The POC on `claude/review-graph-poc` keeps the judgement and changes the spine: the first
+Delivered as M54 from `claude/review-graph-poc`. It keeps the judgement and changes the spine: the first
 card is a graph of your lead after each of your moves, the board follows the cursor with
 your move filled and the engine's preference ringed, and the explained positions are marks
 you can jump to and open. It opens on your praised move, so what went right still comes
