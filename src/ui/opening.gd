@@ -44,7 +44,7 @@ func _build() -> void:
     bg.set_anchors_preset(Control.PRESET_FULL_RECT)
     add_child(bg)
 
-    const BACKDROP := "res://art/title/opening.png"
+    const BACKDROP := "res://art/rendered/ui/opening.png"
     if ResourceLoader.exists(BACKDROP):
         var art := TextureRect.new()
         art.texture = load(BACKDROP)
@@ -80,10 +80,7 @@ func _build() -> void:
     _portrait.modulate.a = 0.0
     var portrait_path := "res://art/portraits/hana.png"
     if ResourceLoader.exists(portrait_path):
-        var at := AtlasTexture.new()
-        at.atlas = load(portrait_path)
-        at.region = Rect2(0, 0, 64, 64)
-        _portrait.texture = at
+        _portrait.texture = PortraitMoods.slice(load(portrait_path), "neutral")
     add_child(_portrait)
 
     var panel := UiKit.panel(self, Rect2(20, 138, 344, 60))
@@ -131,8 +128,10 @@ func _draw_board() -> Control:
     shade.size = Vector2(112, 112)
     shade.position = Vector2(11, 3)
     holder.add_child(shade)
-    var slab := ColorRect.new()
-    slab.color = Color("#d9ac66")
+    var slab := TextureRect.new()
+    slab.texture = load("res://art/rendered/ui/board_surface.png")
+    slab.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+    slab.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
     slab.size = Vector2(112, 112)
     slab.position = Vector2(8, 0)
     holder.add_child(slab)

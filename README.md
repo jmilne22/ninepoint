@@ -1,6 +1,6 @@
 # Ninepoint
 
-A top-down 2D RPG about learning to play **Go (baduk)**, built in Godot 4.7.
+A PS1-inspired 2.5D RPG about learning to play **Go (baduk)**, built in Godot 4.7.
 
 You have just moved to **Sela**, a fictional coastal city of pale balconies, shady ficus trees,
 and little tables outside shops. Your room is above a closed stationer's on Market Lane.
@@ -14,24 +14,34 @@ There is no combat. Encounters are games of Go, opponents are ranked in kyu and 
 **the player character never gains a statistic** — the only thing that gets stronger is the
 person holding the controller.
 
+The whole game uses [model-rendered rooms, characters and Go assets](docs/ps1/world/README.md).
+Walk screen-relative through fixed-angle rooms and streets; play Go on a clear overhead
+board. Portraits are rendered from the same original character models as the sprites.
+Market Lane has varied White City-inspired balconies and shaded entrances; Sea Walk
+has warm stone port buildings and fishing boats inspired by Jaffa.
+The earlier isolated room experiment remains available through `tools/play_ps1.sh`.
+
 ## Read this first
 
 | Document | What it covers |
 |---|---|
 | [GAME_DESIGN.md](GAME_DESIGN.md) | Pillars, the town, the cast, how difficulty is expressed in Go's own terms |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | The one rule (the Go module knows nothing about the game), module boundaries, the world↔Go seam, the KataGo-ready opponent interface |
-| [ART_DIRECTION.md](ART_DIRECTION.md) | Palette, tiles, how a character stays consistent between sprite and portrait |
+| [ART_DIRECTION.md](ART_DIRECTION.md) | Rendered art, coastal references, materials and shared character models |
 | [WORKBOARD.md](WORKBOARD.md) | **Current source of truth for agents:** ready work, blockers, priorities, and done criteria |
 | [ROADMAP.md](ROADMAP.md) | Product direction and trade-offs behind the current workboard |
 | [MILESTONES.md](MILESTONES.md) | Append-only history of what shipped and how it was verified |
 
 ## Playing it
 
+On a fresh checkout, import the checked-in assets once, then launch:
+
 ```bash
+godot --headless --path . --editor --quit
 tools/play.sh
 ```
 
-That's it. Godot 4.7 is required; on this machine it lives at `~/.local/bin/godot`
+Godot 4.7 is required; on this machine it lives at `~/.local/bin/godot`
 (a `steam-run` wrapper — see the note on running Godot under NixOS).
 
 ### Controls
@@ -40,7 +50,7 @@ That's it. Godot 4.7 is required; on this machine it lives at `~/.local/bin/godo
 
 | | |
 |---|---|
-| Arrow keys or WASD | walk |
+| Arrow keys or WASD | walk in screen directions |
 | Hold Shift while moving | run |
 | Space (or Enter / E / Z) | talk, read, advance dialogue, take the tram, go through a door |
 | Up / Down then Space | pick a dialogue choice |
@@ -174,9 +184,14 @@ package the game still plays, against the built-in heuristic opponent.
 
 ### Development
 
+Art builds require Blender and Pillow; the checked-in game does not. See the
+[rendered pipeline guide](docs/ps1/world/README.md) for the NixOS command.
+The full test gate requires the pinned KataGo package, including its models; run
+`tools/setup_katago.sh` first. Playing with the heuristic fallback does not require it.
+
 ```bash
-tools/test.sh                       # compile check + headless suite (Go rules, AI, content)
-tools/setup_katago.sh               # download + checksum-verify Linux x64 KataGo for local play
+tools/setup_katago.sh               # download + checksum-verify the pinned Linux x64 package
+tools/test.sh                       # compile/load, suites and real-engine integration gates
 tools/setup_katago.sh --verify      # check the local KataGo package without downloading
 godot --headless --path . --script res://tools/katago_review_test.gd   # the review over whole 9x9 and 19x19 games
 tools/run_game.sh tools/autopilot/kesh_skip.json   # drive the whole slice, screenshot each beat
@@ -283,10 +298,11 @@ src/academy/ the Institute league and the federation's events: standings and dra
 src/go_ai/   opponent interface, KataGo at the board and over a finished game, the
              heuristic AI that stands in when the engine is missing
 src/go_ui/   board view, match scene, puzzle scene, lesson runner, the nigiri ceremony
-src/rpg/     town, player, NPCs, maps, the tram
+src/rpg/     town, player, NPCs, maps, projection/depth shaders, the tram
+src/prototype/ketel/   opt-in session-only room experiment
 src/dialogue/ src/quest/ src/ui/ src/autoload/   (SaveSystem lives in src/autoload/)
 data/        maps, dialogue, NPCs, opponents, quests, puzzles -- all of it data
-art/         generated pixel art
+art/         rendered production assets plus the retained grid fallback
 audio/       generated sound effects and music
 tools/       art and content generators, test and run harnesses
 tests/       headless suites
@@ -302,10 +318,10 @@ furniture, local wear, moving washer drums and more distinct walking poses. Its
 screenshots show the former Verhaven setting. The [art playtest](docs/art/PLAYTEST.md) includes matching
 before/after views and played screenshots from every room.
 
-The [portrait-led sprite preview](docs/sprite-preview/PLAYTEST.md) revises Ro, Wren,
+The earlier [portrait-led sprite preview](docs/sprite-preview/PLAYTEST.md) revised Ro, Wren,
 Kesh, Tomás, Nadia and Sunny with rounded silhouettes and more distinct working poses.
-The other world sprites are unchanged. Portrait faces remain exact; four broad-shouldered
-portraits now share the existing floating-neck style, while scarves stay connected. The report includes
+That historical pass preserved other sprites and portrait faces. ART-08 replaces the
+production cast with shared models and rendered busts. The old report includes
 old/new comparisons and actual gameplay captures for reviewing this first package.
 
 ## The coastal neighborhood
@@ -313,10 +329,14 @@ old/new comparisons and actual gameplay captures for reviewing this first packag
 Market Lane, Sea Walk and the Arcade form a short walking loop. The garden steps lead
 to the water; the steps at Sea Walk's east end return through the Arcade. Joos's board
 is in the passage's quiet side alcove. The review board remains beside the shaded sea bench.
-Tram 4 is a white articulated light-rail vehicle with rounded cabs and dark windows.
+Tram 4 is a rendered white articulated light-rail vehicle inspired by the Tel Aviv Red Line,
+with rounded cabs, wraparound dark glazing and roof equipment.
 At its glass shelter, stand anywhere on the marked platform and press Space when
 **Board Tram 4** appears. You do not need to face the pole. Choose a destination or Not now.
 
-All existing characters, portraits and sprites are preserved. Old saves retain their
-progress; the first load after this layout change places you at a safe named entrance.
-The [Sela playtest report](docs/sela/PLAYTEST.md) records the verified routes and screenshots.
+Character identities are preserved in the new models. Old saves retain their progress;
+the earlier Sela layout migration uses safe entrances, while ART-08 preserves exact
+logical positions and introduces no additional relocation.
+The [Sela playtest report](docs/sela/PLAYTEST.md) records the original layout migration.
+Current presentation evidence is in the [rendered-game report](docs/ps1/world/verification.md)
+and [coastal polish report](docs/ps1/polish/verification.md).

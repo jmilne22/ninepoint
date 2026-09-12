@@ -81,24 +81,23 @@ func _build() -> void:
     # Window 1: the crowd.
     _crowd_band = _band(CROWD, "#3a2340")
     _crowd = TextureRect.new()
-    _crowd.texture = load("res://art/ui/crowd.png")
+    _crowd.texture = load("res://art/rendered/ui/crowd.png")
     _crowd.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
     _crowd.position = Vector2(0, 0)
     _crowd_band.add_child(_crowd)
 
     # Window 2: the ring -- the bowl and the hand.
     _ring_band = _band(RING, "#5c4230")
-    for i in 6:                                  # tatami-ish floor stripes
-        var stripe := ColorRect.new()
-        stripe.color = Color("#8a6440") if i % 2 == 0 else Color("#6f4e34")
-        stripe.position = Vector2(0, i * 18)
-        stripe.size = Vector2(384, 18)
-        _ring_band.add_child(stripe)
+    var table_art := TextureRect.new()
+    table_art.texture = load("res://art/rendered/ui/table.png")
+    table_art.position.y = -38
+    table_art.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+    _ring_band.add_child(table_art)
 
     # Everything in the ring is drawn at 2x: pixel art, so integer scale only,
     # and at 1x the hand was a thumbnail lost in an empty window.
     _bowl = TextureRect.new()
-    _bowl.texture = load("res://art/ui/bowl.png")
+    _bowl.texture = load("res://art/rendered/ui/bowl.png")
     _bowl.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
     _bowl.scale = Vector2(SCALE, SCALE)
     _bowl.position = Vector2(26, 44)
@@ -155,7 +154,7 @@ func _band(rect: Rect2, edge: String) -> Control:
 
 func _hand_region(pose: int) -> AtlasTexture:
     var at := AtlasTexture.new()
-    at.atlas = load("res://art/ui/hands.png")
+    at.atlas = load("res://art/rendered/ui/hands.png")
     var row: int = maxi(0, TONES.find(skin_tone))
     at.region = Rect2(pose * HAND_W, row * HAND_H, HAND_W, HAND_H)
     return at
@@ -306,9 +305,11 @@ func reveal(count: int) -> void:
 
 
 func _drop_stone(index: int, total: int) -> void:
-    var stone := ColorRect.new()
+    var stone := TextureRect.new()
     var white := index % 2 == 1
-    stone.color = Color("#f7f2e6") if white else Color("#0d0b10")
+    stone.texture = GoBoardInk.WHITE_STONE if white else GoBoardInk.BLACK_STONE
+    stone.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+    stone.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
     stone.size = Vector2(7, 7)
     var col := index % 7
     var row := index / 7

@@ -1,0 +1,27 @@
+[
+  {
+    "save": "invited"
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "walk_to": [
+      1,
+      10
+    ],
+    "timeout": 20
+  },
+  {
+    "projected": "tram"
+  }
+]

@@ -1,0 +1,11 @@
+[
+ {"save": {}},
+ {"wait": 1, "shot": "room"},
+ {"hold": "move_left", "seconds": 0.5},
+ {"hold": "move_up", "seconds": 0.25},
+ {"tap": "interact"},
+ {"wait": 1, "shot": "dialogue"},
+ {"advance": 20, "stop_at_choice": true},
+ {"shot": "choices"},
+ {"quit": true}
+]

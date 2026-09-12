@@ -1,0 +1,82 @@
+{
+  "hana": [
+    "arrange",
+    "read"
+  ],
+  "nadia": [
+    "arrange",
+    "wipe"
+  ],
+  "marguerite": [
+    "arrange",
+    "read"
+  ],
+  "noor": [
+    "arrange",
+    "read"
+  ],
+  "ivo": [
+    "arrange",
+    "play"
+  ],
+  "lea": [
+    "play",
+    "read"
+  ],
+  "emil": [
+    "arrange",
+    "read"
+  ],
+  "sora": [
+    "arrange",
+    "play"
+  ],
+  "ilse": [
+    "arrange",
+    "read"
+  ],
+  "sunny": [
+    "play",
+    "read"
+  ],
+  "orla": [
+    "play",
+    "read"
+  ],
+  "wren": [
+    "arrange",
+    "wipe"
+  ],
+  "kesh": [
+    "arrange",
+    "play"
+  ],
+  "tomas": [
+    "arrange",
+    "wipe"
+  ],
+  "pip": [
+    "arrange",
+    "play"
+  ],
+  "bertie": [
+    "play",
+    "read"
+  ],
+  "joos": [
+    "arrange",
+    "wipe"
+  ],
+  "abel": [
+    "arrange",
+    "fold"
+  ],
+  "dov": [
+    "arrange",
+    "fold"
+  ],
+  "moss": [
+    "play",
+    "read"
+  ]
+}

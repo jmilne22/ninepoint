@@ -1,0 +1,22 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+AUTOPILOT: 31 steps from res://tools/autopilot/art_arrivals.json
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-rfBS78/godot/app_userdata/Ninepoint/shots/01_coastal_title.png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-rfBS78/godot/app_userdata/Ninepoint/shots/02_route_0_moment_0.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-rfBS78/godot/app_userdata/Ninepoint/shots/03_route_0_moment_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-rfBS78/godot/app_userdata/Ninepoint/shots/04_route_0_moment_2.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-rfBS78/godot/app_userdata/Ninepoint/shots/05_route_0_moment_3.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-rfBS78/godot/app_userdata/Ninepoint/shots/06_route_0_moment_4.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-rfBS78/godot/app_userdata/Ninepoint/shots/07_route_0_moment_5.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-rfBS78/godot/app_userdata/Ninepoint/shots/08_route_1_moment_0.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-rfBS78/godot/app_userdata/Ninepoint/shots/09_route_1_moment_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-rfBS78/godot/app_userdata/Ninepoint/shots/10_route_1_moment_2.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-rfBS78/godot/app_userdata/Ninepoint/shots/11_route_1_moment_3.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-rfBS78/godot/app_userdata/Ninepoint/shots/12_route_1_moment_4.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-rfBS78/godot/app_userdata/Ninepoint/shots/13_route_1_moment_5.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-rfBS78/godot/app_userdata/Ninepoint/shots/14_tournament_front.png
+AUTOPILOT: done

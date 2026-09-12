@@ -1,0 +1,32 @@
+[
+  {
+    "save": "invited"
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "experience": "visit",
+    "map": "ketelsteeg",
+    "spawn": "from_wassalon"
+  },
+  {
+    "walk_to": [
+      17,
+      12
+    ],
+    "timeout": 20
+  },
+  {
+    "projected": "motion"
+  }
+]

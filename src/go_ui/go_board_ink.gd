@@ -2,6 +2,9 @@
 class_name GoBoardInk
 extends RefCounted
 
+const BLACK_STONE := preload("res://art/rendered/ui/black_stone.png")
+const WHITE_STONE := preload("res://art/rendered/ui/white_stone.png")
+
 const C_LINE := Color("#3a2a18")
 const C_BLACK := Color("#0d0b10")
 const C_BLACK_HI := Color("#2e2a35")
@@ -55,13 +58,9 @@ static func stone(view: CanvasItem, cell: float, pos: Vector2, colour: int, is_d
     var r := cell * 0.46 * scale
     var alpha := (0.4 if is_dead else 1.0) * fade
     view.draw_circle(pos + Vector2(1, 1), r, Color(C_SHADOW.r, C_SHADOW.g, C_SHADOW.b, C_SHADOW.a * alpha))
-    if colour == GoBoard.BLACK:
-        view.draw_circle(pos, r, Color(C_BLACK, alpha))
-        view.draw_circle(pos - Vector2(r * 0.33, r * 0.33), r * 0.28, Color(C_BLACK_HI, alpha))
-    else:
-        view.draw_circle(pos, r, Color(C_WHITE_LO, alpha))
-        view.draw_circle(pos - Vector2(r * 0.16, r * 0.16), r * 0.8, Color(C_WHITE, alpha))
-        view.draw_arc(pos, r, 0, TAU, 20, Color(C_LINE, alpha * 0.8), 1.0)
+    var texture: Texture2D = BLACK_STONE if colour == GoBoard.BLACK else WHITE_STONE
+    view.draw_texture_rect(texture, Rect2(pos - Vector2(r, r), Vector2(r * 2, r * 2)),
+        false, Color(1, 1, 1, alpha))
     if is_dead:
         var d := r * 0.5
         var mark: Color = C_LINE

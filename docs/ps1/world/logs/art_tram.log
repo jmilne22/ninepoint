@@ -1,0 +1,105 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+AUTOPILOT: 111 steps from res://tools/autopilot/art_tram.json
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/01_passing_01.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/02_passing_02.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/03_passing_03.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/04_passing_04.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/05_passing_05.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/06_passing_06.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/07_passing_07.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/08_passing_08.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/09_passing_09.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/10_passing_10.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/11_passing_11.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/12_passing_12.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/13_passing_13.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/14_passing_14.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/15_passing_15.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/16_passing_16.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/17_passing_17.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/18_passing_18.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/19_passing_19.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/20_passing_20.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/21_passing_21.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/22_passing_22.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/23_passing_23.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/24_passing_24.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/25_passing_25.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/26_passing_26.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/27_passing_27.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/28_passing_28.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/29_passing_29.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/30_passing_30.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/31_passing_31.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/32_passing_32.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/33_passing_33.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/34_passing_34.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/35_passing_35.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/36_passing_36.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/37_passing_37.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/38_passing_38.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/39_passing_39.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/40_passing_40.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/41_passing_41.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/42_passing_42.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/43_passing_43.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/44_passing_44.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/45_passing_45.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/46_passing_46.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/47_passing_47.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/48_passing_48.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/49_passing_49.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/50_passing_50.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/51_passing_51.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/52_passing_52.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/53_passing_53.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/54_passing_54.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/55_passing_55.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/56_passing_56.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/57_passing_57.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/58_passing_58.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/59_passing_59.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/60_passing_60.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/61_passing_61.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/62_passing_62.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/63_passing_63.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/64_passing_64.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/65_passing_65.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/66_passing_66.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/67_passing_67.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/68_passing_68.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/69_passing_69.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/70_passing_70.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/71_passing_71.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/72_passing_72.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/73_passing_73.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/74_passing_74.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/75_passing_75.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/76_passing_76.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/77_passing_77.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/78_passing_78.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/79_passing_79.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/80_passing_80.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/81_route_0_moment_0.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/82_route_0_moment_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/83_route_0_moment_2.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/84_route_0_moment_3.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/85_route_0_moment_4.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/86_route_0_moment_5.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/87_route_1_moment_0.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/88_route_1_moment_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/89_route_1_moment_2.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/90_route_1_moment_3.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/91_route_1_moment_4.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/92_route_1_moment_5.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iSZuJj/godot/app_userdata/Ninepoint/shots/93_tournament_front.png
+AUTOPILOT: done
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

@@ -1,0 +1,46 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+AUTOPILOT: 32 steps from res://tools/autopilot/mouse_nineteen.json
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-qvt2D7/godot/app_userdata/Ninepoint/shots/01_a_controls.png
+BOARD INPUT: { "hover_blocked": [3.0, 3.0] }
+BOARD BUTTON: interact
+BOARD INPUT: { "hover": [15.0, 15.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-qvt2D7/godot/app_userdata/Ninepoint/shots/02_b_overview_hover.png
+BOARD BUTTON: go_zoom
+BOARD INPUT: { "zoomed": true, "hover": [14.0, 14.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-qvt2D7/godot/app_userdata/Ninepoint/shots/03_c_zoom_hover.png
+BOARD INPUT: { "key": "V" }
+BOARD INPUT: { "key": "V" }
+BOARD INPUT: { "key": "Space" }
+AUTOPILOT: Space after zoom still places at the point selected with the mouse.
+BOARD INPUT: { "hover": [15.0, 14.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-qvt2D7/godot/app_userdata/Ninepoint/shots/04_d_reply_hover.png
+BOARD BUTTON: left
+BOARD INPUT: { "hover": [11.0, 14.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-qvt2D7/godot/app_userdata/Ninepoint/shots/05_e_panned.png
+BOARD BUTTON: go_zoom
+BOARD INPUT: { "hover_out": true }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-qvt2D7/godot/app_userdata/Ninepoint/shots/06_f_pointer_left.png
+BOARD BUTTON: go_resign
+BOARD INPUT: { "hover_blocked": [3.0, 3.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-qvt2D7/godot/app_userdata/Ninepoint/shots/07_g_confirm.png
+BOARD BUTTON: cancel
+BOARD BUTTON: go_resign
+BOARD BUTTON: go_resign
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-qvt2D7/godot/app_userdata/Ninepoint/shots/08_h_result.png
+KATAGO TRIAL: recorded engine evidence
+BOARD BUTTON: interact
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-qvt2D7/godot/app_userdata/Ninepoint/shots/09_review_ready_after_reaction.png
+BOARD BUTTON: review_yes
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-qvt2D7/godot/app_userdata/Ninepoint/shots/10_i_loading.png
+BOARD BUTTON: cancel
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-qvt2D7/godot/app_userdata/Ninepoint/shots/11_j_world.png
+AUTOPILOT: done
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

@@ -83,6 +83,14 @@ func _process(delta: float) -> void:
     if npc == null or bool(npc.get("busy")):
         _timer = 1.0
         return
+    var camera := get_viewport().get_camera_2d()
+    var room: RoomProjection = get_parent().get_parent().map.presentation
+    var feet: Vector2 = room.project(npc.position) if room != null else npc.position
+    var bounds := Rect2(camera.get_screen_center_position() - UiKit.VIEW / 2.0, UiKit.VIEW) if camera != null else Rect2(Vector2.ZERO, UiKit.VIEW)
+    # A distant speaker should not become a detached, clipped bubble at the edge.
+    if room != null and not bounds.grow(-8).has_point(feet):
+        _timer = 1.0
+        return
     _cursor += 1
     _label.text = str(entry.get("text", ""))
     # Hug short lines instead of drawing a fixed, character-covering banner.
@@ -97,8 +105,15 @@ func _process(delta: float) -> void:
     _label.size.y = text_h
     _bubble.size.x = bubble_w
     _bubble.size.y = text_h + 12
-    _bubble.position = npc.position + Vector2(-_bubble.size.x * 0.5,
+    if room != null:
+        feet += Vector2(0, -26)
+    _bubble.z_as_relative = false
+    _bubble.z_index = 4001
+    _bubble.position = feet + Vector2(-_bubble.size.x * 0.5,
         -_bubble.size.y - BUBBLE_CLEARANCE)
+    if room != null:
+        _bubble.position.x = clampf(_bubble.position.x, bounds.position.x + 8, bounds.end.x - _bubble.size.x - 8)
+        _bubble.position.y = clampf(_bubble.position.y, bounds.position.y + 28, bounds.position.y + 160 - _bubble.size.y)
     _bubble.visible = _label.text != ""
     _timer = SHOW_FOR
 

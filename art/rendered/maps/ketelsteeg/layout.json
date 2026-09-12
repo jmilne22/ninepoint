@@ -1,0 +1,27 @@
+{
+  "id": "ketelsteeg",
+  "size": [
+    1042,
+    617
+  ],
+  "origin": [
+    394.0386719675123,
+    96
+  ],
+  "basis": 1.131370849898476,
+  "span": 864,
+  "camera": [
+    45,
+    30
+  ],
+  "source_size": [
+    34,
+    20
+  ],
+  "source_sha256": "7d66c289ed504f07800d73742b2e22636b2ac6a0d817723fcc0540686e43edcb",
+  "mask_channels": {
+    "r": "ground_depth",
+    "g": "water",
+    "b": "washer"
+  }
+}

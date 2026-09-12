@@ -1,0 +1,27 @@
+{
+  "id": "academy_hall",
+  "size": [
+    716,
+    454
+  ],
+  "origin": [
+    285.42707037725864,
+    96
+  ],
+  "basis": 1.131370849898476,
+  "span": 576,
+  "camera": [
+    45,
+    30
+  ],
+  "source_size": [
+    22,
+    14
+  ],
+  "source_sha256": "edcf6af45058f7da5d5357fd9de30903e16363c1a49ed2ff74ce098d89ed4655",
+  "mask_channels": {
+    "r": "ground_depth",
+    "g": "water",
+    "b": "washer"
+  }
+}

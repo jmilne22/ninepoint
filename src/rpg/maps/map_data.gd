@@ -7,6 +7,8 @@ extends RefCounted
 
 const DIR := "res://data/maps/"
 
+var presentation: RoomProjection = null
+
 var id: String = ""
 var display_name: String = ""
 var width: int = 0
@@ -52,6 +54,7 @@ static func load_map(map_id: String) -> MapData:
         return null
     var m := MapData.new()
     m.id = map_id
+    m.presentation = RoomProjection.load_room(map_id)
     m.display_name = str(parsed.get("name", map_id))
     var size: Array = parsed.get("size", [0, 0])
     m.width = int(size[0])

@@ -1,0 +1,443 @@
+[
+  {
+    "save": "invited"
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "experience": "visit",
+    "map": "academy_hall",
+    "spawn": "from_tram"
+  },
+  {
+    "projected": true
+  },
+  {
+    "experience": "visit",
+    "map": "academy_class",
+    "spawn": "from_hall"
+  },
+  {
+    "walk_to": [
+      0,
+      7
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "academy_hall"
+  },
+  {
+    "shot": "academy_class_to_academy_hall"
+  },
+  {
+    "experience": "visit",
+    "map": "academy_dorm",
+    "spawn": "from_hall"
+  },
+  {
+    "walk_to": [
+      5,
+      9
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "academy_hall"
+  },
+  {
+    "shot": "academy_dorm_to_academy_hall"
+  },
+  {
+    "experience": "visit",
+    "map": "academy_hall",
+    "spawn": "from_tram"
+  },
+  {
+    "walk_to": [
+      10,
+      13
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "ketelsteeg"
+  },
+  {
+    "shot": "academy_hall_to_ketelsteeg"
+  },
+  {
+    "experience": "visit",
+    "map": "academy_hall",
+    "spawn": "from_tram"
+  },
+  {
+    "walk_to": [
+      0,
+      7
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "academy_study"
+  },
+  {
+    "shot": "academy_hall_to_academy_study"
+  },
+  {
+    "experience": "visit",
+    "map": "academy_hall",
+    "spawn": "from_tram"
+  },
+  {
+    "walk_to": [
+      0,
+      10
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "academy_novice"
+  },
+  {
+    "shot": "academy_hall_to_academy_novice"
+  },
+  {
+    "experience": "visit",
+    "map": "academy_hall",
+    "spawn": "from_tram"
+  },
+  {
+    "walk_to": [
+      21,
+      7
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "academy_class"
+  },
+  {
+    "shot": "academy_hall_to_academy_class"
+  },
+  {
+    "experience": "visit",
+    "map": "academy_hall",
+    "spawn": "from_tram"
+  },
+  {
+    "walk_to": [
+      20,
+      3
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "academy_dorm"
+  },
+  {
+    "shot": "academy_hall_to_academy_dorm"
+  },
+  {
+    "experience": "visit",
+    "map": "academy_novice",
+    "spawn": "from_hall"
+  },
+  {
+    "walk_to": [
+      23,
+      10
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "academy_hall"
+  },
+  {
+    "shot": "academy_novice_to_academy_hall"
+  },
+  {
+    "experience": "visit",
+    "map": "academy_study",
+    "spawn": "from_hall"
+  },
+  {
+    "walk_to": [
+      23,
+      7
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "academy_hall"
+  },
+  {
+    "shot": "academy_study_to_academy_hall"
+  },
+  {
+    "experience": "visit",
+    "map": "attic",
+    "spawn": "start"
+  },
+  {
+    "walk_to": [
+      6,
+      8
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "ketelsteeg"
+  },
+  {
+    "shot": "attic_to_ketelsteeg"
+  },
+  {
+    "experience": "visit",
+    "map": "bondszaal",
+    "spawn": "from_tram"
+  },
+  {
+    "walk_to": [
+      9,
+      23
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "ketelsteeg"
+  },
+  {
+    "shot": "bondszaal_to_ketelsteeg"
+  },
+  {
+    "experience": "visit",
+    "map": "de_ketel",
+    "spawn": "from_street"
+  },
+  {
+    "walk_to": [
+      9,
+      13
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "ketelsteeg"
+  },
+  {
+    "shot": "de_ketel_to_ketelsteeg"
+  },
+  {
+    "experience": "visit",
+    "map": "ketelsteeg",
+    "spawn": "start"
+  },
+  {
+    "walk_to": [
+      13,
+      8
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "de_ketel"
+  },
+  {
+    "shot": "ketelsteeg_to_de_ketel"
+  },
+  {
+    "experience": "visit",
+    "map": "ketelsteeg",
+    "spawn": "start"
+  },
+  {
+    "walk_to": [
+      5,
+      8
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "attic"
+  },
+  {
+    "shot": "ketelsteeg_to_attic"
+  },
+  {
+    "experience": "visit",
+    "map": "ketelsteeg",
+    "spawn": "start"
+  },
+  {
+    "walk_to": [
+      22,
+      8
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "wassalon"
+  },
+  {
+    "shot": "ketelsteeg_to_wassalon"
+  },
+  {
+    "experience": "visit",
+    "map": "ketelsteeg",
+    "spawn": "start"
+  },
+  {
+    "walk_to": [
+      30,
+      8
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "onderbrug"
+  },
+  {
+    "shot": "ketelsteeg_to_onderbrug"
+  },
+  {
+    "experience": "visit",
+    "map": "ketelsteeg",
+    "spawn": "start"
+  },
+  {
+    "walk_to": [
+      15,
+      19
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "quay"
+  },
+  {
+    "shot": "ketelsteeg_to_quay"
+  },
+  {
+    "experience": "visit",
+    "map": "onderbrug",
+    "spawn": "from_street"
+  },
+  {
+    "walk_to": [
+      0,
+      7
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "ketelsteeg"
+  },
+  {
+    "shot": "onderbrug_to_ketelsteeg"
+  },
+  {
+    "experience": "visit",
+    "map": "onderbrug",
+    "spawn": "from_street"
+  },
+  {
+    "walk_to": [
+      23,
+      5
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "quay"
+  },
+  {
+    "shot": "onderbrug_to_quay"
+  },
+  {
+    "experience": "visit",
+    "map": "quay",
+    "spawn": "from_park"
+  },
+  {
+    "walk_to": [
+      12,
+      0
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "ketelsteeg"
+  },
+  {
+    "shot": "quay_to_ketelsteeg"
+  },
+  {
+    "experience": "visit",
+    "map": "quay",
+    "spawn": "from_park"
+  },
+  {
+    "walk_to": [
+      25,
+      2
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "onderbrug"
+  },
+  {
+    "shot": "quay_to_onderbrug"
+  },
+  {
+    "experience": "visit",
+    "map": "wassalon",
+    "spawn": "from_street"
+  },
+  {
+    "walk_to": [
+      7,
+      12
+    ],
+    "timeout": 30
+  },
+  {
+    "experience": "map",
+    "map": "ketelsteeg"
+  },
+  {
+    "shot": "wassalon_to_ketelsteeg"
+  }
+]

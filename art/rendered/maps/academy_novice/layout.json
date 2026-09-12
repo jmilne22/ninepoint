@@ -1,0 +1,27 @@
+{
+  "id": "academy_novice",
+  "size": [
+    789,
+    491
+  ],
+  "origin": [
+    321.63093757400986,
+    96
+  ],
+  "basis": 1.131370849898476,
+  "span": 640,
+  "camera": [
+    45,
+    30
+  ],
+  "source_size": [
+    24,
+    16
+  ],
+  "source_sha256": "2851605740f1a833680694d3523b12cf1be73089cf459da3f2b68cadf328cff6",
+  "mask_channels": {
+    "r": "ground_depth",
+    "g": "water",
+    "b": "washer"
+  }
+}

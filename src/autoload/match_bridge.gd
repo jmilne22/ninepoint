@@ -204,5 +204,5 @@ func finish_puzzle(puzzle_id: String, solved: bool) -> void:
 
 func _return_to_world() -> void:
     var pos = GameState.return_position if GameState.has_return_position else null
-    await SceneRouter.go_to(SceneRouter.WORLD_SCENE, GameState.spawn_point, pos)
+    await SceneRouter.go_to(SceneRouter.world_scene(), GameState.spawn_point, pos)
     GameState.has_return_position = false

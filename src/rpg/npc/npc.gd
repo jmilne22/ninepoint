@@ -132,6 +132,7 @@ func step(dir: Vector2, speed: float) -> bool:
     if sprite.walking:
         facing = Facing.from_vector(dir, facing)
         sprite.face(facing)
+        sprite.motion_vector = dir
     return get_slide_collision_count() > 0
 
 
@@ -147,6 +148,7 @@ func set_facing(dir: int) -> void:
 
 func look_at_point(point: Vector2) -> void:
     set_facing(Facing.from_vector(point - global_position, facing))
+    sprite.motion_vector = point - global_position
 
 
 func find_peer(other_id: String) -> Npc:

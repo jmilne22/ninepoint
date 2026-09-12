@@ -92,7 +92,7 @@ fi
 
 if ! xdpyinfo -display ":$DISPLAY_NUM" >/dev/null 2>&1; then
   echo "starting Xvfb on :$DISPLAY_NUM"
-  Xvfb ":$DISPLAY_NUM" -screen 0 1280x720x24 >/tmp/xvfb.log 2>&1 &
+  Xvfb ":$DISPLAY_NUM" -screen 0 1280x720x24 9>&- >/tmp/xvfb.log 2>&1 &
   sleep 2
 fi
 
@@ -101,7 +101,7 @@ rm -rf "$SHOTS" "$OUT"; mkdir -p "$OUT"
 echo "running $1 (log: $LOG) -- Ctrl-C to stop"
 
 DISPLAY=":$DISPLAY_NUM" timeout "${TIMEOUT:-180}" \
-  "$GODOT" --path . --resolution 1152x648 -- "--autopilot=res://$1" > "$LOG" 2>&1 &
+  "$GODOT" --path . --resolution 1152x648 ${ENTRY_SCENE:+"$ENTRY_SCENE"} -- "--autopilot=res://$1" > "$LOG" 2>&1 &
 child=$!
 wait "$child"
 status=$?

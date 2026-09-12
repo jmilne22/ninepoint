@@ -2,15 +2,49 @@
 
 ## 0. Tooling note (read this first)
 
-All art remains deterministic Python-generated pixel art. Use `tools/build_assets.py` to
-rebuild assets through the pure-Python PNG writer. Shared records in `tools/characters.py`
-drive walking sprites, action sheets and portraits. `art_people.py` draws the walking
-and activity poses at their native proportions. The ART-06 six-character preview delegates
-to `portrait_sprite_people.py` / `portrait_sprite_heads.py`; portrait faces stay fixed,
-with the approved neckline adjustment described in section 10. This
-pipeline is an intentional part of Ninepoint's visual identity.
+The normal game uses Python-coordinated Blender renders: scenery, a ground-depth mask,
+eight-way character sprites, model-rendered expressions, and overhead Go assets.
+Blender/Pillow are development dependencies; exported assets are checked in.
+`tools/characters.py` remains the identity record. No AI-generated portraits are used.
+[Production pipeline, coordinate contract and commands](docs/ps1/world/README.md).
 
+ART-08 supersedes the old character-pixel freeze and Python-raster-only tooling rule.
+Sela's setting, gameplay coordinates, progression and Go rules stay unchanged. Earlier
+sections below document the retained grid fallback and the history of the coastal palette;
+the production contract in the linked guide takes precedence for new assets.
 ---
+
+## ART-09: daylight and coastal architecture
+
+Outdoor scenes read as clear mild daylight: neutral sun, cool sky fill, pale plaster
+and readable ground shadows. Reserve amber illumination for lamps and the bar interior.
+Do not apply a sunset tint to the entire city. Interior area lights must retain visible
+floor grain and pale bedding/plaster detail; broad white clipped patches are overexposure. Continue ground, sea and neighboring
+buildings beyond playable edges; black transparency is not environmental context.
+
+The White City study informs five distinct building silhouettes. Use rounded balconies,
+recessed loggias, vertical stairwell windows, roof setbacks and shaded entrances. Vary
+height and width as well as color. Model balcony depth so sunlight produces the shade.
+Each actual doorway aligns with its warp, including double-width entrances.
+
+Sea Walk draws on Jaffa Port's warm coursed stone, open arches, stepped roofs, modest
+industrial sheds and blue/green fishing boats. Keep the promenade and review board clear.
+[Inspected reference photos and original-asset decisions](docs/ps1/polish/references.md).
+
+Walking arms keep fixed shoulder attachment and bone lengths. Elbows and hands follow
+one continuous swing; the passing pose should not collapse the torso or invert the knee.
+Inspect actual walk and run playback, not just a single sprite frame.
+
+## ART-07: isolated fixed-view De Ketel experiment
+
+Approved 2026-09-12: one 384×216 rendered room with a 45°/30° fixed orthographic
+camera, dark walnut, stained plaster, warm lamps and cold windows. Blender geometry
+and lighting are authored through Python, then exported as depth-sorted 2D layers.
+The four prototype characters use roughly 48-pixel-tall eight-way sprites and 108×108
+busts rendered from the **same models**. The owner rejected generated illustrated
+portraits; none are used. Existing cast identities supply the colour and garment records.
+Sources, build commands and review limits: [prototype guide](docs/ps1/README.md).
+The owner subsequently approved full-game conversion as ART-08, including Go assets.
 
 ## 1. Visual identity in one paragraph
 
@@ -20,10 +54,11 @@ boulevard garden gathers people under trees; broad steps and a pergola open onto
 The bar stays intimate, the institute is a welcoming modernist building, and Assembly
 Hall has a civic scale. One mild afternoon, with no clock or weather simulation.
 
-Draw at the existing 16×16 grid and 384×216 viewport. Use broad pixel clusters, clear
-silhouettes and one upper-left light direction. More color is permitted in the town:
+Keep the existing 16×16 logical grid for gameplay and the 384×216 viewport. Render
+original geometry through the shared 45°/30° orthographic camera. Use clear silhouettes
+and consistent daylight/shadow direction. More color is permitted in the town:
 boards attract attention through contrast, quiet surrounding surfaces and a clear approach.
-Keep all existing character, portrait, expression and activity pixels exactly unchanged.
+Preserve character identity and authored activities across the rendered conversion.
 
 Street trees take their form from Tel Aviv boulevard ficus: pale branching trunks,
 broad irregular dark-green crowns and small connected leaf clusters. Keep trunks
@@ -110,7 +145,7 @@ environment recipes use the separate `sela_*` colors above.
 | `skinC` | `#3d2620` | `#5c3a2e` | `#7d5240` |
 | `skinD` | `#a87a5e` | `#d6a583` | `#f0c9a8` |
 
-## 3. Tiles
+## 3. Tiles — retained grid fallback
 
 - **16×16**, single atlas `art/tiles/town_tileset.png`, 16 columns wide.
 - One coherent set, drawn by one generator, sharing one light direction: **top-left**.
@@ -160,38 +195,22 @@ does the reimport pass.
 
 ## 4. Characters
 
-**Shared identities, distinct shapes.** Character records supply colours and identity;
-native sprite shapes interpret those records without changing the portraits:
+**Shared identities and models.** `tools/characters.py` supplies the cast's identity,
+colors and accessories. `tools/ps1/people.py` authors the models used for both sprites
+and busts, so face shape, hair and clothing stay consistent across views.
 
-```python
-Character(
-  id="kesh", name="Kesh Idowu", skin="skinB",
-  hair="short_curl", hair_col=("#3a2340","#63406b"),   # dyed plum — hers alone
-  top=("#8c4034","#b8624a"), bottom=("#2a2633",),
-  build="slim", accessory="scarf", brow="angled", mouth="flat",
-)
-```
-
-- **Overworld sprite:** 16×24 (feet at bottom of a 16×16 grid cell, head overhangs upward).
-  4 directions × 3 frames (idle, step-left, step-right). Silhouette first: hair shape and
-  top colour must identify the character at 100% zoom from across the street.
-- **Portrait:** 64×64 bust for dialogue, same skin ramp, same hair colours, same garment
-  colours, same accessory. Sharing a record prevents palette drift; likeness also needs
-  matching hair volume, face silhouette and garment shape, checked visually. Neither
-  image is resized into the other.
-- Faces use a few pixel clusters; brows and eye direction carry the expression.
-- **Seven expressions**, one strip of 64×64 columns per character:
-  `neutral`, `happy`, `annoyed`, `working`, `thinking`, `worried`, `pleased`. All seven
-  use the same `HEAD_X`/`EYE_Y`/`BROW_Y`/`MOUTH_Y` geometry, so identity survives the
-  change by construction; the working pose adds the character's activity and hands.
-  `worried` is `angled` inverted — inner brow ends **up**, the one shape a scowl cannot
-  be mistaken for. `thinking` moves the eyes off the board rather than lowering a lid:
-  one pixel of eyelid on a four-pixel eye is not an expression at 64px, and where
-  somebody is looking is legible at any size. `pleased` is the quiet version of `happy`,
-  whose closed-eye grin is far too much for taking four stones off.
-  The column order lives in `tools/gen_characters.EXPRESSIONS` and
-  `src/rpg/npc/portrait_moods.gd`; `tests/test_data.gd` measures a real strip against it,
-  because an unknown mood name resolves to column 0 and the face simply never changes.
+- **World sprite:** 40×64 cells, roughly 48 pixels tall, eight directions and six columns:
+  idle, walk contact/passing/opposite contact, and two fallback activity poses.
+  Separate ten-column action atlases provide two poses each for play/read/fold/wipe/arrange.
+- **Dialogue bust:** 108×108, with shoulders extending above the measured bottom panel.
+  Compact callers use 64×64 expression strips exported from the same models.
+- **Seven expressions:** `neutral`, `happy`, `annoyed`, `working`, `thinking`, `worried`,
+  `pleased`. `PortraitMoods.column()` remains the shared lookup for graph/board callers.
+- **Locomotion:** fixed shoulder attachment, constant upper/forearm lengths, connected
+  joints and a shallow passing pose. The faster run loop uses the same authored gait.
+- **Fallback:** the older 16×24 four-direction sprites and 64×64 pixel portraits remain
+  generated by the legacy pipeline. Their preservation hashes protect that fallback;
+  they are not the source for production model exports.
 
 Character colour signatures (never reused between characters):
 | Wren `gold` · Kesh `plum+rust` · Pip `grass` · Bertie `wood+path` · Nadia `blue` ·
@@ -252,12 +271,12 @@ art -- stacked circles read as a potato), `crowd.png`.
 ## 5. UI
 
 - Panels: `paper0` fill, `ink1` 1px border, `ink2` 1px drop shadow, 4px corner cut (no rounding).
-- Dialogue box: bottom-anchored, 64×64 portrait at left, name plate above the frame in `gold2`.
-- **The cold open** has its own backdrop, `art/title/opening.png`: the same coastal afternoon as the
-  title card, deliberately carrying no subject, because the
-  portrait, the board and the dialogue panel are all drawn over it. It replaced a flat
-  `ink0` rectangle. The portrait gets a gold frame and the board a drop shadow for the same
-  reason — on a dim ground, an unframed 64×64 bust and a flat honey slab read as stickers.
+- Production dialogue: measured dark bottom panel, pale text and gold speaker name, with
+  a 108×108 model bust above the right edge. Long choices scroll with keyboard focus.
+  The retained grid renderer keeps the original compact portrait layout.
+- **The cold open** uses `art/rendered/ui/opening.png`, with a framed compact model
+  portrait, the existing overhead board and a measured panel. Its title and arrival
+  backgrounds share the production architecture and daylight settings.
 - **Title screen:** the illustration on the right, a dark card down the left at
   `Rect2(12, 10, 142, 186)` holding, in order, the name at size **18**, a hairline, the
   subtitle, the four menu rows at a 16px step with a drawn 3×5 gold cursor, a second
@@ -288,23 +307,30 @@ and highlight in warm paper on hover; their visible rows are the click targets.
 Coordinates and compact paper buttons sit below
 the board; hover never pans the close view. The seven-line layout reserves its larger
 wood margin so it stays clear of the opponent panel. Other sizes retain their spacing. Review positions use the same transform. Star points on 9×9 at (3,3),(3,7),(7,3),(7,7),(5,5) in
-1-indexed coordinates. Stones are circles with a 1px `ink0` rim, a 2px highlight at upper-left
-(`stoneW1`/`stoneB1`), and a soft `ink2` shadow offset down-right by 1px. The last move carries
+1-indexed coordinates. Production stones use rendered slate/shell textures and grounding shadows, scaled to
+the existing cell geometry. Wood, bowls and the table share the overhead render camera. The last move carries
 a small ring in the *opposite* stone colour; territory in scoring mode is shown as small squares
 **and** a diagonal hatch so it reads without colour.
 
 ## 7. Screen and camera
 
-- Base resolution **384×216** (16:9, exactly 24×13.5 tiles), integer-scaled to the window.
+- Base resolution **384×216** (16:9), integer-scaled to the window.
   `viewport` stretch, `keep` aspect, integer scale mode. At 1280×720 it lands on 3×
   with letterboxing; the normal 1152×648 play window is exactly 3×.
-- Camera follows the player with a 1-frame deadzone, clamped to map bounds, pixel-snapped.
-  A map **smaller** than the screen is centred, not pinned to the top-left: the limits are
-  widened equally on both sides, and `World._build_backdrop()` paints `ink0` behind the tiles
-  so the frame around a small room — and an unlit alley — reads as shadow rather than as a
-  missing tile.
+- Production camera: fixed 45° azimuth / 30° elevation, following projected player feet
+  on large maps, with rounded screen positions and limits derived from the render canvas.
+  Movement remains screen-relative and diagonals have equal speed. The model render
+  camera sits far enough from the set to avoid clipping through surrounding buildings.
+- Scenery canvases are opaque and continue beyond the logical playable footprint.
+  Indoors, the room sits within a quiet building slab; outdoors, paving, neighboring
+  architecture and sea fill the view. These margins do not create new playable routes.
+- Maps without a `RoomProjection` retain the original clamped grid camera and backdrop.
 
-## 7c. Tiles that move
+## 7c. Animation in production and the retained tile renderer
+
+Production scenery uses mask channels for restrained water and washer highlights;
+character activities and the tram remain live sprites. The tile animation system below
+continues to serve the retained grid fallback.
 
 `src/rpg/maps/tile_animator.gd`. Water, the canal, the neon, the stove, the washers and the go
 tables cycle through frames.
@@ -342,6 +368,10 @@ appear during tram travel and can be skipped with Space or Esc.
 
 `gen_venue_props.py` and `gen_venue_scenes.py` draw larger readable furniture. Their base
 footprints live in `venue_layouts.py`; foreground faces remain clear of interaction paths.
+
+> The following paragraphs record the earlier grid-art scale and sorting decisions.
+> Production models preserve those physical proportions; their sprite size, surface-depth
+> masks and continued surroundings are defined in sections 4 and 7 above.
 
 **The 16×24 person is the ruler.** Furniture was drawn large enough to read and then never
 measured against anybody: the go board on the club table and the attic desk was 24×22 —
@@ -458,12 +488,13 @@ python3 tools/art_contact_sheet.py --root /home/user/.cache/ninepoint-preview --
 python3 tests/test_art.py
 ```
 
-No flags still rebuilds everything. `sprites` and `portraits` are separate groups;
-`presentation` covers title, UI and ceremony. Preview roots mirror the project layout,
+No flags rebuilds all production and fallback assets. `rendered` requires Blender/Pillow
+and covers production maps, people, activities and Go/UI art. The older `sprites` and
+`portraits` groups remain separate; `presentation` covers fallback title, UI and ceremony. Preview roots mirror the project layout,
 including matching map JSON and TileSet resources. Judge contact sheets beside a person
 and on actual floors, then inspect the played game. Evidence: `docs/art/PLAYTEST.md`.
 
-## 10. Portrait-led sprite preview (ART-06)
+## 10. Portrait-led sprite preview (ART-06, historical)
 
 Ro, Wren, Kesh, Tomás, Nadia and Sunny use rounded native pixel silhouettes with
 shaped crowns/fringes, portrait-derived jaws, readable eyes/glasses, sloping shoulders
@@ -496,3 +527,12 @@ loop reachability, retained destination spawn names and exact character-image ha
 Runtime prop animation uses the existing GeneratedProp frame/hold metadata: trees change
 small leaf tips and the kiosk changes its fringe while their trunks/feet stay fixed.
 Music and cast assets remain unchanged. Surf and breeze beds are synthesized separately.
+
+
+### Rendered Tram 4 follow-up (ART-08)
+
+The production tram follows the owner's TLV Red Line reference, supplemented by
+CRRC exterior photographs. Use white articulated sections, dark wraparound glazing,
+a rounded raked cab, silver lamp belt, flush doors and roof vents/pantograph. Keep Sela's
+own small transport badge. Five separately sorted model renders share the street's
+camera and scale. [Reference, source and export rules](docs/ps1/world/tram.md).

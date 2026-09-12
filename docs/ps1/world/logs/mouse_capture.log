@@ -1,0 +1,23 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+AUTOPILOT: 30 steps from res://tools/autopilot/mouse_capture.json
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iRZeRt/godot/app_userdata/Ninepoint/shots/01_welcome_0.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iRZeRt/godot/app_userdata/Ninepoint/shots/02_welcome_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iRZeRt/godot/app_userdata/Ninepoint/shots/03_name_exchange.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iRZeRt/godot/app_userdata/Ninepoint/shots/04_park_direction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iRZeRt/godot/app_userdata/Ninepoint/shots/05_a_capture_brief.png
+BOARD BUTTON: interact
+BOARD BUTTON: interact
+BOARD INPUT: { "hover": [2.0, 2.0], "size": 7.0 }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iRZeRt/godot/app_userdata/Ninepoint/shots/06_b_seven_hover.png
+BOARD INPUT: { "click": [2.0, 2.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iRZeRt/godot/app_userdata/Ninepoint/shots/07_c_reply.png
+BOARD BUTTON: go_resign
+BOARD BUTTON: go_resign
+BOARD BUTTON: interact
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-iRZeRt/godot/app_userdata/Ninepoint/shots/08_d_world.png
+AUTOPILOT: done

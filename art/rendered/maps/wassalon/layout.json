@@ -1,0 +1,27 @@
+{
+  "id": "wassalon",
+  "size": [
+    662,
+    427
+  ],
+  "origin": [
+    267.325136778883,
+    96
+  ],
+  "basis": 1.131370849898476,
+  "span": 528,
+  "camera": [
+    45,
+    30
+  ],
+  "source_size": [
+    20,
+    13
+  ],
+  "source_sha256": "c2cb21b8fc5fc2bcfe8d30d3f02a0cc307c59815c2162b7e610e236a29411eb8",
+  "mask_channels": {
+    "r": "ground_depth",
+    "g": "water",
+    "b": "washer"
+  }
+}

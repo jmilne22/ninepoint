@@ -187,30 +187,30 @@ static func run_probe(tree: SceneTree, world: Node, shot: Callable) -> void:
     var start := player.global_position
     var frames := 24
 
-    set_action("move_right", true)
+    ProjectedProbe.follow_logical(world.map, Vector2.RIGHT, true)
     await tree.process_frame
     var walk_start := player.global_position
     for i in frames:
         await tree.physics_frame
-    set_action("move_right", false)
+    ProjectedProbe.follow_logical(world.map, Vector2.RIGHT, false)
     await tree.process_frame
     await tree.physics_frame
-    var walk_distance := player.global_position.distance_to(walk_start)
+    var walk_distance := ProjectedProbe.distance(world.map, player.global_position, walk_start)
 
     player.global_position = start
     player.velocity = Vector2.ZERO
     await tree.physics_frame
     set_action("run", true)
-    set_action("move_right", true)
+    ProjectedProbe.follow_logical(world.map, Vector2.RIGHT, true)
     await tree.process_frame
     var run_start := player.global_position
     for i in frames:
         await tree.physics_frame
-    set_action("move_right", false)
+    ProjectedProbe.follow_logical(world.map, Vector2.RIGHT, false)
     set_action("run", false)
     await tree.process_frame
     await tree.physics_frame
-    var run_distance := player.global_position.distance_to(run_start)
+    var run_distance := ProjectedProbe.distance(world.map, player.global_position, run_start)
     var ratio := run_distance / walk_distance if walk_distance > 0.0 else 0.0
     if walk_distance < 10.0 or absf(ratio - Player.RUN_MULTIPLIER) > 0.12:
         push_error("Experience run speed ratio was %.3f (walk %.2f, run %.2f)." % [
@@ -225,11 +225,11 @@ static func run_probe(tree: SceneTree, world: Node, shot: Callable) -> void:
     player.global_position = start
     player.velocity = Vector2.ZERO
     set_action("run", true)
-    set_action("move_right", true)
+    ProjectedProbe.follow_logical(world.map, Vector2.RIGHT, true)
     for i in 10:
         await tree.physics_frame
     await shot.call("running_ketelsteeg")
-    set_action("move_right", false)
+    ProjectedProbe.follow_logical(world.map, Vector2.RIGHT, false)
     set_action("run", false)
     await tree.process_frame
     await tree.physics_frame
@@ -239,10 +239,10 @@ static func run_probe(tree: SceneTree, world: Node, shot: Callable) -> void:
     player.global_position = start
     player.velocity = Vector2.ZERO
     set_action("run", true)
-    set_action("move_left", true)
+    ProjectedProbe.follow_logical(world.map, Vector2.LEFT, true)
     for i in 20:
         await tree.physics_frame
-    set_action("move_left", false)
+    ProjectedProbe.follow_logical(world.map, Vector2.LEFT, false)
     set_action("run", false)
     await tree.physics_frame
     if int(player.global_position.x / world.map.tile_size) < 13:
@@ -255,22 +255,22 @@ static func run_probe(tree: SceneTree, world: Node, shot: Callable) -> void:
     await press(tree, "menu")
     var locked_start := player.global_position
     set_action("run", true)
-    set_action("move_right", true)
+    ProjectedProbe.follow_logical(world.map, Vector2.RIGHT, true)
     for i in 16:
         await tree.physics_frame
-    if player.global_position.distance_to(locked_start) > 0.1:
+    if ProjectedProbe.distance(world.map, player.global_position, locked_start) > 0.1:
         push_error("Experience run bypassed the pause-menu input lock.")
         tree.quit(1)
         return
-    set_action("move_right", false)
+    ProjectedProbe.follow_logical(world.map, Vector2.RIGHT, false)
     await press(tree, "cancel")
-    set_action("move_right", true)
+    ProjectedProbe.follow_logical(world.map, Vector2.RIGHT, true)
     for i in 12:
         await tree.physics_frame
-    set_action("move_right", false)
+    ProjectedProbe.follow_logical(world.map, Vector2.RIGHT, false)
     set_action("run", false)
     await tree.physics_frame
-    if player.global_position.distance_to(locked_start) < 15.0:
+    if ProjectedProbe.distance(world.map, player.global_position, locked_start) < 15.0:
         push_error("Experience held Shift did not resume running after the menu closed.")
         tree.quit(1)
         return

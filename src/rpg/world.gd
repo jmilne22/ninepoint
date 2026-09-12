@@ -41,7 +41,11 @@ func _ready() -> void:
 
     MapBuilder.build_backdrop(map, self)
     var ground := MapBuilder.build_layers(map, self)
-    VenueProps.build_background(map.art_props, self)
+    if map.presentation == null:
+        VenueProps.build_background(map.art_props, self)
+    else:
+        ground.hide()
+        get_node("Decor").hide()
     MapBuilder.build_collision(map, self)
 
     # Movement and sound. Both read the map's own tiles.
@@ -53,7 +57,8 @@ func _ready() -> void:
     entities.y_sort_enabled = true
     add_child(entities)
     # Furniture that stands on the floor sorts against the people standing at it.
-    VenueProps.build_sorted(map.art_props, entities)
+    if map.presentation == null:
+        VenueProps.build_sorted(map.art_props, entities)
 
     npcs = MapBuilder.build_npcs(map, entities, _on_talk_requested)
     ambient_banter = AmbientBanterScene.new()
@@ -68,6 +73,10 @@ func _ready() -> void:
     crowd = MapBuilder.build_crowd(map, entities)
 
     _spawn_player()
+    if map.presentation != null:
+        var presentation := ProjectedWorld.new()
+        add_child(presentation)
+        presentation.setup(self)
     _build_ui()
 
     _apply_music()
@@ -131,7 +140,7 @@ func _build_ui() -> void:
     hud = Hud.new()
     hud.name = "Hud"
     add_child(hud)
-    dialogue = DialogueBox.new()
+    dialogue = preload("res://src/ui/rendered_dialogue.gd").new() if map.presentation != null else DialogueBox.new()
     dialogue.anchor = player
     dialogue.name = "DialogueBox"
     add_child(dialogue)

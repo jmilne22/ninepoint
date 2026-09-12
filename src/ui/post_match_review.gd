@@ -5,6 +5,7 @@ extends CanvasLayer
 signal closed
 var record_index := -1
 var opponent_name := ""
+var leave_hint := ""
 var _awaiting: StringName = &"review"
 var _yes := false
 var _root: Control
@@ -85,6 +86,8 @@ func _choose(yes: bool) -> void:
     _awaiting = &"review_wait"
     _root.hide()
     _loading = ReviewLoading.new()
+    if not leave_hint.is_empty():
+        _loading.leave_hint = leave_hint
     _loading.setup(opponent_name)
     _loading.leave_requested.connect(func(): _waiting = false)
     add_child(_loading)

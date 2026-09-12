@@ -1,0 +1,44 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+AUTOPILOT: 8 steps from res://tools/autopilot/rendered_polish_motion.json
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/01_walk_00.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/02_walk_01.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/03_walk_02.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/04_walk_03.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/05_walk_04.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/06_walk_05.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/07_walk_06.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/08_walk_07.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/09_walk_08.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/10_walk_09.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/11_walk_10.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/12_walk_11.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/13_walk_12.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/14_walk_13.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/15_walk_14.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/16_walk_15.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/17_run_00.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/18_run_01.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/19_run_02.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/20_run_03.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/21_run_04.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/22_run_05.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/23_run_06.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/24_run_07.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/25_run_08.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/26_run_09.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/27_run_10.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/28_run_11.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/29_run_12.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/30_run_13.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/31_run_14.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-49JeZA/godot/app_userdata/Ninepoint/shots/32_run_15.png
+AUTOPILOT: done
+WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

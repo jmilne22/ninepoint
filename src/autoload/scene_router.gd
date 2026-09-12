@@ -9,6 +9,13 @@ const WORLD_SCENE := "res://src/rpg/world.tscn"
 var _fade: ColorRect
 var _busy := false
 
+## Runtime-only destination for isolated presentation experiments; never saved.
+var session_world_scene := ""
+
+
+func world_scene() -> String:
+    return WORLD_SCENE if session_world_scene.is_empty() else session_world_scene
+
 ## Where the player should appear in the map that is about to load.
 var pending_spawn: String = ""
 var pending_position: Vector2 = Vector2.ZERO

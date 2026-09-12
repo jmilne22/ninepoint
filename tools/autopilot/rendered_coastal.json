@@ -1,0 +1,153 @@
+[
+  {
+    "save": "invited"
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "experience": "visit",
+    "map": "ketelsteeg",
+    "spawn": "from_wassalon"
+  },
+  {
+    "walk_to": [
+      5,
+      9
+    ],
+    "timeout": 30
+  },
+  {
+    "wait": 0.3,
+    "shot": "rounded_home"
+  },
+  {
+    "walk_to": [
+      14,
+      9
+    ],
+    "timeout": 30
+  },
+  {
+    "wait": 0.3,
+    "shot": "recessed_kettle"
+  },
+  {
+    "walk_to": [
+      23,
+      9
+    ],
+    "timeout": 30
+  },
+  {
+    "wait": 0.3,
+    "shot": "stairwell_laundry"
+  },
+  {
+    "walk_to": [
+      30,
+      9
+    ],
+    "timeout": 30
+  },
+  {
+    "wait": 0.3,
+    "shot": "stone_arcade_entry"
+  },
+  {
+    "walk_to": [
+      17,
+      15
+    ],
+    "timeout": 30
+  },
+  {
+    "wait": 0.3,
+    "shot": "garden_surrounds"
+  },
+  {
+    "experience": "visit",
+    "map": "quay",
+    "spawn": "from_park"
+  },
+  {
+    "walk_to": [
+      3,
+      5
+    ],
+    "timeout": 30
+  },
+  {
+    "wait": 0.3,
+    "shot": "west_harbor"
+  },
+  {
+    "walk_to": [
+      12,
+      5
+    ],
+    "timeout": 30
+  },
+  {
+    "wait": 0.3,
+    "shot": "fishing_boats"
+  },
+  {
+    "walk_to": [
+      21,
+      5
+    ],
+    "timeout": 30
+  },
+  {
+    "wait": 0.3,
+    "shot": "east_harbor"
+  },
+  {
+    "walk_to": [
+      14,
+      2
+    ],
+    "timeout": 30
+  },
+  {
+    "wait": 0.3,
+    "shot": "old_port_steps"
+  },
+  {
+    "experience": "visit",
+    "map": "onderbrug",
+    "spawn": "from_street"
+  },
+  {
+    "walk_to": [
+      4,
+      6
+    ],
+    "timeout": 30
+  },
+  {
+    "wait": 0.3,
+    "shot": "arcade_arch"
+  },
+  {
+    "walk_to": [
+      17,
+      6
+    ],
+    "timeout": 30
+  },
+  {
+    "wait": 0.3,
+    "shot": "arcade_east"
+  }
+]

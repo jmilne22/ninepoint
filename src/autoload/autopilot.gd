@@ -51,7 +51,7 @@ func _run() -> void:
 
 
 func _do(step: Dictionary) -> void:
-    var recognised := false
+    var recognised := step.has("ketel") or step.has("projected")
     for key in ["save", "note", "live_file", "experience", "katago_trial", "board_input", "match_move", "match_resign", "match_wait_player", "match_autoplay", "review_engine", "review_walk", "review_card_wait", "review_landed_wait", "world_wait", "walk_to", "talk_to", "face", "advance", "choose", "wait", "tap", "hold", "shot", "trial_assert", "quit"]:
         recognised = recognised or step.has(key)
     if not recognised:
@@ -62,6 +62,15 @@ func _do(step: Dictionary) -> void:
         await _live_session(str(step["live_file"]))
     if step.has("experience"):
         await ExperienceProbe.perform(get_tree(), step, _shot)
+    if step.has("projected"):
+        if str(step.projected) == "tram":
+            await ProjectedProbe.tram_stop(get_tree(), _shot)
+        elif str(step.projected) == "motion":
+            await ProjectedProbe.capture_motion(get_tree(), _shot)
+        else:
+            await ProjectedProbe.perform(get_tree())
+    if step.has("ketel"):
+        await KetelProbe.perform(get_tree(), step.ketel)
     if step.has("katago_trial"):
         var trial_profile := str(step["katago_trial"]) if step["katago_trial"] is String else ""
         await _start_katago_trial(trial_profile, bool(step.get("katago_direct", false)))
@@ -344,11 +353,11 @@ func _assert_katago_trial() -> void:
         print("KATAGO TRIAL: engine started, %d legal replies, normal result, shutdown confirmed" % int(engine["legal_replies"]))
 
 
-func _send(action: String, pressed: bool) -> void:
+func _send(action: String, pressed: bool, strength: float = 1.0) -> void:
     var ev := InputEventAction.new()
     ev.action = action
     ev.pressed = pressed
-    ev.strength = 1.0 if pressed else 0.0
+    ev.strength = strength if pressed else 0.0
     Input.parse_input_event(ev)
 
 
@@ -433,12 +442,20 @@ func _step_towards(target: Vector2, timeout: float) -> bool:
             _release_all()
             return false        # the scene changed under us
         var d := target - player.global_position
-        if d.length() < 3.5:
+        # Projected analog steering must reach the tile centre before turning
+        # through a one-tile door; the old 3.5px tolerance clips its jamb.
+        var arrival := 0.8 if player is Player and player.map != null and player.map.presentation != null else 3.5
+        if d.length() < arrival:
             break
         _release_all()
-        if absf(d.x) > 2.0:
+        if player is Player and player.map != null and player.map.presentation != null:
+            d = player.map.presentation.project_vector(d)
+            var strength := d.normalized()
+            _send("move_right" if strength.x > 0 else "move_left", true, absf(strength.x))
+            _send("move_down" if strength.y > 0 else "move_up", true, absf(strength.y))
+        elif absf(d.x) > 2.0:
             _send("move_right" if d.x > 0 else "move_left", true)
-        if absf(d.y) > 2.0:
+        if (not player is Player or player.map == null or player.map.presentation == null) and absf(d.y) > 2.0:
             _send("move_down" if d.y > 0 else "move_up", true)
         await get_tree().physics_frame
         await get_tree().process_frame
@@ -502,7 +519,8 @@ func _walk_to(target_tile: Vector2i, timeout: float, ignore_npc: Node2D = null) 
 
 func _walk_to_tile(tile: Vector2i, timeout: float) -> void:
     if not await _walk_to(tile, timeout):
-        print("AUTOPILOT: could not reach tile %s" % str(tile))
+        push_error("Autopilot: could not reach tile %s; player at %s" % [str(tile), str(_player().global_position) if _player() != null else "scene changed"])
+        get_tree().quit(1)
 
 
 ## Turns to look at a point. Pressing into a wall or a person still turns you,
@@ -512,6 +530,16 @@ func _face_towards(point: Vector2) -> void:
     if player == null:
         return
     var d := point - player.global_position
+    if player is Player and player.map != null and player.map.presentation != null:
+        d = player.map.presentation.project_vector(d).normalized()
+        _send("move_right" if d.x > 0 else "move_left", true, absf(d.x))
+        _send("move_down" if d.y > 0 else "move_up", true, absf(d.y))
+        for i in 5:
+            await get_tree().physics_frame
+        _release_all()
+        for i in 3:
+            await get_tree().physics_frame
+        return
     var action := ""
     if absf(d.x) > absf(d.y):
         action = "move_right" if d.x > 0 else "move_left"
