@@ -51,14 +51,14 @@
   },
   "challenge": {
    "text": [
-    "Wren says you've had a game. I'll get you a card for the novice group."
+    "Wren says you've had a game. I help with the club's novice group; I'll get you a card."
    ],
    "goto": "first_rating"
   },
   "offer": {
    "text": [
     "Want a practice game before you go? We'll use handicap if our ranks call for it.",
-    "It won't change your rank. You can go straight to the Institute, too."
+    "It won't change your rank. You can go straight to the club rooms, too."
    ],
    "choices": [
     {
@@ -79,7 +79,7 @@
      }
     },
     {
-     "text": "I'll head to the Institute.",
+     "text": "I'll head to the club rooms.",
      "goto": "wait"
     }
    ]
@@ -384,14 +384,14 @@
    ],
    "text": [
     "I'll put you down as provisional 30 kyu. It's a starting estimate; your results will move it.",
-    "Hana teaches at the Institute. Take Tram 4 north from the stop at the west end of this street."
+    "Hana teaches at the club rooms. Take Tram 4 north from the stop at the west end of this street."
    ],
    "goto": "result"
   },
   "invitation": {
    "text": [
-    "Hana teaches at the Institute. Take Tram 4 north from the stop at the west end of this street.",
-    "The novice group takes new players. Come back and give me a game after you've met them."
+    "Hana teaches in our rooms at the community centre. Take Tram 4 north from this street's west end.",
+    "Meet Noor in the novice room, through the hall's lower west door. She's hoping for Cup company."
    ],
    "goto": "offer"
   }

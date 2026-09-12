@@ -1,5 +1,5 @@
 {
- "name": "Sela Go Institute \u2014 Garden Court",
+ "name": "Community Centre \u2014 Go Club",
  "size": [
   22,
   14
@@ -218,7 +218,7 @@
    ],
    "map": "academy_dorm",
    "spawn": "from_hall",
-   "prompt": "Up to the dormitory"
+   "prompt": "Up to the guest room"
   }
  ],
  "signs": [
@@ -241,7 +241,7 @@
     4,
     3
    ],
-   "text": "SELA GO INSTITUTE. Novice room: lower west door. Study hall: upper west. Classroom east. Dormitory upstairs."
+   "text": "COMMUNITY CENTRE / SELA GO CLUB. Novices: lower west. Study: upper west. Class: east. Guest room upstairs."
   }
  ],
  "npcs": [

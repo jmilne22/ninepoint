@@ -56,6 +56,13 @@
   "choose": 0
  },
  {
+  "experience": "lesson_run"
+ },
+ {
+  "experience": "choice",
+  "text": "Practise Capture Go."
+ },
+ {
   "experience": "setup"
  },
  {

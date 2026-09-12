@@ -7,16 +7,18 @@
 
 ## 0. Structure
 
-The beginner journey is **opening lessons → provisional 30k → five novice fixtures
-→ Beginner Cup ending**. Afterwards the player may register for the Academy League
-and try its qualifying exam. The academy atmosphere was inspired by competitive
-student leagues, but an aspiring-professional exam is an optional advanced goal.
+The campaign is about a newcomer finding a place in a small local Go club. Learn
+enough to enter a first amateur Cup alongside another newcomer; results remain honest
+and belonging is not withdrawn after losses. The route is **capture demonstration and
+optional practice → supported full game → provisional 30k → five novice fixtures
+→ Beginner Cup ending**. The Academy League and its qualifying exam are optional
+advanced club competition. This short campaign promises no promotion to professional skill.
 
 - Hana introduces herself and asks the player's name before the world appears.
-- In Sela, Pip teaches Capture Go, Wren teaches rules and finishing before a supported unrated
+- In Sela, Pip offers a capture demonstration and optional practice, Wren teaches rules and finishing before a supported unrated
   first full game. Kesh issues the novice card and invitation, then offers optional
   unrated handicap practice. This supersedes the original required even game (PROG-02).
-- At the Institute, Hana welcomes the player and offers Two Eyes before registration.
+- At the club rooms, Hana welcomes the player and offers Two Eyes or a visit to Noor before registration.
   Marguerite points to the back-wall board and lower west novice room. Noor wants company
   through her first league and toward the Cup; five classmates share that goal in different ways.
 - Completing all five fixtures earns the main Cup invitation, regardless of wins.
@@ -51,13 +53,16 @@ Outside, shutters open over shop awnings and a shaded boulevard garden. Pip and 
 keep a table there. Three steps below the pavement, **The Kettle** is Tomás's neighborhood
 bar; Wren makes room for beginners and Kesh wants another opponent.
 
-Tram 4 links the neighborhood to the **Sela Go Institute** and **Assembly Hall**. The
-institute occupies a modernist building with a planted court; the hall hosts the Cup.
-Go belongs to the city's ordinary shared spaces. You begin knowing nothing about it.
+Tram 4 links the neighborhood to the **community centre**, where Sela Go Club rents
+rooms, and **Assembly Hall**, where the local Cup takes place. The club meets around
+Tomás’s bar tables as well. These are connected hobby spaces within an ordinary city;
+the game does not claim that its opponents represent everyone who lives in Sela.
+You begin knowing nothing about Go. Wren introduces the Cup as something you might
+try, Kesh points you toward Noor, and Noor wants company while she gets ready too.
 
 ### Three ways to belong
 
-The bar provides familiar opponents and patient practice. The institute offers a group
+The bar provides familiar opponents and patient practice. The club rooms offer a group
 of fellow learners and organized competition. The laundry provides casual company while
 people finish everyday chores. These are equally valid ways to enjoy Go. Joos keeps his
 own quiet alcove in the Arcade, off the public passage to Sea Walk.
@@ -149,18 +154,18 @@ Compact and walkable: Market Lane, Sea Walk and the Arcade form a loop. The park
 |---|---|---|
 | **Rooftop Room** (player's home) | The study desk (puzzles) | — |
 | **The Kettle** | Informal lessons, practice games, then the rival | Tomás, Wren, Kesh |
-| **The Arcade** (the arches) | Nine stones from a man with no card | Joos |
+| **The Arcade** (the arches) | Unrated games with a player whose rank is withheld | Joos |
 | **Boulevard Garden** | Fast outdoor games, the stone tables | Bertie, Pip |
 | **Market Lane** | The street: the tram stop, noticeboard, snack window, the stationer's | — |
-| **The Laundry** | The laundrette. The city's third register: nothing at all is written down | Abel, Dov, Moss |
+| **The Laundry** | Everyday company: Abel and Dov play unrated, Moss plays rated | Abel, Dov, Moss |
 | **Sea Walk** | Sea water and one bench. Where you go after losing; the noticeboard holds the last game you asked somebody to go over | — |
-| **Sela Go Institute** | Classes, the internal league, the study hall | Hana, Marguerite, the students |
+| **Community Centre / Sela Go Club** | Classes, the internal league, the study hall | Hana, Marguerite, the students |
 | **Assembly Hall** | The federation hall: tournaments and the exam | Marguerite |
 
 **Built:** Rooftop Room, Market Lane (street + garden), The Laundry, The Kettle,
-The Arcade, Sea Walk, Assembly Hall and the five institute rooms. Twelve maps.
+The Arcade, Sea Walk, Assembly Hall and the five club rooms. Twelve maps.
 
-The laundry provides everyday company alongside the bar and institute. Two residents
+The laundry provides everyday company alongside the bar and club rooms. Two residents
 prefer unrated games; Moss wants a record. Two of the three games played there are unrated for that reason, and the third is
 rated because the one person who wants a record is the one who has spent three years managing
 his.
@@ -174,7 +179,7 @@ hide behind an hour, and the tests needed a 56-combination cover just to prove n
 been scheduled out of existence. Everyone now stands on one map, always. The one design
 consequence worth keeping: Hana cannot be both at The Kettle for Act 1 and in the classroom
 for Act 2, so Kesh hands out the first rank and the tram, and Hana meets you at the
-Institute.
+community centre.
 
 Locations can still remember progress. After lessons, matches, enrolment and events, a map
 may change its conversation pair, clutter, notices or overheard remarks. These **presence
@@ -270,13 +275,19 @@ superko available); passing; two passes ends the game; dead-stone marking; Japan
 ### Teaching order
 The default early route is:
 
-1. Pip’s real Capture Go encounter.
+1. Pip’s openly guided capture demonstration, then optional Capture Go practice or directions to Wren.
 2. Wren: extend a group, identify a capture, try a refused self-capture, then the capture exception.
 3. Wren: inspect a demonstrably living/dead position, choose a final boundary move, pass twice, inspect and confirm the count.
 4. Optional opening comparisons, then a supported unrated full 9×9. Help follows the actual position.
 5. Kesh’s provisional card and invitation to meet beginners; optional handicap practice.
 6. Hana’s welcome and first class applying survival knowledge, registration and the league board.
 7. Noor, Ivo and the remaining novice fixtures; the Cup becomes a shared ambition.
+
+Capture practice uses a simple policy that tries nearby moves and takes available captures,
+not Pip’s ranked full-game engine. It accepts the player’s pass: two passes end neutrally
+without territory counting or a win/loss entry. Resignation remains a loss. Neither changes
+rank. Help explains selected groups and immediate capture threats. The final capture can
+be replayed from Pip’s next conversation; these games never receive territory analysis.
 
 Longer rules, territory shapes, ko, escape, connection, ladders and Tomás’s deeper score
 inspection remain optional. Later school classes cover life and death, capture races and
@@ -297,7 +308,7 @@ Teaching belongs to people and demonstrated positions. Wren’s default beginner
 All result explanations remain beside the board. Scripted proofs use real legal moves or
 real refusals, and the count uses territory, prisoners, komi and manual group marks.
 
-Sixteen lesson files are available. The older `liberties`, `capture` and `self_capture`
+Seventeen lesson files are available, including Pip’s `pip_first_capture` demonstration. The older `liberties`, `capture` and `self_capture`
 track remains a refresher; `territory_shapes` preserves the longer enclosure examples.
 Tomás’s `counting` inspects score components rather than repeating wall construction.
 Hana’s `two_eyes` class compares secure eyes with a boundary stone that can be captured.
@@ -324,7 +335,7 @@ Quests are data. **Four ship**: `first_stones` (below), `enrolment` ("The Novice
 is the shape the others follow:
 
 **"First Stones"**
-1. Find The Kettle, further along Market Lane.
+1. Meet Pip across the road. Complete his demonstration, play practice, or ask for directions to Wren.
 2. Learn Wren’s rules and finishing lesson, or explicitly skip teaching. Opening advice is optional.
 3. Play Wren's unrated 9×9 first full game. (Either result advances.)
 4. Ask Kesh for your novice card. Her handicap 9×9 practice is optional and unrated.
@@ -362,21 +373,22 @@ rematch when the six-player draw cannot pair the remaining players afresh. Legac
 Cups retain their original policy. This is separate from leagues, where every scheduled
 pair appears exactly once per attempt.
 
-## 9. Progression map (full game sketch)
+## 9. Current progression
 
-| Chapter | Board | Player rank arc | Gate |
-|---|---|---|---|
-| 1 Arrival | 9×9 | unranked → 30k | Vertical slice |
-| 2 The back table | 9×9 → 13×13 | 30k onward | Win 3 rated games — **built (M28)** |
-| 3 Beginner Cup | 13×13 | 17k → 14k | Enter tournament |
-| 4 The Park Crowd | 13×13 | 14k → 10k | Beat Bertie at 4 stones |
-| 5 Kesh, Even | 19×19 | 10k → 8k | Rival match, no handicap |
-| 6 Teaching Game | 19×19 | 8k → 6k | Hana at 9 stones, then 6 |
+| Phase | Board | Access and result |
+|---|---|---|
+| Arrival and teaching | 7×7 capture; 9×9 full Go | Unranked, then Kesh's provisional 30k card; practice is unrated |
+| Novice League | 9×9 | Five fixtures with real results; any placing opens the main Cup invitation |
+| Beginner Cup | 9×9 | 15k and weaker, rank-based handicap; four rounds complete the first campaign |
+| Optional back table | 13×13 | Three rated wins open Tomás's table |
+| Optional open Cup | 13×13 | No rank ceiling; eligible beginners may play up |
+| Optional Academy League/exam | 9×9 | Six fixtures, then qualification by the table; exam games are even |
 
-Each rank step is gated on the human actually winning games at the appropriate handicap.
-The game will not hand out a rank for time served.
+There is no promised rank arc. The earlier 17k–14k/13×13 Beginner Cup chapter sketch
+is retired; nineteen-line town teaching remains separate future work. A rank changes
+only through actual results under the step ladder, never for finishing a chapter.
 
-**Chapter 2's gate is real.** Three rated games won opens a 13×13 -- Tomás's back table at
+**The optional back-table gate is real.** Three rated games won opens a 13×13 -- Tomás's back table at
 The Kettle, which Kesh will also play you on -- through the `rated_wins_at_least` condition,
 counted off the record rather than kept in a flag.
 
@@ -433,7 +445,8 @@ add familiarity without another progression system. Post-match speech acknowledg
 actual result. Detailed move judgement belongs to the engine review, with positive findings
 first and at most two costly positions. Table talk describes observable events only.
 
-Pip's Capture Go and Wren's first practice use empty boards. Kesh issues the novice card
+Pip first offers a prepared capture demonstration. His optional Capture Go practice and
+Wren's first full game use empty boards. Kesh issues the novice card
 before offering optional unrated practice, which now uses rank-based handicap. At 30k
 against her 12k, the existing 9×9 cap gives five stones. Her engine strength is unchanged.
 Handicap is introduced after a rank exists, with two player-controlled explanation stages beside the real board, an explicit
@@ -455,7 +468,7 @@ geography or a new identity for any character. One fixed mild afternoon replaces
 drizzle; no clock, weather simulation, heat meter or shop economy is introduced.
 
 The complete teaching/league/Cup sequence stays intact. Home and Pip are close together;
-the kettle sign identifies Wren's venue; the institute court shows the league board,
+the kettle sign identifies Wren's venue; the community-centre court shows the league board,
 registration and labeled room entrances. The same named people stay in the same internal
 venues. After lessons and the Cup, existing progress-based exchanges and details supply
 return-visit changes without schedules.
@@ -470,3 +483,12 @@ compositions. Rooms and streets use a fixed 45°/30° view with screen-relative 
 the camera follows large maps. Go stays overhead for clear intersections. Character
 models supply both eight-way sprites and dialogue busts. This presentation changes no
 teaching order, ranks, cast identities or progression rules. [Art direction](ART_DIRECTION.md).
+
+### Ordinary exchanges and return visits (DESIGN-01)
+
+Tomás can welcome a new neighbor or talk about the bar, Abel can accept help with his
+basket, and Noor can explain her postcard without ending in a game offer. Street notices
+concern parcels, cups, plates and access. These exchanges grant no items, money, rank or
+affection. Noor acknowledges league completion and a return after the Cup once, using
+existing completion flags. The actual post-match response still follows the game just
+played; completed events do not replace it.

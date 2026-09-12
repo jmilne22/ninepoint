@@ -1,0 +1,25 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+AUTOPILOT: 44 steps from res://tools/autopilot/club_everyday.json
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/everyday-data/godot/app_userdata/Ninepoint/shots/01_choice_Just saying hello..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/everyday-data/godot/app_userdata/Ninepoint/shots/02_tomas_neighbour.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/everyday-data/godot/app_userdata/Ninepoint/shots/03_wren_club_welcome.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/everyday-data/godot/app_userdata/Ninepoint/shots/04_choice_What is this club like_.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/everyday-data/godot/app_userdata/Ninepoint/shots/05_wren_club_context.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/everyday-data/godot/app_userdata/Ninepoint/shots/06_choice_I'll come back..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/everyday-data/godot/app_userdata/Ninepoint/shots/07_choice_Here you go..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/everyday-data/godot/app_userdata/Ninepoint/shots/08_abel_basket.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/everyday-data/godot/app_userdata/Ninepoint/shots/09_stationer_parcels.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/everyday-data/godot/app_userdata/Ninepoint/shots/10_kettle_sign.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/everyday-data/godot/app_userdata/Ninepoint/shots/11_snack_window.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/everyday-data/godot/app_userdata/Ninepoint/shots/12_community_directory.png
+EXPERIENCE: verified progress {"experience":"assert_progress","records":0.0}
+AUTOPILOT: done
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

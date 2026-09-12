@@ -1,0 +1,4 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+CAPTURE_PROBE {"capture_goal":1,"captures":{"1":0,"2":0},"scoring_state":1,"state":1}
+CAPTURE_SCORE {"black":0.0,"by_resignation":false,"detail":{"black_prisoners":0,"black_stones":0,"black_territory":0,"komi":0.5,"white_prisoners":0,"white_stones":0,"white_territory":0},"margin":0.5,"rule":"japanese","territory":"[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]","text":"White wins by 0.5","white":0.5,"winner":2}

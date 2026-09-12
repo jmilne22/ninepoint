@@ -48,8 +48,8 @@
     ]
    ],
    "text": [
-    "Hello again. Kesh sent you up? Come in.",
-    "Noor is starting too. Her table is in the novice room, through the lower west door of the hall."
+    "Hello again. These are the club's rooms in the community centre. Kesh sent you up? Come in.",
+    "Noor wants company for her first Cup. Her table is through the lower west door of the hall."
    ],
    "goto": "welcome_class"
   },
@@ -262,6 +262,10 @@
      "goto": "skip_class"
     },
     {
+     "text": "I'd like to meet Noor first.",
+     "goto": "meet_noor"
+    },
+    {
      "text": "I'll come back.",
      "goto": "wait"
     }
@@ -323,6 +327,12 @@
   "class_return": {
    "text": [
     "Noor and the others are in the novice room, through the lower west door of the hall."
+   ]
+  },
+  "meet_noor": {
+   "text": [
+    "Go through the hall's lower west door. She's keeping a place beside her table.",
+    "Come back for the class whenever you want. Marguerite at the hall desk can help you join."
    ]
   }
  }

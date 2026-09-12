@@ -3,11 +3,11 @@ from art_specs import SPECS
 
 NAMES={'attic':'Rooftop Room','ketelsteeg':'Market Lane','de_ketel':'The Kettle',
        'wassalon':'The Laundry','onderbrug':'The Arcade','quay':'Sea Walk',
-       'academy_hall':'Sela Go Institute — Garden Court',
-       'academy_study':'Sela Go Institute — Study Hall',
-       'academy_class':'Sela Go Institute — Classroom',
-       'academy_dorm':'Sela Go Institute — Dormitory',
-       'academy_novice':'Sela Go Institute — Novice Room','bondszaal':'Assembly Hall'}
+       'academy_hall':'Community Centre — Go Club',
+       'academy_study':'Go Club — Study Hall',
+       'academy_class':'Go Club — Classroom',
+       'academy_dorm':'Community Centre — Guest Room',
+       'academy_novice':'Go Club — Novice Room','bondszaal':'Assembly Hall'}
 
 
 def apply(name, data):

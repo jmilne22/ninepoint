@@ -22,7 +22,7 @@
     "I'm Abel. I've come over for the Cup. My shirts got soaked on the ferry.",
     "Would you mind holding that basket while I clear the table?"
    ],
-   "goto": "gate",
+   "goto": "basket_choice",
    "portrait": "working"
   },
   "gate": {
@@ -102,6 +102,24 @@
    "text": [
     "Oh, I won! Thanks for playing.",
     "Would you like another? I'll move the basket out of your way."
+   ]
+  },
+  "basket_choice": {
+   "choices": [
+    {
+     "text": "Here you go.",
+     "goto": "basket_thanks"
+    },
+    {
+     "text": "Are you playing here?",
+     "goto": "gate"
+    }
+   ]
+  },
+  "basket_thanks": {
+   "text": [
+    "Thanks. The handles catch on everything.",
+    "I'll hang these shirts by the open window. At least the ferry got me here in one piece."
    ]
   }
  }

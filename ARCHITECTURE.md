@@ -212,7 +212,7 @@ func shutdown() -> void
 the shipped AI paying for an async architecture. `GtpOpponent` implements the same interface
 over `EnginePipe` (one child process, lines read on a worker and polled from the coroutine,
 so a wedged engine can never freeze the scene) and speaks `boardsize/clear_board/komi/play/
-genmove`, sending handicap and setup stones once and then only unseen moves. Every cast
+genmove`, sending handicap and setup stones once and then only unseen moves. Every ordinary full-Go cast
 profile is `engine = "gtp"` with a generated `human_<rank>_<style>.cfg`; a missing binary, a
 timeout, a rejected command or an illegal reply falls back to the heuristic for the rest of
 the game and says so on the profile (`unavailable_reason`). In those configs the rank is
@@ -615,3 +615,38 @@ They do not expand map collision or modify save coordinates. Door meshes are der
 existing warp groups. Selective motion exports replace only locomotion cells; all callers
 keep the current CharacterSprite facing/activity interface. See the production pipeline
 for `--motion` and `--stills` commands and the separate photo-reference study.
+
+## Capture practice (CAP-01)
+
+`GoGame.capture_goal > 0` ends on the specified capture or on two neutral passes, never
+`SCORING`. Resignation is a concession. `CaptureOpponent` takes immediate captures,
+otherwise tries legal nearby moves, and accepts a passed turn as an offer to stop.
+`OpponentFactory` selects it by objective before engine selection; MatchBridge and GoMatch
+skip KataGo preparation for the variant. Pip’s ordinary rank/profile remain unchanged.
+
+`CaptureGuide` is pure: selected-group liberties, legal capture threats, and a compact
+reconstructible final position. `MatchTeaching` supplies Help; `CaptureReview` draws the
+recorded before/after boards without engine analysis or another record. Match results
+add `capture_goal`, `practice_ended` and `capture_review`. Neutral practice is retained
+in match history but does not increment either head-to-head counter or change rank.
+`last_result = neutral` selects Pip’s neutral response; `last_capture_practice` distinguishes
+this encounter from his ordinary game. `MatchAnalysis.eligible` also excludes the legacy
+`pip_capture` context so old resigned/pass-ended games cannot get territory reviews.
+
+The first lesson is `pip_first_capture`; completing it or asking Pip for directions opens
+the Wren journal step without a practice requirement. Existing capture records still
+reconcile older saves. The replay is offered on a subsequent Pip interaction and survives
+save/load as part of the original match record.
+
+## Local club fiction (DESIGN-01)
+
+Displayed venue names and dialogue identify Sela Go Club’s rented community-centre rooms.
+Internal map IDs, gate flags and saved fixture references are unchanged. Noor can be met
+before registration; this neither skips Hana’s class nor enrols a league. The new social
+exchanges use ordinary dialogue exits with no reward subsystem. Her completion
+acknowledgement flags record which conversation was seen, not relationship strength.
+
+Map geometry, art props, collision, NPC positions and warps are unchanged. Since the
+render manifest fingerprints the whole source JSON, text-only edits refresh its generated
+provenance stamp after an exact comparison of all render inputs. The existing renderer
+does not consume map names, sign text or warp prompts.

@@ -1,0 +1,220 @@
+[
+ {
+  "save": {}
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "experience": "opening"
+ },
+ {
+  "experience": "map",
+  "map": "attic"
+ },
+ {
+  "advance": 12,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   6,
+   7
+  ]
+ },
+ {
+  "walk_to": [
+   6,
+   8
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "ketelsteeg"
+ },
+ {
+  "shot": "park_direction"
+ },
+ {
+  "talk_to": "pip"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "choose": 0
+ },
+ {
+  "experience": "lesson_run"
+ },
+ {
+  "experience": "choice",
+  "text": "Practise Capture Go."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "shot": "capture_empty"
+ },
+ {
+  "tap": "go_help"
+ },
+ {
+  "wait": 0.3
+ },
+ {
+  "shot": "practice_help"
+ },
+ {
+  "tap": "cancel"
+ },
+ {
+  "tap": "go_pass"
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "shot": "neutral_return"
+ },
+ {
+  "talk_to": "pip"
+ },
+ {
+  "experience": "choice",
+  "text": "Practise Capture Go."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "match_resign": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "shot": "resigned_return"
+ },
+ {
+  "talk_to": "pip"
+ },
+ {
+  "experience": "choice",
+  "text": "Practise Capture Go."
+ },
+ {
+  "experience": "setup"
+ },
+ {
+  "match_autoplay": true,
+  "timeout": 120
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "save"
+ },
+ {
+  "experience": "reload"
+ },
+ {
+  "talk_to": "pip"
+ },
+ {
+  "experience": "choice",
+  "text": "Show me that capture."
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "capture_before"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.5
+ },
+ {
+  "shot": "capture_after"
+ },
+ {
+  "tap": "cancel"
+ },
+ {
+  "talk_to": "pip"
+ },
+ {
+  "experience": "choice",
+  "text": "Where can I learn the full game?"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   14,
+   9
+  ]
+ },
+ {
+  "walk_to": [
+   14,
+   8
+  ]
+ },
+ {
+  "experience": "map",
+  "map": "de_ketel"
+ },
+ {
+  "talk_to": "wren"
+ },
+ {
+  "shot": "wren_after_capture_practice"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "save"
+ }
+]

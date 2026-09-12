@@ -1,0 +1,16 @@
+{
+  "size": 7,
+  "to_move": "black",
+  "rows": [
+    ".......",
+    ".......",
+    "....XO.",
+    ".....X.",
+    ".XOX...",
+    "..X....",
+    "......."
+  ],
+  "capture": "C4",
+  "noncapture": "F6",
+  "note": "Facilitator-only answer key; a separate position from Pip\u2019s demonstration. Validated with tools/check_lessons.py rules mirror."
+}

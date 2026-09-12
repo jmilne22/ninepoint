@@ -5,7 +5,7 @@ This document explains **why** future work matters and the trade-offs around it.
 dependencies, and acceptance criteria. `MILESTONES.md` is the append-only delivery history.
 Do not select work from this document without checking its linked board ticket first.
 
-The build is green: `tools/test.sh` passes 17,239 Godot checks, 13 Python art tests and three real-engine gates,
+The build is green: `tools/test.sh` passes 18,017 Godot checks, 13 Python art tests, a capture-scene gate and three real-engine gates,
 `tools/check_lessons.py` reports no problems, and the game is playable from the cold open
 to the exam and the Cup.
 
@@ -14,6 +14,28 @@ ladder, the borrowed book, the performance rating and the calendar. M40 rebuilt 
 review on engine analysis; the other cuts remain. Read `MILESTONES.md` M37 for why.
 
 ---
+
+## Beginner and premise baseline — CAP-01 / DESIGN-01
+
+The September 12 owner walkthrough exposed a first-capture rules mismatch and a world
+framed as though everyone in the city plays Go. The [played audit](docs/design-audit/PLAN.md)
+led to an approved implementation: a newcomer meets a local club, learns enough to try a
+first amateur Cup, and has a place with the group regardless of results.
+
+Pip now offers an explicit demonstration before optional empty-board Capture Go. A simple
+variant-aware policy, factual H help, retry, exact capture replay and a neutral two-pass
+exit make that encounter internally honest. Pip's ordinary rank and full-game profile
+remain unchanged. Practice does not require an engine and never reaches territory counting.
+
+The Kettle lends tables to the club; teaching takes place in rented community-centre rooms.
+Kesh and Hana point to Noor before registration, and Noor offers company toward the Cup.
+Ordinary conversations and notices give the selected hobby community everyday context.
+Existing cast, rendered geometry, internal map IDs, ranks and honest competition remain.
+
+[Implementation and played evidence](docs/baseline/PLAYTEST.md) distinguish technical
+coverage from acceptance by people. CONTENT-05, ENG-09 and PROG-01 retain the full-game
+strength, stopping and independent beginner questions. The [human playtest packet](docs/baseline/BEGINNER-PLAYTEST.md)
+is ready; no recruitment, human comprehension or rank calibration is claimed complete.
 
 ## ART-08: full-game rendered presentation
 
@@ -157,7 +179,7 @@ strength ladder. Dead-stone adjudication remains ENG-05.
 ## 4. Content that is still thin — CONTENT-01 through CONTENT-03
 
 - The early curriculum now teaches a demonstrated finish before the full game, with
-  sixteen lesson files including optional refreshers and twelve puzzles. These locally
+  seventeen lesson files including Pip’s demonstration, optional refreshers and twelve puzzles. These locally
   checkable decisions and factual Help do not establish whole-board judgement or human readiness.
 - The study-hall students have three-game and six-game arcs and nothing after.
 - M43 gives every existing exam and Cup outcome a conclusion, results display and optional

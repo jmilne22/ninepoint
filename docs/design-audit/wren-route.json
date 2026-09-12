@@ -1,0 +1,75 @@
+[
+  {
+    "save": "lost_to_kesh"
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "talk_to": "wren"
+  },
+  {
+    "experience": "choice",
+    "text": "Another game."
+  },
+  {
+    "experience": "choice",
+    "text": "Set them up."
+  },
+  {
+    "experience": "setup"
+  },
+  {
+    "shot": "ready"
+  },
+  {
+    "match_autoplay": true,
+    "timeout": 600,
+    "max_moves": 160
+  },
+  {
+    "experience": "result"
+  },
+  {
+    "experience": "review_choice",
+    "accept": true
+  },
+  {
+    "wait": 0.8,
+    "shot": "review_loading"
+  },
+  {
+    "review_card_wait": true,
+    "timeout": 180
+  },
+  {
+    "review_walk": true
+  },
+  {
+    "tap": "cancel"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "shot": "back_in_room"
+  },
+  {
+    "walk_to": [
+      10,
+      11
+    ]
+  },
+  {
+    "shot": "walking_after_review"
+  }
+]

@@ -1,0 +1,193 @@
+[
+  {
+    "save": {}
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "experience": "opening"
+  },
+  {
+    "experience": "map",
+    "map": "attic"
+  },
+  {
+    "advance": 12,
+    "stop_at_choice": true
+  },
+  {
+    "walk_to": [
+      6,
+      7
+    ]
+  },
+  {
+    "walk_to": [
+      6,
+      8
+    ]
+  },
+  {
+    "experience": "map",
+    "map": "ketelsteeg"
+  },
+  {
+    "shot": "park_direction"
+  },
+  {
+    "talk_to": "pip"
+  },
+  {
+    "advance": 8,
+    "stop_at_choice": true
+  },
+  {
+    "choose": 0
+  },
+  {
+    "advance": 8,
+    "stop_at_choice": true
+  },
+  {
+    "choose": 0
+  },
+  {
+    "experience": "setup"
+  },
+  {
+    "shot": "capture_empty"
+  },
+  {
+    "tap": "go_pass"
+  },
+  {
+    "wait": 1.5
+  },
+  {
+    "shot": "pass_probe_01"
+  },
+  {
+    "tap": "go_pass"
+  },
+  {
+    "wait": 1.5
+  },
+  {
+    "shot": "pass_probe_02"
+  },
+  {
+    "tap": "go_pass"
+  },
+  {
+    "wait": 1.5
+  },
+  {
+    "shot": "pass_probe_03"
+  },
+  {
+    "tap": "go_pass"
+  },
+  {
+    "wait": 1.5
+  },
+  {
+    "shot": "pass_probe_04"
+  },
+  {
+    "tap": "go_pass"
+  },
+  {
+    "wait": 1.5
+  },
+  {
+    "shot": "pass_probe_05"
+  },
+  {
+    "tap": "go_pass"
+  },
+  {
+    "wait": 1.5
+  },
+  {
+    "shot": "pass_probe_06"
+  },
+  {
+    "tap": "go_pass"
+  },
+  {
+    "wait": 1.5
+  },
+  {
+    "shot": "pass_probe_07"
+  },
+  {
+    "tap": "go_pass"
+  },
+  {
+    "wait": 1.5
+  },
+  {
+    "shot": "pass_probe_08"
+  },
+  {
+    "tap": "go_pass"
+  },
+  {
+    "wait": 1.5
+  },
+  {
+    "shot": "pass_probe_09"
+  },
+  {
+    "tap": "go_pass"
+  },
+  {
+    "wait": 1.5
+  },
+  {
+    "shot": "pass_probe_10"
+  },
+  {
+    "tap": "go_pass"
+  },
+  {
+    "wait": 1.5
+  },
+  {
+    "shot": "pass_probe_11"
+  },
+  {
+    "tap": "go_pass"
+  },
+  {
+    "wait": 1.5
+  },
+  {
+    "shot": "pass_probe_12"
+  },
+  {
+    "tap": "go_pass"
+  },
+  {
+    "wait": 1
+  },
+  {
+    "shot": "pass_probe_result"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "wait": 2
+  },
+  {
+    "shot": "pass_probe_return"
+  },
+  {
+    "quit": true
+  }
+]

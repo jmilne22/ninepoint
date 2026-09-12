@@ -5,10 +5,12 @@ A PS1-inspired 2.5D RPG about learning to play **Go (baduk)**, built in Godot 4.
 You have just moved to **Sela**, a fictional coastal city of pale balconies, shady ficus trees,
 and little tables outside shops. Your room is above a closed stationer's on Market Lane.
 Pip plays in the boulevard garden, Wren welcomes beginners at The Kettle, and Tram 4
-connects the neighborhood to the institute and the Beginner Cup at Assembly Hall.
+connects the neighborhood to the club rooms in the community centre and the Cup at Assembly Hall.
 The previous tenant left a board and a bowl of stones in your room, and no instructions.
 
-You do not know what it is. That is where the game starts.
+You do not know what it is. That is where the game starts. The people you meet belong
+to a small local club. Learn with them, meet another newcomer, and get ready for a first
+amateur tournament together. You can finish the Cup even if you lose every round.
 
 There is no combat. Encounters are games of Go, opponents are ranked in kyu and dan, and
 **the player character never gains a statistic** — the only thing that gets stronger is the
@@ -144,8 +146,11 @@ transition, not with this interface change.
 ### Never played Go?
 
 Then you are the person this was built for. Start a New Game and carry the board out of the
-attic; Pip in the park across the road offers **Capture Go**. A short, player-controlled reminder
-beside the empty board shows how to place and capture stones. Wren, in
+attic; Pip in the park across the road offers a **capture demonstration**. Fill the marked
+last liberty and watch the stone come off. Then choose empty-board Capture Go practice,
+repeat the example, or ask for directions to Wren. **Help H** inspects a group and shows
+available captures. **P** ends this practice without a winner; **R** offers resignation.
+Pip offers retries and a replay of the last capture, including after saving and loading. Wren, in
 the club, does the rules properly afterwards — liberties, capture, and why you may not fill in
 your own last one. There is no tutorial on the menu, because being taught by somebody is the
 point.
@@ -159,12 +164,12 @@ highlights a capture or a group with one liberty when one exists. Passing does n
 and the count shows territory, prisoners and komi before you accept the proposed marks.
 
 Kesh gives you a provisional novice card and points toward fellow beginners at the
-Institute. You can leave immediately or stay for **unrated handicap practice**. Hana
-welcomes you and offers the first class before registration: applying two-eye knowledge
+club rooms. You can leave immediately or stay for **unrated handicap practice**. Hana
+welcomes you and offers either a visit to Noor or the first class before registration: applying two-eye knowledge
 to an apparent eye that can be filled. Her capture problem remains optional. Noor wants
 company through the league and toward the Cup; Ivo fits complete games around deliveries.
 
-Sixteen lesson files cover the short beginner track and optional refreshers. Wren keeps
+Seventeen lesson files cover the short beginner track and optional refreshers. Wren keeps
 the longer rules and territory exercises; Kesh teaches escape and connection, Bertie
 ladders, Tomás score inspection, and Hana the school classes. Experienced players may
 explicitly skip teaching. The desk in your room also offers twelve puzzles.
@@ -175,7 +180,7 @@ one, lose to somebody at or below it and it goes down one, and nothing else touc
 Handicap stones are priced in, so beating a 4 kyu who gave you five stones is beating a 19
 kyu. Nothing in the game makes your stones stronger. The only thing that improves is you.
 
-**What the opponents cost your machine.** Opponents use KataGo's human-style model. The new novice cohort has separate fixed
+**What the opponents cost your machine.** Full-game opponents use KataGo's human-style model. Pip's Capture Go practice uses a small local policy and needs no engine. The new novice cohort has separate fixed
 strength settings below its 20k profile floor; these target ranks still need human playtesting. The game runs one engine at a time -- the person you are
 sitting across from, and after the game one analysis process for the review -- which is
 about a gigabyte of memory, one CPU thread, a second or so a move on a desktop CPU with
@@ -232,12 +237,13 @@ the checkout with the editor/import pass first, as `tools/test.sh` does.
 
 **Opening** -- Hana speaks to you and asks your name (Pokemon).
 **Act 1, Sela** -- you have no idea what Go is. Somebody left a board in your room.
-Pip invites you to Capture Go in the park; Wren
+Pip offers a capture demonstration and optional practice in the park; Wren
 teaches rules and finishing, then hosts a supported unrated 9×9. Kesh issues your provisional novice
-card and points you to Hana at the Sela Go Institute, two tram stops north. Her
+card and points you to Hana at the community centre, reached by Tram 4 north. Her
 handicap practice game is optional and leaves your rank unchanged.
-**Act 2, the Sela Go Institute** — meet Hana and take or explicitly skip the welcome
-class, enrol with Marguerite in the Novice League, and play five classmates in the lower west room. Their target ranks range from
+**Act 2, the club rooms** — meet Hana and take or explicitly skip the welcome
+class. You can meet Noor first: she is through the hall’s lower west door and wants
+company for the Cup. Enrol with Marguerite in the Novice League, and play five classmates in the lower west room. Their target ranks range from
 30k to 20k. The board shows the next fixture, games completed, and everyone's results.
 Everyone starts at zero; NPC games are simulated once after each player round. Wins
 come first, then the stronger entry rank, then name. Extra practice never changes a fixture.
@@ -293,7 +299,7 @@ AI walkthrough from automated supplemental checks and independent human testing.
 
 ```
 src/go/      pure Go rules, nigiri/handicap, lessons -- no engine coupling, unit tested
-src/academy/ the Institute league and the federation's events: standings and draws,
+src/academy/ the club leagues and the federation's events: standings and draws,
              saved attempts, player game history and explicit simulated NPC results
 src/go_ai/   opponent interface, KataGo at the board and over a finished game, the
              heuristic AI that stands in when the engine is missing

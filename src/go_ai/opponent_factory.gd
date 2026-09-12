@@ -5,6 +5,10 @@ extends RefCounted
 
 static func create(profile: OpponentProfile, game: GoGame, warmed: GtpOpponent = null) -> GoOpponent:
     var opponent: GoOpponent
+    if game.capture_goal > 0 or profile.capture_goal > 0:
+        opponent = CaptureOpponent.new()
+        opponent.setup(profile, game)
+        return opponent
     match profile.engine:
         "random":
             opponent = RandomOpponent.new()

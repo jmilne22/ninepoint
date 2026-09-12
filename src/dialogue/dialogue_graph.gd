@@ -146,6 +146,8 @@ static func _check_one(c: Array) -> bool:
             return str(_state().get_flag("last_result", "")) == "win"
         "lost_last":
             return str(_state().get_flag("last_result", "")) == "loss"
+        "neutral_last":
+            return str(_state().get_flag("last_result", "")) == "neutral"
         _:
             push_warning("DialogueGraph: unknown condition '%s'" % op)
             return false

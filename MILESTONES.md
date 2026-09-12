@@ -3477,3 +3477,50 @@ An actual attic benchmark and fresh 18-frame twelve-map tour were opened, includ
 3× attic view. Floor grain, bedding color and plaster detail remain visible. Documentation
 was reconciled across player/design/architecture/art guides; `CLAUDE.md` now points to the
 canonical `AGENTS.md` rather than maintaining stale duplicate rules.
+
+## M50 — First capture and local club baseline [implementation candidate]
+
+The owner played the opening and found Capture Go frustrating and the city premise hard
+to believe. The subsequent audit reproduced a first-capture game ending in a territory
+loss with zero captures. It also beat the old Pip in seven plies: literal impossibility
+was false, but that did not establish a usable first lesson.
+
+The approved candidate gives Pip an explicit capture demonstration, optional first-capture
+practice with a dedicated legal policy, H help, retry, exact saved capture replay and a
+neutral two-pass end. It reframes the existing city selection as a local club using a bar
+and community-centre rooms, introduces Noor's Cup ambition before registration, and adds
+ordinary exchanges and return conversations after the league/Cup. Existing cast, ordinary
+strength, rendered geometry, save identities and honest competition remain intact.
+
+**Done when (technical implementation):** 18,017 Godot checks pass with zero failures
+(predecessor M49/ART-09: 17,239), 316 files load, 13 Python art tests pass, capture scenes
+bypass installed/missing engine paths, and all three real KataGo gates pass. Lesson positions
+report zero problems. Actual played routes cover the new opening, demonstration skip,
+help/neutral/resignation/retry/replay/save, full supported Wren and first Noor/Ivo games,
+ordinary exchanges, all-loss league/Cup completion, Noor's returns and persisted repeat
+state. Representative actual screenshots were opened. [Evidence](docs/baseline/PLAYTEST.md).
+
+**Human acceptance is not done.** CAP-01 and DESIGN-01 remain blocked on independent
+learning/transfer and premise/motivation observations. CONTENT-05, ENG-09 and PROG-01 retain
+strength/stopping/peer validation. The [facilitator packet](docs/baseline/BEGINNER-PLAYTEST.md)
+contains a separate validated transfer position and blank session sheet, not invented results.
+This entry records a reviewable implementation candidate, not a validated beginner release.
+
+### Deliberate changes and boundaries
+
+| Before | Candidate behavior |
+|---|---|
+| First independent empty-board game before a demonstrated capture | Explicit prepared example, then optional empty practice or onward directions |
+| Ordinary 18k KataGo received no first-capture objective | Dedicated immediate-capture/nearby-move teaching policy; ordinary Pip profile unchanged |
+| Two passes reached territory counting and could manufacture a komi loss | Explicit neutral result through rules, records, counters, dialogue and review eligibility |
+| Completed capture attempt removed practice | Repeat example/practice, H help and exact capture explanation after return/save |
+| Opening implied Go throughout the city; school dominated the premise | Small club in a wider ordinary city; bar tables and rented community-centre rooms |
+| Noor's ambition followed the approach through class/registration | Direction to Noor before registration and an explicit meet-first route |
+| Completion primarily changed the table | Noor acknowledges league/Cup participation while reactions remain truthful |
+| Integration test could report pass after an awaited script error | Shell gate rejects script errors; obsolete Capture-Go-as-GTP assertion replaced |
+
+Inspection corrected duplicated neutral copy, Wren's claim that skipped teaching had been
+completed, stale Noor invitations after the Cup and route choices overtaken by new dialogue.
+Map labels were regenerated; render provenance was refreshed only after proving all actual
+geometry inputs unchanged. The legacy arrival caption was regenerated and opened. Core
+product, implementation, voice and task documents were swept; historical reports remain history.

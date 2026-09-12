@@ -7,6 +7,15 @@
      "if": [
       [
        "flag",
+       "lesson_pip_first_capture_done"
+      ]
+     ],
+     "goto": "practice_offer"
+    },
+    {
+     "if": [
+      [
+       "flag",
        "match_pip_capture_done"
       ]
      ],
@@ -78,42 +87,43 @@
     ]
    ],
    "text": [
-    "It's for Go! Come and try mine. I've got the stones ready."
+    "It's for Go! I play here with friends from The Kettle, down the steps under the kettle sign.",
+    "Come and try mine. I've got the stones ready."
    ],
    "goto": "capture_offer"
   },
   "capture_offer": {
    "text": [
-    "Let's play Capture Go. I'll show you what to do on the board."
+    "I'll set up a capture for you to try. Then we can practise together."
    ],
    "choices": [
     {
-     "text": "Go on then.",
+     "text": "Show me.",
      "exit": {
-      "type": "start_match",
-      "profile": "pip_capture",
-      "context": "pip_capture",
-      "unrated": true
+      "type": "start_lesson",
+      "lesson": "pip_first_capture"
      }
     },
     {
-     "text": "Say that again.",
-     "goto": "explain_again"
+     "text": "I know captures. Let's practise.",
+     "goto": "practice_offer"
+    },
+    {
+     "text": "Where can I learn the full game?",
+     "goto": "directions"
+    },
+    {
+     "text": "Not now.",
+     "goto": "later"
     }
    ]
-  },
-  "explain_again": {
-   "text": [
-    "We'll try a short game where the first capture wins. You can take your time."
-   ],
-   "goto": "capture_offer"
   },
   "back": {
    "portrait": "happy",
    "text": [
     "Back for more? Good."
    ],
-   "goto": "offer"
+   "goto": "practice_offer"
   },
   "offer": {
    "text": [
@@ -153,26 +163,17 @@
     {
      "if": [
       [
+       "neutral_last"
+      ]
+     ],
+     "goto": "capture_ended"
+    },
+    {
+     "if": [
+      [
        "flag",
-       "pip_played"
+       "last_capture_practice"
       ],
-      [
-       "won_last"
-      ]
-     ],
-     "goto": "after_win"
-    },
-    {
-     "if": [
-      [
-       "flag",
-       "pip_played"
-      ]
-     ],
-     "goto": "after_loss"
-    },
-    {
-     "if": [
       [
        "won_last"
       ]
@@ -180,22 +181,56 @@
      "goto": "capture_won"
     },
     {
+     "if": [
+      [
+       "flag",
+       "last_capture_practice"
+      ],
+      [
+       "lost_last"
+      ]
+     ],
      "goto": "capture_lost"
+    },
+    {
+     "if": [
+      [
+       "won_last"
+      ]
+     ],
+     "goto": "after_win"
+    },
+    {
+     "goto": "after_loss"
     }
    ]
   },
   "capture_won": {
    "portrait": "happy",
    "text": [
-    "You won! Want to learn the rest?",
-    "Go to The Kettle, down the steps under the kettle sign. Ask for Wren."
+    "You won! Come back for another try, or we can look at that capture.",
+    "Wren teaches the full game at The Kettle, down the steps under the kettle sign."
+   ],
+   "actions": [
+    [
+     "set_flag",
+     "pip_ready_for_wren",
+     true
+    ]
    ]
   },
   "capture_lost": {
    "portrait": "happy",
    "text": [
-    "I won this one! Thanks for trying it.",
+    "I won this one. We can try again whenever you like.",
     "Wren teaches the full game at The Kettle, down the steps under the kettle sign."
+   ],
+   "actions": [
+    [
+     "set_flag",
+     "pip_ready_for_wren",
+     true
+    ]
    ]
   },
   "after_win": {
@@ -212,6 +247,99 @@
     "Let's have another when you're ready."
    ],
    "goto": "again"
+  },
+  "practice_offer": {
+   "text": [
+    "Shall we try Capture Go, or would you like to see the example again?"
+   ],
+   "choices": [
+    {
+     "text": "Practise Capture Go.",
+     "exit": {
+      "type": "start_match",
+      "profile": "pip_capture",
+      "context": "pip_capture",
+      "unrated": true
+     }
+    },
+    {
+     "text": "Show me the example.",
+     "exit": {
+      "type": "start_lesson",
+      "lesson": "pip_first_capture"
+     }
+    },
+    {
+     "text": "Show me that capture.",
+     "if": [
+      [
+       "flag",
+       "pip_capture_review_available"
+      ]
+     ],
+     "exit": {
+      "type": "capture_review"
+     }
+    },
+    {
+     "text": "Where can I learn the full game?",
+     "goto": "directions"
+    },
+    {
+     "text": "A full game?",
+     "if": [
+      [
+       "flag",
+       "knows_the_rules"
+      ]
+     ],
+     "goto": "offer"
+    },
+    {
+     "text": "Not now.",
+     "goto": "later"
+    }
+   ]
+  },
+  "taught_pip_first_capture": {
+   "portrait": "happy",
+   "text": [
+    "There it goes! Want to try from an empty board?"
+   ],
+   "actions": [
+    [
+     "set_flag",
+     "pip_ready_for_wren",
+     true
+    ]
+   ],
+   "goto": "practice_offer"
+  },
+  "directions": {
+   "text": [
+    "Wren teaches at The Kettle, down the steps under the kettle sign.",
+    "You can come back here for Capture Go whenever you like."
+   ],
+   "actions": [
+    [
+     "set_flag",
+     "pip_ready_for_wren",
+     true
+    ]
+   ]
+  },
+  "capture_ended": {
+   "text": [
+    "We can leave it there. Come back if you want another try.",
+    "Wren teaches the full game at The Kettle, down the steps under the kettle sign."
+   ],
+   "actions": [
+    [
+     "set_flag",
+     "pip_ready_for_wren",
+     true
+    ]
+   ]
   }
  }
 }

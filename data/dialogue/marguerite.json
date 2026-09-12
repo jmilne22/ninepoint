@@ -132,11 +132,11 @@
       [
        "give",
        "institute_card",
-       "Sela Go Institute card"
+       "Sela Go Club card"
       ],
       [
        "toast",
-       "Enrolled at the Sela Go Institute."
+       "Enrolled at the Sela Go Club."
       ],
       [
        "league_start",
@@ -597,7 +597,7 @@
   },
   "exam_refuse": {
    "text": [
-    "Finish an Academy League attempt in the top four eligible places. The Institute board has the details."
+    "Finish an Academy League attempt in the top four eligible places. The club rooms board has the details."
    ]
   },
   "exam_enter": {
@@ -735,7 +735,7 @@
     [
      "give",
      "instituut_certificate",
-     "Institute certificate"
+     "Club certificate"
     ]
    ],
    "text": [
@@ -746,7 +746,7 @@
   "exam_failed": {
    "text": [
     "You didn't qualify this time. Your results are on the board.",
-    "Thank you for playing all your rounds. You're welcome back at the Institute."
+    "Thank you for playing all your rounds. You're welcome back at the club rooms."
    ]
   },
   "cup_champion": {
@@ -759,7 +759,7 @@
   "cup_completed": {
    "text": [
     "Four rounds played. Your first Cup is complete; the results are on the board.",
-    "Come back to the Institute if you'd like to try the Academy League. There is no hurry."
+    "Come back to the club rooms if you'd like to try the Academy League. There is no hurry."
    ]
   },
   "league_desk": {

@@ -13,7 +13,7 @@ func _ready() -> void:
     add_child(art)
     var card := UiKit.panel(art, Rect2(28, 180, 328, 29), true)
     var label := UiKit.label(card, Vector2(8, 8), 312, UiKit.PAPER, 11)
-    label.text = "%s   Space: continue" % ("Sela Go Institute" if destination == "academy_hall" else "The Assembly Hall")
+    label.text = "%s   Space: continue" % ("Community Centre" if destination == "academy_hall" else "The Assembly Hall")
     await get_tree().create_timer(3.0).timeout
     _finish()
 

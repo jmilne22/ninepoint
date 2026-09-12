@@ -179,10 +179,19 @@ func pass_turn() -> void:
     ko_point = -1
     to_move = GoBoard.opponent(to_move)
     if consecutive_passes >= 2:
-        state = State.SCORING
+        if capture_goal > 0:
+            state = State.FINISHED
+            result = {"winner": GoBoard.EMPTY, "practice_ended": true,
+                "by_resignation": false, "margin": 0.0,
+                "text": "Neither player captured a stone." if capture_goal == 1 \
+                    else "Neither player reached the capture goal."}
+        else:
+            state = State.SCORING
 
 
 func resign(color: int = -1) -> void:
+    if state != State.PLAYING:
+        return
     if color == -1:
         color = to_move
     moves.append({"color": color, "point": RESIGN, "captured": PackedInt32Array(), "label": "resign"})
@@ -197,6 +206,8 @@ func resign(color: int = -1) -> void:
 
 ## Finalises a game that has reached SCORING. `dead` holds board indices judged dead.
 func finish_with_score(scoring: Dictionary) -> void:
+    if capture_goal > 0:
+        return
     result = scoring
     state = State.FINISHED
 

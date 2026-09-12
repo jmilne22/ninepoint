@@ -149,10 +149,14 @@ func record_match(result: MatchResult) -> void:
     # Flags dialogue and quests can branch on without knowing about MatchResult.
     # What just happened, for the conversation that follows it. Overwritten
     # by every game; the cumulative counters below are for greetings.
-    set_flag("last_result", "win" if result.player_won else "loss")
+    set_flag("last_result", "neutral" if result.practice_ended else ("win" if result.player_won else "loss"))
+    set_flag("last_capture_practice", result.capture_goal > 0)
     set_flag("last_by_resignation", result.by_resignation)
     if result.npc_id != "":
-        bump_flag("record_%s_%s" % [result.npc_id, "win" if result.player_won else "loss"], 1)
+        if not result.practice_ended:
+            bump_flag("record_%s_%s" % [result.npc_id, "win" if result.player_won else "loss"], 1)
+        if not result.capture_review.is_empty():
+            set_flag("%s_capture_review_available" % result.npc_id, true)
         set_flag("%s_match_done" % result.npc_id, true)
     if result.context_id != "":
         set_flag("match_%s_done" % result.context_id, true)

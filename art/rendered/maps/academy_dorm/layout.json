@@ -18,7 +18,7 @@
     12,
     10
   ],
-  "source_sha256": "26c17368fd8533fd3e2a9e35c95ab760ba23052eecc68ad514918c20cc238c3e",
+  "source_sha256": "3803178151b7091129dfd68b4aa07c6ae686dad6ca97454844843acc91d241b3",
   "mask_channels": {
     "r": "ground_depth",
     "g": "water",

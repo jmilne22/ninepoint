@@ -28,9 +28,19 @@
   },
   "first": {
    "text": [
-    "Tomás. Welcome to The Kettle. Wren will find you a table and show you how to play."
+    "Tomás. Welcome to The Kettle. Mind the wet patch; I've just washed the floor."
    ],
-   "portrait": "working"
+   "portrait": "working",
+   "choices": [
+    {
+     "text": "Just saying hello.",
+     "goto": "neighbour"
+    },
+    {
+     "text": "Does the Go club meet here?",
+     "goto": "club_tables"
+    }
+   ]
   },
   "offer_counting": {
    "text": [
@@ -47,6 +57,10 @@
     {
      "text": "Another time.",
      "goto": "later"
+    },
+    {
+     "text": "How is the bar doing?",
+     "goto": "bar_work"
     }
    ]
   },
@@ -90,6 +104,10 @@
     {
      "text": "Not today.",
      "goto": "later"
+    },
+    {
+     "text": "How is the bar doing?",
+     "goto": "bar_work"
     }
    ]
   },
@@ -138,6 +156,10 @@
     {
      "text": "Not today.",
      "goto": "later"
+    },
+    {
+     "text": "How is the bar doing?",
+     "goto": "bar_work"
     }
    ]
   },
@@ -181,6 +203,10 @@
     {
      "text": "Not today.",
      "goto": "later"
+    },
+    {
+     "text": "How is the bar doing?",
+     "goto": "bar_work"
     }
    ]
   },
@@ -209,6 +235,25 @@
    "text": [
     "That's a win for me. Thanks for playing.",
     "Give me a moment to clear this table before we start another."
+   ]
+  },
+  "neighbour": {
+   "text": [
+    "Then hello. You're welcome to sit while I finish this.",
+    "If the chair wobbles, swap it with the one by the wall. I keep forgetting which it is."
+   ]
+  },
+  "club_tables": {
+   "text": [
+    "They use the tables when there's space. Wren volunteers to help beginners; she's by the window.",
+    "For classes, the club rents rooms at the community centre. Tram 4 goes there from this street's west end."
+   ]
+  },
+  "bar_work": {
+   "portrait": "working",
+   "text": [
+    "Someone brought all the blue cups back at once. I've nearly run out of shelf.",
+    "Could you leave that bit of the table clear? I need somewhere for the clean ones."
    ]
   }
  }

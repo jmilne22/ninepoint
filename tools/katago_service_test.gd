@@ -77,19 +77,21 @@ func _failure_paths(base: OpponentProfile) -> void:
         and handicap_game.is_legal(int(handicap_move.get("point", -1))), "handicap setup synchronises")
     engine.shutdown()
 
-    var capture := base.duplicate(true) as OpponentProfile
-    capture.board_size = 7
-    capture.gtp_time_per_move = 10.0
-    var capture_game := GoGame.new(7, 5.5)
-    capture_game.capture_goal = 1
-    capture_game.play_xy(3, 3)
-    var capture_engine := OpponentFactory.create(capture, capture_game) as GtpOpponent
-    _check(await capture_engine.prewarm(), "Capture Go engine prepares before the match")
-    var capture_move: Dictionary = await capture_engine.choose_move(capture_game)
-    print("  measurement: warmed Capture Go reply %dms" % capture_engine.last_move_ms)
-    _check(not capture_engine.fallback_used and str(capture_move.get("type", "")) == "move"
-        and capture_game.is_legal(int(capture_move.get("point", -1))), "Capture Go board synchronises")
-    capture_engine.shutdown()
+    # Ordinary 7x7 GTP synchronisation is separate from Capture Go. The capture
+    # scene gate verifies that first-capture practice never requests a GTP lease.
+    var small := base.duplicate(true) as OpponentProfile
+    small.board_size = 7
+    small.gtp_time_per_move = 10.0
+    var small_game := GoGame.new(7, 5.5)
+    small_game.play_xy(3, 3)
+    var small_engine := OpponentFactory.create(small, small_game) as GtpOpponent
+    _check(await small_engine.prewarm(), "ordinary 7x7 engine prepares before the match")
+    var small_move: Dictionary = await small_engine.choose_move(small_game)
+    print("  measurement: warmed 7x7 reply %dms" % small_engine.last_move_ms)
+    _check(not small_engine.fallback_used and str(small_move.get("type", "")) == "move"
+        and small_game.is_legal(int(small_move.get("point", -1))), "ordinary 7x7 board synchronises")
+    small_engine.shutdown()
+
 
 
 func _check(condition: bool, message: String) -> void:

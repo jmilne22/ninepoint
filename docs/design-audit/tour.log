@@ -1,0 +1,26 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+AUTOPILOT: 41 steps from res://tools/autopilot/art_tour.json
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/tour-data/godot/app_userdata/Ninepoint/shots/01_wassalon_from_street.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/tour-data/godot/app_userdata/Ninepoint/shots/02_washer_second_frame.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/tour-data/godot/app_userdata/Ninepoint/shots/03_de_ketel_from_street.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/tour-data/godot/app_userdata/Ninepoint/shots/04_attic_desk.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/tour-data/godot/app_userdata/Ninepoint/shots/05_onderbrug_from_street.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/tour-data/godot/app_userdata/Ninepoint/shots/06_quay_bench.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/tour-data/godot/app_userdata/Ninepoint/shots/07_academy_hall_from_tram.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/tour-data/godot/app_userdata/Ninepoint/shots/08_academy_study_middle.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/tour-data/godot/app_userdata/Ninepoint/shots/09_academy_class_from_hall.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/tour-data/godot/app_userdata/Ninepoint/shots/10_academy_dorm_from_hall.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/tour-data/godot/app_userdata/Ninepoint/shots/11_bondszaal_from_tram.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/tour-data/godot/app_userdata/Ninepoint/shots/12_bondszaal_front.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/tour-data/godot/app_userdata/Ninepoint/shots/13_ketelsteeg_from_wassalon.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/tour-data/godot/app_userdata/Ninepoint/shots/14_novice_from_hall.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/tour-data/godot/app_userdata/Ninepoint/shots/15_novice_central_aisle.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/tour-data/godot/app_userdata/Ninepoint/shots/16_park_foliage.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/tour-data/godot/app_userdata/Ninepoint/shots/17_walk_side.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/tour-data/godot/app_userdata/Ninepoint/shots/18_attic_idle.png
+AUTOPILOT: done
