@@ -1,0 +1,85 @@
+[
+ {
+  "save": "quay_review_13"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact",
+  "note": "Continue into the quay"
+ },
+ {
+  "wait": 2.0
+ },
+ {
+  "walk_to": [
+   17,
+   4
+  ]
+ },
+ {
+  "face": [
+   17,
+   3
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "review_card_wait": true,
+  "timeout": 5
+ },
+ {
+  "wait": 0.6,
+  "shot": "a_graph"
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "wait": 0.3,
+  "shot": "b_graph_walk"
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "wait": 0.3,
+  "shot": "c_graph_marked"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 0.3,
+  "shot": "d_card"
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "wait": 0.3,
+  "shot": "e_graph_return"
+ },
+ {
+  "tap": "cancel"
+ },
+ {
+  "wait": 0.6,
+  "shot": "f_after"
+ }
+]

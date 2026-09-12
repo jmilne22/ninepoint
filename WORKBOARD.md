@@ -34,6 +34,34 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 | `MILESTONES.md` | Append-only shipped history and verification evidence | The current backlog |
 | Design / architecture / art docs | Durable product and technical truth | Task status |
 
+## REV-04 — Graph-first review POC
+
+- Status: `SHIPPED` (M54, awaiting merge) · Priority: `P1` · Owner: Claude ·
+  Branch: `claude/review-graph-poc`, from `origin/main` `725aa6c`.
+- Why: REV-03 showed the review's prose layer cannot be made to say more than the
+  templates; the owner asked whether reviews are worth keeping at all versus the
+  graph-style review every Go site uses. This POC answers by building the graph on the
+  existing analysis so the two can be played side by side.
+- Scope: the payload gains `curve` (one small entry per player move from the eight-visit
+  pass: lead, loss, played and preferred points). The first review card becomes a graph
+  of the whole game; Left/Right walk your moves on the board, Up/Down jump between the
+  explained positions, Space opens that card, Compare C still works. Opens on the praised
+  move. The existing cards, facts, lessons and the second analysis pass are untouched.
+- Acceptance (met): `tools/test.sh` **18,239 / 0**, 332 files load, 13 art tests, all engine gates, exit 0; `review_graph` route (a whole 9×9 to the
+  count, the review, graph walking, opening a card, Compare C, return, close);
+  `quay_review_13` and `quay_review_19` synthetic-curve presets show the graph at thirteen
+  and nineteen lines including zoom; `quay_review` still shows the legacy tally card. All
+  frames opened, retained in `docs/review/GRAPH.md`. Owner played it on 9×9 and the
+  feedback is folded in; independent beginner testing of the review remains open.
+- Owner playtest feedback folded in: axis reads ahead/behind with the number in words;
+  the dots are named in the legend; Compare states what it shows in the title; Open card
+  greys out where there is no card. Separately, the practice Help fallback ("look at the
+  empty space near your stones") now names your group with the fewest liberties and the
+  opponent's, with coordinates, since empty space was not something a beginner could act on.
+- Decision this POC is meant to inform: if the graph is the spine, the second analysis
+  pass (about 32 of 45 seconds and most of the card code) is only needed for the
+  ownership tints and continuation lines. Keep them or cut them after playing both.
+
 ## REV-02 — Optional teaching games (REV-01 Step 5)
 
 - Status: `DOING` · Priority: `P1` · Owner: Codex · Branch: `codex/rev-01-teaching-game`.

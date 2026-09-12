@@ -3620,3 +3620,39 @@ original Help screenshots opened and inspected.
 REV-02 remains open for independent beginner comprehension, transfer and interruption-fatigue
 observations. No human results were collected or inferred from the automated routes. The
 learning release gate and the optional LLM narrator remain deferred pending that evidence.
+
+## M54 — Graph-first review (REV-04)
+
+From `origin/main` `725aa6c` on `claude/review-graph-poc`, 2026-09-12. After REV-03 showed
+the prose layer could not be made to say more than templates, the owner asked whether the
+review should give way to the score graph every Go site shows. The graph was built on the
+existing analysis, played by the owner, and the feedback folded in.
+
+**Built:** `MatchAnalysis.curve` (pure) adds one small entry per player move to the payload
+from the pass-one turns; pending and failed reviews carry none. `ReviewGraph` is a
+drawing-only Control. `ReviewCards` shows it as the first card when a curve and a
+replayable SGF exist: the board follows the cursor (your move filled, the engine's ringed),
+Left/Right walk your moves, Up/Down jump between the dots, Space or **Open card** opens a
+dot's card (greyed elsewhere), Compare C names what it shows in the title, Escape closes.
+The axis reads ahead/behind and the caption states the standing in words, after the
+owner read "+50 / -50" and a bare "63" as "a -63 advantage". It opens on the praised move;
+the tally line moved to that card. Legacy saves render the old tally card.
+Separately, the practice Help fallback names your group with the fewest liberties and the
+opponent's instead of "the empty space near your stones".
+
+**Done when:** `tools/test.sh` passes **18,239 / 0**, 332 files load, 13 art tests, all engine gates, exit 0 (predecessor M53: 18,229 on main), the
+`review_graph` route plays a whole 9×9 and exercises the graph, `quay_review_13` and
+`quay_review_19` (synthetic curve fixtures) show the graph at thirteen and nineteen lines
+including zoom, `quay_review` still shows the legacy card, and the frames in
+`docs/review/GRAPH.md` were opened.
+
+| Before | After |
+|---|---|
+| First card: a tally paragraph | First card: the whole game as a line you can walk |
+| Costly positions reachable only by paging | Dots on the graph; Up/Down and Open card |
+| No sense of when the game turned | The slide is visible; the rust dot is where it started |
+| Practice Help: "look at the empty space" | Names the weakest group of each colour with coordinates |
+
+Open: REV-05, whether the second analysis pass (tints, continuation lines, group facts,
+about 32 of 45 seconds) earns its place beside the graph. Independent beginner testing
+of the review remains pending; the owner's own play is the evidence here.

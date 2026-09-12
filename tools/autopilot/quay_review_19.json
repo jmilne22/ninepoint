@@ -13,8 +13,7 @@
   "note": "Continue into the quay"
  },
  {
-  "wait": 2.0,
-  "shot": "a_quay"
+  "wait": 2.0
  },
  {
   "walk_to": [
@@ -37,34 +36,68 @@
  },
  {
   "wait": 0.6,
-  "shot": "b_card_1"
+  "shot": "a_graph"
+ },
+ {
+  "board_input": {
+   "key": "V",
+   "size": 19,
+   "zoomed": true
+  }
+ },
+ {
+  "wait": 0.3,
+  "shot": "a2_graph_zoomed"
+ },
+ {
+  "board_input": {
+   "key": "V",
+   "size": 19,
+   "zoomed": false
+  }
+ },
+ {
+  "tap": "move_right"
+ },
+ {
+  "tap": "move_right"
  },
  {
   "tap": "move_right"
  },
  {
   "wait": 0.3,
-  "shot": "c_card_2"
+  "shot": "b_graph_walk"
  },
  {
-  "tap": "move_right"
- },
- {
-  "wait": 0.3,
-  "shot": "d_card_3"
- },
- {
-  "tap": "move_right"
+  "tap": "move_down"
  },
  {
   "wait": 0.3,
-  "shot": "card_4"
+  "shot": "c_graph_marked"
  },
  {
   "tap": "interact"
  },
  {
+  "wait": 0.3,
+  "shot": "d_card"
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "tap": "move_left"
+ },
+ {
+  "wait": 0.3,
+  "shot": "e_graph_return"
+ },
+ {
+  "tap": "cancel"
+ },
+ {
   "wait": 0.6,
-  "shot": "e_after"
+  "shot": "f_after"
  }
 ]

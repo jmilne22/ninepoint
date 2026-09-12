@@ -100,6 +100,7 @@ where to put you when all three slots are full.
 | *after both players pass* | Space toggles a group dead or alive, **P** accepts the count |
 | Space | dismiss the result, hear the opponent’s reaction, then choose whether to review |
 | C (review) | compare the original position, your move, and the engine’s preferred move |
+| Left/Right, Up/Down (review graph) | walk your moves on the board; jump between the green and red dots (a good move, a costly one). Space opens that position's card, Esc closes |
 | L (review, when offered) | open the related lesson; return to the world afterward |
 
 Wren's first full practice and Kesh's handicap practice offer **With teaching** or
@@ -111,6 +112,8 @@ for the game. Teaching is optional and does not change rank or opponent strength
 
 The board screens also have clickable buttons for their actions: passing, resignation,
 count acceptance, colour choices, explanations, results and review navigation.
+The review opens on a graph of your lead through the game; walk it with Left/Right, jump
+to the green and red dots with Up/Down, and open a dot's card with Space or the button.
 Review Yes/No choices can be clicked directly inside their card. New reviews explain
 engine-estimated group or region losses beside the board. In comparisons, blue tint
 means expected player ownership and red means opponent ownership; outlined areas

@@ -2,6 +2,9 @@
 ## the move, the move played, the move that was better, and what it cost.
 ## Long explanations use pages that retain the board and its marker legend.
 ## Also the single card for a steady game and the single card for no review.
+## REV-04 POC: when the payload carries a curve, the first card is a graph of the
+## whole game; Left/Right walk your moves on the board, Up/Down jump between the
+## explained positions, and Space opens the card for one of those.
 class_name ReviewCards
 extends CanvasLayer
 
@@ -27,6 +30,9 @@ var _text_page := 0
 var _legend := ""
 var _comparison := 0
 var _plain := false
+var _graph: ReviewGraph
+var _replay: Dictionary = {}
+var _graph_started := false
 
 
 func setup(value: Dictionary, who: String = "") -> void:
@@ -35,6 +41,7 @@ func setup(value: Dictionary, who: String = "") -> void:
     if source >= 0 and source < GameState.match_records.size():
         for finding in review.get("findings", []):
             finding["player"] = int(GameState.match_records[source].get("player_color", GoBoard.BLACK))
+        _replay = MatchAnalysis.replay(str(GameState.match_records[source].get("sgf", "")))
     opponent_name = who
 
 
@@ -67,6 +74,12 @@ func _ready() -> void:
     _board.view_changed.connect(_refresh_navigation)
     _title = UiKit.label(card, Vector2(TEXT_X, 12), TEXT_W, UiKit.INK, 22)
     _body = UiKit.label(card, Vector2(TEXT_X, 38), TEXT_W, UiKit.INK_SOFT, 146)
+    _graph = ReviewGraph.new()
+    _graph.position = Vector2(TEXT_X, 36)
+    _graph.size = Vector2(TEXT_W, 50)
+    _graph.visible = false
+    _graph.selected_changed.connect(func(_index: int) -> void: _show_graph())
+    card.add_child(_graph)
     _actions = MouseActions.new()
     _actions.position = Vector2(158, 197)
     root.add_child(_actions)
@@ -80,13 +93,27 @@ func _mouse_action(action: StringName) -> void:
         _comparison = (_comparison + 1) % 3
         _show()
     elif action == &"move_left" or action == &"move_right":
-        _navigate(-1 if action == &"move_left" else 1)
+        if _on_graph():
+            _graph.step(-1 if action == &"move_left" else 1)
+        else:
+            _navigate(-1 if action == &"move_left" else 1)
     else:
         _unhandled_input(MouseActions.event(action))
 
 
+func _has_graph() -> bool:
+    var curve: Variant = review.get("curve", [])
+    return curve is Array and not curve.is_empty() and not _replay.is_empty() and review.has("tally")
+
+
+func _on_graph() -> bool:
+    return _has_graph() and _index == 0
+
+
 func _card_count() -> int:
     var findings: Array = review.get("findings", [])
+    if _has_graph():
+        return findings.size() + 1
     return findings.size() + (1 if not findings.is_empty() and review.has("tally") else 0)
 
 
@@ -96,6 +123,10 @@ func _show() -> void:
     _configure_actions()
     _text_pages = PackedStringArray()
     _plain = false
+    _graph.visible = false
+    if _on_graph():
+        _show_graph()
+        return
     var findings: Array = review.get("findings", [])
     if findings.is_empty():
         # No board, so no reason for a board-sized card: one message, sized to
@@ -160,6 +191,10 @@ func _show() -> void:
         elif not matched:
             why += " %s was best; yours was within a point of it." % game.board.label(best)
         lines.append("%s %s" % [head, why])
+        var tally: Dictionary = review.get("tally", {})
+        if _has_graph() and not tally.is_empty():
+            # The graph card gave up the tally line; praise is where it belongs anyway.
+            lines.append("%d of your %d moves matched the engine." % [int(tally.get("best", 0)), int(tally.get("moves", 0))])
         _legend = "Filled = your move" if matched else "Filled = your move\nRing = engine preference"
     else:
         if f.has("facts") and not f.get("narration", []).is_empty():
@@ -188,6 +223,79 @@ static func _points(v: float) -> String:
     return "%.1f" % v if absf(v - roundf(v)) > 0.05 else str(int(roundf(v)))
 
 
+## The position before the selected move, rebuilt from the record's SGF, in the
+## same shape a finding has so Compare C and the board marks work unchanged.
+func _graph_finding(point: Dictionary) -> Dictionary:
+    var moves: Array = _replay.get("moves", [])
+    var move := int(point.get("move", 0))
+    if move < 1 or move > moves.size():
+        return {}
+    var entry: Dictionary = moves[move - 1]
+    var board := GoBoard.new(int(_replay["size"]))
+    return {"kind": "graph", "move_number": move, "size": int(_replay["size"]), "cells": entry["cells"],
+        "player": int(entry["color"]), "actual": board.from_label(str(point.get("actual", ""))),
+        "best": board.from_label(str(point.get("best", "")))}
+
+
+func _show_graph() -> void:
+    _lesson_id = ""
+    _text_pages = PackedStringArray()
+    var marks := {}
+    var findings: Array = review.get("findings", [])
+    for i in findings.size():
+        marks[int(findings[i].get("move_number", 0))] = i + 1
+    _graph.setup(review["curve"], marks)
+    if not _graph_started:
+        # What went right first: open on the praised move, not on move one.
+        _graph_started = true
+        for f in findings:
+            if str(f.get("kind", "")) == "strength":
+                _graph.selected = maxi(_graph.index_of_move(int(f.get("move_number", 0))), 0)
+    var point: Dictionary = _graph.selected_move()
+    var f := _graph_finding(point)
+    var game := ReviewComparison.position(f, _comparison) if not f.is_empty() else null
+    if game == null:
+        _show_plain("How it went.\n" + ReviewSummary.text(review))
+        return
+    _graph.visible = true
+    _board.visible = true
+    _title.visible = true
+    _card.size = Vector2(348, 192)
+    _card.position = Vector2(18, 12)
+    _body.position = Vector2(TEXT_X, 90)
+    _body.size = Vector2(TEXT_W, 94)
+    _board.set_game(game)
+    var actual := int(f["actual"])
+    var best := int(f["best"])
+    _board.focus_point(actual)
+    _board.inspection = true
+    _board.mark_point = actual
+    _board.highlight = PackedInt32Array([best]) if best >= 0 and best != actual else PackedInt32Array()
+    _board.mark_good = best == actual
+    _configure_actions()
+    var move := int(point["move"])
+    var loss := float(point.get("loss", 0.0))
+    var verdict := "The engine's preferred move."
+    if best >= 0 and best != actual and loss < MatchAnalysis.MEANINGFUL_LOSS:
+        verdict = "Close to the engine's %s." % game.board.label(best)
+    elif best >= 0 and best != actual:
+        verdict = "The engine preferred %s, about %d points." % [game.board.label(best), roundi(loss)]
+    var lead := float(point.get("lead", 0.0))
+    var standing := "About level here."
+    if absf(lead) >= 1.0:
+        standing = "About %d points %s here." % [roundi(absf(lead)), "ahead" if lead > 0 else "behind"]
+    var lines: Array[String] = [standing, verdict]
+    _legend = "Filled = your move, ring = the engine's."
+    if best < 0 or best == actual:
+        _legend = "Filled = your move."
+    _legend += "\nGreen dot = a good move, red = a costly one."
+    _title.text = "Move %d. You played %s.\n" % [move, game.board.label(actual)]
+    _body.text = "\n".join(lines) + "\n\n" + _legend
+    _refresh_navigation()
+    if UiKit.text_height(_body.text, TEXT_W) > int(_body.size.y):
+        push_warning("ReviewCards: graph caption runs off the card")
+
+
 func _show_plain(text: String) -> void:
     _plain = true
     var blocks: Array[String] = []
@@ -210,6 +318,17 @@ func _refresh_text() -> void:
 
 
 func _refresh_heading() -> void:
+    if _on_graph():
+        var heading := _title.text.split("\n")[0]
+        var hint := "Left/Right  Up/Down  [Space]"
+        if _board.zoomed:
+            hint = "Arrows: look   V: whole"
+        elif _comparison == 1:
+            hint = "Showing: after your move.  C"
+        elif _comparison == 2:
+            hint = "Showing: after the engine's.  C"
+        _title.text = heading + "\n" + hint
+        return
     if _text_pages.is_empty():
         return
     var heading := _title.text.split("\n")[0]
@@ -227,6 +346,10 @@ func _navigate(direction: int) -> void:
         return
     var next := clampi(_index + direction, 0, _card_count() - 1)
     if next != _index:
+        if next == 0 and _has_graph():
+            # Land on the graph at the position the card was about.
+            var f: Dictionary = review["findings"][_index - 1]
+            _graph.selected = maxi(_graph.index_of_move(int(f.get("move_number", 0))), 0)
         _index = next
         _comparison = 0
         _text_page = -1 if direction < 0 else 0
@@ -270,6 +393,27 @@ func _unhandled_input(event: InputEvent) -> void:
             queue_free()
         else:
             return
+    elif _on_graph():
+        if event.is_action_pressed("move_left"):
+            _graph.step(-1)
+        elif event.is_action_pressed("move_right"):
+            _graph.step(1)
+        elif event.is_action_pressed("move_up"):
+            _graph.jump(-1)
+        elif event.is_action_pressed("move_down"):
+            _graph.jump(1)
+        elif event.is_action_pressed("interact"):
+            var move := int(_graph.selected_move().get("move", 0))
+            if _graph.marked.has(move):
+                _index = int(_graph.marked[move])
+                _comparison = 0
+                _text_page = 0
+                _show()
+        elif event.is_action_pressed("cancel"):
+            closed.emit()
+            queue_free()
+        else:
+            return
     elif event.is_action_pressed("move_left"):
         _navigate(-1)
     elif event.is_action_pressed("move_right"):
@@ -284,6 +428,14 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _configure_actions() -> void:
     var specs: Array = [["<", "move_left"], [">", "move_right"], ["Compare C", "go_compare"]]
+    if _on_graph():
+        # Only explained positions have a card; say so with a greyed button.
+        var move := int(_graph.selected_move().get("move", 0))
+        specs.append(["Open card", "interact", _graph.marked.has(move)])
+        specs.append(["Close", "cancel"])
+        _actions.position.x = 122
+        _actions.configure(specs)
+        return
     if _lesson_id != "":
         specs.append(["Lesson L", "go_lesson"])
     specs.append(["Close", "interact"])

@@ -105,20 +105,73 @@ def _rated_wins(n):
     } for i in range(n)]
 
 
-def _review_record(size):
+def _label(size, x, y):
+    return "ABCDEFGHJKLMNOPQRSTUVWXYZ"[x] + str(size - y)
+
+
+def _fixture_moves(size, count):
+    """A deterministic scattered game: every stone lands with all four neighbours
+    empty, so replay never captures and never refuses a move. Not real Go."""
+    seed = 12345 + size
+    order = []
+    for y in range(1, size - 1):
+        for x in range(1, size - 1):
+            seed = (seed * 1103515245 + 12345) % (2 ** 31)
+            order.append((seed, x, y))
+    order.sort()
+    taken = set()
+    moves = []
+    for _, x, y in order:
+        if len(moves) >= count:
+            break
+        if any((x + dx, y + dy) in taken for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1), (0, 0)]):
+            continue
+        taken.add((x, y))
+        moves.append((x, y))
+    return moves
+
+
+def _review_record(size, moves=0):
+    sgf = "(;GM[1]FF[4]SZ[%d];B[dd];W[ee])" % size
+    if moves:
+        letters = "abcdefghijklmnopqrstuvwxyz"
+        nodes = ["%s[%s%s]" % ("B" if i % 2 == 0 else "W", letters[x], letters[y])
+                 for i, (x, y) in enumerate(_fixture_moves(size, moves))]
+        sgf = "(;GM[1]FF[4]SZ[%d];%s)" % (size, ";".join(nodes))
     return {
         "context_id": "league_kesh", "npc_id": "kesh", "opponent_name": "Kesh Idowu",
         "player_won": True, "player_color": 1, "winner": 1,
         "margin": 3.5, "by_resignation": False, "by_capture": False,
         "board_size": size, "handicap": 0, "handicap_taken": 0, "komi": 5.5,
-        "move_count": 52, "unrated": False, "opponent_strength": 18,
-        "summary": "Black wins by 3.5", "sgf": "(;GM[1]FF[4]SZ[%d];B[dd];W[ee])" % size,
+        "move_count": moves or 52, "unrated": False, "opponent_strength": 18,
+        "summary": "Black wins by 3.5", "sgf": sgf,
         "review_requested": True,
     }
 
 
-def _review_payload(size):
-    """Three findings in the shape MatchAnalysis.available() accepts."""
+def _review_curve(size, moves, findings):
+    """One point per Black move of the fixture game, in MatchAnalysis.curve's shape.
+    Leads are a fixed random walk; losses are small except at the findings."""
+    placed = _fixture_moves(size, moves)
+    losses = {int(f["move_number"]): float(f["point_loss"]) for f in findings}
+    lead, seed, out = 0.0, 777, []
+    for i, (x, y) in enumerate(placed):
+        number = i + 1
+        if number % 2 == 0:
+            continue
+        seed = (seed * 1103515245 + 12345) % (2 ** 31)
+        loss = losses.get(number, round((seed % 7) / 10.0, 1))
+        lead = round(lead - loss + ((seed >> 8) % 5) / 10.0 + 0.2, 1)
+        best = _label(size, x, y)
+        if loss >= 0.75 and i + 2 < len(placed):
+            best = _label(size, *placed[i + 2])
+        out.append({"move": number, "lead": lead, "loss": loss, "actual": _label(size, x, y), "best": best})
+    return out
+
+
+def _review_payload(size, moves=0):
+    """Three findings in the shape MatchAnalysis.available() accepts; with `moves`,
+    also the per-move curve REV-04's graph card draws (findings on Black's moves)."""
     def idx(x, y):
         return y * size + x
     cells = [0] * (size * size)
@@ -126,26 +179,30 @@ def _review_payload(size):
         cells[idx(x, y)] = 1
     for x, y in [(5, 5), (6, 5), (5, 6), (6, 2)]:
         cells[idx(x, y)] = 2
-    return {
+    numbers = (9, 13, 21) if moves else (8, 12, 20)
+    payload = {
         "source_match": 0, "availability": "available", "engine_version": "fixture",
         "positions": [], "partial": False, "analysed_moves": 26, "total_moves": 26,
         "tally": {"moves": 26, "best": 7, "fine": 11, "best_moves": [3, 8, 14, 19, 27, 33, 41]},
         "findings": [
-            {"kind": "strength", "move_number": 8, "size": size, "cells": cells,
+            {"kind": "strength", "move_number": numbers[0], "size": size, "cells": cells,
                 "actual": idx(4, 4), "best": idx(4, 4), "point_loss": 0.0, "stake": 2.0,
                 "matched": True, "does": "It takes open ground in the middle."},
-            {"kind": "mistake", "move_number": 12, "size": size, "cells": cells,
+            {"kind": "mistake", "move_number": numbers[1], "size": size, "cells": cells,
                 "actual": idx(6, 1), "best": idx(3, 3), "point_loss": 3.5, "concept": "connect",
                 "critique": "Yours staked out the side, but the board had a bigger point.",
                 "changed": f"D{size-3} would have joined your stones at C{size-3} and D{size-2}.",
                 "habit": "Before a fight, look for the move that connects your stones."},
-            {"kind": "lesson", "move_number": 20, "size": size, "cells": cells,
+            {"kind": "lesson", "move_number": numbers[2], "size": size, "cells": cells,
                 "actual": idx(1, size - 2), "best": idx(4, 6), "point_loss": 1.5, "concept": "attack",
                 "critique": "Yours took the corner.",
                 "changed": f"E{size-6} would have leaned on the white stone at F{size-6}.",
                 "habit": "When you approach a group, check whether it can answer locally."},
         ],
     }
+    if moves:
+        payload["curve"] = _review_curve(size, moves, payload["findings"])
+    return payload
 
 
 STATES = {
@@ -787,8 +844,19 @@ STATES = {
         "quests": {},
         "map": "quay",
         "spawn": "bench",
-        "records": [_review_record(19)],
-        "analysis": {"0": _review_payload(19)},
+        "records": [_review_record(19, 120)],
+        "analysis": {"0": _review_payload(19, 120)},
+    },
+    # Thirteen lines with the graph; quay_review (nine) keeps the pre-graph payload
+    # on purpose, so the legacy tally card stays covered.
+    "quay_review_13": {
+        "rank_strength": 8,
+        "flags": {"intro_seen": True, "quay_review_available": True},
+        "quests": {},
+        "map": "quay",
+        "spawn": "bench",
+        "records": [_review_record(13, 60)],
+        "analysis": {"0": _review_payload(13, 60)},
     },
     # On the quay with nothing to look at: where review_leave starts.
     "quay_empty": {

@@ -259,7 +259,11 @@ review offer. Rematches belong to the next normal interaction. Analysis may cont
 Escape; its result waits at the quay, south past the park. Starting another match or loading
 another session cancels unfinished analysis without changing any result.
 
-The review starts with the engine tally, then a best move and at most two costly positions.
+The review opens on a graph of the whole game (REV-04): your estimated lead after each of
+your moves, the board following the cursor with your move filled and the engine's
+preference ringed, and the explained positions as dots you can jump to and open. It opens
+on your praised move, so what went right still comes first; the tally line sits on that
+card. Then a best move and at most two costly positions, as before.
 Move numbers include both players; the tally counts placements and is not a beginner grade.
 C compares the original position, the played move and the engine preference, each applied
 independently. Immediate effects remain board facts. Deeper comparisons identify named

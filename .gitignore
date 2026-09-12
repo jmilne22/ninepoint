@@ -19,3 +19,7 @@ __pycache__/
 
 # Runtime KataGo protocol/search diagnostics; generated on every engine run.
 gtp_logs/
+
+# Local agent tooling configs, same reasoning as .claude/ above.
+.agents/
+.codex/
