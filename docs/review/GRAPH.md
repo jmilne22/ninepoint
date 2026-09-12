@@ -12,8 +12,10 @@ existing analysis so both can be played and compared. Nothing is cut yet.
   It comes from the eight-visit pass that already runs; a 9×9 game adds about a kilobyte.
 - The first review card is the graph. The board on the left shows the position before
   the selected move, your move filled and the engine's preference ringed, exactly as on
-  the cards. The caption says what the engine thought of that move and how many of your
-  moves matched it.
+  the cards. The caption says in words how far ahead or behind the engine thought you
+  were after that move, and what it thought of the move. The axis reads "ahead" and
+  "behind" rather than numbers: an early frame with "+50 / -50" and a bare "63" under
+  the cursor was read as "a -63 advantage", so the number now lives only in the caption.
 - Left/Right walk your moves. Up/Down jump between the explained positions, drawn as
   marks (teal for the praised move, rust for losses). Space opens that position's card;
   Left from the cards returns to the graph at the same move. Compare C and the

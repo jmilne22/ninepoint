@@ -276,10 +276,11 @@ func _show_graph() -> void:
         verdict = "Close to the engine's %s." % game.board.label(best)
     elif best >= 0 and best != actual:
         verdict = "The engine preferred %s, about %d points." % [game.board.label(best), roundi(loss)]
-    var tally: Dictionary = review.get("tally", {})
-    var lines: Array[String] = [verdict, "%d of %d matched the engine." % [int(tally.get("best", 0)), int(tally.get("moves", 0))]]
-    if marks.has(move):
-        lines.append("[Space] opens this position.")
+    var lead := float(point.get("lead", 0.0))
+    var standing := "About level after this move."
+    if absf(lead) >= 1.0:
+        standing = "About %d points %s after this move." % [roundi(absf(lead)), "ahead" if lead > 0 else "behind"]
+    var lines: Array[String] = [standing, verdict]
     _legend = ["Before either move", "After your move", "After engine choice"][_comparison] + "\nFilled = your move"
     if best >= 0 and best != actual:
         _legend += "\nRing = engine preference"

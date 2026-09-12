@@ -60,7 +60,7 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _plot() -> Rect2:
-    return Rect2(Vector2(18, 3), size - Vector2(20, 14))
+    return Rect2(Vector2(36, 3), size - Vector2(38, 14))
 
 
 func _x(i: int, plot: Rect2) -> float:
@@ -90,8 +90,9 @@ func _draw() -> void:
     var zero_y := plot.position.y + half
     draw_line(Vector2(plot.position.x, zero_y), Vector2(plot.end.x, zero_y), UiKit.INK_FAINT, 1.0)
     draw_line(plot.position, Vector2(plot.position.x, plot.end.y), UiKit.INK_FAINT, 1.0)
-    draw_string(UiKit.FONT, Vector2(0, plot.position.y + 8), "+%d" % int(limit), HORIZONTAL_ALIGNMENT_LEFT, -1, UiKit.FONT_SIZE, UiKit.INK_FAINT)
-    draw_string(UiKit.FONT, Vector2(0, plot.end.y), "-%d" % int(limit), HORIZONTAL_ALIGNMENT_LEFT, -1, UiKit.FONT_SIZE, UiKit.INK_FAINT)
+    # Up is good, down is bad; the caption carries the number in words.
+    draw_string(UiKit.FONT, Vector2(0, plot.position.y + 8), "ahead", HORIZONTAL_ALIGNMENT_LEFT, -1, UiKit.FONT_SIZE, UiKit.INK_FAINT)
+    draw_string(UiKit.FONT, Vector2(0, plot.end.y), "behind", HORIZONTAL_ALIGNMENT_LEFT, -1, UiKit.FONT_SIZE, UiKit.INK_FAINT)
     var points := PackedVector2Array()
     for i in curve.size():
         points.append(Vector2(_x(i, plot), zero_y - float(curve[i]["lead"]) / limit * half))
@@ -104,6 +105,6 @@ func _draw() -> void:
     var cursor := points[selected]
     draw_line(Vector2(cursor.x, plot.position.y), Vector2(cursor.x, plot.end.y), UiKit.GOLD, 1.0)
     draw_circle(cursor, 2.0, UiKit.GOLD)
-    var label := str(int(curve[selected]["move"]))
-    draw_string(UiKit.FONT, Vector2(clampf(cursor.x - 6, plot.position.x, plot.end.x - 14), size.y - 1), label,
+    var label := "move %d" % int(curve[selected]["move"])
+    draw_string(UiKit.FONT, Vector2(clampf(cursor.x - 20, plot.position.x, plot.end.x - 42), size.y - 1), label,
         HORIZONTAL_ALIGNMENT_LEFT, -1, UiKit.FONT_SIZE, UiKit.INK_SOFT)
