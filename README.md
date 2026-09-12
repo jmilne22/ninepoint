@@ -96,11 +96,18 @@ where to put you when all three slots are full.
 | P | pass |
 | V (19×19 development route) | whole board / close view; arrows move through the close view |
 | R | offer resignation; R confirms, Esc cancels |
-| H | position help in Wren’s first practice; counting help at any count; handicap help during handicap play |
+| H | practice Help and teaching controls; counting help at the count; handicap guidance |
 | *after both players pass* | Space toggles a group dead or alive, **P** accepts the count |
 | Space | dismiss the result, hear the opponent’s reaction, then choose whether to review |
 | C (review) | compare the original position, your move, and the engine’s preferred move |
 | L (review, when offered) | open the related lesson; return to the world afterward |
+
+Wren's first full practice and Kesh's handicap practice offer **With teaching** or
+**Play normally**. Teaching occasionally pauses after your move to ask about a group or
+region. The board shows the position before your move: **Undo** lets you reconsider;
+**Play it anyway** (or Esc) keeps it. Brief explanations sometimes follow an opponent's
+move. H reopens the latest explanation on its original board and can turn teaching off
+for the game. Teaching is optional and does not change rank or opponent strength.
 
 The board screens also have clickable buttons for their actions: passing, resignation,
 count acceptance, colour choices, explanations, results and review navigation.
@@ -187,10 +194,11 @@ Handicap stones are priced in, so beating a 4 kyu who gave you five stones is be
 kyu. Nothing in the game makes your stones stronger. The only thing that improves is you.
 
 **What the opponents cost your machine.** Full-game opponents use KataGo's human-style model. Pip's Capture Go practice uses a small local policy and needs no engine. The new novice cohort has separate fixed
-strength settings below its 20k profile floor; these target ranks still need human playtesting. The game runs one engine at a time -- the person you are
-sitting across from, and after the game one analysis process for the review -- which is
-about a gigabyte of memory, one CPU thread, a second or so a move on a desktop CPU with
-AVX2, and 400 MB of model files fetched once by `tools/setup_katago.sh`. Without the
+strength settings below its 20k profile floor; these target ranks still need human playtesting. Ordinary play runs one opponent engine, followed by one analysis process for a requested
+review. Choosing live teaching adds a separate analysis process during practice, using up
+to eight search threads. An ordinary opponent needs about a gigabyte of memory and
+one CPU thread, with a second or so per move on a desktop CPU with AVX2. The engines share
+400 MB of model files fetched once by `tools/setup_katago.sh`. Without the
 package the game still plays, against the built-in heuristic opponent.
 
 ### Development

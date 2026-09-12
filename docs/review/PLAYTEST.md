@@ -1,5 +1,8 @@
 # REV-01 verification — Steps 1–4 complete
 
+This records M51's verification. Subsequent Step 5 implementation and pending human
+acceptance are tracked in [REV-02 teaching evidence](TEACHING.md).
+
 ## Step 1
 
 Base HEAD and freshly fetched origin/main both `37d007c`; work is on

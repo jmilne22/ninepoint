@@ -11,7 +11,12 @@ personality, and philosophical conclusions attached to small events.
 
 Teach rules beside demonstrated positions. Match facts come from the resolved setup;
 speech must not promise colours, stone counts or komi. Post-match speech reacts to the
-actual win or loss. Specific judgements about moves belong to the engine review. At the
+actual win or loss. Specific judgements about moves belong to the engine review.
+The optional Step 5 teaching mode is a narrow exception: Wren and Kesh may ask a short
+question beside the actual pre-move board, using coordinate-grounded engine facts. The
+question invites inspection without giving the answer. Brief opponent notes state only
+legally checked, observed consequences of the move actually played. This does not extend
+ordinary dialogue or table talk to confident score predictions. At the
 board, a capture, pass, ko or atari is observable; an unfinished score estimate is not a
 basis for confident commentary. Warmth and congratulations are welcome.
 

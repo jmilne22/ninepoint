@@ -6,7 +6,13 @@ nothing about the game) and rule 9 (play it before calling it done).
 
 ## Approved session boundary
 
-Implement Steps 1–4 only. Step 5 and the optional narrator backend remain unstarted.
+Steps 1–4 shipped in M51. On 2026-09-12 the owner separately approved Step 5:
+optional teaching in Wren's first unrated 9×9 and Kesh's handicap practice, with
+30-visit comparisons, a shared two-second/profile deadline, a four-point threshold,
+questions no more often than every five committed player turns, exact undo and
+non-blocking factual opponent notes. [Step 5 implementation and evidence](TEACHING.md).
+The optional LLM narrator remains deferred. The remainder of this section records
+Steps 1–4's original budget and capture-example decisions.
 The approved execution plan uses query-level `maxVisits` overrides on one process:
 8 for the score pass, 200 for actual/best comparisons. The first nine-query 9×9
 measurement took 50.377 seconds in pass 2; work stopped and the owner approved
@@ -167,27 +173,33 @@ writing tests which surface it uses). Quiet findings keep today's "steady" summa
   existing lesson runner, if the lesson id is set.
 - Old saves without `facts` render exactly as today.
 
-## Step 5 — Teaching game (second milestone, after 1–4 ship)
+## Step 5 — Optional teaching practice (REV-02)
 
-Reuse `ReviewFacts` live during Wren's unrated 9×9 and Kesh's handicap practice only.
+Implemented after Steps 1–4; independent beginner evaluation remains pending.
+[Behavior, measurements, inspected screenshots and remaining acceptance](TEACHING.md).
 
-- On the player's confirmed move, before the opponent replies, run one analysis query
-  (`maxVisits` 30, ownership on) for `position + actual` and for `position + best` where
-  `best` is from a prior query of `position` (cache it while the player thinks).
-- If player-relative loss ≥ `TEACH_THRESHOLD` (start at 4.0 on 9×9) **and**
-  `ReviewFacts` produces a `group_died`, `group_saved` or `region_lost` ≥ 4 points, the
-  opponent interrupts with one question, not the answer: *"Before that — how many
-  liberties does your group at C3 have?"* Offer **Undo** and **Play it anyway**. At most
-  one interrupt per five moves; never in rated games.
-- Explain the opponent's move after it is played, using the same facts on the
-  opponent's PV: *"Wren played D2. That threatens to cut C3 from E3."* Only when a fact
-  fires; otherwise silence.
-- Latency budget: the extra query must stay under the profile's existing per-move
-  deadline; if it misses, skip the interrupt silently.
+- Offer With teaching / Play normally for unrated `wren_first` 9×9, and unrated
+  `kesh_first` / `practice_kesh` 9×9 with resolved handicap. Help can disable teaching.
+- Cache a 30-visit preference while the player thinks. After a provisional placement,
+  compare actual/best at 30 visits each, ownership on and policy off, using a separate
+  persistent process. Both branches share the existing per-move deadline. Missing,
+  illegal, stale or timed-out evidence silently continues ordinary play.
+- At least four estimated points lost plus a supported group-loss, missed-capture or
+  region-loss fact (region at least four points) may trigger one deterministic question.
+  Show the preceding position, mark the attempted move and relevant stones/region;
+  offer Undo / Play it anyway with keyboard and mouse. Escape keeps the move.
+- Allow one question per five committed player turns. Undo/retry cannot reset the
+  cooldown or repeat a question at the same decision. Restore complete rules history;
+  only committed moves reach the opponent, table talk, record and SGF.
+- Explain a reply only when the real move matches the legally replayed continuation and
+  an observed capture or one-liberty group verifies the consequence. Ordinary replies
+  remain quiet. Help reopens the latest note on its original board.
+- Retain passing, resignation and counting. Preferences, notes and cooldowns are transient.
 
 ## Optional, last — local LLM narrator
 
-Only after Step 3 exists, and only as a paraphraser. `ReviewNarrator` gains an optional
+Deferred until Step 5 has been played and evaluated, and only as a paraphraser.
+`ReviewNarrator` would gain an optional
 backend: POST `facts` + an NPC persona to a local OpenAI-compatible endpoint (Ollama or
 llama.cpp server, URL from a user setting, default off) with the instruction to restate
 the facts in the NPC's voice and mention nothing not in them. Validate the reply: every

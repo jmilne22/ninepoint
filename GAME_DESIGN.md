@@ -448,6 +448,13 @@ reach game offers quickly; further conversation and the existing three/six-game 
 add familiarity without another progression system. Post-match speech acknowledges the
 actual result. Detailed move judgement belongs to the engine review, with positive findings
 first and at most two costly positions. Table talk describes observable events only.
+Optional teaching in Wren's first unrated 9×9 and Kesh's handicap practice adds a narrow
+exception: a factual question beside the pre-move position can invite reconsideration.
+The player chooses teaching before practice and may turn it off through Help. At least
+four estimated points and a named group/region consequence are required; questions are
+spaced by five committed player turns. Undo retains no extra move or record. Brief
+opponent notes require a matching, legally validated line and an observable consequence.
+This helps connect learned rules to actual decisions; human transfer remains unverified.
 
 Pip first offers a prepared capture demonstration. His optional Capture Go practice and
 Wren's first full game use empty boards. Kesh issues the novice card

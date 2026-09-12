@@ -1,0 +1,38 @@
+[
+ {
+  "save": "lost_to_kesh"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "experience": "teaching_play",
+  "npc": "wren",
+  "mouse": false,
+  "normally": false,
+  "keep": true,
+  "note_fixture": true
+ },
+ {
+  "experience": "result"
+ },
+ {
+  "experience": "review_choice",
+  "accept": false
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "shot": "returned_to_room"
+ }
+]

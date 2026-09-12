@@ -6,8 +6,8 @@ PURE_ROOT=$(mktemp -d /home/user/.cache/ninepoint-review-pure.XXXXXX)
 trap 'rm -rf "$PURE_ROOT"' EXIT
 mkdir -p "$PURE_ROOT/src/go" "$PURE_ROOT/src/go_ai" "$PURE_ROOT/tests"
 cp src/go/*.gd "$PURE_ROOT/src/go/"
-cp src/go_ai/review_facts.gd src/go_ai/review_continuation.gd src/go_ai/review_narrator.gd "$PURE_ROOT/src/go_ai/"
-cp tests/test_kit.gd tests/test_review_facts.gd tests/test_review_narrator.gd "$PURE_ROOT/tests/"
+cp src/go_ai/review_facts.gd src/go_ai/review_continuation.gd src/go_ai/review_narrator.gd src/go_ai/teaching_policy.gd src/go_ai/teaching_position.gd "$PURE_ROOT/src/go_ai/"
+cp tests/test_kit.gd tests/test_review_facts.gd tests/test_review_narrator.gd tests/test_teaching.gd "$PURE_ROOT/tests/"
 printf '[application]\nconfig/name="Review pure gate"\n' > "$PURE_ROOT/project.godot"
 cat > "$PURE_ROOT/run.gd" <<'SCRIPT'
 extends SceneTree
@@ -15,6 +15,7 @@ func _initialize() -> void:
     var kit := TestKit.new()
     ReviewFactsTests.run(kit)
     ReviewNarratorTests.run(kit)
+    TeachingTests.run(kit)
     print(kit.report())
     quit(1 if kit.failed > 0 else 0)
 SCRIPT

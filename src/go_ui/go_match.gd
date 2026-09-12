@@ -58,6 +58,7 @@ var phase: int = Phase.SETUP
 var setup: GoMatchSetup
 var _last_message := ""
 var _teaching := MatchTeaching.new()
+var _live := LiveTeaching.new()
 var _handicap_help: HandicapHelp
 var _message_pages: PackedStringArray = []
 var _message_clock := 0.0
@@ -72,7 +73,7 @@ var _answer: Variant = null
 ## development autopilot so it does not need to duplicate phase enum values.
 func is_player_turn_ready() -> bool:
     return game != null and phase == Phase.PLAYING and _awaiting == &"move" \
-        and game.to_move == player_color and _handicap_help == null and not _teaching.opened
+        and game.to_move == player_color and _handicap_help == null and not _teaching.opened and not _live.busy
 
 
 ## Both players have passed and the count is on the board. Also for the
@@ -84,6 +85,7 @@ func is_counting() -> bool:
 func _exit_tree() -> void:
     # Covers scene return, a preparation cancellation, and application-driven
     # scene changes. GtpOpponent.shutdown is deliberately idempotent.
+    _live.close()
     if opponent != null:
         opponent.shutdown()
     if profile != null and phase == Phase.PREPARING:
@@ -124,6 +126,8 @@ func _ready() -> void:
     _build_ui()
     add_child(_teaching)
     _teaching.setup(self)
+    add_child(_live)
+    _live.setup(self)
     # Show the empty board straight away. The colours are not settled yet, but
     # the board you are about to play on is, and a blank half-screen during the
     # ceremony reads as a bug.
@@ -294,6 +298,9 @@ func _run() -> void:
         add_child(controls)
         await controls.closed
         board_view.interactive = true
+    await _live.choose_mode()
+    if not is_inside_tree():
+        return
     if request.context_id == "pip_capture" or request.practice:
         board_view.interactive = false
         var brief := BoardBrief.new()
@@ -417,6 +424,7 @@ func _skin_tone_for(npc_id: String) -> String:
 # --- turns --------------------------------------------------------------------
 
 func _opponent_turn() -> void:
+    var before_key := TeachingPosition.key(game) if _live.active else ""
     var move: Dictionary = await _await_move()
     while _handicap_help != null or _teaching.opened:
         await get_tree().process_frame
@@ -451,6 +459,7 @@ func _opponent_turn() -> void:
                 _set_message("")
                 _announce_move(game.last_move())
                 _react()
+                _live.opponent_played(before_key)
     board_view.queue_redraw()
     _refresh()
 
@@ -505,7 +514,7 @@ func _set_expression(mood: String) -> void:
 
 
 func _on_point_activated(point: int) -> void:
-    if _handicap_help != null or _teaching.opened:
+    if _handicap_help != null or _teaching.opened or _live.busy:
         return
     if phase == Phase.SCORING:
         _toggle_dead(point)
@@ -518,9 +527,20 @@ func _on_point_activated(point: int) -> void:
         Audio.play("illegal")
         return
     _set_message("")
+    var before := game.fork() if _live.active else null
     game.play(point)
+    board_view.queue_redraw()
+    if before != null:
+        var kept: bool = await _live.consider(before, point)
+        if not is_inside_tree():
+            return
+        if not kept:
+            _set_message("Try another move.")
+            _refresh()
+            return
     _announce_move(game.last_move())
     _react()
+    _live.commit_turn()
     _answered(point)
     board_view.queue_redraw()
     _refresh()
@@ -589,6 +609,7 @@ func _finish() -> void:
     if result_sent:
         return
     result_sent = true
+    _live.close()
     phase = Phase.DONE
     if game.state != GoGame.State.FINISHED:
         var s := GoScoring.score(game.board, board_view.dead, game.captures, game.komi)
@@ -763,7 +784,11 @@ func _refresh() -> void:
 func _unhandled_input(event: InputEvent) -> void:
     if not is_inside_tree():
         return
-    if _handicap_help != null or _teaching.opened:
+    if _handicap_help != null or _teaching.opened or _live.busy:
+        return
+    if event.is_action_pressed("go_help") and _live.active and is_player_turn_ready():
+        get_viewport().set_input_as_handled()
+        _live.show_help()
         return
     if event.is_action_pressed("go_help") and (_teaching.enabled() or phase == Phase.SCORING) and (is_player_turn_ready() or phase == Phase.SCORING):
         get_viewport().set_input_as_handled()
@@ -859,6 +884,7 @@ func _input_board(event: InputEvent) -> bool:
             _answered(true)
         elif _awaiting == &"move" and game.to_move == player_color:
             game.pass_turn()
+            _live.passed()
             Audio.play("pass")
             _answered(-1)
             _set_message("You pass.")
@@ -877,7 +903,7 @@ func _input_board(event: InputEvent) -> bool:
 
 func _process(delta: float) -> void:
     _sync_mouse()
-    if _message_pages.size() > 1 and _handicap_help == null and not _teaching.opened:
+    if _message_pages.size() > 1 and _handicap_help == null and not _teaching.opened and not _live.busy:
         _message_clock += delta
         if _message_clock >= 4.0:
             _message_clock = 0.0
@@ -886,7 +912,7 @@ func _process(delta: float) -> void:
 
 
 func _open_handicap_help(initial: bool) -> void:
-    if _handicap_help != null or _teaching.opened:
+    if _handicap_help != null or _teaching.opened or _live.busy:
         return
     board_view.interactive = false
     var old_highlight := board_view.highlight
@@ -910,14 +936,14 @@ func _open_handicap_help(initial: bool) -> void:
 func _sync_mouse() -> void:
     if _mouse_controls == null:
         return
-    var blocked := _handicap_help != null or _teaching.opened or phase not in [Phase.PLAYING, Phase.SCORING] or _overlay.visible
+    var blocked := _handicap_help != null or _teaching.opened or _live.busy or phase not in [Phase.PLAYING, Phase.SCORING] or _overlay.visible
     board_view.interactive = not blocked and (is_player_turn_ready() or (phase == Phase.SCORING and _awaiting == &"scoring"))
     board_view.inspection = not blocked
     var mode := BoardPointer.Mode.HIDDEN if blocked else BoardPointer.Mode.INSPECT
     if board_view.interactive:
         mode = BoardPointer.Mode.COUNT if phase == Phase.SCORING else BoardPointer.Mode.PLACE
     board_view.pointer.configure(mode, player_color, board_view)
-    _mouse_controls.refresh(phase, _awaiting, is_player_turn_ready(), setup.is_handicap() or _teaching.enabled() or phase == Phase.SCORING, _handicap_help != null or _teaching.opened)
+    _mouse_controls.refresh(phase, _awaiting, is_player_turn_ready(), setup.is_handicap() or _teaching.enabled() or _live.active or phase == Phase.SCORING, _handicap_help != null or _teaching.opened or _live.busy)
     _hints.visible = false
 
 

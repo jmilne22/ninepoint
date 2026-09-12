@@ -223,6 +223,7 @@ func undo() -> bool:
     captures = s["captures"]
     state = s["state"]
     result = {}
+    _seen_hashes = s["seen_hashes"]
     moves.resize(moves.size() - 1)
     return true
 
@@ -235,7 +236,33 @@ func _push_snapshot() -> void:
         "passes": consecutive_passes,
         "captures": captures.duplicate(),
         "state": state,
+        "seen_hashes": _seen_hashes.duplicate(),
     })
+
+
+## Analysis gets a private rules game, including ko and repetition history.
+func fork() -> GoGame:
+    var copy := GoGame.new(size(), komi, 0)
+    copy.handicap = handicap
+    copy.ko_rule = ko_rule
+    copy.capture_goal = capture_goal
+    copy.board = board.duplicate_board()
+    copy.to_move = to_move
+    copy.ko_point = ko_point
+    copy.consecutive_passes = consecutive_passes
+    copy.state = state
+    copy.captures = captures.duplicate()
+    copy.result = result.duplicate(true)
+    copy.moves.assign(moves.duplicate(true))
+    copy._snapshots = _snapshots.duplicate(true)
+    copy._seen_hashes = _seen_hashes.duplicate()
+    return copy
+
+
+func initial_position() -> Dictionary:
+    if _snapshots.is_empty():
+        return {"cells": board.cells.duplicate(), "player": to_move}
+    return {"cells": _snapshots[0]["cells"].duplicate(), "player": _snapshots[0]["to_move"]}
 
 
 # --- handicap ----------------------------------------------------------------

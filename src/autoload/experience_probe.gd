@@ -25,6 +25,9 @@ static func perform(tree: SceneTree, spec: Dictionary, shot: Callable) -> void:
     if mode in ["review_fixture", "review_acceptance", "review_legacy_assert", "review_focus_best"]:
         await ReviewAcceptanceProbe.perform(tree,spec,shot)
         return
+    if mode == "teaching_play":
+        await TeachingPlayProbe.run(tree, spec, shot)
+        return
     if mode == "review_wren_start":
         ReviewPlayProbe.start_wren(tree)
         return
@@ -92,6 +95,8 @@ static func perform(tree: SceneTree, spec: Dictionary, shot: Callable) -> void:
                                 await shot.call(label)
                                 seen[label] = true
                             await press(tree, "interact")
+                        elif child is TeachingChoice:
+                            await press(tree, "cancel")
                         elif child is NigiriCeremony and str(child.get("_awaiting")) != "":
                             await shot.call("nigiri")
                             await press(tree, "interact")
