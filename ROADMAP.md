@@ -111,7 +111,10 @@ you can jump to and open. It opens on your praised move, so what went right stil
 first. What it does not settle is the second analysis pass: it exists for the ownership
 tints, the continuation lines and the group facts, and it is most of the review's cost and
 code. Play the two versions, then decide whether those earn their place beside a graph.
-Evidence and frames are in `docs/review/GRAPH.md`.
+Evidence and frames are in `docs/review/GRAPH.md`. The next step the owner asked for
+(REV-06) keeps the graph and makes the board carry the analysis: the engine's candidate
+points with their cost, and the played move coloured by what it cost. Not the rest of a
+KaTrain screen; win rate, visits, policy and variations stay out.
 
 ## 1. The engine — ENG-01 through ENG-05
 

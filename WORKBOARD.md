@@ -34,6 +34,39 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 | `MILESTONES.md` | Append-only shipped history and verification evidence | The current backlog |
 | Design / architecture / art docs | Durable product and technical truth | Task status |
 
+## REV-06 — The board as the thing you read (engine picks on the board)
+
+- Status: `READY` · Priority: `P1` · Owner: unassigned · Branch: none yet.
+  Depends on REV-04 (M54) being merged. Owner request after playing the graph review:
+  keep the graph, make the board itself carry the analysis, in the way KaTrain does,
+  without KaTrain's clutter.
+- Scope, in priority order:
+  1. **Engine picks on the board.** At the selected move, mark the engine's best two or
+     three candidate points with their cost relative to the best ("0", "1", "4") and
+     list them in the caption: "Engine's picks: G2, then F1 (about 1 point worse), H5
+     (about 4)". Data: `KataGoReviewQuery.parse_line` keeps only `moveInfos[0]`; keep
+     the top five `{move, scoreLead}` per turn, and `MatchAnalysis.curve` adds a `top`
+     list per entry (labels and player-relative loss, one decimal). A 9×9 review grows
+     by a few hundred bytes. The position is the one before your move, so the
+     candidates come from `turns[m-1]`.
+  2. **Colour the played move by its cost.** The stone marker uses the graph's language:
+     green when it matched or was within a point, amber for a few points, red for a big
+     loss. `GoBoardView.mark_good` becomes a colour, not a bool; the legend says so.
+  3. **A bigger board on the review card.** The card's 140 px board cannot carry numbers.
+     Try 176 px with the text column at 142 px, or a full-height layout with the graph
+     as a strip; measure the caption with `UiKit.text_height` as the card already does.
+     Numbers on the board only when the cell is at least 14 px (9×9, 13×13, 19×19 zoomed);
+     otherwise coloured dots and the caption list.
+- Out of scope, deliberately: win rate, visit counts, policy, variation strings, and
+  expected-territory shading on every move (it needs ownership per turn, which the
+  eight-visit pass does not request and a 19×19 save could not hold; the tints stay on
+  the cards under Compare via the second pass, pending REV-05).
+- Acceptance: `tests/test_match_analysis.gd` covers the kept candidates and the `top`
+  list including White orientation; `review_graph` frames show numbered picks and a
+  coloured marker on 9×9; `quay_review_13` / `quay_review_19` presets gain `top` entries
+  and prove the size rule; `quay_review` legacy card unchanged; `tools/test.sh` green;
+  README controls and `docs/review/GRAPH.md` updated; frames opened.
+
 ## REV-04 — Graph-first review POC
 
 - Status: `SHIPPED` (M54, awaiting merge) · Priority: `P1` · Owner: Claude ·
