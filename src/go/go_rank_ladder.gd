@@ -34,7 +34,8 @@ static func effective_opponent(record: Dictionary) -> int:
 static func step(current: int, record: Dictionary) -> int:
     if current < 0:
         return current
-    if bool(record.get("unrated", false)):
+    if bool(record.get("unrated", false)) or bool(record.get("practice_ended", false)) \
+            or int(record.get("capture_goal", 0)) > 0:
         return current
     # Handicap can put a KNOWN opponent below the displayed rank floor. That
     # negative effective strength is still meaningful, unlike an unknown rank.

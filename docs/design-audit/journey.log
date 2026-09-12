@@ -1,0 +1,99 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+AUTOPILOT: 86 steps from res://tools/autopilot/kesh_skip.json
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/01_welcome_0.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/02_welcome_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/03_name_exchange.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/04_park_direction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/05_BoardBrief_0.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/06_BoardBrief_1.png
+EXPERIENCE: pip_capture 7x7; player Black; handicap 0; komi 0.5; unrated true
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/07_capture_empty.png
+AUTOPILOT: the game finished before counting after 11 player moves
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/08_result.png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/09_pip_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/10_choice_Pip showed me Capture Go..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/11_first_game_rules_1_card.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/12_first_game_rules_1_instruction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/13_first_game_rules_1_refused.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/14_first_game_rules_1_feedback.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/15_first_game_rules_2_instruction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/16_first_game_rules_2_refused.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/17_first_game_rules_2_feedback.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/18_first_game_rules_3_instruction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/19_first_game_rules_3_feedback.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/20_first_game_rules_4_instruction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/21_first_game_rules_4_refused.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/22_first_game_rules_4_feedback.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/23_first_game_rules_4_card.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/24_finishing_1_card.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/25_finishing_1_instruction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/26_finishing_1_inspect.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/27_finishing_1_inspect.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/28_finishing_1_feedback.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/29_finishing_1_feedback.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/30_finishing_1_feedback.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/31_finishing_1_feedback.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/32_finishing_2_instruction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/33_finishing_2_refused.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/34_finishing_2_feedback.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/35_finishing_3_instruction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/36_finishing_3_feedback.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/37_finishing_4_instruction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/38_finishing_4_toggle_0.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/39_finishing_4_toggle_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/40_finishing_4_feedback.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/41_finishing_4_card.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/42_choice_Show me..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/43_openings_1_card.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/44_openings_1_instruction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/45_openings_1_feedback.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/46_openings_2_instruction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/47_openings_2_refused.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/48_openings_2_feedback.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/49_openings_2_card.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/50_choice_Set up the practice game..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/51_BoardBrief_0.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/52_BoardBrief_1.png
+EXPERIENCE: wren_first 9x9; player Black; handicap 0; komi 5.5; unrated true
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/53_empty_wren_help.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/54_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/55_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/56_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/57_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/58_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/59_review_offer.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/60_choice_I'll head to the Institute..png
+EXPERIENCE: verified progress {"experience":"assert_progress","flags":["ranked_by_club","invited_to_institute"],"rank":"30k"}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/61_novice_card_without_kesh_game.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/62_tram_destination_choices.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/63_institute_exterior.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/64_first_school_arrival.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/65_classroom_first_visit.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/66_choice_How can I tell which groups are safe_.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/67_two_eyes_1_card.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/68_two_eyes_1_instruction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/69_two_eyes_1_feedback.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/70_two_eyes_2_instruction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/71_two_eyes_2_refused.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/72_two_eyes_2_feedback.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/73_two_eyes_3_instruction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/74_two_eyes_3_feedback.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/75_two_eyes_3_card.png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/76_hana_registration_direction.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/77_choice_Sign..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/78_first_league_board.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/79_novice_room_without_kesh_game.png
+EXPERIENCE: verified progress {"experience":"assert_progress","flags":["enrolled"],"played":0.0,"rank":"30k"}
+EXPERIENCE: disk reload preserved every league fixture and history index
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/journey-data/godot/app_userdata/Ninepoint/shots/80_fresh_journey_reloaded.png
+AUTOPILOT: done
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

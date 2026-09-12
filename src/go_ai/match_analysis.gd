@@ -27,6 +27,9 @@ static func pending(record_index: int) -> Dictionary:
 static func eligible(record: Dictionary) -> bool:
     var size := int(record.get("board_size", 9))
     return not bool(record.get("by_capture", false)) \
+        and int(record.get("capture_goal", 0)) == 0 \
+        and str(record.get("context_id", "")) != "pip_capture" \
+        and not bool(record.get("practice_ended", false)) \
         and not bool(record.get("incomplete", false)) \
         and size >= MIN_SIZE and size <= MAX_SIZE \
         and str(record.get("sgf", "")) != ""

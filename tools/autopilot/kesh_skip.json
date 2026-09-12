@@ -56,6 +56,13 @@
     "choose": 0
   },
   {
+    "experience": "lesson_run"
+  },
+  {
+    "experience": "choice",
+    "text": "Practise Capture Go."
+  },
+  {
     "experience": "setup"
   },
   {
@@ -99,7 +106,7 @@
   },
   {
     "experience": "choice",
-    "text": "Pip showed me Capture Go."
+    "text": "Pip sent me."
   },
   {
     "advance": 8,
@@ -146,7 +153,7 @@
   },
   {
     "experience": "choice",
-    "text": "I'll head to the Institute."
+    "text": "I'll head to the club rooms."
   },
   {
     "advance": 4,

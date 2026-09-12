@@ -56,6 +56,13 @@
   "choose": 0
  },
  {
+  "experience": "lesson_run"
+ },
+ {
+  "experience": "choice",
+  "text": "Practise Capture Go."
+ },
+ {
   "board_input": {
    "button_wait": "interact"
   },
@@ -70,6 +77,9 @@
   "board_input": {
    "button": "interact"
   }
+ },
+ {
+  "experience": "setup"
  },
  {
   "match_wait_player": true

@@ -1,0 +1,403 @@
+{
+  "active_league": 0,
+  "current_map": "academy_novice",
+  "flags": {
+    "carrying_board": true,
+    "early_game_revision": 2.0,
+    "enrolled": true,
+    "hana_welcomed": true,
+    "institute_class_ready": true,
+    "intro_seen": true,
+    "invited_to_institute": true,
+    "ivo_introduced": true,
+    "ivo_match_done": true,
+    "knows_the_rules": true,
+    "last_by_resignation": false,
+    "last_capture_practice": false,
+    "last_result": "win",
+    "league_changed": 3,
+    "lesson_finishing_done": true,
+    "lesson_first_game_rules_done": true,
+    "lesson_openings_done": true,
+    "lesson_pip_first_capture_done": true,
+    "lesson_two_eyes_done": true,
+    "match_league_ivo_done": true,
+    "match_league_noor_done": true,
+    "match_pip_capture_done": true,
+    "match_wren_first_done": true,
+    "noor_introduced": true,
+    "noor_match_done": true,
+    "opening_seen": true,
+    "pip_capture_review_available": true,
+    "pip_match_done": true,
+    "pip_ready_for_wren": true,
+    "pip_taught_capture": true,
+    "played_a_league_game": true,
+    "played_a_novice_game": true,
+    "ranked_by_club": true,
+    "read_league_board": true,
+    "record_ivo_win": 1,
+    "record_noor_win": 1,
+    "record_pip_win": 1.0,
+    "record_wren_win": 1.0,
+    "won_a_league_game": true,
+    "wren_asked_experience": true,
+    "wren_match_done": true
+  },
+  "has_return_position": false,
+  "inventory": [
+    "old_goban",
+    "institute_card"
+  ],
+  "league_attempts": [
+    {
+      "division": "novice",
+      "fixtures": [
+        {
+          "a": "player",
+          "b": "noor",
+          "id": 0.0,
+          "record_index": 2,
+          "round": 0.0,
+          "winner_id": ""
+        },
+        {
+          "a": "sora",
+          "b": "ivo",
+          "id": 1.0,
+          "record_index": -1.0,
+          "round": 0.0,
+          "winner_id": "ivo"
+        },
+        {
+          "a": "emil",
+          "b": "lea",
+          "id": 2.0,
+          "record_index": -1.0,
+          "round": 0.0,
+          "winner_id": "emil"
+        },
+        {
+          "a": "player",
+          "b": "ivo",
+          "id": 3.0,
+          "record_index": 3,
+          "round": 1.0,
+          "winner_id": ""
+        },
+        {
+          "a": "noor",
+          "b": "lea",
+          "id": 4.0,
+          "record_index": -1.0,
+          "round": 1.0,
+          "winner_id": "noor"
+        },
+        {
+          "a": "sora",
+          "b": "emil",
+          "id": 5.0,
+          "record_index": -1.0,
+          "round": 1.0,
+          "winner_id": "sora"
+        },
+        {
+          "a": "player",
+          "b": "lea",
+          "id": 6.0,
+          "record_index": -1.0,
+          "round": 2.0,
+          "winner_id": ""
+        },
+        {
+          "a": "ivo",
+          "b": "emil",
+          "id": 7.0,
+          "record_index": -1.0,
+          "round": 2.0,
+          "winner_id": ""
+        },
+        {
+          "a": "noor",
+          "b": "sora",
+          "id": 8.0,
+          "record_index": -1.0,
+          "round": 2.0,
+          "winner_id": ""
+        },
+        {
+          "a": "player",
+          "b": "emil",
+          "id": 9.0,
+          "record_index": -1.0,
+          "round": 3.0,
+          "winner_id": ""
+        },
+        {
+          "a": "lea",
+          "b": "sora",
+          "id": 10.0,
+          "record_index": -1.0,
+          "round": 3.0,
+          "winner_id": ""
+        },
+        {
+          "a": "ivo",
+          "b": "noor",
+          "id": 11.0,
+          "record_index": -1.0,
+          "round": 3.0,
+          "winner_id": ""
+        },
+        {
+          "a": "player",
+          "b": "sora",
+          "id": 12.0,
+          "record_index": -1.0,
+          "round": 4.0,
+          "winner_id": ""
+        },
+        {
+          "a": "emil",
+          "b": "noor",
+          "id": 13.0,
+          "record_index": -1.0,
+          "round": 4.0,
+          "winner_id": ""
+        },
+        {
+          "a": "lea",
+          "b": "ivo",
+          "id": 14.0,
+          "record_index": -1.0,
+          "round": 4.0,
+          "winner_id": ""
+        }
+      ],
+      "legacy": false,
+      "number": 1.0,
+      "roster": [
+        {
+          "id": "noor",
+          "name": "Noor Dekker",
+          "rank_label": "30k"
+        },
+        {
+          "id": "ivo",
+          "name": "Ivo Maas",
+          "rank_label": "27k"
+        },
+        {
+          "id": "lea",
+          "name": "Lea Vos",
+          "rank_label": "25k"
+        },
+        {
+          "id": "emil",
+          "name": "Emil Bakker",
+          "rank_label": "23k"
+        },
+        {
+          "id": "sora",
+          "name": "Sora Meijer",
+          "rank_label": "20k"
+        },
+        {
+          "id": "player",
+          "name": "Ro",
+          "rank_label": "30k"
+        }
+      ]
+    }
+  ],
+  "match_analysis": {},
+  "match_records": [
+    {
+      "board_size": 7.0,
+      "by_capture": true,
+      "by_resignation": false,
+      "capture_goal": 1.0,
+      "capture_review": {
+        "before": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.0,
+          2.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          2.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          2.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "captured": [
+          24.0
+        ],
+        "color": 1.0,
+        "point": 31.0,
+        "size": 7.0
+      },
+      "context_id": "pip_capture",
+      "handicap": 0.0,
+      "handicap_taken": 0.0,
+      "komi": 0.5,
+      "league_attempt": -1.0,
+      "league_division": "",
+      "league_fixture": -1.0,
+      "margin": 1.0,
+      "move_count": 9.0,
+      "npc_id": "pip",
+      "opponent_name": "Pip Arnesen",
+      "opponent_strength": 12.0,
+      "player_color": 1.0,
+      "player_won": true,
+      "practice_ended": false,
+      "review_requested": false,
+      "sgf": "(;GM[1]FF[4]CA[UTF-8]SZ[7]KM[0.5]PB[Ro]PW[Pip Arnesen]RE[Black wins by capturing a stone];B[dc];W[ec];B[cc];W[cb];B[cd];W[dd];B[ed];W[db];B[de])",
+      "summary": "Black wins by capturing a stone",
+      "unrated": true,
+      "winner": 1.0
+    },
+    {
+      "board_size": 9.0,
+      "by_capture": false,
+      "by_resignation": false,
+      "capture_goal": 0.0,
+      "capture_review": {},
+      "context_id": "wren_first",
+      "handicap": 0.0,
+      "handicap_taken": 0.0,
+      "komi": 5.5,
+      "league_attempt": -1.0,
+      "league_division": "",
+      "league_fixture": -1.0,
+      "margin": 10.5,
+      "move_count": 89.0,
+      "npc_id": "wren",
+      "opponent_name": "Wren Calloway",
+      "opponent_strength": 10.0,
+      "player_color": 1.0,
+      "player_won": true,
+      "practice_ended": false,
+      "review_requested": false,
+      "sgf": "(;GM[1]FF[4]CA[UTF-8]SZ[9]KM[5.5]PB[Ro]PW[Wren Calloway]RE[Black wins by 10.5];B[ge];W[dg];B[gd];W[fg];B[eg];W[ef];B[eh];W[ff];B[gg];W[fe];B[gf];W[fd];B[df];W[dc];B[cg];W[fh];B[dh];W[ce];B[cf];W[de];B[dd];W[hh];B[cd];W[be];B[cc];W[db];B[gh];W[gc];B[fc];W[fb];B[ec];W[gi];B[gb];W[hb];B[hc];W[eb];B[ed];W[cb];B[ee];W[fi];B[ei];W[hf];B[hi];W[hg];B[ib];W[ga];B[ha];W[bc];B[fa];W[bd];B[ch];W[ea];B[ga];W[bf];B[hd];W[bg];B[he];W[af];B[di];W[bh];B[ci];W[fi];B[fh];W[bi];B[gi];W[ai];B[ic];W[];B[id];W[];B[ie];W[];B[ii];W[];B[ih];W[];B[if];W[ff];B[ig];W[];B[ef];W[hg];B[hf];W[];B[hh];W[];B[fg];W[];B[])",
+      "summary": "Black wins by 10.5",
+      "unrated": true,
+      "winner": 1.0
+    },
+    {
+      "board_size": 9,
+      "by_capture": false,
+      "by_resignation": false,
+      "capture_goal": 0,
+      "capture_review": {},
+      "context_id": "league_noor",
+      "handicap": 0,
+      "handicap_taken": 0,
+      "komi": 5.5,
+      "league_attempt": 1,
+      "league_division": "novice",
+      "league_fixture": 0,
+      "margin": 78.5,
+      "move_count": 89,
+      "npc_id": "noor",
+      "opponent_name": "Noor Dekker",
+      "opponent_strength": 0,
+      "player_color": 1,
+      "player_won": true,
+      "practice_ended": false,
+      "review_requested": false,
+      "sgf": "(;GM[1]FF[4]CA[UTF-8]SZ[9]KM[5.5]PB[Ro]PW[Noor Dekker]RE[Black wins by 78.5];B[ge];W[hh];B[gd];W[ce];B[gc];W[ah];B[fc];W[ib];B[fd];W[ig];B[ec];W[ia];B[ed];W[hf];B[fe];W[ai];B[gf];W[gb];B[ff];W[fb];B[gg];W[dg];B[fg];W[de];B[eg];W[hc];B[hg];W[dd];B[he];W[ga];B[if];W[ac];B[ih];W[bf];B[gh];W[dh];B[ee];W[df];B[hi];W[ag];B[ef];W[bg];B[cg];W[cc];B[dc];W[ch];B[hd];W[cb];B[fh];W[id];B[ie];W[cf];B[ic];W[ha];B[hb];W[db];B[eb];W[ea];B[fa];W[ba];B[da];W[ga];B[ha];W[fb];B[gb];W[bi];B[eh];W[ci];B[gi];W[di];B[fi];W[be];B[ei];W[af];B[];W[ab];B[];W[ia];B[ib];W[bh];B[];W[cd];B[];W[cg];B[bc];W[bb];B[ad];W[];B[])",
+      "summary": "Black wins by 78.5",
+      "unrated": false,
+      "winner": 1
+    },
+    {
+      "board_size": 9,
+      "by_capture": false,
+      "by_resignation": false,
+      "capture_goal": 0,
+      "capture_review": {},
+      "context_id": "league_ivo",
+      "handicap": 0,
+      "handicap_taken": 0,
+      "komi": 5.5,
+      "league_attempt": 1,
+      "league_division": "novice",
+      "league_fixture": 3,
+      "margin": 74.5,
+      "move_count": 89,
+      "npc_id": "ivo",
+      "opponent_name": "Ivo Maas",
+      "opponent_strength": 3,
+      "player_color": 1,
+      "player_won": true,
+      "practice_ended": false,
+      "review_requested": false,
+      "sgf": "(;GM[1]FF[4]CA[UTF-8]SZ[9]KM[5.5]PB[Ro]PW[Ivo Maas]RE[Black wins by 74.5];B[ge];W[fh];B[gd];W[hc];B[gc];W[cd];B[gf];W[ff];B[gg];W[ec];B[fg];W[eh];B[fe];W[fc];B[ef];W[fb];B[eg];W[df];B[fd];W[dc];B[dg];W[di];B[cf];W[cb];B[de];W[ab];B[ce];W[ba];B[ee];W[ae];B[dd];W[ic];B[ed];W[ib];B[bd];W[fa];B[cc];W[gi];B[cg];W[ch];B[dh];W[gh];B[bh];W[ga];B[ci];W[ad];B[ei];W[bi];B[ai];W[hg];B[be];W[fi];B[hh];W[ih];B[hi];W[bb];B[af];W[aa];B[ac];W[hb];B[hf];W[ha];B[ig];W[ca];B[ii];W[ag];B[bg];W[gb];B[ah];W[db];B[bc];W[ad];B[ae];W[id];B[hd];W[ea];B[he];W[eb];B[if];W[eh];B[fh];W[da];B[ie];W[fi];B[ia];W[ga];B[gi];W[];B[])",
+      "summary": "Black wins by 74.5",
+      "unrated": false,
+      "winner": 1
+    }
+  ],
+  "player_name": "Ro",
+  "playtime": 356.05137448531,
+  "quests": {
+    "enrolment": {
+      "done": false,
+      "step": 5.0
+    },
+    "first_stones": {
+      "done": true,
+      "step": 3.0
+    }
+  },
+  "rank_strength": 2,
+  "return_position": [
+    183.92008972168,
+    123.193923950195
+  ],
+  "saved_at": "2026-09-12T16:24:06",
+  "spawn_point": "from_hall",
+  "version": 1,
+  "world_layout_revision": 1
+}

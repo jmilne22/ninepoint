@@ -1,0 +1,115 @@
+2026-09-12 15:31:50+0300: Running with following config:
+allowResignation = true
+analysisIgnorePreRootHistory = false
+chosenMovePrune = 0
+chosenMoveSubtract = 0
+chosenMoveTemperature = 0.90
+chosenMoveTemperatureEarly = 1.05
+chosenMoveTemperatureHalflife = 80
+chosenMoveTemperatureOnlyBelowProb = 0.01
+delayMoveMax = 0.0
+delayMoveScale = 0.0
+dynamicScoreUtilityFactor = 0.00
+humanSLChosenMoveIgnorePass = true
+humanSLChosenMovePiklLambda = 100000000
+humanSLChosenMoveProp = 1.0
+humanSLCpuctExploration = 0.50
+humanSLCpuctPermanent = 0.2
+humanSLOppExploreProbWeightful = 0.0
+humanSLOppExploreProbWeightless = 0.0
+humanSLPlaExploreProbWeightful = 0.0
+humanSLPlaExploreProbWeightless = 0.0
+humanSLProfile = preaz_18k
+humanSLRootExploreProbWeightful = 0.10
+humanSLRootExploreProbWeightless = 0.10
+ignorePreRootHistory = false
+lagBuffer = 0.0
+logAllGTPCommunication = true
+logDir = gtp_logs
+logSearchInfo = false
+logToStderr = false
+maxVisits = 8
+nnCacheSizePowerOfTwo = 17
+nnMutexPoolSizePowerOfTwo = 14
+numSearchThreads = 1
+resignConsecTurns = 20
+resignMinMovesPerBoardArea = 0.4
+resignMinScoreDifference = 40
+resignThreshold = -0.99
+rootNumSymmetriesToSample = 2
+rules = japanese
+staticScoreUtilityFactor = 0.15
+subtreeValueBiasFactor = 0.0
+useLcbForSelection = false
+useUncertainty = false
+winLossUtilityFactor = 1.0
+
+2026-09-12 15:31:50+0300: GTP Engine starting...
+2026-09-12 15:31:50+0300: KataGo v1.15.0
+2026-09-12 15:31:50+0300: Using Japanese rules initially, unless GTP/GUI overrides this
+2026-09-12 15:31:50+0300: Using 1 CPU thread(s) for search
+2026-09-12 15:31:50+0300: nnRandSeed0 = 2861604735230597199
+2026-09-12 15:31:50+0300: After dedups: nnModelFile0 = /home/user/Code/go-rpg-game/packaging/katago/models/kata1-b18c384nbt-s9996604416-d4316597426.bin.gz useFP16 auto useNHWC auto
+2026-09-12 15:31:50+0300: Initializing neural net buffer to be size 19 * 19 exactly
+2026-09-12 15:31:51+0300: Eigen (CPU) backend thread 0: Model version 14
+2026-09-12 15:31:51+0300: Eigen (CPU) backend thread 0: Model name: kata1-b18c384nbt-s9996604416-d4316597426
+2026-09-12 15:31:51+0300: Loaded neural net with nnXLen 19 nnYLen 19
+2026-09-12 15:31:51+0300: nnRandSeed0 = 2387267118094879171
+2026-09-12 15:31:51+0300: After dedups: nnModelFile0 = /home/user/Code/go-rpg-game/packaging/katago/models/b18c384nbt-humanv0.bin.gz useFP16 auto useNHWC auto
+2026-09-12 15:31:51+0300: Initializing neural net buffer to be size 19 * 19 exactly
+2026-09-12 15:31:52+0300: Eigen (CPU) backend thread 0: Model version 15
+2026-09-12 15:31:52+0300: Eigen (CPU) backend thread 0: Model name: b18c384nbt-humanv0
+2026-09-12 15:31:53+0300: Loaded human SL net with nnXLen 19 nnYLen 19
+2026-09-12 15:31:53+0300: Initializing board with boardXSize 19 boardYSize 19
+2026-09-12 15:31:53+0300: Loaded config /home/user/Code/go-rpg-game/packaging/katago/config/human_18k_fighting.cfg
+2026-09-12 15:31:53+0300: Loaded model /home/user/Code/go-rpg-game/packaging/katago/models/kata1-b18c384nbt-s9996604416-d4316597426.bin.gz
+2026-09-12 15:31:53+0300: Loaded human SL model /home/user/Code/go-rpg-game/packaging/katago/models/b18c384nbt-humanv0.bin.gz
+2026-09-12 15:31:53+0300: Model name: kata1-b18c384nbt-s9996604416-d4316597426
+2026-09-12 15:31:53+0300: Human SL model name: b18c384nbt-humanv0
+2026-09-12 15:31:53+0300: GTP ready, beginning main protocol loop
+2026-09-12 15:31:53+0300: Controller: protocol_version
+2026-09-12 15:31:53+0300: = 2
+2026-09-12 15:31:53+0300: Controller: boardsize 7
+2026-09-12 15:31:53+0300: GPU -1 finishing, processed 0 rows 0 batches
+2026-09-12 15:31:53+0300: GPU -1 finishing, processed 0 rows 0 batches
+2026-09-12 15:31:53+0300: Cleaned up old neural net and bot
+2026-09-12 15:31:53+0300: nnRandSeed0 = 6392071281291971612
+2026-09-12 15:31:53+0300: After dedups: nnModelFile0 = /home/user/Code/go-rpg-game/packaging/katago/models/kata1-b18c384nbt-s9996604416-d4316597426.bin.gz useFP16 auto useNHWC auto
+2026-09-12 15:31:53+0300: Initializing neural net buffer to be size 7 * 7 exactly
+2026-09-12 15:31:54+0300: Eigen (CPU) backend thread 0: Model version 14
+2026-09-12 15:31:54+0300: Eigen (CPU) backend thread 0: Model name: kata1-b18c384nbt-s9996604416-d4316597426
+2026-09-12 15:31:54+0300: Loaded neural net with nnXLen 7 nnYLen 7
+2026-09-12 15:31:54+0300: nnRandSeed0 = 15494245281392683093
+2026-09-12 15:31:54+0300: After dedups: nnModelFile0 = /home/user/Code/go-rpg-game/packaging/katago/models/b18c384nbt-humanv0.bin.gz useFP16 auto useNHWC auto
+2026-09-12 15:31:54+0300: Initializing neural net buffer to be size 7 * 7 exactly
+2026-09-12 15:31:55+0300: Eigen (CPU) backend thread 0: Model version 15
+2026-09-12 15:31:55+0300: Eigen (CPU) backend thread 0: Model name: b18c384nbt-humanv0
+2026-09-12 15:31:56+0300: Loaded human SL net with nnXLen 7 nnYLen 7
+2026-09-12 15:31:56+0300: Initializing board with boardXSize 7 boardYSize 7
+2026-09-12 15:31:56+0300: =
+2026-09-12 15:31:56+0300: Controller: clear_board
+2026-09-12 15:31:56+0300: =
+2026-09-12 15:31:56+0300: Controller: komi 0.5
+2026-09-12 15:31:56+0300: =
+2026-09-12 15:31:56+0300: Controller: genmove b
+2026-09-12 15:31:57+0300: = D4
+2026-09-12 15:31:57+0300: Controller: clear_board
+2026-09-12 15:31:57+0300: =
+2026-09-12 15:32:02+0300: Controller: boardsize 7
+2026-09-12 15:32:02+0300: =
+2026-09-12 15:32:02+0300: Controller: clear_board
+2026-09-12 15:32:02+0300: =
+2026-09-12 15:32:02+0300: Controller: komi 0.5
+2026-09-12 15:32:02+0300: =
+2026-09-12 15:32:02+0300: Controller: play b D4
+2026-09-12 15:32:02+0300: =
+2026-09-12 15:32:02+0300: Controller: genmove w
+2026-09-12 15:32:02+0300: = C4
+2026-09-12 15:32:23+0300: Controller: play b C5
+2026-09-12 15:32:23+0300: =
+2026-09-12 15:32:23+0300: Controller: genmove w
+2026-09-12 15:32:24+0300: = D5
+2026-09-12 15:32:40+0300: Controller: play b C3
+2026-09-12 15:32:40+0300: =
+2026-09-12 15:32:40+0300: Controller: genmove w
+2026-09-12 15:32:41+0300: = B5

@@ -56,10 +56,10 @@ These are the spine of the design. Check any new feature against them before bui
 
 ## The setting
 
-**Sela** is a fictional coastal city inspired by Tel Aviv's shaded streets, balconies,
+The campaign follows a small local Go club within **Sela**, a fictional coastal city inspired by Tel Aviv's shaded streets, balconies,
 planted setbacks and sea terraces. One warm, mild afternoon; no clock or weather system.
-The bar, institute and laundry offer familiar practice, organized learning and everyday
-company. The former institution-above / authentic-players-below opposition is retired.
+The club uses Tomás’s bar tables and rents teaching/practice rooms at the community centre.
+The laundry offers everyday company. The city’s whole population is not presented as Go players. The former institution-above / authentic-players-below opposition is retired.
 All portraits, sprites, character identities and ranks are preserved.
 
 Internal map IDs stay stable for saves and match venues:
@@ -72,7 +72,7 @@ Internal map IDs stay stable for saves and match venues:
 | `wassalon` | The Laundry; Abel, Dov and Moss |
 | `onderbrug` | The Arcade; a public passage with Joos's quiet side alcove |
 | `quay` | Sea Walk; shaded bench and the asynchronous review noticeboard |
-| `academy_*` | Sela Go Institute; garden court, study, class, novices and dorm |
+| `academy_*` | Community Centre / Sela Go Club; hall, study, class, novices and guest room |
 | `bondszaal` | Assembly Hall; Cup and advanced exam |
 
 Market Lane ↔ Sea Walk ↔ Arcade ↔ Market Lane is a bidirectional ungated walking loop.
@@ -94,22 +94,24 @@ The player begins knowing **nothing**.
 
 1. The previous tenant left a board and a bowl of stones. No instructions
    (`data/dialogue/intro.json`; gives item `old_goban`, flag `carrying_board`).
-2. **Pip** in Boulevard Garden sees the board and teaches **Capture Go** (`pip_capture`, 7×7,
-   `capture_goal = 1`). The player's first game, before any rules screen.
+2. **Pip** in Boulevard Garden offers `pip_first_capture`, a prepared capture demonstration,
+   then optional **Capture Go** (`pip_capture`, 7×7, `capture_goal = 1`) or directions to Wren.
+   Practice uses `CaptureOpponent`, immediate Help, retries and a saved final-capture replay.
+   Two passes end neutrally without counting; resignation remains a loss. Neither changes rank.
 3. **Wren** acknowledges Pip and offers four short rules exercises (`first_game_rules`),
    followed by a prepared 7×7 `finishing` lesson and optional two-comparison `openings`.
    Results stay beside the board. Her first full 9×9 is explicitly unrated: position-aware
    guidance and **Help H** identify legal captures or groups in atari, followed by passing
    and proposed-mark counting help. Her strength and stopping policy are unchanged.
-4. **Kesh** gives you a provisional 30 kyu novice card and an Institute invitation
+4. **Kesh** gives you a provisional 30 kyu novice card and a club invitation
    before offering any game (`first_rating`: `rank`, `ranked_by_club`,
    `invited_to_institute`, starts `enrolment`). You may leave immediately or play an
    optional **unrated** 9×9 with rank-based handicap. The card is a starting entry,
    not a placement assessment. Existing ranks and match records are preserved.
 
-### Act 2 — the Sela Go Institute (quest `enrolment`)
+### Act 2 — the Sela Go Club rooms (quest `enrolment`)
 Tram 4 north from the west end of Market Lane → **Hana** welcomes the player and offers the
-first class directly (or an explicit skip) → enrol with **Marguerite** → back-wall league board
+first class directly (or an explicit skip / a visit to Noor first) → enrol with **Marguerite** → back-wall league board
 → Noor, Ivo and the remaining novice fixtures, at any placing → the **Beginner Cup**
 ending. Hana’s capture puzzle remains optional. Noor wants company through the league and
 toward the Cup. Novice classmates occupy the new `academy_novice` room through the hall's lower
@@ -343,7 +345,7 @@ src/autoload/  EventBus, GameState, SaveSystem, SceneRouter, MatchBridge, KataGo
 - `GameState.record_match()` appends the result, steps the rank (`GoRankLadder.step`), and
   sets `last_result` for the conversation that follows.
 - `GoOpponent.choose_move()` may `await`, so a subprocess engine fits the same interface as
-  the shipped AI. Every cast profile is `engine = "gtp"`: KataGo's Human-SL model at the
+  the shipped AI. Every ordinary full-Go cast profile is `engine = "gtp"`: KataGo's Human-SL model at the
   character's rank and temperament, with the heuristic as the fallback when the engine is
   missing or slow. The binary and models are fetched by `tools/setup_katago.sh`, not in git.
 - **The review is one process per game.** `MatchBridge.record_completed_match()` records once before returning to the world.
@@ -482,7 +484,7 @@ verification. Blender/Pillow build commands and the depth-mask format are in
 `docs/ps1/world/README.md`. Earlier art-freeze statements below describe historical work;
 ART-08 supersedes them for production art. The ART-07 opt-in room remains session-only.
 
-Playable start to finish: cold open → name → the attic → Market Lane → Capture Go with Pip →
+Playable start to finish: cold open → name → the attic → Market Lane → capture demonstration and optional practice with Pip →
 Wren’s short rules and finishing lessons → optional opening comparison → supported unrated
 full game → reaction/review → Kesh’s novice card (optional handicap practice) → tram north →
 Hana’s welcome and first class → enrol → league board → novice fixtures → the Cup ending → optional Academy League/exam. Twelve maps, twenty characters, each on
@@ -538,7 +540,9 @@ the one setting that measured below it. The games before any rank exists give no
 count are still the heuristic's proposal with a player override: `final_status_list` hung
 on the bundled Human-SL build.
 
-**Known gaps, in priority order:** see `ROADMAP.md`. The short version: engine dead-stone
+**Known gaps, in priority order:** see `ROADMAP.md`. The short version: independent beginner
+learning/motivation testing for CAP-01 and DESIGN-01; Wren/novice strength and stopping
+(CONTENT-05, PROG-01, ENG-09); engine dead-stone
 adjudication; teaching and town access for 19×19 (development play already has overview/zoom); `world.gd` and `go_match.gd` are over the line-count convention; independent audio listening remains separate from M49’s measured real-driver audibility check.
 
 ## The longer documents
@@ -561,7 +565,7 @@ available. Return positions fall back to a named safe spawn when invalid or occu
 Match requests carry presentation-only `practice` and `venue_id`; `unrated` remains the rank
 authority. First handicap introductions are controlled by the player and saved through
 `handicap_intro_seen`; H reopens the explanation. `MatchPresentation` owns factual wording.
-Unknown ranks never generate a handicap. The first Wren and Pip boards are empty.
+Unknown ranks never generate a handicap. Pip’s demonstration is prepared; his optional practice and Wren’s first full game are empty.
 
 Historical M43 routes: `overhaul_fresh`, `overhaul_shortcuts`,
 `overhaul_white`, `overhaul_joos`, `overhaul_art`, `overhaul_returns`, `overhaul_activities`,
@@ -655,3 +659,27 @@ reachability contracts. `sela_loop` walks all six directed connections and reloa
 then loads and saves/reloads a current stored position through the title/menu UI.
 Use `art_tour`, `art_arrivals`, `art_people`, current early-game and novice routes with
 isolated XDG directories; `slice_full` is retired. See `docs/sela/PLAYTEST.md` for evidence.
+
+## CAP-01 capture practice contracts
+
+`capture_practice` plays the fresh demonstration, neutral pass ending, resignation, retry,
+capture, saved replay and onward access. `capture_skip` leaves the demonstration and
+reaches Wren without playing practice. Use isolated XDG data. The headless
+`tools/capture_scene_probe.gd` launches the actual board with installed/missing GTP paths
+and verifies the variant bypasses both engine preparation and heuristic fallback.
+
+`MatchResult.capture_goal` identifies the rules even after resignation; `practice_ended`
+is neutral, never a win/loss counter or rank step. `capture_review` stores the exact board
+before the final capture. Old records are unchanged. Ordinary territory analysis rejects
+all Capture Go outcomes, including legacy `pip_capture` records without the new fields.
+Pip’s neutral post-match branch is the deliberate extension to the two-result convention;
+win and loss branches still describe the actual result. Independent beginner testing remains open.
+
+## DESIGN-01 club baseline verification
+
+The displayed Institute is now the community centre’s Sela Go Club rooms; internal
+`academy_*`, invitation/class flags, opponents, ranks and fixtures remain compatible.
+`club_journey` meets Noor before the welcome class and registration. `beginner_full_games`
+adds complete automated Wren/Noor/Ivo games; these do not establish human beginner
+strength. `club_everyday` covers ordinary exchanges and `club_payoff` covers the return
+after a completed Cup. All play uses declared isolated saves.

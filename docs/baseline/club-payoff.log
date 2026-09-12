@@ -1,0 +1,129 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+AUTOPILOT: 181 steps from res://tools/autopilot/club_payoff.json
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/01_choice_Sign..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/02_novice_room.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/03_novice_zero.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/04_choice_I'd like that..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/05_choice_Our league fixture..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/06_nigiri.png
+EXPERIENCE: league_noor 9x9; player White; handicap 0; komi 5.5; unrated false
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/07_noor_setup.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/08_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/09_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/10_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/11_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/12_review_offer.png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/13_noor_result.png
+EXPERIENCE: verified progress {"experience":"assert_progress","played":1.0,"rank":"30k"}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/14_choice_Our league fixture..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/15_nigiri.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/16_nigiri.png
+EXPERIENCE: league_ivo 9x9; player Black; handicap 0; komi 5.5; unrated false
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/17_ivo_setup.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/18_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/19_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/20_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/21_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/22_review_offer.png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/23_ivo_result.png
+EXPERIENCE: verified progress {"experience":"assert_progress","played":2.0,"rank":"30k"}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/24_choice_Our league fixture..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/25_HandicapHelp_0.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/26_HandicapHelp_1.png
+EXPERIENCE: league_lea 9x9; player Black; handicap 2; komi 0.5; unrated false
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/27_lea_setup.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/28_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/29_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/30_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/31_review_offer.png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/32_lea_result.png
+EXPERIENCE: verified progress {"experience":"assert_progress","played":3.0,"rank":"30k"}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/33_choice_Our league fixture..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/34_HandicapHelp_0.png
+EXPERIENCE: league_emil 9x9; player Black; handicap 2; komi 0.5; unrated false
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/35_emil_setup.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/36_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/37_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/38_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/39_review_offer.png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/40_emil_result.png
+EXPERIENCE: verified progress {"experience":"assert_progress","played":4.0,"rank":"30k"}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/41_choice_Our league fixture..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/42_HandicapHelp_0.png
+EXPERIENCE: league_sora 9x9; player Black; handicap 3; komi 0.5; unrated false
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/43_sora_setup.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/44_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/45_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/46_review_offer.png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/47_sora_result.png
+EXPERIENCE: verified progress {"experience":"assert_progress","played":5.0,"rank":"30k"}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/48_novice_completed_losses.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/49_noor_league_return.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/50_choice_Later..png
+EXPERIENCE: verified progress {"experience":"assert_progress","flags":["noor_league_return_seen"]}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/51_choice_See you..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/52_choice_The Cup..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/53_choice_Enter me..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/54_choice_The Cup..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/55_choice_Ready..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/56_choice_Play the round..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/57_HandicapHelp_0.png
+EXPERIENCE: cup_r1 9x9; player Black; handicap 3; komi 0.5; unrated false
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/58_cup_handicap_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/59_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/60_review_offer.png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/61_cup_after_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/62_choice_The Cup..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/63_choice_Play the round..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/64_HandicapHelp_0.png
+EXPERIENCE: cup_r2 9x9; player Black; handicap 4; komi 0.5; unrated false
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/65_cup_handicap_2.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/66_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/67_review_offer.png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/68_cup_after_2.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/69_choice_The Cup..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/70_choice_Play the round..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/71_HandicapHelp_0.png
+EXPERIENCE: cup_r3 9x9; player Black; handicap 3; komi 0.5; unrated false
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/72_cup_handicap_3.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/73_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/74_review_offer.png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/75_cup_after_3.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/76_choice_The Cup..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/77_choice_Play the round..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/78_HandicapHelp_0.png
+EXPERIENCE: cup_r4 9x9; player Black; handicap 3; komi 0.5; unrated false
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/79_cup_handicap_4.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/80_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/81_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/82_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/83_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/84_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/85_review_offer.png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/86_cup_after_4.png
+EXPERIENCE: verified progress {"experience":"assert_progress","flags":["novice_league_completed","cup_finished"],"rank":"30k"}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/87_beginner_ending.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/88_choice_The Novice League..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/89_choice_Register..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/90_repeat_attempt_zero.png
+EXPERIENCE: verified progress {"experience":"assert_progress","played":0.0}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/91_noor_cup_return.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/92_choice_Later..png
+EXPERIENCE: verified progress {"experience":"assert_progress","flags":["noor_cup_return_seen"]}
+EXPERIENCE: disk reload preserved every league fixture and history index
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/93_noor_return_after_reload.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-cap01/payoff-data/godot/app_userdata/Ninepoint/shots/94_choice_Later..png
+AUTOPILOT: done

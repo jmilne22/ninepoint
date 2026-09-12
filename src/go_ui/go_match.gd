@@ -276,7 +276,7 @@ func _run() -> void:
     game = GoGame.new(setup.board_size, setup.komi, setup.handicap)
     game.capture_goal = profile.capture_goal
     player_color = setup.player_color
-    if profile.engine == "gtp" and warmed == null:
+    if profile.engine == "gtp" and warmed == null and profile.capture_goal == 0:
         # A failed warmup is a match-long decision: do not repeatedly start an
         # unavailable binary between player moves.
         opponent = HeuristicOpponent.new()
@@ -300,11 +300,15 @@ func _run() -> void:
         if game.capture_goal > 0:
             brief.pages = PackedStringArray([
                 "CAPTURE GO\n\nYou play %s. Place a stone on an empty crossing with Space or a click. %s plays %s.\n\nStones stay where you put them." % [GoBoard.color_name(player_color), request.opponent_name, GoBoard.color_name(3 - player_color)],
-                "A group needs an empty crossing beside it: a liberty. Diagonal crossings do not count.\n\nFill all a group's liberties and you capture its stones.\n\n%s\n\nThis game does not affect rank." % MatchPresentation.introduction(request, setup, game.capture_goal)])
+                "Capture one stone to win. Help H shows liberties and available captures.\n\nPip tries nearby moves and takes an available capture. This is teaching practice, not his full-game strength.\n\nP offers to stop; Pip passes too. No capture means no winner or counting. R offers resignation. Rank is unchanged."])
         else:
             brief.pages = PackedStringArray([
                 "PRACTICE GAME\n\nSurround empty points and capture stones. Both add to your score when the game ends.\n\nWhite gets %s extra points, called komi.\n\nThis game does not change your rank." % MatchPresentation.number(setup.komi),
                 "Pass with P when you have finished playing. When both players pass, we count.\n\nAt the count, check the marked dead groups. Click a group to change its mark, then confirm the score.\n\nR offers resignation. You can cancel it."])
+        var fitted := PackedStringArray()
+        for page in brief.pages:
+            fitted.append_array(UiKit.paginate(page, 158, 165))
+        brief.pages = fitted
         add_child(brief)
         await brief.closed
         board_view.interactive = true
@@ -466,6 +470,11 @@ func _await_move() -> Dictionary:
 ## Reactions are to OUTCOMES only: what happened, never what should have been
 ## played instead.
 func _react() -> void:
+    if game.capture_goal > 0:
+        # Territory/pass banter belongs to full Go, not this variant.
+        if bool(game.result.get("by_capture", false)):
+            _set_expression("pleased" if int(game.result["winner"]) != player_color else "worried")
+        return
     var speaker := GoBoard.opponent(player_color)
     var tags := GoTableTalk.events(game, speaker)
     # The face moves on every move; the voice keeps its four-move cooldown.
@@ -597,6 +606,9 @@ func _finish() -> void:
     res.margin = float(game.result.get("margin", 0.0))
     res.by_resignation = bool(game.result.get("by_resignation", false))
     res.by_capture = bool(game.result.get("by_capture", false))
+    res.capture_goal = game.capture_goal
+    res.practice_ended = bool(game.result.get("practice_ended", false))
+    res.capture_review = CaptureGuide.final_capture(game)
     res.board_size = game.size()
     res.handicap = game.handicap
     # In a handicap game the stones belong to whoever is Black. Which side that
@@ -605,7 +617,7 @@ func _finish() -> void:
     res.handicap_taken = game.handicap if player_color == GoBoard.BLACK else 0
     res.komi = game.komi
     res.move_count = game.move_number()
-    res.unrated = request.unrated
+    res.unrated = request.unrated or game.capture_goal > 0
     res.opponent_name = request.opponent_name
     res.opponent_strength = request.profile.strength() if request.profile != null else -1
     res.sgf = GoSgf.to_sgf(game, {
@@ -617,7 +629,7 @@ func _finish() -> void:
 
     var headline := "You win" if res.player_won else "You lose"
     if res.winner == GoBoard.EMPTY:
-        headline = "A draw"
+        headline = "Practice ended" if res.practice_ended else "A draw"
     var body := res.summary
     if not res.by_resignation and not res.by_capture and game.result.has("detail"):
         var d: Dictionary = game.result["detail"]
@@ -655,7 +667,7 @@ func _finish() -> void:
 ## turns retain the ordinary thinking presentation and the strict per-command
 ## deadline in GtpOpponent.
 func _prepare_opponent() -> GtpOpponent:
-    if profile.engine != "gtp":
+    if profile.engine != "gtp" or profile.capture_goal > 0:
         return null
     KataGoService.prewarm(profile)
     phase = Phase.PREPARING
@@ -734,7 +746,9 @@ func _refresh() -> void:
         # Four short lines rather than two long ones: the panel is 156px wide and
         # a single line of names ran off the end of it.
         _details.text = MatchPresentation.details(request, setup, game)
-        if _teaching.enabled():
+        if game.capture_goal > 0:
+            _details.text = "Capture practice - %s\nOne capture wins.\nHelp H: inspect a group.\nP: finish without a winner." % GoBoard.color_name(player_color)
+        elif _teaching.enabled():
             _details.text = "Unrated practice - %s\nWhite gets %s komi" % [GoBoard.color_name(player_color), _num(game.komi)]
             if phase == Phase.PLAYING and game.to_move == player_color:
                 _details.text = "Unrated practice - %s\n%s" % [GoBoard.color_name(player_color),

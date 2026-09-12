@@ -4,7 +4,7 @@ This is the **operational source of truth** for unfinished work. An agent starts
 not in the milestone history. It answers: what may be picked up now, what is blocked, and
 what evidence makes a task done.
 
-Revision base: `origin/main` and HEAD both `f459336`, freshly fetched and verified on 2026-09-12 before ART-07.
+Revision base: `origin/main` and HEAD both `89e1a35`, freshly fetched and verified on 2026-09-12 before the design-baseline audit.
 Update the snapshot when reconciling after a merge; it is not a release number.
 
 ## How to use this board
@@ -33,6 +33,55 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 | `ROADMAP.md` | Product direction, trade-offs, and why a task matters | Whether work is currently underway or done |
 | `MILESTONES.md` | Append-only shipped history and verification evidence | The current backlog |
 | Design / architecture / art docs | Durable product and technical truth | Task status |
+
+## Beginner experience and premise — approved baseline, 2026-09-12
+
+The owner requested played investigation, approved [the plan](docs/design-audit/PLAN.md),
+then authorized its implementation while away. Both implementation slices are now verified
+locally on `codex/cap-01-first-capture`, based on freshly verified `89e1a35`.
+[Current evidence](docs/baseline/PLAYTEST.md) and the [independent playtest packet](docs/baseline/BEGINNER-PLAYTEST.md)
+separate delivered behavior from the human acceptance still required. Do not rebuild these
+slices as though they remain proposals.
+
+### CAP-01 — Make Pip's first encounter teach capture reliably
+
+- Status: `BLOCKED` on independent beginner validation; implementation verified locally.
+  Priority: `P1` · Owner: Codex · Branch: `codex/cap-01-first-capture`.
+- Approved by the owner's “start on it” on 2026-09-12 after the played audit.
+- Audit at the old base: Pip was beatable in seven plies, but used ordinary 18k Go for
+  first capture. Two passes could produce a territory loss with zero captures. Help and
+  repeat capture practice were absent. Those defects are repaired in this candidate.
+- Implemented: explicit demonstration, optional dedicated first-capture practice, H help,
+  retry, exact capture replay and neutral two-pass ending. Normal Pip rank/profile,
+  honest counters, onward access and old records are preserved. All capture outcomes
+  are excluded from ordinary territory review, including legacy records.
+- Evidence: final 18,017 unit checks / 0 failures, 316 loads, 13 art tests and all engine
+  gates pass. The actual capture scene bypasses installed/missing GTP paths. Maintained
+  `capture_practice` and `capture_skip` routes cover replay/save/retry/leave/Wren; selected
+  actual frames were opened. [Capture report](docs/capture/PLAYTEST.md).
+- Remaining acceptance: independent capture explanation and transfer, recovery and chase
+  length observations. No bot or guided demonstration closes those criteria. Follow the
+  packet before expanding practice or claiming beginner suitability.
+
+### DESIGN-01 — A local Go community within an ordinary city
+
+- Status: `BLOCKED` on independent newcomer comprehension/motivation validation;
+  implementation verified locally. Priority: `P1` · Owner: Codex · Branch: `codex/cap-01-first-capture`.
+- Approved by the owner's instruction to complete the full plan on 2026-09-12; fresh
+  HEAD = origin/main = `89e1a35` verified before this slice.
+- Implemented: newcomer → club invitation → fellow beginners → first local Cup.
+  Kettle tables belong to a working bar; community-centre rooms house the Go club.
+  Kesh/Hana introduce Noor's shared ambition before registration. Ordinary exchanges,
+  notices, explicit refusals and league/Cup return conversations support this framing.
+- Existing coastal city, cast, ranks, layout/save IDs and honest league remain. Display
+  text changes regenerate maps and arrival caption; rendered geometry remains identical.
+- Evidence: fresh `club_journey`, complete `beginner_full_games`, `club_everyday` and
+  nine-loss `club_payoff` routes pass with actual opened screenshots. Noor can be met
+  before class/registration; payoff acknowledgements and truthful records survive loading.
+- Remaining acceptance: newcomers can explain why the group knows one another and give
+  a personal reason to continue. There were no independent participants in this work.
+- CONTENT-05, ENG-09 and PROG-01 retain full-game strength/stopping/peer validation.
+  Their human gates remain open; the new report adds actual games, not a calibration claim.
 
 ## Fixed-view art experiment
 
@@ -590,8 +639,10 @@ PROG-01's independent human gate remains open.
 ### ENG-08 — Stones in the first three games
 
 - Status: `SHIPPED` (M43 decision and presentation) · Priority: `P1`
-- Decision: Pip's first Capture Go and Wren's first practice start empty. Kesh's first
-  rated game uses nigiri. An unknown rank is never treated as numerical strength.
+- Historical M43 decision: early games started empty and Kesh used rated nigiri.
+  Superseded by PROG-02 and CAP-01: Pip now offers a prepared demonstration before
+  optional empty practice; Wren's full practice remains empty. Kesh issues provisional
+  30k before optional unrated rank-handicap practice. Unknown rank is never numerical strength.
 - Evidence: fresh and shortcut journeys, actual empty boards, first rating, and subsequent
   handicap teaching inspected. `GoMatchSetup` and `GoRank` preserve unknown strength;
   `tests/test_onboarding.gd` covers the boundary across all supported board sizes.
@@ -736,7 +787,12 @@ PROG-01's independent human gate remains open.
   placements on the five-stone opening; another completed 74 moves normally.
 - Scope to decide: reproduce early passes and low-value continuations separately from
   dead-group adjudication (ENG-05). Inspect actual engine/fallback paths and saved SGFs.
-- No stopping policy, engine strength or dead estimator changed in EARLY-01..05.
+- Additional baseline observation: the supported Wren game lasted 89 plies with nine
+  White passes; Noor's lasted 89 with four separated Black passes before the final pair;
+  Ivo's lasted 89 with only the final pair. SGFs and exact indices are retained in
+  [the baseline report](docs/baseline/PLAYTEST.md). The player was a 12k-labelled heuristic,
+  so these are stopping traces, not human judgment or proof of a better ending.
+- No stopping policy, engine strength or dead estimator changed in EARLY-01..05 or this baseline.
 - Acceptance for future work must include actual positions and human beginner observations;
   a shorter bot game is not proof of a better ending.
 
@@ -752,6 +808,10 @@ PROG-01's independent human gate remains open.
 - Next step: compare independent beginner experience of that supported game with the close-ish Noor/Ivo games,
   then agree whether Wren's introductory profile needs separate strength settings.
   No engine retuning or new teaching encounter is included in PROG-01/02.
+- CAP-01 / DESIGN-01 supplement: full supported Wren, Noor and Ivo games, saved SGFs,
+  results and count frames are in [the baseline report](docs/baseline/PLAYTEST.md).
+  A stronger automated player won all three; no independent beginner comparison occurred.
+  Keep the existing strength decision until the prepared human study supplies that evidence.
 
 
 ### CONTENT-01 — Teach whole-board judgement

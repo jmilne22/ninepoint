@@ -12,7 +12,8 @@ func setup(value: Control) -> void:
 
 
 func enabled() -> bool:
-    return scene.request != null and scene.request.context_id == "wren_first"
+    return scene.request != null and (scene.request.context_id == "wren_first" \
+        or scene.request.profile.capture_goal > 0)
 
 
 func show_help() -> void:
@@ -23,14 +24,15 @@ func show_help() -> void:
     if scene.game.state == GoGame.State.SCORING:
         text = "The crosses are proposed dead stones. Inspect each group before accepting. A group without two eyes is not automatically dead.\n\nMarked stones are removed for counting and become prisoners. Their empty points may also become territory.\n\nClick a group to change its mark. The score preview updates. P accepts your marks."
     else:
-        var observation := PracticeGuide.observation(scene.game, scene.player_color)
+        var observation := CaptureGuide.observation(scene.game, scene.player_color, scene.board_view.cursor) \
+            if scene.game.capture_goal > 0 else PracticeGuide.observation(scene.game, scene.player_color)
         text = observation["text"]
         stones = observation["stones"]
     show_text(text, stones)
 
 
 func first_pass() -> void:
-    if not enabled() or passed_once:
+    if not enabled() or passed_once or scene.game.capture_goal > 0:
         return
     passed_once = true
     show_text("Passing offers to finish; it does not concede. Your opponent may still play a move. Check whether that move threatens a group before deciding to reply or pass again. Two passes in a row start counting.")

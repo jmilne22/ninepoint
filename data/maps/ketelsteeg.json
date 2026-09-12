@@ -295,7 +295,7 @@
     9
    ],
    "prompt": "Board Tram 4",
-   "text": "__TRAM__{\"routes\": [{\"label\": \"North, to the Institute.\", \"map\": \"academy_hall\", \"spawn\": \"from_tram\", \"flag\": \"invited_to_institute\", \"refused\": \"Tram 4 goes north to the Institute. Nobody up there is expecting you yet.\"}, {\"label\": \"South, to the Assembly Hall.\", \"map\": \"bondszaal\", \"spawn\": \"from_tram\", \"flag\": \"ranked_by_club\", \"refused\": \"Tram 4 goes south to the federation hall. Nothing down there for somebody with no rank.\"}]}",
+   "text": "__TRAM__{\"routes\": [{\"label\": \"North, to the community centre.\", \"map\": \"academy_hall\", \"spawn\": \"from_tram\", \"flag\": \"invited_to_institute\", \"refused\": \"Tram 4 goes to the community centre. Ask Kesh at The Kettle, under the kettle sign, about the club rooms.\"}, {\"label\": \"South, to the Assembly Hall.\", \"map\": \"bondszaal\", \"spawn\": \"from_tram\", \"flag\": \"ranked_by_club\", \"refused\": \"Tram 4 goes south to the federation hall. Nothing down there for somebody with no rank.\"}]}",
    "standing_zone": [
     1,
     10,
@@ -323,14 +323,14 @@
     4,
     8
    ],
-   "text": "The stationer is closed. Your stairs are through the door beside the shutters."
+   "text": "The stationer is closed. Your stairs are beside the shutters. A note asks for parcels to be left at the laundry; the upstairs bell is broken."
   },
   {
    "tile": [
     15,
     8
    ],
-   "text": "THE KETTLE. Go, tea and a table in the shade. Beginners welcome. Ask for Wren."
+   "text": "THE KETTLE. Tea, lunch and a table in the shade. The Go club meets here; ask Wren by the window."
   },
   {
    "tile": [
@@ -344,7 +344,7 @@
     25,
     8
    ],
-   "text": "The snack window. A tray of chips waits beside a stack of paper bags."
+   "text": "A sign at the snack window asks for the blue plates back. Three clean ones are stacked beside the paper bags."
   },
   {
    "tile": [

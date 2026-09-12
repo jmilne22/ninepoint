@@ -1,0 +1,36 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+AUTOPILOT: 21 steps from res://../../.cache/ninepoint-design-audit/wren-route.json
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/wren-data/godot/app_userdata/Ninepoint/shots/01_choice_Another game..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/wren-data/godot/app_userdata/Ninepoint/shots/02_choice_Set them up..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/wren-data/godot/app_userdata/Ninepoint/shots/03_nigiri.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/wren-data/godot/app_userdata/Ninepoint/shots/04_nigiri.png
+EXPERIENCE: wren_club 9x9; player Black; handicap 0; komi 5.5; unrated false
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/wren-data/godot/app_userdata/Ninepoint/shots/05_ready.png
+AUTOPILOT: the game reached the count after 44 player moves
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/wren-data/godot/app_userdata/Ninepoint/shots/06_counting.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/wren-data/godot/app_userdata/Ninepoint/shots/07_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/wren-data/godot/app_userdata/Ninepoint/shots/08_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/wren-data/godot/app_userdata/Ninepoint/shots/09_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/wren-data/godot/app_userdata/Ninepoint/shots/10_review_offer.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/wren-data/godot/app_userdata/Ninepoint/shots/11_review_loading.png
+Review: 90 of 90 positions in 18.5 s on 8 threads (complete)
+AUTOPILOT: the review cards opened
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/wren-data/godot/app_userdata/Ninepoint/shots/12_review_1_page_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/wren-data/godot/app_userdata/Ninepoint/shots/13_review_2_page_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/wren-data/godot/app_userdata/Ninepoint/shots/14_review_3_page_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/wren-data/godot/app_userdata/Ninepoint/shots/15_review_3_page_2.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/wren-data/godot/app_userdata/Ninepoint/shots/16_review_4_page_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/wren-data/godot/app_userdata/Ninepoint/shots/17_review_4_page_2.png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/wren-data/godot/app_userdata/Ninepoint/shots/18_back_in_room.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-design-audit/wren-data/godot/app_userdata/Ninepoint/shots/19_walking_after_review.png
+AUTOPILOT: done
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

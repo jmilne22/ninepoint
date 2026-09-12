@@ -276,9 +276,9 @@ def ketelsteeg():
             # walk-on warp at the map's edge: you press [Space] and choose a
             # direction, and the tram that passes is the tram you board.
             {"tile": [1, 9], "prompt": "Tram 4", "text": "__TRAM__" + json.dumps({"routes": [
-                {"label": "North, to the Institute.", "map": "academy_hall", "spawn": "from_tram",
+                {"label": "North, to the community centre.", "map": "academy_hall", "spawn": "from_tram",
                  "flag": "invited_to_institute",
-                 "refused": "Tram 4 goes north to the Institute. Nobody up there is expecting you yet."},
+                 "refused": "Tram 4 goes to the community centre. Ask Kesh at The Kettle, under the kettle sign, about the club rooms."},
                 {"label": "South, to the Assembly Hall.", "map": "bondszaal", "spawn": "from_tram",
                  "flag": "ranked_by_club",
                  "refused": "Tram 4 goes south to the federation hall. Nothing down there for somebody with no rank."},
@@ -286,11 +286,11 @@ def ketelsteeg():
             {"tile": [quay_steps - 2, 19], "prompt": "The steps",
              "text": "TO THE QUAY. Steps down to the water. The bench at the bottom is the driest thing in Sela."},
             {"tile": [6, 9], "text": "SELA BEGINNER CUP -- entries at the Assembly Hall, by tram. All ranks 15k and below."},
-            {"tile": [home_door, 8], "text": "A stationer's, shuttered since before you came. Your stairs are the door beside it, and the landlord's cat owns the landing."},
+            {"tile": [home_door, 8], "text": "The stationer's shutters are closed. A note asks delivery drivers to leave parcels at the laundry; the upstairs bell is broken."},
             {"tile": [ketel_steps + 2, 8], "text": "THE KETTLE. Three steps down. The bar is Tomas's and so is the back room, which has had a board in it for sixty years."},
             {"tile": [wash_door - 1, 8], "text": "LAUNDRY -- open till two. The warmest room on Market Lane, and nobody minds if you only sit."},
-            {"tile": [wash_door + 3, 8], "text": "A hatch in the wall with a fryer behind it and no name over it. Open when the wassalon is, which is to say later than anything else on this street."},
-            {"tile": [29, 8], "text": "Under the viaduct the brick is black with a century of smoke. Somebody has chalked a 3-4 point on it, and somebody else has chalked the answer."},
+            {"tile": [wash_door + 3, 8], "text": "A paper sign asks people to return the blue plates to the hatch. Three clean ones are stacked on the sill."},
+            {"tile": [29, 8], "text": "ARCADE. Public passage to the Sea Walk. Please keep bicycles against the wall."},
         ],
         "npcs": [
             {"id": "pip", "tile": [10, 16], "dir": "down", "idle": "wander"},
@@ -766,7 +766,7 @@ def academy_hall():
         (10, H - 1), (11, H - 1), (0, 7), (0, 10), (W - 1, 7), (W - 2, 3)})
 
     return {
-        "name": "Sela Go Institute -- Hall",
+        "name": "Community Centre -- Go Club",
         "size": [W, H], "tile_size": 16, "legend": LEGEND,
         "ground": ground.out(), "decor": decor.out(), "solid": solid,
         "spawns": {"from_tram": [10, H - 2], "from_study": [1, 7],
@@ -783,12 +783,12 @@ def academy_hall():
             {"tile": [W - 1, 7], "map": "academy_class", "spawn": "from_hall",
              "prompt": "Classroom"},
             {"tile": [W - 2, 3], "map": "academy_dorm", "spawn": "from_hall",
-             "prompt": "Up to the dormitory"},
+             "prompt": "Up to the guest room"},
         ],
         "signs": [
             {"tile": [10, 2], "text": "__LEAGUE_BOARD__"},
             {"tile": [11, 2], "text": "__LEAGUE_BOARD__"},
-            {"tile": [1, 4], "text": "THE SELA GO INSTITUTE. Founded so that people who were going to spend their lives on this anyway could do it somewhere warm."},
+            {"tile": [1, 4], "text": "COMMUNITY CENTRE. Sela Go Club: classes and practice in the rooms off this hall. Please leave the chairs clear of the doors."},
         ],
         "npcs": [{"id": "marguerite", "tile": [2, 4], "dir": "down", "idle": "tend"}],
         # Students crossing the hall between the study hall and the classroom,
@@ -817,7 +817,7 @@ def academy_novice():
     ground.set(w - 1, 10, "M")
     ground.set(11, 2, "Y")
     return {
-        "name": "Sela Go Institute -- Novice Room", "size": [w,h],
+        "name": "Go Club -- Novice Room", "size": [w,h],
         "tile_size": 16, "legend": LEGEND, "ground": ground.out(), "decor": decor.out(),
         "solid": solid_mask(ground, extra_walkable={(w-1,10)}),
         "spawns": {"from_hall": [w-2,10]},
@@ -875,7 +875,7 @@ def academy_study():
     solid = solid_mask(ground, extra_walkable={(door_x, 7)})
 
     return {
-        "name": "Sela Go Institute -- Study Hall",
+        "name": "Go Club -- Study Hall",
         "size": [W, H], "tile_size": 16, "legend": LEGEND,
         "ground": ground.out(), "decor": decor.out(), "solid": solid,
         "spawns": {"from_hall": [door_x - 1, 7], "middle": [12, 7]},
@@ -930,7 +930,7 @@ def academy_class():
     solid = solid_mask(ground, extra_walkable={(door_x, 7)})
 
     return {
-        "name": "Sela Go Institute -- Classroom",
+        "name": "Go Club -- Classroom",
         "size": [W, H], "tile_size": 16, "legend": LEGEND,
         "ground": ground.out(), "decor": decor.out(), "solid": solid,
         "spawns": {"from_hall": [1, 7], "front": [9, 4]},
@@ -981,15 +981,15 @@ def academy_dorm():
     solid = solid_mask(ground, extra_walkable={(door_x, H - 1)})
 
     return {
-        "name": "Sela Go Institute -- Your Room",
+        "name": "Community Centre -- Guest Room",
         "size": [W, H], "tile_size": 16, "legend": LEGEND,
         "ground": ground.out(), "decor": decor.out(), "solid": solid,
         "spawns": {"from_hall": [door_x, H - 2], "bed": [3, 6]},
         "warps": [{"tile": [door_x, H - 1], "map": "academy_hall", "spawn": "from_dorm",
                    "prompt": "Down to the hall"}],
         "signs": [
-            {"tile": [9, 6], "text": "__DESK__The board from your old room, on a desk that is exactly the right size for it. Somebody has put it there deliberately."},
-            {"tile": [2, 6], "text": "__BED__A bed. Institute issue. You will be glad of it."},
+            {"tile": [9, 6], "text": "__DESK__A spare board on the guest-room desk. A ferry timetable is tucked underneath."},
+            {"tile": [2, 6], "text": "__BED__A guest bed. Clean linen is folded at the foot."},
         ],
         "npcs": [],
         "music": "",

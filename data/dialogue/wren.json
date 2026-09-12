@@ -51,7 +51,8 @@
   "first": {
    "portrait": "happy",
    "text": [
-    "Hello! I'm Wren. Let me move these cups so you can sit down."
+    "I'm Wren. Tomás at the counter lets our Go club use these tables. Let me clear you a place.",
+    "We're helping new players get ready for the local Cup. Have you thought about trying it?"
    ],
    "goto": "ask_experience"
   },
@@ -68,7 +69,7 @@
    ],
    "choices": [
     {
-     "text": "Pip showed me Capture Go. What comes next?",
+     "text": "Pip sent me. What comes next?",
      "if": [
       [
        "flag",
@@ -109,6 +110,16 @@
       "type": "start_lesson",
       "lesson": "capture",
       "track": true
+     }
+    },
+    {
+     "text": "What is this club like?",
+     "goto": "club_question"
+    },
+    {
+     "text": "I'll come back.",
+     "exit": {
+      "type": "end"
      }
     }
    ]
@@ -615,13 +626,20 @@
   },
   "pip_followup": {
    "text": [
-    "Pip got you started, then. Let's try a few positions before our game."
+    "I'm glad Pip sent you over. Let's try a few positions before our game."
    ],
    "exit": {
     "type": "start_lesson",
     "lesson": "first_game_rules",
     "track": true
    }
+  },
+  "club_question": {
+   "text": [
+    "A few regulars here, and more people at our rooms in the community centre.",
+    "Some have only just started. You can learn with us before deciding about the Cup."
+   ],
+   "goto": "ask_experience"
   }
  }
 }

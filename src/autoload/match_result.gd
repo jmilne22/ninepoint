@@ -28,6 +28,10 @@ var sgf: String = ""
 var summary: String = ""
 ## True when the game was decided by a capture goal rather than by counting.
 var by_capture: bool = false
+## Rules mode survives resignation and a neutral ending as well as a capture.
+var capture_goal: int = 0
+var practice_ended: bool = false
+var capture_review: Dictionary = {}
 ## Chosen on the result card. This is intentionally recorded with the match so
 ## loading an older save can never start work the player did not request.
 var review_requested: bool = false
@@ -47,6 +51,8 @@ func to_dict() -> Dictionary:
         "summary": summary,
         "sgf": sgf,
         "by_capture": by_capture,
+        "capture_goal": capture_goal, "practice_ended": practice_ended,
+        "capture_review": capture_review,
         "player_color": player_color, "winner": winner,
         "review_requested": review_requested,
         "opponent_name": opponent_name,

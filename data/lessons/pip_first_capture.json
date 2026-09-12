@@ -1,0 +1,38 @@
+{
+ "id": "pip_first_capture",
+ "title": "Try a capture with Pip",
+ "teacher": "pip",
+ "size": 7,
+ "intro": [
+  "Pip has set up an example, not a match. You play Black. Place stones on crossings with a click or Space.",
+  "Empty crossings beside a stone are its liberties. Diagonals do not count. Fill the last liberty to capture."
+ ],
+ "steps": [
+  {
+   "board": [
+    ".......",
+    ".......",
+    "...X...",
+    "..XOX..",
+    ".......",
+    ".......",
+    "......."
+   ],
+   "to_move": "black",
+   "instruction": "The ring shows White's last liberty. Play there to capture the stone.",
+   "accept": "capture",
+   "show_liberties": true,
+   "target": [
+    [
+     3,
+     3
+    ]
+   ],
+   "hint": "The empty crossing directly below White is its last liberty.",
+   "explanation": "White had one liberty. Your stone filled it, so White came off the board. That is a capture."
+  }
+ ],
+ "outro": [
+  "You made a capture in Pip's example. You can try Capture Go from an empty board, repeat this example, or ask Pip where to learn the full game."
+ ]
+}

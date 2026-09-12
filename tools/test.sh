@@ -46,7 +46,26 @@ fi
 grep -E "checks|passed,|FAIL" "$SUITE_LOG"
 rm -f "$SUITE_LOG"
 
-echo "== KataGo Linux integration gates =="
-timeout 90 "$GODOT" --headless --path . --script res://tools/katago_smoke.gd
-timeout 120 "$GODOT" --headless --path . --script res://tools/katago_service_test.gd
-timeout 600 "$GODOT" --headless --path . --script res://tools/katago_review_test.gd
+# Godot can resume a caller after an awaited function hits a script error, then
+# exit zero. A gate's own "passed" line is insufficient in that case.
+run_integration_gate() {
+  local gate_log
+  gate_log=$(mktemp)
+  if ! timeout "$1" "$GODOT" --headless --path . --script "$2" > "$gate_log" 2>&1; then
+    cat "$gate_log"
+    rm -f "$gate_log"
+    return 1
+  fi
+  cat "$gate_log"
+  if grep -qE "SCRIPT ERROR|Compile Error|Parse Error" "$gate_log"; then
+    rm -f "$gate_log"
+    return 1
+  fi
+  rm -f "$gate_log"
+}
+
+echo "== capture scene and KataGo Linux integration gates =="
+run_integration_gate 30 res://tools/capture_scene_probe.gd
+run_integration_gate 90 res://tools/katago_smoke.gd
+run_integration_gate 120 res://tools/katago_service_test.gd
+run_integration_gate 600 res://tools/katago_review_test.gd

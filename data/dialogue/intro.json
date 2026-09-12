@@ -4,7 +4,7 @@
   "start": {
    "speaker": "narrator",
    "text": [
-    "Sela. A room above a shuttered shop. The sea breeze lifts the curtain.",
+    "Your first afternoon in Sela. A rented room above a shuttered shop; the sea breeze lifts the curtain.",
     "The last tenant left a wooden board on the desk: a grid of lines, and a bowl of black and white stones."
    ],
    "goto": "resolve"
@@ -24,7 +24,7 @@
     ]
    ],
    "text": [
-    "There's a note under the bowl: 'Pip plays in the park, across the road.'",
+    "A note under the bowl: 'Ask Pip in the park across the road. He belongs to the club at The Kettle.'",
     "You take the board and stones downstairs."
    ]
   }

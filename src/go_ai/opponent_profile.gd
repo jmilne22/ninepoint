@@ -33,7 +33,7 @@ static func path_for(npc_id: String, board: int = 9, variant: String = "") -> St
 ## what everybody with a card does.
 @export var strength_override: int = -1
 
-@export_enum("heuristic", "random", "gtp") var engine: String = "heuristic"
+@export_enum("heuristic", "random", "gtp", "capture") var engine: String = "heuristic"
 
 @export var board_size: int = 9
 @export var komi: float = 5.5

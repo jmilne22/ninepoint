@@ -51,6 +51,10 @@
   "talk_to": "abel"
  },
  {
+  "experience": "choice",
+  "text": "Are you playing here?"
+ },
+ {
   "wait": 0.4
  },
  {

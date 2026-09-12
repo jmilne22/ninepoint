@@ -46,7 +46,8 @@ func start_match(request: MatchRequest, player_position: Vector2) -> void:
     GameState.return_position = player_position
     GameState.has_return_position = true
     EventBus.match_started.emit(request.context_id)
-    KataGoService.prewarm(request.profile)
+    if request.profile.capture_goal == 0:
+        KataGoService.prewarm(request.profile)
     await SceneRouter.go_to(MATCH_SCENE)
 
 

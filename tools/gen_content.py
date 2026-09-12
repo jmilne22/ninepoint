@@ -106,7 +106,7 @@ def _resign_for(points, board):
 
 
 def opponent_tres(c, board=9, handicap=0, komi=5.5, suffix="",
-                  colour_rule="by_rank", capture_goal=0, theme=None):
+                  colour_rule="by_rank", capture_goal=0, theme=None, engine="gtp"):
     # theme=None takes the cast's own; theme="" suppresses it for a variant that
     # is not a fight, which is the whole reason this is a parameter.
     pid = "%s%s" % (c["id"], suffix)
@@ -121,7 +121,7 @@ id = &"{pid}"
 display_name = "{name}"
 rank_label = "{rank}"
 strength_override = {strength}
-engine = "gtp"
+engine = "{engine}"
 board_size = {board}
 komi = {komi}
 handicap = {handicap}
@@ -146,7 +146,7 @@ gtp_style = "{style}"
 theme = "{theme}"
 on_resign = "{on_resign}"
 """.format(pid=pid, name=c["name"], rank=c["rank"], board=board, komi=komi,
-           strength=c.get("strength", -1),
+           strength=c.get("strength", -1), engine=engine,
            handicap=handicap, mistake=c["mistake"], depth=c["depth"],
            aggr=c["aggr"], terr=c["terr"], resign=_resign_for(c["resign"], board),
            ladder=c.get("ladder", 0.0), cut=c.get("cut", 0.0),
@@ -224,7 +224,7 @@ QUESTS = [
          summary="Take the board to Pip in the park, then learn and play at The Kettle.",
          steps=[
              ('"journal": "Find Pip in the park, across the road."',
-              '"advance_on": {"type": "match", "context": "pip_capture"}'),
+              '"advance_on": {"type": "flag", "key": "pip_ready_for_wren"}'),
              ('"journal": "Ask Wren at The Kettle to show you the rules."',
               '"advance_on": {"type": "flag", "key": "knows_the_rules"}'),
              ('"journal": "Play a practice game with Wren at The Kettle."',
@@ -257,7 +257,7 @@ QUESTS = [
          ]),
 
     dict(id="enrolment", title="The Novice League",
-         summary="Hana teaches at the Sela Go Institute, two stops north. They take beginners.",
+         summary="Meet Hana and the novice group in the Go club rooms at the community centre. Get ready for a first local Cup together.",
          steps=[
              ('"journal": "Take tram 4 north, from the stop at the west end of Market Lane."',
               '"advance_on": {"type": "enter_map", "map": "academy_hall"}'),
@@ -395,11 +395,11 @@ def build():
         pid, text = opponent_tres(c, suffix="_exam", colour_rule="nigiri")
         open(os.path.join(op_dir, pid + ".tres"), "w").write(text)
 
-    # Capture Go against Pip in the park: the standard first game for a complete
-    # beginner (Yasuda's "first capture"). Small board, no komi, no counting.
+    # Optional first-capture practice follows Pip’s demonstration. The dedicated
+    # policy understands this objective; the stored komi never triggers counting.
     pip = [c for c in CAST if c["id"] == "pip"][0]
     pid, text = opponent_tres(pip, board=7, komi=0.5, suffix="_capture",
-                              colour_rule="player_black", capture_goal=1)
+                              colour_rule="player_black", capture_goal=1, engine="capture")
     open(os.path.join(op_dir, pid + ".tres"), "w").write(text)
     for q in QUESTS:
         open(os.path.join(q_dir, q["id"] + ".tres"), "w").write(quest_tres(q))

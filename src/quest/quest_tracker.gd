@@ -205,7 +205,8 @@ func _reconcile_opening() -> void:
         step = 3
     elif GameState.has_flag("knows_the_rules") or GameState.has_flag("said_knows_the_rules"):
         step = maxi(step, 2)
-    elif GameState.has_flag("match_pip_capture_done"):
+    elif GameState.has_flag("match_pip_capture_done") or GameState.has_flag("pip_ready_for_wren") \
+            or GameState.has_flag("lesson_pip_first_capture_done"):
         step = maxi(step, 1)
     for record in GameState.match_records:
         match str(record.get("context_id", "")):

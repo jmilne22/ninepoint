@@ -56,6 +56,13 @@
   "choose": 0
  },
  {
+  "experience": "lesson_run"
+ },
+ {
+  "experience": "choice",
+  "text": "Practise Capture Go."
+ },
+ {
   "experience": "setup"
  },
  {
@@ -353,7 +360,7 @@
  },
  {
   "experience": "choice",
-  "text": "I'll head to the Institute."
+  "text": "I'll head to the club rooms."
  },
  {
   "advance": 4,
@@ -703,6 +710,10 @@
  },
  {
   "talk_to": "noor"
+ },
+ {
+  "experience": "choice",
+  "text": "I'd like that."
  },
  {
   "experience": "choice",

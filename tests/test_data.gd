@@ -103,6 +103,9 @@ static func _test_engine_profiles(t: TestKit) -> void:
         t.ok(profile != null, "%s loads as an opponent profile" % path)
         if profile == null:
             continue
+        if profile.capture_goal > 0:
+            t.eq(profile.engine, "capture", "%s uses a first-capture policy" % path)
+            continue
         t.eq(profile.engine, "gtp", "%s uses KataGo as its primary engine" % path)
         t.ok(profile.gtp_time_per_move > 0.0 and profile.gtp_time_per_move <= 2.0,
             "%s enforces the two-second turn limit" % path)
@@ -183,7 +186,7 @@ static func _conditions(node: Dictionary) -> Array:
 ## The exit types World._handle_exit knows. Anything else is dispatched to
 ## nothing at all and the conversation simply stops.
 const EXIT_TYPES := ["start_match", "start_lesson", "start_puzzle", "cup_round",
-                     "exam_round", "exam_paper", "end"]
+                     "exam_round", "exam_paper", "capture_review", "end"]
 
 
 static func _test_dialogue_exits(t: TestKit) -> void:

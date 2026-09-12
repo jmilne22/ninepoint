@@ -96,6 +96,13 @@
   "note": "go on then"
  },
  {
+  "experience": "lesson_run"
+ },
+ {
+  "experience": "choice",
+  "text": "Practise Capture Go."
+ },
+ {
   "wait": 0.4,
   "shot": "first_ever_game",
   "match_wait_player": true

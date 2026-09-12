@@ -48,3 +48,14 @@ and Sora makes room for newcomers. Postcard, pencil, paper, repair parts and cus
 on their tables. Each has distinct capture, pass, ko and atari remarks; unfamiliar terms
 receive plain wording. Introductions do not repeat on return visits. Their
 30k/27k/25k/23k/20k labels are targets awaiting independent beginner playtesting.
+
+Pip’s capture demonstration is explicitly prepared teaching, not a competitive win.
+Capture practice can end neutrally after passes; acknowledge stopping without inventing
+a winner. Win/loss reactions remain factual. A local capture replay explains only the
+recorded removal and liberties, never territory or a claim of playing strength.
+
+Sela is an ordinary city. These people know one another through a small local Go club,
+which uses Tomás’s tables and rents rooms at the community centre. Wren introduces the
+local Cup as an invitation; Kesh points toward Noor, who wants company while preparing.
+Ordinary exchanges can end without a game offer or referral. Noor’s checkpoint greetings
+use completion/seen facts; game reactions continue to use the actual latest result.

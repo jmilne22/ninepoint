@@ -42,7 +42,7 @@ def arrival(school):
         im.rect(152,89,69,48,c('deep'))
         im.rect(159,95,55,42,c('shadow'))
         for x in (154,216):im.rect(x,89,5,48,c('teal'))
-        label(im,91,81,'SELA GO INSTITUTE')
+        label(im,91,81,'COMMUNITY CENTRE')
         plant(im,126,125,True);plant(im,231,126,True)
     else:
         im.rect(49,39,286,98,c('stone'))

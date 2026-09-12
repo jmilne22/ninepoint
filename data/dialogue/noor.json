@@ -7,6 +7,36 @@
      "if": [
       [
        "flag",
+       "cup_finished"
+      ],
+      [
+       "not_flag",
+       "noor_cup_return_seen"
+      ]
+     ],
+     "goto": "cup_return"
+    },
+    {
+     "if": [
+      [
+       "flag",
+       "novice_league_completed"
+      ],
+      [
+       "not_flag",
+       "noor_league_return_seen"
+      ],
+      [
+       "not_flag",
+       "cup_finished"
+      ]
+     ],
+     "goto": "league_return"
+    },
+    {
+     "if": [
+      [
+       "flag",
        "noor_introduced"
       ]
      ],
@@ -30,9 +60,9 @@
   "hello": {
    "text": [
     "I've kept this postcard dry all morning. Here, there's room beside my table.",
-    "I'm new too. Will you keep me company through this league? I'd like us to enter the Cup."
+    "I'm new too. I'd like someone to go to the local Cup with. We could practise together first."
    ],
-   "goto": "offer",
+   "goto": "newcomer_choice",
    "actions": [
     [
      "set_flag",
@@ -75,6 +105,10 @@
      "exit": {
       "type": "end"
      }
+    },
+    {
+     "text": "What is on the postcard?",
+     "goto": "postcard"
     }
    ]
   },
@@ -107,6 +141,86 @@
    ],
    "goto": "reaction_offer"
   },
-  "reaction_offer": {}
+  "reaction_offer": {},
+  "newcomer_choice": {
+   "choices": [
+    {
+     "text": "I'd like that.",
+     "goto": "cup_company"
+    },
+    {
+     "text": "I'm not ready for a tournament.",
+     "goto": "no_hurry"
+    },
+    {
+     "text": "Shall we practise?",
+     "goto": "offer"
+    },
+    {
+     "text": "I'll come back.",
+     "exit": {
+      "type": "end"
+     }
+    }
+   ]
+  },
+  "cup_company": {
+   "text": [
+    "Good. We can start with a practice game, and take turns playing the others.",
+    "Marguerite at the desk in the hall keeps the league register. She also takes Cup entries."
+   ],
+   "goto": "offer"
+  },
+  "no_hurry": {
+   "text": [
+    "Me neither, yet. You can just sit with me, or we can try a practice game.",
+    "There's a place here even if you decide against the Cup."
+   ],
+   "goto": "offer"
+  },
+  "postcard": {
+   "text": [
+    "My old street. The shop on the corner has changed, but the postcard still has its green awning.",
+    "I keep meaning to send it. Now I've brought it here instead."
+   ]
+  },
+  "league_return": {
+   "text": [
+    "You've played everyone in the novice group. It feels less strange knowing all the faces now.",
+    "I'm still planning on the Cup. Marguerite at the hall desk has the entry list."
+   ],
+   "actions": [
+    [
+     "set_flag",
+     "noor_league_return_seen",
+     true
+    ]
+   ],
+   "goto": "offer"
+  },
+  "cup_return": {
+   "text": [
+    "You finished your first Cup. Was it strange sitting down with people from outside the club?",
+    "Come and put your bag here. There's still room beside me."
+   ],
+   "actions": [
+    [
+     "set_flag",
+     "noor_cup_return_seen",
+     true
+    ],
+    [
+     "set_flag",
+     "noor_introduced",
+     true
+    ],
+    [
+     "set_flag",
+     "noor_league_return_seen",
+     true
+    ]
+   ],
+   "goto": "offer"
+  }
  }
 }

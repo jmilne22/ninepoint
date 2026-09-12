@@ -10,7 +10,7 @@ title = "First Stones"
 summary = "Take the board to Pip in the park, then learn and play at The Kettle."
 steps = [{
 "journal": "Find Pip in the park, across the road.",
-"advance_on": {"type": "match", "context": "pip_capture"}
+"advance_on": {"type": "flag", "key": "pip_ready_for_wren"}
 }, {
 "journal": "Ask Wren at The Kettle to show you the rules.",
 "advance_on": {"type": "flag", "key": "knows_the_rules"}

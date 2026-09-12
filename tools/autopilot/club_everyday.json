@@ -1,0 +1,186 @@
+[
+ {
+  "save": "early_rules"
+ },
+ {
+  "wait": 0.8
+ },
+ {
+  "tap": "move_down"
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "world_wait": true
+ },
+ {
+  "experience": "visit",
+  "map": "de_ketel",
+  "spawn": "from_street"
+ },
+ {
+  "talk_to": "tomas"
+ },
+ {
+  "experience": "choice",
+  "text": "Just saying hello."
+ },
+ {
+  "wait": 3,
+  "shot": "tomas_neighbour"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "talk_to": "wren"
+ },
+ {
+  "wait": 3,
+  "shot": "wren_club_welcome"
+ },
+ {
+  "experience": "choice",
+  "text": "What is this club like?"
+ },
+ {
+  "wait": 3,
+  "shot": "wren_club_context"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "choice",
+  "text": "I'll come back."
+ },
+ {
+  "experience": "visit",
+  "map": "wassalon",
+  "spawn": "from_street"
+ },
+ {
+  "talk_to": "abel"
+ },
+ {
+  "experience": "choice",
+  "text": "Here you go."
+ },
+ {
+  "wait": 3,
+  "shot": "abel_basket"
+ },
+ {
+  "advance": 8,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "visit",
+  "map": "ketelsteeg",
+  "spawn": "from_ketel"
+ },
+ {
+  "walk_to": [
+   4,
+   9
+  ]
+ },
+ {
+  "face": [
+   4,
+   8
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 3,
+  "shot": "stationer_parcels"
+ },
+ {
+  "advance": 12,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   15,
+   9
+  ]
+ },
+ {
+  "face": [
+   15,
+   8
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 3,
+  "shot": "kettle_sign"
+ },
+ {
+  "advance": 12,
+  "stop_at_choice": true
+ },
+ {
+  "walk_to": [
+   25,
+   9
+  ]
+ },
+ {
+  "face": [
+   25,
+   8
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 3,
+  "shot": "snack_window"
+ },
+ {
+  "advance": 12,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "visit",
+  "map": "academy_hall",
+  "spawn": "from_tram"
+ },
+ {
+  "walk_to": [
+   4,
+   4
+  ]
+ },
+ {
+  "face": [
+   4,
+   3
+  ]
+ },
+ {
+  "tap": "interact"
+ },
+ {
+  "wait": 3,
+  "shot": "community_directory"
+ },
+ {
+  "advance": 12,
+  "stop_at_choice": true
+ },
+ {
+  "experience": "assert_progress",
+  "records": 0
+ }
+]

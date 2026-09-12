@@ -77,6 +77,10 @@
   "talk_to": "abel"
  },
  {
+  "experience": "choice",
+  "text": "Are you playing here?"
+ },
+ {
   "advance": 3,
   "stop_at_choice": true
  },

@@ -51,7 +51,7 @@ The owner subsequently approved full-game conversion as ART-08, including Go ass
 Sela is a warm, worn, leafy fictional coastal city. Pale plaster, deep teal shutters,
 recessed balconies and clear flat roofs face a street of small working shops. The
 boulevard garden gathers people under trees; broad steps and a pergola open onto the sea.
-The bar stays intimate, the institute is a welcoming modernist building, and Assembly
+The bar stays intimate, the community centre is a welcoming modernist building, and Assembly
 Hall has a civic scale. One mild afternoon, with no clock or weather simulation.
 
 Keep the existing 16×16 logical grid for gameplay and the 384×216 viewport. Render
@@ -361,7 +361,7 @@ The twelve maps have different dominant objects. Rooftop Room has shutters and a
 The Kettle has a counter, teaching table and recessed back table; the wassalon has a machine
 bank, folding counter and bench; The Arcade has pale sheltered arches, a through-passage and Joos's secluded equipment corner. The quay keeps open water and a clearly labelled review board.
 
-The Institute is a modernist building with a planted garden court and clearly marked room entrances.
+The community centre houses the Sela Go Club in a modernist building with a planted garden court and clearly marked room entrances.
 The Assembly Hall is a long civic hall with tall windows, twelve numbered tournament tables,
 coats and tea, with registration beside the entrance. Distinct generated exterior views
 appear during tram travel and can be skipped with Space or Esc.

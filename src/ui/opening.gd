@@ -8,7 +8,7 @@ extends Control
 
 const LINES := [
     "Hello. I'm Hana. Welcome to Sela.",
-    "People play Go all over this city. Come and join us.",
+    "I help run a small Go club here. Come and learn with us.",
 ]
 
 const MAX_NAME := 10
@@ -205,7 +205,7 @@ func _ask_name() -> void:
         await get_tree().process_frame
     _field.release_focus()
     Audio.play("ui_confirm")
-    _text.text = "Nice to meet you, %s. See you at the Institute." % _clean_name(_field.text)
+    _text.text = "Nice to meet you, %s. We can get you ready for your first local Cup." % _clean_name(_field.text)
     _field.visible = false
     _hint.visible = false
     await get_tree().create_timer(1.6).timeout

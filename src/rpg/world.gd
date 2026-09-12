@@ -383,6 +383,20 @@ func _handle_exit(exit: Dictionary, npc: Npc) -> void:
             player.input_locked = true
             MatchBridge.start_lesson(str(exit.get("lesson", "")), player.global_position,
                 bool(exit.get("track", false)))
+        "capture_review":
+            for i in range(GameState.match_records.size() - 1, -1, -1):
+                var record: Dictionary = GameState.match_records[i]
+                var capture: Dictionary = record.get("capture_review", {})
+                if str(record.get("npc_id", "")) != npc.npc_id or capture.is_empty():
+                    continue
+                player.input_locked = true
+                player.clear_target()
+                var review := CaptureReview.new()
+                review.payload = capture
+                add_child(review)
+                await review.closed
+                player.input_locked = false
+                break
         "cup_round":
             _start_cup_round()
         "exam_round":
