@@ -47,8 +47,20 @@ Full gate: **18,110 / 0**, **320 loads**, 13 art tests and all engine gates pass
 fixtures into a disposable project: **55 passed / 0 failed**, with no engine files,
 scene tree access by the helpers, or game autoloads. No player-facing change in this step.
 
+## Step 3
+
+Pure deterministic narration covers the group, liberty count, legally replayed capture,
+rounded point cost and existing lesson. Ownership-only predictions explicitly say the
+engine expects them; no capture is claimed without legal replay evidence. White uses
+player/opponent roles to assign colours. Coordinate validation also rejects out-of-board
+and unsupported coordinates in saved prose.
+
+Full gate: **18,138 / 0**, **322 loads**, 13 art tests and all engine gates pass.
+Final pass 1 / pass 2: 9×9 **15.053 / 32.002 s**, 19×19 **62.469 / 45.100 s**.
+The isolated facts/narrator project passes **83 / 0**. This step adds no runtime UI.
+
 ## Remaining acceptance
 
-Steps 3–4, full Black/White abandoned-group games, the new mistake card and lesson
+Step 4, full Black/White abandoned-group games, the new mistake card and lesson
 action, ownership comparison inspection, save-size deltas and legacy regression
 remain unverified. No completion or shipped milestone is claimed yet.

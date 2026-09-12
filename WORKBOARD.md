@@ -67,6 +67,10 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
   320 loads, 13 art tests and all engine gates pass; 9×9 passes 15.032 / 34.285 s,
   19×19 passes 61.904 / 45.073 s. `tools/test_review_pure.sh`: **55 / 0** with
   game/autoloads/engine absent. Step 2 complete; runtime cards are unchanged.
+- Step 3 complete: deterministic narration, three-sentence and coordinate validation,
+  legal-capture wording and Black/White tests. Full gate **18,138 / 0**, 322 loads,
+  13 art tests and integration gates pass; isolated facts/narrator gate **83 / 0**.
+  Runtime cards are unchanged until Step 4.
 - Plan: [REV-01](docs/review/REV-01.md). Strengths, ranks, policy commentary and new curriculum
   remain outside this task; ask before changing any non-goal.
 

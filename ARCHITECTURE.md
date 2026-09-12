@@ -241,7 +241,9 @@ components taking arrays/dictionaries. Ownership/score signs are normalized exac
 for the player before detection; all findings identify board coordinates or regions.
 Ownership predicts group outcomes; replayed legal PV captures provide separate proof.
 The lesson table maps group loss to Kesh's existing escape lesson. These components
-remain unwired to cards until Step 4.
+remain unwired to cards until Step 4. Step 3 adds pure `ReviewNarrator` templates,
+limited to three sentences, qualifying estimates and validating every coordinate against
+the facts. `tools/test_review_pure.sh` tests both in a project without game/engine files.
 
 Strength knobs on `OpponentProfile` (all honest, none of them "the AI plays badly on purpose
 because you levelled up"): `engine`, `rank_label`, `board_size`, `komi`, `handicap`,
