@@ -1,0 +1,185 @@
+== deterministic art contracts ==
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 4.914s
+
+OK
+== compiling all scripts and importing assets ==
+   import pass produced no parse errors
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+User data verified: /home/user/.cache/ninepoint-teaching-tests/godot/app_userdata/Ninepoint
+load check: 331 files, all load
+== test suites ==
+  go rules       99 checks
+  go scoring     27 checks
+  go ai          322 checks
+  go setup       42 checks
+  capture practice 124 checks
+  club baseline  20 checks
+  league         47 checks
+  content data   13136 checks
+  league attempts 261 checks
+  ambience       555 checks
+  match music    20 checks
+  exam           65 checks
+  save           84 checks
+  rating         69 checks
+  cup            115 checks
+  table talk     374 checks
+  review enrichment 44 checks
+  review narrator 38 checks
+  teaching       29 checks
+  review facts   63 checks
+  match analysis 123 checks
+  board view     2005 checks
+  onboarding     134 checks
+  player movement 9 checks
+  early game     107 checks
+  projected world 264 checks
+  room presentation 53 checks
+18229 passed, 0 failed
+== review facts and narrator with engine/game absent ==
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+
+130 passed, 0 failed
+== capture scene and KataGo Linux integration gates ==
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+
+27 passed, 0 failed
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+
+43 passed, 0 failed
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  ok capture board opens without engine preparation
+  ok real scene uses capture policy, missing=false
+  ok capture creates no KataGo lease
+  ok passes reach the real result screen
+  ok no counting or fabricated winner
+  ok capture board opens without engine preparation
+  ok real scene uses capture policy, missing=true
+  ok capture creates no KataGo lease
+  ok passes reach the real result screen
+  ok no counting or fabricated winner
+Capture scene gate: passed
+WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+WARNING: Falling back to the heuristic opponent for 'katago_smoke'.
+     at: push_warning (core/variant/variant_utility.cpp:1033)
+     GDScript backtrace (most recent call first):
+         [0] create (res://src/go_ai/opponent_factory.gd:24)
+         [1] _negative_fallbacks (res://tools/katago_smoke.gd:47)
+         [2] _initialize (res://tools/katago_smoke.gd:21)
+         [3] choose_move (res://src/go_ai/gtp_opponent.gd:98)
+         [4] _command (res://src/go_ai/gtp_opponent.gd:191)
+         [5] read_line (res://src/go_ai/engine_pipe.gd:69)
+KataGo fallback (The analysis engine timed out; using the local opponent., startup=-1ms, move=-1ms)
+KataGo smoke: missing artifact and tiny timeout both fell back safely
+KataGo smoke: legal C6 reply on 9x9
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  ok: KataGo service autoload is present
+  ok: prewarm reaches ready exactly once
+  ok: ready lease is reusable by the match
+  ok: a lease cannot be handed to two scenes
+  ok: scene return shuts down its lease
+  ok: cancelled preparation leaves no service lease
+WARNING: Falling back to the heuristic opponent for 'katago_trial_9x9'.
+     at: push_warning (core/variant/variant_utility.cpp:1033)
+     GDScript backtrace (most recent call first):
+         [0] create (res://src/go_ai/opponent_factory.gd:24)
+         [1] _failure_paths (res://tools/katago_service_test.gd:46)
+         [2] _initialize (res://tools/katago_service_test.gd:17)
+         [3] _prewarm_reuse_and_cleanup (res://tools/katago_service_test.gd:39)
+  ok: missing package falls back before a match starts
+KataGo fallback (The analysis engine timed out; using the local opponent., startup=-1ms, move=-1ms)
+KataGo fallback (The analysis engine sent an invalid move (DEFINITELY-NOT-A-VERTEX); using the local opponent., startup=-1ms, move=-1ms)
+  ok: malformed GTP move uses a legal local fallback
+KataGo fallback (The analysis engine rejected a command; using the local opponent., startup=-1ms, move=-1ms)
+  ok: rejected GTP warmup fails cleanly
+  ok: handicap engine prepares before the match
+  measurement: warmed handicap reply 925ms
+  ok: handicap setup synchronises
+  ok: ordinary 7x7 engine prepares before the match
+  measurement: warmed 7x7 reply 579ms
+  ok: ordinary 7x7 board synchronises
+KataGo service gate: passed
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+  ok  review engine files are present
+  ok  9x9: fixture reached an ending
+  ok  9x9: every one of 79 positions was analysed ()
+  ok  9x9: progress counted up to the end
+  ok  9x9: the analysis became a review (available)
+KataGo review 9x9: 78 moves, 79 positions, 47.1 s, 0.60 s per position on 8 threads, 2 findings
+REV-01 9x9: pass-1 14.854 s; pass-2 32.271 s; 9 detail queries
+  ok  detail pass completed:
+  ok  all three branches returned
+  ok  branch ownership covers the board
+  ok  branch ownership covers the board
+  ok  branch ownership covers the board
+  ok  all three branches returned
+  ok  branch ownership covers the board
+  ok  branch ownership covers the board
+  ok  branch ownership covers the board
+  ok  all three branches returned
+  ok  branch ownership covers the board
+  ok  branch ownership covers the board
+  ok  branch ownership covers the board
+REV-01 9x9 saved review: before 4647 bytes; after 9948 bytes; delta +5301
+REV-01 9x9 complete save: before 6965 bytes; after 13594 bytes; delta +6629
+  ok  enriched narration is coordinate-grounded
+  ok  enriched narration is coordinate-grounded
+  ok  valid detail comparisons are retained in the payload
+  ok  19x19: fixture reached an ending
+  ok  19x19: every one of 243 positions was analysed ()
+  ok  19x19: progress counted up to the end
+  ok  19x19: the analysis became a review (available)
+KataGo review 19x19: 242 moves, 243 positions, 109.0 s, 0.45 s per position on 8 threads, 3 findings
+REV-01 19x19: pass-1 62.207 s; pass-2 46.693 s; 9 detail queries
+  ok  detail pass completed:
+  ok  all three branches returned
+  ok  branch ownership covers the board
+  ok  branch ownership covers the board
+  ok  branch ownership covers the board
+  ok  all three branches returned
+  ok  branch ownership covers the board
+  ok  branch ownership covers the board
+  ok  branch ownership covers the board
+  ok  all three branches returned
+  ok  branch ownership covers the board
+  ok  branch ownership covers the board
+  ok  branch ownership covers the board
+REV-01 19x19 saved review: before 13946 bytes; after 48080 bytes; delta +34134
+REV-01 19x19 complete save: before 20612 bytes; after 64326 bytes; delta +43714
+  ok  enriched narration is coordinate-grounded
+  ok  enriched narration is coordinate-grounded
+  ok  enriched narration is coordinate-grounded
+  ok  valid detail comparisons are retained in the payload
+  ok  a rejected detail query is reported
+  ok  detail failure retains the exact old review
+  ok  detail cancellation terminates the pipe
+  ok  cancellation does not erase pass-one coverage
+Review: 4 of 4 positions in 0.0 s on 8 threads (complete)
+  ok  session reset happened during pass two
+  ok  stale pass-two results never enter the replacement save
+  ok  a silent engine is failed by the watchdog (engine stalled)
+  ok  and within its budget (6.1 s)
+  ok  which the payload records as failed
+KataGo review gate: passed
+WARNING: 7 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 3 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

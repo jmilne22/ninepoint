@@ -498,7 +498,8 @@ in development play. Four quests. Three save slots.
 REV-01/M51 adds coordinate-grounded review facts, ownership comparisons and Lesson L.
 Pure facts/narration run without engine or game files. Capture examples are explicitly
 labelled possible lines and legally replayed on load; they never establish forced death.
-Steps 1–4 are complete; live teaching and LLM narration remain unstarted. Reproduce the
+Steps 1–4 are complete. REV-02 implements optional Step 5 teaching; independent beginner
+acceptance remains pending. LLM narration remains deferred. Reproduce the
 inspected Black/White cards with `rev01_fixture_keyboard` / `rev01_fixture` and the saved
 engine payloads in `docs/review/PLAYTEST.md`.
 
@@ -694,3 +695,22 @@ The displayed Institute is now the community centre’s Sela Go Club rooms; inte
 adds complete automated Wren/Noor/Ivo games; these do not establish human beginner
 strength. `club_everyday` covers ordinary exchanges and `club_payoff` covers the return
 after a completed Cup. All play uses declared isolated saves.
+
+
+## REV-02 live teaching (REV-01 Step 5)
+
+Wren's first unrated 9×9 and Kesh's resolved handicap practice offer With teaching /
+Play normally. The choice is per game; Help can turn teaching off. A separate match-owned
+analysis process uses 30 visits and a shared profile deadline for actual/best branches.
+Missing/stale/late results are silent; rank profiles and post-match review budgets stay fixed.
+Only factual questions beside a demonstrated board may discuss a prospective mistake.
+Ordinary table talk stays outcome-only. Undo restores history as well as stones; an undone
+move never reaches GTP or the saved SGF. Help replays the last explanation on its own board.
+
+`tools/teaching_benchmark.gd` measures the real worker. `tools/teaching_worker_test.gd`
+and `tools/teaching_scene_test.gd` use labelled synthetic protocol/turn fixtures and run in
+`tools/test.sh`. Rendered routes: `teaching_wren`, `teaching_kesh`, their `_keep` variants,
+and their `_normal` variants. `teaching_note` explicitly scripts the real-analysis PV reply
+to inspect the note and its Help replay. They use declared isolated saves and prepared positions;
+they are interface/engine evidence, not independently played full games or human learning.
+See `docs/review/TEACHING.md`; keep human acceptance separate from technical delivery.

@@ -259,6 +259,28 @@ The detail pass never selects replacement queries for duplicate/unsupported less
 using the board geometry, including nineteen-line zoom. ReviewCards returns a requested
 lesson to its world owner, which calls the existing MatchBridge lesson runner.
 
+REV-02's `LiveTeaching` belongs to the match scene and owns one `KataGoTeaching` process;
+it is not an autoload or a review service. The optional worker caches a 30-visit preferred
+move while the player thinks, then compares actual/best with ownership under one shared
+profile deadline. `TeachingPosition` serializes retained setup/history/komi and keys the
+cache by complete position and rule state. Production uses simple ko; unsupported rule
+variants skip live analysis. The GTP opponent never chooses from teaching output.
+`ReviewFacts.build(input, position)` accepts an optional rules-game snapshot for exact
+continuation validation. `lead_pass` is optional; missing pass data disables only the
+pass-dependent slow-move detector. Existing post-match payloads and budgets remain intact.
+`TeachingPolicy` chooses coordinate-grounded questions and enforces the five-turn cooldown.
+`GoGame.fork()` copies full rules state; undo restores repetition history too.
+
+Placement stays provisional while `LiveTeaching.consider` resolves. The match does not
+answer its move waiter or trigger table talk until commitment; Undo restores the snapshot
+without ever synchronizing that attempt to GTP. `TeachingChoice` blocks board input and
+uses measured side-panel choices. Opponent notes require the actual reply to match the
+legally checked continuation and name an observed capture/atari. Help retains that note's
+board separately from the live game. Choices, cooldowns, analysis and notes are transient.
+Query generations reject late/cancelled replies; one reader owns response dispatch.
+Healthy shutdown wakes a blocked reader before closing its pipe, with bounded forced
+shutdown for an unresponsive child. Worker failure never changes the opponent or result.
+
 Strength knobs on `OpponentProfile` (all honest, none of them "the AI plays badly on purpose
 because you levelled up"): `engine`, `rank_label`, `board_size`, `komi`, `handicap`,
 `mistake_rate`, `reading_depth`, `aggression`, `territory_bias`, `resign_threshold`.

@@ -68,6 +68,8 @@ echo "== review facts and narrator with engine/game absent =="
 tools/test_review_pure.sh
 
 echo "== capture scene and KataGo Linux integration gates =="
+run_integration_gate 30 res://tools/teaching_worker_test.gd
+run_integration_gate 45 res://tools/teaching_scene_test.gd
 run_integration_gate 30 res://tools/capture_scene_probe.gd
 run_integration_gate 90 res://tools/katago_smoke.gd
 run_integration_gate 120 res://tools/katago_service_test.gd

@@ -3572,3 +3572,51 @@ conversion function, and White fixtures preceded fact functions. Steps 1–3 eac
 separate green-gate commit; this milestone closes Step 4. Step 5, LLM narration, opponent
 strength/ranks, policy commentary and new teaching content remain unstarted. M50's
 independent human learning/transfer acceptance remains unresolved and is not claimed here.
+
+## M52 — Optional teaching practice [technical implementation verified; human acceptance pending]
+
+REV-02 implements the separately approved REV-01 Step 5. Wren's first unrated 9×9 and
+Kesh's handicap practice offer per-game teaching. A separate persistent analysis worker
+warms during the introduction, caches the current position, and compares a provisional
+move against its preference. Supported four-point mistakes can prompt a question beside
+the preceding board. Undo restores complete rules/repetition history before the opponent
+sees the move; keeping it commits once. Questions have a five-committed-turn cooldown.
+Verified opponent notes stay beside the board, and Help can replay their original position
+or turn teaching off. No LLM, opponent-strength change or save-schema migration is included.
+
+**Done when (technical delivery):** `tools/test.sh` passes **18,229 checks / 0 failures**
+(predecessor M51: 18,200), 331 files load, 13 Python art tests pass, isolated pure gate
+**130 / 0**, teaching protocol gate **31 / 0**, teaching scene gate **43 / 0**, and the
+existing capture and all three real-engine gates pass. Synthetic tests cover cancellation,
+stale/malformed/absent engines, shared deadline, input locking, exact commitment and note
+history; they do not establish playing strength. All six rendered Wren/Kesh choice, Undo,
+keep and normal-practice routes passed with real teaching analysis and ordinary opponents.
+Question rings, attempted-move dots, restored board, retained reply, handicap Help and
+normal practice were opened. A separately labelled scripted-PV route supplies inspected
+opponent-note and historical-Help screenshots. [Evidence and reproduction](docs/review/TEACHING.md).
+
+The final six-position benchmark includes the recorded Wren F2 abandonment as Black and
+mirrored White, plus Kesh handicap positions. Startup was **3.292 s** asynchronously;
+comparison pairs took **1.663–1.897 s**, with **zero timeouts/failures** at 30 visits per
+branch and the shared two-second deadline. Sampled process-tree RSS was **600–612 MiB**.
+This measures the teaching process separately from the normal GTP engine, not peak memory.
+A final repeat completed six pairs in 1.752–1.918 s with zero timeouts/failures. The protocol
+and scene-exit fixtures were strengthened after the full gate and passed targeted reruns;
+the production code was unchanged. Existing `rendered_match`, `kesh_practice` and
+`early_skips` routes also passed, with count/review/return, handicap practice and Wren's
+original Help screenshots opened and inspected.
+
+### Deliberate changes and boundaries
+
+| Before | Implemented behavior |
+|---|---|
+| Only immediate Help and after-game review | Optional factual reconsideration during narrowly eligible practice |
+| A legal placement immediately reached the opponent | Provisional comparison and Undo/keep before a single commitment |
+| Undo left superko repetition entries behind | Snapshot restores repetition history with board, prisoners and turn |
+| Review facts required a pass comparison | Live two-branch facts omit pass-dependent slow-move claims; post-match fixtures retain all three branches |
+| Every reply used ordinary table talk | A matching legal PV reply may add an observed capture/atari note |
+| Help only described the current board | Optional latest-note replay on its original board and teaching-off action |
+
+REV-02 remains open for independent beginner comprehension, transfer and interruption-fatigue
+observations. No human results were collected or inferred from the automated routes. The
+learning release gate and the optional LLM narrator remain deferred pending that evidence.

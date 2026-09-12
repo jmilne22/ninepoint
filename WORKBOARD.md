@@ -34,6 +34,30 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 | `MILESTONES.md` | Append-only shipped history and verification evidence | The current backlog |
 | Design / architecture / art docs | Durable product and technical truth | Task status |
 
+## REV-02 — Optional teaching games (REV-01 Step 5)
+
+- Status: `DOING` · Priority: `P1` · Owner: Codex · Branch: `codex/rev-01-teaching-game`.
+- Owner approved the Step 5 implementation plan; HEAD and freshly fetched origin/main
+  matched `6ab343a` before branching. Steps 1–4 remain shipped below.
+- Scope: opt-in Wren first 9×9 and Kesh handicap practice, bounded 30-visit live
+  comparisons, factual questions, provisional-move undo, and optional opponent notes.
+- Limits: four-point loss, five committed player turns between questions, shared
+  profile deadline for both branches; no LLM, strength changes or new save fields.
+- Acceptance: real-engine latency/coverage including White and handicap; pure/failure/
+  undo/input tests; played keyboard/mouse questions, Help and return; full regression gate.
+- Independent beginner comprehension/fatigue observations remain required and must be
+  reported separately from implementation and automated play evidence.
+- Technical verification: **18,229 / 0**, 331 loads, 13 art tests, isolated pure gate
+  **130 / 0**, teaching protocol **31 / 0**, teaching scene **43 / 0**, and all existing
+  engine gates passed. Six real-worker rendered choice/undo/keep/normal routes passed;
+  the separately labelled scripted-PV route supplies note screenshots.
+- Real-engine final benchmark: startup 3.292 s; six pairs in 1.663–1.897 s, zero timeouts,
+  approximately 600–612 MiB sampled process-tree RSS. [Evidence](docs/review/TEACHING.md).
+- Repeat: six pairs in 1.752–1.918 s, zero timeouts, 605–615 MiB. Existing
+  `rendered_match`, `kesh_practice` and `early_skips` regression routes passed and were inspected.
+- Implementation is reviewable; ticket remains open solely for independent beginner
+  comprehension and interruption-fatigue observations. LLM narration stays deferred.
+
 ## REV-01 — Reviews that explain why
 
 - Status: `SHIPPED` (Steps 1–4, M51) · Priority: `P1` · Owner: Codex · Branch: `codex/rev-01-review-facts`.

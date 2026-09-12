@@ -5,7 +5,8 @@ This document explains **why** future work matters and the trade-offs around it.
 dependencies, and acceptance criteria. `MILESTONES.md` is the append-only delivery history.
 Do not select work from this document without checking its linked board ticket first.
 
-The build is green: `tools/test.sh` passes 18,200 Godot checks, 13 Python art tests, a capture-scene gate and three real-engine gates,
+The build is green: `tools/test.sh` passes 18,229 Godot checks, 13 Python art tests,
+the teaching protocol/scene gates, a capture-scene gate and three real-engine gates,
 `tools/check_lessons.py` reports no problems, and the game is playable from the cold open
 to the exam and the Cup.
 
@@ -134,8 +135,12 @@ inside an eighteen-second budget — timed out on every real game and looked lik
 
 REV-01 adds deeper analysis only for selected review moments: at most nine
 comparisons (200 visits actual/best, 50 pass) after the eight-visit score pass. The 9×9 detail budget is 45 seconds; lowering
-visits requires the owner’s decision with measurements. Live teaching and LLM narration
-are separate, unstarted work.
+visits requires the owner’s decision with measurements. REV-02 now implements optional live teaching with a separate match-owned process:
+30 visits, four-point factual triggers, bounded waits and reconsideration before the
+opponent sees a move. It preserves the review budgets above and the human-strength gates.
+The extra CPU/memory cost applies only to chosen teaching practice. Independent beginner
+transfer and interruption-fatigue observations remain pending; the local LLM narrator
+stays deferred until this flow has been evaluated.
 
 **Strength, measured (M41).** M39's calibration never played a game out. The probe
 (`tools/katago_strength_probe.gd`) puts every beginner profile on a ladder of the same

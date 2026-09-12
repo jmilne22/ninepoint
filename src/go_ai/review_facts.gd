@@ -26,18 +26,23 @@ static func player_input(black: Dictionary) -> Dictionary:
             if not _number(out[key][i]):
                 return {}
             out[key][i] = float(out[key][i]) * sign_value
-    for key in ["lead_actual", "lead_best", "lead_pass"]:
+    for key in ["lead_actual", "lead_best"] + (["lead_pass"] if out.has("lead_pass") else []):
         if not _number(out.get(key)):
             return {}
         out[key] = float(out[key]) * sign_value
     return out
 
 
-static func build(input: Dictionary) -> Dictionary:
+static func build(input: Dictionary, position: GoGame = null) -> Dictionary:
     if not _valid(input):
         return {}
     var board := GoBoard.new(int(input["size"]))
     board.cells = PackedByteArray(input["cells"])
+    if position != null:
+        if position.size() != board.size or position.to_move != int(input["player"]) \
+                or position.board.cells != board.cells or not position.is_legal(int(input["actual"])) \
+                or not position.is_legal(int(input["best"])):
+            return {}
     var actual := int(input["actual"])
     var best := int(input["best"])
     var player := int(input["player"])
@@ -47,9 +52,9 @@ static func build(input: Dictionary) -> Dictionary:
         return out
     out["region_lost"] = _regions(board, input["own_actual"], input["own_best"])
     var actual_line := ReviewContinuation.trace(board.size, input["cells"], player, actual,
-        input.get("pv_after_actual", []), true)
+        input.get("pv_after_actual", []), true, position)
     var best_line := ReviewContinuation.trace(board.size, input["cells"], player, actual,
-        input.get("pv_best", []), false)
+        input.get("pv_best", []), false, position)
     # A best PV must begin with the compared move, not a later independent search's choice.
     if not best_line.is_empty() and int(best_line[0]["point"]) != best:
         best_line = []
@@ -68,7 +73,7 @@ static func build(input: Dictionary) -> Dictionary:
         var group := {"anchor":labels[0], "stones":labels,
             "liberties_before":chain["liberties"].size(), "liberties":_labels(board, chain["liberties"]),
             "captured_at":ReviewContinuation.captured_at(labels, line)}
-        if ours and group["captured_at"] == "":
+        if ours and group["captured_at"] == "" and position == null:
             var example := ReviewContinuation.capture_example(input,labels,actual_line)
             if not example.is_empty():
                 group["capture_example"] = example
@@ -76,8 +81,8 @@ static func build(input: Dictionary) -> Dictionary:
     if (not out["region_lost"].is_empty() or not out["group_died"].is_empty()) and actual_line.size() >= 2:
         out["refutation"] = actual_line
     var loss := float(input["lead_best"]) - float(input["lead_actual"])
-    var worth := float(input["lead_actual"]) - float(input["lead_pass"])
-    if loss >= MEANINGFUL_LOSS and worth < 1.0:
+    var worth := float(input["lead_actual"]) - float(input.get("lead_pass", input["lead_actual"]))
+    if input.has("lead_pass") and loss >= MEANINGFUL_LOSS and worth < 1.0:
         out["slow_move"] = {"actual":board.label(actual), "best":board.label(best),
             "worth_actual":roundi(worth), "worth_best":roundi(float(input["lead_best"]) - float(input["lead_pass"]))}
     var distance := board.point(actual) - board.point(best)
@@ -182,7 +187,7 @@ static func _valid(input: Dictionary) -> bool:
                     return false
             elif absf(float(value)) > 1.0:
                 return false
-    for key in ["lead_actual", "lead_best", "lead_pass"]:
+    for key in ["lead_actual", "lead_best"] + (["lead_pass"] if input.has("lead_pass") else []):
         if not _number(input.get(key)):
             return false
     for key in ["pv_after_actual", "pv_best"]:

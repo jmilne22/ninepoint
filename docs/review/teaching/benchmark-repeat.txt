@@ -1,0 +1,10 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+TEACHING STARTUP ms=3278 search_threads=4
+TEACHING SAMPLE {"case":"wren_25_white_false","completed":true,"groups_lost":1,"loss":7.57392904,"memory_kib":619840,"milliseconds":1918}
+TEACHING SAMPLE {"case":"wren_29_white_false","completed":true,"groups_lost":1,"loss":18.78979592,"memory_kib":625648,"milliseconds":1752}
+TEACHING SAMPLE {"case":"wren_25_white_true","completed":true,"groups_lost":1,"loss":7.66267237,"memory_kib":625736,"milliseconds":1800}
+TEACHING SAMPLE {"case":"wren_29_white_true","completed":true,"groups_lost":1,"loss":18.60214351,"memory_kib":626004,"milliseconds":1911}
+TEACHING SAMPLE {"case":"kesh_five_stones","completed":true,"groups_lost":0,"loss":6.1442313,"memory_kib":626332,"milliseconds":1856}
+TEACHING SAMPLE {"case":"kesh_developing","completed":true,"groups_lost":0,"loss":1.6705704,"memory_kib":629272,"milliseconds":1807}
+TEACHING BENCHMARK completed comparisons=6 timeouts=0 failures=0

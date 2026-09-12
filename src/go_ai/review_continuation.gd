@@ -4,9 +4,10 @@ extends RefCounted
 
 
 static func trace(size: int, cells: Array, player: int, actual: int,
-        pv: Array, after_actual: bool) -> Array:
-    var game := GoGame.new(size)
-    game.set_position(PackedByteArray(cells), player)
+        pv: Array, after_actual: bool, position: GoGame = null) -> Array:
+    var game := position.fork() if position != null else GoGame.new(size)
+    if position == null:
+        game.set_position(PackedByteArray(cells), player)
     if after_actual and not game.play(actual):
         return []
     var out: Array = []
