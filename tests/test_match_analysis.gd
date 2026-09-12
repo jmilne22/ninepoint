@@ -118,6 +118,16 @@ static func _accounting(t: TestKit) -> void:
     t.eq(payload["tally"]["best_moves"], [1], "by move number, so the player can find them")
     t.eq(payload["tally"]["fine"], 0, "a three-point loss is not a fine move")
     t.eq(payload["partial"], false, "a complete analysis is not partial")
+    var curve: Array = payload["curve"]
+    t.eq(curve.size(), 2, "the curve has one point per accounted move")
+    t.eq(curve[0], {"move": 1, "lead": 1.0, "loss": 0.0, "actual": "D6", "best": "D6"}, "a matched move keeps its lead and no loss")
+    t.eq(curve[1], {"move": 3, "lead": -1.5, "loss": 3.0, "actual": "C7", "best": "E7"}, "a lost move names the better point and the lead after it")
+    var white_record := {"sgf": "(;GM[1]SZ[9];B[dd];W[ee];B[cc])", "player_color": GoBoard.WHITE, "board_size": 9}
+    var white_curve: Array = MatchAnalysis.from_turns(0, white_record, raw)["curve"]
+    t.eq(white_curve.size(), 1, "White's curve covers White's decision")
+    t.eq(white_curve[0]["lead"], -1.5, "White's lead is from White's side")
+    t.eq(white_curve[0]["loss"], 0.5, "and so is White's loss")
+    t.ok(not MatchAnalysis.pending(0).has("curve"), "a pending review draws no graph")
     raw["complete"] = false
     var cut := MatchAnalysis.from_turns(0, record, raw)
     t.eq(cut["partial"], true, "a cut-short analysis says so")

@@ -90,7 +90,7 @@ static func available(record_index: int, engine_version: String, positions: Arra
 
 
 static func _with_meta(payload: Dictionary, meta: Dictionary) -> Dictionary:
-    for key in ["partial", "analysed_moves", "total_moves", "tally"]:
+    for key in ["partial", "analysed_moves", "total_moves", "tally", "curve"]:
         if meta.has(key):
             payload[key] = meta[key]
     return payload
@@ -185,7 +185,8 @@ static func moments_from_turns(replay: Dictionary, player: int, turns: Dictionar
             stake = maxf(0.0, player_relative(player, float(before["best_lead"]))
                 - player_relative(player, float(before["second_lead"])))
         var moment := {"move_number": i + 1, "actual": actual, "best": best,
-            "point_loss": loss, "stake": stake, "size": size, "player": player, "cells": move["cells"]}
+            "point_loss": loss, "stake": stake, "size": size, "player": player, "cells": move["cells"],
+            "lead": player_relative(player, float(after["score_lead"]))}
         moment.merge(explain_position(size, move["cells"], player, actual, best))
         moments.append(moment)
     return moments
@@ -211,6 +212,28 @@ static func tally(moments: Array) -> Dictionary:
             fine += 1
     best_moves.sort()
     return {"moves": counted, "best": best_moves.size(), "fine": fine, "best_moves": best_moves}
+
+
+## The whole game as numbers a graph can draw: for each of the player's moves the
+## engine saw, the estimated lead afterwards (their view), what the move cost, and
+## the two points a board can mark. Labels, not cells: the record's SGF replays
+## any position, so a 19x19 review adds well under a kilobyte.
+static func curve(moments: Array) -> Array:
+    var out: Array = []
+    for moment_value in moments:
+        if not (moment_value is Dictionary) or not moment_value.has("lead"):
+            continue
+        var moment: Dictionary = moment_value
+        var board := GoBoard.new(int(moment["size"]))
+        var actual := int(moment.get("actual", -1))
+        var best := int(moment.get("best", -1))
+        if actual < 0:
+            continue
+        out.append({"move": int(moment["move_number"]), "lead": snappedf(float(moment["lead"]), 0.1),
+            "loss": snappedf(float(moment.get("point_loss", 0.0)), 0.1),
+            "actual": board.label(actual), "best": board.label(best) if best >= 0 else ""})
+    out.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a["move"]) < int(b["move"]))
+    return out
 
 
 ## What went right first: the player's best move. A move the engine itself
@@ -297,7 +320,7 @@ static func from_turns(record_index: int, record: Dictionary, raw: Dictionary) -
         return unavailable(record_index, "not enough of the game was analysed", version)
     var meta := {"partial": not bool(raw.get("complete", false)),
         "analysed_moves": moments.size(), "total_moves": total_moves,
-        "tally": tally(moments)}
+        "tally": tally(moments), "curve": curve(moments)}
     return available(record_index, version, [], ReviewEnrichment.enrich(select_moments(moments), raw), meta)
 
 

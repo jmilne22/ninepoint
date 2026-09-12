@@ -34,6 +34,27 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
 | `MILESTONES.md` | Append-only shipped history and verification evidence | The current backlog |
 | Design / architecture / art docs | Durable product and technical truth | Task status |
 
+## REV-04 — Graph-first review POC
+
+- Status: `DOING` (POC on a branch, owner to judge by playing) · Priority: `P1` ·
+  Owner: Claude · Branch: `claude/review-graph-poc`, from `origin/main` `725aa6c`.
+- Why: REV-03 showed the review's prose layer cannot be made to say more than the
+  templates; the owner asked whether reviews are worth keeping at all versus the
+  graph-style review every Go site uses. This POC answers by building the graph on the
+  existing analysis so the two can be played side by side.
+- Scope: the payload gains `curve` (one small entry per player move from the eight-visit
+  pass: lead, loss, played and preferred points). The first review card becomes a graph
+  of the whole game; Left/Right walk your moves on the board, Up/Down jump between the
+  explained positions, Space opens that card, Compare C still works. Opens on the praised
+  move. The existing cards, facts, lessons and the second analysis pass are untouched.
+- Acceptance: `tools/test.sh` green with the curve unit checks; `review_graph` route
+  (a whole 9×9 to the count, the review, graph walking, opening a card, Compare C, return,
+  close) with opened frames in `docs/review/GRAPH.md`; legacy saves without a curve
+  render exactly as before.
+- Decision this POC is meant to inform: if the graph is the spine, the second analysis
+  pass (about 32 of 45 seconds and most of the card code) is only needed for the
+  ownership tints and continuation lines. Keep them or cut them after playing both.
+
 ## REV-02 — Optional teaching games (REV-01 Step 5)
 
 - Status: `DOING` · Priority: `P1` · Owner: Codex · Branch: `codex/rev-01-teaching-game`.

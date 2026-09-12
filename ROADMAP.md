@@ -97,6 +97,22 @@ measurements precede release; human beginner playtesting is still required. Thes
 are calibration targets until then. The implementation branch is a playtest build, not
 a claim that configuration names establish playing strength.
 
+## Graph-first review — REV-04
+
+The review's judgement is the same data a score graph draws: one engine estimate per
+position, already computed in the eight-visit pass. REV-03 established that the prose on
+top of it cannot be made to explain more than the deterministic templates, and the owner
+asked whether the review should go entirely in favour of the graph every Go site shows.
+
+The POC on `claude/review-graph-poc` keeps the judgement and changes the spine: the first
+card is a graph of your lead after each of your moves, the board follows the cursor with
+your move filled and the engine's preference ringed, and the explained positions are marks
+you can jump to and open. It opens on your praised move, so what went right still comes
+first. What it does not settle is the second analysis pass: it exists for the ownership
+tints, the continuation lines and the group facts, and it is most of the review's cost and
+code. Play the two versions, then decide whether those earn their place beside a graph.
+Evidence and frames are in `docs/review/GRAPH.md`.
+
 ## 1. The engine — ENG-01 through ENG-05
 
 **Decision (season-finale foundation):** ship a bundled KataGo integration for Linux x64.

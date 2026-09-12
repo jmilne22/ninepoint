@@ -250,7 +250,8 @@ Autopilot scripts in `tools/autopilot/`: `opening`, `prologue`, `institute`,
 `wassalon_game`, `katago_trial` / `katago_style_steady` / `katago_style_balanced` /
 `katago_style_fighting` (the engine at the board, no world), `rev01_wren` (deliberate two-liberty abandonment against Wren’s shipped engine) /
 `review_e2e` / `review_13x13`
-/ `review_win` (a whole game to the count, then the cards; the last one against the
+/ `review_graph` (REV-04: the same whole game, then the graph card, walking, opening
+a card, Compare C and closing) / `review_win` (a whole game to the count, then the cards; the last one against the
 weakest heuristic so the player wins -- the autoplay brain cannot beat even Abel's engine), `review_world_wren_loss` / `review_world_wren` /
 `review_world_13` (the same through the town: Wren at The Kettle, Kesh's thirteen, then the
 post-match talk), `review_leave` (walk away from the loading card, read it later on the
@@ -714,3 +715,13 @@ and their `_normal` variants. `teaching_note` explicitly scripts the real-analys
 to inspect the note and its Help replay. They use declared isolated saves and prepared positions;
 they are interface/engine evidence, not independently played full games or human learning.
 See `docs/review/TEACHING.md`; keep human acceptance separate from technical delivery.
+
+## REV-04 graph-first review POC
+
+`MatchAnalysis.curve` adds a per-move `curve` to the review payload from the pass-one
+turns; pending and failed reviews carry none, and legacy saves without one render the old
+tally card. `ReviewGraph` is a drawing-only Control; `ReviewCards` shows it as card one when
+a curve and a replayable SGF exist, opens on the praised move, walks moves with Left/Right,
+jumps marks with Up/Down, opens a marked card with Space and closes with Escape. The graph
+caption rounds the pass-one loss; the cards quote the second pass, so the two can differ by
+a few points on the same move. Route: `review_graph` (real engine, isolated XDG data).

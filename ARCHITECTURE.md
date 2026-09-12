@@ -256,7 +256,10 @@ example”, never a forced line or the engine PV; its cost stays the engine's mo
 Sealing and loading replay examples and check their capture evidence before displaying them.
 The detail pass never selects replacement queries for duplicate/unsupported lessons.
 `ReviewOwnershipInk` tints empty intersections beneath markers and outlines lost regions
-using the board geometry, including nineteen-line zoom. ReviewCards returns a requested
+using the board geometry, including nineteen-line zoom. REV-04 (POC) adds a per-move
+`curve` to the payload from the pass-one turns and a drawing-only `ReviewGraph`; the panel
+shows it as the first card, rebuilding any position from the record's SGF via
+`MatchAnalysis.replay`. ReviewCards returns a requested
 lesson to its world owner, which calls the existing MatchBridge lesson runner.
 
 REV-02's `LiveTeaching` belongs to the match scene and owns one `KataGoTeaching` process;

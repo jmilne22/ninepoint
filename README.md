@@ -100,6 +100,7 @@ where to put you when all three slots are full.
 | *after both players pass* | Space toggles a group dead or alive, **P** accepts the count |
 | Space | dismiss the result, hear the opponent’s reaction, then choose whether to review |
 | C (review) | compare the original position, your move, and the engine’s preferred move |
+| Left/Right, Up/Down (review graph) | walk your moves on the board; jump between the explained positions. Space opens one, Esc closes |
 | L (review, when offered) | open the related lesson; return to the world afterward |
 
 Wren's first full practice and Kesh's handicap practice offer **With teaching** or
