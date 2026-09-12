@@ -35,6 +35,15 @@ Walking arms keep fixed shoulder attachment and bone lengths. Elbows and hands f
 one continuous swing; the passing pose should not collapse the torso or invert the knee.
 Inspect actual walk and run playback, not just a single sprite frame.
 
+## ART-10R: revised expressive match trial
+
+The owner rejected the first match-view prototype's models, animations and board.
+The [revised isolated trial](docs/table_scene/README.md) uses Blender-exported skinned
+Ro/Wren meshes, Pillow-painted face expressions, continuous animation, thin ink outlines
+and real 3D Go geometry. Source scripts live in `tools/table_scene/`; all exports stay
+in `art/table_scene/`. The campaign's art remains the production baseline pending the
+owner's review of the new screenshots and footage.
+
 ## ART-07: isolated fixed-view De Ketel experiment
 
 Approved 2026-09-12: one 384×216 rendered room with a 45°/30° fixed orthographic

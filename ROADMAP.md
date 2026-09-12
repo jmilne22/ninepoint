@@ -16,6 +16,14 @@ review on engine analysis; the other cuts remain. Read `MILESTONES.md` M37 for w
 
 ---
 
+## Match presentation trial — ART-10R
+
+The owner rejected the first expressive match prototype on visual quality. The
+revised [Wren table scene](docs/table_scene/README.md) tries continuous skinned
+character animation and a real 3D board at 768×432. Technical checks establish input
+and rules safety; screenshots and footage are the basis for the owner's next visual
+review. Campaign adoption, other opponents and walking-world changes remain separate.
+
 ## Beginner and premise baseline — CAP-01 / DESIGN-01
 
 The September 12 owner walkthrough exposed a first-capture rules mismatch and a world

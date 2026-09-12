@@ -4,8 +4,26 @@ This is the **operational source of truth** for unfinished work. An agent starts
 not in the milestone history. It answers: what may be picked up now, what is blocked, and
 what evidence makes a task done.
 
-Revision base: `origin/main` and HEAD both `89e1a35`, freshly fetched and verified on 2026-09-12 before the design-baseline audit.
+Revision base: `origin/main` and HEAD both `f90a39e`, freshly fetched and verified on 2026-09-13 before the isolated table-scene restart.
 Update the snapshot when reconciling after a merge; it is not a release number.
+
+## ART-10R — Match presentation restart
+
+- Status: `NEEDS DECISION` (trial delivered; visual adoption review) · Owner: Codex · Branch: `codex/table-scene-restart`
+- The owner rejected the first expressive prototype's models, animations and board.
+  Its screenshots and technical checks did not establish visual quality.
+- Authorized restart: original player/Wren models, continuous animation, real 3D
+  board and stones, playable Wren match, inspected screenshots and video.
+- Separate checkout; verified base `f90a39e`. Campaign art and saves stay separate.
+- Delivered: continuous skinned Ro/Wren models with painted expressions and ink outlines;
+  a 3D board/stones/bowls; the original match controller and shipped Wren profile.
+- Verified: 18,239/0 main checks, 340 loads, 13 Python art tests, full integration gate;
+  97/0 rendered input checks and 9/0 live Wren checks with no engine fallback.
+- Inspected: six screenshots, timed motion sheets, live resignation result and the
+  39.2-second 768×432/30-fps MP4. [Evidence](docs/table_scene/verification.md).
+- Play: `tools/play_table_scene.sh`. Every run has disposable user data.
+- Next decision: owner judges the new footage. Campaign adoption and other opponents
+  follow that review.
 
 ## How to use this board
 

@@ -2,6 +2,13 @@
 
 Godot 4.7 · GDScript · 2D runtime with rendered 2.5D presentation · `gl_compatibility` renderer.
 
+The opt-in `src/experiments/table_scene/` trial adds real 3D SubViewports for a
+wooden board and two animated character cut-ins. It subclasses the match scene;
+GoBoardView still receives mapped input, and the existing controller owns the game.
+The camera's ray/plane intersection supplies picking. Its launcher stages 768×432
+settings and disposable saves without changing campaign rendering or persistence.
+See [the trial notes](docs/table_scene/README.md).
+
 ## 1. The one rule
 
 **`src/go/` may not know that a game exists around it.**

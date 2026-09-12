@@ -22,6 +22,8 @@ board. Portraits are rendered from the same original character models as the spr
 Market Lane has varied White City-inspired balconies and shaded entrances; Sea Walk
 has warm stone port buildings and fishing boats inspired by Jaffa.
 The earlier isolated room experiment remains available through `tools/play_ps1.sh`.
+The revised [Wren table-scene trial](docs/table_scene/README.md) is playable through
+`tools/play_table_scene.sh` on this branch, with disposable saves and a 768×432 view.
 
 ## Read this first
 

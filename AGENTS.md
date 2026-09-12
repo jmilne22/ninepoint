@@ -198,6 +198,9 @@ out at the end of the session, not the start.
 ```bash
 tools/play.sh                                    # play it, on the real display
 tools/play.sh -- --katago-trial=res://tools/fixtures/katago_trial_19x19.tres # development board
+tools/play_table_scene.sh                        # isolated 768×432 Wren match; disposable saves
+tools/run_table_scene.sh --showcase              # serial rendered trial and six screenshots
+tools/run_table_scene.sh --verify-table_scene    # projected picking, keyboard, modal and counting checks
 tools/play_ps1.sh                                # isolated De Ketel 2.5D experiment; never saves
 tools/run_ps1.sh tools/autopilot/ps1_tour.json     # disposable user data, rendered-room acceptance
 tools/test.sh                                    # compile gate + load check + all suites
