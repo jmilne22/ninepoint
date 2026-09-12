@@ -41,10 +41,13 @@ piece of work also gets a new, append-only entry in `MILESTONES.md`.
   keep the graph, make the board itself carry the analysis, in the way KaTrain does,
   without KaTrain's clutter.
 - Scope, in priority order:
-  1. **Engine picks on the board.** At the selected move, mark the engine's best two or
-     three candidate points with their cost relative to the best ("0", "1", "4") and
-     list them in the caption: "Engine's picks: G2, then F1 (about 1 point worse), H5
-     (about 4)". Data: `KataGoReviewQuery.parse_line` keeps only `moveInfos[0]`; keep
+  1. **Engine picks on the board, and nothing else in words.** At the selected move,
+     mark the engine's best two or three candidate points with their cost relative to
+     the best ("0", "3", "6") and put the played move's own cost on its marker ("19",
+     red). The board is the explanation; the caption shrinks to one line, "About 19
+     points behind here." No "Engine's picks: ..." sentence. The legend (rings = the
+     engine's picks, number = cost) shows behind Help H or only until the first card
+     is opened, not on every card. Data: `KataGoReviewQuery.parse_line` keeps only `moveInfos[0]`; keep
      the top five `{move, scoreLead}` per turn, and `MatchAnalysis.curve` adds a `top`
      list per entry (labels and player-relative loss, one decimal). A 9×9 review grows
      by a few hundred bytes. The position is the one before your move, so the
