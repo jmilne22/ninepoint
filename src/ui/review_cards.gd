@@ -35,13 +35,15 @@ var _replay: Dictionary = {}
 var _graph_started := false
 
 
-func setup(value: Dictionary, who: String = "") -> void:
+func setup(value: Dictionary, who: String = "", record: Dictionary = {}) -> void:
     review = ReviewEnrichment.restore_entries({"review":value})["review"]
     var source := int(review.get("source_match", -1))
-    if source >= 0 and source < GameState.match_records.size():
+    if record.is_empty() and source >= 0 and source < GameState.match_records.size():
+        record = GameState.match_records[source]
+    if not record.is_empty():
         for finding in review.get("findings", []):
-            finding["player"] = int(GameState.match_records[source].get("player_color", GoBoard.BLACK))
-        _replay = MatchAnalysis.replay(str(GameState.match_records[source].get("sgf", "")))
+            finding["player"] = int(record.get("player_color", GoBoard.BLACK))
+        _replay = MatchAnalysis.replay(str(record.get("sgf", "")))
     opponent_name = who
 
 

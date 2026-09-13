@@ -2,6 +2,8 @@
 ## happened. Reuses GoBoardView, so a lesson looks exactly like a real game.
 extends Control
 
+var context: ActivityContext
+
 var lesson: GoLessonData
 var game: GoGame
 var lesson_actions := GoLessonActions.new()
@@ -27,12 +29,13 @@ var _overlay_text: Label
 
 
 func _ready() -> void:
-    var lesson_id := MatchBridge.pending_lesson
+    context = MatchBridge.activity()
+    var lesson_id := context.lesson_id
     if lesson_id == "":
         lesson_id = "liberties"
     lesson = GoLessonData.load_lesson(lesson_id)
     if lesson == null:
-        MatchBridge.finish_lesson(lesson_id, false)
+        context.lesson_finished.call(lesson_id, false)
         return
     _build_ui()
     set_process_unhandled_input(true)
@@ -68,8 +71,8 @@ func _run() -> void:
     if lesson.outro.size() > 0:
         await _show_card("\n\n".join(lesson.outro))
     _finished = true
-    GameState.set_flag("lesson_%s_done" % lesson.id, true)
-    MatchBridge.finish_lesson(lesson.id, true)
+    context.set_flag("lesson_%s_done" % lesson.id, true)
+    context.lesson_finished.call(lesson.id, true)
 
 
 func _load_step() -> void:
@@ -237,7 +240,7 @@ func _unhandled_input(event: InputEvent) -> void:
     if event.is_action_pressed("cancel"):
         _finished = true
         get_viewport().set_input_as_handled()
-        MatchBridge.finish_lesson(lesson.id, false)
+        context.lesson_finished.call(lesson.id, false)
         return
     if _awaiting == &"feedback":
         if event.is_action_pressed("interact"):

@@ -5,7 +5,8 @@ This document explains **why** future work matters and the trade-offs around it.
 dependencies, and acceptance criteria. `MILESTONES.md` is the append-only delivery history.
 Do not select work from this document without checking its linked board ticket first.
 
-The build is green: `tools/test.sh` passes 19,418 Godot checks, 13 Python art tests,
+The build is green: `tools/test.sh` passes 21,145 Godot checks, 13 Python art tests,
+standalone Practice profile and persistence checks,
 the teaching protocol/scene gates, a capture-scene gate and three real-engine gates,
 `tools/check_lessons.py` reports no problems, and the game is playable from the cold open
 to the exam and the Cup.
@@ -15,6 +16,18 @@ ladder, the borrowed book, the performance rating and the calendar. M40 rebuilt 
 review on engine analysis; the other cuts remain. Read `MILESTONES.md` M37 for why.
 
 ---
+
+## Standalone practice — PRACTICE-01
+
+The owner wants a substantial way to play Go without walking through the RPG. Practice
+is a title-screen destination with custom ranks and cosmetic avatars, teaching games,
+a learning library, saved reviews and one resumable game. It owns separate persistence:
+no campaign progression or second player rating. The owner subsequently requested the
+newest 3D presentation instead of the initial portrait-only plan; Practice uses the
+campaign preview models and table without adopting that preview for the RPG.
+
+30k–21k profiles extend the existing novice targets by interpolation. They remain
+approximate until human testing; automated strength games cannot certify those labels.
 
 ## Approved match style — ART-10R / ART-11
 

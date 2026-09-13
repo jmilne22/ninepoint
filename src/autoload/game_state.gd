@@ -36,7 +36,7 @@ var active_slot: int = 1
 
 
 func _process(delta: float) -> void:
-    if started:
+    if started and (MatchBridge.activity_context == null or not MatchBridge.activity_context.standalone):
         playtime += delta
 
 

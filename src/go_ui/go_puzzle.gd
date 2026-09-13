@@ -4,6 +4,8 @@
 ## teaching surface of the game.
 extends Control
 
+var context: ActivityContext
+
 var puzzle: GoPuzzleData
 var game: GoGame
 var board_view: GoBoardView
@@ -26,12 +28,13 @@ var _finished := false
 
 
 func _ready() -> void:
-    var puzzle_id := MatchBridge.pending_puzzle
+    context = MatchBridge.activity()
+    var puzzle_id := context.puzzle_id
     if puzzle_id == "":
         puzzle_id = "capture_1"
     puzzle = GoPuzzleData.load_puzzle(puzzle_id)
     if puzzle == null:
-        MatchBridge.finish_puzzle(puzzle_id, false)
+        context.puzzle_finished.call(puzzle_id, false)
         return
     game = puzzle.make_game()
     _build_ui()
@@ -145,14 +148,14 @@ func _on_point(point: int) -> void:
 
 func _succeed() -> void:
     _finished = true
-    GameState.set_flag("%s_solved" % puzzle.id, true)
+    context.set_flag("%s_solved" % puzzle.id, true)
     UiKit.fit_card(_card, _overlay_text,
         "Correct.\n\n%s\n\n[Space] to carry on" % puzzle.explanation, 304)
     _overlay.visible = true
     _hints.text = ""
     while not _dismissed:
         await get_tree().process_frame
-    MatchBridge.finish_puzzle(puzzle.id, true)
+    context.puzzle_finished.call(puzzle.id, true)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -186,7 +189,7 @@ func _unhandled_input(event: InputEvent) -> void:
         _message.text = "Position reset."
     elif event.is_action_pressed("cancel"):
         _finished = true
-        MatchBridge.finish_puzzle(puzzle.id, false)
+        context.puzzle_finished.call(puzzle.id, false)
     else:
         return
     get_viewport().set_input_as_handled()

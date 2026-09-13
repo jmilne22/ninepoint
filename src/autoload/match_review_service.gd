@@ -10,9 +10,12 @@ signal finished(record_index: int, payload: Dictionary)
 
 var _runner: KataGoAnalysis = null
 var _index := -1
+var _record: Dictionary = {}
+var _write: Callable
 
 
 func _ready() -> void:
+    _write = GameState.record_analysis
     EventBus.session_ended.connect(cancel)
     EventBus.match_started.connect(func(_context: String) -> void: cancel())
 
@@ -30,8 +33,15 @@ func running_index() -> int:
 func start(record_index: int) -> void:
     if record_index < 0 or record_index >= GameState.match_records.size():
         return
+    start_record(record_index, GameState.match_records[record_index], GameState.record_analysis)
+
+
+## Explicit storage destination lets practice reuse the same single worker.
+func start_record(record_index: int, record: Dictionary, write: Callable) -> void:
     cancel()
-    GameState.record_analysis(record_index, MatchAnalysis.pending(record_index))
+    _record = record.duplicate(true)
+    _write = write
+    _write.call(record_index, MatchAnalysis.pending(record_index))
     _run(record_index)
 
 
@@ -43,11 +53,11 @@ func cancel() -> void:
     _runner = null
     _index = -1
     runner.cancel()
-    GameState.record_analysis(index, MatchAnalysis.unavailable(index, "cancelled"))
+    _write.call(index, MatchAnalysis.unavailable(index, "cancelled"))
 
 
 func _run(record_index: int) -> void:
-    var record: Dictionary = GameState.match_records[record_index]
+    var record: Dictionary = _record.duplicate(true)
     var payload: Dictionary
     if not MatchAnalysis.eligible(record):
         payload = MatchAnalysis.unavailable(record_index, "ineligible")
@@ -78,7 +88,7 @@ func _run(record_index: int) -> void:
         payload = MatchAnalysis.from_turns(record_index, record, raw)
         if OS.is_debug_build() and str(payload.get("availability", "")) == "failed":
             print("Review failed (%s)" % str(payload.get("reason", "")))
-    GameState.record_analysis(record_index, payload)
+    _write.call(record_index, payload)
     finished.emit(record_index, payload)
 
 

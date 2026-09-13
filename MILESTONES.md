@@ -3903,3 +3903,48 @@ at least 1.89 dB peak headroom. The full gate loads 405 resources and passes 19,
 48 surface timing/cancellation checks and 22 real-driver checks pass. Refreshed review media
 and limits are in [revision 02 verification](docs/audio_preview/verification.md). No direct
 listening analysis of the anime recordings or final aesthetic approval is claimed.
+
+
+## M61 — Standalone Practice [implemented locally]
+
+PRACTICE-01 adds a title-screen destination available without an RPG save. Custom
+ordinary/teaching games cover 7/9/13/19, every rank from approximate 30k through 5d,
+independent style/avatar choices, colours/nigiri, handicap and custom komi. Capture Go
+keeps its own first-capture opponent. Owner feedback adopted the newest existing 3D
+models/table for Practice; the RPG presentation selection remains separate.
+
+The hub contains an ungated lesson/puzzle library, beginner sequence, completion marks,
+one resumable game, completed history, move replay, SGF export and requested engine
+review. Teaching shares evidence-based questions and adds hints, takebacks and controls.
+Explicit activity contexts and record destinations keep all campaign recording, flags,
+rank changes and slot writes in the campaign adapter. Shared turn/completion components
+avoid a copied match controller. Atomic versioned storage replays committed actions and
+retains counting marks; stable IDs prevent duplicate results. Python generates 105
+practice configurations without changing the campaign profiles.
+
+**Done when:** compile/load/unit, lesson validation, failure/isolation gates, serial
+Practice routes and campaign teaching/review returns pass, and representative screens
+are opened. The gate loads 426 resources and passes 21,145 unit checks / 0 failures
+(including 1,551 Practice checks; M60 recorded 19,435). Core, engine and layout routes
+pass 17, 23 and 12 assertions; the async Practice gate passes 16. Full gate also covers
+pure review, contact timing, teaching worker/scene, capture play and real engine failures.
+[Commands, detailed acceptance and screenshots](docs/practice/README.md).
+
+| Deliberate break or defect exercised | Guard/evidence |
+|---|---|
+| Change avatar while keeping rank/style | Cosmetic identity and generated profile independence checks |
+| Cross 1k→1d or exceed board handicap limits | All rank/style/board combinations; played setup controls |
+| Undo while an AI reply is pending | Delayed opponent, worker shutdown, stale reply rejection |
+| Reload after captures, ko, passes or counting edits | Legal history replay, prisoner/ko checks, counting resume and takeback |
+| Duplicate completion or interrupted temporary write | Stable game ID; one transaction removes active game and adds result; previous good file retained |
+| Missing opponent/review engine | Honest fallback choice with saved return; replay remains available |
+| Perform practice activities after loading a campaign | Whole in-memory state and all three save-slot byte comparisons |
+| Leave a review running while browsing | Real 19×19 review completes on Learn and opens from Practice history |
+| Long rows or faint numeric fields expand/obscure setup | Container layout, wrapped history entries, explicit field colours, inspected screenshots |
+
+**Looked at:** title, hub/avatar grid, handicap/custom-komi setup, Capture Go, learning
+library and lesson/puzzle, all board sizes, hints, counting, suspend/resume, results,
+export, history and review. Campaign question/undo/retry, review graph and world return
+were also inspected. An initial software-rendered campaign question missed its existing
+two-second deadline; hardware rendering passed without changing campaign profiles.
+Automated games establish operation and relative settings, not certified beginner ranks.

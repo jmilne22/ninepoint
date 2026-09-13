@@ -28,6 +28,7 @@ func _ready() -> void:
 
 
 func _clear_session() -> void:
+    activity_context = null
     pending_request = null
     pending_puzzle = ""
     pending_lesson = ""
@@ -124,8 +125,7 @@ func start_puzzle(puzzle_id: String, player_position: Vector2) -> void:
     await SceneRouter.go_to(PUZZLE_SCENE)
 
 
-## The teaching order. Wren walks a beginner through it at The Kettle; there is no
-## menu item, because being taught by somebody is the point.
+## The campaign teaching order. Practice owns its independent, ungated library.
 const TUTORIAL_TRACK := ["liberties", "capture", "self_capture"]
 
 
@@ -207,3 +207,23 @@ func _return_to_world() -> void:
     var pos = GameState.return_position if GameState.has_return_position else null
     await SceneRouter.go_to(SceneRouter.world_scene(), GameState.spawn_point, pos)
     GameState.has_return_position = false
+
+
+## Practice installs a context; normal encounters retain the campaign adapter.
+var activity_context: ActivityContext
+
+func activity() -> ActivityContext:
+    if activity_context != null:
+        return activity_context
+    var context := ActivityContext.new()
+    context.player_name = GameState.player_name
+    context.request = pending_request
+    context.lesson_id = pending_lesson
+    context.puzzle_id = pending_puzzle
+    context.match_finished = finish_match
+    context.match_cancelled = cancel_match
+    context.lesson_finished = finish_lesson
+    context.puzzle_finished = finish_puzzle
+    context.flag_read = GameState.has_flag
+    context.flag_written = GameState.set_flag
+    return context

@@ -9,6 +9,7 @@ GODOT="${GODOT:-$HOME/.local/bin/godot}"
 echo "== deterministic art contracts =="
 python3 tests/test_art.py
 python3 tests/test_audio_assets.py
+python3 tests/test_practice_profiles.py
 python3 tools/table_scene/check_assets.py
 python3 tools/expressive_world/check_assets.py
 python3 tools/kettle_next/check_assets.py
@@ -72,6 +73,7 @@ echo "== review facts and narrator with engine/game absent =="
 tools/test_review_pure.sh
 
 echo "== capture scene and KataGo Linux integration gates =="
+run_integration_gate 75 res://tools/practice_session_test.gd
 run_integration_gate 30 res://tools/audio_preview/verify.gd
 run_integration_gate 30 res://tools/teaching_worker_test.gd
 run_integration_gate 45 res://tools/teaching_scene_test.gd

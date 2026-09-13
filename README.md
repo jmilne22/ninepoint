@@ -43,6 +43,19 @@ six stone variations, separate capture/bowl sounds, Beyond the Balcony in The Ke
 and One Clear Move for ordinary rated games. Superseded audio and the audition controls
 have been removed. Other location, lesson and character cues keep their existing routing.
 
+## Just want to play Go?
+
+Choose **Practice** on the title screen. No campaign save is required. Pick a cosmetic
+avatar from the newest 3D character presentation, an AI rank from **30k to 5d**, style,
+board size (7/9/13/19), colour and handicap. Beginner settings below 20k are approximate
+targets, not certified ranks. Ordinary games, teaching games and first-capture practice
+have their own records, lessons and saves; nothing changes your campaign.
+
+Teaching games add **Hint I**, **Undo U** and **Help H**, including optional coaching and
+liberty inspection. **Esc** offers Save and Return, Discard Game or Continue Playing.
+The hub remembers one unfinished game and provides lessons, puzzles, saved game replay,
+engine reviews and SGF export. [Practice controls and verification](docs/practice/README.md).
+
 ## Read this first
 
 | Document | What it covers |
@@ -117,7 +130,7 @@ where to put you when all three slots are full.
 | Arrow keys | move the cursor |
 | Space | place a stone |
 | P | pass |
-| V (19×19 development route) | whole board / close view; arrows move through the close view |
+| V (19×19 Practice or development game) | whole board / close view; arrows move through the close view |
 | R | offer resignation; R confirms, Esc cancels |
 | H | practice Help and teaching controls; counting help at the count; handicap guidance |
 | *after both players pass* | Space toggles a group dead or alive, **P** accepts the count |
@@ -170,7 +183,7 @@ Practice and casual games leave rank unchanged. The opening Capture Go and Wren'
 practice start empty; Kesh's optional practice uses handicap after she issues your card. No unranked player is assigned
 an invented numerical strength to calculate a head start.
 
-**19×19 is available for development play**, with a whole-board view and a close
+**19×19 is available in Practice and development play**, with a whole-board view and a close
 view that follows the cursor. The footer names the selected intersection. Lines
 continuing beyond a close view mean the board continues there; they are not an edge.
 An opponent move outside the view is named in the panel. Press V to see the whole board
@@ -191,8 +204,7 @@ repeat the example, or ask for directions to Wren. **Help H** inspects a group a
 available captures. **P** ends this practice without a winner; **R** offers resignation.
 Pip offers retries and a replay of the last capture, including after saving and loading. Wren, in
 the club, does the rules properly afterwards — liberties, capture, and why you may not fill in
-your own last one. There is no tutorial on the menu, because being taught by somebody is the
-point.
+your own last one. For lessons without the campaign, choose Practice → Learn on the title screen.
 
 Wren acknowledges Capture Go and offers four short rules exercises, then a prepared
 7×7 finish: living and dead groups, a useful final move, passing, and checking a dead-group
@@ -344,6 +356,7 @@ src/academy/ the club leagues and the federation's events: standings and draws,
 src/go_ai/   opponent interface, KataGo at the board and over a finished game, the
              heuristic AI that stands in when the engine is missing
 src/go_ui/   board view, match scene, puzzle scene, lesson runner, the nigiri ceremony
+src/practice/ independent hub, settings, learning library, history and resumable games
 src/rpg/     town simulation, live expressive presentation, player, NPCs and tram
 src/prototype/ketel/   opt-in session-only room experiment
 src/dialogue/ src/quest/ src/ui/ src/autoload/   (SaveSystem lives in src/autoload/)
@@ -388,5 +401,5 @@ Current presentation evidence is in the [expressive rollout report](docs/express
 and [coastal polish report](docs/ps1/polish/verification.md).
 
 
-The complete graphics preview is isolated from normal play. Launch `tools/play_campaign_next.sh`
+The complete campaign graphics preview remains optional for the RPG. Standalone Practice uses its newest character and table assets. Launch `tools/play_campaign_next.sh`
 (or `--baseline` for comparison); progress is disposable. See [campaign preview](docs/campaign_next/README.md).
