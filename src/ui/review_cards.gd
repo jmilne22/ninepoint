@@ -361,7 +361,7 @@ func _refresh_navigation() -> void:
     _navigation.visible = _board.visible and _board.game != null
     if _navigation.visible:
         # Dark ink on this paper card; the match footer is over a dark backdrop.
-        _navigation.modulate = Color("#45404f")
+        _navigation.modulate = Color("#526b5e")
     _refresh_heading()
 
 

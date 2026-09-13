@@ -1,4 +1,4 @@
-Current verified local revision: [M49 rendered game evidence](docs/ps1/world/verification.md) and [ART-09 polish](docs/ps1/polish/verification.md). Historical entries retain their original behavior and counts.
+Current verified local revision: [M58 expressive campaign](docs/expressive_world/verification.md), [M57 Kettle refinement](docs/expressive_kettle/refinement/README.md), [M56 expressive Kettle POC](docs/expressive_kettle/verification.md) and [M55 expressive matches](docs/table_scene/adoption/verification.md). Historical entries retain their original behavior and counts.
 
 # NINEPOINT — Milestones
 
@@ -3656,3 +3656,118 @@ including zoom, `quay_review` still shows the legacy card, and the frames in
 Open: REV-05, whether the second analysis pass (tints, continuation lines, group facts,
 about 32 of 45 seconds) earns its place beside the graph. Independent beginner testing
 of the review remains pending; the owner's own play is the evidence here.
+
+
+## M55 — Expressive match presentation across the cast [done locally]
+
+ART-11 adopts the approved continuous, skinned character style for every normal cast
+match on 7/9/13/19 boards. The existing controller still owns rules, engine profiles,
+teaching, colour selection, scoring, records and return. The presentation supplies
+real 3D boards, reversible picking, global-coordinate zoom, teaching/count markers,
+animated cast cut-ins and matching nigiri. All 21 identities share generated sources.
+
+**Done when:** 19,406 checks / 0 failures (M54 predecessor: 18,239), 349 loaded resources,
+13 Python art tests and 21 cast asset contracts pass. Serial rendered projection
+checks pass 1,162 / 0; size/record/return checks pass 98 / 0; live Wren and Tomás
+engine checks pass 9 / 0 each. Campaign review return, both teaching comparisons and
+Capture Go's neutral ending, resignation, capture win and saved replay were exercised.
+
+| Deliberate change | Reason |
+|---|---|
+| Cast matches use a 768×432 canvas at 30 fps | Approved art, readable full cast and normal-speed motion; retain teaching reply budget |
+| Default window is 1536×864 | Integer scaling for both match and existing world |
+| Custom development boards keep their original view | No cast identity is supplied |
+
+**Actually inspected:** every cast idle/thinking pair; 7/9/13/19 boards, 19×19 close
+view, colour choice, handicap help, teaching markers, capture win/replay, counting,
+result and review. Watched the actual 39.23-second Godot movie at 1×.
+[Reproduction and limitations](docs/table_scene/adoption/verification.md).
+
+
+## M56 — One expressive Kettle area [POC done locally]
+
+ART-12 carries the approved match cast into a furnished live-3D room with full-body
+Ro, Wren, Kesh and Tomás, screen-relative walking/running, continuous skinned gait,
+painted facial animation and matching dialogue busts. Python/Blender/Pillow generate
+separate POC exports. The original dialogue graph, novice card, match controller,
+engine, result and review services remain in use. A disposable launcher routes match
+return back to the same room and player position. Other areas are outside this proof.
+
+**Done when:** full gate 19,407 / 0 (M55 predecessor 19,406); final resource load
+358 / 0 after the player-card addition; 28 rendered route checks pass. These exercise
+walk/talk with all three people, actual Wren replies with no fallback, cancelled
+resignation, result, exactly one session record, room return, Kesh's 30k card, Tab
+player card, V review loading, nested CanvasLayer scaling, counter/wall collision
+and blocked movement under modal UI.
+
+| Deliberate change | Boundary |
+|---|---|
+| One opt-in live-3D Kettle room | The campaign still uses its existing map renderer |
+| Existing graphs start after rules acknowledgement | Disposable POC state; campaign progress is untouched |
+| Tab opens the existing player card directly | This visit has no save menu |
+
+**Actually inspected:** room arrival and both walking directions, Wren/Tomás/Kesh
+conversation busts, Wren game and return, novice/player cards and full-size review
+loading. Inspected six gait frames and watched the 43-second Godot viewing cut
+through its ending at 1×. It removes loading and verification pauses; the complete
+110.8-second capture remains available. [Evidence](docs/expressive_kettle/verification.md).
+
+
+## M57 — Refine the expressive Kettle [POC done locally; visual review pending]
+
+ART-12R responds to the owner's stance criticism and clarified Hikaru no Go 3 GameCube
+reference. Rebalanced full-body proportions, relaxed hands and weight shifts, counter
+cloth work, corrected bone roll, planted strides and matching conversation close-ups.
+The same isolated room now has surface grain, cast shadows and individual foliage.
+
+**Done when:** 19,407 / 0 full gate (M56 predecessor: 19,407), 361 resource loads
+(previous 358), 560 deformed-pose assertions and 28 / 0 rendered acceptance checks.
+The full gate retains the predecessor's shutdown resource-leak diagnostics; the rendered
+route and pose capture have none. Actual Wren play, result, return, cards and review
+remain exercised with disposable data.
+
+| Deliberate change | Reason |
+|---|---|
+| Longer legs, smaller heads, low resting arms | Replace the first POC's squat, elbows-out stance |
+| Character-specific idle and working poses | Give hands a resting place and distinguish the cast |
+| Textured, shadow-receiving room | Ground the cast within the existing warm palette |
+| Same one-room scope | Another owner review before broader world adoption |
+
+**Actually inspected:** front/three-quarter poses, six walking frames, room comparison,
+Wren/Tomás/Kesh conversations and the 36.1-second normal-speed Godot review film.
+The 114.97-second complete tour and previous POC remain available.
+[Evidence, limitations and launch](docs/expressive_kettle/refinement/README.md).
+
+
+## M58 — Expressive campaign and smooth interface [done locally]
+
+ART-13 follows owner approval of the refined Kettle and the request to carry it through
+the rest of the game. Twelve live 3D areas, all 26 full-body identities, seated/counter
+activities, matching animated dialogue portraits and the existing moving tram now share
+the approved palette and model pipeline. DejaVu Sans outline text, rounded vector panels,
+new title/opening/travel views and matching teaching/review stones replace the pixel UI.
+
+**Done when:** 19,407 / 0 checks (M57 predecessor: 19,407), 380 resource loads
+(previous 361), 119 live-asset checks and 3,640 deformed-pose assertions. Serial rendered
+routes verify 22 doors/projection, saves, Capture Go, ko, puzzles, 19×19 navigation/group
+selection, real Wren counting/review/return, tram and all three competition panels.
+The inherited shutdown resource diagnostics remain in some harnesses.
+
+| Deliberate change | Boundary |
+|---|---|
+| Live 3D world replaces campaign raster layers | Original logical maps, physics, interactions and save coordinates remain authoritative |
+| Smooth outline font and vector UI at window resolution | Existing measured layouts, mouse/keyboard actions and modal blocking remain |
+| Same full-body identities in walking and dialogue views | Cast names, clothes, ranks and game behaviour remain original |
+| Full-campaign preview launcher | Its persistent saves are separate from normal campaign saves |
+
+**Actually inspected:** all twelve areas and 26 identities, chairs/feet, Wren portrait,
+Hana opening, long room names, three save slots, lessons/puzzles, count group toggles,
+competition panels, match/result/review and motion frames. Watched the 90.6-second full
+world tour and 61.65-second review cut at 1×; both are actual Godot capture with audio.
+[Launch, footage, six screenshots and limits](docs/expressive_world/README.md).
+
+
+**M58 follow-up, ART-13R:** the owner found sliding at high refresh rates and a broken
+mirrored tram end. The original 30 fps captures did not expose repeated idle/walk resets
+between physics ticks. The correction samples movement in physics, supplies a run clip
+and reverses reflected cab face winding. [Reproduction and inspected correction](docs/expressive_world/motion-fix/README.md).

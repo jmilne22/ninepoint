@@ -1,0 +1,110 @@
+[
+  {
+    "source": "ninepoint-world-showcase.avi",
+    "start_frame": 30,
+    "end_frame": 110,
+    "fps": 30
+  },
+  {
+    "source": "ninepoint-world-opening.avi",
+    "start_frame": 119,
+    "end_frame": 190,
+    "fps": 30
+  },
+  {
+    "source": "ninepoint-world-showcase.avi",
+    "start_frame": 240,
+    "end_frame": 320,
+    "fps": 30
+  },
+  {
+    "source": "ninepoint-world-showcase.avi",
+    "start_frame": 346,
+    "end_frame": 436,
+    "fps": 30
+  },
+  {
+    "source": "ninepoint-world-showcase.avi",
+    "start_frame": 500,
+    "end_frame": 645,
+    "fps": 30
+  },
+  {
+    "source": "ninepoint-world-showcase.avi",
+    "start_frame": 809,
+    "end_frame": 890,
+    "fps": 30
+  },
+  {
+    "source": "ninepoint-world-showcase.avi",
+    "start_frame": 975,
+    "end_frame": 1055,
+    "fps": 30
+  },
+  {
+    "source": "ninepoint-world-showcase.avi",
+    "start_frame": 1141,
+    "end_frame": 1221,
+    "fps": 30
+  },
+  {
+    "source": "ninepoint-world-showcase.avi",
+    "start_frame": 1307,
+    "end_frame": 1367,
+    "fps": 30
+  },
+  {
+    "source": "ninepoint-world-showcase.avi",
+    "start_frame": 1473,
+    "end_frame": 1560,
+    "fps": 30
+  },
+  {
+    "source": "ninepoint-world-showcase.avi",
+    "start_frame": 1639,
+    "end_frame": 1699,
+    "fps": 30
+  },
+  {
+    "source": "ninepoint-world-showcase.avi",
+    "start_frame": 1805,
+    "end_frame": 1885,
+    "fps": 30
+  },
+  {
+    "source": "ninepoint-world-showcase.avi",
+    "start_frame": 1971,
+    "end_frame": 2031,
+    "fps": 30
+  },
+  {
+    "source": "ninepoint-world-showcase.avi",
+    "start_frame": 2137,
+    "end_frame": 2197,
+    "fps": 30
+  },
+  {
+    "source": "ninepoint-world-showcase.avi",
+    "start_frame": 2308,
+    "end_frame": 2473,
+    "fps": 30
+  },
+  {
+    "source": "ninepoint-world-showcase.avi",
+    "start_frame": 2583,
+    "end_frame": 2700,
+    "fps": 30
+  },
+  {
+    "source": "ninepoint-world-rendered_match.avi",
+    "start_frame": 397,
+    "end_frame": 760,
+    "fps": 30
+  },
+  {
+    "source": "ninepoint-world-rendered_match.avi",
+    "start_frame": 880,
+    "end_frame": 970,
+    "fps": 30
+  }
+]

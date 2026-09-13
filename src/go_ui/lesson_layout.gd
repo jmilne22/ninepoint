@@ -6,7 +6,7 @@ extends RefCounted
 static func build(scene: Control) -> void:
     scene.set_anchors_preset(Control.PRESET_FULL_RECT)
     var bg := ColorRect.new()
-    bg.color = Color("#2a2633")
+    bg.color = Color("#243e38")
     bg.set_anchors_preset(Control.PRESET_FULL_RECT)
     scene.add_child(bg)
 
@@ -25,24 +25,24 @@ static func build(scene: Control) -> void:
     scene.add_child(scene._actions)
     scene._actions.action_selected.connect(scene._mouse_action)
 
-    var panel := NinePatchRect.new()
-    panel.texture = load("res://art/rendered/ui/panel.png")
+    var panel := SurfacePanel.new()
+    panel.set("dark", false)
     for m in ["left", "top", "right", "bottom"]:
         panel.set("patch_margin_%s" % m, 6)
     panel.position = Vector2(202, 8)
     panel.size = Vector2(176, 158)
-    panel.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+    panel.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
     scene.add_child(panel)
 
     # Two lines for the title. "You May Not Take It Straight Back" wrapped and
     # landed on top of the step counter; a title is written for the lesson, not
     # measured against a panel, so the panel gives it the room.
-    scene._title = _label(panel, Vector2(10, 8), 156, 9, "#8a6023", 22)
+    scene._title = _label(panel, Vector2(10, 8), 156, 9, "#926b36", 22)
     scene._title.text = scene.lesson.title
-    scene._progress = _label(panel, Vector2(10, 30), 156, 9, "#6b6577")
-    scene._instruction = _label(panel, Vector2(10, 44), 156, 9, "#14121a", 52)
-    scene._message = _label(panel, Vector2(10, 98), 156, 9, "#367f72", 52)
-    scene._hints = _label(scene, Vector2(204, 172), 176, 9, "#8a8494", 40)
+    scene._progress = _label(panel, Vector2(10, 30), 156, 9, "#718477")
+    scene._instruction = _label(panel, Vector2(10, 44), 156, 9, "#243b33", 52)
+    scene._message = _label(panel, Vector2(10, 98), 156, 9, "#477c6b", 52)
+    scene._hints = _label(scene, Vector2(204, 172), 176, 9, "#a7b9ac", 40)
     scene._hints.text = "Click / Space: play"
 
     scene._overlay = Control.new()

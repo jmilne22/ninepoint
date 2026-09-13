@@ -1,5 +1,5 @@
 """Selective, deterministic asset builds. Output roots mirror the project layout."""
-import argparse
+import argparse, os, subprocess, sys
 from pathlib import Path
 import gen_tiles, gen_characters, gen_ui, gen_title, gen_audio
 import gen_venue_props, gen_venue_scenes, gen_arrivals
@@ -7,7 +7,7 @@ import gen_font, gen_nigiri_art, gen_tileset_resource, gen_props
 import gen_maps
 
 ROOT=Path(__file__).resolve().parent.parent
-GROUPS=('tiles','props','venues','arrivals','sprites','portraits','ui','title','font','ceremony','audio','rendered')
+GROUPS=('tiles','props','venues','arrivals','sprites','portraits','ui','title','font','ceremony','audio','rendered','table_scene','expressive_world')
 ALIASES={'environments':('tiles','props','venues','arrivals'),
          'characters':('sprites','portraits'),
          'presentation':('ui','title','ceremony')}
@@ -17,7 +17,15 @@ def build(groups, output):
     art=output/'art'
     for group in GROUPS:
         if group not in groups:continue
-        if group=='rendered':
+        if group=='expressive_world':
+            subprocess.run([sys.executable,str(ROOT/'tools/build_expressive_world.py')],env=dict(os.environ,EXPRESSIVE_WORLD_OUTPUT=str(art/'expressive_world')),check=True)
+            result='live campaign maps, complete expressive cast and tram'
+        elif group=='table_scene':
+            env=dict(os.environ,TABLE_SCENE_OUTPUT=str(art/'table_scene'))
+            subprocess.run([sys.executable,str(ROOT/'tools/table_scene/paint.py')],env=env,check=True)
+            subprocess.run(['blender','-b','-t','6','--python',str(ROOT/'tools/table_scene/export.py')],env=env,check=True)
+            result='21 expressive cast models, continuous clips, face atlases and table'
+        elif group=='rendered':
             from build_world_art import maps, blender
             from ps1.production_people import build as people
             from ps1.production_board import build as board

@@ -6,11 +6,12 @@ const GOLD := Color("#d6b777")
 const PANEL_Y := 154
 var _portrait_id := ""
 var _choice_scroll: ScrollContainer
+var _bust: TableSceneActor
 
 
 func _build() -> void:
     super._build()
-    _panel.texture = load("res://art/rendered/ui/panel_dark.png")
+    _panel.set("dark", true)
     _panel.position = Vector2(8, PANEL_Y)
     _panel.size = Vector2(368, 56)
     _name_label.position = Vector2(12, 5)
@@ -42,26 +43,29 @@ func show_box() -> void:
     _root.show()
 
 
-func _set_speaker(who: Dictionary, expression: String) -> void:
+func _set_speaker(who: Dictionary, _expression: String) -> void:
     _name_label.text = str(who.get("name", ""))
     if not str(who.get("rank", "")).is_empty():
         _name_label.text += "   " + str(who.rank)
-    _portrait_id = str(who.get("id", ""))
-    if _portrait_id == "":
-        var portrait: Texture2D = who.get("portrait")
-        if portrait != null:
-            _portrait_id = portrait.resource_path.get_file().get_basename()
-    var path := "res://art/rendered/people/%s_bust.png" % _portrait_id
-    _portrait.visible = ResourceLoader.exists(path)
-    if _portrait.visible:
-        var strip_path := "res://art/rendered/people/%s_busts.png" % _portrait_id
-        if ResourceLoader.exists(strip_path):
-            var atlas := AtlasTexture.new()
-            atlas.atlas = load(strip_path)
-            atlas.region = Rect2(PortraitMoods.column(expression) * 108, 0, 108, 108)
-            _portrait.texture = atlas
-        else:
-            _portrait.texture = load(path)
+    var identity := str(who.get("id", ""))
+    if identity.is_empty() and who.get("portrait") != null:
+        identity = who.portrait.resource_path.get_file().get_basename()
+    _portrait.hide()
+    if _portrait_id != identity and _bust != null:
+        _bust.queue_free()
+        _bust = null
+    _portrait_id = identity
+    if _bust == null and ResourceLoader.exists("res://art/expressive_world/people/%s.glb" % identity):
+        _bust = ExpressivePortrait.new()
+        _bust.size = Vector2(224, 244)
+        _bust.scale = Vector2(.5, .5)
+        _bust.position = Vector2(259, _panel.position.y - 118)
+        _root.add_child(_bust)
+        _root.move_child(_bust, 0)
+        _bust.setup(identity)
+    if _bust != null:
+        var clip := "pleased" if _expression in ["happy", "warm"] else "thinking" if _expression == "thinking" else "listen"
+        _bust.perform(clip, 3.0)
     _text.size.x = 344
 
 
@@ -79,7 +83,7 @@ func _say(line: String) -> void:
     _choice_scroll.hide()
     _panel.position.y = PANEL_Y
     _panel.size.y = 56
-    _portrait.position.y = PANEL_Y - 108
+    if _bust != null: _bust.position.y = PANEL_Y - 118
     await super._say(line)
 
 
@@ -91,7 +95,7 @@ func _choose(options: Array) -> Dictionary:
     var height := body_h + 29
     _panel.position.y = 210 - height
     _panel.size.y = height
-    _portrait.position.y = maxf(8, _panel.position.y - 108)
+    if _bust != null: _bust.position.y = maxf(8, _panel.position.y - 118)
     _choice_scroll.size.y = body_h
     _choice_scroll.show()
     var result := await super._choose(options)

@@ -48,7 +48,7 @@ func start_match(request: MatchRequest, player_position: Vector2) -> void:
     EventBus.match_started.emit(request.context_id)
     if request.profile.capture_goal == 0:
         KataGoService.prewarm(request.profile)
-    await SceneRouter.go_to(MATCH_SCENE)
+    await SceneRouter.go_to(MatchViewRoute.scene_for(request))
 
 
 ## Leaving during preparation is not a played game and must not create a record.

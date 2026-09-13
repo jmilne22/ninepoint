@@ -31,8 +31,10 @@ def cab(sign, m):
                 a=-math.pi/2+k*math.pi/12
                 verts.append((sign*(6.06+reach*math.cos(a)),width*math.sin(a),z))
         mat=m['glass'] if j in [3,4] else m['silver'] if j==2 else m['white']
-        mesh('curved cab windscreen' if j in [3,4] else 'rounded cab shell',verts,
-             [(k,k+1,k+14,k+13) for k in range(12)],mat)
+        faces=[(k,k+1,k+14,k+13) for k in range(12)]
+        # Reflection reverses handedness: retain outward normals on the west cab.
+        if sign<0:faces=[tuple(reversed(face)) for face in faces]
+        mesh('curved cab windscreen' if j in [3,4] else 'rounded cab shell',verts,faces,mat)
     box('cab roof crown',(sign*6.13,0,2.28),(.5,.68,.13),m['white'],.08)
     for side in [-1,1]:
         # Lamp recesses follow the front quarter panels, below the windscreen.
@@ -50,7 +52,7 @@ def cab(sign, m):
     box('coupler recess',(sign*7.29,0,.39),(.05,.32,.13),m['rubber'],.02)
 
 
-def build(out):
+def build(out,live=False):
     out.mkdir(parents=True,exist_ok=True)
     scene=reset(384,272)
     m={key:material(key,col) for key,col in {
@@ -98,6 +100,9 @@ def build(out):
                 limb('pantograph upper arm',(.22,side*.25,2.95),(-.25,side*.25,3.26),.020,m['vent'])
             limb('contact shoe',(-.25,-.53,3.26),(-.25,.53,3.26),.026,m['rubber'])
         for obj in set(bpy.data.objects)-before:obj['tram_section']=i
+    if live:
+        bpy.ops.export_scene.gltf(filepath=str(out/'tram.glb'),export_format='GLB',export_animations=False,export_yup=True)
+        return
     # Match the world's 45-degree azimuth, 30-degree elevation and 32 px/unit.
     target=Vector((0,0,.72))
     cam=camera(target+Vector((10,-10,math.sqrt(200/3))),target,12)

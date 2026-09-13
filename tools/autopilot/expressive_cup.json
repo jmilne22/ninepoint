@@ -1,0 +1,64 @@
+[
+  {
+    "save": "cup_ready",
+    "note": "the state this script needs; run_game.sh builds it before launching"
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact",
+    "note": "Continue from the save"
+  },
+  {
+    "experience": "visit",
+    "map": "bondszaal",
+    "spawn": "from_tram"
+  },
+  {
+    "talk_to": "marguerite"
+  },
+  {
+    "advance": 8,
+    "stop_at_choice": true
+  },
+  {
+    "wait": 0.4,
+    "shot": "b_entry_offer"
+  },
+  {
+    "choose": 0,
+    "note": "Enter me."
+  },
+  {
+    "advance": 8,
+    "stop_at_choice": true
+  },
+  {
+    "wait": 1.0
+  },
+  {
+    "walk_to": [
+      9,
+      3
+    ],
+    "note": "to the front"
+  },
+  {
+    "face": [
+      9,
+      2
+    ],
+    "note": "the draw on the wall"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "wait": 1.4,
+    "shot": "c_the_draw"
+  }
+]

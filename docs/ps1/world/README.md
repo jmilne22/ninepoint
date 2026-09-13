@@ -1,6 +1,9 @@
-# Ninepoint: the rendered game
+# Ninepoint: previous rendered pipeline
 
-ART-08 carries the approved De Ketel experiment into the normal game. Sela's current
+**Superseded for the campaign by [ART-13 expressive world and UI](../../expressive_world/README.md).**
+The sections below document the retained ART-08 raster build and its historical contracts.
+
+ART-08 carried the approved De Ketel experiment into the normal game. Sela's current
 places and progression remain: twelve maps, twenty opponents, the player, five kinds
 of passer, the novice league/Cup and the optional Academy league/exam.
 
@@ -90,3 +93,18 @@ See `verification.md` for the final checks and inspected captures. `tools/run_re
 uses the normal entry scene and disposable user data for any existing autopilot route.
 
 ART-09 follow-up: [polish verification](../polish/verification.md).
+
+
+Cast matches now use [ART-11's expressive table presentation](../../table_scene/README.md).
+Their generated source group is `table_scene` in `tools/build_assets.py`, with exports
+in `art/table_scene/`. The rendered world and dialogue busts described above retain
+their current models; the owner requested all match screens before that rollout.
+
+
+ART-12 now provides a separate [expressive Kettle area POC](../../expressive_kettle/README.md),
+using live full-body models and conversation busts from the approved match direction.
+The production world pipeline described here remains unchanged pending review.
+
+The [second Kettle review](../../expressive_kettle/refinement/README.md) improves
+full-body deformation/stances and surface grounding under the clarified GameCube
+presentation reference. Production world adoption is still pending visual review.

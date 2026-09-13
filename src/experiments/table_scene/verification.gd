@@ -1,0 +1,98 @@
+## Exercise the actual adapter and match guards, including transformed mouse input.
+class_name TableSceneVerification
+extends RefCounted
+
+static func run(scene: Control) -> void:
+    var t := TestKit.new()
+    t.section("table scene actual scene")
+    for n in [7, 9, 13, 19]:
+        scene.game = GoGame.new(n, 5.5)
+        scene.board_view.set_game(scene.game)
+        scene._refresh()
+        scene._sync_mouse()
+        await scene.get_tree().process_frame
+        await scene.get_tree().process_frame
+        for point in n * n:
+            var motion := InputEventMouseMotion.new()
+            motion.position = scene.surface.screen_point(point) - scene.surface.position
+            scene.surface._gui_input(motion)
+            t.eq(scene.board_view.target_point(), point, "%d board ray and viewport picking" % n)
+        if n == 19:
+            scene.board_view.toggle_zoom()
+            for anchor in [0, 18, 342, 360, 180]:
+                scene.board_view.focus_point(anchor)
+                await scene.get_tree().process_frame
+                await scene.get_tree().process_frame
+                for point in 361:
+                    if not scene.board_view.point_visible(point): continue
+                    var motion := InputEventMouseMotion.new()
+                    motion.position = scene.surface.screen_point(point) - scene.surface.position
+                    scene.surface._gui_input(motion)
+                    t.eq(scene.board_view.target_point(), point, "zoom picks global index at corner or centre")
+    scene.game = GoGame.new(9, 5.5)
+    scene.board_view.set_game(scene.game)
+    scene._refresh()
+    scene._sync_mouse()
+    await scene.get_tree().process_frame
+    await scene.get_tree().process_frame
+    for point in 81:
+        var motion := InputEventMouseMotion.new()
+        motion.position = (scene.surface.screen_point(point) - scene.surface.position)
+        scene.surface._gui_input(motion)
+        t.eq(scene.board_view.target_point(), point, "projected hover resolves the exact intersection")
+    var click := InputEventMouseButton.new()
+    click.button_index = MOUSE_BUTTON_LEFT
+    click.pressed = true
+    click.position = (scene.surface.screen_point(20) - scene.surface.position)
+    scene.surface._gui_input(click)
+    t.eq(scene.game.board.get_idx(20), GoBoard.BLACK, "projected click plays on the real board")
+    t.eq(scene.game.move_number(), 1, "one click makes one move")
+    t.ok(scene.game.play(60), "legal opponent fixture reply")
+    scene._awaiting = &"move"
+    scene._refresh()
+    scene._sync_mouse()
+    scene.surface._gui_input(click)
+    t.eq(scene.game.move_number(), 2, "occupied point cannot play")
+    click.position = Vector2(-20, 10)
+    scene.surface._gui_input(click)
+    t.eq(scene.game.move_number(), 2, "outside-board click cannot play")
+    scene.board_view.focus_point(40)
+    scene._unhandled_input(MouseActions.event(&"move_right"))
+    t.eq(scene.board_view.cursor, 41, "keyboard navigation still reaches the board")
+    scene._unhandled_input(MouseActions.event(&"go_resign"))
+    t.eq(scene.phase, scene.Phase.CONFIRM, "resignation opens confirmation")
+    scene._sync_mouse()
+    click.position = (scene.surface.screen_point(30) - scene.surface.position)
+    scene.surface._gui_input(click)
+    scene._unhandled_input(MouseActions.event(&"interact"))
+    t.eq(scene.game.move_number(), 2, "modal blocks mouse and keyboard placement")
+    scene._unhandled_input(MouseActions.event(&"cancel"))
+    t.eq(scene.phase, scene.Phase.PLAYING, "cancel returns to play")
+    scene._sync_mouse()
+    scene._unhandled_input(MouseActions.event(&"interact"))
+    t.eq(scene.game.board.get_idx(41), GoBoard.BLACK, "Space plays the keyboard-selected point")
+    scene.game.pass_turn()
+    scene.game.pass_turn()
+    scene._scoring_phase()
+    scene._sync_mouse()
+    click.position = (scene.surface.screen_point(20) - scene.surface.position)
+    var before: bool = scene.board_view.dead.has(20)
+    scene.surface._gui_input(click)
+    t.eq(scene.board_view.dead.has(20), not before, "projected scoring click toggles a group")
+    scene.surface._gui_input(click)
+    t.eq(scene.board_view.dead.has(20), before, "second scoring click restores the group")
+    scene._unhandled_input(MouseActions.event(&"go_help"))
+    t.ok(scene._teaching.opened, "counting Help opens")
+    scene._sync_mouse()
+    scene.surface._gui_input(click)
+    t.eq(scene.board_view.dead.has(20), before, "Help blocks counting clicks")
+    var brief: BoardBrief = scene.get_node("BoardBrief")
+    brief._input(MouseActions.event(&"cancel"))
+    await scene.get_tree().process_frame
+    t.ok(not scene._teaching.opened, "Help closes")
+    t.eq(GameState.match_records.size(), 0, "trial has not written match records")
+    scene._answered(true)
+    await scene.get_tree().process_frame
+    await scene.get_tree().process_frame
+    print(t.report())
+    await scene.close_trial(0 if t.failed == 0 else 1)

@@ -2,17 +2,21 @@
 
 ## 0. Tooling note (read this first)
 
-The normal game uses Python-coordinated Blender renders: scenery, a ground-depth mask,
-eight-way character sprites, model-rendered expressions, and overhead Go assets.
-Blender/Pillow are development dependencies; exported assets are checked in.
-`tools/characters.py` remains the identity record. No AI-generated portraits are used.
-[Production pipeline, coordinate contract and commands](docs/ps1/world/README.md).
+The normal campaign uses Python-coordinated Blender/Pillow assets for live 3D rooms,
+full-body characters, painted expressions and the approved Go table. The owner approved
+ART-12R and authorized whole-game adoption including a smooth interface (ART-13).
+The clarified character-presentation reference is Hikaru no Go 3 on GameCube; all settings,
+identities, models and visual assets remain Ninepoint originals.
 
-ART-08 supersedes the old character-pixel freeze and Python-raster-only tooling rule.
-Sela's setting, gameplay coordinates, progression and Go rules stay unchanged. Earlier
-sections below document the retained grid fallback and the history of the coastal palette;
-the production contract in the linked guide takes precedence for new assets.
----
+Natural resting hands, balanced body proportions, clear facial expressions and grounded
+continuous motion take precedence over an era label. Cream plaster, green joinery, warm
+wood, individual foliage and restrained shadows connect the rooms and characters.
+`tools/characters.py` remains the identity record. No AI illustration assets are used.
+[Current pipeline and inspection](docs/expressive_world/README.md).
+
+Older raster/sprite sections below document retained fallback assets and their history;
+the current live-world and interface contract takes precedence. The approved Kettle
+proof and its previous footage remain available for comparison.
 
 ## ART-09: daylight and coastal architecture
 
@@ -35,6 +39,16 @@ Walking arms keep fixed shoulder attachment and bone lengths. Elbows and hands f
 one continuous swing; the passing pose should not collapse the torso or invert the knee.
 Inspect actual walk and run playback, not just a single sprite frame.
 
+## ART-10R / ART-11: approved expressive match style
+
+The owner rejected the first prototype, then approved the revised Wren footage and
+requested this as the new style. Match adoption preceded ART-13’s walking characters
+and dialogue portraits. Cast matches use Blender-exported skinned models,
+Pillow-painted expressions, seven continuous clips, thin ink outlines and a real
+wooden board at 768×432/30 fps. Original identities, clothing and colours remain
+authoritative. `tools/table_scene/` generates `art/table_scene/` through the
+`table_scene` asset group. [Presentation guide](docs/table_scene/README.md).
+
 ## ART-07: isolated fixed-view De Ketel experiment
 
 Approved 2026-09-12: one 384×216 rendered room with a 45°/30° fixed orthographic
@@ -54,7 +68,8 @@ boulevard garden gathers people under trees; broad steps and a pergola open onto
 The bar stays intimate, the community centre is a welcoming modernist building, and Assembly
 Hall has a civic scale. One mild afternoon, with no clock or weather simulation.
 
-Keep the existing 16×16 logical grid for gameplay and the 384×216 viewport. Render
+Keep the existing 16×16 logical grid and 384×216 world layout. Render the 3D world
+at 768×432 and interface outlines at window resolution. Render
 original geometry through the shared 45°/30° orthographic camera. Use clear silhouettes
 and consistent daylight/shadow direction. More color is permitted in the town:
 boards attract attention through contrast, quiet surrounding surfaces and a clear approach.
@@ -193,7 +208,7 @@ the city's first build came out with black holes where its windows and road shou
 `tools/build_assets.py` now runs `gen_tileset_resource.py` for this reason, and `tools/test.sh`
 does the reimport pass.
 
-## 4. Characters
+## 4. Characters (retained raster pipeline; see ART-13 above)
 
 **Shared identities and models.** `tools/characters.py` supplies the cast's identity,
 colors and accessories. `tools/ps1/people.py` authors the models used for both sprites
@@ -218,30 +233,16 @@ Hana `plum0 deep` · Tomás `teal` · Marguerite `ink+gold` · Player `paper+blu
 
 ## 4b. Type
 
-Interface and dialogue text use a **generated 5x7 bitmap font** (`tools/font5x7.py`, rendered by
-`tools/gen_font.py` to a PNG page plus a BMFont `.fnt` that Godot imports as a `FontFile`).
+Interface and dialogue use bundled **DejaVu Sans** outline glyphs, imported with MSDF.
+Godot's Canvas Items stretch renders them at window resolution independently of the
+768×432 world scene. `src/ui/theme.tres`, `UiKit` and `SurfacePanel` share the restrained
+paper/green palette, smooth rounded panels, thin borders and visible button states.
+The old native-bitmap-only and pixel-snapping rules are superseded by ART-13.
 
-Godot's default face is a vector font: at 9px it anti-aliased every glyph and put **157
-distinct colours** into one small patch of the match panel, which at 384x216 reads as fuzz.
-The bitmap font uses exactly two colours -- paper and ink -- and lands on whole pixels. The
-same patch now measures 2 colours.
-
-Shop names are environmental art, drawn separately by `tools/coastal_signage.py`.
-Their mixed-case lettering has ten-pixel capitals, seven-pixel lowercase bodies, open
-counters and two-pixel stems. Names and trade symbols sit together inside padded panels:
-teal enamel for Laundry, a warm framed sign for The Kettle, and pale painted Paper.
-Keep the name readable at native scale; do not add tiny decorative subtitles or change
-the interface font to make a shop sign larger. The tram fascia uses the same heavier
-mixed-case lettering, with a clearly separated 4. `coastal_architecture.py` reserves a
-clear fascia beneath the balconies and above the awning.
-
-Rules that follow from using a bitmap font:
-- **Native size is 9, and only integer multiples of it are allowed** (9, 18, 27). Anything
-  else scales the bitmap and undoes the point of it.
-- The project sets `window/stretch/scale_mode = "integer"`, so the 384x216 framebuffer is
-  never fractionally upscaled.
-- Cards that hold prose are measured against their text (`UiKit.fit_card`) and paginated if
-  they overflow (`UiKit.paginate`). Nothing is allowed to run off the bottom of a panel.
+The logical body size remains 9 for established world layouts; size is no longer restricted
+to multiples of nine. Text must still be measured with `UiKit.text_height`, fitted with
+`fit_card` and paginated when it exceeds the available space. No text may escape a panel.
+Environmental shop lettering remains a separate architectural detail, not UI text.
 
 ## 4c. The nigiri ceremony
 
@@ -279,19 +280,26 @@ art -- stacked circles read as a potato), `crowd.png`.
   backgrounds share the production architecture and daylight settings.
 - **Title screen:** the illustration on the right, a dark card down the left at
   `Rect2(12, 10, 142, 186)` holding, in order, the name at size **18**, a hairline, the
-  subtitle, the four menu rows at a 16px step with a drawn 3×5 gold cursor, a second
+  subtitle, the four menu rows at a 16px step with a small smooth gold cursor, a second
   hairline, the save summary and the controls hint. The cursor never lands on a row that
   would do nothing: with no save on disk, Continue and Load Game are greyed and stepping
   skips them.
-  Nothing on it uses a font size that is not a multiple of 9 — the name was set at 21 for
-  the life of the project, which scaled the largest piece of type in the game by a
-  seventh. Type that sits on artwork uses `UiKit.shadow_label`.
-- Font: the generated Ninepoint bitmap font at native size 9 and integer multiples only. Text `ink0` on paper, `paper0` on ink.
-- Everything snaps to the pixel grid; the camera is pixel-snapped; no rotation, no scaling
-  that is not an integer multiple.
+- Font and panels follow the smooth ART-13 interface contract in §4b.
+- Live cameras move continuously; world rendering and UI outlines have independent resolution.
 - Icons 16×16, single-colour silhouettes plus one accent (stone, book, ticket, key, cup).
 
 ## 6. The Go board
+
+Cast matches use ART-11's perspective surface on 7/9/13/19 lines. Board thickness,
+stone shadows and tabletop lighting come from geometry. Global picking, close-view
+regions and keyboard navigation are shared with the underlying GoBoardView. Teal
+rings indicate teaching targets and selected counting groups, red crosses mark dead
+stones, and contrasting rings mark territory and the last move. Characters remain
+clear of every crossing. Teaching panels temporarily take the right side; nigiri
+and the result retain the composed table. Bowl colours follow the actual setup.
+
+The following square rendering contract remains for lessons, puzzles, review cards
+and custom development profiles:
 
 The board renders into a fixed square area, computing an integer cell size so lines
 land on exact pixels. 19×19 has a whole-board overview with alternate coordinate labels
@@ -314,13 +322,12 @@ a small ring in the *opposite* stone colour; territory in scoring mode is shown 
 
 ## 7. Screen and camera
 
-- Base resolution **384×216** (16:9), integer-scaled to the window.
-  `viewport` stretch, `keep` aspect, integer scale mode. At 1280×720 it lands on 3×
-  with letterboxing; the normal 1152×648 play window is exactly 3×.
-- Production camera: fixed 45° azimuth / 30° elevation, following projected player feet
-  on large maps, with rounded screen positions and limits derived from the render canvas.
-  Movement remains screen-relative and diagonals have equal speed. The model render
-  camera sits far enough from the set to avoid clipping through surrounding buildings.
+- Logical layouts: walking/dialogue/lessons **384×216**, cast matches **768×432**.
+  The default **1536×864** window uses Canvas Items stretch with keep aspect. Outline UI
+  renders at window resolution; 3D scenery and match viewports preserve their own density.
+- Production world camera: 45° azimuth / 30° elevation, following the same projected
+  player feet and map limits. Screen-relative input and diagonal speed stay unchanged.
+  Real meshes supply depth/occlusion; rounded sprite positions are no longer the visible renderer.
 - Scenery canvases are opaque and continue beyond the logical playable footprint.
   Indoors, the room sits within a quiet building slab; outdoors, paving, neighboring
   architecture and sea fill the view. These margins do not create new playable routes.
@@ -489,7 +496,8 @@ python3 tests/test_art.py
 ```
 
 No flags rebuilds all production and fallback assets. `rendered` requires Blender/Pillow
-and covers production maps, people, activities and Go/UI art. The older `sprites` and
+and covers the retained raster maps, people, activities and Go/UI art. `expressive_world`
+builds the current live campaign, and `table_scene` builds cast matches. The older `sprites` and
 `portraits` groups remain separate; `presentation` covers fallback title, UI and ceremony. Preview roots mirror the project layout,
 including matching map JSON and TileSet resources. Judge contact sheets beside a person
 and on actual floors, then inspect the played game. Evidence: `docs/art/PLAYTEST.md`.

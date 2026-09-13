@@ -1,6 +1,6 @@
 # Ninepoint
 
-A PS1-inspired 2.5D RPG about learning to play **Go (baduk)**, built in Godot 4.7.
+An expressive 2.5D RPG about learning to play **Go (baduk)**, built in Godot 4.7.
 
 You have just moved to **Sela**, a fictional coastal city of pale balconies, shady ficus trees,
 and little tables outside shops. Your room is above a closed stationer's on Market Lane.
@@ -16,12 +16,21 @@ There is no combat. Encounters are games of Go, opponents are ranked in kyu and 
 **the player character never gains a statistic** — the only thing that gets stronger is the
 person holding the controller.
 
-The whole game uses [model-rendered rooms, characters and Go assets](docs/ps1/world/README.md).
-Walk screen-relative through fixed-angle rooms and streets; play Go on a clear overhead
-board. Portraits are rendered from the same original character models as the sprites.
-Market Lane has varied White City-inspired balconies and shaded entrances; Sea Walk
-has warm stone port buildings and fishing boats inspired by Jaffa.
-The earlier isolated room experiment remains available through `tools/play_ps1.sh`.
+The campaign now uses [live expressive characters and rooms](docs/expressive_world/README.md):
+all twelve areas, the full cast, animated conversation portraits and the approved tilted
+Go table. Warm wood, cream plaster and green joinery carry through the world and interface.
+Smooth outline text and vector panels replace the pixel UI. Movement, dialogue, teaching,
+rank, leagues, the Cup, exam and saved records retain their existing rules.
+
+Run `tools/play_expressive_world.sh` to play the complete campaign with separate,
+persistent preview saves. `tools/play.sh` uses the normal campaign save directory.
+The [locomotion/tram correction](docs/expressive_world/motion-fix/README.md) can be tried
+with `tools/play_motion_fix.sh`, using another isolated set of preview saves.
+The default window is 1536×864; interface outlines render at window resolution while
+live world scenes retain the approved 768×432 visual density.
+
+The [approved Kettle trial](docs/expressive_kettle/refinement/README.md) and
+[original match showcase](docs/table_scene/README.md) remain available for comparison.
 
 ## Read this first
 
@@ -207,7 +216,7 @@ package the game still plays, against the built-in heuristic opponent.
 ### Development
 
 Art builds require Blender and Pillow; the checked-in game does not. See the
-[rendered pipeline guide](docs/ps1/world/README.md) for the NixOS command.
+[expressive pipeline guide](docs/expressive_world/README.md) for the NixOS command.
 The full test gate requires the pinned KataGo package, including its models; run
 `tools/setup_katago.sh` first. Playing with the heuristic fallback does not require it.
 
@@ -321,11 +330,11 @@ src/academy/ the club leagues and the federation's events: standings and draws,
 src/go_ai/   opponent interface, KataGo at the board and over a finished game, the
              heuristic AI that stands in when the engine is missing
 src/go_ui/   board view, match scene, puzzle scene, lesson runner, the nigiri ceremony
-src/rpg/     town, player, NPCs, maps, projection/depth shaders, the tram
+src/rpg/     town simulation, live expressive presentation, player, NPCs and tram
 src/prototype/ketel/   opt-in session-only room experiment
 src/dialogue/ src/quest/ src/ui/ src/autoload/   (SaveSystem lives in src/autoload/)
 data/        maps, dialogue, NPCs, opponents, quests, puzzles -- all of it data
-art/         rendered production assets plus the retained grid fallback
+art/         expressive live models, table assets, fonts and historical raster fallback
 audio/       generated sound effects and music
 tools/       art and content generators, test and run harnesses
 tests/       headless suites
@@ -344,7 +353,7 @@ before/after views and played screenshots from every room.
 The earlier [portrait-led sprite preview](docs/sprite-preview/PLAYTEST.md) revised Ro, Wren,
 Kesh, Tomás, Nadia and Sunny with rounded silhouettes and more distinct working poses.
 That historical pass preserved other sprites and portrait faces. ART-08 replaces the
-production cast with shared models and rendered busts. The old report includes
+then-current cast with shared models and rendered busts; ART-13 now uses live expressive models. The old report includes
 old/new comparisons and actual gameplay captures for reviewing this first package.
 
 ## The coastal neighborhood
@@ -361,5 +370,5 @@ Character identities are preserved in the new models. Old saves retain their pro
 the earlier Sela layout migration uses safe entrances, while ART-08 preserves exact
 logical positions and introduces no additional relocation.
 The [Sela playtest report](docs/sela/PLAYTEST.md) records the original layout migration.
-Current presentation evidence is in the [rendered-game report](docs/ps1/world/verification.md)
+Current presentation evidence is in the [expressive rollout report](docs/expressive_world/README.md)
 and [coastal polish report](docs/ps1/polish/verification.md).

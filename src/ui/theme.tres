@@ -1,0 +1,53 @@
+[gd_resource type="Theme" load_steps=5 format=3]
+
+[ext_resource type="FontFile" path="res://art/fonts/DejaVuSans.ttf" id="1"]
+[sub_resource type="StyleBoxFlat" id="normal"]
+bg_color = Color(0.956, 0.929, 0.875, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.77, 0.71, 0.59, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+content_margin_left = 5.0
+content_margin_right = 5.0
+content_margin_top = 3.0
+content_margin_bottom = 3.0
+[sub_resource type="StyleBoxFlat" id="focus"]
+bg_color = Color(0.25, 0.43, 0.36, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+content_margin_left = 5.0
+content_margin_right = 5.0
+content_margin_top = 3.0
+content_margin_bottom = 3.0
+[sub_resource type="StyleBoxFlat" id="outline"]
+bg_color = Color(0,0,0,0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.69,0.5,0.25,1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+[resource]
+default_font = ExtResource("1")
+default_font_size = 9
+Label/constants/line_spacing = 0
+Label/colors/font_color = Color(0.14,0.22,0.19,1)
+Button/styles/normal = SubResource("normal")
+Button/styles/hover = SubResource("focus")
+Button/styles/pressed = SubResource("focus")
+Button/styles/focus = SubResource("outline")
+Button/colors/font_color = Color(0.14,0.22,0.19,1)
+Button/colors/font_hover_color = Color(1,0.97,0.9,1)
+Button/colors/font_pressed_color = Color(1,0.97,0.9,1)
+LineEdit/styles/normal = SubResource("normal")
+LineEdit/styles/focus = SubResource("outline")

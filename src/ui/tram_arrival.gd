@@ -7,9 +7,8 @@ var _leaving := false
 
 func _ready() -> void:
     layer = 120
-    var art := TextureRect.new()
-    art.texture = load("res://art/rendered/ui/arrival_%s.png" % destination)
-    art.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+    var art := ExpressiveBackdrop.new()
+    art.map_id = destination
     add_child(art)
     var card := UiKit.panel(art, Rect2(28, 180, 328, 29), true)
     var label := UiKit.label(card, Vector2(8, 8), 312, UiKit.PAPER, 11)

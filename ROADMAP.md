@@ -5,7 +5,7 @@ This document explains **why** future work matters and the trade-offs around it.
 dependencies, and acceptance criteria. `MILESTONES.md` is the append-only delivery history.
 Do not select work from this document without checking its linked board ticket first.
 
-The build is green: `tools/test.sh` passes 18,239 Godot checks, 13 Python art tests,
+The build is green: `tools/test.sh` passes 19,407 Godot checks, 13 Python art tests,
 the teaching protocol/scene gates, a capture-scene gate and three real-engine gates,
 `tools/check_lessons.py` reports no problems, and the game is playable from the cold open
 to the exam and the Cup.
@@ -15,6 +15,16 @@ ladder, the borrowed book, the performance rating and the calendar. M40 rebuilt 
 review on engine analysis; the other cuts remain. Read `MILESTONES.md` M37 for why.
 
 ---
+
+## Approved match style — ART-10R / ART-11
+
+After rejecting the first prototype, the owner approved the revised continuous
+character animation and real 3D table at 768×432: “I want this to be the new style.”
+The requested rollout order is **all match screens first**, then walking-world
+characters and dialogue portraits. ART-11 promotes the shared presentation across
+the cast, board sizes, colour selection, teaching and counting. Rules, rank profiles
+and the campaign's record/return flow retain their existing ownership.
+[Presentation and evidence](docs/table_scene/README.md).
 
 ## Beginner and premise baseline — CAP-01 / DESIGN-01
 
@@ -408,3 +418,34 @@ The owner subsequently chose a consistent floating neckline for portraits, with 
 remaining connected. Tomás, Bertie, Abel and Emil receive that shoulder-only correction;
 faces and expressions stay exact. This is a visual revision, not a
 change to the cast, progression, environment or animation interfaces.
+
+
+## One-area expressive world proof — ART-12
+
+After match adoption and Capture Go verification, the owner requested one area to
+resolve the split between the new cast and the existing walking-world artwork.
+The Kettle POC tests the complete experience: room, full-body movement, animated
+conversation portraits, match and return. It reuses the approved identities and
+existing dialogue/progression seams. This is a local, disposable preview; production
+world adoption and other locations follow review of this area, not this implementation
+alone. [Playable preview and footage](docs/expressive_kettle/README.md).
+
+
+### ART-12R — second visual review
+
+The owner liked the area concept but rejected the stiff stances and pristine dollhouse
+finish, then clarified Hikaru no Go 3 on GameCube as the inspiration. The second pass
+therefore prioritizes body proportion, purposeful resting hands, sound skin deformation
+and a textured, grounded room. It remains one area with original Ninepoint identities.
+The new footage and before/after comparison are review material, not approval for
+whole-world adoption. [Latest review](docs/expressive_kettle/refinement/README.md).
+
+
+## ART-13 — One visual direction throughout the campaign
+
+The owner approved the refined Kettle and asked for the rest of the game, including
+removing the mismatched pixel UI. Live rooms and the full expressive cast now share
+the approved warm palette; smooth type and vector panels connect walking, dialogue,
+teaching, matches and progression screens. Retaining the 2D simulation while replacing
+its presentation protects existing saves and interactions. The isolated trial is retained
+as comparison evidence, rather than used as a second campaign mode.

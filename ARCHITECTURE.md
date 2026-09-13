@@ -1,6 +1,39 @@
 # NINEPOINT — Architecture
 
-Godot 4.7 · GDScript · 2D runtime with rendered 2.5D presentation · `gl_compatibility` renderer.
+Godot 4.7 · GDScript · 2D simulation with live 3D presentation · `gl_compatibility` renderer.
+
+`MatchViewRoute` selects `src/go_ui/table_scene/match.tscn` for cast encounters on
+7/9/13/19 boards. `TableSceneMatch` subclasses the existing controller and switches
+to a 768×432 canvas until it exits. The bridge still records and returns to the world.
+Three 3D SubViewports compose the board and two animated characters. `TableBoardLayout`
+maps global intersections into the current full-board or nine-line region; camera
+ray/plane picking forwards mouse events explicitly into the original GoBoardView's
+viewport. That board retains keyboard, modal and teaching state. `TableBoardMarkers`
+renders its liberties, targets, cursor, dead groups and territory. `TableNigiri`
+changes the ceremony's presentation while retaining its existing choice protocol.
+Python/Blender sources in `tools/table_scene/` generate all 21 identity models and
+painted face atlases in `art/table_scene/`. Development profiles without a cast model
+retain the standard scene. The disposable Wren showcase remains under
+`src/experiments/table_scene/`. [Details](docs/table_scene/README.md).
+
+ART-13 adopts the approved ART-12R direction throughout the campaign. `ProjectedWorld`
+creates a 768×432 3D SubViewport over the original logical map. Its camera agrees with
+`RoomProjection` at every tile centre; `Player`, `Npc`, doors, collision and save positions
+remain in the original 2D coordinate system. `ExpressivePerson` follows those actors,
+without owning gameplay state. It samples displacement after actor physics ticks,
+retains that speed between render frames, and selects distance-matched walk/run clips.
+This avoids restarting blends on render frames with no new physics step.
+`ExpressiveTramVisual` follows the existing tram tween.
+Generated campaign GLBs retain source-map hashes and join static surfaces by material.
+`ExpressivePortrait` reuses the same full-body mesh and face animation in dialogue.
+
+`SurfacePanel` supplies a vector drawing behind the existing measured panel contents.
+`UiKit`, `src/ui/theme.tres` and the bundled DejaVu Sans MSDF font share type and colours.
+Canvas Items stretch renders UI at window resolution; logical layouts retain their
+384×216 world/teaching and 768×432 match coordinates. `ExpressiveBackdrop` renders
+campaign geometry for title and tram arrivals. Hana's introduction uses the live portrait
+and the original table geometry. The original isolated Kettle experiment is preserved.
+[Pipeline and verification](docs/expressive_world/README.md).
 
 ## 1. The one rule
 
@@ -378,14 +411,17 @@ routinely holds two of these at once, and a person must outrank the furniture be
 `Facing` (which way a character is turned), `DialogueBox` (typewriter, portrait, choices),
 `GoBoardView` (renders a GoGame and holds selection/view-anchor state). There is no `GridMover` and no
 `ScheduleComponent`; movement lives on `Player`/`Npc`, and there is no schedule. `Player`
-selects the fixed walk speed or a transient 1.75× Shift-run speed; `CharacterSprite` scales
-the existing gait while footstep cadence remains distance-based. NPC gait defaults to 1×.
+selects the fixed walk speed or a transient 1.75× Shift-run speed. `CharacterSprite`
+retains the gait hint for fallback sprites; `ExpressivePerson` selects the live walk/run
+clip and matches its stance travel to displacement sampled in physics. Footstep cadence
+remains distance-based. NPC gait defaults to walking.
 
 The tram stop is a sign whose text begins `__TRAM__` followed by JSON naming its routes;
 `SignDesk.tram_stop()` offers them as choices, refuses in the box when a route's flag is not
 set, asks the `Tram` prop to pull in, and only then changes scene. The articulated
-vehicle is 160×36; `Tram.WIDTH` matches its generated texture so offscreen travel and
-horizontal flipping retain the correct centre.
+live vehicle follows the same logical position. The retained grid fallback texture is
+160×36; `Tram.WIDTH` retains its offscreen travel/centre contract. Both live cab shells
+have outward-facing surfaces after reflection.
 
 Maps are `TileMapLayer`-based with a `YSort` entity layer; every map exposes named
 `SpawnPoint` nodes so warps and save/load can place the player deterministically.

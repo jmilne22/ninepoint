@@ -4,8 +4,107 @@ This is the **operational source of truth** for unfinished work. An agent starts
 not in the milestone history. It answers: what may be picked up now, what is blocked, and
 what evidence makes a task done.
 
-Revision base: `origin/main` and HEAD both `89e1a35`, freshly fetched and verified on 2026-09-12 before the design-baseline audit.
+Revision base: `origin/main` and HEAD both `f90a39e`, freshly fetched and verified on 2026-09-13 before the isolated table-scene restart.
 Update the snapshot when reconciling after a merge; it is not a release number.
+
+## ART-10R — Match presentation restart
+
+- Status: `SHIPPED` (owner approved visual direction) · Owner: Codex · Branch: `codex/table-scene-restart`
+- The owner rejected the first expressive prototype's models, animations and board.
+  Its screenshots and technical checks did not establish visual quality.
+- Authorized restart: original player/Wren models, continuous animation, real 3D
+  board and stones, playable Wren match, inspected screenshots and video.
+- Separate checkout; verified base `f90a39e`. Campaign art and saves stay separate.
+- Delivered: continuous skinned Ro/Wren models with painted expressions and ink outlines;
+  a 3D board/stones/bowls; the original match controller and shipped Wren profile.
+- Verified: 18,239/0 main checks, 340 loads, 13 Python art tests, full integration gate;
+  97/0 rendered input checks and 9/0 live Wren checks with no engine fallback.
+- Inspected: six screenshots, timed motion sheets, live resignation result and the
+  39.2-second 768×432/30-fps MP4. [Evidence](docs/table_scene/verification.md).
+- Play: `tools/play_table_scene.sh`. Every run has disposable user data.
+- Owner approved the footage; rollout is tracked in ART-11.
+
+## ART-11 — Adopt the approved match style
+
+- Status: `SHIPPED` · Owner: Codex · Branch: `codex/wren-table-adoption`.
+- Owner approved ART-10R: “LOVE IT”, then “I want this to be the new style”.
+  Rollout order: finish all match screens first; walking world and portraits later.
+- Fresh separate checkout proved HEAD = origin/main = `f90a39e`, then brought in
+  approved trial commit `82cb672` before implementation.
+- Scope: all cast identities, 7/9/13/19 boards, normal colour/rank/handicap setup,
+  teaching markers/overlays, counting, record-once result and world/review return.
+- Acceptance: full gate 19,406 checks / 0 failures, 349 resource loads; rendered
+  picking 1,162 / 0, size/return probe 98 / 0, real Wren and Tomás engines 9 / 0 each.
+  Inspected all 21 cast identities, setup, teaching, capture, count, review and return.
+  [Evidence and 39-second movie](docs/table_scene/adoption/verification.md).
+
+## ART-12 — Expressive Kettle area POC
+
+- Status: `SHIPPED` (local POC; owner review pending) · Owner: Codex · Branch: `codex/expressive-kettle-poc`.
+- Owner requested one area after Capture Go, to resolve the split art direction.
+- Fresh separate checkout proved HEAD = origin/main = `f90a39e`; brought in
+  approved match trial and complete ART-11 adoption (`34bc1c3`).
+- Scope: The Kettle only; matching room, full-body cast, walking/collision,
+  animated dialogue portraits, existing conversation/match/return seam; disposable data.
+- Acceptance: 28 rendered checks passed, including all three conversations, real Wren
+  replies, record-once return, novice/player cards, review loading, collision and modals.
+  Full gate 19,407 / 0; final load check 358 / 0. Inspected screenshots, six locomotion
+  frames and the 43-second normal-speed cut. [Evidence](docs/expressive_kettle/verification.md).
+- Other areas remain unchanged pending owner review.
+
+## ART-12R — Refine the Kettle prototype for review
+
+- Status: `SHIPPED` (owner approved for whole-game rollout) · Owner: Codex · Branch: `codex/kettle-refinement`.
+- Owner sees potential but rejected awkward stances and the overly pristine room.
+  Clarified reference: Hikaru no Go 3 on GameCube; do not use PS1 as an excuse for weak art.
+- Fresh separate checkout proved HEAD = origin/main = `f90a39e`; brought in the
+  approved match work and existing Kettle POC before edits.
+- Scope: four full-body proportions, planted relaxed stances, individual idle/working
+  motion, matching conversation presentation, textured room and grounding.
+- Acceptance: 19,407 / 0 full gate, 361 loaded resources, 560 deformed-pose checks and
+  28 / 0 serial rendered checks. Inspected poses, gait, room/dialogue captures and the
+  36.1-second normal-speed Godot film. Previous POC remains available for comparison.
+  [Second review and launch](docs/expressive_kettle/refinement/README.md).
+
+## ART-13 — Expressive world and coherent interface
+
+- Status: `SHIPPED` locally for owner review · Owner: Codex · Branch: `codex/style-rollout`.
+- Owner approved ART-12R and requested the rest of the game, including replacing the
+  mismatched pixel UI. This explicitly authorizes the world and interface adoption.
+- Fresh checkout proved HEAD = origin/main = `f90a39e` on 2026-09-13; cherry-picked
+  the approved local match/area/refinement chain before edits.
+- Scope: every campaign area and cast identity, animated dialogue portraits, title/
+  opening/travel presentation, menus, HUD, teaching, match, counting and review panels.
+- Preserve logical maps, saves, doors, interactions, rank/progression and Go services.
+- Acceptance: 19,407 / 0 full gate, 380 resource loads, 119 live-asset checks and
+  3,640 deformed-pose assertions. Serial rendered routes cover all 22 doors, saves,
+  Capture Go, ko, puzzles, 19×19 input/counting, Wren match/review, tram and competitions.
+  Inspected all rooms/cast, six selected views and normal-speed Godot footage with audio.
+  [Play, review film and verification](docs/expressive_world/README.md).
+
+## ART-13R — Stop sliding locomotion and repair mirrored tram cab
+
+- Status: `SHIPPED` locally for review · Owner: Codex · Branch: `codex/locomotion-tram-fix`.
+- Owner reports walking/running slide and one broken tram end in the rollout.
+- Fresh separate checkout proved HEAD = origin/main = `f90a39e`; replayed the
+  approved local chain including ART-13 before edits. Live preview remains undisturbed.
+- Scope: stable movement-driven animation, readable walking/running, both tram cabs.
+- Fixed: render/physics sampling mismatch that restarted idle/walk at 144 fps; added
+  a distinct distance-matched run clip; corrected reflected cab face winding.
+- Acceptance: 19,407 / 0 full gate, 380 resource loads, 134 live-asset checks and
+  4,160 deformed-pose checks. Six real-player walk/run cases at 30/60/144 fps have
+  zero idle interruptions; input release, walls and locks pass. Tram stop route passes.
+- Inspected: normal-speed 8.5-second Godot footage with audio, motion frames, both
+  sides of both cabs and actual boarding stop. [Evidence and corrected launcher](docs/expressive_world/motion-fix/README.md).
+
+### Pull request handoff
+
+The owner requested a PR for the approved presentation work on 2026-09-13.
+Opened [PR #37 — Adopt expressive presentation across matches, campaign and UI](https://github.com/jmilne22/ninepoint/pull/37) against `main`; awaiting review.
+`codex/locomotion-tram-fix` contains ART-10R through ART-13R together; these local
+commits are not yet on main. Fresh fetch confirmed `origin/main == f90a39e` and
+that the branch merge base matches it before preparing the PR. Final runtime
+validation is recorded under `docs/expressive_world/motion-fix/`.
 
 ## How to use this board
 

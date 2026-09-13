@@ -178,6 +178,9 @@ static func _test_presentation(t: TestKit) -> void:
     var advice := "Next time: inspect the group's empty neighbours before choosing a move."
     var blocks: Array[String] = ["This explanation needs a long first paragraph to use most of this small card before the next recommendation.", advice]
     var pages := ReviewComparison.pages(blocks, 178, 77)
-    t.ok(pages.has(advice), "a fitting recommendation remains on one page")
+    # Proportional type can fit this beside the preceding paragraph. The contract
+    # is that the recommendation stays whole, not that it owns a separate page.
+    t.ok(Array(pages).any(func(page: String) -> bool: return page.contains(advice)),
+        "a fitting recommendation remains on one page")
     for page in pages:
         t.ok(UiKit.text_height(page, 178) <= 77, "paginated explanation fits measured area")

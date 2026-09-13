@@ -1,0 +1,9 @@
+{
+  "id": "onderbrug",
+  "size": [
+    24,
+    12
+  ],
+  "source_sha256": "b6fb2936e50ced4df78c0c76b7fb54bbde44825585044c20225527f723c15f29",
+  "metres_per_tile": 0.8
+}

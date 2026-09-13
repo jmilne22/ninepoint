@@ -1,0 +1,9 @@
+{
+  "id": "academy_novice",
+  "size": [
+    24,
+    16
+  ],
+  "source_sha256": "e9684a9f3eb98216eac95c54dff019d99c061bf181a6fafc7a1da44cb899f08f",
+  "metres_per_tile": 0.8
+}

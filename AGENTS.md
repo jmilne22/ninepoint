@@ -1,6 +1,6 @@
 # Ninepoint
 
-A PS1-inspired 2.5D RPG about learning to play **Go (baduk)**, in Godot 4.7 / GDScript.
+An expressive 2.5D RPG about learning to play **Go (baduk)**, in Godot 4.7 / GDScript.
 Original setting and characters — nothing is borrowed from any existing game's world,
 cast, art or branding. Combat does not exist; encounters are games of Go.
 
@@ -197,8 +197,20 @@ out at the end of the session, not the start.
 
 ```bash
 tools/play.sh                                    # play it, on the real display
+tools/play_expressive_world.sh                   # full campaign, separate persistent preview saves
+tools/play_motion_fix.sh                         # locomotion/tram correction, separate persistent saves
+python3 tools/build_expressive_world.py          # all live world/cast/tram assets
 tools/play.sh -- --katago-trial=res://tools/fixtures/katago_trial_19x19.tres # development board
+tools/play_table_scene.sh                        # isolated 768×432 Wren match; disposable saves
+tools/run_table_scene.sh --showcase              # prepared replay, six screenshots and optional movie
+tools/run_table_scene.sh --gallery               # all 21 match identities and gestures
+tools/run_rendered.sh tools/autopilot/table_adoption.json # serial 7/9/13/19 result/return gate
+tools/run_table_scene.sh --verify-table_scene    # projected picking, keyboard, modal and counting checks
 tools/play_ps1.sh                                # isolated De Ketel 2.5D experiment; never saves
+tools/play_expressive_kettle.sh                   # one-area expressive world POC, disposable saves
+DISPLAY_NUM=0 tools/run_expressive_kettle.sh --tour # walk/talk/match/return and modal/collision checks
+python3 tools/build_expressive_kettle.py           # POC art + 560 deformed-pose checks; Blender + Pillow
+DISPLAY_NUM=0 tools/run_expressive_kettle.sh --poses # actual full-body stance study
 tools/run_ps1.sh tools/autopilot/ps1_tour.json     # disposable user data, rendered-room acceptance
 tools/test.sh                                    # compile gate + load check + all suites
 tools/test_review_pure.sh                        # facts/narrator with the game and engine absent
@@ -260,6 +272,7 @@ quay), `review_unavailable` (a wedged engine must still let you out), `quay_revi
 payload so the legacy card stays covered, thirteen and nineteen carry a synthetic curve).
 
 Production acceptance: `rendered_doors` (all 22 connections plus GPU/input checks),
+`table_adoption` (declared legal fixtures, all board sizes, count/record/return),
 `rendered_match` (current Wren rematch/count/review flow), `rendered_tram` (boarding interrupts
 a passing tram and holds its position), `rendered_coastal` (White City facades and Jaffa-inspired
 harbor approaches), `rendered_polish_motion` (actual walk/run frame sequences),
@@ -399,10 +412,9 @@ and read it. Trust it.
 - Static typing everywhere; `class_name` on anything that is a type; snake_case files.
 - No script over ~300 lines — if it grows, it wants to be a component.
 - Signals past tense (`match_finished`), methods imperative (`start_match`).
-- **The bitmap font's native size is 9 and its line height is 11.** Only integer multiples
-  of the size are allowed, and the theme sets `Label/constants/line_spacing = 0`: Godot's
-  default of 3 made every row 14 px, so every "four rows" in the game was three and a
-  fourth on the frame, and nothing that measured text could see it.
+- **UI uses DejaVu Sans MSDF and vector panels.** Logical body size is 9; the old
+  bitmap-only/integer-font-multiple restriction is superseded by the owner's ART-13
+  rollout request. Canvas Items stretch keeps UI outlines sharp at window resolution.
 - Text panels are measured against their contents with `UiKit.text_height` /
   `UiKit.fit_card` / `UiKit.paginate`. Nothing may run off the bottom of a card.
 - Comments explain *why*, not what. Several record a bug that was actually hit — leave them.
@@ -481,14 +493,15 @@ does not declare its live status.
 
 ## Current state
 
-ART-08 converts the normal game to fixed-angle rendered 2.5D presentation. Use `tools/play.sh`.
-ART-09 adds connected gait poses, daylight, visible entrances, continued surroundings,
-varied White City facades and a Jaffa-inspired harbor.
-All twelve maps, the cast/passers and Go assets use `art/rendered/`; logical coordinates,
-saves and Go rules are unchanged. `tools/run_rendered.sh <route>` provides isolated play
-verification. Blender/Pillow build commands and the depth-mask format are in
-`docs/ps1/world/README.md`. Earlier art-freeze statements below describe historical work;
-ART-08 supersedes them for production art. The ART-07 opt-in room remains session-only.
+ART-13 adopts the approved expressive cast and live 3D geometry in all twelve campaign
+areas. Use `tools/play_expressive_world.sh` for separate persistent preview saves, or
+`tools/play.sh` for the normal campaign save directory. `art/expressive_world/` supplies
+walking cast, passers, dialogue busts, maps and tram. ART-11 matches retain
+`art/table_scene/` at 768×432. Logical coordinates, saves and Go rules are unchanged.
+UI text and vector panels render at window resolution. Python/Blender/Pillow coordinate
+all generated art; see `docs/expressive_world/README.md`. `tools/run_rendered.sh <route>`
+provides isolated play verification. The earlier raster pipeline and trial launchers
+remain available; historical art-freeze and pixel-font statements do not govern ART-13.
 
 Playable start to finish: cold open → name → the attic → Market Lane → capture demonstration and optional practice with Pip →
 Wren’s short rules and finishing lessons → optional opening comparison → supported unrated
@@ -726,3 +739,59 @@ a curve and a replayable SGF exist, opens on the praised move, walks moves with 
 jumps marks with Up/Down, opens a marked card with Space and closes with Escape. The graph
 caption rounds the pass-one loss; the cards quote the second pass, so the two can differ by
 a few points on the same move. Route: `review_graph` (real engine, isolated XDG data).
+
+
+## ART-11 match style adoption
+
+The owner approved the revised table scene and requested all match screens first.
+`MatchViewRoute` now selects `src/go_ui/table_scene/match.tscn` for all original
+cast encounters. Python/Blender/Pillow build 21 models and seven clips each from
+`tools/table_scene/` and shared identity records; `build_assets.py --groups table_scene`
+includes this production asset group. Cast boards use 768×432 at 30 fps, restored
+on return; original request profiles, colours, ranks, scoring and bridge persistence
+remain authoritative. Nigiri, teaching panels, 7/9/13/19 picking and counting share
+the table. Development profiles without a cast model retain their old harness.
+ART-13 adopts the approved refinement in all campaign areas and replaces the pixel UI.
+See `docs/table_scene/adoption/verification.md` for inspected rollout evidence.
+
+
+### ART-12 local area POC
+
+`src/experiments/expressive_kettle/` is a live-3D Kettle preview with four full-body
+cast models and animated match-model dialogue busts. `tools/play_expressive_kettle.sh`
+is the isolated launcher. ART-13 subsequently adopts this direction across the campaign. Source scripts
+are in `tools/expressive_kettle/`; never edit `art/expressive_kettle/` exports by hand.
+[Launch, footage and inspected acceptance](docs/expressive_kettle/README.md).
+
+
+ART-12R is the current local Kettle revision. The owner clarified the visual reference
+as Hikaru no Go 3 on GameCube. `tools/expressive_kettle/motion.py` owns the continuous
+world clips; preserve authored bone roll in limb solving. `check_pose.py` checks actual
+deformed knees and idle foot contact during the Python-coordinated art build.
+[Second-review evidence](docs/expressive_kettle/refinement/README.md).
+
+
+## ART-13 expressive campaign and interface
+
+The owner approved ART-12R and requested the rest of the game. All twelve campaign maps
+now render live geometry; `ExpressivePerson` follows existing 2D actors and
+`ExpressiveTramVisual` follows Tram. Keep the logical maps, physics, input, progression
+and save schema authoritative. Generated outputs are under `art/expressive_world/`,
+coordinated by `tools/build_expressive_world.py`; no hand edits to exports.
+`SurfacePanel`, `UiKit`, `src/ui/theme.tres` and the licensed DejaVu Sans font own the
+smooth interface. Shared viewport textures must use `EXPAND_IGNORE_SIZE` when displayed
+below their texture dimensions, or Godot silently crops them at the texture minimum.
+[Current launch, sources and verification](docs/expressive_world/README.md).
+
+
+### ART-13R — locomotion at high refresh rates and both tram cabs
+
+`ExpressivePerson` samples actor displacement once per physics tick, after movement;
+render frames retain that velocity. Do not estimate movement from render-frame deltas:
+at 144 fps that repeatedly selected idle and restarted the walking blend. Running has
+its own generated clip; gait changes retain phase, cadence follows actual displacement.
+`motion_review.tscn` exercises actual player controls at 30/60/144 fps, release, walls
+and input locks. A 30 fps movie alone cannot establish high-refresh correctness.
+`tram_review.tscn` captures both sides of both ends with the campaign shader. Mirrored
+cab faces must reverse winding; the exported-normal contract enforces this.
+[Correction evidence and launch](docs/expressive_world/motion-fix/README.md).

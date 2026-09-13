@@ -1,0 +1,4 @@
+[
+ {"save":"lost_to_kesh"},{"wait":0.8},{"tap":"move_down"},{"tap":"interact"},{"world_wait":true},
+ {"experience":"table_adoption"},{"shot":"world_after_matches"}
+]

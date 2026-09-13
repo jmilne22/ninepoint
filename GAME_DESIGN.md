@@ -1,6 +1,6 @@
 # NINEPOINT — Game Design
 
-> A PS1-inspired 2.5D RPG about learning to play Go, set in **Sela**, a warm, leafy coastal city.
+> An expressive 2.5D RPG about learning to play Go, set in **Sela**, a warm, leafy coastal city.
 > There are no combat statistics. The only thing that gets stronger is the person holding the controller.
 
 ---
@@ -495,8 +495,10 @@ and eligibility gates remain unchanged. Sea Walk keeps the asynchronous review n
 
 White City balcony forms and Jaffa Port stonework/boats inform distinct city and harbor
 compositions. Rooms and streets use a fixed 45°/30° view with screen-relative movement;
-the camera follows large maps. Go stays overhead for clear intersections. Character
-models supply both eight-way sprites and dialogue busts. This presentation changes no
+the camera follows large maps. Cast Go matches use a gently tilted wooden table
+at 768×432, with expressive waist-up characters clear of every crossing. Existing
+walking models still supply eight-way sprites and dialogue busts; their rollout follows
+the match screens, as the owner requested. This presentation changes no
 teaching order, ranks, cast identities or progression rules. [Art direction](ART_DIRECTION.md).
 
 ### Ordinary exchanges and return visits (DESIGN-01)
@@ -507,3 +509,11 @@ concern parcels, cups, plates and access. These exchanges grant no items, money,
 affection. Noor acknowledges league completion and a return after the Cup once, using
 existing completion flags. The actual post-match response still follows the game just
 played; completed events do not replace it.
+
+
+### Expressive Kettle area trial
+
+ART-12 tests the approved match cast in one walkable Kettle interior, including
+conversation portraits and the match/return loop. Existing dialogue, ranks, teaching
+order and result consequences remain in force. The isolated visit uses disposable
+progress; ART-12R refined stances, movement and room finish following the owner’s GameCube reference clarification. The owner subsequently approved it and requested ART-13: the full campaign and a smooth, coherent interface. The visual renderer changes; gameplay systems and learning order remain unchanged.

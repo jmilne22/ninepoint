@@ -30,15 +30,16 @@ func configure(specs: Array) -> void:
         for state in ["normal", "hover", "pressed", "disabled"]:
             var style := StyleBoxFlat.new()
             style.bg_color = UiKit.PAPER if state == "normal" else (
-                Color("#eccd96") if state == "hover" else Color("#bda98c"))
+                UiKit.TEAL if state == "hover" else Color("#375c4c"))
             style.border_color = UiKit.INK_FAINT
             style.set_border_width_all(1)
+            style.set_corner_radius_all(3)
             style.content_margin_left = 3
             style.content_margin_right = 3
             style.content_margin_top = 2
             style.content_margin_bottom = 2
             button.add_theme_stylebox_override(state, style)
-            button.add_theme_color_override("font_" + state + "_color", UiKit.INK)
+            button.add_theme_color_override("font_" + state + "_color", UiKit.INK if state == "normal" else UiKit.PAPER)
         button.add_theme_color_override("font_color", UiKit.INK)
         button.add_theme_color_override("font_disabled_color", UiKit.INK_FAINT)
         button.pressed.connect(func(): action_selected.emit(StringName(spec[1])))

@@ -1,0 +1,48 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: AMD - AMD Radeon RX 6900 XT (radeonsi, navi21, ACO, DRM 3.64, 7.2.2)
+
+Movie Maker mode enabled, recording movie in 768×432 @ 30 FPS...
+KETTLE SHOT: 01_arrival
+KETTLE SHOT: 02_at_wrens_table
+KETTLE SHOT: 03_wren_talking
+KETTLE PASS: dialogue blocks movement
+CAST CLIPS player: ["concern", "greet", "idle", "place", "pleased", "surprise", "thinking"]
+CAST CLIPS wren: ["concern", "greet", "idle", "place", "pleased", "surprise", "thinking"]
+KETTLE PASS: conversation launched Wren's existing match
+KETTLE SHOT: 04_same_style_match
+KETTLE PASS: two real moves and opponent replies
+KETTLE PASS: Wren uses her real engine
+KETTLE SHOT: 05_playing_wren
+KETTLE PASS: cancel resignation resumes game
+KETTLE SHOT: 06_match_result
+KETTLE PASS: match returns to expressive room
+KETTLE PASS: return keeps the player's position
+KETTLE PASS: completed match recorded exactly once in disposable session
+KETTLE SHOT: 07_wren_after_game
+KETTLE SHOT: 08_at_the_counter
+KETTLE SHOT: 09_tomas_talking
+KETTLE SHOT: 10_tomas_work
+KETTLE PASS: exit modal blocks walking
+KETTLE PASS: exit cancel restores walking
+KETTLE SHOT: 11_back_in_the_room
+KETTLE PASS: counter collision stops the player
+KETTLE SHOT: 12_kesh_talking
+KETTLE SHOT: 14_novice_card
+KETTLE PASS: Kesh's existing novice card is preserved
+KETTLE PASS: room boundary stops the player
+KETTLE SHOT: 13_end_of_visit
+KETTLE PASS: player card opens from Tab
+KETTLE SHOT: 15_player_card
+KETTLE PASS: card closes and restores movement
+KETTLE PASS: last review remains accessible
+KETTLE PASS: nested review loading uses full canvas
+KETTLE SHOT: 16_review_loading
+KETTLE PASS: review dismissal restores movement
+EXPRESSIVE KETTLE: 28 checks passed
+--------------------------------------------------------------------------------
+Done recording movie at path: /home/user/.cache/ninepoint-kettle-refinement.avi
+3449 frames at 30 FPS (movie length: 00:01:54:29), recorded in 00:00:18 (633% of real-time speed).
+CPU render time: 2.07 seconds (average: 0.60 ms/frame)
+GPU render time: 1.30 seconds (average: 0.38 ms/frame)
+Encoding time: 10.28 seconds (average: 2.98 ms/frame)
+--------------------------------------------------------------------------------
