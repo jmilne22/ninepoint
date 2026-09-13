@@ -24,6 +24,8 @@ rank, leagues, the Cup, exam and saved records retain their existing rules.
 
 Run `tools/play_expressive_world.sh` to play the complete campaign with separate,
 persistent preview saves. `tools/play.sh` uses the normal campaign save directory.
+The [locomotion/tram correction](docs/expressive_world/motion-fix/README.md) can be tried
+with `tools/play_motion_fix.sh`, using another isolated set of preview saves.
 The default window is 1536×864; interface outlines render at window resolution while
 live world scenes retain the approved 768×432 visual density.
 

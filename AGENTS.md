@@ -198,6 +198,7 @@ out at the end of the session, not the start.
 ```bash
 tools/play.sh                                    # play it, on the real display
 tools/play_expressive_world.sh                   # full campaign, separate persistent preview saves
+tools/play_motion_fix.sh                         # locomotion/tram correction, separate persistent saves
 python3 tools/build_expressive_world.py          # all live world/cast/tram assets
 tools/play.sh -- --katago-trial=res://tools/fixtures/katago_trial_19x19.tres # development board
 tools/play_table_scene.sh                        # isolated 768×432 Wren match; disposable saves
@@ -781,3 +782,16 @@ coordinated by `tools/build_expressive_world.py`; no hand edits to exports.
 smooth interface. Shared viewport textures must use `EXPAND_IGNORE_SIZE` when displayed
 below their texture dimensions, or Godot silently crops them at the texture minimum.
 [Current launch, sources and verification](docs/expressive_world/README.md).
+
+
+### ART-13R — locomotion at high refresh rates and both tram cabs
+
+`ExpressivePerson` samples actor displacement once per physics tick, after movement;
+render frames retain that velocity. Do not estimate movement from render-frame deltas:
+at 144 fps that repeatedly selected idle and restarted the walking blend. Running has
+its own generated clip; gait changes retain phase, cadence follows actual displacement.
+`motion_review.tscn` exercises actual player controls at 30/60/144 fps, release, walls
+and input locks. A 30 fps movie alone cannot establish high-refresh correctness.
+`tram_review.tscn` captures both sides of both ends with the campaign shader. Mirrored
+cab faces must reverse winding; the exported-normal contract enforces this.
+[Correction evidence and launch](docs/expressive_world/motion-fix/README.md).

@@ -11,7 +11,7 @@ if mode=='people':
     sys.path[:0]=[str(ROOT/'tools/expressive_kettle'),str(ROOT/'tools/table_scene'),str(ROOT/'tools')]
     from people import build_person
     from motion import DURATIONS
-    DURATIONS.update(seated=6,counter=6)
+    DURATIONS.update(seated=6,counter=6,run=.7)
     from characters import CHARACTERS
     for spec in CHARACTERS:
         bpy.ops.object.select_all(action='SELECT');bpy.ops.object.delete(use_global=False)

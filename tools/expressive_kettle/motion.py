@@ -31,11 +31,11 @@ def animate(rig,identity):
             hip=rig.pose.bones['root']
             shift=.025 if name in ['relaxed','stand','listen'] else -.01
             # PoseBone.location is in bone axes, so place the pelvis in world axes.
-            hip_z=(-.06+.010*math.cos(p*2)) if name=='walk' else (-.32+.002*sway) if name=='seated' else (-.022+.003*sway)
+            hip_z=(-.085-.035*math.cos(p*2)) if name=='run' else (-.06+.010*math.cos(p*2)) if name=='walk' else (-.32+.002*sway) if name=='seated' else (-.022+.003*sway)
             hip.matrix=Matrix.Translation((shift,0,hip_z))@hip.bone.matrix_local
             spine=rig.pose.bones['spine']
             lean=.025 if name=='host' else -.05 if name=='relaxed' else 0
-            pitch=.075 if name in ['serve','counter'] else .02 if name in ['host','table_rest','idle'] else 0
+            pitch=.13 if name=='run' else .075 if name in ['serve','counter'] else .02 if name in ['host','table_rest','idle'] else 0
             spine.rotation_quaternion=Quaternion((0,1,0),lean+.006*sway)@Quaternion((1,0,0),pitch)
             rig.pose.bones['head'].rotation_quaternion=Quaternion((0,0,1),.012*sway)@Quaternion((1,0,0),-.012*sway)
             bpy.context.view_layer.update()
@@ -77,6 +77,9 @@ def animate(rig,identity):
                 if name=='listen' and s==1:
                     wrist=Vector((.20,-.16,1.05+.025*sway))
                 if name=='walk':wrist.y+=s*.12*sway
+                if name=='run':
+                    wrist=Vector((s*.24,-.18+s*.24*sway,1.30))
+                    hand_dir=Vector((0,-.11,-.07))
                 wrist=body@wrist
                 upper=rig.pose.bones['upper_'+side];lower=rig.pose.bones['lower_'+side]
                 elbow,wrist=solve(shoulder,wrist,body@Vector((s*.32,.06,1.23)),upper.bone.length,lower.bone.length)
@@ -84,7 +87,7 @@ def animate(rig,identity):
                 lower.matrix=orient(lower,elbow,wrist);bpy.context.view_layer.update()
                 hand=rig.pose.bones['hand_'+side]
                 hand.matrix=orient(hand,wrist,wrist+body.to_3x3()@hand_dir)
-                if name in ['stand','relaxed','walk','listen']:
+                if name in ['stand','relaxed','walk','run','listen']:
                     hand.matrix=hand.matrix@Matrix.Rotation(s*.7,4,'Y')
                 # Both soles remain down at rest; a small stagger releases the knees.
                 ankle=Vector((s*.145, .035 if s>0 else -.025,.10))
@@ -98,6 +101,14 @@ def animate(rig,identity):
                     else:
                         # Linear stance cancels root travel instead of skating.
                         ankle.y=-.26+(q-.5)*1.04
+                if name=='run':
+                    q=(t+(.5 if s<0 else 0))%1
+                    if q<.6:
+                        u=q/.6;smooth=u*u*(3-2*u)
+                        ankle.y=.36-.72*smooth
+                        ankle.z=.10+.23*math.sin(math.pi*u)
+                    else:
+                        ankle.y=-.36+(q-.6)*1.8
                 thigh=rig.pose.bones['thigh_'+side];shin=rig.pose.bones['shin_'+side]
                 hip_at=pelvis@Vector((s*.12,0,.92))
                 knee,ankle=solve(hip_at,ankle,Vector((s*.15,-1,.50)),thigh.bone.length,shin.bone.length)

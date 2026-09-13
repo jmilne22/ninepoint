@@ -1,0 +1,23 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: AMD - AMD Radeon RX 6900 XT (radeonsi, navi21, ACO, DRM 3.64, 7.2.2)
+
+Movie Maker mode enabled, recording movie in 1536×864 @ 30 FPS...
+MOTION RATE 30 walk: 60 frames, 0 idle frames, 0 clip changes, foot travel 0.513
+MOTION: released input returns to standing
+MOTION RATE 30 run: 60 frames, 0 idle frames, 0 clip changes, foot travel 0.702
+MOTION: released input returns to standing
+MOTION: wall actually stops the player
+MOTION: held input against a wall does not run in place
+MOTION: modal input lock stops locomotion
+MOTION RATE FAILURES: 0
+WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+--------------------------------------------------------------------------------
+Done recording movie at path: /home/user/.cache/ninepoint-motion-fixed.avi
+255 frames at 30 FPS (movie length: 00:00:08:15), recorded in 00:00:07 (114% of real-time speed).
+CPU render time: 0.07 seconds (average: 0.29 ms/frame)
+GPU render time: 0.01 seconds (average: 0.04 ms/frame)
+Encoding time: 2.95 seconds (average: 11.55 ms/frame)
+--------------------------------------------------------------------------------

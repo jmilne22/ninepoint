@@ -6,7 +6,7 @@ def validate(rig,identity):
     legs=[o for o in bpy.context.scene.objects if o.name.startswith('Trouser leg')]
     soles=[o for o in bpy.context.scene.objects if o.name.startswith('Sole')]
     checks=0
-    for name in ['stand','host','relaxed','serve','walk']:
+    for name in ['stand','host','relaxed','serve','walk']+(['run'] if 'run' in clips else []):
         rig.animation_data.action=clips[name]
         start,end=clips[name].frame_range
         for ratio in [0,.25,.5,.75,1]:
@@ -20,7 +20,7 @@ def validate(rig,identity):
                     assert width>.10,(identity,name,ratio,'collapsed knee',width)
                     checks+=1
                 obj.to_mesh_clear()
-            if name!='walk':
+            if name not in ['walk','run']:
                 for sole in soles:
                     obj=sole.evaluated_get(graph);mesh=obj.to_mesh()
                     low=min((obj.matrix_world@v.co).z for v in mesh.vertices)

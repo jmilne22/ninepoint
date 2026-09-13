@@ -5,6 +5,9 @@ original painted-face characters, natural resting poses, continuous motion, warm
 cream plaster and green details. All twelve campaign areas use live 3D geometry.
 The 21 named identities and five kinds of passer share the full-body model pipeline.
 
+**Correction:** the initial rollout had high-refresh locomotion resets and an inward-facing
+mirrored tram cab. [ART-13R fixes, footage and launcher](motion-fix/README.md).
+
 ## Play
 
 ```bash
@@ -70,7 +73,7 @@ XDG_DATA_HOME=/home/user/.cache/ninepoint-world-gate tools/test.sh
 ## Verification
 
 The full gate passes 19,407 / 0 checks and loads 380 resources. The asset gate includes
-119 live-world checks; the full-body build passes 3,640 deformed-pose assertions.
+134 live-world checks; the full-body build passes 4,160 deformed-pose assertions.
 Serial rendered checks cover all 22 connections, mouse/keyboard board input, lessons,
 counting, real Wren play/review, save slots, tram and competition panels.
 See [the inspected evidence](verification.md) for the exact routes and boundaries.

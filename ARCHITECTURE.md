@@ -20,7 +20,10 @@ ART-13 adopts the approved ART-12R direction throughout the campaign. `Projected
 creates a 768×432 3D SubViewport over the original logical map. Its camera agrees with
 `RoomProjection` at every tile centre; `Player`, `Npc`, doors, collision and save positions
 remain in the original 2D coordinate system. `ExpressivePerson` follows those actors,
-without owning gameplay state. `ExpressiveTramVisual` follows the existing tram tween.
+without owning gameplay state. It samples displacement after actor physics ticks,
+retains that speed between render frames, and selects distance-matched walk/run clips.
+This avoids restarting blends on render frames with no new physics step.
+`ExpressiveTramVisual` follows the existing tram tween.
 Generated campaign GLBs retain source-map hashes and join static surfaces by material.
 `ExpressivePortrait` reuses the same full-body mesh and face animation in dialogue.
 
@@ -408,14 +411,17 @@ routinely holds two of these at once, and a person must outrank the furniture be
 `Facing` (which way a character is turned), `DialogueBox` (typewriter, portrait, choices),
 `GoBoardView` (renders a GoGame and holds selection/view-anchor state). There is no `GridMover` and no
 `ScheduleComponent`; movement lives on `Player`/`Npc`, and there is no schedule. `Player`
-selects the fixed walk speed or a transient 1.75× Shift-run speed; `CharacterSprite` scales
-the existing gait while footstep cadence remains distance-based. NPC gait defaults to 1×.
+selects the fixed walk speed or a transient 1.75× Shift-run speed. `CharacterSprite`
+retains the gait hint for fallback sprites; `ExpressivePerson` selects the live walk/run
+clip and matches its stance travel to displacement sampled in physics. Footstep cadence
+remains distance-based. NPC gait defaults to walking.
 
 The tram stop is a sign whose text begins `__TRAM__` followed by JSON naming its routes;
 `SignDesk.tram_stop()` offers them as choices, refuses in the box when a route's flag is not
 set, asks the `Tram` prop to pull in, and only then changes scene. The articulated
-vehicle is 160×36; `Tram.WIDTH` matches its generated texture so offscreen travel and
-horizontal flipping retain the correct centre.
+live vehicle follows the same logical position. The retained grid fallback texture is
+160×36; `Tram.WIDTH` retains its offscreen travel/centre contract. Both live cab shells
+have outward-facing surfaces after reflection.
 
 Maps are `TileMapLayer`-based with a `YSort` entity layer; every map exposes named
 `SpawnPoint` nodes so warps and save/load can place the player deterministically.

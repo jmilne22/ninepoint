@@ -3765,3 +3765,9 @@ Hana opening, long room names, three save slots, lessons/puzzles, count group to
 competition panels, match/result/review and motion frames. Watched the 90.6-second full
 world tour and 61.65-second review cut at 1×; both are actual Godot capture with audio.
 [Launch, footage, six screenshots and limits](docs/expressive_world/README.md).
+
+
+**M58 follow-up, ART-13R:** the owner found sliding at high refresh rates and a broken
+mirrored tram end. The original 30 fps captures did not expose repeated idle/walk resets
+between physics ticks. The correction samples movement in physics, supplies a run clip
+and reverses reflected cab face winding. [Reproduction and inspected correction](docs/expressive_world/motion-fix/README.md).

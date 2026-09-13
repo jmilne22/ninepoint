@@ -10,8 +10,11 @@ var identity := "player"
 var clock := 0.0
 var previous := Vector2.ZERO
 var initialized := false
+var speed := 0.0
 
 func _ready() -> void:
+    # Sample after the actors have moved, once per physics tick.
+    process_physics_priority = 1
     model = load("res://art/expressive_world/people/%s.glb" % identity).instantiate()
     model.scale = Vector3.ONE * .78
     if identity in ["sunny", "extra_kid"]: model.scale *= .78
@@ -23,7 +26,7 @@ func _ready() -> void:
     face.set_shader_parameter("faces", load("res://art/expressive_world/people/%s_face.png" % identity))
     face.next_pass = ink
     _prepare(model)
-    for clip in ["stand", "walk", "host", "relaxed", "serve", "listen", "table_rest", "thinking", "seated", "counter"]:
+    for clip in ["stand", "walk", "run", "host", "relaxed", "serve", "listen", "table_rest", "thinking", "seated", "counter"]:
         animation.get_animation(clip).loop_mode = Animation.LOOP_LINEAR
 
 func _prepare(node: Node) -> void:
@@ -40,15 +43,19 @@ func _prepare(node: Node) -> void:
                 node.set_surface_override_material(i, mat)
     for child in node.get_children(): _prepare(child)
 
+func _physics_process(delta: float) -> void:
+    if not is_instance_valid(source): return
+    var feet: Vector2 = source.get_parent().global_position
+    speed = feet.distance_to(previous) * .05 / delta if initialized else 0.0
+    initialized = true
+    previous = feet
+
 func _process(delta: float) -> void:
     if not is_instance_valid(source):
         queue_free()
         return
     var actor := source.get_parent() as Node2D
     var feet := actor.global_position
-    var speed := feet.distance_to(previous) * .05 / maxf(delta,.001) if initialized else 0.0
-    initialized = true
-    previous = feet
     position = Vector3(feet.x*.05, .025, feet.y*.05)
     visible = actor.visible
     source.hide()
@@ -64,9 +71,17 @@ func _process(delta: float) -> void:
     if source.activity == "wipe": clip = "counter"
     if seated: clip = "seated"
     if actor is Npc and actor.busy and not seated: clip = "listen"
-    if speed > .05: clip = "walk"
-    if animation.current_animation != clip: animation.play(clip,.18)
-    animation.speed_scale = clampf(speed / (.78*1.04),.2,4.5) if clip == "walk" else 1.0
+    if speed > .05: clip = "run" if source.gait_scale > 1.0 else "walk"
+    if animation.current_animation != clip:
+        var phase := -1.0
+        if clip in ["walk","run"] and animation.current_animation in ["walk","run"]:
+            phase = animation.current_animation_position / animation.current_animation_length
+        animation.play(clip,.12)
+        if phase >= 0.0: animation.seek(phase * animation.get_animation(clip).length)
+    # The stance travels 1.04 units/cycle walking, 1.8 running. Matching actual
+    # distance also handles diagonal projection, smaller cast and wall collisions.
+    var stride_speed := 1.8/.7 if clip == "run" else 1.04
+    animation.speed_scale = speed / (model.scale.x*stride_speed) if clip in ["walk","run"] else 1.0
     clock += delta
     var mood := 5 if fmod(clock+float(identity.hash()%40)/10,4.7)<.13 else 0
     face.set_shader_parameter("expression",float(mood))

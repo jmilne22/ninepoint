@@ -3,8 +3,8 @@
 import argparse,subprocess,sys,os
 from pathlib import Path
 root=Path(__file__).resolve().parents[1]
-p=argparse.ArgumentParser();p.add_argument('--people',action='store_true');p.add_argument('--maps',nargs='*');a=p.parse_args()
-all_groups=not a.people and a.maps is None
+p=argparse.ArgumentParser();p.add_argument('--people',action='store_true');p.add_argument('--tram',action='store_true');p.add_argument('--maps',nargs='*');a=p.parse_args()
+all_groups=not a.people and not a.tram and a.maps is None
 output=Path(os.environ.get('EXPRESSIVE_WORLD_OUTPUT',root/'art/expressive_world'))
 subprocess.run([sys.executable,str(root/'tools/expressive_kettle/paint.py')],env={**os.environ,'EXPRESSIVE_SURFACES':str(output/'surfaces')},check=True)
 subprocess.run([sys.executable,str(root/'tools/expressive_world/board_art.py')],check=True)
@@ -15,4 +15,4 @@ if a.people or all_groups:
     run(['people'])
 if a.maps is not None or all_groups:run(['maps',*(a.maps or [x.stem for x in sorted((root/'data/maps').glob('*.json'))])])
 
-if all_groups:run(['tram'])
+if a.tram or all_groups:run(['tram'])

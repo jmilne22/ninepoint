@@ -82,6 +82,21 @@ Update the snapshot when reconciling after a merge; it is not a release number.
   Inspected all rooms/cast, six selected views and normal-speed Godot footage with audio.
   [Play, review film and verification](docs/expressive_world/README.md).
 
+## ART-13R — Stop sliding locomotion and repair mirrored tram cab
+
+- Status: `SHIPPED` locally for review · Owner: Codex · Branch: `codex/locomotion-tram-fix`.
+- Owner reports walking/running slide and one broken tram end in the rollout.
+- Fresh separate checkout proved HEAD = origin/main = `f90a39e`; replayed the
+  approved local chain including ART-13 before edits. Live preview remains undisturbed.
+- Scope: stable movement-driven animation, readable walking/running, both tram cabs.
+- Fixed: render/physics sampling mismatch that restarted idle/walk at 144 fps; added
+  a distinct distance-matched run clip; corrected reflected cab face winding.
+- Acceptance: 19,407 / 0 full gate, 380 resource loads, 134 live-asset checks and
+  4,160 deformed-pose checks. Six real-player walk/run cases at 30/60/144 fps have
+  zero idle interruptions; input release, walls and locks pass. Tram stop route passes.
+- Inspected: normal-speed 8.5-second Godot footage with audio, motion frames, both
+  sides of both cabs and actual boarding stop. [Evidence and corrected launcher](docs/expressive_world/motion-fix/README.md).
+
 ## How to use this board
 
 | Status | Meaning | Agent action |
