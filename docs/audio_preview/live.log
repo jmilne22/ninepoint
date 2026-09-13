@@ -5,192 +5,208 @@ OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa -
 
 Movie Maker mode enabled, recording movie in 1536×864 @ 30 FPS...
 AUTOPILOT: 29 steps from res://tools/autopilot/audio_preview.json
-AUDIO MUSIC {"frame":0,"ms":738,"new":true,"track":"theme_title"}
-AUDIO TRACE {"db":0.0,"frame":25,"ms":2788,"pitch":1.0,"sound":"ui_move"}
-AUDIO TRACE {"db":0.0,"frame":30,"ms":3172,"pitch":1.0,"sound":"ui_confirm"}
-AUDIO MUSIC {"frame":37,"ms":4019,"new":true,"track":"theme_club"}
-AUDIO TRACE {"db":0.0,"frame":37,"ms":4019,"pitch":1.0,"sound":"door"}
+AUDIO MUSIC {"frame":0,"ms":740,"new":true,"track":"theme_title"}
+AUDIO TRACE {"db":0.0,"frame":25,"ms":2798,"pitch":1.0,"sound":"ui_move"}
+AUDIO TRACE {"db":0.0,"frame":30,"ms":3187,"pitch":1.0,"sound":"ui_confirm"}
+AUDIO MUSIC {"frame":37,"ms":4055,"new":true,"track":"theme_club"}
+AUDIO TRACE {"db":0.0,"frame":37,"ms":4055,"pitch":1.0,"sound":"door"}
 AUTOPILOT: world transition and return conversation settled
-AUDIO TRACE {"db":0.0,"frame":76,"ms":7574,"pitch":1.0,"sound":"door"}
-AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XqZUmV/godot/app_userdata/Ninepoint/shots/01_kettle.png
+AUDIO TRACE {"db":0.0,"frame":76,"ms":7593,"pitch":1.0,"sound":"door"}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-fvxTT5/godot/app_userdata/Ninepoint/shots/01_kettle.png
 MOVIE BEAT: kettle frame=143
-AUDIO TRACE {"db":-4.0,"frame":385,"ms":37931,"pitch":1.02236151695251,"sound":"step_wood_a"}
-AUDIO TRACE {"db":-4.0,"frame":396,"ms":39049,"pitch":0.945802569389343,"sound":"step_wood_a"}
-AUDIO TRACE {"db":-4.0,"frame":406,"ms":40085,"pitch":1.07294344902039,"sound":"step_wood_a"}
-AUDIO TRACE {"db":-4.0,"frame":408,"ms":40288,"pitch":1.08281183242798,"sound":"step_wood_b"}
-AUDIO TRACE {"db":-4.0,"frame":419,"ms":41432,"pitch":1.08171451091766,"sound":"step_wood_a"}
-AUDIO TRACE {"db":0.0,"frame":423,"ms":41861,"pitch":0.911159217357635,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":424,"ms":41993,"pitch":1.01797080039978,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":425,"ms":42105,"pitch":1.06122183799744,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":426,"ms":42220,"pitch":1.00043296813965,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":427,"ms":42332,"pitch":1.11605095863342,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":428,"ms":42446,"pitch":0.923539698123932,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":429,"ms":42563,"pitch":1.03700172901154,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":430,"ms":42679,"pitch":1.00663995742798,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":431,"ms":42795,"pitch":0.931246101856232,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":432,"ms":42907,"pitch":0.961562037467957,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":433,"ms":43019,"pitch":0.940103054046631,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":434,"ms":43134,"pitch":0.904596030712128,"sound":"blip"}
-AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XqZUmV/godot/app_userdata/Ninepoint/shots/02_choice_Another game..png
+AUDIO TRACE {"db":-4.0,"frame":385,"ms":38188,"pitch":1.05481946468353,"sound":"step_wood_b"}
+AUDIO TRACE {"db":-4.0,"frame":396,"ms":39298,"pitch":1.07679224014282,"sound":"step_wood_b"}
+AUDIO TRACE {"db":-4.0,"frame":406,"ms":40336,"pitch":1.03956723213196,"sound":"step_wood_a"}
+AUDIO TRACE {"db":-4.0,"frame":408,"ms":40541,"pitch":0.917370617389679,"sound":"step_wood_a"}
+AUDIO TRACE {"db":-4.0,"frame":419,"ms":41716,"pitch":1.02938044071198,"sound":"step_wood_a"}
+AUDIO TRACE {"db":0.0,"frame":423,"ms":42191,"pitch":0.91105580329895,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":424,"ms":42337,"pitch":1.09135615825653,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":425,"ms":42490,"pitch":1.05212950706482,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":426,"ms":42615,"pitch":1.07022070884705,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":427,"ms":42739,"pitch":0.93819522857666,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":428,"ms":42862,"pitch":1.01853382587433,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":429,"ms":42990,"pitch":1.01598227024078,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":430,"ms":43131,"pitch":1.08525574207306,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":431,"ms":43253,"pitch":1.05569124221802,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":432,"ms":43379,"pitch":0.905383229255676,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":433,"ms":43507,"pitch":1.01065671443939,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":434,"ms":43631,"pitch":0.986777365207672,"sound":"blip"}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-fvxTT5/godot/app_userdata/Ninepoint/shots/02_choice_Another game..png
 MOVIE BEAT: choice_Another game. frame=450
-AUDIO TRACE {"db":0.0,"frame":451,"ms":45212,"pitch":1.0,"sound":"ui_confirm"}
-AUDIO TRACE {"db":0.0,"frame":451,"ms":45213,"pitch":1.065758228302,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":452,"ms":45325,"pitch":0.901471197605133,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":453,"ms":45437,"pitch":0.972657799720764,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":454,"ms":45550,"pitch":1.02519237995148,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":455,"ms":45663,"pitch":0.95994234085083,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":456,"ms":45776,"pitch":0.8955899477005,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":457,"ms":45890,"pitch":0.89759773015976,"sound":"blip"}
-AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XqZUmV/godot/app_userdata/Ninepoint/shots/03_choice_Set them up..png
+AUDIO TRACE {"db":0.0,"frame":451,"ms":45909,"pitch":1.0,"sound":"ui_confirm"}
+AUDIO TRACE {"db":0.0,"frame":451,"ms":45910,"pitch":0.994008779525757,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":452,"ms":46031,"pitch":0.973179280757904,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":453,"ms":46158,"pitch":0.894768297672272,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":454,"ms":46281,"pitch":1.09559965133667,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":455,"ms":46403,"pitch":1.11868846416473,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":456,"ms":46532,"pitch":1.11518311500549,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":457,"ms":46653,"pitch":1.101154088974,"sound":"blip"}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-fvxTT5/godot/app_userdata/Ninepoint/shots/03_choice_Set them up..png
 MOVIE BEAT: choice_Set them up. frame=473
-AUDIO TRACE {"db":0.0,"frame":474,"ms":47935,"pitch":1.0,"sound":"ui_confirm"}
-AUDIO MUSIC {"frame":481,"ms":48792,"new":true,"track":"theme_battle"}
+AUDIO TRACE {"db":0.0,"frame":474,"ms":48754,"pitch":1.0,"sound":"ui_confirm"}
+AUDIO MUSIC {"frame":481,"ms":49602,"new":true,"track":"theme_battle"}
 CAST CLIPS player: ["concern", "counter", "greet", "host", "idle", "listen", "place", "pleased", "relaxed", "run", "seated", "serve", "stand", "surprise", "table_rest", "thinking", "walk"]
 CAST CLIPS wren: ["concern", "counter", "greet", "host", "idle", "listen", "place", "pleased", "relaxed", "run", "seated", "serve", "stand", "surprise", "table_rest", "thinking", "walk"]
-AUDIO TRACE {"db":0.0,"frame":510,"ms":51492,"pitch":1.01318967342377,"sound":"preview_bowl_rattle"}
-AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XqZUmV/godot/app_userdata/Ninepoint/shots/04_nigiri.png
+AUDIO TRACE {"db":0.0,"frame":510,"ms":52311,"pitch":1.01155960559845,"sound":"preview_bowl_rattle"}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-fvxTT5/godot/app_userdata/Ninepoint/shots/04_nigiri.png
 MOVIE BEAT: nigiri frame=529
 BOARD BUTTON: odd
-AUDIO TRACE {"db":0.0,"frame":533,"ms":53513,"pitch":1.0,"sound":"ui_confirm"}
-AUDIO TRACE {"db":0.0,"frame":540,"ms":54108,"pitch":1.01210904121399,"sound":"preview_stone_thunk_2"}
-AUDIO TRACE {"db":0.0,"frame":543,"ms":54359,"pitch":1.00083708763123,"sound":"preview_stone_thunk_3"}
-AUDIO TRACE {"db":0.0,"frame":547,"ms":54698,"pitch":1.00678586959839,"sound":"preview_stone_thunk_5"}
-AUDIO TRACE {"db":0.0,"frame":551,"ms":55036,"pitch":0.993699669837952,"sound":"preview_stone_thunk_2"}
-AUDIO TRACE {"db":0.0,"frame":555,"ms":55374,"pitch":1.00282752513885,"sound":"preview_stone_thunk_4"}
-AUDIO TRACE {"db":0.0,"frame":559,"ms":55718,"pitch":1.00220954418182,"sound":"preview_stone_thunk_2"}
-AUDIO TRACE {"db":0.0,"frame":563,"ms":56063,"pitch":0.985442698001862,"sound":"preview_stone_thunk_3"}
-AUDIO TRACE {"db":0.0,"frame":567,"ms":56411,"pitch":1.01078057289124,"sound":"preview_stone_thunk_0"}
-AUDIO TRACE {"db":0.0,"frame":571,"ms":56755,"pitch":0.98991847038269,"sound":"preview_stone_thunk_3"}
-AUDIO TRACE {"db":0.0,"frame":575,"ms":57101,"pitch":0.997197210788727,"sound":"preview_stone_thunk_1"}
-AUDIO TRACE {"db":0.0,"frame":581,"ms":57620,"pitch":1.0,"sound":"ui_confirm"}
-AUDIO TRACE {"db":0.0,"frame":582,"ms":57706,"pitch":1.0,"sound":"game_lose"}
+AUDIO TRACE {"db":0.0,"frame":533,"ms":54345,"pitch":1.0,"sound":"ui_confirm"}
+AUDIO TRACE {"db":0.0,"frame":540,"ms":54946,"pitch":0.999006748199463,"sound":"preview_stone_thwack_2"}
+AUDIO TRACE {"db":0.0,"frame":543,"ms":55211,"pitch":0.994345903396606,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":547,"ms":55554,"pitch":1.01446855068207,"sound":"preview_stone_thwack_1"}
+AUDIO TRACE {"db":0.0,"frame":551,"ms":55904,"pitch":0.996480226516724,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":555,"ms":56248,"pitch":0.994586884975433,"sound":"preview_stone_thwack_0"}
+AUDIO TRACE {"db":0.0,"frame":559,"ms":56598,"pitch":0.997946321964264,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":563,"ms":56943,"pitch":1.01041233539581,"sound":"preview_stone_thwack_1"}
+AUDIO TRACE {"db":0.0,"frame":567,"ms":57291,"pitch":1.00604927539825,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":571,"ms":57637,"pitch":1.0075501203537,"sound":"preview_stone_thwack_0"}
+AUDIO TRACE {"db":0.0,"frame":577,"ms":58148,"pitch":1.0,"sound":"ui_confirm"}
+AUDIO TRACE {"db":0.0,"frame":578,"ms":58234,"pitch":1.0,"sound":"game_win"}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-fvxTT5/godot/app_userdata/Ninepoint/shots/05_nigiri_colour_choice.png
+MOVIE BEAT: nigiri_colour_choice frame=597
+BOARD BUTTON: white
 EXPERIENCE: wren_club 9x9; player White; handicap 0; komi 5.5; unrated false
-AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XqZUmV/godot/app_userdata/Ninepoint/shots/05_match_ready.png
-MOVIE BEAT: match_ready frame=646
-AUDIO TRACE {"db":0.0,"frame":649,"ms":63514,"pitch":0.995110273361206,"sound":"preview_stone_thunk_3"}
-AUDIO TRACE {"db":0.0,"frame":652,"ms":63761,"pitch":0.992996990680695,"sound":"preview_stone_thunk_1"}
-AUDIO TRACE {"db":0.0,"frame":671,"ms":65379,"pitch":1.00723481178284,"sound":"preview_stone_thunk_3"}
-AUDIO TRACE {"db":0.0,"frame":673,"ms":65552,"pitch":1.00140452384949,"sound":"preview_stone_thunk_1"}
-AUDIO TRACE {"db":0.0,"frame":692,"ms":67168,"pitch":0.997955918312073,"sound":"preview_stone_thunk_0"}
-AUDIO TRACE {"db":0.0,"frame":694,"ms":67337,"pitch":1.00828242301941,"sound":"preview_stone_thunk_5"}
-AUDIO TRACE {"db":0.0,"frame":713,"ms":68987,"pitch":1.00270664691925,"sound":"preview_stone_thunk_1"}
-AUDIO TRACE {"db":0.0,"frame":715,"ms":69160,"pitch":1.01328587532043,"sound":"preview_stone_thunk_4"}
-AUDIO TRACE {"db":0.0,"frame":734,"ms":70804,"pitch":1.00380682945251,"sound":"preview_stone_thunk_1"}
-AUDIO TRACE {"db":0.0,"frame":736,"ms":70979,"pitch":1.00287413597107,"sound":"preview_stone_thunk_2"}
-AUDIO TRACE {"db":0.0,"frame":755,"ms":72630,"pitch":0.994083762168884,"sound":"preview_stone_thunk_0"}
-AUDIO TRACE {"db":0.0,"frame":757,"ms":72810,"pitch":0.991947948932648,"sound":"preview_stone_thunk_3"}
-AUDIO TRACE {"db":0.0,"frame":775,"ms":74385,"pitch":1.00325429439545,"sound":"preview_stone_thunk_5"}
-AUDIO TRACE {"db":0.0,"frame":777,"ms":74561,"pitch":1.00221478939056,"sound":"preview_stone_thunk_4"}
-AUDIO TRACE {"db":0.0,"frame":780,"ms":74825,"pitch":1.0,"sound":"preview_capture_single"}
-AUDIO TRACE {"db":0.0,"frame":795,"ms":76156,"pitch":0.990024209022522,"sound":"preview_stone_thunk_0"}
-AUDIO TRACE {"db":0.0,"frame":797,"ms":76333,"pitch":0.98846024274826,"sound":"preview_stone_thunk_3"}
-AUDIO TRACE {"db":0.0,"frame":815,"ms":77935,"pitch":1.00565075874329,"sound":"preview_stone_thunk_2"}
-AUDIO TRACE {"db":0.0,"frame":817,"ms":78115,"pitch":1.00643348693848,"sound":"preview_stone_thunk_1"}
-AUDIO TRACE {"db":0.0,"frame":835,"ms":79714,"pitch":1.01105499267578,"sound":"preview_stone_thunk_0"}
-AUDIO TRACE {"db":0.0,"frame":837,"ms":79892,"pitch":0.995082378387451,"sound":"preview_stone_thunk_5"}
-AUDIO TRACE {"db":0.0,"frame":855,"ms":81511,"pitch":0.985327959060669,"sound":"preview_stone_thunk_3"}
-AUDIO TRACE {"db":0.0,"frame":857,"ms":81688,"pitch":0.998068451881409,"sound":"preview_stone_thunk_1"}
-AUDIO TRACE {"db":0.0,"frame":875,"ms":83313,"pitch":1.00141882896423,"sound":"preview_stone_thunk_2"}
-AUDIO TRACE {"db":0.0,"frame":877,"ms":83495,"pitch":0.99713271856308,"sound":"preview_stone_thunk_5"}
-AUDIO TRACE {"db":0.0,"frame":895,"ms":85124,"pitch":0.992931663990021,"sound":"preview_stone_thunk_3"}
-AUDIO TRACE {"db":0.0,"frame":897,"ms":85302,"pitch":1.01453137397766,"sound":"preview_stone_thunk_0"}
-AUDIO TRACE {"db":0.0,"frame":915,"ms":86934,"pitch":0.99458634853363,"sound":"preview_stone_thunk_1"}
-AUDIO TRACE {"db":0.0,"frame":917,"ms":87115,"pitch":1.00951504707336,"sound":"preview_stone_thunk_2"}
-AUDIO TRACE {"db":0.0,"frame":935,"ms":88765,"pitch":0.987262904644012,"sound":"preview_stone_thunk_1"}
-AUDIO TRACE {"db":0.0,"frame":937,"ms":88950,"pitch":1.00967621803284,"sound":"preview_stone_thunk_2"}
-AUDIO TRACE {"db":0.0,"frame":955,"ms":90612,"pitch":1.01176583766937,"sound":"preview_stone_thunk_1"}
-AUDIO TRACE {"db":0.0,"frame":957,"ms":90796,"pitch":1.0047914981842,"sound":"preview_stone_thunk_0"}
-AUDIO TRACE {"db":0.0,"frame":975,"ms":92447,"pitch":1.01140189170837,"sound":"preview_stone_thunk_3"}
-AUDIO TRACE {"db":0.0,"frame":977,"ms":92631,"pitch":1.00596714019775,"sound":"preview_stone_thunk_0"}
-AUDIO TRACE {"db":0.0,"frame":995,"ms":94294,"pitch":0.992957830429077,"sound":"preview_stone_thunk_3"}
-AUDIO TRACE {"db":0.0,"frame":997,"ms":94481,"pitch":0.994162380695343,"sound":"preview_stone_thunk_0"}
-AUDIO TRACE {"db":0.0,"frame":1015,"ms":96181,"pitch":0.991736829280853,"sound":"preview_stone_thunk_1"}
-AUDIO TRACE {"db":0.0,"frame":1017,"ms":96369,"pitch":1.00625860691071,"sound":"preview_stone_thunk_2"}
-AUDIO TRACE {"db":0.0,"frame":1018,"ms":96462,"pitch":1.0,"sound":"preview_capture_single"}
-AUDIO TRACE {"db":0.0,"frame":1035,"ms":98071,"pitch":0.998623073101044,"sound":"preview_stone_thunk_3"}
-AUDIO TRACE {"db":0.0,"frame":1037,"ms":98257,"pitch":0.998607993125916,"sound":"preview_stone_thunk_5"}
-AUDIO TRACE {"db":0.0,"frame":1055,"ms":99940,"pitch":1.00212597846985,"sound":"preview_stone_thunk_1"}
-AUDIO TRACE {"db":0.0,"frame":1057,"ms":100132,"pitch":1.00560784339905,"sound":"preview_stone_thunk_2"}
-AUDIO TRACE {"db":0.0,"frame":1075,"ms":101844,"pitch":1.0015412569046,"sound":"preview_stone_thunk_1"}
-AUDIO TRACE {"db":0.0,"frame":1077,"ms":102035,"pitch":1.00222301483154,"sound":"preview_stone_thunk_0"}
-AUDIO TRACE {"db":0.0,"frame":1094,"ms":103674,"pitch":1.00481200218201,"sound":"preview_stone_thunk_1"}
-AUDIO TRACE {"db":0.0,"frame":1096,"ms":103869,"pitch":1.00338089466095,"sound":"preview_stone_thunk_5"}
-AUDIO TRACE {"db":0.0,"frame":1114,"ms":105595,"pitch":1.01418960094452,"sound":"preview_stone_thunk_2"}
-AUDIO TRACE {"db":0.0,"frame":1116,"ms":105787,"pitch":0.992705881595612,"sound":"preview_stone_thunk_4"}
-AUDIO TRACE {"db":0.0,"frame":1134,"ms":107521,"pitch":1.00752389431,"sound":"preview_stone_thunk_3"}
-AUDIO TRACE {"db":0.0,"frame":1136,"ms":107715,"pitch":0.987552046775818,"sound":"preview_stone_thunk_4"}
-AUDIO TRACE {"db":0.0,"frame":1153,"ms":109366,"pitch":0.993101119995117,"sound":"preview_stone_thunk_3"}
-AUDIO TRACE {"db":0.0,"frame":1155,"ms":109555,"pitch":0.991713225841522,"sound":"preview_stone_thunk_4"}
-AUDIO TRACE {"db":0.0,"frame":1158,"ms":109847,"pitch":1.0,"sound":"preview_capture_single"}
-AUDIO TRACE {"db":0.0,"frame":1172,"ms":111207,"pitch":1.00220310688019,"sound":"preview_stone_thunk_1"}
-AUDIO TRACE {"db":0.0,"frame":1174,"ms":111398,"pitch":0.995124042034149,"sound":"preview_stone_thunk_4"}
-AUDIO TRACE {"db":0.0,"frame":1191,"ms":113057,"pitch":1.0148640871048,"sound":"preview_stone_thunk_3"}
-AUDIO TRACE {"db":0.0,"frame":1193,"ms":113252,"pitch":1.01381242275238,"sound":"preview_stone_thunk_5"}
-AUDIO TRACE {"db":0.0,"frame":1210,"ms":114909,"pitch":1.00500321388245,"sound":"preview_stone_thunk_4"}
-AUDIO TRACE {"db":0.0,"frame":1212,"ms":115105,"pitch":0.988555908203125,"sound":"preview_stone_thunk_2"}
-AUDIO TRACE {"db":0.0,"frame":1213,"ms":115200,"pitch":1.0,"sound":"preview_capture_group"}
-AUDIO TRACE {"db":0.0,"frame":1229,"ms":116788,"pitch":0.99772435426712,"sound":"preview_stone_thunk_0"}
-AUDIO TRACE {"db":0.0,"frame":1231,"ms":116978,"pitch":0.998325049877167,"sound":"preview_stone_thunk_3"}
-AUDIO TRACE {"db":0.0,"frame":1248,"ms":118646,"pitch":0.990871727466583,"sound":"preview_stone_thunk_4"}
-AUDIO TRACE {"db":0.0,"frame":1250,"ms":118837,"pitch":0.996786594390869,"sound":"preview_stone_thunk_3"}
-AUDIO TRACE {"db":0.0,"frame":1251,"ms":118933,"pitch":1.0,"sound":"preview_capture_group"}
-AUDIO TRACE {"db":0.0,"frame":1262,"ms":120000,"pitch":1.0,"sound":"pass"}
-AUDIO TRACE {"db":0.0,"frame":1265,"ms":120285,"pitch":1.0,"sound":"pass"}
-AUTOPILOT: the game reached the count after 31 player moves
-KETTLE ENGINE: 31 legal real-engine replies, no fallback
-AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XqZUmV/godot/app_userdata/Ninepoint/shots/06_result.png
-MOVIE BEAT: result frame=1267
-AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XqZUmV/godot/app_userdata/Ninepoint/shots/07_counting.png
-MOVIE BEAT: counting frame=1268
-AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XqZUmV/godot/app_userdata/Ninepoint/shots/08_result.png
-MOVIE BEAT: result frame=1275
-AUDIO TRACE {"db":0.0,"frame":1276,"ms":121577,"pitch":1.0,"sound":"game_lose"}
-AUDIO MUSIC {"frame":1283,"ms":122409,"new":true,"track":"theme_club"}
-AUDIO TRACE {"db":0.0,"frame":1283,"ms":122409,"pitch":1.0,"sound":"door"}
-AUDIO TRACE {"db":0.0,"frame":1292,"ms":123287,"pitch":0.998992502689362,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":1293,"ms":123401,"pitch":0.904384613037109,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":1294,"ms":123515,"pitch":1.07792866230011,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":1295,"ms":123626,"pitch":1.00640380382538,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":1296,"ms":123742,"pitch":1.08753979206085,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":1297,"ms":123856,"pitch":1.05392444133759,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":1298,"ms":123968,"pitch":1.0727550983429,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":1299,"ms":124084,"pitch":1.1002608537674,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":1300,"ms":124197,"pitch":1.09123241901398,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":1301,"ms":124308,"pitch":0.984766781330109,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":1302,"ms":124423,"pitch":1.06729996204376,"sound":"blip"}
-AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XqZUmV/godot/app_userdata/Ninepoint/shots/09_reaction_before_review.png
-MOVIE BEAT: reaction_before_review frame=1307
-AUDIO TRACE {"db":0.0,"frame":1308,"ms":125242,"pitch":0.973967909812927,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":1309,"ms":125351,"pitch":0.893747627735138,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":1310,"ms":125463,"pitch":0.959035456180573,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":1311,"ms":125576,"pitch":1.06877887248993,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":1312,"ms":125687,"pitch":0.902824699878693,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":1313,"ms":125799,"pitch":1.08126556873322,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":1314,"ms":125914,"pitch":1.00653076171875,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":1315,"ms":126029,"pitch":1.0049262046814,"sound":"blip"}
-AUDIO TRACE {"db":0.0,"frame":1316,"ms":126140,"pitch":1.06196165084839,"sound":"blip"}
-AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XqZUmV/godot/app_userdata/Ninepoint/shots/10_reaction_before_review.png
-MOVIE BEAT: reaction_before_review frame=1330
-AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XqZUmV/godot/app_userdata/Ninepoint/shots/11_review_offer.png
-MOVIE BEAT: review_offer frame=1338
-Review: 65 of 65 positions in 54.8 s on 8 threads (complete)
-AUDIO TRACE {"db":0.0,"frame":1759,"ms":184577,"pitch":1.0,"sound":"toast"}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-fvxTT5/godot/app_userdata/Ninepoint/shots/06_match_ready.png
+MOVIE BEAT: match_ready frame=673
+AUDIO TRACE {"db":0.0,"frame":676,"ms":66778,"pitch":1.01083862781525,"sound":"preview_stone_thwack_2"}
+AUDIO TRACE {"db":0.0,"frame":679,"ms":67031,"pitch":0.993540108203888,"sound":"preview_stone_thwack_1"}
+AUDIO TRACE {"db":0.0,"frame":698,"ms":68657,"pitch":1.00251591205597,"sound":"preview_stone_thwack_3"}
+AUDIO TRACE {"db":0.0,"frame":700,"ms":68833,"pitch":1.01194155216217,"sound":"preview_stone_thwack_2"}
+AUDIO TRACE {"db":0.0,"frame":718,"ms":70392,"pitch":0.986709952354431,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":720,"ms":70561,"pitch":1.01204741001129,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":739,"ms":72201,"pitch":1.01024830341339,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":741,"ms":72377,"pitch":0.989488661289215,"sound":"preview_stone_thwack_0"}
+AUDIO TRACE {"db":0.0,"frame":760,"ms":74046,"pitch":0.990968763828278,"sound":"preview_stone_thwack_1"}
+AUDIO TRACE {"db":0.0,"frame":762,"ms":74217,"pitch":0.987013339996338,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":781,"ms":75880,"pitch":0.9950892329216,"sound":"preview_stone_thwack_2"}
+AUDIO TRACE {"db":0.0,"frame":783,"ms":76056,"pitch":1.00128984451294,"sound":"preview_stone_thwack_3"}
+AUDIO TRACE {"db":0.0,"frame":802,"ms":77720,"pitch":1.00535488128662,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":804,"ms":77900,"pitch":0.986352801322937,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":822,"ms":79503,"pitch":1.00621724128723,"sound":"preview_stone_thwack_0"}
+AUDIO TRACE {"db":0.0,"frame":824,"ms":79685,"pitch":0.988505721092224,"sound":"preview_stone_thwack_2"}
+AUDIO TRACE {"db":0.0,"frame":842,"ms":81317,"pitch":1.00412940979004,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":844,"ms":81499,"pitch":1.00939381122589,"sound":"preview_stone_thwack_0"}
+AUDIO TRACE {"db":0.0,"frame":862,"ms":83097,"pitch":0.995091915130615,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":864,"ms":83274,"pitch":0.997353553771973,"sound":"preview_stone_thwack_0"}
+AUDIO TRACE {"db":0.0,"frame":883,"ms":84964,"pitch":1.0060350894928,"sound":"preview_stone_thwack_3"}
+AUDIO TRACE {"db":0.0,"frame":885,"ms":85142,"pitch":1.00543701648712,"sound":"preview_stone_thwack_0"}
+AUDIO TRACE {"db":0.0,"frame":903,"ms":86767,"pitch":1.00143837928772,"sound":"preview_stone_thwack_3"}
+AUDIO TRACE {"db":0.0,"frame":905,"ms":86943,"pitch":1.0012640953064,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":923,"ms":88564,"pitch":1.00664722919464,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":925,"ms":88746,"pitch":0.991058826446533,"sound":"preview_stone_thwack_3"}
+AUDIO TRACE {"db":0.0,"frame":943,"ms":90376,"pitch":0.992351472377777,"sound":"preview_stone_thwack_0"}
+AUDIO TRACE {"db":0.0,"frame":945,"ms":90558,"pitch":0.994269609451294,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":963,"ms":92205,"pitch":0.989341616630554,"sound":"preview_stone_thwack_1"}
+AUDIO TRACE {"db":0.0,"frame":965,"ms":92385,"pitch":0.991809010505676,"sound":"preview_stone_thwack_3"}
+AUDIO TRACE {"db":0.0,"frame":983,"ms":94045,"pitch":1.01494741439819,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":985,"ms":94230,"pitch":0.995302975177765,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":1003,"ms":95898,"pitch":1.01130330562592,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":1005,"ms":96081,"pitch":1.00154638290405,"sound":"preview_stone_thwack_3"}
+AUDIO TRACE {"db":0.0,"frame":1006,"ms":96171,"pitch":1.0,"sound":"preview_capture_group"}
+AUDIO TRACE {"db":0.0,"frame":1023,"ms":97740,"pitch":1.00474679470062,"sound":"preview_stone_thwack_0"}
+AUDIO TRACE {"db":0.0,"frame":1025,"ms":97924,"pitch":0.990280568599701,"sound":"preview_stone_thwack_1"}
+AUDIO TRACE {"db":0.0,"frame":1043,"ms":99594,"pitch":1.01045417785645,"sound":"preview_stone_thwack_3"}
+AUDIO TRACE {"db":0.0,"frame":1045,"ms":99781,"pitch":1.00774323940277,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":1046,"ms":99871,"pitch":1.0,"sound":"preview_capture_single"}
+AUDIO TRACE {"db":0.0,"frame":1063,"ms":101446,"pitch":1.01195991039276,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":1065,"ms":101632,"pitch":0.993631541728973,"sound":"preview_stone_thwack_0"}
+AUDIO TRACE {"db":0.0,"frame":1083,"ms":103293,"pitch":0.998235523700714,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":1085,"ms":103480,"pitch":0.986793637275696,"sound":"preview_stone_thwack_1"}
+AUDIO TRACE {"db":0.0,"frame":1103,"ms":105178,"pitch":1.00882995128632,"sound":"preview_stone_thwack_3"}
+AUDIO TRACE {"db":0.0,"frame":1105,"ms":105364,"pitch":0.989851117134094,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":1123,"ms":107058,"pitch":1.00356197357178,"sound":"preview_stone_thwack_3"}
+AUDIO TRACE {"db":0.0,"frame":1125,"ms":107241,"pitch":1.01157081127167,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":1126,"ms":107333,"pitch":1.0,"sound":"preview_capture_group"}
+AUDIO TRACE {"db":0.0,"frame":1143,"ms":108933,"pitch":1.00304687023163,"sound":"preview_stone_thwack_1"}
+AUDIO TRACE {"db":0.0,"frame":1145,"ms":109120,"pitch":0.996184587478638,"sound":"preview_stone_thwack_3"}
+AUDIO TRACE {"db":0.0,"frame":1146,"ms":109215,"pitch":1.0,"sound":"preview_capture_group"}
+AUDIO TRACE {"db":0.0,"frame":1158,"ms":110335,"pitch":0.990816712379456,"sound":"preview_stone_thwack_2"}
+AUDIO TRACE {"db":0.0,"frame":1160,"ms":110522,"pitch":1.00450325012207,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":1178,"ms":112211,"pitch":1.01092875003815,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":1180,"ms":112397,"pitch":1.00269722938538,"sound":"preview_stone_thwack_2"}
+AUDIO TRACE {"db":0.0,"frame":1198,"ms":114075,"pitch":0.986712872982025,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":1200,"ms":114262,"pitch":1.01451897621155,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":1203,"ms":114547,"pitch":1.0,"sound":"preview_capture_single"}
+AUDIO TRACE {"db":0.0,"frame":1218,"ms":115973,"pitch":1.01462090015411,"sound":"preview_stone_thwack_1"}
+AUDIO TRACE {"db":0.0,"frame":1220,"ms":116167,"pitch":0.999156415462494,"sound":"preview_stone_thwack_3"}
+AUDIO TRACE {"db":0.0,"frame":1223,"ms":116459,"pitch":1.0,"sound":"preview_capture_single"}
+AUDIO TRACE {"db":0.0,"frame":1238,"ms":117888,"pitch":1.0141509771347,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":1240,"ms":118081,"pitch":1.00219357013702,"sound":"preview_stone_thwack_3"}
+AUDIO TRACE {"db":0.0,"frame":1243,"ms":118377,"pitch":1.0,"sound":"preview_capture_single"}
+AUDIO TRACE {"db":0.0,"frame":1258,"ms":119821,"pitch":1.010706782341,"sound":"preview_stone_thwack_0"}
+AUDIO TRACE {"db":0.0,"frame":1260,"ms":120013,"pitch":0.996551096439362,"sound":"preview_stone_thwack_3"}
+AUDIO TRACE {"db":0.0,"frame":1261,"ms":120107,"pitch":1.0,"sound":"preview_capture_group"}
+AUDIO TRACE {"db":0.0,"frame":1278,"ms":121712,"pitch":0.996849417686462,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":1280,"ms":121900,"pitch":1.01280033588409,"sound":"preview_stone_thwack_3"}
+AUDIO TRACE {"db":0.0,"frame":1298,"ms":123611,"pitch":0.993995845317841,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":1300,"ms":123802,"pitch":0.992419064044952,"sound":"preview_stone_thwack_0"}
+AUDIO TRACE {"db":0.0,"frame":1318,"ms":125511,"pitch":0.994320392608643,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":1320,"ms":125698,"pitch":0.99383157491684,"sound":"preview_stone_thwack_2"}
+AUDIO TRACE {"db":0.0,"frame":1338,"ms":127427,"pitch":0.986352324485779,"sound":"preview_stone_thwack_0"}
+AUDIO TRACE {"db":0.0,"frame":1340,"ms":127623,"pitch":0.985455751419067,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":1351,"ms":128701,"pitch":1.01117384433746,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":1353,"ms":128894,"pitch":0.987090170383453,"sound":"preview_stone_thwack_1"}
+AUDIO TRACE {"db":0.0,"frame":1356,"ms":129190,"pitch":1.0,"sound":"preview_capture_single"}
+AUDIO TRACE {"db":0.0,"frame":1365,"ms":130060,"pitch":1.0,"sound":"pass"}
+AUDIO TRACE {"db":0.0,"frame":1368,"ms":130351,"pitch":1.0,"sound":"pass"}
+AUTOPILOT: the game reached the count after 35 player moves
+KETTLE ENGINE: 35 legal real-engine replies, no fallback
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-fvxTT5/godot/app_userdata/Ninepoint/shots/07_result.png
+MOVIE BEAT: result frame=1370
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-fvxTT5/godot/app_userdata/Ninepoint/shots/08_counting.png
+MOVIE BEAT: counting frame=1371
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-fvxTT5/godot/app_userdata/Ninepoint/shots/09_result.png
+MOVIE BEAT: result frame=1378
+AUDIO TRACE {"db":0.0,"frame":1379,"ms":131645,"pitch":1.0,"sound":"game_lose"}
+AUDIO MUSIC {"frame":1386,"ms":132462,"new":true,"track":"theme_club"}
+AUDIO TRACE {"db":0.0,"frame":1386,"ms":132463,"pitch":1.0,"sound":"door"}
+AUDIO TRACE {"db":0.0,"frame":1395,"ms":133339,"pitch":0.882255792617798,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":1396,"ms":133451,"pitch":1.10869979858398,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":1397,"ms":133561,"pitch":0.991179227828979,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":1398,"ms":133673,"pitch":0.951476514339447,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":1399,"ms":133786,"pitch":1.05206108093262,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":1400,"ms":133894,"pitch":1.00432872772217,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":1401,"ms":134006,"pitch":1.03766393661499,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":1402,"ms":134119,"pitch":1.11158120632172,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":1403,"ms":134231,"pitch":1.1047990322113,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":1404,"ms":134342,"pitch":1.00231838226318,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":1405,"ms":134452,"pitch":0.985430121421814,"sound":"blip"}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-fvxTT5/godot/app_userdata/Ninepoint/shots/10_reaction_before_review.png
+MOVIE BEAT: reaction_before_review frame=1410
+AUDIO TRACE {"db":0.0,"frame":1411,"ms":135261,"pitch":0.965104162693024,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":1412,"ms":135371,"pitch":1.00819933414459,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":1413,"ms":135481,"pitch":1.10647678375244,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":1414,"ms":135594,"pitch":1.02972161769867,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":1415,"ms":135706,"pitch":0.991017758846283,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":1416,"ms":135819,"pitch":0.915902674198151,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":1417,"ms":135932,"pitch":0.895775318145752,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":1418,"ms":136043,"pitch":0.98748517036438,"sound":"blip"}
+AUDIO TRACE {"db":0.0,"frame":1419,"ms":136153,"pitch":0.943382322788239,"sound":"blip"}
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-fvxTT5/godot/app_userdata/Ninepoint/shots/11_reaction_before_review.png
+MOVIE BEAT: reaction_before_review frame=1433
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-fvxTT5/godot/app_userdata/Ninepoint/shots/12_review_offer.png
+MOVIE BEAT: review_offer frame=1441
+Review: 73 of 73 positions in 65.9 s on 8 threads (complete)
+AUDIO TRACE {"db":0.0,"frame":1856,"ms":205614,"pitch":1.0,"sound":"toast"}
 AUTOPILOT: the review cards opened
-AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XqZUmV/godot/app_userdata/Ninepoint/shots/12_review_graph.png
-MOVIE BEAT: review_graph frame=1759
-AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XqZUmV/godot/app_userdata/Ninepoint/shots/13_review_2_page_1.png
-MOVIE BEAT: review_2_page_1 frame=1761
-AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XqZUmV/godot/app_userdata/Ninepoint/shots/14_review_3_page_1.png
-MOVIE BEAT: review_3_page_1 frame=1763
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-fvxTT5/godot/app_userdata/Ninepoint/shots/13_review_graph.png
+MOVIE BEAT: review_graph frame=1856
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-fvxTT5/godot/app_userdata/Ninepoint/shots/14_review_2_page_1.png
+MOVIE BEAT: review_2_page_1 frame=1858
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-fvxTT5/godot/app_userdata/Ninepoint/shots/15_review_3_page_1.png
+MOVIE BEAT: review_3_page_1 frame=1860
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-fvxTT5/godot/app_userdata/Ninepoint/shots/16_review_4_page_1.png
+MOVIE BEAT: review_4_page_1 frame=1862
 AUTOPILOT: world transition and return conversation settled
 KETTLE RETURN: one saved result; complete real-engine review; world resumed
-AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XqZUmV/godot/app_userdata/Ninepoint/shots/15_returned.png
-MOVIE BEAT: returned frame=1793
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-fvxTT5/godot/app_userdata/Ninepoint/shots/17_returned.png
+MOVIE BEAT: returned frame=1892
 AUTOPILOT: done
 --------------------------------------------------------------------------------
-Done recording movie at path: /home/user/.cache/ninepoint-audio-capture/wren-delivery.avi
-2048 frames at 30 FPS (movie length: 00:01:08:08), recorded in 00:03:39 (31% of real-time speed).
-CPU render time: 4.13 seconds (average: 2.02 ms/frame)
-GPU render time: 3.97 seconds (average: 1.94 ms/frame)
-Encoding time: 24.29 seconds (average: 11.86 ms/frame)
+Done recording movie at path: /home/user/.cache/ninepoint-audio-capture/wren-v2.avi
+2147 frames at 30 FPS (movie length: 00:01:11:17), recorded in 00:04:00 (29% of real-time speed).
+CPU render time: 4.39 seconds (average: 2.04 ms/frame)
+GPU render time: 4.29 seconds (average: 2.00 ms/frame)
+Encoding time: 26.53 seconds (average: 12.36 ms/frame)
 --------------------------------------------------------------------------------

@@ -37,8 +37,8 @@ Full-campaign adoption awaits a separate visual review.
 The [approved Kettle trial](docs/expressive_kettle/refinement/README.md) and
 [original match showcase](docs/table_scene/README.md) remain available for comparison.
 
-The [audio preview](docs/audio_preview/README.md) adds three tactile stone families and two
-original music cues over the latest campaign graphics. Run `tools/play_audio_preview.sh`;
+The [audio preview](docs/audio_preview/README.md) adds four tactile stone families (default: Thwack) and two
+original dramatic music cues over the latest campaign graphics. Run `tools/play_audio_preview.sh`;
 F6 changes stones, F7 switches music, F8 mutes music. `--baseline` changes audio only.
 This uses disposable progress and leaves normal production audio unchanged.
 

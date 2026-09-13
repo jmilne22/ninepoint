@@ -834,10 +834,16 @@ owner review of this complete preview.
 
 Owner authorized recorded sources and original sampled-instrument music, processed by Python.
 `tools/play_audio_preview.sh` starts the latest campaign graphics in The Kettle with disposable
-saves; `--baseline` changes audio only. F6 selects Original/Snap/Thunk/Deep, F7 switches music,
+saves; `--baseline` changes audio only. F6 selects Original/Snap/Thunk/Deep/Thwack, F7 switches music,
 F8 mutes music. Normal production audio remains unchanged.
 `tools/build_audio_preview.py` / `build_assets.py --groups audio_preview` rebuild only preview
 exports. Edit `tools/audio_preview/` sources, never exported WAVs. Source archives, licenses,
 checksums and renderer versions are retained. See `docs/audio_preview/README.md`.
 The surface owns landing audio for actual moves; reconstruction/redraw never requests it.
 Child timers cancel captures when the scene exits. Preserve the existing QOA loop workaround.
+
+AUDIO-01 revision 02 follows the owner’s THWACK and Hikaru no Go reference-track feedback.
+Thwack is now the default; the first three families remain selectable. `score.py` contains
+the new original dramatic cues; `score_v1.py` and `docs/audio_preview/v1/` preserve the first
+café direction. Reference titles and the limits of source inspection are in
+`docs/audio_preview/references.md`. Production adoption still awaits listening review.

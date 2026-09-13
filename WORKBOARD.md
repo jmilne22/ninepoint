@@ -13,6 +13,7 @@ Update the snapshot when reconciling after a merge; it is not a release number.
 - Owner-approved plan: three stone families, table Foley, two original sampled-instrument cues, independent A/B controls and disposable campaign preview.
 - Fresh base HEAD = origin/main = `578c3c0`; isolated checkout.
 - Production audio remains unchanged. Complete Wren play, 30/60/144 contact checks, real-driver output, full technical gate and review media are recorded in [verification](docs/audio_preview/verification.md).
+- Revision 02: owner requested THWACK and named Majiwaru Michi, Shukuteki and Mezame. Added six Thwack variants as the default and recomposed both cues with a stronger dramatic arc; the first pass remains available.
 - Human listening review remains open: repeated-placement satisfaction, contact timing, long-session comfort and fit with Sela. [Launch and audition](docs/audio_preview/README.md).
 
 ## ART-15 — Complete graphics and animation preview

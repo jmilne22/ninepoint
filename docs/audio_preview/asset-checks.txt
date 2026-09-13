@@ -1,2 +1,1 @@
-24/24 exported WAV hashes match manifest; all peaks below -1 dBFS.
-18/18 stone variants within 0.34 LU of -24 LUFS in the repeated-hit measurement.
+30 exports; max stone deviation 0.34 LU; highest peak -1.89 dBFS

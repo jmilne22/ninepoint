@@ -30,21 +30,21 @@
       "audition_lufs": -28.97
     },
     "kettle.wav": {
-      "sha256": "2efb1fb90d40ed189cdfc9b223600c9a6784e8cf163e7fadfcdb39f25fd5f299",
-      "seconds": 114.28570833333333,
-      "peak_dbfs": -5.333844246648422,
+      "sha256": "5e62f97ca638f454f8d18d387777a601915879b5602e74622a405cb7818a5281",
+      "seconds": 109.09091666666667,
+      "peak_dbfs": -6.765774704673412,
       "lufs": -21.0
     },
     "match.wav": {
-      "sha256": "7e11e6d5229c3f91ca0804b9dca0429242268267b6508389f74174e911944724",
-      "seconds": 102.85714583333333,
-      "peak_dbfs": -6.195169627604244,
+      "sha256": "36553935fcbf57d5f4eed42a1af0ed2b40cfd43f52c0876820b21a12f40844a2",
+      "seconds": 99.31035416666667,
+      "peak_dbfs": -5.177529936719875,
       "lufs": -21.0
     },
     "match_in.wav": {
-      "sha256": "62b0c62aeec9867cde123c144d0dd700b285744c17d6c92eb6281b41b5d228a0",
-      "seconds": 2.1428541666666665,
-      "peak_dbfs": -8.54415002896292,
+      "sha256": "70a7b2eae6c47e749b4770b8bfa7fa03250df0792d62bef98afc00f053659bf9",
+      "seconds": 2.0689583333333332,
+      "peak_dbfs": -11.219324356083316,
       "lufs": -21.0
     },
     "stone_deep_0.wav": {
@@ -172,6 +172,48 @@
       "peak_dbfs": -3.8282908409160417,
       "lufs": null,
       "audition_lufs": -23.96
+    },
+    "stone_thwack_0.wav": {
+      "sha256": "66891c2f591f822a3a9de1f683ca5993b2606aa77a763e4484d0d848694bdea2",
+      "seconds": 0.22,
+      "peak_dbfs": -6.788331713913914,
+      "lufs": null,
+      "audition_lufs": -24.05
+    },
+    "stone_thwack_1.wav": {
+      "sha256": "9e443ad586955be95725b98d9e5ff0c75a6e693f274bf8225efeb581890cf13d",
+      "seconds": 0.22,
+      "peak_dbfs": -6.288707534926915,
+      "lufs": null,
+      "audition_lufs": -23.95
+    },
+    "stone_thwack_2.wav": {
+      "sha256": "9cc90d6f3654f3c7d90747f026fb2079257be85314fcaf469cc7368ef4a8b89b",
+      "seconds": 0.22,
+      "peak_dbfs": -5.9883211428208885,
+      "lufs": null,
+      "audition_lufs": -23.95
+    },
+    "stone_thwack_3.wav": {
+      "sha256": "977791daf29564363b2c696395fccd8c8864f82481cdbfd51c7cf3a5589f5d65",
+      "seconds": 0.22,
+      "peak_dbfs": -6.488366522222002,
+      "lufs": null,
+      "audition_lufs": -24.05
+    },
+    "stone_thwack_4.wav": {
+      "sha256": "150a39df7785b216604712ebeda6339c684a9baf519aafce9077bf1d91152d4c",
+      "seconds": 0.22,
+      "peak_dbfs": -6.588528836845434,
+      "lufs": null,
+      "audition_lufs": -23.95
+    },
+    "stone_thwack_5.wav": {
+      "sha256": "a4012033bd828065ea084462a00c326b16b0d75eb54194aabee1d4887b28264b",
+      "seconds": 0.22,
+      "peak_dbfs": -6.788331713913914,
+      "lufs": null,
+      "audition_lufs": -24.05
     }
   }
 }

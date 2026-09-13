@@ -14,7 +14,7 @@ func _run() -> void:
         push_error("Preview must be enabled")
         quit(1)
         return
-    for family in [0, 1, 2, 3]:
+    for family in [0, 1, 2, 3, 4]:
         preview.family = family
         var peak := -100.0
         for repeat in 3:
@@ -50,7 +50,7 @@ func _run() -> void:
         t.ok(audio._music.playing and audio._music.get_playback_position() < 1, "loop restarts at seam")
     var prior: int = preview.family
     await _key(KEY_F6)
-    t.eq(preview.family, (prior + 1) % 4, "F6 input reaches preview controls")
+    t.eq(preview.family, (prior + 1) % AudioPreview.FAMILIES.size(), "F6 input reaches preview controls")
     await _key(KEY_F7)
     t.eq(audio._music.stream, preview.originals.theme_battle_in, "F7 restores old intro")
     t.eq(audio._streams.theme_match, preview.originals.theme_match, "practice untouched")

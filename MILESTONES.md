@@ -3886,3 +3886,20 @@ Representative frames and the review page were opened and inspected.
 comfort and musical fit with Sela require the owner's ears. This is a reviewable direction,
 not a claim that the campaign soundtrack has been replaced.
 [Playable launcher, sound/music comparisons, films and evidence](docs/audio_preview/README.md).
+
+
+## AUDIO-01 revision 02 — THWACK and melodic drama [implemented for review]
+
+Owner feedback named Majiwaru Michi, Shukuteki and Mezame and requested a sharper THWACK.
+The preview adds six dry-contact Thwack variations as default while retaining all original
+choices. Two new original scores replace the preview’s café arrangements: piano and lyrical
+strings/woodwinds in the room, then a repeating electric-bass figure, active strings, drums,
+guitar and brass during competition. A quieter middle gives the later statement room to rise.
+The first pass’s score, music and films remain available for direct comparison.
+
+The rendering inputs and runtime seams are unchanged. Thirty WAV exports rebuild identically;
+all stone variants stay within 0.34 LU of the matched audition target and every export retains
+at least 1.89 dB peak headroom. The full gate loads 405 resources and passes 19,926 main checks;
+48 surface timing/cancellation checks and 22 real-driver checks pass. Refreshed review media
+and limits are in [revision 02 verification](docs/audio_preview/verification.md). No direct
+listening analysis of the anime recordings or final aesthetic approval is claimed.

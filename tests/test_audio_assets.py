@@ -13,7 +13,7 @@ class AudioAssets(unittest.TestCase):
 
     def test_export_contracts(self):
         manifest=json.loads((ROOT/'audio_preview/manifest.json').read_text())
-        self.assertEqual(len(manifest['assets']),24)
+        self.assertEqual(len(manifest['assets']),30)
         for name,spec in manifest['assets'].items():
             path=ROOT/'audio_preview'/name
             with self.subTest(name=name),wave.open(str(path)) as stream:

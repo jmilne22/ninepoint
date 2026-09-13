@@ -1,12 +1,12 @@
 == deterministic art contracts ==
 .............
 ----------------------------------------------------------------------
-Ran 13 tests in 5.110s
+Ran 13 tests in 4.998s
 
 OK
 ..
 ----------------------------------------------------------------------
-Ran 2 tests in 0.063s
+Ran 2 tests in 0.062s
 
 OK
 player: seven continuous clips, outward face UV mesh, unchanged hand bind position
@@ -37,10 +37,10 @@ Kettle prototype assets: 164 checks passed
    import pass produced no parse errors
 Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 
-User data verified: /home/user/.cache/ninepoint-audio-final-tests/godot/app_userdata/Ninepoint
+User data verified: /home/user/.cache/ninepoint-audio-v2-tests/godot/app_userdata/Ninepoint
 load check: 405 files, all load
 == test suites ==
-  audio preview  370 checks
+  audio preview  491 checks
   go rules       99 checks
   go scoring     27 checks
   go ai          322 checks
@@ -71,7 +71,7 @@ load check: 405 files, all load
   early game     109 checks
   projected world 264 checks
   room presentation 53 checks
-19805 passed, 0 failed
+19926 passed, 0 failed
 == review facts and narrator with engine/game absent ==
 Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 
@@ -86,6 +86,10 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 
 
 43 passed, 0 failed
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
 Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 
   ok capture board opens without engine preparation
@@ -116,7 +120,7 @@ WARNING: Falling back to the heuristic opponent for 'katago_smoke'.
          [5] read_line (res://src/go_ai/engine_pipe.gd:69)
 KataGo fallback (The analysis engine timed out; using the local opponent., startup=-1ms, move=-1ms)
 KataGo smoke: missing artifact and tiny timeout both fell back safely
-KataGo smoke: legal C6 reply on 9x9
+KataGo smoke: legal F7 reply on 9x9
 Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 
   ok: KataGo service autoload is present
@@ -139,10 +143,10 @@ KataGo fallback (The analysis engine sent an invalid move (DEFINITELY-NOT-A-VERT
 KataGo fallback (The analysis engine rejected a command; using the local opponent., startup=-1ms, move=-1ms)
   ok: rejected GTP warmup fails cleanly
   ok: handicap engine prepares before the match
-  measurement: warmed handicap reply 946ms
+  measurement: warmed handicap reply 932ms
   ok: handicap setup synchronises
   ok: ordinary 7x7 engine prepares before the match
-  measurement: warmed 7x7 reply 600ms
+  measurement: warmed 7x7 reply 593ms
   ok: ordinary 7x7 board synchronises
 KataGo service gate: passed
 Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
@@ -152,8 +156,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
   ok  9x9: every one of 79 positions was analysed ()
   ok  9x9: progress counted up to the end
   ok  9x9: the analysis became a review (available)
-KataGo review 9x9: 78 moves, 79 positions, 47.0 s, 0.60 s per position on 8 threads, 2 findings
-REV-01 9x9: pass-1 15.419 s; pass-2 31.613 s; 9 detail queries
+KataGo review 9x9: 78 moves, 79 positions, 46.9 s, 0.59 s per position on 8 threads, 2 findings
+REV-01 9x9: pass-1 14.894 s; pass-2 31.960 s; 9 detail queries
   ok  detail pass completed:
   ok  all three branches returned
   ok  branch ownership covers the board
@@ -167,8 +171,8 @@ REV-01 9x9: pass-1 15.419 s; pass-2 31.613 s; 9 detail queries
   ok  branch ownership covers the board
   ok  branch ownership covers the board
   ok  branch ownership covers the board
-REV-01 9x9 saved review: before 8856 bytes; after 14112 bytes; delta +5256
-REV-01 9x9 complete save: before 12230 bytes; after 18806 bytes; delta +6576
+REV-01 9x9 saved review: before 8815 bytes; after 13986 bytes; delta +5171
+REV-01 9x9 complete save: before 12189 bytes; after 18664 bytes; delta +6475
   ok  enriched narration is coordinate-grounded
   ok  enriched narration is coordinate-grounded
   ok  valid detail comparisons are retained in the payload
@@ -176,8 +180,8 @@ REV-01 9x9 complete save: before 12230 bytes; after 18806 bytes; delta +6576
   ok  19x19: every one of 243 positions was analysed ()
   ok  19x19: progress counted up to the end
   ok  19x19: the analysis became a review (available)
-KataGo review 19x19: 242 moves, 243 positions, 108.0 s, 0.44 s per position on 8 threads, 3 findings
-REV-01 19x19: pass-1 61.774 s; pass-2 46.197 s; 9 detail queries
+KataGo review 19x19: 242 moves, 243 positions, 107.0 s, 0.44 s per position on 8 threads, 3 findings
+REV-01 19x19: pass-1 61.470 s; pass-2 45.425 s; 9 detail queries
   ok  detail pass completed:
   ok  all three branches returned
   ok  branch ownership covers the board
@@ -191,8 +195,8 @@ REV-01 19x19: pass-1 61.774 s; pass-2 46.197 s; 9 detail queries
   ok  branch ownership covers the board
   ok  branch ownership covers the board
   ok  branch ownership covers the board
-REV-01 19x19 saved review: before 27540 bytes; after 61681 bytes; delta +34141
-REV-01 19x19 complete save: before 37586 bytes; after 81307 bytes; delta +43721
+REV-01 19x19 saved review: before 27616 bytes; after 61750 bytes; delta +34134
+REV-01 19x19 complete save: before 37662 bytes; after 81376 bytes; delta +43714
   ok  enriched narration is coordinate-grounded
   ok  enriched narration is coordinate-grounded
   ok  enriched narration is coordinate-grounded

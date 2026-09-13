@@ -1,41 +1,32 @@
-# AUDIO-01 verification
+# AUDIO-01 revision 02 verification
 
-Base: `578c3c0c175f48f221fef10fd5b1625bebef99ea`, fetched and verified against live `origin/main` before creating the isolated `codex/audio-preview` worktree. This is an implemented preview awaiting owner listening review, not a full soundtrack replacement or production adoption.
+The owner requested a sharper **THWACK** and more dramatic music, naming **Majiwaru Michi**, **Shukuteki** and **Mezame**. This revision extends the isolated `codex/audio-preview` checkout. A fresh fetch again confirmed its base matches `origin/main`: `578c3c0c175f48f221fef10fd5b1625bebef99ea`. Production adoption remains pending listening review.
 
-## Asset and playback evidence
+## Assets and sound
 
-- 24 exported 48 kHz WAV files: 18 stone variations, three table effects, two music loops and one intro. Effects are mono; music is stereo. Source checksums and renderer versions are pinned.
-- Two independent builds produced byte-identical WAV files: [determinism.txt](determinism.txt). All assets retain more than 1 dB peak headroom.
-- All 18 stone variants fall within 0.34 LU of -24 LUFS when repeated once per second. Both music loops measure -21 LUFS. These are file measurements; the game applies its existing Music/SFX bus levels. [Asset checks](asset-checks.txt), [manifest](../../audio_preview/manifest.json).
-- The real audio-driver probe verifies all four stone options, table effects, intro/loop selection, loop restart, original-stream restoration and actual F6/F7/F8 key input: **21 passed / 0 failed**. Music mute leaves effects active. [driver.log](driver.log).
-- The recorded preview's first stone sound correlates with the source waveform at **2.209 s**, versus the landing event at **2.200 s**: **9.37 ms** difference, inside one 30 FPS frame. This is one recorded sample, not a hardware-latency guarantee. [Recorded sync](recorded-sync.json), [contact frames](contact-frames.jpg).
+- **30 exported 48 kHz WAVs**: 24 stone variations, three table effects, two music loops and one entrance. Mono effects, stereo music. Sources and exact renderer versions remain pinned.
+- **30/30 byte-identical** files from independent builds. [determinism.txt](determinism.txt).
+- All stone alternatives are within **0.34 LU of -24 LUFS** in the repeated-hit audition. The new Thwack variations are within **0.05 LU**. Every export has at least **1.89 dB** peak headroom. The two music loops measure -21 LUFS. [Measurements](asset-checks.txt), [manifest](../../audio_preview/manifest.json).
+- Thwack uses short recorded wood/glass contact layers, a brief band-limited slap and dry damped wooden modes. Soft saturation controls the attack’s crest factor before loudness matching. Six variations never immediately repeat. The earlier Snap/Thunk/Deep choices remain available.
+- The new original cues are **Beyond the Balcony**, 109.09 seconds at 88 BPM, and **One Clear Move**, 99.31 seconds at 116 BPM plus a 2.07-second entrance. The match’s lower-density middle starts at 0:33; its brighter ensemble statement enters at 0:50. First-pass compositions remain in `score_v1.py` and the [earlier listening files](v1/).
 
-## Technical gate
+## Technical and playback checks
 
-`tools/test.sh` passes: **405 resources load, 19,805 main checks pass / 0 fail**, with the pure-review, teaching, capture and KataGo service/review gates also passing. [technical-gate.log](technical-gate.log). The existing KataGo review shutdown still reports seven ObjectDB instances/three resources in use; it does not fail its assertions or the gate.
+- Full `tools/test.sh`: **405 resources load; 19,926 main checks pass / 0 fail**, plus pure review, teaching, capture, KataGo service and review gates. [technical-gate.log](technical-gate.log). Headless teaching/capture/review harnesses report resource-in-use warnings at shutdown; their assertions and exit statuses pass. The preview contact and real-driver probes finish without those warnings.
+- Actual board-surface probe at **30/60/144 FPS: 48 passed / 0 failed**. Exactly one grounded placement, ordered capture, quiet reconstruction, late move intent, redraw during descent, offscreen moves and scene-exit cancellation. [contact.log](contact.log).
+- Real-driver probe: **22 passed / 0 failed**, covering all five stone options, table effects, music/intro handover and looping, restoration of original streams and actual F6/F7/F8 input. [driver.log](driver.log).
+- The production stream catalog and QOA finished/replay workaround are unchanged. Its first-pass driver evidence remains [18 audible tracks / four intro handovers](production-audio.log). Every test/fixture uses isolated user data.
 
-The unchanged production catalog passes its real-driver check: **18 tracks audible and all four intro stings hand over**. [production-audio.log](production-audio.log). All test and fixture user data was isolated from player saves.
+The first recorded Thwack correlates at **2.209 s**, versus the visual landing event at **2.200 s**: **9.37 ms**, inside one 30 FPS frame. This is one recorded placement, not a hardware-latency guarantee. [Sync record](recorded-sync.json), [opened contact frames](contact-frames.jpg).
 
-## Interaction checks
+## Review media
 
-The real board-surface probe exercises 30/60/144 FPS: sound fires with the stone grounded, exactly once; capture follows the landing by a short gap. It also covers silent restoration/redraw, an intent announced after the visual update, rebuilding during descent, offscreen moves, scene exit before contact and scene exit before the delayed capture. **48 passed / 0 failed**. [contact.log](contact.log).
+The listening page leads with equal-loudness **Thunk → Thwack**, then all five families and both full cues. The first-pass music and gameplay are retained for comparison. The matched prepared replay uses the same 21 legal moves as the production-audio reference, with single and group captures: 1,234 frames / 41.13 seconds per version. Representative board and group-capture frames were opened and inspected. The complete real-engine Wren route reached counting after 35 player moves, with 35 legal engine replies and no fallback; it reviewed all 73 positions, recorded exactly one result and returned to The Kettle. The normal-speed film is 2,147 frames / 71.57 seconds. [Live log](live.log), [film](wren.mp4). Nigiri, counting and room-return frames were opened and inspected.
 
-Variation selection runs 120 draws per family, checks no immediate repeats and exercises all six samples. Default Thunk, baseline capture/bowl restoration and distinct capture sizes are covered in the main suite. The Python asset suite validates source hashes, exported hashes, formats, durations, headroom and loudness tolerance.
+Both actual disposable launchers again passed startup with the correct original/new music profile. The preview launcher shows Thwack as default. [Preview](launcher/preview.log), [baseline](launcher/baseline.log). The refreshed listening-page layout and native comparison playback were inspected.
 
-## Played and inspected
+## Listening limits
 
-The complete Wren route uses her real GTP opponent and exercises Kettle → nigiri → rated match → count → result → post-match reaction → complete engine review → room return. The final run records 31 player moves, 31 legal engine replies with no fallback, all 65 review positions, exactly one saved result and room return. Its probe rejects fallback, partial review and duplicate recording. The delivered film is 2,048 frames at 30 FPS (68.27 seconds). [Live log](live.log), [normal-speed film](wren.mp4).
+[Reference notes](references.md) distinguish verified track identification from musical interpretation. No direct listening analysis of the anime recordings is claimed, and no anime recording or transcribed melody enters the build. The score’s note sequences and orchestration are original.
 
-The matched A/B films use the same **21 legal moves**, including single and two-stone captures, and run **1,234 frames / 41.13 seconds each**. They are prepared fixtures rather than evidence of engine strength. [Original](baseline.mp4), [preview](preview.mp4), [sequential comparison](comparison.mp4).
-
-Both actual disposable launchers passed startup in The Kettle, with the expected original/new music profile and no script errors. [Preview launcher](launcher/preview.log), [baseline launcher](launcher/baseline.log).
-
-Opened representative Kettle, match, result/review/return images and the four contact frames around the first placement. Inspected the listening-page layout and verified browser playback and video metadata. Recording inspection caught and corrected an unsuitable table-only viewport setup for world footage. Preview controls were moved away from the opponent name and world toast area.
-
-## Limits
-
-The existing room-name badge overlaps part of the long review-ready toast in the return frame; the audio panel stays clear of both. This preview does not change that existing world layout.
-
-No subjective listening judgment is claimed. The assistant inspected score/source structure, waveforms, measured output and visual evidence; the preference between Snap/Thunk/Deep, long-session fatigue and whether the music feels right for Sela require human listening. Use the playable preview and the review page for that decision.
-
-The cue scope remains The Kettle and generic rated matches. Named opponent themes, tournament cues, lessons, street music, footsteps, dialogue blips and result jingles are existing production audio. New recordings were not acquired from the anime. GeneralUser's complete supplied license, including its sample-provenance note, is retained beside the source bank.
+Human review remains necessary for repeated-hit satisfaction, perceived contact, long-session fatigue and whether the music captures the desired drama. Waveform measurements, successful playback and visual inspection establish technical evidence rather than aesthetic agreement. The original room badge can overlap the long review-ready toast; the preview audio panel is clear of it.

@@ -5,8 +5,8 @@ static func run(t: TestKit) -> void:
     t.section("audio preview selection")
     var preview := AudioPreview.new()
     preview.rng.seed = 901
-    t.eq(preview.family, 2, "middle thunk is the default")
-    for family in [1, 2, 3]:
+    t.eq(preview.family, 4, "owner-requested thwack is the default")
+    for family in [1, 2, 3, 4]:
         preview.family = family
         var previous := ""
         var seen: Dictionary = {}

@@ -22,5 +22,11 @@
     "start_seconds": 21,
     "end_seconds": 27,
     "lufs": -24.01
+  },
+  {
+    "family": "thwack",
+    "start_seconds": 28,
+    "end_seconds": 34,
+    "lufs": -23.95
   }
 ]

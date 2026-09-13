@@ -4,8 +4,8 @@ WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by 
 OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
 
 AUTOPILOT: 4 steps from /home/user/.cache/ninepoint-audio-launcher.json
-AUDIO MUSIC {"frame":29,"ms":1183,"new":false,"track":"theme_club"}
-AUDIO TRACE {"db":0.0,"frame":29,"ms":1183,"pitch":1.0,"sound":"door"}
+AUDIO MUSIC {"frame":29,"ms":1234,"new":false,"track":"theme_club"}
+AUDIO TRACE {"db":0.0,"frame":29,"ms":1234,"pitch":1.0,"sound":"door"}
 AUTOPILOT: world transition and return conversation settled
-AUTOPILOT SHOT: /home/user/.cache/ninepoint-audio-preview/play-rlH8yv/godot/app_userdata/Ninepoint/shots/01_launcher.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-audio-preview/play-W6mh0S/godot/app_userdata/Ninepoint/shots/01_launcher.png
 AUTOPILOT: done

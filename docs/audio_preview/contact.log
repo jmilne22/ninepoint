@@ -2,6 +2,6 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 
 AUDIO CONTACT: fps=30 landing_ms=168 capture_gap_ms=100
 AUDIO CONTACT: fps=60 landing_ms=184 capture_gap_ms=100
-AUDIO CONTACT: fps=144 landing_ms=180 capture_gap_ms=91
+AUDIO CONTACT: fps=144 landing_ms=180 capture_gap_ms=90
 AUDIO PREVIEW:
 48 passed, 0 failed

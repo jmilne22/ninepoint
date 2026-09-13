@@ -3,9 +3,9 @@ class_name AudioPreview
 extends Node
 
 const DIRECTORY := "res://audio_preview/"
-const FAMILIES := ["Original", "Snap", "Thunk", "Deep"]
+const FAMILIES := ["Original", "Snap", "Thunk", "Deep", "Thwack"]
 const MUSIC := {"theme_club": "kettle", "theme_battle": "match", "theme_battle_in": "match_in"}
-var family: int = 2
+var family: int = 4
 var new_music: bool = true
 var music_muted: bool = false
 var previous: Dictionary = {}
@@ -35,7 +35,7 @@ func setup(owner_audio: Node) -> void:
     for key: String in replacements:
         audio._streams["preview_" + key] = replacements[key]
     var required := ["kettle", "match", "match_in", "capture_single", "capture_group", "bowl_rattle"]
-    for kind in ["snap", "thunk", "deep"]:
+    for kind in ["snap", "thunk", "deep", "thwack"]:
         for i in 6: required.append("stone_%s_%d" % [kind, i])
     for key in required:
         if not replacements.has(key):

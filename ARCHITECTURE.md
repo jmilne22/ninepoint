@@ -780,3 +780,7 @@ then schedules capture clatter on a child timer. Board reconstruction produces n
 The 2D and production paths preserve their existing audio timing.
 Python renders pinned recorded sources and original scores into `audio_preview/`, separate
 from production `audio/`. No runtime synth, download or external audio service is required.
+
+AUDIO-01 revision 02 extends the profile to five choices including production Original,
+with Thwack as default. The landing/capture seam and production routing are unchanged;
+only preview assets, family selection and the editable original score were extended.

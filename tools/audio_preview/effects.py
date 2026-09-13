@@ -3,10 +3,12 @@ import numpy as np
 from dsp import RATE, read, filter_audio, fade, normalize, write
 
 FAMILIES = {'snap': (640, .042, .42), 'thunk': (390, .071, .68),
-            'deep': (265, .093, .78)}
+            'deep': (265, .093, .78), 'thwack': (780, .024, .28)}
 
 
 def stone(source, contact, family, variant):
+    if family == "thwack":
+        return thwack(source, contact, variant)
     frequency, decay, body = FAMILIES[family]
     frequency *= 1 + (variant - 2.5) * .012
     size = round(.30 * RATE); t = np.arange(size) / RATE
@@ -21,6 +23,29 @@ def stone(source, contact, family, variant):
     for ratio, amp, tau in [(1, 1, 1), (2.63, .25, .4), (.48, .40, 1.2), (4.17, .08, .2)]:
         out += np.sin(2*np.pi*frequency*ratio*t) * np.exp(-t/(decay*tau)) * body * amp
     return fade(filter_audio(out, 8500), .0006)
+
+
+def thwack(source, contact, variant):
+    """A palm-like broad attack and hard contact, followed by a dry wooden body."""
+    rng = np.random.default_rng(7100 + variant)
+    count = round(.22 * RATE); t = np.arange(count) / RATE
+    out = np.zeros(count)
+    for layer, duration, tau, gain in [(source, .065, .013, 1.15),
+                                       (contact, .016, .005, .32)]:
+        active = np.flatnonzero(abs(layer) > max(abs(layer)) * .08)
+        layer = layer[active[0]:][:round(duration * RATE)]
+        layer = filter_audio(layer, 380, 'highpass')
+        layer /= max(1e-8, max(abs(layer)))
+        out[:len(layer)] += layer * np.exp(-np.arange(len(layer))/RATE/tau) * gain
+    # A very short dense slap gives the contact its broad THWACK, not a bell note.
+    slap = filter_audio(filter_audio(rng.normal(size=count), 950, 'highpass'), 4300)
+    out += slap * np.exp(-t/.0065) * 1.35
+    for hz, gain, tau in [(760, .40, .018), (1230, .19, .009), (310, .25, .027)]:
+        hz *= 1 + (variant-2.5)*.009
+        out += np.sin(2*np.pi*hz*t) * np.exp(-t/tau) * gain
+    # Soft saturation densifies the contact without making its peak win the A/B.
+    out = np.tanh(out * 2.4)
+    return fade(filter_audio(out, 7200), .0003)
 
 
 def build(archive, output):

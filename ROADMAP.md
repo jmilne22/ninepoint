@@ -478,3 +478,7 @@ the oscillator-only restriction for the preview while retaining reproducible Pyt
 First judge the material weight, contact timing and listening fatigue in a complete Wren
 game. The full soundtrack and production adoption follow a separate owner review; technical
 audibility and waveform measurements do not establish aesthetic quality.
+
+Owner feedback on AUDIO-01 calls for a sharper THWACK and the dramatic character of
+Majiwaru Michi, Shukuteki and Mezame. Revision 02 keeps the original alternatives and adds
+a dry-contact default, with more melodic and rhythmic development in both original cues.
