@@ -1,4 +1,4 @@
-Current verified local revision: [M55 expressive matches](docs/table_scene/adoption/verification.md), alongside the [rendered world](docs/ps1/world/verification.md). Historical entries retain their original behavior and counts.
+Current verified local revision: [M56 expressive Kettle POC](docs/expressive_kettle/verification.md) and [M55 expressive matches](docs/table_scene/adoption/verification.md). Historical entries retain their original behavior and counts.
 
 # NINEPOINT — Milestones
 
@@ -3682,3 +3682,32 @@ Capture Go's neutral ending, resignation, capture win and saved replay were exer
 view, colour choice, handicap help, teaching markers, capture win/replay, counting,
 result and review. Watched the actual 39.23-second Godot movie at 1×.
 [Reproduction and limitations](docs/table_scene/adoption/verification.md).
+
+
+## M56 — One expressive Kettle area [POC done locally]
+
+ART-12 carries the approved match cast into a furnished live-3D room with full-body
+Ro, Wren, Kesh and Tomás, screen-relative walking/running, continuous skinned gait,
+painted facial animation and matching dialogue busts. Python/Blender/Pillow generate
+separate POC exports. The original dialogue graph, novice card, match controller,
+engine, result and review services remain in use. A disposable launcher routes match
+return back to the same room and player position. Other areas are outside this proof.
+
+**Done when:** full gate 19,407 / 0 (M55 predecessor 19,406); final resource load
+358 / 0 after the player-card addition; 28 rendered route checks pass. These exercise
+walk/talk with all three people, actual Wren replies with no fallback, cancelled
+resignation, result, exactly one session record, room return, Kesh's 30k card, Tab
+player card, V review loading, nested CanvasLayer scaling, counter/wall collision
+and blocked movement under modal UI.
+
+| Deliberate change | Boundary |
+|---|---|
+| One opt-in live-3D Kettle room | The campaign still uses its existing map renderer |
+| Existing graphs start after rules acknowledgement | Disposable POC state; campaign progress is untouched |
+| Tab opens the existing player card directly | This visit has no save menu |
+
+**Actually inspected:** room arrival and both walking directions, Wren/Tomás/Kesh
+conversation busts, Wren game and return, novice/player cards and full-size review
+loading. Inspected six gait frames and watched the 43-second Godot viewing cut
+through its ending at 1×. It removes loading and verification pauses; the complete
+110.8-second capture remains available. [Evidence](docs/expressive_kettle/verification.md).

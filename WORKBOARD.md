@@ -38,6 +38,20 @@ Update the snapshot when reconciling after a merge; it is not a release number.
   Inspected all 21 cast identities, setup, teaching, capture, count, review and return.
   [Evidence and 39-second movie](docs/table_scene/adoption/verification.md).
 
+## ART-12 — Expressive Kettle area POC
+
+- Status: `SHIPPED` (local POC; owner review pending) · Owner: Codex · Branch: `codex/expressive-kettle-poc`.
+- Owner requested one area after Capture Go, to resolve the split art direction.
+- Fresh separate checkout proved HEAD = origin/main = `f90a39e`; brought in
+  approved match trial and complete ART-11 adoption (`34bc1c3`).
+- Scope: The Kettle only; matching room, full-body cast, walking/collision,
+  animated dialogue portraits, existing conversation/match/return seam; disposable data.
+- Acceptance: 28 rendered checks passed, including all three conversations, real Wren
+  replies, record-once return, novice/player cards, review loading, collision and modals.
+  Full gate 19,407 / 0; final load check 358 / 0. Inspected screenshots, six locomotion
+  frames and the 43-second normal-speed cut. [Evidence](docs/expressive_kettle/verification.md).
+- Other areas remain unchanged pending owner review.
+
 ## How to use this board
 
 | Status | Meaning | Agent action |

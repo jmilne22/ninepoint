@@ -96,3 +96,8 @@ Cast matches now use [ART-11's expressive table presentation](../../table_scene/
 Their generated source group is `table_scene` in `tools/build_assets.py`, with exports
 in `art/table_scene/`. The rendered world and dialogue busts described above retain
 their current models; the owner requested all match screens before that rollout.
+
+
+ART-12 now provides a separate [expressive Kettle area POC](../../expressive_kettle/README.md),
+using live full-body models and conversation busts from the approved match direction.
+The production world pipeline described here remains unchanged pending review.

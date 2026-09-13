@@ -418,3 +418,14 @@ The owner subsequently chose a consistent floating neckline for portraits, with 
 remaining connected. Tomás, Bertie, Abel and Emil receive that shoulder-only correction;
 faces and expressions stay exact. This is a visual revision, not a
 change to the cast, progression, environment or animation interfaces.
+
+
+## One-area expressive world proof — ART-12
+
+After match adoption and Capture Go verification, the owner requested one area to
+resolve the split between the new cast and the existing walking-world artwork.
+The Kettle POC tests the complete experience: room, full-body movement, animated
+conversation portraits, match and return. It reuses the approved identities and
+existing dialogue/progression seams. This is a local, disposable preview; production
+world adoption and other locations follow review of this area, not this implementation
+alone. [Playable preview and footage](docs/expressive_kettle/README.md).

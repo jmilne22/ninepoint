@@ -16,6 +16,16 @@ painted face atlases in `art/table_scene/`. Development profiles without a cast 
 retain the standard scene. The disposable Wren showcase remains under
 `src/experiments/table_scene/`. [Details](docs/table_scene/README.md).
 
+ART-12 is an isolated live-3D area under `src/experiments/expressive_kettle/`.
+`ExpressiveKettleRoom` reads generated geometry/collision layout, drives screen-relative
+`CharacterBody3D` movement and uses the existing dialogue graph interpreter. Its adapter
+passes X/Z as the bridge's return Vector2; SceneRouter's session-world override returns
+to the same area and position. Dialogue busts reuse `TableSceneActor`. Full-body exports
+extend the match source meshes with legs and stand/walk clips in a separate art directory.
+The existing novice/player cards and review service remain authoritative; nested review
+CanvasLayers are explicitly scaled for the area's 768×432 canvas. Saves are disposable.
+[POC contract and evidence](docs/expressive_kettle/README.md).
+
 ## 1. The one rule
 
 **`src/go/` may not know that a game exists around it.**

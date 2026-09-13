@@ -26,6 +26,11 @@ The earlier isolated room experiment remains available through `tools/play_ps1.s
 Cast matches now use the approved [expressive match view](docs/table_scene/README.md)
 at 768×432, including Capture Go, larger boards, colour selection and counting.
 The default 1536×864 window displays matches at 2× and the walking world at 4×.
+
+The next style experiment is one walkable [expressive Kettle room](docs/expressive_kettle/README.md).
+Run `tools/play_expressive_kettle.sh` for a disposable visit: walk, talk to Wren/Kesh/Tomás,
+play Wren, then return to the room. This opt-in area uses matching full-body models and
+animated conversation portraits. [43-second gameplay preview](docs/expressive_kettle/showcase.mp4).
 `tools/play.sh` launches the campaign; `tools/play_table_scene.sh` opens a disposable Wren match.
 
 ## Read this first

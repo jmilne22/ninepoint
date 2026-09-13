@@ -509,3 +509,11 @@ concern parcels, cups, plates and access. These exchanges grant no items, money,
 affection. Noor acknowledges league completion and a return after the Cup once, using
 existing completion flags. The actual post-match response still follows the game just
 played; completed events do not replace it.
+
+
+### Expressive Kettle area trial
+
+ART-12 tests the approved match cast in one walkable Kettle interior, including
+conversation portraits and the match/return loop. Existing dialogue, ranks, teaching
+order and result consequences remain in force. The isolated visit uses disposable
+progress; campaign-wide world adoption awaits review of this one-area proof.

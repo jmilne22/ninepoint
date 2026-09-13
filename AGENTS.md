@@ -204,6 +204,9 @@ tools/run_table_scene.sh --gallery               # all 21 match identities and g
 tools/run_rendered.sh tools/autopilot/table_adoption.json # serial 7/9/13/19 result/return gate
 tools/run_table_scene.sh --verify-table_scene    # projected picking, keyboard, modal and counting checks
 tools/play_ps1.sh                                # isolated De Ketel 2.5D experiment; never saves
+tools/play_expressive_kettle.sh                   # one-area expressive world POC, disposable saves
+DISPLAY_NUM=0 tools/run_expressive_kettle.sh --tour # walk/talk/match/return and modal/collision checks
+python3 tools/build_expressive_kettle.py           # POC room/full-body art; Blender + Pillow
 tools/run_ps1.sh tools/autopilot/ps1_tour.json     # disposable user data, rendered-room acceptance
 tools/test.sh                                    # compile gate + load check + all suites
 tools/test_review_pure.sh                        # facts/narrator with the game and engine absent
@@ -745,5 +748,14 @@ includes this production asset group. Cast boards use 768×432 at 30 fps, restor
 on return; original request profiles, colours, ranks, scoring and bridge persistence
 remain authoritative. Nigiri, teaching panels, 7/9/13/19 picking and counting share
 the table. Development profiles without a cast model retain their old harness.
-Walking-world and dialogue-portrait rollout is later, per the owner's chosen order.
+ART-12 now tests walking and dialogue portraits in one isolated Kettle area; other areas await review.
 See `docs/table_scene/adoption/verification.md` for inspected rollout evidence.
+
+
+### ART-12 local area POC
+
+`src/experiments/expressive_kettle/` is a live-3D Kettle preview with four full-body
+cast models and animated match-model dialogue busts. `tools/play_expressive_kettle.sh`
+is the isolated launcher. Main campaign map rendering is unchanged. Source scripts
+are in `tools/expressive_kettle/`; never edit `art/expressive_kettle/` exports by hand.
+[Launch, footage and inspected acceptance](docs/expressive_kettle/README.md).

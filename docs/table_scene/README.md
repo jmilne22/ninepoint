@@ -70,3 +70,8 @@ The showcase is a prepared, legally replayed game, separate from the live Wren
 engine check. The multi-size route also declares prepared positions and a random
 legal opponent; ordinary campaign/teaching routes exercise the shipped engines.
 [Original approved evidence](verification.md) · [Rollout evidence](adoption/verification.md).
+
+
+The next scoped step is the [one-area Kettle POC](../expressive_kettle/README.md),
+which extends these source models into walking and conversation without altering
+the approved match exports.
