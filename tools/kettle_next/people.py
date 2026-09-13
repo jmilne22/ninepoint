@@ -44,7 +44,7 @@ def finish(obj):
     bpy.context.view_layer.objects.active=obj;bpy.ops.object.modifier_apply(modifier=mod.name)
     return obj
 
-def build(spec):
+def build(spec, style=None):
     # Reuse the exact approved head, hair and painted UVs. Everything below is rebuilt.
     character.animate=lambda *args:None
     old=character.build(spec);heads=[]
@@ -60,7 +60,7 @@ def build(spec):
             obj.modifiers.clear();obj.vertex_groups.clear();obj.parent=None;heads.append(obj)
         else:bpy.data.objects.remove(obj,do_unlink=True)
     bpy.data.objects.remove(old,do_unlink=True)
-    width,depth,height=PROPORTIONS[spec['id']];rig=skeleton(width)
+    width,depth,height=style[:3] if style else PROPORTIONS[spec['id']];rig=skeleton(width)
     for obj in heads:rigid(obj,rig,'head')
     skin=material('Skin',SKIN[spec['skin']][2]);cloth=material('Cloth',spec['top'][0])
     trim=material('Cloth trim',spec['top'][1]);pants=material('Trousers',spec['bottom'])
@@ -157,8 +157,11 @@ def build(spec):
         obj=ribbon('Bar apron',[((0,-depth-.012,1.42),.155,.012),((0,-depth-.025,1.15),.18,.02),
             ((0,-depth-.015,.94),.175,.014)],apron);rigid(obj,rig,'spine')
         pocket=ribbon('Apron pocket',[((0,-depth-.05,1.22),.10,.008),((0,-depth-.05,1.12),.10,.008)],trim);rigid(pocket,rig,'spine')
+    if style:
+        from identities import tailor
+        tailor(spec,rig,width,depth,style)
     rig.scale.z=height
     rig['identity']=spec['id'];rig['height_scale']=height
     from motion import animate
-    animate(rig,spec['id'],width)
+    animate(rig,spec['id'],width,style)
     return rig

@@ -18,14 +18,17 @@ func _ready() -> void:
             child.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
     for child in view.get_children():
         if child is WorldEnvironment or child is Light3D: child.queue_free()
-    ExpressiveSurfaces.environment(view,false)
-    var scenery: Node3D = load("res://art/expressive_world/maps/%s/room.glb" % map_id).instantiate()
+    var scenery: Node3D = load(KettleNextProfile.room_path(map_id)).instantiate()
     view.add_child(scenery)
-    ExpressiveSurfaces.apply(scenery)
+    if KettleNextProfile.campaign(): CampaignNextRoom.setup(view,scenery,map_id)
+    else:
+        ExpressiveSurfaces.environment(view,false)
+        ExpressiveSurfaces.apply(scenery)
     var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/maps/%s.json" % map_id))
     target = Vector3(float(data.size[0])*.4,0,float(data.size[1])*.4)
     camera = Camera3D.new()
     camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+    if KettleNextProfile.campaign(): CampaignNextRoom.frame_camera(camera)
     camera.size = 13 if map_id == "ketelsteeg" else 9
     view.add_child(camera)
     _process(0)

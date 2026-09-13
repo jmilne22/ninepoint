@@ -9,8 +9,8 @@ runs used disposable or explicitly isolated user data, serially.
 The optional profile changes Ro, Wren, Kesh, Tomás, the Kettle room and match materials.
 Original facial pixels, hair designs and outfit palette remain. Normal campaign launch
 uses the baseline. Rules, engine profiles, dialogue, progression, map coordinates and
-save schema are unchanged. This is an implemented prototype awaiting owner visual
-review, not approval to roll the work out across the campaign.
+save schema are unchanged. The owner approved this prototype and explicitly authorized the complete
+campaign preview in ART-15. Production adoption awaits the completed campaign review.
 
 Open [the review page](index.html), or run `python3 tools/kettle_next/serve.py` and visit
 `http://127.0.0.1:8781`. Movies are normal-speed, 30-fps captures from Godot:

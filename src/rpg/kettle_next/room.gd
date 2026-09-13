@@ -1,8 +1,8 @@
 class_name KettleNextRoom
 extends RefCounted
 
-static func setup(view: SubViewport, scenery: Node3D) -> void:
-    _materials(scenery)
+static func setup(view: SubViewport, scenery: Node3D, prepare_materials: bool = true) -> void:
+    if prepare_materials: _materials(scenery)
     var environment := WorldEnvironment.new()
     environment.environment = Environment.new()
     environment.environment.background_mode = Environment.BG_COLOR

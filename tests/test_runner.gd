@@ -38,6 +38,7 @@ func _run_suites() -> void:
         "teaching": "res://tests/test_teaching.gd",
         "review facts": "res://tests/test_review_facts.gd",
         "match analysis": "res://tests/test_match_analysis.gd",
+        "campaign preview": "res://tests/test_campaign_next.gd",
         "kettle prototype": "res://tests/test_kettle_next.gd",
         "table matches": "res://tests/test_table_match.gd",
         "board view": "res://tests/test_board_view.gd", "onboarding": "res://tests/test_onboarding.gd",

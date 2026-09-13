@@ -58,4 +58,6 @@ func _play(clip: String, restart: bool = false) -> void:
         phase = animation.current_animation_position / animation.current_animation_length
     animation.play(clip, .16 if clip in LOOPS else .12)
     if phase >= 0.0: animation.seek(phase * animation.get_animation(clip).length)
+    elif current.is_empty() and KettleNextProfile.campaign() and clip in LOOPS and clip not in ["walk","run"]:
+        animation.seek(float(absi(identity.hash()) % 71) / 100.0 * animation.get_animation(clip).length)
     current = clip

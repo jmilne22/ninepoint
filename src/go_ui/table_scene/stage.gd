@@ -3,7 +3,7 @@ extends RefCounted
 
 static func viewport(parent: Control, extent: Vector2i, transparent: bool) -> SubViewport:
     var view := SubViewport.new()
-    view.size = extent * 2 if transparent and KettleNextProfile.enabled() else extent
+    view.size = extent * 2 if KettleNextProfile.campaign() or (transparent and KettleNextProfile.enabled()) else extent
     view.transparent_bg = transparent
     view.own_world_3d = true
     view.render_target_update_mode = SubViewport.UPDATE_ALWAYS
@@ -39,3 +39,10 @@ static func material(colour: Color) -> StandardMaterial3D:
     mat.albedo_color = colour
     mat.roughness = 0.7
     return mat
+
+## A single conversion boundary keeps picking stable under supersampling.
+static func to_pixels(view: SubViewport, logical_size: Vector2, point: Vector2) -> Vector2:
+    return point * Vector2(view.size) / logical_size
+
+static func to_logical(view: SubViewport, logical_size: Vector2, point: Vector2) -> Vector2:
+    return point * logical_size / Vector2(view.size)

@@ -1,0 +1,102 @@
+[
+  {
+    "film": "environments",
+    "seconds": 69.2,
+    "size": 19411388,
+    "resolution": [
+      1536,
+      864
+    ],
+    "fps": "30/1",
+    "chapters": []
+  },
+  {
+    "film": "cast",
+    "seconds": 114.033333,
+    "size": 50246060,
+    "resolution": [
+      1536,
+      864
+    ],
+    "fps": "30/1",
+    "chapters": []
+  },
+  {
+    "film": "movement",
+    "seconds": 12.766667,
+    "size": 10790156,
+    "resolution": [
+      1536,
+      864
+    ],
+    "fps": "30/1",
+    "chapters": []
+  },
+  {
+    "film": "wren-match",
+    "seconds": 294.466667,
+    "size": 52814310,
+    "resolution": [
+      1536,
+      864
+    ],
+    "fps": "30/1",
+    "chapters": []
+  },
+  {
+    "film": "campaign-film",
+    "seconds": 490.5,
+    "size": 45885917,
+    "resolution": [
+      1280,
+      720
+    ],
+    "fps": "30/1",
+    "chapters": [
+      {
+        "id": 0,
+        "time_base": "1/48000",
+        "start": 0,
+        "start_time": "0.000000",
+        "end": 3321600,
+        "end_time": "69.200000",
+        "tags": {
+          "title": "Sela: twelve environments"
+        }
+      },
+      {
+        "id": 1,
+        "time_base": "1/48000",
+        "start": 3321600,
+        "start_time": "69.200000",
+        "end": 8795184,
+        "end_time": "183.233000",
+        "tags": {
+          "title": "The complete cast"
+        }
+      },
+      {
+        "id": 2,
+        "time_base": "1/48000",
+        "start": 8795184,
+        "start_time": "183.233000",
+        "end": 9408000,
+        "end_time": "196.000000",
+        "tags": {
+          "title": "Locomotion"
+        }
+      },
+      {
+        "id": 3,
+        "time_base": "1/48000",
+        "start": 9408000,
+        "start_time": "196.000000",
+        "end": 23542416,
+        "end_time": "490.467000",
+        "tags": {
+          "title": "Wren: game, reaction and review"
+        }
+      }
+    ]
+  }
+]

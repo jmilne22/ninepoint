@@ -210,7 +210,8 @@ func _draw() -> void:
 
     draw_rect(Rect2(_origin - Vector2(pad, pad) - Vector2(2, 2),
         Vector2(used + pad * 2 + 4, used + pad * 2 + 4)), C_BOARD_EDGE)
-    draw_texture_rect(BOARD_SURFACE, Rect2(_origin - Vector2(pad, pad),
+    var surface: Texture2D = KettleNextProfile.embedded_texture("board",BOARD_SURFACE)
+    draw_texture_rect(surface, Rect2(_origin - Vector2(pad, pad),
         Vector2(used + pad * 2, used + pad * 2)), false)
 
     for i in count:

@@ -25,6 +25,39 @@ func _ready() -> void:
     _actions.position = Vector2(145, 165)
     _actions.show()
     z_index = 80
+    if KettleNextProfile.campaign(): _clean_panel()
+
+func _clean_panel() -> void:
+    var panel := Panel.new()
+    panel.position = Vector2(8,153)
+    panel.size = Vector2(368,61)
+    panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+    var style := StyleBoxFlat.new()
+    style.bg_color = Color("eee5d2")
+    style.border_color = Color("587263")
+    style.set_border_width_all(1)
+    style.set_corner_radius_all(5)
+    panel.add_theme_stylebox_override("panel",style)
+    add_child(panel)
+    move_child(panel,0)
+    _headline.position = Vector2(17,159)
+    _headline.size = Vector2(350,12)
+    _subline.position = Vector2(17,173)
+    _subline.size = Vector2(350,22)
+    for label in [_headline,_subline,_call,_count]:
+        label.add_theme_color_override("font_color",Color("344c40"))
+    _call.hide()
+    _count.position = Vector2(335,195)
+    _count.add_theme_font_size_override("font_size",9)
+    _actions.position = Vector2(145,194)
+
+func _slam(text: String) -> void:
+    if not KettleNextProfile.campaign():
+        await super._slam(text)
+        return
+    _call.text = text
+    Audio.play("ui_confirm")
+    await get_tree().process_frame
 
 func wipe_in() -> void:
     await get_tree().create_timer(0.35).timeout
@@ -54,3 +87,23 @@ func _drop_stone(index: int, _total: int) -> void:
 
 func _kick(_power: float) -> void:
     pass
+
+func _refresh_call() -> void:
+    super._refresh_call()
+    if KettleNextProfile.campaign(): _highlight_choice()
+
+func _refresh_actions() -> void:
+    super._refresh_actions()
+    if KettleNextProfile.campaign(): _highlight_choice()
+
+func _highlight_choice() -> void:
+    var chosen := "black" if _pick_black else "white"
+    if _awaiting == &"guess": chosen = "odd" if _pick_odd else "even"
+    for child in _actions.get_children():
+        if not child is Button: continue
+        var selected: bool = str(child.name) == chosen
+        var style := child.get_theme_stylebox("normal").duplicate() as StyleBoxFlat
+        style.bg_color = Color("527362") if selected else Color("f5eddf")
+        style.border_color = Color("294d3b") if selected else Color("91a394")
+        child.add_theme_stylebox_override("normal",style)
+        child.add_theme_color_override("font_color",Color("fff6e5") if selected else Color("344c40"))

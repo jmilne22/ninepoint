@@ -2,7 +2,6 @@
 import argparse,re
 from pathlib import Path
 from http.server import SimpleHTTPRequestHandler,ThreadingHTTPServer
-p=argparse.ArgumentParser();p.add_argument('--port',type=int,default=8781);args=p.parse_args()
 ROOT=Path(__file__).resolve().parents[2]/'docs/kettle_next'
 class Preview(SimpleHTTPRequestHandler):
     def __init__(self,*args,**kwargs):super().__init__(*args,directory=str(ROOT),**kwargs)
@@ -31,4 +30,11 @@ class Preview(SimpleHTTPRequestHandler):
                 if not chunk:break
                 output.write(chunk);self.remaining-=len(chunk)
         except (BrokenPipeError,ConnectionResetError):pass
-ThreadingHTTPServer(('127.0.0.1',args.port),Preview).serve_forever()
+def serve(root,port):
+    global ROOT
+    ROOT=Path(root)
+    ThreadingHTTPServer(('127.0.0.1',port),Preview).serve_forever()
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('--port',type=int,default=8781);args=p.parse_args()
+    serve(ROOT,args.port)

@@ -7,7 +7,15 @@ static var records_before := 0
 static func perform(tree: SceneTree, spec: Dictionary) -> void:
     var state := tree.root.get_node("GameState")
     var action := str(spec.get("action", ""))
-    if action == "launcher":
+    if action == "campaign_launcher":
+        if not OS.get_environment("XDG_DATA_HOME").contains("ninepoint-campaign-next/play-") or KettleNextProfile.campaign() != bool(spec.get("preview",true)):
+            _fail(tree,"campaign launcher isolation/profile mismatch")
+            return
+        if tree.current_scene.get("map").id != "de_ketel":
+            _fail(tree,"campaign launcher fixture did not enter the Kettle")
+            return
+        print("CAMPAIGN LAUNCHER: disposable save; correct profile and campaign fixture")
+    elif action == "launcher":
         if tree.current_scene.get("map").id != "de_ketel" or not OS.get_environment("XDG_DATA_HOME").contains("ninepoint-kettle-next/play-"):
             _fail(tree,"launcher did not enter the Kettle with disposable data")
             return

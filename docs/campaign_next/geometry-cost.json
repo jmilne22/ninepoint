@@ -1,0 +1,128 @@
+[
+  {
+    "identity": "player",
+    "baseline": {
+      "triangles": 40580,
+      "primitives": 32,
+      "bones": 16
+    },
+    "before_batching": {
+      "triangles": 30356,
+      "primitives": 43,
+      "bones": 40
+    },
+    "campaign": {
+      "triangles": 30356,
+      "primitives": 10,
+      "bones": 40
+    }
+  },
+  {
+    "identity": "pip",
+    "baseline": {
+      "triangles": 40488,
+      "primitives": 31,
+      "bones": 16
+    },
+    "before_batching": {
+      "triangles": 30432,
+      "primitives": 51,
+      "bones": 40
+    },
+    "campaign": {
+      "triangles": 30432,
+      "primitives": 12,
+      "bones": 40
+    }
+  },
+  {
+    "identity": "bertie",
+    "baseline": {
+      "triangles": 40796,
+      "primitives": 29,
+      "bones": 16
+    },
+    "before_batching": {
+      "triangles": 32336,
+      "primitives": 49,
+      "bones": 40
+    },
+    "campaign": {
+      "triangles": 32336,
+      "primitives": 12,
+      "bones": 40
+    }
+  },
+  {
+    "identity": "extra_commuter",
+    "baseline": {
+      "triangles": 40488,
+      "primitives": 31,
+      "bones": 16
+    },
+    "before_batching": {
+      "triangles": 30938,
+      "primitives": 51,
+      "bones": 40
+    },
+    "campaign": {
+      "triangles": 30938,
+      "primitives": 12,
+      "bones": 40
+    }
+  },
+  {
+    "identity": "extra_shopper",
+    "baseline": {
+      "triangles": 41276,
+      "primitives": 35,
+      "bones": 16
+    },
+    "before_batching": {
+      "triangles": 32818,
+      "primitives": 55,
+      "bones": 40
+    },
+    "campaign": {
+      "triangles": 32818,
+      "primitives": 13,
+      "bones": 40
+    }
+  },
+  {
+    "identity": "extra_docker",
+    "baseline": {
+      "triangles": 40796,
+      "primitives": 29,
+      "bones": 16
+    },
+    "before_batching": {
+      "triangles": 32822,
+      "primitives": 49,
+      "bones": 40
+    },
+    "campaign": {
+      "triangles": 32822,
+      "primitives": 12,
+      "bones": 40
+    }
+  },
+  {
+    "identity": "extra_kid",
+    "baseline": {
+      "triangles": 52048,
+      "primitives": 54,
+      "bones": 16
+    },
+    "before_batching": {
+      "triangles": 41870,
+      "primitives": 68,
+      "bones": 40
+    },
+    "campaign": {
+      "triangles": 41870,
+      "primitives": 11,
+      "bones": 40
+    }
+  }
+]

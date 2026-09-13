@@ -13,6 +13,7 @@ var initialized := false
 var speed := 0.0
 var acting: KettleNextActing
 var working_cloth: Node3D
+var has_seat := false
 
 func _ready() -> void:
     # Sample after the actors have moved, once per physics tick.
@@ -31,7 +32,7 @@ func _ready() -> void:
     if KettleNextProfile.has_person(identity):
         face.next_pass = null
         face.shader = preload("res://src/rpg/kettle_next/face.gdshader")
-        face.set_shader_parameter("faces",load("res://art/kettle_next/%s_face.png" % identity))
+        face.set_shader_parameter("faces",load(KettleNextProfile.face_path(identity)))
         acting = KettleNextActing.new()
         acting.setup(animation, identity)
         if identity == "tomas": working_cloth = KettleNextProps.attach_cloth(model)
@@ -70,15 +71,19 @@ func _process(delta: float) -> void:
     visible = actor.visible
     source.hide()
     var direction := source.motion_vector if not source.motion_vector.is_zero_approx() else Facing.to_vector(source.direction)
+    if KettleNextProfile.campaign() and has_seat and actor is Npc and actor.seat_across.is_finite():
+        direction = (actor.seat_across-actor.global_position).normalized()
     var angle := atan2(direction.x,direction.y)
     model.rotation.y = lerp_angle(model.rotation.y,angle,minf(1,delta*12))
     var seated: bool = actor is Npc and actor.idle != null and actor.idle.mode == "play"
+    if KettleNextProfile.campaign() and has_seat: seated = true
     if seated and identity in ["sunny","extra_kid"]: position.y += .09
     var clip := "stand"
     if identity == "wren": clip = "host"
     elif identity in ["kesh", "pip", "orla", "extra_docker"]: clip = "relaxed"
     if source.activity == "read" and identity in ["ilse", "bertie", "marguerite"]: clip = "thinking"
     if source.activity == "wipe": clip = "counter"
+    if KettleNextProfile.campaign() and identity != "tomas" and clip == "counter": clip = "host"
     if seated: clip = "seated"
     if actor is Npc and actor.busy and not seated: clip = "listen"
     if speed > .05: clip = "run" if source.gait_scale > 1.0 else "walk"

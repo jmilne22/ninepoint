@@ -156,6 +156,8 @@ func _refresh() -> void:
     super._refresh()
     if status == null: return
     surface.set_colours(player_color)
+    if player_actor.held_stone != null: surface._stone_material(player_actor.held_stone,player_color)
+    if wren_actor.held_stone != null: surface._stone_material(wren_actor.held_stone,GoBoard.opponent(player_color))
     var ready := game != null and game.to_move == player_color
     player_actor.resting = "thinking" if ready else "idle"
     wren_actor.resting = "idle" if ready else "thinking"

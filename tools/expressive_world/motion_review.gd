@@ -78,7 +78,7 @@ func _ready() -> void:
             sampling=true
             for i in (12 if filming else 4):
                 await get_tree().create_timer(.15).timeout
-                if fps==60 or filming: await _shot(("run" if running else "walk")+"_%s"%i)
+                if filming: await _shot(("run" if running else "walk")+"_%s"%i)
             sampling=false
             ProjectedProbe.follow_logical(world.map,Vector2.RIGHT,false)
             Input.action_release("move_right");Input.action_release("run")
@@ -89,7 +89,7 @@ func _ready() -> void:
             _check(person.animation.current_animation == "stand", "released input returns to standing")
     if filming and "--turns" in OS.get_cmdline_user_args():
         caption.text = "Turning and stopping"
-        for direction in [Vector2.UP,Vector2.RIGHT,Vector2.DOWN,Vector2.LEFT]:
+        for direction in [Vector2.UP,Vector2.RIGHT,Vector2(1,1).normalized(),Vector2.DOWN,Vector2.LEFT]:
             ProjectedProbe.follow_logical(world.map,direction,true)
             await get_tree().create_timer(.55).timeout
             ProjectedProbe.follow_logical(world.map,direction,false)
@@ -97,6 +97,12 @@ func _ready() -> void:
     if caption!=null: caption.text="Stops at walls and when input is locked"
     await _blocked_movement()
     print("MOTION RATE FAILURES: ",failures)
+    Audio.stop_music(0)
+    Audio.stop_ambience(0)
+    await get_tree().create_timer(.1).timeout
+    world.queue_free()
+    await get_tree().process_frame
+    await get_tree().process_frame
     get_tree().quit(0 if OS.get_environment("MOTION_BASELINE")=="1" else int(failures>0))
 
 func _process(_delta: float) -> void:

@@ -1,0 +1,128 @@
+[
+  {
+    "save": "thirteen_ketel",
+    "note": "Three rated wins; Kesh at The Kettle offers thirteen lines."
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact",
+    "note": "Continue from the thirteen_ready save"
+  },
+  {
+    "wait": 2.2,
+    "shot": "a_study_hall"
+  },
+  {
+    "talk_to": "kesh"
+  },
+  {
+    "advance": 6,
+    "stop_at_choice": true
+  },
+  {
+    "wait": 0.6,
+    "shot": "b_she_mentions_thirteen"
+  },
+  {
+    "advance": 30,
+    "stop_at_choice": true,
+    "note": "run to the choice and stop ON it -- a tap budget that merely happens to end near the list picks whatever was highlighted, which is how the first cut of this script played a 9x9 and photographed it confidently"
+  },
+  {
+    "wait": 0.8,
+    "shot": "c_the_choice"
+  },
+  {
+    "choose": 1,
+    "note": "Thirteen. -- 0 is the 9x9 league game, 2 is Later"
+  },
+  {
+    "wait": 3.0,
+    "shot": "d_setup_explanation"
+  },
+  {
+    "board_input": {
+      "button": "interact"
+    }
+  },
+  {
+    "wait": 0.2,
+    "shot": "e_handicap_komi"
+  },
+  {
+    "board_input": {
+      "button": "interact"
+    }
+  },
+  {
+    "match_wait_player": true
+  },
+  {
+    "board_input": {
+      "size": 13,
+      "hover": [
+        1,
+        1
+      ]
+    },
+    "shot": "f_hover_B12"
+  },
+  {
+    "board_input": {
+      "click_legal": [
+        1,
+        1
+      ]
+    }
+  },
+  {
+    "match_wait_player": true
+  },
+  {
+    "shot": "g_a_move_played"
+  },
+  {
+    "experience": "kettle_next",
+    "action": "engine"
+  },
+  {
+    "board_input": {
+      "button": "go_resign"
+    }
+  },
+  {
+    "board_input": {
+      "button": "go_resign"
+    }
+  },
+  {
+    "wait": 0.3
+  },
+  {
+    "board_input": {
+      "button": "interact"
+    }
+  },
+  {
+    "wait": 0.3
+  },
+  {
+    "experience": "review_ready"
+  },
+  {
+    "board_input": {
+      "button": "review_no"
+    }
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "shot": "h_back_in_club"
+  }
+]

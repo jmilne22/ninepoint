@@ -751,3 +751,20 @@ Map geometry, art props, collision, NPC positions and warps are unchanged. Since
 render manifest fingerprints the whole source JSON, text-only edits refresh its generated
 provenance stamp after an exact comparison of all render inputs. The existing renderer
 does not consume map names, sign text or warp prompts.
+
+
+### Campaign presentation preview (ART-15)
+
+The process-only `NINEPOINT_PRESENTATION=campaign_next` profile selects separate cast, map
+and table exports. KettleNextProfile retains the earlier Kettle-only selector and owns asset
+resolution; CampaignNextRoom owns per-map lighting/materials. The existing presentation
+controller owns clips, expressions and cancellation; 2D actors remain authoritative.
+TableSceneStage converts logical board coordinates to and from render pixels so supersampling
+does not change picking, labels or markers. Title/travel views share the same generated rooms.
+There is no save or content migration. Production presentation remains the default.
+
+Original chair assignments are exported in each room manifest, so progress-dependent
+NPC activity changes cannot make the visible rig stand through its chair. This changes
+presentation only. Compatible skinned meshes are batched by material after verifying
+posed vertex equivalence; painted face meshes remain separate. Embedded 2D lesson/review
+boards obtain the preview textures lazily through the same profile boundary.

@@ -459,6 +459,12 @@ relaxed locomotion: the former forward arm swing looked like a stabbing gesture.
 A process-only Kettle → conversation → Wren match prototype concentrates the work in
 four shared rigs and one room. Generated articulated hands, garment construction,
 window light and purposeful props can be judged together at gameplay scale.
-The normal campaign remains the comparison baseline. Full rollout requires a separate
-visual decision after watching normal-speed movement and playing the prototype;
-technical gates do not substitute for that review. [Review](docs/kettle_next/README.md).
+The owner approved this Kettle direction and authorized ART-15 across the campaign.
+The normal campaign remains the comparison baseline; production adoption follows review
+of the completed rollout in motion. [Kettle review](docs/kettle_next/README.md).
+
+
+ART-15 implements the approved Kettle quality across the campaign as an isolated preview.
+Board clarity precedes full-cast tailoring and room-specific construction/lighting. Owner
+review of the completed moving campaign precedes production adoption; progress and evidence
+are tracked in WORKBOARD.md and docs/campaign_next/.

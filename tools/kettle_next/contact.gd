@@ -31,4 +31,10 @@ func _ready() -> void:
         if point.z > 4.78 or point.y < 1.046 or point.y > 1.082 or normal.y < cos(deg_to_rad(15.0)):
             failures += 1
     print("CONTACT FAILURES: ",failures)
+    Audio.stop_music(0)
+    Audio.stop_ambience(0)
+    await get_tree().create_timer(.1).timeout
+    world.queue_free()
+    await get_tree().process_frame
+    await get_tree().process_frame
     get_tree().quit(int(failures > 0))

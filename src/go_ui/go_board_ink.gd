@@ -59,6 +59,7 @@ static func stone(view: CanvasItem, cell: float, pos: Vector2, colour: int, is_d
     var alpha := (0.4 if is_dead else 1.0) * fade
     view.draw_circle(pos + Vector2(1, 1), r, Color(C_SHADOW.r, C_SHADOW.g, C_SHADOW.b, C_SHADOW.a * alpha),true,-1,true)
     var texture: Texture2D = BLACK_STONE if colour == GoBoard.BLACK else WHITE_STONE
+    texture = KettleNextProfile.embedded_texture("black_stone" if colour == GoBoard.BLACK else "white_stone",texture)
     view.draw_texture_rect(texture, Rect2(pos - Vector2(r, r), Vector2(r * 2, r * 2)),
         false, Color(1, 1, 1, alpha))
     if is_dead:

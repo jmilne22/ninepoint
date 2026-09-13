@@ -1,0 +1,25 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: AMD - AMD Radeon RX 6900 XT (radeonsi, navi21, ACO, DRM 3.64, 7.2.2)
+
+AUTOPILOT: 24 steps from res://tools/autopilot/table_nigiri.json
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-aHyL6f/godot/app_userdata/Ninepoint/shots/01_choice_Another game..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-aHyL6f/godot/app_userdata/Ninepoint/shots/02_choice_Set them up..png
+CAST CLIPS player: ["concern", "greet", "idle", "place", "pleased", "surprise", "thinking"]
+CAST CLIPS wren: ["concern", "greet", "idle", "place", "pleased", "surprise", "thinking"]
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-aHyL6f/godot/app_userdata/Ninepoint/shots/03_nigiri_call.png
+BOARD BUTTON: odd
+EXPERIENCE: wren_club 9x9; player White; handicap 0; komi 5.5; unrated false
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-aHyL6f/godot/app_userdata/Ninepoint/shots/04_colours_set.png
+BOARD INPUT: { "click_legal": [2.0, 2.0] }
+BOARD INPUT: { "click_legal": [6.0, 6.0] }
+BOARD BUTTON: go_resign
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-aHyL6f/godot/app_userdata/Ninepoint/shots/05_resign_confirmation.png
+BOARD BUTTON: go_resign
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-aHyL6f/godot/app_userdata/Ninepoint/shots/06_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-aHyL6f/godot/app_userdata/Ninepoint/shots/07_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-aHyL6f/godot/app_userdata/Ninepoint/shots/08_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-aHyL6f/godot/app_userdata/Ninepoint/shots/09_review_offer.png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-aHyL6f/godot/app_userdata/Ninepoint/shots/10_returned.png
+AUTOPILOT: done

@@ -16,17 +16,20 @@ def orient(bone,head,tail):
 def smooth(t):
     t=min(1,max(0,t));return t*t*(3-2*t)
 
-def animate(rig,identity,width):
+def animate(rig,identity,width,style=None):
     rig.animation_data_create();bones=rig.pose.bones
     for name,duration in DURATIONS.items():
+        if style and name not in ["walk","run"]: duration*=style[5]
         action=bpy.data.actions.new(name);rig.animation_data.action=action;end=round(duration*30)
         for frame in range(end+1):
             t=frame/end;p=t*math.tau;wave=math.sin(p)
             env=smooth(t/.22)*smooth((1-t)/.27)
+            if style: env*=style[4]
             moving=name in ['walk','run'];run=name=='run';seated=name in ['seated','idle','table_rest','thinking','place','surprise','pleased','concern']
             for b in bones:b.matrix_basis=Matrix.Identity(4);b.rotation_mode='QUATERNION'
             pelvis=bones['root']
             drop=-.075 if run else -.035 if moving else -.30 if name=='seated' else -.01
+            if style and name=="seated":drop=-.42
             bob=(.032 if run else .013)*math.cos(2*p) if moving else .002*wave
             shift=(.014 if run else .02)*wave if moving else .018 if name=='relaxed' else -.008
             pelvis.matrix=Matrix.Translation((shift,-.26 if identity=='tomas' and name in ['counter','serve'] else 0,drop+bob))@Matrix.Rotation((-.055 if run else -.026)*wave if moving else .008*wave,4,'Z')@pelvis.bone.matrix_local
@@ -60,6 +63,15 @@ def animate(rig,identity,width):
                     bones['head'].rotation_quaternion=Quaternion((1,0,0),.025*math.sin(p)*env)
                 if seated:
                     wrist=Vector((s*.235,-.26,1.20));hand_dir=Vector((0,-.095,-.055))
+                    if style and name=="seated":
+                        # World chairs are .40 m and tables .825 m; child seats
+                        # retain their existing cushion lift while hands reach the top.
+                        wrist=Vector((s*.235,-.40,1.63 if identity in ["sunny","extra_kid"] else 1.50))
+                        if identity in ["kesh","bertie","sunny","orla","ivo","sora"]:
+                            # The fixed host chairs sit back from the table. Rest
+                            # on the lap between games instead of miming a reach.
+                            wrist=Vector((s*.18,-.10,1.03))
+                            hand_dir=Vector((0,-.07,-.095))
                 if name in ['counter','serve']:
                     wrist=Vector((s*.24,-.46,1.34));hand_dir=Vector((0,-.115,-.005))
                     if s>0:wrist.x+=.095*wave;wrist.y+=.035*math.sin(p*2)

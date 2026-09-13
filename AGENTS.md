@@ -811,5 +811,20 @@ actors retain all input, physics and interaction authority. The captured reactio
 is a scene child and rejects an actor whose action serial has changed.
 `kettle_next.json` uses a real Wren game and explicitly rejects engine fallback or partial
 review. `kettle_next_showcase.json` is the shorter filming route. See the
-[launcher and review evidence](docs/kettle_next/README.md). Owner visual acceptance and
-any rollout to other characters or rooms remain separate from technical verification.
+[launcher and review evidence](docs/kettle_next/README.md). The owner approved this
+prototype and authorized ART-15; full-campaign production adoption awaits its visual review.
+
+
+## ART-15 campaign presentation preview
+
+`tools/play_campaign_next.sh` launches the whole-campaign preview with disposable saves;
+`--baseline` uses the same fixture without the profile. `tools/run_campaign_next.sh` imports
+assets and runs the serial twelve-map route. `tools/build_campaign_next.py --people ...` /
+`--maps ...` export only selected preview assets. `build_assets.py --groups campaign_next`
+is opt-in and excluded from default production builds. See `docs/campaign_next/README.md`.
+`--surfaces` rebuilds embedded lesson/review boards. `tools/campaign_next/collect.py`
+serially captures cast, 30/60/144-fps motion, contact and seeded performance comparisons.
+Run `check_assets.py` with Pillow for deformation/face/map contracts; `package.py` also
+requires FFmpeg. The original map manifest owns presentation seat assignments; do not
+derive them from progress-mutated runtime NPC activity. Production adoption is pending
+owner review of this complete preview.

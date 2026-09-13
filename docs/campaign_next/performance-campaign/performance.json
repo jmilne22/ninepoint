@@ -1,0 +1,38 @@
+[
+  {
+    "draw_calls": 208.0,
+    "frames": 6026,
+    "mean_ms": 0.664220876203117,
+    "moving_frames": 6019,
+    "p95_ms": 0.828,
+    "primitives": 197404.0,
+    "profile": "campaign_next",
+    "rendered_objects": 296.0,
+    "renderer": "AMD Radeon RX 6900 XT (radeonsi, navi21, ACO, DRM 3.64, 7.2.2)",
+    "scene": "de_ketel_moving"
+  },
+  {
+    "draw_calls": 213.0,
+    "frames": 5975,
+    "mean_ms": 0.669937071129707,
+    "moving_frames": 5959,
+    "p95_ms": 0.815111111111111,
+    "primitives": 212148.0,
+    "profile": "campaign_next",
+    "rendered_objects": 251.0,
+    "renderer": "AMD Radeon RX 6900 XT (radeonsi, navi21, ACO, DRM 3.64, 7.2.2)",
+    "scene": "ketelsteeg_moving"
+  },
+  {
+    "draw_calls": 478.0,
+    "frames": 5198,
+    "mean_ms": 0.769564063101196,
+    "moving_frames": 0,
+    "p95_ms": 0.95,
+    "primitives": 107646.0,
+    "profile": "campaign_next",
+    "rendered_objects": 525.0,
+    "renderer": "AMD Radeon RX 6900 XT (radeonsi, navi21, ACO, DRM 3.64, 7.2.2)",
+    "scene": "nineteen_populated"
+  }
+]

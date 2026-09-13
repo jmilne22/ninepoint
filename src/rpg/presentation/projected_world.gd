@@ -8,6 +8,7 @@ var view: SubViewport
 var camera_3d: Camera3D
 var picture: Sprite2D
 var people: Dictionary = {}
+var seated_identities: Array = []
 
 func setup(owner_world: Node2D) -> void:
     world = owner_world
@@ -20,7 +21,10 @@ func setup(owner_world: Node2D) -> void:
     add_child(view)
     var scenery: Node3D = load(KettleNextProfile.room_path(world.map.id)).instantiate()
     view.add_child(scenery)
-    if KettleNextProfile.enabled() and world.map.id == "de_ketel":
+    if KettleNextProfile.campaign():
+        CampaignNextRoom.setup(view,scenery,world.map.id)
+        seated_identities = CampaignNextRoom.seated_identities(world.map.id)
+    elif KettleNextProfile.enabled() and world.map.id == "de_ketel":
         KettleNextRoom.setup(view, scenery)
     else:
         ExpressiveSurfaces.apply(scenery)
@@ -28,6 +32,7 @@ func setup(owner_world: Node2D) -> void:
     camera_3d = Camera3D.new()
     camera_3d.projection = Camera3D.PROJECTION_ORTHOGONAL
     camera_3d.size = 6.75
+    if KettleNextProfile.campaign(): CampaignNextRoom.frame_camera(camera_3d)
     view.add_child(camera_3d)
     picture = Sprite2D.new()
     picture.texture = view.get_texture()
@@ -52,6 +57,7 @@ func _find_people(node: Node) -> void:
         var person := ExpressivePerson.new()
         person.identity = node._character_id
         person.source = node
+        person.has_seat = person.identity in seated_identities
         people[node.get_instance_id()] = weakref(person)
         view.add_child(person)
         node.hide()

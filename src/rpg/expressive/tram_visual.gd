@@ -3,9 +3,10 @@ class_name ExpressiveTramVisual
 extends Node3D
 var source: Tram
 func _ready() -> void:
-    var vehicle: Node3D = load("res://art/expressive_world/tram.glb").instantiate()
+    var vehicle: Node3D = load("res://art/campaign_next/tram.glb" if KettleNextProfile.campaign() else "res://art/expressive_world/tram.glb").instantiate()
     add_child(vehicle)
-    ExpressiveSurfaces.apply(vehicle)
+    if KettleNextProfile.campaign(): CampaignNextRoom.apply(vehicle)
+    else: ExpressiveSurfaces.apply(vehicle)
 func _process(_delta: float) -> void:
     if not is_instance_valid(source):
         queue_free()

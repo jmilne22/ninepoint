@@ -12,6 +12,7 @@ var clock := 0.0
 var identity := ""
 var acting: KettleNextActing
 var performance_serial := 0
+var held_stone: Node3D
 
 func setup(who: String) -> void:
     identity = who
@@ -81,12 +82,15 @@ func prepare_acting() -> void:
     if KettleNextProfile.has_person(identity):
         face.next_pass = null
         face.shader = preload("res://src/rpg/kettle_next/face.gdshader")
-        face.set_shader_parameter("faces",load("res://art/kettle_next/%s_face.png" % identity))
+        face.set_shader_parameter("faces",load(KettleNextProfile.face_path(identity)))
         acting = KettleNextActing.new()
         acting.setup(animation, identity)
+        if KettleNextProfile.campaign() and model != null: held_stone = KettleNextProps.attach_stone(model,identity == "player")
 
 func _process(delta: float) -> void:
     if acting != null:
+        if held_stone != null:
+            held_stone.visible = acting.gesture == "place" and acting.remaining > animation.get_animation("place").length*.5
         face.set_shader_parameter("expression", float(acting.update(delta, resting)))
         var look := 1.0 if identity == "player" else -1.0
         face.set_shader_parameter("gaze",look if fmod(acting.time,7.1)<5.9 else 0.0)

@@ -1,0 +1,23 @@
+{
+  "map": "attic",
+  "source_sha256": "d5b98c5615c927cb9a3e0488e94c0ab1da03d9267dadb7262b3e3a64f79a9e64",
+  "metres_per_tile": 0.8,
+  "steam": [
+    [
+      8.48,
+      0.965,
+      3.152
+    ],
+    [
+      8.48,
+      0.965,
+      3.152
+    ]
+  ],
+  "ambient": 0.34,
+  "sun": 0.77,
+  "angle": -27,
+  "indoors": true,
+  "window_fills": [],
+  "seats": []
+}

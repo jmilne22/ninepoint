@@ -1,0 +1,23 @@
+{
+  "map": "academy_hall",
+  "source_sha256": "ed4292871c612806017c536e831f4d8e3f3dacb787f1f0bdbbb204d34150479c",
+  "metres_per_tile": 0.8,
+  "steam": [],
+  "ambient": 0.4,
+  "sun": 0.76,
+  "angle": -24,
+  "indoors": true,
+  "window_fills": [
+    [
+      4.0,
+      1.55,
+      2.1599999999999997
+    ],
+    [
+      12.8,
+      1.55,
+      2.1599999999999997
+    ]
+  ],
+  "seats": []
+}

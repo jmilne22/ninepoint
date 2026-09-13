@@ -101,7 +101,7 @@ func _draw_board() -> Control:
     for child in holder.get_children():
         if child is TextureRect:
             child.size = holder.size
-    var table: Node3D = load("res://art/table_scene/table.glb").instantiate()
+    var table: Node3D = load(KettleNextProfile.table_path()).instantiate()
     view.add_child(table)
     _prepare_table(table)
     var camera := Camera3D.new()
@@ -131,7 +131,8 @@ func _prepare_table(node: Node) -> void:
             if original.resource_name == "Table walnut": node.hide()
             elif original.resource_name in ["Kaya","Board end grain"]:
                 var wood := ShaderMaterial.new()
-                wood.shader = preload("res://src/go_ui/table_scene/wood.gdshader")
+                wood.shader = preload("res://src/rpg/kettle_next/board_wood.gdshader") if KettleNextProfile.campaign() else preload("res://src/go_ui/table_scene/wood.gdshader")
+                if KettleNextProfile.campaign(): wood.set_shader_parameter("quiet",true)
                 wood.set_shader_parameter("grain",load("res://art/table_scene/kaya.png"))
                 wood.set_shader_parameter("tint",Color.WHITE if original.resource_name == "Kaya" else Color("927247"))
                 node.set_surface_override_material(index,wood)

@@ -377,3 +377,7 @@ logical positions and introduces no additional relocation.
 The [Sela playtest report](docs/sela/PLAYTEST.md) records the original layout migration.
 Current presentation evidence is in the [expressive rollout report](docs/expressive_world/README.md)
 and [coastal polish report](docs/ps1/polish/verification.md).
+
+
+The complete graphics preview is isolated from normal play. Launch `tools/play_campaign_next.sh`
+(or `--baseline` for comparison); progress is disposable. See [campaign preview](docs/campaign_next/README.md).

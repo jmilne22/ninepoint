@@ -21,7 +21,7 @@ func setup(value: GoBoardView) -> void:
     mouse_filter = Control.MOUSE_FILTER_STOP
     viewport = TableSceneStage.viewport(self, Vector2i(size), false)
     (get_child(1) as TextureRect).hide()
-    var table: Node3D = load("res://art/kettle_next/table.glb" if KettleNextProfile.enabled() else "res://art/table_scene/table.glb").instantiate()
+    var table: Node3D = load(KettleNextProfile.table_path()).instantiate()
     viewport.add_child(table)
     _wood(table)
     camera = Camera3D.new()
@@ -58,9 +58,13 @@ func world_point(point: int, height: float = 0.143) -> Vector3:
     return layout.world_point(point, height)
 
 func screen_point(point: int) -> Vector2:
-    return position + camera.unproject_position(world_point(point, 0.122))
+    return position + project(world_point(point, 0.122))
+
+func project(at: Vector3) -> Vector2:
+    return TableSceneStage.to_logical(viewport, size, camera.unproject_position(at))
 
 func point_at(local: Vector2) -> int:
+    local = TableSceneStage.to_pixels(viewport, size, local)
     var hit: Variant = Plane(Vector3.UP, 0.122).intersects_ray(camera.project_ray_origin(local), camera.project_ray_normal(local))
     if hit == null: return -1
     return layout.point_at(hit)
@@ -155,11 +159,16 @@ func _wood(node: Node) -> void:
     if node is MeshInstance3D:
         for index in node.mesh.get_surface_count():
             var old: Material = node.get_active_material(index)
-            if old and old.resource_name == "Black slate": black_bowl.append(node)
-            if old and old.resource_name == "White shell": white_bowl.append(node)
+            if old and old.resource_name == "Black slate":
+                black_bowl.append(node)
+                if KettleNextProfile.campaign(): _stone_material(node,GoBoard.BLACK)
+            if old and old.resource_name == "White shell":
+                white_bowl.append(node)
+                if KettleNextProfile.campaign(): _stone_material(node,GoBoard.WHITE)
             if old and (old.resource_name == "Kaya" or old.resource_name == "Table walnut" or old.resource_name == "Board end grain"):
                 var mat := ShaderMaterial.new()
                 mat.shader = preload("res://src/rpg/kettle_next/board_wood.gdshader") if KettleNextProfile.enabled() else preload("res://src/go_ui/table_scene/wood.gdshader")
+                mat.set_shader_parameter("quiet", KettleNextProfile.campaign())
                 mat.set_shader_parameter("grain", load("res://art/table_scene/kaya.png"))
                 mat.set_shader_parameter("tint", Color.WHITE if old.resource_name == "Kaya" else Color("927247"))
                 node.set_surface_override_material(index, mat)
@@ -171,9 +180,9 @@ func _draw() -> void:
     var font := preload("res://art/fonts/DejaVuSans.ttf")
     for index in layout.region.size.x:
         var x := float(index) * layout.spacing - 0.42
-        var top := camera.unproject_position(Vector3(x, 0.123, -0.493))
+        var top := project(Vector3(x, 0.123, -0.493))
         draw_string(font, top + Vector2(-3,3), "ABCDEFGHJKLMNOPQRST"[index + layout.region.position.x], HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color("6d512e"))
-        var left := camera.unproject_position(Vector3(-0.485, 0.123, x))
+        var left := project(Vector3(-0.485, 0.123, x))
         draw_string(font, left + Vector2(-3,3), str(layout.board_size - index - layout.region.position.y), HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color("6d512e"))
 
 func _stone_material(node: Node, colour: int) -> void:
@@ -185,5 +194,9 @@ func _stone_material(node: Node, colour: int) -> void:
             mat.roughness = .30 if colour == 1 else .39
             mat.metallic_specular = .48
             mat.albedo_color = Color("172126") if colour == 1 else Color("f6efdf")
+            if KettleNextProfile.campaign():
+                mat.roughness = .40 if colour == 1 else .52
+                mat.metallic_specular = .30
+                mat.albedo_color = Color("202b2d") if colour == 1 else Color("d8d6cc")
         node.material_override = mat
     for child in node.get_children(): _stone_material(child, colour)

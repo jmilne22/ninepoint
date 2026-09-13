@@ -1,0 +1,67 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: AMD - AMD Radeon RX 6900 XT (radeonsi, navi21, ACO, DRM 3.64, 7.2.2)
+
+Movie Maker mode enabled, recording movie in 1536×864 @ 30 FPS...
+AUTOPILOT: 42 steps from res://tools/autopilot/kettle_next.json
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/01_room.png
+MOVIE BEAT: room frame=143
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/02_tomas.png
+MOVIE BEAT: tomas frame=474
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/03_choice_Just saying hello..png
+MOVIE BEAT: choice_Just saying hello. frame=557
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/04_kesh.png
+MOVIE BEAT: kesh frame=902
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/05_choice_Later..png
+MOVIE BEAT: choice_Later. frame=1014
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/06_wren.png
+MOVIE BEAT: wren frame=1279
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/07_choice_Another game..png
+MOVIE BEAT: choice_Another game. frame=1362
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/08_choice_Set them up..png
+MOVIE BEAT: choice_Set them up. frame=1460
+CAST CLIPS player: ["concern", "counter", "greet", "host", "idle", "listen", "place", "pleased", "relaxed", "run", "seated", "serve", "stand", "surprise", "table_rest", "thinking", "walk"]
+CAST CLIPS wren: ["concern", "counter", "greet", "host", "idle", "listen", "place", "pleased", "relaxed", "run", "seated", "serve", "stand", "surprise", "table_rest", "thinking", "walk"]
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/09_nigiri.png
+MOVIE BEAT: nigiri frame=1590
+EXPERIENCE: wren_club 9x9; player White; handicap 0; komi 5.5; unrated false
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/10_match_ready.png
+MOVIE BEAT: match_ready frame=2065
+AUTOPILOT: the game reached the count after 33 player moves
+KETTLE ENGINE: 33 legal real-engine replies, no fallback
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/11_counting.png
+MOVIE BEAT: counting frame=4610
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/12_result.png
+MOVIE BEAT: result frame=4692
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/13_reaction_before_review.png
+MOVIE BEAT: reaction_before_review frame=4799
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/14_reaction_before_review.png
+MOVIE BEAT: reaction_before_review frame=4897
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/15_review_offer.png
+MOVIE BEAT: review_offer frame=4980
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/16_review_loading.png
+MOVIE BEAT: review_loading frame=5094
+Review: 69 of 69 positions in 44.1 s on 8 threads (complete)
+AUTOPILOT: the review cards opened
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/17_review_graph.png
+MOVIE BEAT: review_graph frame=8343
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/18_review_2_page_1.png
+MOVIE BEAT: review_2_page_1 frame=8420
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/19_review_3_page_1.png
+MOVIE BEAT: review_3_page_1 frame=8497
+AUTOPILOT: world transition and return conversation settled
+KETTLE RETURN: one saved result; complete real-engine review; world resumed
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/20_back_in_room.png
+MOVIE BEAT: back_in_room frame=8602
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-Uxkqdk/godot/app_userdata/Ninepoint/shots/21_walking_after_review.png
+MOVIE BEAT: walking_after_review frame=8745
+AUTOPILOT: done
+--------------------------------------------------------------------------------
+Done recording movie at path: /home/user/.cache/ninepoint-campaign-next/kettle_next.avi
+8834 frames at 30 FPS (movie length: 00:04:54:14), recorded in 00:02:06 (233% of real-time speed).
+CPU render time: 1.89 seconds (average: 0.21 ms/frame)
+GPU render time: 0.48 seconds (average: 0.05 ms/frame)
+Encoding time: 99.69 seconds (average: 11.28 ms/frame)
+--------------------------------------------------------------------------------
