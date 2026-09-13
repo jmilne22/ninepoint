@@ -65,7 +65,13 @@ func _set_speaker(who: Dictionary, _expression: String) -> void:
         _bust.setup(identity)
     if _bust != null:
         var clip := "pleased" if _expression in ["happy", "warm"] else "thinking" if _expression == "thinking" else "listen"
-        _bust.perform(clip, 3.0)
+        if KettleNextProfile.has_person(identity):
+            if _expression in ["worried", "annoyed"]: clip = "concern"
+            elif _expression == "pleased": clip = "pleased"
+            if clip == "listen":
+                _bust.acting.cancel()
+            else: _bust.perform(clip, 3.0)
+        else: _bust.perform(clip, 3.0)
     _text.size.x = 344
 
 

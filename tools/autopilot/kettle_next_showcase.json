@@ -1,0 +1,15 @@
+[
+ {"save":"lost_to_kesh"},{"wait":0.8},{"tap":"move_down"},{"tap":"interact"},{"world_wait":true},
+ {"experience":"visit","map":"de_ketel","spawn":"middle"},{"shot":"room_start"},{"wait":3},
+ {"walk_to":[2,8],"timeout":15},{"face":[2,6]},{"wait":3},{"shot":"counter_work"},
+ {"talk_to":"tomas"},{"wait":2},{"shot":"tomas"},{"experience":"choice","text":"Just saying hello."},
+ {"advance":8,"stop_at_choice":true},{"tap":"cancel"},{"world_wait":true},
+ {"talk_to":"kesh"},{"wait":2},{"shot":"kesh"},{"experience":"choice","text":"Later."},
+ {"advance":8,"stop_at_choice":true},{"world_wait":true},
+ {"talk_to":"wren"},{"wait":2},{"shot":"wren"},{"experience":"choice","text":"Another game."},
+ {"experience":"choice","text":"Set them up."},{"experience":"setup"},{"wait":2},{"shot":"match"},
+ {"board_input":{"click_legal":[4,4]}},{"wait":4},{"shot":"reply"},
+ {"tap":"go_resign"},{"tap":"go_resign"},{"wait":1},{"shot":"result"},
+ {"experience":"result"},{"experience":"review_choice","accept":false},{"world_wait":true},
+ {"walk_to":[10,11]},{"wait":2},{"shot":"return"}
+]

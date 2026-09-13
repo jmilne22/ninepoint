@@ -1,0 +1,40 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: AMD - AMD Radeon RX 6900 XT (radeonsi, navi21, ACO, DRM 3.64, 7.2.2)
+
+AUTOPILOT: 42 steps from res://tools/autopilot/kettle_next.json
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/01_room.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/02_tomas.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/03_choice_Just saying hello..png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/04_kesh.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/05_choice_Later..png
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/06_wren.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/07_choice_Another game..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/08_choice_Set them up..png
+CAST CLIPS player: ["concern", "counter", "greet", "host", "idle", "listen", "place", "pleased", "relaxed", "run", "seated", "serve", "stand", "surprise", "table_rest", "thinking", "walk"]
+CAST CLIPS wren: ["concern", "counter", "greet", "host", "idle", "listen", "place", "pleased", "relaxed", "run", "seated", "serve", "stand", "surprise", "table_rest", "thinking", "walk"]
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/09_nigiri.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/10_nigiri.png
+EXPERIENCE: wren_club 9x9; player Black; handicap 0; komi 5.5; unrated false
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/11_match_ready.png
+AUTOPILOT: the game reached the count after 37 player moves
+KETTLE ENGINE: 36 legal real-engine replies, no fallback
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/12_counting.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/13_result.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/14_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/15_reaction_before_review.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/16_review_offer.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/17_review_loading.png
+Review: 76 of 76 positions in 43.4 s on 8 threads (complete)
+AUTOPILOT: the review cards opened
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/18_review_graph.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/19_review_2_page_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/20_review_3_page_1.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/21_review_4_page_1.png
+AUTOPILOT: world transition and return conversation settled
+KETTLE RETURN: one saved result; complete real-engine review; world resumed
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/22_back_in_room.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-FsmwqX/godot/app_userdata/Ninepoint/shots/23_walking_after_review.png
+AUTOPILOT: done

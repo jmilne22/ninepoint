@@ -11,21 +11,30 @@ var clock := 0.0
 var previous := Vector2.ZERO
 var initialized := false
 var speed := 0.0
+var acting: KettleNextActing
+var working_cloth: Node3D
 
 func _ready() -> void:
     # Sample after the actors have moved, once per physics tick.
     process_physics_priority = 1
-    model = load("res://art/expressive_world/people/%s.glb" % identity).instantiate()
+    model = load(KettleNextProfile.person_path(identity, "res://art/expressive_world/people/%s.glb" % identity)).instantiate()
     model.scale = Vector3.ONE * .78
     if identity in ["sunny", "extra_kid"]: model.scale *= .78
     add_child(model)
     var ink := ShaderMaterial.new()
-    ink.shader = preload("res://src/go_ui/table_scene/outline.gdshader")
+    ink.shader = preload("res://src/rpg/kettle_next/outline.gdshader") if KettleNextProfile.has_person(identity) else preload("res://src/go_ui/table_scene/outline.gdshader")
     face = ShaderMaterial.new()
     face.shader = preload("res://src/go_ui/table_scene/face.gdshader")
     face.set_shader_parameter("faces", load("res://art/expressive_world/people/%s_face.png" % identity))
     face.next_pass = ink
     _prepare(model)
+    if KettleNextProfile.has_person(identity):
+        face.next_pass = null
+        face.shader = preload("res://src/rpg/kettle_next/face.gdshader")
+        face.set_shader_parameter("faces",load("res://art/kettle_next/%s_face.png" % identity))
+        acting = KettleNextActing.new()
+        acting.setup(animation, identity)
+        if identity == "tomas": working_cloth = KettleNextProps.attach_cloth(model)
     for clip in ["stand", "walk", "run", "host", "relaxed", "serve", "listen", "table_rest", "thinking", "seated", "counter"]:
         animation.get_animation(clip).loop_mode = Animation.LOOP_LINEAR
 
@@ -39,6 +48,7 @@ func _prepare(node: Node) -> void:
                 var mat := ShaderMaterial.new()
                 mat.shader = preload("res://src/go_ui/table_scene/cel.gdshader")
                 mat.set_shader_parameter("colour", original.albedo_color)
+                if KettleNextProfile.has_person(identity): mat = KettleNextProfile.prepare_material(original)
                 mat.next_pass = face.next_pass
                 node.set_surface_override_material(i, mat)
     for child in node.get_children(): _prepare(child)
@@ -72,6 +82,12 @@ func _process(delta: float) -> void:
     if seated: clip = "seated"
     if actor is Npc and actor.busy and not seated: clip = "listen"
     if speed > .05: clip = "run" if source.gait_scale > 1.0 else "walk"
+    if working_cloth != null: working_cloth.visible = clip == "counter"
+    if acting != null:
+        var travel := .68 / .4 / .72 if clip == "run" else .48 / .58
+        var rate := speed / (model.scale.x * travel) if clip in ["walk", "run"] else 1.0
+        face.set_shader_parameter("expression", float(acting.update(delta, clip, rate)))
+        return
     if animation.current_animation != clip:
         var phase := -1.0
         if clip in ["walk","run"] and animation.current_animation in ["walk","run"]:

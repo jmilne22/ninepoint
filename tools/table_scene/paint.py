@@ -25,7 +25,7 @@ def line(d,points,color,width=2):
     d.line(bezier(points),fill=color,width=width,joint='curve')
 
 
-def face(who,mood):
+def face(who,mood,gaze_offset=0):
     # The same UV face is painted on the continuous head mesh, with no raised
     # eye whites, cheek plugs, mouth tubes or separate nose-shadow geometry.
     spec=BY_ID[who]
@@ -47,7 +47,7 @@ def face(who,mood):
             eye=Image.new('L',im.size);ed=ImageDraw.Draw(eye);ed.polygon(top+bottom,fill=255)
             layer=Image.new('RGB',im.size,'#fff8e8');ld=ImageDraw.Draw(layer)
             gaze=(-5 if who=='wren' else 5) if mood in ['neutral','thinking'] else 0
-            ix=cx+gaze
+            ix=cx+gaze+gaze_offset
             ld.ellipse((ix-22,cy-34,ix+22,cy+35),fill='#795132' if who!='player' else '#435c64')
             ld.ellipse((ix-18,cy-30,ix+18,cy+6),fill='#45392b' if who!='player' else '#293e48')
             ld.ellipse((ix-9,cy-25,ix+9,cy+25),fill='#20272a')
@@ -86,17 +86,22 @@ def face(who,mood):
     return im
 
 
-for who in (list(BY_ID) if os.environ.get('TABLE_SCENE_ALL') else CAST_IDS):
-    atlas=Image.new('RGB',(1024,512*len(MOODS)))
-    for row,mood in enumerate(MOODS):atlas.paste(face(who,mood),(0,row*512))
-    atlas.save(OUT/f'{who}_face.png')
-# Restrained straight grain. The geometry and light supply volume, not dark noise.
-rng=random.Random(611)
-im=Image.new('RGB',(1024,1024));pixels=im.load()
-for y in range(1024):
-    for x in range(1024):
-        grain=2.5*math.sin(x*.17+.45*math.sin(y*.008))+1.2*math.sin(x*.041+y*.001)
-        grain+=rng.uniform(-.7,.7)
-        pixels[x,y]=tuple(round(c+grain) for c in (221,175,103))
-im.save(OUT/'kaya.png')
-print('Painted face atlases and kaya grain:',OUT)
+def build():
+    for who in (list(BY_ID) if os.environ.get('TABLE_SCENE_ALL') else CAST_IDS):
+        atlas=Image.new('RGB',(1024,512*len(MOODS)))
+        for row,mood in enumerate(MOODS):atlas.paste(face(who,mood),(0,row*512))
+        atlas.save(OUT/f'{who}_face.png')
+    # Restrained straight grain. The geometry and light supply volume, not dark noise.
+    rng=random.Random(611)
+    im=Image.new('RGB',(1024,1024));pixels=im.load()
+    for y in range(1024):
+        for x in range(1024):
+            grain=2.5*math.sin(x*.17+.45*math.sin(y*.008))+1.2*math.sin(x*.041+y*.001)
+            grain+=rng.uniform(-.7,.7)
+            pixels[x,y]=tuple(round(c+grain) for c in (221,175,103))
+    im.save(OUT/'kaya.png')
+    print('Painted face atlases and kaya grain:',OUT)
+
+
+if __name__ == "__main__":
+    build()

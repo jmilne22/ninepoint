@@ -25,6 +25,9 @@ static func perform(tree: SceneTree, spec: Dictionary, shot: Callable) -> void:
     if mode in ["review_fixture", "review_acceptance", "review_legacy_assert", "review_focus_best"]:
         await ReviewAcceptanceProbe.perform(tree,spec,shot)
         return
+    if mode == "kettle_next":
+        KettleNextProbe.perform(tree, spec)
+        return
     if mode == "table_adoption":
         await TableAdoptionProbe.run(tree, shot)
         return

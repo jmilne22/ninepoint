@@ -1,0 +1,79 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: AMD - AMD Radeon RX 6900 XT (radeonsi, navi21, ACO, DRM 3.64, 7.2.2)
+
+AUTOPILOT: 7 steps from res://tools/autopilot/table_adoption.json
+AUTOPILOT: world transition and return conversation settled
+CAST CLIPS player: ["concern", "counter", "greet", "host", "idle", "listen", "place", "pleased", "relaxed", "run", "seated", "serve", "stand", "surprise", "table_rest", "thinking", "walk"]
+CAST CLIPS pip: ["concern", "greet", "idle", "place", "pleased", "surprise", "thinking"]
+EXPERIENCE: table_acceptance_fixture 7x7; player Black; handicap 0; komi 5.5; unrated true
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/01_pip_7_board.png
+BOARD INPUT: { "click_legal": [6, 0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/02_pip_reply.png
+BOARD INPUT: { "hover": [1, 0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/03_count_hover_group.png
+BOARD INPUT: { "click": [1, 0], "counting": true }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/04_count_mouse_changed.png
+BOARD INPUT: { "click": [1, 0], "counting": true }
+BOARD INPUT: { "toggle_group_mouse": true }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/05_pip_count.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/06_pip_result.png
+AUTOPILOT: world transition and return conversation settled
+BOARD BUTTON: review_no
+CAST CLIPS player: ["concern", "counter", "greet", "host", "idle", "listen", "place", "pleased", "relaxed", "run", "seated", "serve", "stand", "surprise", "table_rest", "thinking", "walk"]
+CAST CLIPS tomas: ["concern", "counter", "greet", "host", "idle", "listen", "place", "pleased", "relaxed", "run", "seated", "serve", "stand", "surprise", "table_rest", "thinking", "walk"]
+EXPERIENCE: table_acceptance_fixture 13x13; player Black; handicap 0; komi 5.5; unrated true
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/07_tomas_13_board.png
+BOARD INPUT: { "click_legal": [12, 0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/08_tomas_reply.png
+BOARD INPUT: { "hover": [12, 0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/09_count_hover_group.png
+BOARD INPUT: { "click": [12, 0], "counting": true }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/10_count_mouse_changed.png
+BOARD INPUT: { "click": [12, 0], "counting": true }
+BOARD INPUT: { "toggle_group_mouse": true }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/11_tomas_count.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/12_tomas_result.png
+AUTOPILOT: world transition and return conversation settled
+BOARD BUTTON: review_no
+CAST CLIPS player: ["concern", "counter", "greet", "host", "idle", "listen", "place", "pleased", "relaxed", "run", "seated", "serve", "stand", "surprise", "table_rest", "thinking", "walk"]
+CAST CLIPS marguerite: ["concern", "greet", "idle", "place", "pleased", "surprise", "thinking"]
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/13_nineteen_controls.png
+EXPERIENCE: table_acceptance_fixture 19x19; player Black; handicap 0; komi 5.5; unrated true
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/14_marguerite_19_board.png
+BOARD INPUT: { "click_legal": [18, 0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/15_marguerite_reply.png
+BOARD INPUT: { "hover": [15, 15] }
+BOARD INPUT: { "key": "V" }
+BOARD INPUT: { "hover": [14, 14], "zoomed": true }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/16_nineteen_close_view.png
+BOARD INPUT: { "key": "V" }
+BOARD INPUT: { "hover": [18, 0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/17_count_hover_group.png
+BOARD INPUT: { "click": [18, 0], "counting": true }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/18_count_mouse_changed.png
+BOARD INPUT: { "click": [18, 0], "counting": true }
+BOARD INPUT: { "toggle_group_mouse": true }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/19_marguerite_count.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/20_marguerite_result.png
+AUTOPILOT: world transition and return conversation settled
+BOARD BUTTON: review_no
+CAST CLIPS player: ["concern", "counter", "greet", "host", "idle", "listen", "place", "pleased", "relaxed", "run", "seated", "serve", "stand", "surprise", "table_rest", "thinking", "walk"]
+CAST CLIPS joos: ["concern", "greet", "idle", "place", "pleased", "surprise", "thinking"]
+EXPERIENCE: table_acceptance_fixture 9x9; player Black; handicap 0; komi 5.5; unrated true
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/21_joos_9_board.png
+BOARD INPUT: { "click_legal": [8, 0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/22_joos_reply.png
+BOARD INPUT: { "hover": [1, 0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/23_count_hover_group.png
+BOARD INPUT: { "click": [1, 0], "counting": true }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/24_count_mouse_changed.png
+BOARD INPUT: { "click": [1, 0], "counting": true }
+BOARD INPUT: { "toggle_group_mouse": true }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/25_joos_count.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/26_joos_result.png
+AUTOPILOT: world transition and return conversation settled
+BOARD BUTTON: review_no
+TABLE ADOPTION:
+98 passed, 0 failed
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-XoQcJY/godot/app_userdata/Ninepoint/shots/27_world_after_matches.png
+AUTOPILOT: done

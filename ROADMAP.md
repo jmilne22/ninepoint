@@ -5,7 +5,7 @@ This document explains **why** future work matters and the trade-offs around it.
 dependencies, and acceptance criteria. `MILESTONES.md` is the append-only delivery history.
 Do not select work from this document without checking its linked board ticket first.
 
-The build is green: `tools/test.sh` passes 19,407 Godot checks, 13 Python art tests,
+The build is green: `tools/test.sh` passes 19,418 Godot checks, 13 Python art tests,
 the teaching protocol/scene gates, a capture-scene gate and three real-engine gates,
 `tools/check_lessons.py` reports no problems, and the game is playable from the cold open
 to the exam and the Cup.
@@ -449,3 +449,16 @@ the approved warm palette; smooth type and vector panels connect walking, dialog
 teaching, matches and progression screens. Retaining the 2D simulation while replacing
 its presentation protects existing saves and interactions. The isolated trial is retained
 as comparison evidence, rather than used as a second campaign mode.
+
+
+## Kettle anatomy, motion and atmosphere — ART-14
+
+The owner requested a more ambitious visual step while retaining the painted faces,
+cream/green/wood palette and fixed camera. The first priority is readable anatomy and
+relaxed locomotion: the former forward arm swing looked like a stabbing gesture.
+A process-only Kettle → conversation → Wren match prototype concentrates the work in
+four shared rigs and one room. Generated articulated hands, garment construction,
+window light and purposeful props can be judged together at gameplay scale.
+The normal campaign remains the comparison baseline. Full rollout requires a separate
+visual decision after watching normal-speed movement and playing the prototype;
+technical gates do not substitute for that review. [Review](docs/kettle_next/README.md).

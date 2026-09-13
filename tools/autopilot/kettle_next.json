@@ -1,0 +1,14 @@
+[
+ {"save":"lost_to_kesh"},{"wait":0.8},{"tap":"move_down"},{"tap":"interact"},{"world_wait":true},
+ {"experience":"visit","map":"de_ketel","spawn":"middle"},{"experience":"kettle_next","action":"before"},{"shot":"room"},{"wait":3},
+ {"talk_to":"tomas"},{"wait":1.5},{"shot":"tomas"},{"experience":"choice","text":"Just saying hello."},
+ {"advance":8,"stop_at_choice":true},{"tap":"cancel"},{"world_wait":true},
+ {"talk_to":"kesh"},{"wait":1.5},{"shot":"kesh"},{"experience":"choice","text":"Later."},{"advance":8,"stop_at_choice":true},{"world_wait":true},
+ {"talk_to":"wren"},{"wait":1.5},{"shot":"wren"},{"experience":"choice","text":"Another game."},
+ {"experience":"choice","text":"Set them up."},{"experience":"setup"},{"shot":"match_ready"},
+ {"match_autoplay":true,"timeout":600,"max_moves":300},
+ {"experience":"kettle_next","action":"engine"},{"experience":"result"},{"experience":"review_choice","accept":true},
+ {"wait":0.8,"shot":"review_loading"},{"review_card_wait":true,"timeout":180},
+ {"review_walk":true},{"tap":"cancel"},{"world_wait":true},{"experience":"kettle_next","action":"return"},{"shot":"back_in_room"},
+ {"walk_to":[10,11]},{"shot":"walking_after_review"}
+]

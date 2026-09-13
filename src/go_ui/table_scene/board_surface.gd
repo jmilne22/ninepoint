@@ -21,7 +21,7 @@ func setup(value: GoBoardView) -> void:
     mouse_filter = Control.MOUSE_FILTER_STOP
     viewport = TableSceneStage.viewport(self, Vector2i(size), false)
     (get_child(1) as TextureRect).hide()
-    var table: Node3D = load("res://art/table_scene/table.glb").instantiate()
+    var table: Node3D = load("res://art/kettle_next/table.glb" if KettleNextProfile.enabled() else "res://art/table_scene/table.glb").instantiate()
     viewport.add_child(table)
     _wood(table)
     camera = Camera3D.new()
@@ -159,7 +159,7 @@ func _wood(node: Node) -> void:
             if old and old.resource_name == "White shell": white_bowl.append(node)
             if old and (old.resource_name == "Kaya" or old.resource_name == "Table walnut" or old.resource_name == "Board end grain"):
                 var mat := ShaderMaterial.new()
-                mat.shader = preload("res://src/go_ui/table_scene/wood.gdshader")
+                mat.shader = preload("res://src/rpg/kettle_next/board_wood.gdshader") if KettleNextProfile.enabled() else preload("res://src/go_ui/table_scene/wood.gdshader")
                 mat.set_shader_parameter("grain", load("res://art/table_scene/kaya.png"))
                 mat.set_shader_parameter("tint", Color.WHITE if old.resource_name == "Kaya" else Color("927247"))
                 node.set_surface_override_material(index, mat)
@@ -181,5 +181,9 @@ func _stone_material(node: Node, colour: int) -> void:
         var mat := TableSceneStage.material(Color("192025") if colour == 1 else Color("f2f0e8"))
         mat.roughness = 0.24
         mat.metallic_specular = 0.7
+        if KettleNextProfile.enabled():
+            mat.roughness = .30 if colour == 1 else .39
+            mat.metallic_specular = .48
+            mat.albedo_color = Color("172126") if colour == 1 else Color("f6efdf")
         node.material_override = mat
     for child in node.get_children(): _stone_material(child, colour)

@@ -3,7 +3,7 @@ extends RefCounted
 
 static func viewport(parent: Control, extent: Vector2i, transparent: bool) -> SubViewport:
     var view := SubViewport.new()
-    view.size = extent
+    view.size = extent * 2 if transparent and KettleNextProfile.enabled() else extent
     view.transparent_bg = transparent
     view.own_world_3d = true
     view.render_target_update_mode = SubViewport.UPDATE_ALWAYS

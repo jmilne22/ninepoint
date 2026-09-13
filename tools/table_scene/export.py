@@ -22,9 +22,6 @@ def export(name,animations=False):
         export_force_sampling=True,export_materials='EXPORT',export_yup=True)
 
 
-for spec in [s for s in CHARACTERS if not s.get('extra')]:
-    reset();build(spec);export(spec['id'],True)
-
 
 def cube(name,loc,size,mat,bevel=0):
     bpy.ops.mesh.primitive_cube_add(size=1,location=loc);obj=bpy.context.object
@@ -46,7 +43,7 @@ def stone(name,at,mat):
     return obj
 
 
-def bowl(x,y,colour):
+def bowl(x,y,colour,refined=False):
     mat=material('Bowl walnut','#6e452f');inside=material('Bowl inside','#453125')
     profile=[(.04,-.07),(.09,-.064),(.133,-.034),(.147,.025),(.151,.058),(.147,.065),(.137,.060),(.132,.02),(.108,-.025),(.065,-.043),(0,-.043)]
     v=[];faces=[]
@@ -57,21 +54,35 @@ def bowl(x,y,colour):
         for i in range(64):
             a=row*64+i;b=row*64+(i+1)%64;faces.append((a,b,b+64,a+64))
     obj=mesh('Turned bowl',v,faces,mat)
+    if refined:
+        bpy.ops.mesh.primitive_torus_add(major_radius=.144,minor_radius=.0075,major_segments=64,minor_segments=12,location=(x,y,.061))
+        rim=bpy.context.object;rim.name='Polished bowl rim'
+        rim.data.materials.append(material('Polished walnut','#865a3c'))
+        for poly in rim.data.polygons:poly.use_smooth=True
     for i in range(11):
         a=i*2.4;r=.035 if i<3 else .086
         obj=stone('Bowl stone',(x+r*math.cos(a),y+r*math.sin(a),.015+(i%3)*.008),colour)
         obj.scale=(.72,.72,.72);obj.rotation_euler=(.1*math.cos(a),.12*math.sin(a),a)
 
 
-reset()
-wood=material('Kaya','#d9ac66');side=material('Board end grain','#bd8847');table=material('Table walnut','#9f764c')
-black=material('Black slate','#182127');white=material('White shell','#f1eee0')
-cube('Table',(0,0,-.125),(8.0,6.0,.14),table,.018)
-cube('Board',(0,0,.03),(1.035,1.105,.18),wood,.012)
-# The end-grain strip is geometry with a material separation, not a fake shadow.
-cube('End grain',(0,-.553,.025),(1.008,.002,.15),side,.002)
-for x,y,c in [(-.72,.10,black),(.72,.10,white)]:bowl(x,y,c)
-export('table')
-for name,colour in [('black_stone','#182127'),('white_stone','#f1eee0')]:
-    reset();stone(name,(0,0,0),material(name,colour));export(name)
-print('TABLE SCENE ASSETS EXPORTED',OUT)
+def build_table(output=None,refined=False):
+    global OUT
+    if output is not None: OUT=Path(output)
+    reset()
+    wood=material('Kaya','#d9ac66');side=material('Board end grain','#bd8847');table=material('Table walnut','#9f764c')
+    black=material('Black slate','#182127');white=material('White shell','#f1eee0')
+    cube('Table',(0,0,-.125),(8.0,6.0,.14),table,.018)
+    cube('Board',(0,0,.03),(1.035,1.105,.18),wood,.012)
+    # The end-grain strip is geometry with a material separation, not a fake shadow.
+    cube('End grain',(0,-.553,.025),(1.008,.002,.15),side,.002)
+    for x,y,c in [(-.72,.10,black),(.72,.10,white)]:bowl(x,y,c,refined)
+    export('table')
+
+
+if __name__ == "__main__":
+    for spec in [s for s in CHARACTERS if not s.get("extra")]:
+        reset();build(spec);export(spec["id"],True)
+    build_table()
+    for name,colour in [('black_stone','#182127'),('white_stone','#f1eee0')]:
+        reset();stone(name,(0,0,0),material(name,colour));export(name)
+    print('TABLE SCENE ASSETS EXPORTED',OUT)

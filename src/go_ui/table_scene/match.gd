@@ -118,9 +118,18 @@ func _announce_move(move: Dictionary) -> void:
         _capture_relief(actor)
 
 func _capture_relief(actor: TableSceneActor) -> void:
-    await get_tree().create_timer(0.8).timeout
-    if is_instance_valid(actor) and not result_sent:
-        actor.perform("pleased", 2.0)
+    var token := actor.performance_serial
+    var actor_ref: WeakRef = weakref(actor)
+    var timer := Timer.new()
+    timer.one_shot = true
+    timer.wait_time = .8
+    add_child(timer)
+    timer.timeout.connect(func() -> void:
+        var target := actor_ref.get_ref() as TableSceneActor
+        if target != null and not result_sent and target.performance_serial == token:
+            target.perform("pleased", 2.0)
+        timer.queue_free())
+    timer.start()
 
 func _set_message(value: String) -> void:
     super._set_message(value)

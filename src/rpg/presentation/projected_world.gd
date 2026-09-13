@@ -13,22 +13,25 @@ func setup(owner_world: Node2D) -> void:
     world = owner_world
     room = world.map.presentation
     view = SubViewport.new()
-    view.size = Vector2i(768,432)
+    view.size = Vector2i(1536,864) if KettleNextProfile.enabled() else Vector2i(768,432)
     view.own_world_3d = true
     view.msaa_3d = Viewport.MSAA_4X
     view.render_target_update_mode = SubViewport.UPDATE_ALWAYS
     add_child(view)
-    var scenery: Node3D = load("res://art/expressive_world/maps/%s/room.glb" % world.map.id).instantiate()
+    var scenery: Node3D = load(KettleNextProfile.room_path(world.map.id)).instantiate()
     view.add_child(scenery)
-    ExpressiveSurfaces.apply(scenery)
-    ExpressiveSurfaces.environment(view,world.map.indoors)
+    if KettleNextProfile.enabled() and world.map.id == "de_ketel":
+        KettleNextRoom.setup(view, scenery)
+    else:
+        ExpressiveSurfaces.apply(scenery)
+        ExpressiveSurfaces.environment(view,world.map.indoors)
     camera_3d = Camera3D.new()
     camera_3d.projection = Camera3D.PROJECTION_ORTHOGONAL
     camera_3d.size = 6.75
     view.add_child(camera_3d)
     picture = Sprite2D.new()
     picture.texture = view.get_texture()
-    picture.scale = Vector2(.5,.5)
+    picture.scale = Vector2.ONE * (384.0 / float(view.size.x))
     picture.z_index = -5
     picture.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
     add_child(picture)
