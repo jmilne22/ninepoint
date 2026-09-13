@@ -8,6 +8,7 @@ GODOT="${GODOT:-$HOME/.local/bin/godot}"
 
 echo "== deterministic art contracts =="
 python3 tests/test_art.py
+python3 tests/test_audio_assets.py
 python3 tools/table_scene/check_assets.py
 python3 tools/expressive_world/check_assets.py
 python3 tools/kettle_next/check_assets.py

@@ -768,3 +768,19 @@ NPC activity changes cannot make the visible rig stand through its chair. This c
 presentation only. Compatible skinned meshes are batched by material after verifying
 posed vertex equivalence; painted face meshes remain separate. Embedded 2D lesson/review
 boards obtain the preview textures lazily through the same profile boundary.
+
+
+## AUDIO-01 preview seam
+
+`AudioPreview` is a session-only child of Audio, enabled by `NINEPOINT_AUDIO_PREVIEW`.
+It preserves original streams and overrides only theme_club, theme_battle and its intro.
+The profile owns selection history and preview controls; no save fields or Go rules change.
+`TableStoneAudio` accepts actual move intents and consumes them on a surface landing event,
+then schedules capture clatter on a child timer. Board reconstruction produces no intent.
+The 2D and production paths preserve their existing audio timing.
+Python renders pinned recorded sources and original scores into `audio_preview/`, separate
+from production `audio/`. No runtime synth, download or external audio service is required.
+
+AUDIO-01 revision 02 extends the profile to five choices including production Original,
+with Thwack as default. The landing/capture seam and production routing are unchanged;
+only preview assets, family selection and the editable original score were extended.

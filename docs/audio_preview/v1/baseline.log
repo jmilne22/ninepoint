@@ -1,0 +1,42 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+Movie Maker mode enabled, recording movie in 1536×864 @ 30 FPS...
+AUDIO MUSIC {"frame":0,"ms":895,"new":false,"track":"theme_match"}
+CAST CLIPS player: ["concern", "counter", "greet", "host", "idle", "listen", "place", "pleased", "relaxed", "run", "seated", "serve", "stand", "surprise", "table_rest", "thinking", "walk"]
+CAST CLIPS wren: ["concern", "counter", "greet", "host", "idle", "listen", "place", "pleased", "relaxed", "run", "seated", "serve", "stand", "surprise", "table_rest", "thinking", "walk"]
+AUDIO MUSIC {"frame":0,"ms":1069,"new":false,"track":"theme_battle"}
+AUDIO TRACE {"db":0.0,"frame":66,"ms":6515,"pitch":0.966762781143188,"sound":"stone_place_alt"}
+AUDIO TRACE {"db":0.0,"frame":114,"ms":9828,"pitch":0.957014918327332,"sound":"stone_place_alt"}
+AUDIO TRACE {"db":0.0,"frame":162,"ms":13014,"pitch":1.02505743503571,"sound":"stone_place_alt"}
+AUDIO TRACE {"db":0.0,"frame":210,"ms":16246,"pitch":0.989623010158539,"sound":"stone_place"}
+AUDIO TRACE {"db":0.0,"frame":258,"ms":19464,"pitch":0.9499192237854,"sound":"stone_place_alt"}
+AUDIO TRACE {"db":0.0,"frame":306,"ms":22679,"pitch":0.973417222499847,"sound":"stone_place_alt"}
+AUDIO TRACE {"db":0.0,"frame":354,"ms":25916,"pitch":1.05593180656433,"sound":"stone_place_alt"}
+AUDIO TRACE {"db":0.0,"frame":357,"ms":26124,"pitch":1.0,"sound":"capture"}
+AUDIO TRACE {"db":0.0,"frame":402,"ms":29206,"pitch":1.03073036670685,"sound":"stone_place"}
+AUDIO TRACE {"db":0.0,"frame":450,"ms":32438,"pitch":0.981346309185028,"sound":"stone_place"}
+AUDIO TRACE {"db":0.0,"frame":498,"ms":35712,"pitch":0.982859075069427,"sound":"stone_place"}
+AUDIO TRACE {"db":0.0,"frame":501,"ms":35914,"pitch":1.0,"sound":"capture"}
+AUDIO TRACE {"db":0.0,"frame":546,"ms":38987,"pitch":1.02219843864441,"sound":"stone_place"}
+AUDIO TRACE {"db":0.0,"frame":594,"ms":42262,"pitch":0.941737651824951,"sound":"stone_place_alt"}
+AUDIO TRACE {"db":0.0,"frame":642,"ms":45533,"pitch":0.971024036407471,"sound":"stone_place_alt"}
+AUDIO TRACE {"db":0.0,"frame":690,"ms":48810,"pitch":0.968850374221802,"sound":"stone_place_alt"}
+AUDIO TRACE {"db":0.0,"frame":738,"ms":52119,"pitch":0.965187966823578,"sound":"stone_place"}
+AUDIO TRACE {"db":0.0,"frame":786,"ms":55407,"pitch":1.05177676677704,"sound":"stone_place_alt"}
+AUDIO TRACE {"db":0.0,"frame":894,"ms":62624,"pitch":0.999953806400299,"sound":"stone_place"}
+AUDIO TRACE {"db":0.0,"frame":942,"ms":65821,"pitch":1.02663576602936,"sound":"stone_place"}
+AUDIO TRACE {"db":0.0,"frame":990,"ms":69018,"pitch":1.04404485225677,"sound":"stone_place_alt"}
+AUDIO TRACE {"db":0.0,"frame":1038,"ms":72238,"pitch":0.945240199565887,"sound":"stone_place_alt"}
+AUDIO TRACE {"db":0.0,"frame":1086,"ms":75455,"pitch":0.971327006816864,"sound":"stone_place"}
+AUDIO TRACE {"db":0.0,"frame":1089,"ms":75654,"pitch":1.0,"sound":"capture"}
+AUDIO REPLAY: 21 legal moves; single and group captures; complete
+--------------------------------------------------------------------------------
+Done recording movie at path: /home/user/.cache/ninepoint-audio-capture/baseline.avi
+1234 frames at 30 FPS (movie length: 00:00:41:04), recorded in 00:01:26 (47% of real-time speed).
+CPU render time: 2.68 seconds (average: 2.17 ms/frame)
+GPU render time: 2.35 seconds (average: 1.90 ms/frame)
+Encoding time: 15.42 seconds (average: 12.49 ms/frame)
+--------------------------------------------------------------------------------

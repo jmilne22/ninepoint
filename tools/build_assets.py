@@ -8,7 +8,7 @@ import gen_maps
 
 ROOT=Path(__file__).resolve().parent.parent
 GROUPS=('tiles','props','venues','arrivals','sprites','portraits','ui','title','font','ceremony','audio','rendered','table_scene','expressive_world')
-OPTIONAL_GROUPS=('kettle_next','campaign_next')
+OPTIONAL_GROUPS=('kettle_next','campaign_next','audio_preview')
 ALIASES={'environments':('tiles','props','venues','arrivals'),
          'characters':('sprites','portraits'),
          'presentation':('ui','title','ceremony')}
@@ -18,7 +18,10 @@ def build(groups, output):
     art=output/'art'
     for group in (*GROUPS,*OPTIONAL_GROUPS):
         if group not in groups:continue
-        if group=='campaign_next':
+        if group=='audio_preview':
+            subprocess.run([sys.executable,str(ROOT/'tools/build_audio_preview.py'),'--output',str(output/'audio_preview')],check=True)
+            result='opt-in sampled-instrument music and tactile table effects'
+        elif group=='campaign_next':
             subprocess.run([sys.executable,str(ROOT/'tools/build_campaign_next.py')],env=dict(os.environ,CAMPAIGN_NEXT_OUTPUT=str(art/'campaign_next')),check=True)
             result='complete campaign presentation preview'
         elif group=='kettle_next':

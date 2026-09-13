@@ -1,6 +1,7 @@
 class_name TableSceneBoardSurface
 extends Control
 
+var contacts: TableStoneAudio
 var viewport: SubViewport
 var input_viewport: SubViewport
 var camera: Camera3D
@@ -21,6 +22,12 @@ func setup(value: GoBoardView) -> void:
     mouse_filter = Control.MOUSE_FILTER_STOP
     viewport = TableSceneStage.viewport(self, Vector2i(size), false)
     (get_child(1) as TextureRect).hide()
+    if AudioPreview.requested():
+        contacts = TableStoneAudio.new()
+        add_child(contacts)
+        var audio := get_tree().root.get_node("Audio")
+        contacts.stone_landed.connect(audio.play_stone)
+        contacts.capture_landed.connect(audio.play_capture)
     var table: Node3D = load(KettleNextProfile.table_path()).instantiate()
     viewport.add_child(table)
     _wood(table)
@@ -96,6 +103,9 @@ func _process(_delta: float) -> void:
     layout.configure(board.game.size(), board.geometry.region)
     if drawn_region != layout.region or drawn_size != layout.board_size:
         _rebuild_grid()
+    if contacts != null:
+        for point: int in contacts.pending.keys():
+            if not layout.contains(point): contacts.wait_offscreen(point)
     for point in board.game.size() * board.game.size():
         var colour: int = board.game.board.cells[point]
         if stones.has(point):
@@ -109,6 +119,10 @@ func _process(_delta: float) -> void:
                     lift.tween_callback(old.queue_free)
                 else:
                     old.queue_free()
+            elif contacts != null and contacts.pending.has(point) and not old.has_meta("audio_landing"):
+                # Teaching can await feedback after updating the board, before
+                # announcing a committed move. Its stone may already exist.
+                _drop(old, point)
         if colour != 0 and layout.contains(point) and not stones.has(point):
             var stone: Node3D = load("res://art/table_scene/%s_stone.glb" % ("black" if colour == 1 else "white")).instantiate()
             viewport.add_child(stone)
@@ -117,11 +131,21 @@ func _process(_delta: float) -> void:
             stone.scale = Vector3.ONE * layout.stone_scale
             stone.position = world_point(point, 0.122 + 0.02 * layout.stone_scale)
             stones[point] = stone
-            if board._placing.has(point):
-                var target_y := stone.position.y
-                stone.position.y += 0.10
-                create_tween().tween_property(stone, "position:y", target_y, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+            if (contacts != null and contacts.pending.has(point)) or (contacts == null and board._placing.has(point)):
+                _drop(stone, point)
     markers.refresh()
+
+func _drop(stone: Node3D, point: int) -> void:
+    if contacts != null: contacts.cancel_offscreen(point)
+    stone.set_meta("audio_landing", true)
+    var target_y := 0.122 + 0.02 * layout.stone_scale
+    stone.position.y = target_y + 0.10
+    # Rebuilding/zooming frees this stone and its tween. The intent remains
+    # pending for the replacement visual instead of firing a stale callback.
+    var landing := stone.create_tween()
+    landing.tween_property(stone, "position:y", target_y, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+    if contacts != null: landing.tween_callback(contacts.land.bind(point))
+    landing.tween_callback(func() -> void: stone.remove_meta("audio_landing"))
 
 func _rebuild_grid() -> void:
     drawn_region = layout.region

@@ -230,7 +230,7 @@ func plunge() -> void:
         .set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
     tw.parallel().tween_property(_hand, "scale", Vector2(1.15, 0.85), 0.14 * _fast())
     await tw.finished
-    Audio.play("capture", 0.05)
+    Audio.play_bowl()
     _kick(1.4)
     await get_tree().create_timer(0.3 * _fast()).timeout
 
@@ -297,11 +297,15 @@ func reveal(count: int) -> void:
     for i in count:
         _drop_stone(i, count)
         _count.text = str(i + 1)
-        Audio.play_stone()
+        _play_drop_audio()
         if i == count - 1:
             _kick(1.2)
         await get_tree().create_timer((0.13 if i < 12 else 0.07) * _fast()).timeout
     await get_tree().create_timer(0.25 * _fast()).timeout
+
+
+func _play_drop_audio() -> void:
+    Audio.play_stone()
 
 
 func _drop_stone(index: int, total: int) -> void:

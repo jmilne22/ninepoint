@@ -1,0 +1,1 @@
+30 exports; max stone deviation 0.34 LU; highest peak -1.89 dBFS

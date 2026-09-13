@@ -1,0 +1,3 @@
+# Preserve checksum-pinned upstream bytes, including the license CRLF endings.
+* -text
+GeneralUser-LICENSE.txt whitespace=cr-at-eol

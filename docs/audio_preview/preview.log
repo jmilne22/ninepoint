@@ -1,0 +1,42 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+Movie Maker mode enabled, recording movie in 1536×864 @ 30 FPS...
+AUDIO MUSIC {"frame":0,"ms":783,"new":true,"track":"theme_match"}
+CAST CLIPS player: ["concern", "counter", "greet", "host", "idle", "listen", "place", "pleased", "relaxed", "run", "seated", "serve", "stand", "surprise", "table_rest", "thinking", "walk"]
+CAST CLIPS wren: ["concern", "counter", "greet", "host", "idle", "listen", "place", "pleased", "relaxed", "run", "seated", "serve", "stand", "surprise", "table_rest", "thinking", "walk"]
+AUDIO MUSIC {"frame":0,"ms":936,"new":true,"track":"theme_battle"}
+AUDIO TRACE {"db":0.0,"frame":66,"ms":5637,"pitch":1.00727546215057,"sound":"preview_stone_thwack_3"}
+AUDIO TRACE {"db":0.0,"frame":114,"ms":8754,"pitch":1.0073527097702,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":162,"ms":11911,"pitch":0.999442875385284,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":210,"ms":15052,"pitch":1.00576531887054,"sound":"preview_stone_thwack_1"}
+AUDIO TRACE {"db":0.0,"frame":258,"ms":18256,"pitch":1.00558531284332,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":306,"ms":21471,"pitch":1.00233566761017,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":354,"ms":24657,"pitch":1.0138726234436,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":357,"ms":24852,"pitch":1.0,"sound":"preview_capture_single"}
+AUDIO TRACE {"db":0.0,"frame":402,"ms":27835,"pitch":0.994344830513,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":450,"ms":31035,"pitch":1.00715410709381,"sound":"preview_stone_thwack_2"}
+AUDIO TRACE {"db":0.0,"frame":498,"ms":34265,"pitch":1.00968825817108,"sound":"preview_stone_thwack_3"}
+AUDIO TRACE {"db":0.0,"frame":501,"ms":34462,"pitch":1.0,"sound":"preview_capture_single"}
+AUDIO TRACE {"db":0.0,"frame":546,"ms":37515,"pitch":0.98569244146347,"sound":"preview_stone_thwack_0"}
+AUDIO TRACE {"db":0.0,"frame":594,"ms":40757,"pitch":1.00713050365448,"sound":"preview_stone_thwack_1"}
+AUDIO TRACE {"db":0.0,"frame":642,"ms":43981,"pitch":0.99960333108902,"sound":"preview_stone_thwack_3"}
+AUDIO TRACE {"db":0.0,"frame":690,"ms":47223,"pitch":0.990948855876923,"sound":"preview_stone_thwack_4"}
+AUDIO TRACE {"db":0.0,"frame":738,"ms":50503,"pitch":0.998838126659393,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":786,"ms":53731,"pitch":1.01049089431763,"sound":"preview_stone_thwack_1"}
+AUDIO TRACE {"db":0.0,"frame":894,"ms":60878,"pitch":1.00557637214661,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":942,"ms":64048,"pitch":0.991348028182983,"sound":"preview_stone_thwack_2"}
+AUDIO TRACE {"db":0.0,"frame":990,"ms":67190,"pitch":1.00266122817993,"sound":"preview_stone_thwack_5"}
+AUDIO TRACE {"db":0.0,"frame":1038,"ms":70349,"pitch":0.994053363800049,"sound":"preview_stone_thwack_3"}
+AUDIO TRACE {"db":0.0,"frame":1086,"ms":73517,"pitch":1.00833415985107,"sound":"preview_stone_thwack_2"}
+AUDIO TRACE {"db":0.0,"frame":1089,"ms":73718,"pitch":1.0,"sound":"preview_capture_group"}
+AUDIO REPLAY: 21 legal moves; single and group captures; complete
+--------------------------------------------------------------------------------
+Done recording movie at path: /home/user/.cache/ninepoint-audio-capture/preview.avi
+1234 frames at 30 FPS (movie length: 00:00:41:04), recorded in 00:01:24 (48% of real-time speed).
+CPU render time: 2.38 seconds (average: 1.93 ms/frame)
+GPU render time: 2.27 seconds (average: 1.84 ms/frame)
+Encoding time: 15.12 seconds (average: 12.25 ms/frame)
+--------------------------------------------------------------------------------

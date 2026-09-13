@@ -1,0 +1,32 @@
+[
+  {
+    "family": "original",
+    "start_seconds": 0,
+    "end_seconds": 6,
+    "lufs": -24.05
+  },
+  {
+    "family": "snap",
+    "start_seconds": 7,
+    "end_seconds": 13,
+    "lufs": -23.97
+  },
+  {
+    "family": "thunk",
+    "start_seconds": 14,
+    "end_seconds": 20,
+    "lufs": -24.01
+  },
+  {
+    "family": "deep",
+    "start_seconds": 21,
+    "end_seconds": 27,
+    "lufs": -24.01
+  },
+  {
+    "family": "thwack",
+    "start_seconds": 28,
+    "end_seconds": 34,
+    "lufs": -23.95
+  }
+]

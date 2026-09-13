@@ -1,0 +1,17 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+AUDIO FAMILY Original peak -3.7 dB
+AUDIO FAMILY Snap peak -9.8 dB
+AUDIO FAMILY Thunk peak -9.7 dB
+AUDIO FAMILY Deep peak -8.4 dB
+AUDIO FAMILY Thwack peak -9.1 dB
+AUDIO EFFECT preview_capture_single peak -13.6 dB
+AUDIO EFFECT preview_capture_group peak -13.6 dB
+AUDIO EFFECT preview_bowl_rattle peak -12.5 dB
+AUDIO MUSIC theme_club peak -21.4 dB
+AUDIO MUSIC theme_battle peak -23.3 dB
+AUDIO DRIVER:
+22 passed, 0 failed

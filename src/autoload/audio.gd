@@ -5,6 +5,10 @@
 ## would be the only thing here nobody could diff.
 extends Node
 
+signal sound_played(sound_name: String, pitch: float, volume_db: float)
+signal music_started(track_name: String)
+var preview: AudioPreview
+
 const DIR := "res://audio/"
 const SFX_VOICES := 8
 const MUSIC_FADE := 0.9
@@ -73,6 +77,11 @@ func _ready() -> void:
     add_child(_ambience)
     _ambience.finished.connect(_loop_ambience)
 
+    if AudioPreview.requested():
+        preview = AudioPreview.new()
+        add_child(preview)
+        preview.setup(self)
+
     EventBus.toast.connect(func(_t): play("toast"))
     # Rank follows results now, so it can fall as well as rise. Playing the
     # promotion sting at somebody who has just been demoted would be cruel.
@@ -126,12 +135,25 @@ func play(sound_name: String, pitch_jitter: float = 0.0, volume_db: float = 0.0)
     voice.pitch_scale = 1.0 + randf_range(-pitch_jitter, pitch_jitter)
     voice.volume_db = volume_db
     voice.play()
+    sound_played.emit(sound_name, voice.pitch_scale, volume_db)
 
 
 ## A stone going down. Alternates two samples and jitters the pitch, because a
 ## real board never makes the same sound twice.
 func play_stone() -> void:
-    play("stone_place" if randf() < 0.5 else "stone_place_alt", 0.06)
+    if preview != null:
+        play(preview.next_stone(), 0.015 if preview.family > 0 else 0.06)
+    else:
+        play("stone_place" if randf() < 0.5 else "stone_place_alt", 0.06)
+
+
+func play_capture(count: int) -> void:
+    play(preview.capture_name(count) if preview != null else "capture")
+
+
+func play_bowl() -> void:
+    play(preview.bowl_name() if preview != null else "capture",
+        0.025 if preview != null and preview.family > 0 else 0.05)
 
 
 ## `surface` comes from the tile under the player's feet. An unknown surface
@@ -173,6 +195,7 @@ func play_music(track: String, fade: float = MUSIC_FADE) -> void:
     if not _streams.has(track):
         return
     _music_name = track
+    music_started.emit(track)
     var intro: String = track + INTRO_SUFFIX
     var has_intro: bool = _streams.has(intro)
     _music.stream = _streams[intro] if has_intro else _streams[track]
