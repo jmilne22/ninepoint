@@ -90,3 +90,9 @@ See `verification.md` for the final checks and inspected captures. `tools/run_re
 uses the normal entry scene and disposable user data for any existing autopilot route.
 
 ART-09 follow-up: [polish verification](../polish/verification.md).
+
+
+Cast matches now use [ART-11's expressive table presentation](../../table_scene/README.md).
+Their generated source group is `table_scene` in `tools/build_assets.py`, with exports
+in `art/table_scene/`. The rendered world and dialogue busts described above retain
+their current models; the owner requested all match screens before that rollout.

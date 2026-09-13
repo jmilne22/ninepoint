@@ -12,6 +12,15 @@ static func board_in(tree: SceneTree) -> GoBoardView:
     return scene.get("board_view") as GoBoardView if scene != null else null
 
 
+static func screen_point(tree: SceneTree, board: GoBoardView, point: int, outside: bool = false) -> Vector2:
+    var local := Vector2(-8, -8) if outside else board.point_position(point)
+    var scene := tree.current_scene as TableSceneMatch
+    if scene != null and scene.board_view == board:
+        local = Vector2(384, -20) if outside else scene.surface.screen_point(point) - scene.surface.position
+        return tree.root.get_final_transform() * (scene.surface.get_global_transform_with_canvas() * local)
+    return tree.root.get_final_transform() * (board.get_global_transform_with_canvas() * local)
+
+
 static func tap(tree: SceneTree, action: String) -> void:
     for pressed in [true, false]:
         var event := InputEventAction.new()
@@ -95,11 +104,10 @@ static func perform(tree: SceneTree, spec: Dictionary, screenshot: Callable = Ca
     if spec.has("hover") or spec.has("hover_out") or spec.has("hover_blocked"):
         var xy: Array = spec.get("hover", spec.get("hover_blocked", [0, 0]))
         var point := int(xy[1]) * n + int(xy[0])
-        var local := Vector2(-8, -8) if spec.has("hover_out") else board.point_position(point)
         var region := board.geometry.region
         var cells := board.game.board.cells.duplicate()
         var moves := board.game.move_number()
-        var pos := tree.root.get_final_transform() * (board.get_global_transform_with_canvas() * local)
+        var pos := screen_point(tree, board, point, spec.has("hover_out"))
         var event := InputEventMouseMotion.new()
         event.position = pos
         event.global_position = pos
@@ -136,7 +144,7 @@ static func perform(tree: SceneTree, spec: Dictionary, screenshot: Callable = Ca
         if not board.point_visible(point):
             fail(tree, "Mouse probe asked for a hidden point")
             return
-        var pos := tree.root.get_final_transform() * (board.get_global_transform_with_canvas() * board.point_position(point))
+        var pos := screen_point(tree, board, point)
         var before := board.game.move_number()
         var before_cursor := board.cursor
         for pressed in [true, false]:
@@ -234,6 +242,17 @@ static func walk_review(tree: SceneTree, screenshot: Callable) -> void:
     if cards == null:
         fail(tree, "No review to inspect")
         return
+    if cards._on_graph():
+        await screenshot.call("review_graph")
+        var target := -1
+        for move: int in cards._graph.marked:
+            if int(cards._graph.marked[move]) == 1: target = move
+        if target < 0: return
+        for step in 1000:
+            var selected := int(cards._graph.selected_move().get("move", 0))
+            if selected == target: break
+            await tap(tree, "move_right" if selected < target else "move_left")
+        await tap(tree, "interact")
     while is_instance_valid(cards):
         var index: int = cards.get("_index")
         var page: int = cards.get("_text_page")

@@ -1,4 +1,4 @@
-Current verified local revision: [M49 rendered game evidence](docs/ps1/world/verification.md) and [ART-09 polish](docs/ps1/polish/verification.md). Historical entries retain their original behavior and counts.
+Current verified local revision: [M55 expressive matches](docs/table_scene/adoption/verification.md), alongside the [rendered world](docs/ps1/world/verification.md). Historical entries retain their original behavior and counts.
 
 # NINEPOINT — Milestones
 
@@ -3656,3 +3656,29 @@ including zoom, `quay_review` still shows the legacy card, and the frames in
 Open: REV-05, whether the second analysis pass (tints, continuation lines, group facts,
 about 32 of 45 seconds) earns its place beside the graph. Independent beginner testing
 of the review remains pending; the owner's own play is the evidence here.
+
+
+## M55 — Expressive match presentation across the cast [done locally]
+
+ART-11 adopts the approved continuous, skinned character style for every normal cast
+match on 7/9/13/19 boards. The existing controller still owns rules, engine profiles,
+teaching, colour selection, scoring, records and return. The presentation supplies
+real 3D boards, reversible picking, global-coordinate zoom, teaching/count markers,
+animated cast cut-ins and matching nigiri. All 21 identities share generated sources.
+
+**Done when:** 19,406 checks / 0 failures (M54 predecessor: 18,239), 349 loaded resources,
+13 Python art tests and 21 cast asset contracts pass. Serial rendered projection
+checks pass 1,162 / 0; size/record/return checks pass 98 / 0; live Wren and Tomás
+engine checks pass 9 / 0 each. Campaign review return, both teaching comparisons and
+Capture Go's neutral ending, resignation, capture win and saved replay were exercised.
+
+| Deliberate change | Reason |
+|---|---|
+| Cast matches use a 768×432 canvas at 30 fps | Approved art, readable full cast and normal-speed motion; retain teaching reply budget |
+| Default window is 1536×864 | Integer scaling for both match and existing world |
+| Custom development boards keep their original view | No cast identity is supplied |
+
+**Actually inspected:** every cast idle/thinking pair; 7/9/13/19 boards, 19×19 close
+view, colour choice, handicap help, teaching markers, capture win/replay, counting,
+result and review. Watched the actual 39.23-second Godot movie at 1×.
+[Reproduction and limitations](docs/table_scene/adoption/verification.md).

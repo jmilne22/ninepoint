@@ -1,9 +1,12 @@
 """Painted facial features and quiet timber grain for the 3D table experiment."""
 from pathlib import Path
-import math, random
+import math, random, sys, os
 from PIL import Image,ImageDraw
 ROOT=Path(__file__).resolve().parents[2]
-OUT=ROOT/'art/table_scene'
+sys.path.insert(0,str(ROOT/'tools'))
+from characters import BY_ID,CAST_IDS
+from palette import SKIN
+OUT=Path(os.environ.get('TABLE_SCENE_OUTPUT',ROOT/'art/table_scene'))
 OUT.mkdir(parents=True,exist_ok=True)
 MOODS=['neutral','thinking','smile','surprise','concern','blink']
 
@@ -25,9 +28,10 @@ def line(d,points,color,width=2):
 def face(who,mood):
     # The same UV face is painted on the continuous head mesh, with no raised
     # eye whites, cheek plugs, mouth tubes or separate nose-shadow geometry.
-    im=Image.new('RGB',(1024,512),'#f0c9a8')
+    spec=BY_ID[who]
+    im=Image.new('RGB',(1024,512),SKIN[spec['skin']][2])
     d=ImageDraw.Draw(im)
-    ink='#382e2b';brow='#89592d' if who=='wren' else '#45332b'
+    ink='#382e2b';brow=spec['hair_col'][0]
     for side in [-1,1]:
         cx=512+side*72;cy=249
         width=51 if who=='wren' else 47
@@ -44,8 +48,8 @@ def face(who,mood):
             layer=Image.new('RGB',im.size,'#fff8e8');ld=ImageDraw.Draw(layer)
             gaze=(-5 if who=='wren' else 5) if mood in ['neutral','thinking'] else 0
             ix=cx+gaze
-            ld.ellipse((ix-22,cy-34,ix+22,cy+35),fill='#795132' if who=='wren' else '#435c64')
-            ld.ellipse((ix-18,cy-30,ix+18,cy+6),fill='#45392b' if who=='wren' else '#293e48')
+            ld.ellipse((ix-22,cy-34,ix+22,cy+35),fill='#795132' if who!='player' else '#435c64')
+            ld.ellipse((ix-18,cy-30,ix+18,cy+6),fill='#45392b' if who!='player' else '#293e48')
             ld.ellipse((ix-9,cy-25,ix+9,cy+25),fill='#20272a')
             ld.ellipse((ix-9,cy-13,ix-1,cy-3),fill='#fffdf0')
             ld.ellipse((ix+5,cy+11,ix+9,cy+15),fill='#e5dcb9')
@@ -53,11 +57,16 @@ def face(who,mood):
             d.line(top,fill=ink,width=4,joint='curve')
             d.line(bottom,fill='#986e56',width=2,joint='curve')
         by=cy-49
-        slope=0
+        slope=side*7 if spec['brow']=='angled' else 0
+        if spec['brow']=='raised':by-=4
         if mood in ['thinking','concern']:slope=-side*10
         if mood=='surprise':by-=12
         if mood=='smile':by+=4
         line(d,[(cx-width,by+slope),(cx-5,by-9),(cx+width-3,by-slope)],brow,5)
+    if spec.get('beard'):
+        d.polygon(bezier([(431,304),(441,388),(513,416),(586,388),(596,304)]) + [(576,337),(554,358),(471,358),(449,337)],fill=spec['hair_col'][0])
+        line(d,[(475,322),(491,316),(504,322)],spec['hair_col'][0],9)
+        line(d,[(521,322),(537,316),(552,322)],spec['hair_col'][0],9)
     # Tiny nose indications are paint, integrated into the face rather than objects.
     line(d,[(509,281),(504,293),(511,294)],'#c79879',2)
     line(d,[(516,294),(519,294)],'#d3a185',2)
@@ -77,7 +86,7 @@ def face(who,mood):
     return im
 
 
-for who in ['player','wren']:
+for who in CAST_IDS:
     atlas=Image.new('RGB',(1024,512*len(MOODS)))
     for row,mood in enumerate(MOODS):atlas.paste(face(who,mood),(0,row*512))
     atlas.save(OUT/f'{who}_face.png')

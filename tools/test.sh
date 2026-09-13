@@ -8,6 +8,7 @@ GODOT="${GODOT:-$HOME/.local/bin/godot}"
 
 echo "== deterministic art contracts =="
 python3 tests/test_art.py
+python3 tools/table_scene/check_assets.py
 
 echo "== compiling all scripts and importing assets =="
 IMPORT_LOG=$(mktemp)

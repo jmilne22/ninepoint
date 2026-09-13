@@ -14,7 +14,10 @@ def values(data,raw,index):
     step=struct.calcsize('<'+fmt*components);offset=v.get('byteOffset',0)+a.get('byteOffset',0)
     return [struct.unpack_from('<'+fmt*components,raw,offset+i*v.get('byteStride',step)) for i in range(a['count'])]
 
-for who in ['player','wren']:
+import sys
+sys.path.insert(0,str(ROOT/'tools'))
+from characters import CAST_IDS
+for who in CAST_IDS:
     data,raw=read(ROOT/'art/table_scene'/f'{who}.glb')
     clips={a['name']:a for a in data['animations']}
     assert set(clips)=={'idle','thinking','place','surprise','pleased','concern','greet'}

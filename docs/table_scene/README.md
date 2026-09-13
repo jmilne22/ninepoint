@@ -1,64 +1,72 @@
-# Wren table scene — revised trial
+# Expressive match view
 
-This branch is a second, isolated match experiment. The owner rejected the first
-prototype's models, pose swapping and stretched board. This version replaces those
-three presentation systems. It has not been adopted for the campaign.
+The owner approved the revised Wren footage and selected it as Ninepoint's new
+style. The rollout starts with all match screens. Walking characters and dialogue
+portraits retain their current presentation until the next pass.
 
 ## Play
 
-From this checkout:
-
 ```sh
-tools/play_table_scene.sh
+tools/play.sh                 # normal campaign, with your existing saves
+tools/play_table_scene.sh     # disposable, immediately playable Wren match
+tools/play_table_scene.sh --opponent=kesh
+tools/play_table_scene.sh --opponent=tomas --board=13
 ```
 
-It opens a 768×432 match, displayed at 2×, against Wren Calloway (20k). Ro plays Black;
-Wren's shipped engine profile, komi and stopping policy are preserved. The player is
-unranked and this is a casual match. Every launch has disposable user data; closing,
-resigning or completing the game writes no campaign record.
+Cast encounters automatically open the 768×432 view, shown at 2× in the default
+1536×864 window. Names, real ranks, colours,
+handicap and engine profiles come from the original match request. All 20 opponents
+have generated models, seven continuous animation clips and painted expressions.
+Ro/Wren retain the approved designs; other identities retain their skin, hair,
+clothing, glasses, scarves and accessories from `tools/characters.py`.
 
-Use the mouse or arrow keys to choose an intersection, click or Space to place,
-P to pass, R to resign, and H for counting help. Esc cancels a modal; closing the
-window ends the trial. The result card exits instead of entering the walking world.
+Mouse or arrows choose a crossing; click or Space places. P passes, R resigns and
+H opens available help. On 19×19, V opens the nine-line close view, with global
+coordinates and pan buttons. Confirmations and teaching panels block board input.
+Normal campaign results use the existing record, rank, reaction and review flow.
 
-## What changed
+## Presentation
 
-- A real 3D wooden board, lens-shaped stones and turned bowls share a lit tabletop.
-  Camera projection and ray-to-board intersection give display and picking the same geometry.
-- Original Ro and Wren identities are rebuilt as skinned meshes. Seven continuous
-  animation clips replace four-frame pose atlases. Faces use painted UV expressions,
-  including blink frames; facial features have no projecting geometry.
-- The lower-corner characters have separate transparent 3D viewports and inward-facing
-  cameras. Their composition keeps all 81 intersections visible.
-- Placement, capture and result reactions use the match's observable events. They do
-  not request an engine evaluation. Wren's idle/thinking state follows the turn.
-- The existing GoMatch controller still owns legality, keyboard input, modal guards,
-  captures, scoring and the result. A hidden GoBoardView receives explicitly mapped
-  viewport input. The trial draws the shared game state with 3D meshes.
+A real wooden board, lens-shaped stones and turned bowls share a warm table.
+The fixed camera and ray/plane picking use one geometry at 7/9/13/19 lines and in
+close view. Bowl colours follow the player after nigiri. Waist-up characters remain
+clear of every crossing. Their placement, capture and result reactions use observable
+events; animation never asks the engine for another evaluation.
 
-The camera is fixed. This is a composed match view, not a new walking-world camera or
-an adoption decision for the other opponents. Hands have authored gestures, not
-physical interaction with arbitrary board intersections.
+Teaching temporarily gives the board the left side and a measured panel the right.
+Liberties, teaching targets, attempted moves, counting groups and territory follow
+the existing board state. Colour selection uses the same table and new characters.
+The view runs at 30 fps, with normal-speed animation, and restores the previous
+canvas and frame cap when returning to the world. Hands make authored gestures;
+they do not physically reach each arbitrary intersection.
 
-## Reproduce the assets and evidence
+The original GoMatch controller still owns setup, legality, keyboard controls,
+modal guards and scoring. `src/go_ui/table_scene/` owns presentation;
+`MatchViewRoute` selects it for cast matches. Development profiles without a cast
+model keep their existing board harness. The standalone Wren launcher is still
+disposable and exits after the result instead of writing a campaign record.
+
+## Reproduce
 
 ```sh
-# NixOS dependencies; Blender and Pillow generate every experimental art export.
 nix-shell -p blender 'python3.withPackages (p: [p.pillow])' --run 'tools/table_scene/build.sh'
 python3 tools/table_scene/check_assets.py
-LOG=/home/user/.cache/table-input.log tools/run_table_scene.sh --verify-table_scene
-LOG=/home/user/.cache/table-live.log tools/run_table_scene.sh --live-check
+tools/run_table_scene.sh --gallery
+tools/run_table_scene.sh --verify-table_scene
+tools/run_rendered.sh tools/autopilot/table_adoption.json
+tools/run_rendered.sh tools/autopilot/rendered_match.json
+tools/run_rendered.sh tools/autopilot/teaching_kesh.json
+tools/run_rendered.sh tools/autopilot/teaching_wren.json
+tools/run_rendered.sh tools/autopilot/mouse_capture.json
 MOVIE=/home/user/.cache/table-scene.avi tools/run_table_scene.sh --showcase
 ```
 
-Run game/engine routes serially. The rendered runner takes the normal global game
-acceptance lock, uses a hidden display and creates disposable user data. It stages
-768×432 project settings before Godot starts, so MovieWriter records the true trial
-resolution. The ordinary `project.godot` remains at the campaign's resolution.
+Art sources are Python/Blender/Pillow in `tools/table_scene/`; exports remain in
+`art/table_scene/`. Run game/engine routes serially with disposable data. The runners
+provide isolation. `DISPLAY_NUM=0` uses the graphics card on the real display;
+the default hidden display uses software rendering.
 
-The showcase is explicitly a **prepared, legally replayed game**, not a recording of
-Wren choosing scripted moves. Its 16 moves include one capture by each side, two
-passes, counting and the result. The live check separately requires actual engine
-replies with no fallback. All animation and movie timing use normal speed.
-
-See [verification.md](verification.md) for inspected evidence and technical results.
+The showcase is a prepared, legally replayed game, separate from the live Wren
+engine check. The multi-size route also declares prepared positions and a random
+legal opponent; ordinary campaign/teaching routes exercise the shipped engines.
+[Original approved evidence](verification.md) · [Rollout evidence](adoption/verification.md).

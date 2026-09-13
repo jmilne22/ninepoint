@@ -1,0 +1,12 @@
+[
+ {"save":"lost_to_kesh"},{"wait":0.8},{"tap":"move_down"},{"tap":"interact"},{"world_wait":true},
+ {"talk_to":"wren"},{"experience":"choice","text":"Another game."},
+ {"experience":"choice","text":"Set them up."},
+ {"board_input":{"button_hover":"odd"}},{"shot":"nigiri_call"},
+ {"board_input":{"nigiri_mouse":"white"}},{"experience":"setup"},{"shot":"colours_set"},
+ {"board_input":{"click_legal":[2,2]}},{"match_wait_player":true},
+ {"board_input":{"click_legal":[6,6]}},{"match_wait_player":true},
+ {"board_input":{"button":"go_resign"}},{"shot":"resign_confirmation"},
+ {"board_input":{"button":"go_resign"}},{"experience":"result"},
+ {"experience":"review_choice","accept":false},{"world_wait":true},{"shot":"returned"}
+]

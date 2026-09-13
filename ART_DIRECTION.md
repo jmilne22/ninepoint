@@ -3,7 +3,8 @@
 ## 0. Tooling note (read this first)
 
 The normal game uses Python-coordinated Blender renders: scenery, a ground-depth mask,
-eight-way character sprites, model-rendered expressions, and overhead Go assets.
+eight-way character sprites and model-rendered dialogue expressions. Cast matches
+use live 3D table/character viewports with Python-generated models and painted faces.
 Blender/Pillow are development dependencies; exported assets are checked in.
 `tools/characters.py` remains the identity record. No AI-generated portraits are used.
 [Production pipeline, coordinate contract and commands](docs/ps1/world/README.md).
@@ -35,14 +36,15 @@ Walking arms keep fixed shoulder attachment and bone lengths. Elbows and hands f
 one continuous swing; the passing pose should not collapse the torso or invert the knee.
 Inspect actual walk and run playback, not just a single sprite frame.
 
-## ART-10R: revised expressive match trial
+## ART-10R / ART-11: approved expressive match style
 
-The owner rejected the first match-view prototype's models, animations and board.
-The [revised isolated trial](docs/table_scene/README.md) uses Blender-exported skinned
-Ro/Wren meshes, Pillow-painted face expressions, continuous animation, thin ink outlines
-and real 3D Go geometry. Source scripts live in `tools/table_scene/`; all exports stay
-in `art/table_scene/`. The campaign's art remains the production baseline pending the
-owner's review of the new screenshots and footage.
+The owner rejected the first prototype, then approved the revised Wren footage and
+requested this as the new style. Finish all match screens before walking characters
+and dialogue portraits. Cast matches use Blender-exported skinned models,
+Pillow-painted expressions, seven continuous clips, thin ink outlines and a real
+wooden board at 768×432/30 fps. Original identities, clothing and colours remain
+authoritative. `tools/table_scene/` generates `art/table_scene/` through the
+`table_scene` asset group. [Presentation guide](docs/table_scene/README.md).
 
 ## ART-07: isolated fixed-view De Ketel experiment
 
@@ -302,6 +304,17 @@ art -- stacked circles read as a potato), `crowd.png`.
 
 ## 6. The Go board
 
+Cast matches use ART-11's perspective surface on 7/9/13/19 lines. Board thickness,
+stone shadows and tabletop lighting come from geometry. Global picking, close-view
+regions and keyboard navigation are shared with the underlying GoBoardView. Teal
+rings indicate teaching targets and selected counting groups, red crosses mark dead
+stones, and contrasting rings mark territory and the last move. Characters remain
+clear of every crossing. Teaching panels temporarily take the right side; nigiri
+and the result retain the composed table. Bowl colours follow the actual setup.
+
+The following square rendering contract remains for lessons, puzzles, review cards
+and custom development profiles:
+
 The board renders into a fixed square area, computing an integer cell size so lines
 land on exact pixels. 19×19 has a whole-board overview with alternate coordinate labels
 and a V-toggled close view. The close view starts at nine visible lines (a starting value
@@ -323,7 +336,8 @@ a small ring in the *opposite* stone colour; territory in scoring mode is shown 
 
 ## 7. Screen and camera
 
-- Base resolution **384×216** (16:9), integer-scaled to the window.
+- Walking, dialogue and lessons: **384×216**. Cast matches: **768×432**.
+  The default **1536×864** window displays both at integer scale.
   `viewport` stretch, `keep` aspect, integer scale mode. At 1280×720 it lands on 3×
   with letterboxing; the normal 1152×648 play window is exactly 3×.
 - Production camera: fixed 45° azimuth / 30° elevation, following projected player feet

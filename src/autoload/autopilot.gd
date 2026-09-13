@@ -46,7 +46,9 @@ func _run() -> void:
     for step in _steps:
         await _do(step)
     print("AUTOPILOT: done")
-    await get_tree().create_timer(0.2).timeout
+    # Release the mixer before shutdown, as the isolated movie launcher does.
+    Audio.stop_music(0.1)
+    await get_tree().create_timer(0.4).timeout
     get_tree().quit()
 
 

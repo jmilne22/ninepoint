@@ -4,12 +4,14 @@ import bpy
 from mathutils import Vector
 from mesh import material,mesh,loft,tube,ribbon,rigid,bind
 from rig import create,animate
+from palette import SKIN
+import cast_details
 
 
 def build(spec):
     rig=create();name=spec['id'];wren=name=='wren'
-    skin=material('Skin','#f0c9a8')
-    face=material('Face','#f0c9a8')
+    skin=material('Skin',SKIN[spec['skin']][2])
+    face=material('Face',SKIN[spec['skin']][2])
     top=material('Cloth',spec['top'][0]);trim=material('ClothTrim',spec['top'][1])
     hair=material('Hair',spec['hair_col'][0]);hair_hi=material('HairLight',spec['hair_col'][1])
     pants=material('Trousers',spec['bottom']);scarf=material('Scarf',spec.get('accent','#6d9ac0'))
@@ -29,6 +31,13 @@ def build(spec):
     smooth=shirt.modifiers.new('tailored surface','SMOOTH');smooth.factor=.85;smooth.iterations=5
     bpy.ops.object.modifier_apply(modifier=smooth.name)
     for p in shirt.data.polygons:p.use_smooth=True
+    if name not in ['player','wren']:
+        for vertex in shirt.data.vertices:
+            if vertex.co.z<.80 and abs(vertex.co.x)<.30:
+                vertex.co.y*=1.30
+    if spec['build']=='broad':
+        for vertex in shirt.data.vertices:
+            x=abs(vertex.co.x);vertex.co.x*=1+.18*max(0,1-max(0,x-.20)/.15)
     def shirt_weights(v):
         x,y,z=v;side='R' if x>=0 else 'L';x=abs(x)
         if x<.205 or (z<1.15 and x<.27):return {'spine':1}
@@ -87,12 +96,15 @@ def build(spec):
             obj=ribbon('Scarf tail',[((x,-.13,1.49),.058,.019),((x+.01,-.157,1.31),.056,.018),
                 ((x+.026,-.151,1.49-length),.05,.009)],scarf)
             rigid(obj,rig,'spine')
-    else:
+    elif name=='player':
         for i,(x,z,tip) in enumerate([(-.16,2.14,-.19),(-.065,2.21,-.09),(.055,2.22,.0),(.16,2.16,.11)]):
             obj=ribbon('Cropped swept hair',[((x,-.14,z),.091,.03),((x-.012,-.185,z-.06),.082,.025),((tip,-.186,z-.16),.025,0)],hair_hi if i==1 else hair)
             rigid(obj,rig,'head')
         collar=loft('Collar',[(1.415,.113,.083,-.007),(1.445,.106,.079,-.007)],trim)
         rigid(collar,rig,'neck')
+    if name not in ['player','wren']:
+        cast_details.hair(spec,rig,hair,hair_hi)
+        cast_details.clothes(spec,rig,trim)
     # Larger heads and a short visible neck keep expressions legible at 768 pixels.
     for obj in list(bpy.context.scene.objects):
         if obj.type == 'MESH' and obj.vertex_groups.get('head') and any(g.group == obj.vertex_groups['head'].index and g.weight > .9 for v in obj.data.vertices for g in v.groups):
@@ -103,5 +115,5 @@ def build(spec):
         if obj.type == 'MESH' and obj.name == 'Neck':
             for vertex in obj.data.vertices:
                 vertex.co.z = 1.40 + (vertex.co.z - 1.40) * .70
-    animate(rig,wren)
+    animate(rig,name != "player")
     return rig

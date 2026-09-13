@@ -9,7 +9,7 @@ Update the snapshot when reconciling after a merge; it is not a release number.
 
 ## ART-10R — Match presentation restart
 
-- Status: `NEEDS DECISION` (trial delivered; visual adoption review) · Owner: Codex · Branch: `codex/table-scene-restart`
+- Status: `SHIPPED` (owner approved visual direction) · Owner: Codex · Branch: `codex/table-scene-restart`
 - The owner rejected the first expressive prototype's models, animations and board.
   Its screenshots and technical checks did not establish visual quality.
 - Authorized restart: original player/Wren models, continuous animation, real 3D
@@ -22,8 +22,21 @@ Update the snapshot when reconciling after a merge; it is not a release number.
 - Inspected: six screenshots, timed motion sheets, live resignation result and the
   39.2-second 768×432/30-fps MP4. [Evidence](docs/table_scene/verification.md).
 - Play: `tools/play_table_scene.sh`. Every run has disposable user data.
-- Next decision: owner judges the new footage. Campaign adoption and other opponents
-  follow that review.
+- Owner approved the footage; rollout is tracked in ART-11.
+
+## ART-11 — Adopt the approved match style
+
+- Status: `SHIPPED` · Owner: Codex · Branch: `codex/wren-table-adoption`.
+- Owner approved ART-10R: “LOVE IT”, then “I want this to be the new style”.
+  Rollout order: finish all match screens first; walking world and portraits later.
+- Fresh separate checkout proved HEAD = origin/main = `f90a39e`, then brought in
+  approved trial commit `82cb672` before implementation.
+- Scope: all cast identities, 7/9/13/19 boards, normal colour/rank/handicap setup,
+  teaching markers/overlays, counting, record-once result and world/review return.
+- Acceptance: full gate 19,406 checks / 0 failures, 349 resource loads; rendered
+  picking 1,162 / 0, size/return probe 98 / 0, real Wren and Tomás engines 9 / 0 each.
+  Inspected all 21 cast identities, setup, teaching, capture, count, review and return.
+  [Evidence and 39-second movie](docs/table_scene/adoption/verification.md).
 
 ## How to use this board
 

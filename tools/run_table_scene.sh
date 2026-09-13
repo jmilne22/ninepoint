@@ -31,8 +31,10 @@ if [ -n "${MOVIE:-}" ]; then
   mkdir -p "$(dirname "$MOVIE")"
   args+=(--write-movie "$MOVIE" --fixed-fps 30 --disable-vsync)
 fi
+scene="res://src/experiments/table_scene/trial.tscn"
+if [ "$mode" = "--gallery" ]; then scene="res://src/experiments/table_scene/gallery.tscn"; fi
 status=0
-timeout 180 "$GODOT" --path "$XDG_DATA_HOME/project" "${args[@]}" res://src/experiments/table_scene/trial.tscn -- "$mode" > "$LOG" 2>&1 || status=$?
+timeout 180 "$GODOT" --path "$XDG_DATA_HOME/project" "${args[@]}" "$scene" -- "$mode" > "$LOG" 2>&1 || status=$?
 cat "$LOG"
 if rg -q 'SCRIPT ERROR|Parse Error|ERROR:|[1-9][0-9]* failed' "$LOG"; then exit 1; fi
 exit "$status"

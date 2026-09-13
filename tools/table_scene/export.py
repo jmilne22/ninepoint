@@ -1,5 +1,5 @@
 """Build glTF models and clips; players need only the checked-in GLBs and Godot."""
-import sys
+import sys,os
 from pathlib import Path
 import bpy,math
 ROOT=Path(__file__).resolve().parents[2]
@@ -7,7 +7,7 @@ sys.path[:0]=[str(Path(__file__).parent),str(ROOT/'tools')]
 from character import build
 from mesh import material,mesh
 from characters import CHARACTERS
-OUT=ROOT/'art/table_scene';OUT.mkdir(parents=True,exist_ok=True)
+OUT=Path(os.environ.get('TABLE_SCENE_OUTPUT',ROOT/'art/table_scene'));OUT.mkdir(parents=True,exist_ok=True)
 
 
 def reset():
@@ -22,7 +22,7 @@ def export(name,animations=False):
         export_force_sampling=True,export_materials='EXPORT',export_yup=True)
 
 
-for spec in [s for s in CHARACTERS if s['id'] in ['player','wren']]:
+for spec in [s for s in CHARACTERS if not s.get('extra')]:
     reset();build(spec);export(spec['id'],True)
 
 

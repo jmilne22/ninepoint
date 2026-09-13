@@ -344,6 +344,10 @@ func _run() -> void:
 
 ## Nigiri, or the handicap explanation. The even-game path is a set piece; see
 ## NigiriCeremony.
+func _create_ceremony() -> NigiriCeremony:
+    return NigiriCeremony.new()
+
+
 func _setup_phase() -> void:
     phase = Phase.SETUP
     _refresh()
@@ -351,7 +355,7 @@ func _setup_phase() -> void:
     if not setup.uses_nigiri:
         return
 
-    var ceremony: NigiriCeremony = NigiriCeremony.new()
+    var ceremony: NigiriCeremony = _create_ceremony()
     add_child(ceremony)
     var tone := "skinD"
     var npc_path := "res://data/npcs/%s.tres" % request.npc_id

@@ -27,7 +27,7 @@ static func viewport(parent: Control, extent: Vector2i, transparent: bool) -> Su
     light.rotation_degrees = Vector3(-55, -25, 0)
     light.light_color = Color("fff8ed")
     light.light_energy = 0.45
-    light.shadow_enabled = true
+    light.shadow_enabled = not transparent
     light.directional_shadow_max_distance = 8
     view.add_child(light)
     return view

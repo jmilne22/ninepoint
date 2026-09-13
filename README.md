@@ -17,13 +17,16 @@ There is no combat. Encounters are games of Go, opponents are ranked in kyu and 
 person holding the controller.
 
 The whole game uses [model-rendered rooms, characters and Go assets](docs/ps1/world/README.md).
-Walk screen-relative through fixed-angle rooms and streets; play Go on a clear overhead
-board. Portraits are rendered from the same original character models as the sprites.
+Walk screen-relative through fixed-angle rooms and streets; play Go at a gently tilted wooden
+table with expressive characters in the lower corners. Walking sprites and dialogue
+portraits retain their existing rendered models.
 Market Lane has varied White City-inspired balconies and shaded entrances; Sea Walk
 has warm stone port buildings and fishing boats inspired by Jaffa.
 The earlier isolated room experiment remains available through `tools/play_ps1.sh`.
-The revised [Wren table-scene trial](docs/table_scene/README.md) is playable through
-`tools/play_table_scene.sh` on this branch, with disposable saves and a 768×432 view.
+Cast matches now use the approved [expressive match view](docs/table_scene/README.md)
+at 768×432, including Capture Go, larger boards, colour selection and counting.
+The default 1536×864 window displays matches at 2× and the walking world at 4×.
+`tools/play.sh` launches the campaign; `tools/play_table_scene.sh` opens a disposable Wren match.
 
 ## Read this first
 

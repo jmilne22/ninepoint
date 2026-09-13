@@ -2,12 +2,19 @@
 
 Godot 4.7 · GDScript · 2D runtime with rendered 2.5D presentation · `gl_compatibility` renderer.
 
-The opt-in `src/experiments/table_scene/` trial adds real 3D SubViewports for a
-wooden board and two animated character cut-ins. It subclasses the match scene;
-GoBoardView still receives mapped input, and the existing controller owns the game.
-The camera's ray/plane intersection supplies picking. Its launcher stages 768×432
-settings and disposable saves without changing campaign rendering or persistence.
-See [the trial notes](docs/table_scene/README.md).
+`MatchViewRoute` selects `src/go_ui/table_scene/match.tscn` for cast encounters on
+7/9/13/19 boards. `TableSceneMatch` subclasses the existing controller and switches
+to a 768×432 canvas until it exits. The bridge still records and returns to the world.
+Three 3D SubViewports compose the board and two animated characters. `TableBoardLayout`
+maps global intersections into the current full-board or nine-line region; camera
+ray/plane picking forwards mouse events explicitly into the original GoBoardView's
+viewport. That board retains keyboard, modal and teaching state. `TableBoardMarkers`
+renders its liberties, targets, cursor, dead groups and territory. `TableNigiri`
+changes the ceremony's presentation while retaining its existing choice protocol.
+Python/Blender sources in `tools/table_scene/` generate all 21 identity models and
+painted face atlases in `art/table_scene/`. Development profiles without a cast model
+retain the standard scene. The disposable Wren showcase remains under
+`src/experiments/table_scene/`. [Details](docs/table_scene/README.md).
 
 ## 1. The one rule
 

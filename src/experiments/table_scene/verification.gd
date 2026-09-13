@@ -5,7 +5,36 @@ extends RefCounted
 static func run(scene: Control) -> void:
     var t := TestKit.new()
     t.section("table scene actual scene")
+    for n in [7, 9, 13, 19]:
+        scene.game = GoGame.new(n, 5.5)
+        scene.board_view.set_game(scene.game)
+        scene._refresh()
+        scene._sync_mouse()
+        await scene.get_tree().process_frame
+        await scene.get_tree().process_frame
+        for point in n * n:
+            var motion := InputEventMouseMotion.new()
+            motion.position = scene.surface.screen_point(point) - scene.surface.position
+            scene.surface._gui_input(motion)
+            t.eq(scene.board_view.target_point(), point, "%d board ray and viewport picking" % n)
+        if n == 19:
+            scene.board_view.toggle_zoom()
+            for anchor in [0, 18, 342, 360, 180]:
+                scene.board_view.focus_point(anchor)
+                await scene.get_tree().process_frame
+                await scene.get_tree().process_frame
+                for point in 361:
+                    if not scene.board_view.point_visible(point): continue
+                    var motion := InputEventMouseMotion.new()
+                    motion.position = scene.surface.screen_point(point) - scene.surface.position
+                    scene.surface._gui_input(motion)
+                    t.eq(scene.board_view.target_point(), point, "zoom picks global index at corner or centre")
+    scene.game = GoGame.new(9, 5.5)
+    scene.board_view.set_game(scene.game)
+    scene._refresh()
     scene._sync_mouse()
+    await scene.get_tree().process_frame
+    await scene.get_tree().process_frame
     for point in 81:
         var motion := InputEventMouseMotion.new()
         motion.position = (scene.surface.screen_point(point) - scene.surface.position)

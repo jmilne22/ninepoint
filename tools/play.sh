@@ -6,4 +6,4 @@
 set -uo pipefail
 cd "$(dirname "$0")/.."
 GODOT="${GODOT:-$HOME/.local/bin/godot}"
-exec "$GODOT" --path . --resolution 1152x648 "$@"
+exec "$GODOT" --path . --resolution 1536x864 "$@"

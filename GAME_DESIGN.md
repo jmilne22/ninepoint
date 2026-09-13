@@ -495,8 +495,10 @@ and eligibility gates remain unchanged. Sea Walk keeps the asynchronous review n
 
 White City balcony forms and Jaffa Port stonework/boats inform distinct city and harbor
 compositions. Rooms and streets use a fixed 45°/30° view with screen-relative movement;
-the camera follows large maps. Go stays overhead for clear intersections. Character
-models supply both eight-way sprites and dialogue busts. This presentation changes no
+the camera follows large maps. Cast Go matches use a gently tilted wooden table
+at 768×432, with expressive waist-up characters clear of every crossing. Existing
+walking models still supply eight-way sprites and dialogue busts; their rollout follows
+the match screens, as the owner requested. This presentation changes no
 teaching order, ranks, cast identities or progression rules. [Art direction](ART_DIRECTION.md).
 
 ### Ordinary exchanges and return visits (DESIGN-01)

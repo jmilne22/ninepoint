@@ -16,13 +16,15 @@ review on engine analysis; the other cuts remain. Read `MILESTONES.md` M37 for w
 
 ---
 
-## Match presentation trial — ART-10R
+## Approved match style — ART-10R / ART-11
 
-The owner rejected the first expressive match prototype on visual quality. The
-revised [Wren table scene](docs/table_scene/README.md) tries continuous skinned
-character animation and a real 3D board at 768×432. Technical checks establish input
-and rules safety; screenshots and footage are the basis for the owner's next visual
-review. Campaign adoption, other opponents and walking-world changes remain separate.
+After rejecting the first prototype, the owner approved the revised continuous
+character animation and real 3D table at 768×432: “I want this to be the new style.”
+The requested rollout order is **all match screens first**, then walking-world
+characters and dialogue portraits. ART-11 promotes the shared presentation across
+the cast, board sizes, colour selection, teaching and counting. Rules, rank profiles
+and the campaign's record/return flow retain their existing ownership.
+[Presentation and evidence](docs/table_scene/README.md).
 
 ## Beginner and premise baseline — CAP-01 / DESIGN-01
 

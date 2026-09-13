@@ -199,7 +199,9 @@ out at the end of the session, not the start.
 tools/play.sh                                    # play it, on the real display
 tools/play.sh -- --katago-trial=res://tools/fixtures/katago_trial_19x19.tres # development board
 tools/play_table_scene.sh                        # isolated 768×432 Wren match; disposable saves
-tools/run_table_scene.sh --showcase              # serial rendered trial and six screenshots
+tools/run_table_scene.sh --showcase              # prepared replay, six screenshots and optional movie
+tools/run_table_scene.sh --gallery               # all 21 match identities and gestures
+tools/run_rendered.sh tools/autopilot/table_adoption.json # serial 7/9/13/19 result/return gate
 tools/run_table_scene.sh --verify-table_scene    # projected picking, keyboard, modal and counting checks
 tools/play_ps1.sh                                # isolated De Ketel 2.5D experiment; never saves
 tools/run_ps1.sh tools/autopilot/ps1_tour.json     # disposable user data, rendered-room acceptance
@@ -263,6 +265,7 @@ quay), `review_unavailable` (a wedged engine must still let you out), `quay_revi
 payload so the legacy card stays covered, thirteen and nineteen carry a synthetic curve).
 
 Production acceptance: `rendered_doors` (all 22 connections plus GPU/input checks),
+`table_adoption` (declared legal fixtures, all board sizes, count/record/return),
 `rendered_match` (current Wren rematch/count/review flow), `rendered_tram` (boarding interrupts
 a passing tram and holds its position), `rendered_coastal` (White City facades and Jaffa-inspired
 harbor approaches), `rendered_polish_motion` (actual walk/run frame sequences),
@@ -487,8 +490,9 @@ does not declare its live status.
 ART-08 converts the normal game to fixed-angle rendered 2.5D presentation. Use `tools/play.sh`.
 ART-09 adds connected gait poses, daylight, visible entrances, continued surroundings,
 varied White City facades and a Jaffa-inspired harbor.
-All twelve maps, the cast/passers and Go assets use `art/rendered/`; logical coordinates,
-saves and Go rules are unchanged. `tools/run_rendered.sh <route>` provides isolated play
+Maps, walking cast/passers and dialogue busts use `art/rendered/`. ART-11 cast
+matches use `art/table_scene/` at 768×432; logical coordinates, saves and Go rules
+are unchanged. `tools/run_rendered.sh <route>` provides isolated play
 verification. Blender/Pillow build commands and the depth-mask format are in
 `docs/ps1/world/README.md`. Earlier art-freeze statements below describe historical work;
 ART-08 supersedes them for production art. The ART-07 opt-in room remains session-only.
@@ -729,3 +733,17 @@ a curve and a replayable SGF exist, opens on the praised move, walks moves with 
 jumps marks with Up/Down, opens a marked card with Space and closes with Escape. The graph
 caption rounds the pass-one loss; the cards quote the second pass, so the two can differ by
 a few points on the same move. Route: `review_graph` (real engine, isolated XDG data).
+
+
+## ART-11 match style adoption
+
+The owner approved the revised table scene and requested all match screens first.
+`MatchViewRoute` now selects `src/go_ui/table_scene/match.tscn` for all original
+cast encounters. Python/Blender/Pillow build 21 models and seven clips each from
+`tools/table_scene/` and shared identity records; `build_assets.py --groups table_scene`
+includes this production asset group. Cast boards use 768×432 at 30 fps, restored
+on return; original request profiles, colours, ranks, scoring and bridge persistence
+remain authoritative. Nigiri, teaching panels, 7/9/13/19 picking and counting share
+the table. Development profiles without a cast model retain their old harness.
+Walking-world and dialogue-portrait rollout is later, per the owner's chosen order.
+See `docs/table_scene/adoption/verification.md` for inspected rollout evidence.

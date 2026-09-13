@@ -17,12 +17,15 @@ func setup(who: String) -> void:
     viewport = TableSceneStage.viewport(self, Vector2i(size), true)
     model = load("res://art/table_scene/%s.glb" % who).instantiate()
     viewport.add_child(model)
+    if who == "sunny":
+        model.scale = Vector3.ONE * 0.84
+        model.position.y = 0.22
     model.rotation.y = 0.10 if who == "player" else -0.10
     var ink := ShaderMaterial.new()
-    ink.shader = preload("res://src/experiments/table_scene/outline.gdshader")
+    ink.shader = preload("res://src/go_ui/table_scene/outline.gdshader")
     face = ShaderMaterial.new()
     face.next_pass = ink
-    face.shader = preload("res://src/experiments/table_scene/face.gdshader")
+    face.shader = preload("res://src/go_ui/table_scene/face.gdshader")
     face.set_shader_parameter("faces", load("res://art/table_scene/%s_face.png" % who))
     _prepare(model)
     var camera := Camera3D.new()
@@ -44,7 +47,7 @@ func _prepare(node: Node) -> void:
                 node.set_surface_override_material(index, face)
             elif original is StandardMaterial3D:
                 var mat := ShaderMaterial.new()
-                mat.shader = preload("res://src/experiments/table_scene/cel.gdshader")
+                mat.shader = preload("res://src/go_ui/table_scene/cel.gdshader")
                 mat.set_shader_parameter("colour", original.albedo_color)
                 mat.next_pass = face.next_pass
                 node.set_surface_override_material(index, mat)
