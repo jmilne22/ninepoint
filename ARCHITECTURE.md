@@ -17,7 +17,7 @@ retain the standard scene. The disposable Wren showcase remains under
 `src/experiments/table_scene/`. [Details](docs/table_scene/README.md).
 
 ART-13 adopts the approved ART-12R direction throughout the campaign. `ProjectedWorld`
-creates a 768×432 3D SubViewport over the original logical map. Its camera agrees with
+creates a 3D SubViewport at the displayed pixel size over the original logical map. Its camera agrees with
 `RoomProjection` at every tile centre; `Player`, `Npc`, doors, collision and save positions
 remain in the original 2D coordinate system. `ExpressivePerson` follows those actors,
 without owning gameplay state. It samples displacement after actor physics ticks,
@@ -33,6 +33,11 @@ Canvas Items stretch renders UI at window resolution; logical layouts retain the
 384×216 world/teaching and 768×432 match coordinates. `ExpressiveBackdrop` renders
 campaign geometry for title and tram arrivals. Hana's introduction uses the live portrait
 and the original table geometry. The original isolated Kettle experiment is preserved.
+`NativeViewportSize` follows the display's canvas transform and logical rectangle, so
+render targets track window resizing, letterboxing and nested portrait scales. The world
+sprite retains its 384×216 footprint when its texture changes size. Shared table surfaces
+retain logical-to-pixel input conversion. Rendering resolution no longer depends on the
+presentation profile.
 [Pipeline and verification](docs/expressive_world/README.md).
 
 ART-14 adds an opt-in process profile in `src/rpg/kettle_next/`. It selects four shared
@@ -41,9 +46,9 @@ rooms keep their campaign sources. `KettleNextActing` is the sole AnimationPlaye
 for those rigs. It blends authored loops and one-shots, preserves normalized gait phase,
 and expires expressions into a resting pose. Actors still supply physics-sampled speed.
 Tomás's cloth follows a hand bone; steam positions come from generated cup coordinates.
-The prototype world viewport is 1536×864 and portrait textures render at twice their
-logical extent. Projection, match board viewport, picking plane and UI coordinates do
-not change. The profile is never serialized. Python coordinators remain authoritative;
+The prototype shares native viewport sizing with the normal campaign. Projection,
+picking plane and UI coordinates do not change. The profile is never serialized.
+Python coordinators remain authoritative;
 `tools/table_scene/export.py` exposes the same table builder for optional rim refinement.
 [Prototype scope and validation](docs/kettle_next/verification.md).
 
@@ -770,17 +775,19 @@ posed vertex equivalence; painted face meshes remain separate. Embedded 2D lesso
 boards obtain the preview textures lazily through the same profile boundary.
 
 
-## AUDIO-01 preview seam
+## Production table audio (AUDIO-02)
 
-`AudioPreview` is a session-only child of Audio, enabled by `NINEPOINT_AUDIO_PREVIEW`.
-It preserves original streams and overrides only theme_club, theme_battle and its intro.
-The profile owns selection history and preview controls; no save fields or Go rules change.
+`Audio` loads the production `audio/` directory directly. `TableAudioPalette` chooses
+among six Thwack recordings without immediate repeats; single/group captures and bowl
+contacts have separate streams. There is no audition flag, overlay or old-audio fallback.
 `TableStoneAudio` accepts actual move intents and consumes them on a surface landing event,
 then schedules capture clatter on a child timer. Board reconstruction produces no intent.
-The 2D and production paths preserve their existing audio timing.
-Python renders pinned recorded sources and original scores into `audio_preview/`, separate
-from production `audio/`. No runtime synth, download or external audio service is required.
+The 2D teaching boards use the same samples through Audio's normal methods.
 
-AUDIO-01 revision 02 extends the profile to five choices including production Original,
-with Thwack as default. The landing/capture seam and production routing are unchanged;
-only preview assets, family selection and the editable original score were extended.
+Python renders the pinned recorded sources and original scores into `audio_preview/`.
+`tools/adopt_audio.py` verifies their checksums and publishes production filenames:
+Kettle → theme_club, rated match → theme_battle plus theme_battle_in, and table effects.
+`gen_audio.build` publishes these renders alongside the retained synthesized cues;
+`build_assets.py --groups audio_preview` rebuilds the source renders and publishes them.
+Superseded synthesis recipes and stone_place_alt are removed. Historical audition media
+and source licenses remain available. No runtime synthesis or network access is needed.

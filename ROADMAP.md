@@ -482,3 +482,9 @@ audibility and waveform measurements do not establish aesthetic quality.
 Owner feedback on AUDIO-01 calls for a sharper THWACK and the dramatic character of
 Majiwaru Michi, Shukuteki and Mezame. Revision 02 keeps the original alternatives and adds
 a dry-contact default, with more melodic and rhythmic development in both original cues.
+
+AUDIO-02 follows the owner's request to make revision 02 permanent and remove superseded
+audio. Thwack, the capture/bowl contacts and both new music cues now ship through the
+normal production sound names. The audition switch and overlay are removed; remaining
+location, lesson and named-character cues are retained. The full soundtrack remains a
+separate scope, and the earlier comparison media is historical evidence.

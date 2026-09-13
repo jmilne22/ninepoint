@@ -8,6 +8,7 @@ static func run(tree: SceneTree, shot: Callable) -> void:
     var state := tree.root.get_node("GameState")
     var bridge := tree.root.get_node("MatchBridge")
     var pilot := tree.root.get_node("Autopilot")
+    await _check_world_resolution(tree, shot, t)
     for spec in [["pip", 7], ["tomas", 13], ["marguerite", 19], ["joos", 9]]:
         var npc := str(spec[0])
         var n := int(spec[1])
@@ -81,3 +82,21 @@ static func run(tree: SceneTree, shot: Callable) -> void:
         t.eq(str(state.match_records[-1].get("npc_id", "")), npc, "saved result belongs to opponent")
     print("TABLE ADOPTION: ", t.report())
     if t.failed > 0: tree.quit(1)
+
+static func _check_world_resolution(tree: SceneTree, shot: Callable, t: TestKit) -> void:
+    var world: ProjectedWorld
+    for child in tree.current_scene.get_children():
+        if child is ProjectedWorld: world = child
+    t.ok(world != null, "production world has a 3D presentation")
+    if world == null: return
+    var original := tree.root.size
+    for dimensions in [Vector2i(768,432), Vector2i(1920,1080), Vector2i(1600,1200)]:
+        tree.root.size = dimensions
+        for frame in 4: await tree.process_frame
+        var expected := Vector2i(dimensions.x, roundi(dimensions.x * 9.0 / 16.0))
+        t.eq(world.view.size, expected, "world render target follows displayed pixels")
+        t.ok((world.picture.scale * Vector2(world.view.size)).is_equal_approx(Vector2(384,216)),
+            "resizing preserves the logical world footprint")
+        await shot.call("world_%dx%d" % [dimensions.x, dimensions.y])
+    tree.root.size = original
+    for frame in 4: await tree.process_frame

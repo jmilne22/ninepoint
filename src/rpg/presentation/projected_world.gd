@@ -14,7 +14,7 @@ func setup(owner_world: Node2D) -> void:
     world = owner_world
     room = world.map.presentation
     view = SubViewport.new()
-    view.size = Vector2i(1536,864) if KettleNextProfile.enabled() else Vector2i(768,432)
+    view.size = Vector2i(768,432)
     view.own_world_3d = true
     view.msaa_3d = Viewport.MSAA_4X
     view.render_target_update_mode = SubViewport.UPDATE_ALWAYS
@@ -40,6 +40,8 @@ func setup(owner_world: Node2D) -> void:
     picture.z_index = -5
     picture.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
     add_child(picture)
+    view.size_changed.connect(_fit_picture)
+    NativeViewportSize.bind_view(view, self, Vector2(384,216))
     var listener := AudioListener2D.new()
     world.player.add_child(listener)
     listener.make_current()
@@ -51,6 +53,9 @@ func setup(owner_world: Node2D) -> void:
     world.camera.limit_right = int(room.size.x+pad.x)
     world.camera.limit_bottom = int(room.size.y+pad.y)
     _find_people(world.entities)
+
+func _fit_picture() -> void:
+    picture.scale = Vector2(384,216) / Vector2(view.size)
 
 func _find_people(node: Node) -> void:
     if node is CharacterSprite and not people.has(node.get_instance_id()):

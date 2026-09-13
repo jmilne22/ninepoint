@@ -76,7 +76,8 @@ func set_expression(mood: String) -> void:
     match_scene.wren_actor.perform("pleased" if mood == "happy" else "thinking", 1.6)
 
 func _play_drop_audio() -> void:
-    if not AudioPreview.requested(): super._play_drop_audio()
+    # Each visible stone sounds when its landing tween completes below.
+    pass
 
 func _drop_stone(index: int, _total: int) -> void:
     var stone: Node3D = load("res://art/table_scene/white_stone.glb").instantiate()
@@ -88,7 +89,7 @@ func _drop_stone(index: int, _total: int) -> void:
     revealed.append(stone)
     var landing := create_tween()
     landing.tween_property(stone, "position:y", 0.143, 0.20).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-    if AudioPreview.requested(): landing.tween_callback(Audio.play_stone)
+    landing.tween_callback(Audio.play_stone)
 
 func _kick(_power: float) -> void:
     pass

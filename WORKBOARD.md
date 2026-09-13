@@ -4,17 +4,34 @@ This is the **operational source of truth** for unfinished work. An agent starts
 not in the milestone history. It answers: what may be picked up now, what is blocked, and
 what evidence makes a task done.
 
-Revision base: `origin/main` and HEAD both `578c3c0`, freshly fetched and verified on 2026-09-13 before the isolated AUDIO-01 work.
+Revision base: `origin/main` and HEAD both `fb044e7`, freshly fetched and verified on 2026-09-13 before DISPLAY-01.
 Update the snapshot when reconciling after a merge; it is not a release number.
 
-## AUDIO-01 — Table and Kettle audio preview
+## DISPLAY-01 — Render 3D at the displayed resolution
+
+- Status: `SHIPPED` (combined PR branch; pending merge) · Owner: Codex · Branch: `codex/launch-render-audio-fixes`.
+- Owner requested a fix for the soft, fixed-resolution world rendering.
+- Scope: size world, board, portrait and backdrop render targets from their displayed pixel extent, including live window resizing and letterboxing; retain logical layout, camera framing and input coordinates.
+- Acceptance: inspect rendered world/opening/match images, verify resizing and board picking at multiple window sizes, and run the technical gate with isolated saves.
+- Rendered evidence: 3,806 / 0 board checks at 768×432, 1536×864, 1920×1080 and letterboxed 1600×1200; 105 / 0 production world/match/record/return checks. Opened the 1080p world and Hana introduction, letterboxed world, 13×13 and 19×19 tables, and rooftop-room arrival. Routes: `--verify-table_scene`, `table_adoption`, `opening`; captures/logs in `/home/user/.cache/ninepoint-resolution/`.
+- Technical gate: `tools/test.sh` passed with isolated user data: 406 resource loads, 19,926 / 0 main checks, pure review/teaching, capture and real KataGo integration gates. Rendering used software OpenGL; native GPU performance was not benchmarked. Higher resolutions allocate larger render targets.
+
+## AUDIO-01 — Table and Kettle audio preview (adopted by AUDIO-02)
 
 - Status: `IMPLEMENTED FOR REVIEW` · Owner: Codex · Branch: `codex/audio-preview`.
 - Owner-approved plan: three stone families, table Foley, two original sampled-instrument cues, independent A/B controls and disposable campaign preview.
 - Fresh base HEAD = origin/main = `578c3c0`; isolated checkout.
-- Production audio remains unchanged. Complete Wren play, 30/60/144 contact checks, real-driver output, full technical gate and review media are recorded in [verification](docs/audio_preview/verification.md).
+- The original preview kept production audio unchanged; AUDIO-02 adopts the latest version at the owner's request. Complete Wren play, 30/60/144 contact checks, real-driver output, full technical gate and review media are recorded in [verification](docs/audio_preview/verification.md).
 - Revision 02: owner requested THWACK and named Majiwaru Michi, Shukuteki and Mezame. Added six Thwack variants as the default and recomposed both cues with a stronger dramatic arc; the first pass remains available.
-- Human listening review remains open: repeated-placement satisfaction, contact timing, long-session comfort and fit with Sela. [Launch and audition](docs/audio_preview/README.md).
+- The owner has requested default adoption and removal of the old audio. [Production launch and source notes](docs/audio_preview/README.md).
+
+## AUDIO-02 — Default audio adoption
+
+- Status: `SHIPPED` (combined PR branch; pending merge) · Owner: Codex · Branch: `codex/launch-render-audio-fixes`.
+- Owner requested the latest music and effects by default, removal of superseded audio, and one PR containing the launch, resolution and audio fixes.
+- Scope: publish the approved Thwack/capture/bowl samples and Kettle/rated-match music into production `audio/`; remove old synthesis recipes and the runtime audition switch/overlay. Preserve remaining location, lesson, character and UI cues.
+- Acceptance: standard-launch playback and contact timing, real-driver music/effect output and looping, technical gate, document sweep, fresh main comparison and combined PR.
+- Verified: standard-launch real audio driver 19 / 0; contact/destruction/redraw timing 48 / 0 at 30/60/144 fps; production world/match/record/return 105 / 0 with inspected captures and no overlay. Full `tools/test.sh`: 406 loads, 19,569 / 0 main checks and all integration gates passed. Three Python asset tests verify exact production WAVs and retired synthesis recipes. [Combined evidence and images](docs/player-fixes/README.md).
 
 ## ART-15 — Complete graphics and animation preview
 

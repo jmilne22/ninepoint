@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-# Same campaign graphics for both audio choices, with disposable progress.
+# Latest campaign graphics with the default production audio and disposable progress.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-export NINEPOINT_AUDIO_PREVIEW=1
-if [ "${1:-}" = "--baseline" ]; then export NINEPOINT_AUDIO_PREVIEW=baseline; shift; fi
+if [ "${1:-}" = "--baseline" ]; then echo 'The superseded audio has been removed.' >&2; exit 2; fi
 export NINEPOINT_PRESENTATION=campaign_next
 GODOT="${GODOT:-$HOME/.local/bin/godot}"
 mkdir -p "$HOME/.cache/ninepoint-audio-preview"

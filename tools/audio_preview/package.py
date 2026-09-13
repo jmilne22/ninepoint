@@ -11,10 +11,10 @@ OUT=ROOT/'docs/audio_preview'
 def sounds():
     OUT.mkdir(parents=True,exist_ok=True)
     pieces=[]; labels=[]
-    for family in ['original','snap','thunk','deep','thwack']:
+    for family in ['snap','thunk','deep','thwack']:
         hits=[]
         for i in range(6):
-            path=ROOT/'audio'/('stone_place_alt.wav' if i%2 else 'stone_place.wav') if family=='original' else ROOT/'audio_preview'/f'stone_{family}_{i}.wav'
+            path=ROOT/'audio_preview'/f'stone_{family}_{i}.wav'
             hit=read(path)
             hit=normalize(hit,OUT/'measure.wav',-24,repeated=True)
             hits.append(np.pad(hit,(0,RATE-len(hit))))
@@ -22,9 +22,10 @@ def sounds():
         write(OUT/f'{family}.wav',segment)
         labels.append({'family':family,'start_seconds':len(pieces)*7,'end_seconds':len(pieces)*7+6,'lufs':audition_loudness(hits[0])})
         pieces.append(np.concatenate([segment,np.zeros(RATE)]))
-    write(OUT/'stone-comparison.wav',np.concatenate(pieces))
-    write(OUT/'thunk-thwack.wav',np.concatenate([pieces[2],pieces[4]]))
-    (OUT/'comparison-timeline.json').write_text(json.dumps(labels,indent=2)+'\n')
+    # Keep the archived Original comparison intact after its source was retired.
+    write(OUT/'stone-candidates.wav',np.concatenate(pieces))
+    write(OUT/'thunk-thwack.wav',np.concatenate([pieces[1],pieces[3]]))
+    (OUT/'candidate-timeline.json').write_text(json.dumps(labels,indent=2)+'\n')
     for name in ['capture_single','capture_group','bowl_rattle']:
         write(OUT/f'{name}.wav',read(ROOT/'audio_preview'/f'{name}.wav'))
     for name in ['kettle','match','match_in']:

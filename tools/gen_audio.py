@@ -1,9 +1,7 @@
-"""Synthesises every sound in the game.
+"""Synthesize the retained UI, ambience and location/character cues.
 
-No sample library, no external service. A Go stone on a wooden board makes a
-short, bright, woody knock -- a pitched burst with a very fast decay over a
-tiny noise transient -- and almost everything else here is a variation on that
-idea. See ART_DIRECTION.md for the visual equivalent of this argument.
+Approved sampled table sounds and Kettle/rated-match music are published by
+adopt_audio; their original synthesis recipes have been removed.
 """
 import os
 import sys
@@ -22,38 +20,6 @@ def sound(name):
 
 
 # ----------------------------------------------------------------- the board
-def _stone(base_freq, brightness=1.0, tau=0.045, seed=3):
-    """A 'pachi': wood resonance plus a click of contact noise."""
-    s = Sound.silence(0.13)
-    # two resonances an odd interval apart read as wood rather than a bell
-    s.mix(Sound.tone(base_freq, 0.13, "sine", 0.9).decay(tau))
-    s.mix(Sound.tone(base_freq * 2.71, 0.13, "sine", 0.28).decay(tau * 0.5))
-    s.mix(Sound.tone(base_freq * 0.5, 0.13, "sine", 0.22).decay(tau * 1.4))
-    click = Sound.noise(0.012, 0.7, seed=seed).lowpass(5200 * brightness)
-    click.decay(0.004)
-    s.mix(click, 0.0, 1.0)
-    return s.fade_edges(0.003).normalise(0.8)
-
-
-@sound("stone_place")
-def _():
-    return _stone(760, 1.0)
-
-
-@sound("stone_place_alt")
-def _():
-    return _stone(690, 0.92, seed=11)
-
-
-@sound("capture")
-def _():
-    """Several stones lifted off and dropped in the lid."""
-    s = Sound.silence(0.42)
-    for i, (at, f, seed) in enumerate([(0.0, 820, 5), (0.055, 700, 9),
-                                       (0.10, 900, 13), (0.17, 640, 17),
-                                       (0.235, 780, 21)]):
-        s.mix(_stone(f, 1.05, 0.035, seed).gain(0.75 - i * 0.08), at)
-    return s.fade_edges().normalise(0.9)
 
 
 @sound("illegal")
@@ -181,34 +147,6 @@ def _():
 
 
 # --------------------------------------------------------------------- music
-@sound("theme_club")
-def _():
-    """De Ketel. Dark wood, a coal stove, and Tomas, who is hospitable.
-
-    F major pentatonic, and it cannot go sour. Still slow and unhurried --
-    this plays under thinking, and thinking is the point -- but it was in D
-    minor before, which made the warmest room in the game sound like the
-    saddest. A bar you like being in is not a sad place.
-    """
-    bpm = 60.0
-    beat = 60.0 / bpm
-    bars = 8
-    s = Sound.silence(bars * 4 * beat)
-
-    _voice(s, [
-        (0, "A4", 2), (2, "C5", 2),
-        (4, "D5", 3), (7, "C5", 1),
-        (8, "A4", 2), (10, "G4", 2),
-        (12, "F4", 4),
-        (16, "C5", 2), (18, "D5", 2),
-        (20, "F5", 3), (23, "D5", 1),
-        (24, "C5", 2), (26, "A4", 2),
-        (28, "F4", 4),
-    ], beat, wave="tri", amp=0.29, harm=2.0, harm_amp=0.08,
-        attack=0.05, decay=0.2, sustain=0.55, release=0.5, cutoff=2200)
-
-    _bass(s, ["F2", "C3", "D3", "A2"], beat, bars_each=2, amp=0.15)
-    return s.lowpass(3200).fade_edges(0.05).normalise(0.5)
 
 
 @sound("theme_street")
@@ -759,87 +697,6 @@ def _():
 # playing faster rather than a track borrowed from a different one.
 
 
-@sound("theme_battle")
-def _():
-    """A game that counts. E minor pentatonic at 132, and it is having a good
-    time about it.
-
-    The tune is not much busier than theme_match's -- eight bars of it would fit
-    the same page. What changes is underneath: a bass on every quaver instead of
-    a root once a bar, and a backbeat. Upbeat is a rhythm section decision, not a
-    melodic one, which is why the melody can still leave room to read the board.
-
-    Ends on the fifth rather than the root so the loop drives back round instead
-    of arriving. Nothing in a game of Go has finished when the phrase does.
-    """
-    bpm = 132.0
-    beat = 60.0 / bpm
-    bars = 16
-    s = Sound.silence(bars * 4 * beat)
-
-    melody = [
-        (0, "E5", 1), (1, "G5", 0.5), (1.5, "E5", 0.5), (2, "B4", 1), (3, "D5", 1),
-        (4, "E5", 2), (6.5, "D5", 1.5),
-        (8, "B4", 1), (9, "D5", 0.5), (9.5, "B4", 0.5), (10, "A4", 1), (11, "B4", 1),
-        (12, "G4", 2), (14.5, "A4", 1.5),
-        (16, "E5", 1), (17, "G5", 0.5), (17.5, "A5", 0.5), (18, "B5", 2),
-        (20, "A5", 1), (21, "G5", 1), (22, "E5", 2),
-        (24, "D5", 1), (25, "E5", 0.5), (25.5, "G5", 0.5), (26, "E5", 2),
-        (28, "B4", 1.5), (29.5, "D5", 2.5),
-        (32, "B5", 1), (33, "A5", 0.5), (33.5, "G5", 0.5), (34, "E5", 2),
-        (36, "G5", 1), (37, "A5", 1), (38, "B5", 2),
-        (40, "D6", 1), (41, "B5", 1), (42, "A5", 2),
-        (44, "G5", 1), (45, "E5", 1), (46, "D5", 2),
-        (48, "E5", 1), (49, "G5", 0.5), (49.5, "E5", 0.5), (50, "B4", 1), (51, "D5", 1),
-        (52, "E5", 2), (54.5, "G5", 1.5),
-        (56, "A5", 1), (57, "B5", 1), (58, "D6", 2),
-        (60, "A5", 2), (62, "B5", 2),
-    ]
-    LEADS["theme_battle"] = melody
-    _voice(s, melody, beat, wave="tri", amp=0.26, harm=2.0, harm_amp=0.07,
-           attack=0.01, decay=0.12, sustain=0.5, release=0.3, cutoff=4000,
-           hold=0.9)
-    # The same doubling theme_title uses: a quiet sine four hundredths of a beat
-    # late turns one oscillator into something with a body.
-    _voice(s, [(st + 0.04, nm, ln) for st, nm, ln in melody], beat,
-           wave="sine", amp=0.06, harm_amp=0.0,
-           attack=0.02, decay=0.2, sustain=0.4, release=0.35, cutoff=4200)
-
-    _pulse_bass(s, ["E2", "E2", "G2", "G2", "A2", "A2", "B2", "D3"],
-                beat, bars, per_beat=2, amp=0.20)
-    _drums(s, beat, bars,
-           kick="X.......x...x...",
-           snare="....X.......X...",
-           hat="x.x.x.x.x.x.x.x.", seed=11)
-    return s.lowpass(5000).fade_edges(0.05).normalise(0.46)
-
-
-@sound("theme_battle_in")
-def _():
-    """Four beats that land on theme_battle's downbeat, played once as the board
-    appears. Audio.play_music() finds this by the "<track>_in" convention, so an
-    intro is added to any theme by adding a wav and nothing else.
-
-    A rising fifth-and-octave stab over a noise swell -- the oldest trick there
-    is for "something is about to start", and it works because the ear hears the
-    swell stop rather than the note start.
-    """
-    bpm = 132.0
-    beat = 60.0 / bpm
-    s = Sound.silence(beat * 4.6)
-
-    _voice(s, [(0, "E4", 0.5), (0.5, "B4", 0.5), (1, "E5", 0.5),
-               (1.5, "G5", 0.5), (2, "B5", 2.4)], beat,
-           wave="tri", amp=0.30, harm=2.0, harm_amp=0.10,
-           attack=0.01, decay=0.1, sustain=0.55, release=0.5, cutoff=4200)
-    # The swell fills the two beats before the landing and stops dead on it.
-    swell = Sound.noise(beat * 2.0, 0.45, seed=77).lowpass(2600)
-    swell.env(attack=beat * 1.92, decay=0.005, sustain=1.0, release=0.04)
-    s.mix(swell, 0.0)
-    _drums(s, beat, 1, kick="X...x...X.......", snare="............X...", seed=13)
-    return s.lowpass(5000).fade_edges(0.02).normalise(0.46)
-
-
 @sound("theme_rival")
 def _():
     """Kesh. The battle theme, but it is him.
@@ -1185,6 +1042,8 @@ def build(out_dir):
         path = os.path.join(out_dir, name + ".wav")
         s.save(path)
         written.append((name, round(s.seconds(), 3), round(s.peak(), 2)))
+    from adopt_audio import build as publish_table_audio
+    publish_table_audio(out_dir)
     return written
 
 

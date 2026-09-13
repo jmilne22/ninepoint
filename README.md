@@ -26,8 +26,9 @@ Run `tools/play_expressive_world.sh` to play the complete campaign with separate
 persistent preview saves. `tools/play.sh` uses the normal campaign save directory.
 The [locomotion/tram correction](docs/expressive_world/motion-fix/README.md) can be tried
 with `tools/play_motion_fix.sh`, using another isolated set of preview saves.
-The default window is 1536×864; interface outlines render at window resolution while
-live world scenes retain the approved 768×432 visual density.
+The default window is 1536×864. The world, Go table, portraits and interface render
+at their displayed pixel size and stay sharp when the window is resized. The 16:9
+layout is preserved with bars when needed; higher resolutions require more GPU work.
 
 The [new Kettle model and motion prototype](docs/kettle_next/README.md) is optional:
 `tools/play_kettle_next.sh` opens a disposable save with rebuilt Ro/Wren/Kesh/Tomás,
@@ -37,10 +38,10 @@ Full-campaign adoption awaits a separate visual review.
 The [approved Kettle trial](docs/expressive_kettle/refinement/README.md) and
 [original match showcase](docs/table_scene/README.md) remain available for comparison.
 
-The [audio preview](docs/audio_preview/README.md) adds four tactile stone families (default: Thwack) and two
-original dramatic music cues over the latest campaign graphics. Run `tools/play_audio_preview.sh`;
-F6 changes stones, F7 switches music, F8 mutes music. `--baseline` changes audio only.
-This uses disposable progress and leaves normal production audio unchanged.
+Normal play now uses the [recorded Thwack effects and new music](docs/audio_preview/README.md):
+six stone variations, separate capture/bowl sounds, Beyond the Balcony in The Kettle,
+and One Clear Move for ordinary rated games. Superseded audio and the audition controls
+have been removed. Other location, lesson and character cues keep their existing routing.
 
 ## Read this first
 
@@ -55,12 +56,15 @@ This uses disposable progress and leaves normal production audio unchanged.
 
 ## Playing it
 
-On a fresh checkout, import the checked-in assets once, then launch:
+Launch from the repository root:
 
 ```bash
-godot --headless --path . --editor --quit
 tools/play.sh
 ```
+
+The launcher refreshes Godot's asset imports and script-class cache before opening
+the game, including after pulling updates. The first import can take longer.
+Existing saves are preserved.
 
 Godot 4.7 is required; on this machine it lives at `~/.local/bin/godot`
 (a `steam-run` wrapper — see the note on running Godot under NixOS).
