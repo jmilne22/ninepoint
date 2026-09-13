@@ -1,0 +1,13 @@
+[
+ {"save":"lost_to_kesh"},{"wait":0.8},{"tap":"move_down"},{"tap":"interact"},{"world_wait":true},
+ {"experience":"visit","map":"de_ketel","spawn":"middle"},{"experience":"kettle_next","action":"before"},{"shot":"kettle"},{"wait":8},
+ {"talk_to":"wren"},{"experience":"choice","text":"Another game."},
+ {"experience":"choice","text":"Set them up."},
+ {"board_input":{"button_hover":"odd"}},{"shot":"nigiri"},
+ {"board_input":{"nigiri_mouse":"white"}},{"experience":"setup"},{"shot":"match_ready"},
+ {"match_autoplay":true,"timeout":600,"max_moves":300},
+ {"experience":"kettle_next","action":"engine"},{"shot":"result"},{"experience":"result"},
+ {"experience":"review_choice","accept":true},{"review_card_wait":true,"timeout":180},
+ {"review_walk":true},{"tap":"cancel"},{"world_wait":true},
+ {"experience":"kettle_next","action":"return"},{"shot":"returned"},{"wait":8}
+]

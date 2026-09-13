@@ -395,7 +395,7 @@ src/autoload/  EventBus, GameState, SaveSystem, SceneRouter, MatchBridge, KataGo
 | `tools/characters.py` | shared identity for production models in `tools/ps1/people.py`; `art_people.py`, `portrait_sprite_people.py` / `portrait_sprite_heads.py` and `gen_characters.py` retain the grid fallback |
 | `tools/gen_tiles.py` + `tools/coastal_tiles.py` | `art/tiles/town_tileset.png` + its manifest **and** `town_tileset.tres` (via `gen_tileset_resource.py`, which `build_assets.py` runs — a tile outside the resource draws as nothing, silently) |
 | `tools/font5x7.py` | the bitmap font glyphs |
-| `tools/gen_audio.py` + `tools/coastal_audio.py` + `wav.py` | `audio/*.wav` — synthesised from oscillators, no samples. A track named `<t>_in` is a one-shot intro sting for `<t>` |
+| `tools/gen_audio.py` + `tools/coastal_audio.py` + `wav.py` | `audio/*.wav` — original production synthesis. AUDIO-01 additionally permits recorded Foley and sampled instruments in the isolated preview. A track named `<t>_in` is a one-shot intro sting for `<t>` |
 | `tools/gen_props.py` | the articulated tram (160×36) and the "..." bubble |
 | `tools/art_furniture.py`, `art_architecture.py`, `art_materials.py`, `coastal_architecture.py` | venue props, structures and tile material recipes |
 | `tools/art_specs.py` | shared prop dimensions, footprints and animation holds |
@@ -828,3 +828,16 @@ Run `check_assets.py` with Pillow for deformation/face/map contracts; `package.p
 requires FFmpeg. The original map manifest owns presentation seat assignments; do not
 derive them from progress-mutated runtime NPC activity. Production adoption is pending
 owner review of this complete preview.
+
+
+## AUDIO-01 — isolated audio preview
+
+Owner authorized recorded sources and original sampled-instrument music, processed by Python.
+`tools/play_audio_preview.sh` starts the latest campaign graphics in The Kettle with disposable
+saves; `--baseline` changes audio only. F6 selects Original/Snap/Thunk/Deep, F7 switches music,
+F8 mutes music. Normal production audio remains unchanged.
+`tools/build_audio_preview.py` / `build_assets.py --groups audio_preview` rebuild only preview
+exports. Edit `tools/audio_preview/` sources, never exported WAVs. Source archives, licenses,
+checksums and renderer versions are retained. See `docs/audio_preview/README.md`.
+The surface owns landing audio for actual moves; reconstruction/redraw never requests it.
+Child timers cancel captures when the scene exits. Preserve the existing QOA loop workaround.

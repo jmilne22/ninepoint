@@ -1,3 +1,5 @@
+Current optional audio preview: [AUDIO-01 table effects and original cues](docs/audio_preview/verification.md), implemented for owner listening review; production adoption remains pending.
+
 Current optional campaign preview: [M60 complete rollout](docs/campaign_next/verification.md), implemented for owner visual review; production adoption remains pending.
 
 Current optional prototype: [M59 Kettle anatomy and motion](docs/kettle_next/verification.md), owner approved; ART-15 expands it into an isolated campaign preview.
@@ -3856,3 +3858,31 @@ Market Lane versus 1.156 / 0.889 ms for the approved Kettle profile. The populat
 nineteen-line board is 0.770 versus 0.777 ms. Mesh batching removes the investigated
 street draw-call regression; measurements describe these routes and this hardware.
 [Playable preview, review page and evidence](docs/campaign_next/README.md).
+
+
+## AUDIO-01 — Weight at the board, warmth in the room [implemented for review]
+
+The owner authorized recorded contact sources and sampled instruments for an isolated
+audio preview. Three six-variation stone families, single/group captures and nigiri bowl
+Foley combine Kenney CC0 contacts with original synthesized resonance. Two original
+GeneralUser/FluidSynth arrangements share a melody: 114 seconds in The Kettle at 84 BPM,
+103 seconds in rated matches at 112 BPM, with a short entrance and quieter middle.
+Python retains scores, processing recipes, source archives, licenses and exact tool versions.
+
+The process-only audio profile is independent of graphics. Disposable launchers use the
+latest campaign presentation; the baseline changes audio only. F6/F7/F8 select stone
+family, music and music mute. A presentation-owned landing callback sounds each actual
+move once, then its capture; redraw/restoration stay silent and leaving cancels timers.
+Input/rules processing and the existing QOA replay workaround remain intact.
+
+**Verified:** 24 byte-identical exports across independent builds; mono effects/stereo music
+at 48 kHz, peak headroom and matched effect loudness; 48 surface checks at 30/60/144 FPS;
+21 real-driver checks; 405 resources load and 19,805 unit checks pass. The full technical
+gate and production audibility checks pass. A real Wren game covers nigiri, count, result,
+review and return; matched prepared A/B films include single and group captures.
+Representative frames and the review page were opened and inspected.
+
+**Listening review remains open:** repeated placements, perceived contact, long-session
+comfort and musical fit with Sela require the owner's ears. This is a reviewable direction,
+not a claim that the campaign soundtrack has been replaced.
+[Playable launcher, sound/music comparisons, films and evidence](docs/audio_preview/README.md).

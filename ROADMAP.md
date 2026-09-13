@@ -468,3 +468,13 @@ ART-15 implements the approved Kettle quality across the campaign as an isolated
 Board clarity precedes full-cast tailoring and room-specific construction/lighting. Owner
 review of the completed moving campaign precedes production adoption; progress and evidence
 are tracked in WORKBOARD.md and docs/campaign_next/.
+
+
+## AUDIO-01 — align sound with Sela
+
+The owner approved a recorded-source audio preview: three stone families and two original
+sampled-instrument cues, warm in The Kettle and more rhythmic during rated play. This lifts
+the oscillator-only restriction for the preview while retaining reproducible Python builds.
+First judge the material weight, contact timing and listening fatigue in a complete Wren
+game. The full soundtrack and production adoption follow a separate owner review; technical
+audibility and waveform measurements do not establish aesthetic quality.

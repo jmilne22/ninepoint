@@ -23,6 +23,7 @@ func _initialize() -> void:
 func _run_suites() -> void:
     var kit := TestKit.new()
     var suites := {
+        "audio preview": "res://tests/test_audio_preview.gd",
         "go rules": "res://tests/test_go_rules.gd", "go scoring": "res://tests/test_go_scoring.gd",
         "go ai": "res://tests/test_go_ai.gd", "go setup": "res://tests/test_go_setup.gd",
         "capture practice": "res://tests/test_capture_practice.gd",

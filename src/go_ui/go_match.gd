@@ -555,12 +555,17 @@ func _on_point_activated(point: int) -> void:
 func _announce_move(move: Dictionary) -> void:
     if move.is_empty() or int(move.get("point", -1)) < 0:
         return
-    Audio.play_stone()
+    _play_move_audio(move)
     board_view.animate_placement(int(move["point"]))
     var captured: PackedInt32Array = move.get("captured", PackedInt32Array())
     if captured.size() > 0:
         board_view.animate_capture(captured)
-        Audio.play("capture")
+
+
+func _play_move_audio(move: Dictionary) -> void:
+    Audio.play_stone()
+    if not move.get("captured", PackedInt32Array()).is_empty():
+        Audio.play_capture(move["captured"].size())
 
 
 # --- counting -----------------------------------------------------------------

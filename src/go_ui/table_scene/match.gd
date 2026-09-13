@@ -105,6 +105,12 @@ func _text(value: String, at: Vector2, width: int, font_size: int, colour: Color
     label.mouse_filter = Control.MOUSE_FILTER_IGNORE
     return label
 
+func _play_move_audio(move: Dictionary) -> void:
+    if surface.contacts != null:
+        surface.contacts.request(int(move["point"]), move.get("captured", []).size())
+    else:
+        super._play_move_audio(move)
+
 func _announce_move(move: Dictionary) -> void:
     super._announce_move(move)
     if move.is_empty() or int(move.get("point", -1)) < 0:
