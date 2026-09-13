@@ -429,3 +429,13 @@ conversation portraits, match and return. It reuses the approved identities and
 existing dialogue/progression seams. This is a local, disposable preview; production
 world adoption and other locations follow review of this area, not this implementation
 alone. [Playable preview and footage](docs/expressive_kettle/README.md).
+
+
+### ART-12R — second visual review
+
+The owner liked the area concept but rejected the stiff stances and pristine dollhouse
+finish, then clarified Hikaru no Go 3 on GameCube as the inspiration. The second pass
+therefore prioritizes body proportion, purposeful resting hands, sound skin deformation
+and a textured, grounded room. It remains one area with original Ninepoint identities.
+The new footage and before/after comparison are review material, not approval for
+whole-world adoption. [Latest review](docs/expressive_kettle/refinement/README.md).

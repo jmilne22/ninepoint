@@ -4,4 +4,4 @@ import subprocess, sys
 from pathlib import Path
 root=Path(__file__).resolve().parents[1]
 subprocess.run([sys.executable,str(root/'tools/expressive_kettle/paint.py')],check=True)
-subprocess.run(['blender','--background','--python',str(root/'tools/expressive_kettle/build.py')],check=True)
+subprocess.run(['blender','--background','--python-exit-code','1','--python',str(root/'tools/expressive_kettle/build.py')],check=True)

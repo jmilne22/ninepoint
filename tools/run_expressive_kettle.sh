@@ -33,6 +33,7 @@ if [ -n "${MOVIE:-}" ]; then
   args+=(--write-movie "$MOVIE" --fixed-fps 30 --disable-vsync)
 fi
 scene="res://src/experiments/expressive_kettle/room.tscn"
+if [ "$mode" = "--poses" ]; then scene="res://src/experiments/expressive_kettle/poses.tscn"; fi
 status=0
 timeout 240 "$GODOT" --path "$XDG_DATA_HOME/project" "${args[@]}" "$scene" -- "$@" > "$LOG" 2>&1 || status=$?
 cat "$LOG"

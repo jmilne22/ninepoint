@@ -8,7 +8,7 @@ same warm wood, cream and green palette. Other areas retain their current presen
 ## Try it
 
 ```bash
-/home/user/Code/ninepoint-expressive-kettle/tools/play_expressive_kettle.sh
+/home/user/Code/ninepoint-kettle-refinement/tools/play_expressive_kettle.sh
 ```
 
 WASD/arrows walk, Shift runs, Space talks, Tab opens the player card, V offers the
@@ -19,7 +19,15 @@ This launcher opens a 1536×864 window over a 768×432 canvas, with normal-speed
 30-fps animation. It uses a disposable data directory and never writes campaign saves.
 The visit starts with the basic rules already acknowledged so Wren can offer a game.
 
-## Look at it
+## Latest review pass
+
+[ART-12R refinement](refinement/README.md) is the current version: balanced body
+proportions, corrected joint roll, relaxed individual stances, grounded strides,
+full-body conversation close-ups, textured surfaces, cast shadows and leafy ficus.
+The user clarified Hikaru no Go 3 on GameCube as the presentation reference.
+The earlier footage below remains available as the before version.
+
+## First POC footage
 
 [43-second viewing cut](showcase.mp4) · [Full 110.8-second recorded route](full-tour.mp4)
 

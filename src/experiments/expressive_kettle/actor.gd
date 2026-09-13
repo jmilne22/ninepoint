@@ -13,6 +13,8 @@ var gesture := ""
 var gesture_left := 0.0
 var home_angle := 0.0
 var moving := false
+var resting := "stand"
+var cloth: MeshInstance3D
 
 func _ready() -> void:
     collision_layer = 2
@@ -26,6 +28,8 @@ func _ready() -> void:
     add_child(shape)
     model = load("res://art/expressive_kettle/%s.glb" % identity).instantiate()
     add_child(model)
+    model.scale = Vector3.ONE * .92
+    resting = {"wren":"host", "kesh":"relaxed", "tomas":"serve"}.get(identity,"stand")
     var ink := ShaderMaterial.new()
     ink.shader = preload("res://src/go_ui/table_scene/outline.gdshader")
     face = ShaderMaterial.new()
@@ -33,9 +37,20 @@ func _ready() -> void:
     face.set_shader_parameter("faces", load("res://art/table_scene/%s_face.png" % identity))
     face.next_pass = ink
     _prepare(model)
-    for clip in ["stand", "walk"]:
+    for clip in ["stand", "walk", "host", "relaxed", "serve", "listen"]:
         animation.get_animation(clip).loop_mode = Animation.LOOP_LINEAR
-    _play("stand")
+    _play(resting)
+    if identity == "tomas":
+        cloth = MeshInstance3D.new()
+        var cloth_mesh := BoxMesh.new()
+        cloth_mesh.size = Vector3(.22,.012,.17)
+        cloth.mesh = cloth_mesh
+        var cloth_material := StandardMaterial3D.new()
+        cloth_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+        cloth_material.albedo_color = Color("ded7bd")
+        cloth.material_override = cloth_material
+        cloth.position = Vector3(.28*.92,1.405,.46*.92)
+        add_child(cloth)
     # A soft grounded footprint stays readable with the same unshaded cast palette.
     var shadow := MeshInstance3D.new()
     var disc := CylinderMesh.new()
@@ -98,14 +113,16 @@ func _physics_process(delta: float) -> void:
         forward.y = 0
         direction = (right.normalized() * input.x + forward.normalized() * input.y)
     var speed := 1.30 * (1.65 if Input.is_action_pressed("run") else 1.0)
-    velocity = direction * speed
+    velocity = Vector3.ZERO if input_locked else velocity.move_toward(direction * speed, delta * (10.0 if direction.is_zero_approx() else 7.0))
     move_and_slide()
     moving = get_real_velocity().length() > .06
-    if moving:
+    if moving and not direction.is_zero_approx():
         model.rotation.y = lerp_angle(model.rotation.y, atan2(direction.x, direction.z), minf(1,delta*14))
-    var clip := "walk" if moving else (gesture if gesture_left > 0 else "stand")
+    var clip := "walk" if moving else (gesture if gesture_left > 0 else resting)
     _play(clip)
-    animation.speed_scale = speed / .95 if moving else 1.0
+    animation.speed_scale = clampf(get_real_velocity().length() / .957,.2,2.5) if moving else 1.0
+    if cloth != null and clip == "serve":
+        cloth.position.x = (.28+.075*sin(animation.current_animation_position/6.0*TAU))*.92
     var mood := 2 if clip == "greet" or clip == "pleased" else 1 if clip == "thinking" else 0
     if fmod(clock + float(identity.hash() % 40) / 10, 4.7) < .13:
         mood = 5

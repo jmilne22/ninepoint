@@ -516,4 +516,4 @@ played; completed events do not replace it.
 ART-12 tests the approved match cast in one walkable Kettle interior, including
 conversation portraits and the match/return loop. Existing dialogue, ranks, teaching
 order and result consequences remain in force. The isolated visit uses disposable
-progress; campaign-wide world adoption awaits review of this one-area proof.
+progress; campaign-wide world adoption awaits review of this one-area proof. ART-12R refines the same area’s stances, movement and room finish following the owner’s GameCube reference clarification.

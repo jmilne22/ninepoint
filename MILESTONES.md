@@ -1,4 +1,4 @@
-Current verified local revision: [M56 expressive Kettle POC](docs/expressive_kettle/verification.md) and [M55 expressive matches](docs/table_scene/adoption/verification.md). Historical entries retain their original behavior and counts.
+Current verified local revision: [M57 Kettle refinement](docs/expressive_kettle/refinement/README.md), [M56 expressive Kettle POC](docs/expressive_kettle/verification.md) and [M55 expressive matches](docs/table_scene/adoption/verification.md). Historical entries retain their original behavior and counts.
 
 # NINEPOINT — Milestones
 
@@ -3711,3 +3711,29 @@ conversation busts, Wren game and return, novice/player cards and full-size revi
 loading. Inspected six gait frames and watched the 43-second Godot viewing cut
 through its ending at 1×. It removes loading and verification pauses; the complete
 110.8-second capture remains available. [Evidence](docs/expressive_kettle/verification.md).
+
+
+## M57 — Refine the expressive Kettle [POC done locally; visual review pending]
+
+ART-12R responds to the owner's stance criticism and clarified Hikaru no Go 3 GameCube
+reference. Rebalanced full-body proportions, relaxed hands and weight shifts, counter
+cloth work, corrected bone roll, planted strides and matching conversation close-ups.
+The same isolated room now has surface grain, cast shadows and individual foliage.
+
+**Done when:** 19,407 / 0 full gate (M56 predecessor: 19,407), 361 resource loads
+(previous 358), 560 deformed-pose assertions and 28 / 0 rendered acceptance checks.
+The full gate retains the predecessor's shutdown resource-leak diagnostics; the rendered
+route and pose capture have none. Actual Wren play, result, return, cards and review
+remain exercised with disposable data.
+
+| Deliberate change | Reason |
+|---|---|
+| Longer legs, smaller heads, low resting arms | Replace the first POC's squat, elbows-out stance |
+| Character-specific idle and working poses | Give hands a resting place and distinguish the cast |
+| Textured, shadow-receiving room | Ground the cast within the existing warm palette |
+| Same one-room scope | Another owner review before broader world adoption |
+
+**Actually inspected:** front/three-quarter poses, six walking frames, room comparison,
+Wren/Tomás/Kesh conversations and the 36.1-second normal-speed Godot review film.
+The 114.97-second complete tour and previous POC remain available.
+[Evidence, limitations and launch](docs/expressive_kettle/refinement/README.md).

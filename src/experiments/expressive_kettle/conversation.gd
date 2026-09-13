@@ -10,7 +10,7 @@ func talk(id: String, entry: String = "start") -> void:
     room.set_busy(true)
     var actor: ExpressiveKettleActor = room.people[id]
     actor.input_locked = true
-    actor.perform("greet", 2.8)
+    actor.perform("listen", 90.0)
     actor.face_towards(room.player.position)
     room.player.face_towards(actor.position)
     var data: NpcData = load("res://data/npcs/%s.tres" % id)

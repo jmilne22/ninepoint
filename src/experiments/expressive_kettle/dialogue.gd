@@ -55,7 +55,7 @@ func _set_speaker(who: Dictionary, _expression: String) -> void:
         _bust = null
     _portrait_id = identity
     if _bust == null and ResourceLoader.exists("res://art/table_scene/%s.glb" % identity):
-        _bust = TableSceneActor.new()
+        _bust = ExpressiveKettlePortrait.new()
         _bust.size = Vector2(224, 244)
         _bust.scale = Vector2(.5, .5)
         _bust.position = Vector2(259, _panel.position.y - 118)
@@ -63,7 +63,7 @@ func _set_speaker(who: Dictionary, _expression: String) -> void:
         _root.move_child(_bust, 0)
         _bust.setup(identity)
     if _bust != null:
-        var clip := "pleased" if _expression in ["happy", "warm"] else "thinking" if _expression == "thinking" else "idle"
+        var clip := "pleased" if _expression in ["happy", "warm"] else "thinking" if _expression == "thinking" else "listen"
         _bust.perform(clip, 3.0)
     _text.size.x = 344
 

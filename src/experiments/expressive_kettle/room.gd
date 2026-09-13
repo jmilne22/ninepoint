@@ -18,6 +18,7 @@ var player_card: PauseMenu
 
 func _ready() -> void:
     get_window().content_scale_size = Vector2i(768,432)
+    get_window().title = "Ninepoint - Kettle refinement"
     Engine.max_fps = 30
     get_viewport().msaa_3d = Viewport.MSAA_4X
     SaveSystem.session_only = true
@@ -37,12 +38,23 @@ func _ready() -> void:
     env.environment = Environment.new()
     env.environment.background_mode = Environment.BG_COLOR
     env.environment.background_color = Color("233a36")
+    env.environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+    env.environment.ambient_light_color = Color("e7e8e2")
+    env.environment.ambient_light_energy = .43
     env.environment.tonemap_mode = Environment.TONE_MAPPER_LINEAR
     add_child(env)
+    var sun := DirectionalLight3D.new()
+    sun.rotation_degrees = Vector3(-48,-35,0)
+    sun.light_color = Color("fff7e8")
+    sun.light_energy = .8
+    sun.shadow_enabled = true
+    sun.directional_shadow_max_distance = 30
+    sun.shadow_bias = .04
+    add_child(sun)
     camera = Camera3D.new()
     camera.projection = Camera3D.PROJECTION_ORTHOGONAL
     camera.size = 8.9
-    camera.position = Vector3(6.2, 8.4, 12.3)
+    camera.position = Vector3(5.0, 8.4, 14.0)
     add_child(camera)
     camera.look_at(Vector3(0,1.10,0))
     camera.make_current()
@@ -57,6 +69,7 @@ func _ready() -> void:
         add_child(actor)
         people[actor.identity] = actor
         actor.face_towards(Vector3(3,0,7))
+        if actor.identity == "tomas": actor.model.rotation.y = 0
         actor.home_angle = actor.model.rotation.y
     player = ExpressiveKettleActor.new()
     player.controlled = true
@@ -92,8 +105,12 @@ func _materials(node: Node) -> void:
             var original: Material = node.get_active_material(i)
             if original is StandardMaterial3D:
                 var mat := ShaderMaterial.new()
-                mat.shader = preload("res://src/go_ui/table_scene/cel.gdshader")
+                mat.shader = preload("res://src/experiments/expressive_kettle/room.gdshader")
                 mat.set_shader_parameter("colour", original.albedo_color)
+                var timber := original.resource_name in ["wood", "edge"]
+                mat.set_shader_parameter("wood", timber)
+                mat.set_shader_parameter("grain_amount", .65 if timber else .22)
+                mat.set_shader_parameter("grain", load("res://art/expressive_kettle/%s_grain.png" % ("wood" if timber else "plaster")))
                 node.set_surface_override_material(i, mat)
     for child in node.get_children(): _materials(child)
 

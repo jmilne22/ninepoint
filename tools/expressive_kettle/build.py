@@ -124,9 +124,27 @@ def plant(x,z,scale=1):
     cylinder('Pot rim',x,.44*scale,z,.26*scale,.09*scale,'terra')
     cylinder('Soil',x,.49*scale,z,.22*scale,.008,'dark')
     cylinder('Plant stem',x,.90*scale,z,.035*scale,.85*scale,'edge')
-    for i in range(9):
-        a=i*2.4;r=.25*scale
-        sphere('Ficus foliage',x+r*math.cos(a),(1.05+i*.05)*scale,z+r*math.sin(a),(.29*scale,.20*scale,.21*scale),'leaf' if i%2 else 'leaflight')
+    from mathutils import Vector
+    for i in range(22):
+        a=i*2.4;r=(.18+(i%3)*.07)*scale
+        cy=(.86+i*.022)*scale
+        bx=x+r*math.cos(a);bz=z+r*math.sin(a)
+        start=Vector((x,-z,.66*scale));tip=Vector((bx,-bz,cy))
+        bpy.ops.mesh.primitive_cylinder_add(vertices=8,radius=.008*scale,depth=(tip-start).length,location=(start+tip)*.5)
+        stem=bpy.context.object;stem.name='Leaf stem';stem.rotation_euler=(tip-start).to_track_quat('Z','Y').to_euler();stem.data.materials.append(M['leaf'])
+        verts=[(bx,-bz,cy+.024*scale)];faces=[]
+        for j in range(12):
+            angle=j*math.tau/12
+            along=.20*scale*math.cos(angle);across=.085*scale*math.sin(angle)
+            vx=bx+along*math.cos(a)-across*math.sin(a)
+            vz=bz+along*math.sin(a)+across*math.cos(a)
+            verts.append((vx,-vz,cy-.07*abs(math.cos(angle))*scale))
+        for j in range(12):faces.append((0,(j+1)%12+1,j+1))
+        mesh=bpy.data.meshes.new('Ficus leaf');mesh.from_pydata(verts,[],faces);mesh.update()
+        leaf=bpy.data.objects.new('Ficus leaf',mesh);bpy.context.collection.objects.link(leaf)
+        leaf.data.materials.append(M['leaflight' if i%3 else 'leaf'])
+        solid=leaf.modifiers.new('Leaf thickness','SOLIDIFY');solid.thickness=.005
+        bpy.context.view_layer.objects.active=leaf;bpy.ops.object.modifier_apply(modifier=solid.name)
     collisions.append([x,z,.45*scale,.45*scale])
 plant(-4.40,2.58,1.05);plant(4.53,1.75,.85)
 box('Notice board frame',-.33,2.38,-3.38,2.04,1.32,.09,'edge')
@@ -142,5 +160,5 @@ box('Door mat',3.13,.05,2.81,1.72,.04,.74,'green',.015)
 for i in range(7):box('Mat weave',2.42+i*.23,.073,2.81,.018,.004,.68,'gold',0)
 export('room')
 (OUT/'layout.json').write_text(json.dumps({'collision':collisions,'bounds':[-5,5,-3.25,3.25],
-    'spawn':[2.8,2.35],'people':[{'id':'wren','at':[-2.35,-.50]},{'id':'kesh','at':[-3.70,1.05]},{'id':'tomas','at':[3.60,-2.70]}]},indent=2)+'\n')
+    'spawn':[2.8,2.35],'people':[{'id':'wren','at':[-2.35,-.50]},{'id':'kesh','at':[-3.70,1.05]},{'id':'tomas','at':[3.60,-2.52]}]},indent=2)+'\n')
 print('EXPRESSIVE KETTLE EXPORTED')

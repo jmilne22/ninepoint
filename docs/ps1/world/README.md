@@ -101,3 +101,7 @@ their current models; the owner requested all match screens before that rollout.
 ART-12 now provides a separate [expressive Kettle area POC](../../expressive_kettle/README.md),
 using live full-body models and conversation busts from the approved match direction.
 The production world pipeline described here remains unchanged pending review.
+
+The [second Kettle review](../../expressive_kettle/refinement/README.md) improves
+full-body deformation/stances and surface grounding under the clarified GameCube
+presentation reference. Production world adoption is still pending visual review.

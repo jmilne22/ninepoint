@@ -52,6 +52,20 @@ Update the snapshot when reconciling after a merge; it is not a release number.
   frames and the 43-second normal-speed cut. [Evidence](docs/expressive_kettle/verification.md).
 - Other areas remain unchanged pending owner review.
 
+## ART-12R — Refine the Kettle prototype for review
+
+- Status: local POC complete; `NEEDS DECISION` for visual adoption · Owner: Codex · Branch: `codex/kettle-refinement`.
+- Owner sees potential but rejected awkward stances and the overly pristine room.
+  Clarified reference: Hikaru no Go 3 on GameCube; do not use PS1 as an excuse for weak art.
+- Fresh separate checkout proved HEAD = origin/main = `f90a39e`; brought in the
+  approved match work and existing Kettle POC before edits.
+- Scope: four full-body proportions, planted relaxed stances, individual idle/working
+  motion, matching conversation presentation, textured room and grounding.
+- Acceptance: 19,407 / 0 full gate, 361 loaded resources, 560 deformed-pose checks and
+  28 / 0 serial rendered checks. Inspected poses, gait, room/dialogue captures and the
+  36.1-second normal-speed Godot film. Previous POC remains available for comparison.
+  [Second review and launch](docs/expressive_kettle/refinement/README.md).
+
 ## How to use this board
 
 | Status | Meaning | Agent action |

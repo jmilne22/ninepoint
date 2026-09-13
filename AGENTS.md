@@ -206,7 +206,8 @@ tools/run_table_scene.sh --verify-table_scene    # projected picking, keyboard, 
 tools/play_ps1.sh                                # isolated De Ketel 2.5D experiment; never saves
 tools/play_expressive_kettle.sh                   # one-area expressive world POC, disposable saves
 DISPLAY_NUM=0 tools/run_expressive_kettle.sh --tour # walk/talk/match/return and modal/collision checks
-python3 tools/build_expressive_kettle.py           # POC room/full-body art; Blender + Pillow
+python3 tools/build_expressive_kettle.py           # POC art + 560 deformed-pose checks; Blender + Pillow
+DISPLAY_NUM=0 tools/run_expressive_kettle.sh --poses # actual full-body stance study
 tools/run_ps1.sh tools/autopilot/ps1_tour.json     # disposable user data, rendered-room acceptance
 tools/test.sh                                    # compile gate + load check + all suites
 tools/test_review_pure.sh                        # facts/narrator with the game and engine absent
@@ -759,3 +760,10 @@ cast models and animated match-model dialogue busts. `tools/play_expressive_kett
 is the isolated launcher. Main campaign map rendering is unchanged. Source scripts
 are in `tools/expressive_kettle/`; never edit `art/expressive_kettle/` exports by hand.
 [Launch, footage and inspected acceptance](docs/expressive_kettle/README.md).
+
+
+ART-12R is the current local Kettle revision. The owner clarified the visual reference
+as Hikaru no Go 3 on GameCube. `tools/expressive_kettle/motion.py` owns the continuous
+world clips; preserve authored bone roll in limb solving. `check_pose.py` checks actual
+deformed knees and idle foot contact during the Python-coordinated art build.
+[Second-review evidence](docs/expressive_kettle/refinement/README.md).

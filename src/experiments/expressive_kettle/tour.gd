@@ -2,6 +2,7 @@
 extends Node
 var output := ""
 var checks := 0
+var timeline: Dictionary = {}
 
 func run() -> void:
     output = OS.get_environment("OUT")
@@ -231,4 +232,7 @@ func _wait(seconds: float) -> void:
 func _shot(label: String) -> void:
     await RenderingServer.frame_post_draw
     get_viewport().get_texture().get_image().save_png(output.path_join(label+".png"))
+    timeline[label] = Engine.get_process_frames()
+    var file := FileAccess.open(output.path_join("timeline.json"),FileAccess.WRITE)
+    file.store_string(JSON.stringify(timeline,"  "))
     print("KETTLE SHOT: ",label)
