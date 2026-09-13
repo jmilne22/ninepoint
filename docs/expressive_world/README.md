@@ -34,8 +34,9 @@ Board controls are displayed beside the board; mouse and keyboard remain support
 ## Interface
 
 DejaVu Sans outline text replaces the bitmap face. MSDF glyphs and vector panels render
-at window resolution through Godot's `canvas_items` stretch mode. The world and portrait
-viewports retain the approved 768×432 visual density; layouts remain in their established
+at window resolution through Godot's `canvas_items` stretch mode. World, board, portrait
+and backdrop viewports follow their displayed pixel size, including window resizing and
+letterboxing, through `NativeViewportSize`. Layouts remain in their established
 384×216 world/teaching and 768×432 match coordinates. Rounded paper/green panels, restrained
 borders and shared button/focus styling cover menus, dialogue, teaching, counting and review.
 The title, Hana introduction and tram arrivals use live campaign/table geometry.

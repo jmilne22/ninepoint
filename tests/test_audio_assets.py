@@ -4,9 +4,22 @@ import json
 from pathlib import Path
 import unittest
 import wave
+import sys
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT/'tools'))
+from adopt_audio import ASSETS
+import gen_audio
 
 class AudioAssets(unittest.TestCase):
+    def test_production_adoption(self):
+        for target, source in ASSETS.items():
+            with self.subTest(sound=target):
+                self.assertEqual((ROOT/'audio'/f'{target}.wav').read_bytes(),
+                                 (ROOT/'audio_preview'/f'{source}.wav').read_bytes())
+                self.assertNotIn(target, gen_audio.SOUNDS)
+        self.assertNotIn('stone_place_alt', gen_audio.SOUNDS)
+        self.assertFalse((ROOT/'audio/stone_place_alt.wav').exists())
+
     def test_sources(self):
         for name,spec in json.loads((ROOT/'tools/audio_preview/sources.json').read_text()).items():
             self.assertEqual(hashlib.sha256((ROOT/'tools/audio_preview/sources'/name).read_bytes()).hexdigest(),spec['sha256'])

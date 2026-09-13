@@ -11,18 +11,14 @@ var white_info: Label
 var status: Label
 var controls_hint: Label
 var previous_resolution := Vector2i.ZERO
-var previous_fps := 0
 
 func _ready() -> void:
-    previous_fps = Engine.max_fps
-    Engine.max_fps = 30
     previous_resolution = get_window().content_scale_size
     get_window().content_scale_size = Vector2i(768, 432)
     super._ready()
 
 func _exit_tree() -> void:
     super._exit_tree()
-    Engine.max_fps = previous_fps
     get_window().content_scale_size = previous_resolution
 
 func _build_ui() -> void:

@@ -20,7 +20,9 @@ def build(groups, output):
         if group not in groups:continue
         if group=='audio_preview':
             subprocess.run([sys.executable,str(ROOT/'tools/build_audio_preview.py'),'--output',str(output/'audio_preview')],check=True)
-            result='opt-in sampled-instrument music and tactile table effects'
+            from adopt_audio import build as publish_table_audio
+            publish_table_audio(output/'audio', output/'audio_preview')
+            result='sampled-instrument music and tactile table effects, published to production'
         elif group=='campaign_next':
             subprocess.run([sys.executable,str(ROOT/'tools/build_campaign_next.py')],env=dict(os.environ,CAMPAIGN_NEXT_OUTPUT=str(art/'campaign_next')),check=True)
             result='complete campaign presentation preview'

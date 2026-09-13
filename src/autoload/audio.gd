@@ -7,7 +7,7 @@ extends Node
 
 signal sound_played(sound_name: String, pitch: float, volume_db: float)
 signal music_started(track_name: String)
-var preview: AudioPreview
+var table_palette := TableAudioPalette.new()
 
 const DIR := "res://audio/"
 const SFX_VOICES := 8
@@ -77,11 +77,6 @@ func _ready() -> void:
     add_child(_ambience)
     _ambience.finished.connect(_loop_ambience)
 
-    if AudioPreview.requested():
-        preview = AudioPreview.new()
-        add_child(preview)
-        preview.setup(self)
-
     EventBus.toast.connect(func(_t): play("toast"))
     # Rank follows results now, so it can fall as well as rise. Playing the
     # promotion sting at somebody who has just been demoted would be cruel.
@@ -138,22 +133,18 @@ func play(sound_name: String, pitch_jitter: float = 0.0, volume_db: float = 0.0)
     sound_played.emit(sound_name, voice.pitch_scale, volume_db)
 
 
-## A stone going down. Alternates two samples and jitters the pitch, because a
+## A stone going down. Alternates recorded samples and jitters the pitch, because a
 ## real board never makes the same sound twice.
 func play_stone() -> void:
-    if preview != null:
-        play(preview.next_stone(), 0.015 if preview.family > 0 else 0.06)
-    else:
-        play("stone_place" if randf() < 0.5 else "stone_place_alt", 0.06)
+    play(table_palette.next_stone(), 0.015)
 
 
 func play_capture(count: int) -> void:
-    play(preview.capture_name(count) if preview != null else "capture")
+    play("capture_single" if count == 1 else "capture")
 
 
 func play_bowl() -> void:
-    play(preview.bowl_name() if preview != null else "capture",
-        0.025 if preview != null and preview.family > 0 else 0.05)
+    play("bowl_rattle", 0.025)
 
 
 ## `surface` comes from the tile under the player's feet. An unknown surface

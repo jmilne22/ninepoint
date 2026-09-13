@@ -2,8 +2,11 @@
 extends "res://src/experiments/table_scene/trial.gd"
 
 func _run() -> void:
+    Audio.sound_played.connect(func(sound: String, pitch: float, volume: float) -> void:
+        print("AUDIO TRACE ", JSON.stringify({"frame":Engine.get_process_frames(),
+            "sound":sound, "pitch":pitch, "db":volume})))
     Audio.play_music("theme_battle")
-    if Audio.preview != null: Audio.preview.rng.seed = 2026
+    Audio.table_palette.rng.seed = 2026
     game = GoGame.new(9, profile.komi)
     player_color = GoBoard.BLACK
     board_view.set_game(game)

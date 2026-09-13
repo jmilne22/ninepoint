@@ -13,8 +13,9 @@ tools/play_table_scene.sh --opponent=kesh
 tools/play_table_scene.sh --opponent=tomas --board=13
 ```
 
-Cast encounters automatically open the 768×432 view, shown at 2× in the default
-1536×864 window. Names, real ranks, colours,
+Cast encounters use a 768×432 logical layout in the default 1536×864 window.
+The 3D board and character viewports render at their displayed pixel size and follow
+window resizing. Names, real ranks, colours,
 handicap and engine profiles come from the original match request. All 20 opponents
 have generated models, seven continuous animation clips and painted expressions.
 Ro/Wren retain the approved designs; other identities retain their skin, hair,
@@ -36,8 +37,8 @@ events; animation never asks the engine for another evaluation.
 Teaching temporarily gives the board the left side and a measured panel the right.
 Liberties, teaching targets, attempted moves, counting groups and territory follow
 the existing board state. Colour selection uses the same table and new characters.
-The view runs at 30 fps, with normal-speed animation, and restores the previous
-canvas and frame cap when returning to the world. Hands make authored gestures;
+The view preserves the game's frame cap, with normal-speed animation, and restores
+the previous canvas when returning to the world. Hands make authored gestures;
 they do not physically reach each arbitrary intersection.
 
 The original GoMatch controller still owns setup, legality, keyboard controls,

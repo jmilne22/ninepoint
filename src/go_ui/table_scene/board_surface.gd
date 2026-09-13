@@ -22,12 +22,11 @@ func setup(value: GoBoardView) -> void:
     mouse_filter = Control.MOUSE_FILTER_STOP
     viewport = TableSceneStage.viewport(self, Vector2i(size), false)
     (get_child(1) as TextureRect).hide()
-    if AudioPreview.requested():
-        contacts = TableStoneAudio.new()
-        add_child(contacts)
-        var audio := get_tree().root.get_node("Audio")
-        contacts.stone_landed.connect(audio.play_stone)
-        contacts.capture_landed.connect(audio.play_capture)
+    contacts = TableStoneAudio.new()
+    add_child(contacts)
+    var audio := get_tree().root.get_node("Audio")
+    contacts.stone_landed.connect(audio.play_stone)
+    contacts.capture_landed.connect(audio.play_capture)
     var table: Node3D = load(KettleNextProfile.table_path()).instantiate()
     viewport.add_child(table)
     _wood(table)

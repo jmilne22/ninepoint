@@ -1,4 +1,4 @@
-"""Build the opt-in audio palette without touching production exports."""
+"""Render the source audio palette; adopt_audio publishes it to production names."""
 import argparse
 import hashlib
 import json

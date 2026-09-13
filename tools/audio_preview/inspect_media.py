@@ -8,9 +8,9 @@ from dsp import RATE,read,filter_audio
 from PIL import Image,ImageDraw,ImageFont
 ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'docs/audio_preview'
 records=[json.loads(line.split('AUDIO TRACE ',1)[1]) for line in (OUT/'preview.log').read_text().splitlines() if 'AUDIO TRACE ' in line]
-event=next(e for e in records if e['sound'].startswith('preview_stone'))
+event=next(e for e in records if e['sound'].startswith('stone_thwack'))
 video=OUT/'preview.mp4';mixed=read(video)
-reference=read(ROOT/'audio_preview'/(event['sound'].removeprefix('preview_')+'.wav'))
+reference=read(ROOT/'audio'/(event['sound']+'.wav'))
 reference=np.interp(np.arange(0,len(reference),event['pitch']),np.arange(len(reference)),reference)
 reference=filter_audio(reference,600,'highpass')
 expected=event['frame']/30;start=round((expected-.2)*RATE)

@@ -5,6 +5,7 @@ extends RefCounted
 static func run(scene: Control) -> void:
     var t := TestKit.new()
     t.section("table scene actual scene")
+    await _check_resizing(scene, t)
     for n in [7, 9, 13, 19]:
         scene.game = GoGame.new(n, 5.5)
         scene.board_view.set_game(scene.game)
@@ -96,3 +97,26 @@ static func run(scene: Control) -> void:
     await scene.get_tree().process_frame
     print(t.report())
     await scene.close_trial(0 if t.failed == 0 else 1)
+
+static func _check_resizing(scene: Control, t: TestKit) -> void:
+    var window := scene.get_window()
+    var original := window.size
+    # The last window has letterboxing: only 1600x900 pixels contain the game.
+    for dimensions in [Vector2i(768,432), Vector2i(1536,864), Vector2i(1920,1080), Vector2i(1600,1200)]:
+        window.size = dimensions
+        for frame in 4: await scene.get_tree().process_frame
+        var expected := Vector2i(dimensions.x, roundi(dimensions.x * 300.0 / 768.0))
+        t.eq(scene.surface.viewport.size, expected, "board renders at displayed pixel size")
+        for n in [7,9,13,19]:
+            scene.game = GoGame.new(n, 5.5)
+            scene.board_view.set_game(scene.game)
+            scene._refresh()
+            scene._sync_mouse()
+            for frame in 2: await scene.get_tree().process_frame
+            for point in n * n:
+                var motion := InputEventMouseMotion.new()
+                motion.position = scene.surface.screen_point(point) - scene.surface.position
+                scene.surface._gui_input(motion)
+                t.eq(scene.board_view.target_point(), point, "resized board picks exact intersection")
+    window.size = original
+    for frame in 4: await scene.get_tree().process_frame

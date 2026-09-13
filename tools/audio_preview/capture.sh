@@ -1,13 +1,10 @@
 #!/usr/bin/env bash
-# Prepared A/B replay; the live engine route is tools/run_audio_preview.sh.
+# Prepared production-audio replay; the live engine route is tools/run_audio_preview.sh.
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 mode="${1:-preview}"
-if [[ "$mode" != preview && "$mode" != baseline ]]; then echo 'Use preview or baseline'; exit 2; fi
-export NINEPOINT_AUDIO_PREVIEW=1
-if [[ "$mode" == baseline ]]; then export NINEPOINT_AUDIO_PREVIEW=baseline; fi
+if [[ "$mode" != preview ]]; then echo 'Use preview; the superseded audio has been removed.'; exit 2; fi
 export NINEPOINT_PRESENTATION=campaign_next
-export NINEPOINT_AUDIO_TRACE=1
 mkdir -p "$HOME/.cache/ninepoint-audio-capture" "docs/audio_preview/$mode"
 export XDG_DATA_HOME
 XDG_DATA_HOME=$(mktemp -d "$HOME/.cache/ninepoint-audio-capture/run-XXXXXX")

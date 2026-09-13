@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
-export NINEPOINT_AUDIO_PREVIEW=1
-if [ "${1:-}" = "--baseline" ]; then export NINEPOINT_AUDIO_PREVIEW=baseline; shift; fi
+if [ "${1:-}" = "--baseline" ]; then echo 'The superseded audio has been removed.' >&2; exit 2; fi
 export NINEPOINT_PRESENTATION=campaign_next
 export OUT="${OUT:-$PWD/docs/audio_preview/screenshots}"
 export LOG="${LOG:-$HOME/.cache/ninepoint-audio-preview-run.log}"

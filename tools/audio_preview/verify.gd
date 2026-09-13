@@ -29,7 +29,7 @@ func _surface() -> TableSceneBoardSurface:
 
 func _run() -> void:
     await process_frame
-    t.ok(AudioPreview.requested(), "preview explicitly enabled")
+    t.ok(root.get_node("Audio").table_palette != null, "table audio is enabled by default")
     for fps in [30, 60, 144]:
         Engine.max_fps = fps
         var surface := _surface()
@@ -96,5 +96,5 @@ func _run() -> void:
     rebuilt.queue_free()
     # Let the final one-shot release its mixer playback before test shutdown.
     await create_timer(.4).timeout
-    print("AUDIO PREVIEW: ", t.report())
+    print("AUDIO CONTACT GATE: ", t.report())
     quit(0 if t.failed == 0 else 1)
