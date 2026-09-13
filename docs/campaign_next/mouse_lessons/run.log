@@ -1,0 +1,29 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: AMD - AMD Radeon RX 6900 XT (radeonsi, navi21, ACO, DRM 3.64, 7.2.2)
+
+AUTOPILOT: 29 steps from res://tools/autopilot/mouse_lessons.json
+AUTOPILOT: Rules known, Wren first game completed, ko not yet learned.
+AUTOPILOT: Continue from the invited save
+AUTOPILOT: into The Kettle
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-PvrxS5/godot/app_userdata/Ninepoint/shots/01_choice_Another game..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-PvrxS5/godot/app_userdata/Ninepoint/shots/02_choice_Show me the ko rule..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-PvrxS5/godot/app_userdata/Ninepoint/shots/03_choice_Go on..png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-PvrxS5/godot/app_userdata/Ninepoint/shots/04_b_ko_intro.png
+BOARD BUTTON: interact
+BOARD INPUT: { "hover": [1.0, 1.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-PvrxS5/godot/app_userdata/Ninepoint/shots/05_c_liberty_hover.png
+BOARD INPUT: { "click": [1.0, 1.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-PvrxS5/godot/app_userdata/Ninepoint/shots/06_d_capture_explained.png
+BOARD BUTTON: interact
+BOARD INPUT: { "hover": [2.0, 1.0] }
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-PvrxS5/godot/app_userdata/Ninepoint/shots/07_e_ko_empty_preview.png
+BOARD INPUT: { "click_attempt": [2.0, 1.0] }
+BOARD INPUT: { "click_blocked": [1.0, 0.0] }
+AUTOPILOT: A second click during feedback cannot submit another move.
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-PvrxS5/godot/app_userdata/Ninepoint/shots/08_f_existing_illegal_message.png
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-PvrxS5/godot/app_userdata/Ninepoint/shots/09_g_ko_explanation.png
+BOARD BUTTON: interact
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-PvrxS5/godot/app_userdata/Ninepoint/shots/10_h_outro.png
+BOARD BUTTON: interact
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-PvrxS5/godot/app_userdata/Ninepoint/shots/11_i_world.png
+AUTOPILOT: done

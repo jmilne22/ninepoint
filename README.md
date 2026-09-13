@@ -29,6 +29,11 @@ with `tools/play_motion_fix.sh`, using another isolated set of preview saves.
 The default window is 1536×864; interface outlines render at window resolution while
 live world scenes retain the approved 768×432 visual density.
 
+The [new Kettle model and motion prototype](docs/kettle_next/README.md) is optional:
+`tools/play_kettle_next.sh` opens a disposable save with rebuilt Ro/Wren/Kesh/Tomás,
+relaxed jogging and refined room/match presentation. Add `--baseline` to compare.
+Full-campaign adoption awaits a separate visual review.
+
 The [approved Kettle trial](docs/expressive_kettle/refinement/README.md) and
 [original match showcase](docs/table_scene/README.md) remain available for comparison.
 
@@ -372,3 +377,7 @@ logical positions and introduces no additional relocation.
 The [Sela playtest report](docs/sela/PLAYTEST.md) records the original layout migration.
 Current presentation evidence is in the [expressive rollout report](docs/expressive_world/README.md)
 and [coastal polish report](docs/ps1/polish/verification.md).
+
+
+The complete graphics preview is isolated from normal play. Launch `tools/play_campaign_next.sh`
+(or `--baseline` for comparison); progress is disposable. See [campaign preview](docs/campaign_next/README.md).

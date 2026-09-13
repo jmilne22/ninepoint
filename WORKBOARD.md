@@ -4,8 +4,35 @@ This is the **operational source of truth** for unfinished work. An agent starts
 not in the milestone history. It answers: what may be picked up now, what is blocked, and
 what evidence makes a task done.
 
-Revision base: `origin/main` and HEAD both `f90a39e`, freshly fetched and verified on 2026-09-13 before the isolated table-scene restart.
+Revision base: `origin/main` and HEAD both `2c0ca2d`, freshly fetched and verified on 2026-09-13 before the isolated ART-14 and ART-15 work.
 Update the snapshot when reconciling after a merge; it is not a release number.
+
+## ART-15 — Complete graphics and animation preview
+
+- Status: `IMPLEMENTED FOR REVIEW` · Owner: Codex · Branch: `codex/campaign-next`.
+- Explicit owner authorization: implement the complete rollout without intermediate reviews.
+- Verified fresh base HEAD = origin/main = `2c0ca2d`; incorporated approved ART-14 as `3d761d5`.
+- Sequential milestones: clean board/match; all cast and extras; twelve environments; campaign QA and delivery.
+- Preserve production default, map/input/gameplay authority, content and save formats. Separate generated exports and disposable preview saves.
+- Acceptance: all-character deformation/camera review; 30/60/144 fps movement; every map/connection; 7/9/13/19 input and overlays; real Wren count/review and 13x13 engine; technical gates, matched images, normal-speed film and measured performance.
+- Delivered: all 12 maps, 26 models, shared portrait/match sources and clean 2× board; disposable launcher, matched images, cast sheets and normal-speed chaptered film. [Review and evidence](docs/campaign_next/README.md).
+- Final gates: 402 resource loads, 19,435 / 0 unit checks (two full gates previously 19,434 / 0); 964 art contracts, 444,054 deformation checks and 1,320,735 batch-equivalence vertices; all 156 facial expressions preserved.
+- Played: all 22 doors/tram, 30/60/144-fps movement, 98 / 0 board inputs, Capture Go/lessons/Cup/league, real 13×13, and Wren through a complete 69-position review and record-once world return.
+- Measured: moving Kettle 0.664 ms, street 0.670 ms, populated 19×19 0.770 ms; no additional regression above 10% versus approved Kettle. Visual inspection and corrections are recorded in verification.md.
+- Remaining release gate: owner review of the completed campaign in motion before making this the production default.
+
+## ART-14 — Kettle model, motion and atmosphere prototype
+
+- Status: `OWNER APPROVED` · Owner: Codex · Branch: `codex/kettle-next`.
+- Owner approved the ambitious prototype plan and body/clothing reshaping; preserve facial identity, hair design and outfit colours.
+- Base: freshly fetched HEAD = origin/main = `2c0ca2d` in a separate checkout on 2026-09-13.
+- Scope: Ro, Wren, Kesh, Tomás; articulated hands, relaxed jog and grounded acting; Kettle lighting/furniture/ambient life; portraits and Wren match presentation.
+- Deliver: isolated playable launcher, before/after motion and room evidence, normal-speed film; no campaign rollout yet.
+- Acceptance: live movement at 30/60/144 fps, conversations, real Wren match/reaction/review/return, board input and size regressions, art/deformation and full technical gates; inspect screenshots and footage.
+- Verified: 19,418 / 0 full gate, 387 resource loads, 164 asset contracts and 64,032 deformed-pose checks; all 24 original painted expressions preserve their pixels.
+- Played: 30/60/144-fps walking/running, stops/walls/modals; all three conversations; 98 / 0 board-size/input checks; real Wren with 36 legal replies and a complete 76-position review, record-once return.
+- Delivered: disposable prototype/baseline launchers, normal-speed cast and gameplay films, matched captures and same-hardware measurements. [Review and limitations](docs/kettle_next/verification.md).
+- Rollout to other cast/rooms remains outside this prototype; owner approved the visuals and authorized ART-15.
 
 ## ART-10R — Match presentation restart
 
@@ -100,7 +127,7 @@ Update the snapshot when reconciling after a merge; it is not a release number.
 ### Pull request handoff
 
 The owner requested a PR for the approved presentation work on 2026-09-13.
-Opened [PR #37 — Adopt expressive presentation across matches, campaign and UI](https://github.com/jmilne22/ninepoint/pull/37) against `main`; awaiting review.
+Opened [PR #37 — Adopt expressive presentation across matches, campaign and UI](https://github.com/jmilne22/ninepoint/pull/37) against `main`; merged before the ART-14 base `2c0ca2d`.
 `codex/locomotion-tram-fix` contains ART-10R through ART-13R together; these local
 commits are not yet on main. Fresh fetch confirmed `origin/main == f90a39e` and
 that the branch merge base matches it before preparing the PR. Final runtime

@@ -1,4 +1,8 @@
-Current verified local revision: [M58 expressive campaign](docs/expressive_world/verification.md), [M57 Kettle refinement](docs/expressive_kettle/refinement/README.md), [M56 expressive Kettle POC](docs/expressive_kettle/verification.md) and [M55 expressive matches](docs/table_scene/adoption/verification.md). Historical entries retain their original behavior and counts.
+Current optional campaign preview: [M60 complete rollout](docs/campaign_next/verification.md), implemented for owner visual review; production adoption remains pending.
+
+Current optional prototype: [M59 Kettle anatomy and motion](docs/kettle_next/verification.md), owner approved; ART-15 expands it into an isolated campaign preview.
+
+Current verified campaign revision: [M58 expressive campaign](docs/expressive_world/verification.md), [M57 Kettle refinement](docs/expressive_kettle/refinement/README.md), [M56 expressive Kettle POC](docs/expressive_kettle/verification.md) and [M55 expressive matches](docs/table_scene/adoption/verification.md). Historical entries retain their original behavior and counts.
 
 # NINEPOINT — Milestones
 
@@ -3771,3 +3775,84 @@ world tour and 61.65-second review cut at 1×; both are actual Godot capture wit
 mirrored tram end. The original 30 fps captures did not expose repeated idle/walk resets
 between physics ticks. The correction samples movement in physics, supplies a run clip
 and reverses reflected cab face winding. [Reproduction and inspected correction](docs/expressive_world/motion-fix/README.md).
+
+
+## M59 — Kettle anatomy, motion and atmosphere prototype [owner approved]
+
+ART-14 builds an optional Kettle → conversation → Wren match presentation on freshly
+verified `2c0ca2d`, in a separate checkout and `codex/kettle-next` branch. Ro, Wren,
+Kesh and Tomás share rebuilt bodies, articulated hands and authored clips across world,
+dialogue and match. Jogging keeps soft hands beside the torso. Cloth, ceramics, joinery,
+continuous plaster, window light and gentle ambient motion refine the actual room.
+A process profile chooses separate generated assets; disposable launchers compare
+prototype and current main. There is no campaign rollout in this milestone.
+
+**Done when:** 19,418 / 0 checks (M58 predecessor: 19,407), 387 resource loads, 164 asset
+contracts and 64,032 deformed-pose checks pass; 24 original facial expressions remain
+pixel-identical at central gaze. Actual movement at 30/60/144 fps, wall contact and
+modal locks pass; board-size/input/return route passes 98 / 0 in both profiles. The full
+Wren route gets 36 legal real-engine replies with no fallback, counts, reacts, completes
+76/76 review positions in 43.4 seconds, records once and returns to walking. Both actual
+launchers prove disposable saves and correct presentation selection.
+
+| Deliberate break or failure exercised | Guard/evidence |
+| --- | --- |
+| Change gait halfway through a foot cycle | Controller test preserves normalized phase |
+| Gesture expires or is cancelled | One-shot returns to rest, action token advances |
+| No prototype environment profile | Default asset-path test and played baseline launcher |
+| Hold run against a wall or through a modal lock | Actual actor route settles locomotion |
+| Missing engine package in the new checkout | Initial fallback run rejected; successful route asserts GTP/no fallback |
+| Cloth originally in front of counter | Corrected authored reach, inspected close-up and contact envelope gate |
+
+**Looked at:** four characters from front/side/rear and through shoulder/hand/knee motion;
+normal-speed cast and gameplay playback; room, counter, all three conversations, board
+placement/count, reaction, review and world return. Inspection corrected wrist gaps,
+hem overlap, floating jacket trim and cloth reach. Same-hardware static frame samples
+average 0.889 ms baseline / 1.056 ms prototype on RX 6900 XT; this is not an isolated
+GPU or engine benchmark. Existing cleanup warnings and one transient hover-test miss
+are documented. Owner subsequently approved the visuals and authorized ART-15.
+[Launcher, movies, comparisons and limitations](docs/kettle_next/README.md).
+
+
+## M60 — Complete campaign graphics and animation preview [implemented for review]
+
+ART-15 extends the owner-approved Kettle direction across twelve maps, twenty-one
+named/player identities and five passerby variants. A supersampled board, quiet wood,
+softer stones and a separated ceremony panel carry through match, lessons and review.
+Shared articulated rigs preserve the painted faces while adding identity-specific body
+construction, garments and authored timing. Constructed furniture, purposeful props,
+window fill and restrained ambient motion give the remaining venues the same treatment.
+The process-only profile selects separate Python/Blender/Pillow exports. Disposable
+preview/baseline launchers leave the production default and user saves unchanged.
+
+**Done when:** final compile/load/unit, art, rendered campaign and real-engine acceptance
+are recorded in [ART-15 verification](docs/campaign_next/verification.md), with matched
+views and normal-speed footage actually inspected. Final compilation is clean, all 402 resources load, and 19,435 unit checks pass / 0 fail
+(M59 predecessor: 19,418). Two earlier full technical gates passed 19,434 / 0;
+the final asset gate passes 964 contracts,
+444,054 deformation checks and 1,320,735 posed batch-equivalence vertices. All 156 original
+facial expressions retain their pixels. The final Wren game has 33 legal engine replies,
+a complete 69-position review in 44.1 seconds, exactly one result and world return.
+Production adoption requires owner visual review.
+
+| Deliberate break or defect exercised | Guard/evidence |
+|---|---|
+| Double render resolution without changing logical input | 1,162 projection checks; 98 board interaction checks across 7/9/13/19 |
+| Switch between Kettle, campaign and no profile | Asset-boundary tests and actual disposable launchers |
+| Change an NPC activity after a match while their chair remains | Original manifest seat ownership and played Kesh/Sunny close-ups |
+| Join articulated model parts to reduce draw calls | Stand/run/seated vertex equivalence within 0.02 mm before export |
+| Broad shadow bands and sawtooth floor/wall artifacts | Standard diffuse lighting and bounded orthogonal shadow depth; twelve-map inspection |
+| Wall contact, modal locks and rapid gait changes | Actual physics-driven locomotion at 30/60/144 fps, preserving phase |
+| Delayed gestures outlive their action or scene | Existing controller cancellation/settling tests plus result/reaction/world-return flow |
+
+**Looked at:** every identity from front/side/rear, shoulders/hands/knees in authored
+motion, all named portraits and match framing, all twelve maps, seated occupants and
+Tomás's actual cloth contact. Final review covers the clean ceremony, zoomed nineteen,
+lesson markers, counting, reaction and the complete review. Inspection corrected collar
+strips, coat overlap, held-stone position, seating ownership/reach and shadow precision.
+
+On RX 6900 XT at 1536×864, seeded moving-world means are 0.664 ms Kettle / 0.670 ms
+Market Lane versus 1.156 / 0.889 ms for the approved Kettle profile. The populated
+nineteen-line board is 0.770 versus 0.777 ms. Mesh batching removes the investigated
+street draw-call regression; measurements describe these routes and this hardware.
+[Playable preview, review page and evidence](docs/campaign_next/README.md).

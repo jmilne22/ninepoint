@@ -55,7 +55,7 @@ static func perform(tree: SceneTree) -> void:
         for x in world.map.width:
             var feet := Vector2(x*16+8,y*16+8)
             var expected: Vector2 = (world.map.presentation.project(feet)-centre+Vector2(192,108))*2
-            var actual := live.camera_3d.unproject_position(Vector3(feet.x*.05,0,feet.y*.05))
+            var actual := TableSceneStage.to_logical(live.view,Vector2(768,432),live.camera_3d.unproject_position(Vector3(feet.x*.05,0,feet.y*.05)))
             if expected.distance_to(actual) > .1:
                 _fail(tree,"3D floor projection differs from logical input at "+str(feet))
                 return

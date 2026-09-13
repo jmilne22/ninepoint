@@ -1,0 +1,54 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: AMD - AMD Radeon RX 6900 XT (radeonsi, navi21, ACO, DRM 3.64, 7.2.2)
+
+Movie Maker mode enabled, recording movie in 1536×864 @ 30 FPS...
+AUTOPILOT: 41 steps from res://tools/autopilot/campaign_next.json
+AUTOPILOT: world transition and return conversation settled
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-644i02/godot/app_userdata/Ninepoint/shots/01_wassalon_from_street.png
+MOVIE BEAT: wassalon_from_street frame=143
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-644i02/godot/app_userdata/Ninepoint/shots/02_washer_second_frame.png
+MOVIE BEAT: washer_second_frame frame=202
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-644i02/godot/app_userdata/Ninepoint/shots/03_de_ketel_from_street.png
+MOVIE BEAT: de_ketel_from_street frame=307
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-644i02/godot/app_userdata/Ninepoint/shots/04_attic_desk.png
+MOVIE BEAT: attic_desk frame=412
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-644i02/godot/app_userdata/Ninepoint/shots/05_onderbrug_from_street.png
+MOVIE BEAT: onderbrug_from_street frame=517
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-644i02/godot/app_userdata/Ninepoint/shots/06_quay_bench.png
+MOVIE BEAT: quay_bench frame=622
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-644i02/godot/app_userdata/Ninepoint/shots/07_academy_hall_from_tram.png
+MOVIE BEAT: academy_hall_from_tram frame=727
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-644i02/godot/app_userdata/Ninepoint/shots/08_academy_study_middle.png
+MOVIE BEAT: academy_study_middle frame=832
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-644i02/godot/app_userdata/Ninepoint/shots/09_academy_class_from_hall.png
+MOVIE BEAT: academy_class_from_hall frame=937
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-644i02/godot/app_userdata/Ninepoint/shots/10_academy_dorm_from_hall.png
+MOVIE BEAT: academy_dorm_from_hall frame=1042
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-644i02/godot/app_userdata/Ninepoint/shots/11_bondszaal_from_tram.png
+MOVIE BEAT: bondszaal_from_tram frame=1147
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-644i02/godot/app_userdata/Ninepoint/shots/12_bondszaal_front.png
+MOVIE BEAT: bondszaal_front frame=1252
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-644i02/godot/app_userdata/Ninepoint/shots/13_ketelsteeg_from_wassalon.png
+MOVIE BEAT: ketelsteeg_from_wassalon frame=1357
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-644i02/godot/app_userdata/Ninepoint/shots/14_novice_from_hall.png
+MOVIE BEAT: novice_from_hall frame=1462
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-644i02/godot/app_userdata/Ninepoint/shots/15_novice_central_aisle.png
+MOVIE BEAT: novice_central_aisle frame=1641
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-644i02/godot/app_userdata/Ninepoint/shots/16_park_foliage.png
+MOVIE BEAT: park_foliage frame=1872
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-644i02/godot/app_userdata/Ninepoint/shots/17_walk_side.png
+MOVIE BEAT: walk_side frame=1984
+AUTOPILOT SHOT: /home/user/.cache/ninepoint-rendered/run-644i02/godot/app_userdata/Ninepoint/shots/18_attic_idle.png
+MOVIE BEAT: attic_idle frame=2031
+AUTOPILOT: done
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+--------------------------------------------------------------------------------
+Done recording movie at path: /home/user/.cache/ninepoint-campaign-next/environments.avi
+2076 frames at 30 FPS (movie length: 00:01:09:06), recorded in 00:00:33 (209% of real-time speed).
+CPU render time: 0.46 seconds (average: 0.22 ms/frame)
+GPU render time: 0.09 seconds (average: 0.04 ms/frame)
+Encoding time: 23.77 seconds (average: 11.45 ms/frame)
+--------------------------------------------------------------------------------

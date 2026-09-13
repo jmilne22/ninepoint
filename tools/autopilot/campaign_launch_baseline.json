@@ -1,0 +1,22 @@
+[
+  {
+    "wait": 0.8
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "experience": "kettle_next",
+    "action": "campaign_launcher",
+    "preview": false
+  },
+  {
+    "shot": "launcher"
+  }
+]

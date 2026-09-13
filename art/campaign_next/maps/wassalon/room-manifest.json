@@ -1,0 +1,24 @@
+{
+  "map": "wassalon",
+  "source_sha256": "c2cb21b8fc5fc2bcfe8d30d3f02a0cc307c59815c2162b7e610e236a29411eb8",
+  "metres_per_tile": 0.8,
+  "steam": [
+    [
+      9.968000000000002,
+      0.966,
+      4.32
+    ]
+  ],
+  "ambient": 0.43,
+  "sun": 0.72,
+  "angle": -18,
+  "indoors": true,
+  "window_fills": [
+    [
+      8.0,
+      1.55,
+      2.1599999999999997
+    ]
+  ],
+  "seats": []
+}

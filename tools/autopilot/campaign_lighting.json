@@ -1,0 +1,69 @@
+[
+  {
+    "save": "invited"
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "experience": "visit",
+    "map": "attic",
+    "spawn": "desk"
+  },
+  {
+    "wait": 0.5
+  },
+  {
+    "shot": "attic"
+  },
+  {
+    "experience": "visit",
+    "map": "academy_class",
+    "spawn": "from_hall"
+  },
+  {
+    "wait": 0.5
+  },
+  {
+    "shot": "academy_class"
+  },
+  {
+    "experience": "visit",
+    "map": "ketelsteeg",
+    "spawn": "from_wassalon"
+  },
+  {
+    "wait": 0.5
+  },
+  {
+    "shot": "ketelsteeg"
+  },
+  {
+    "experience": "visit",
+    "map": "de_ketel",
+    "spawn": "middle"
+  },
+  {
+    "wait": 0.5
+  },
+  {
+    "shot": "kettle"
+  },
+  {
+    "experience": "visit",
+    "map": "wassalon",
+    "spawn": "from_street"
+  },
+  {
+    "shot": "laundry_shadow"
+  }
+]

@@ -197,6 +197,9 @@ out at the end of the session, not the start.
 
 ```bash
 tools/play.sh                                    # play it, on the real display
+tools/play_kettle_next.sh                        # ART-14 optional prototype, disposable save; --baseline compares
+DISPLAY_NUM=0 tools/run_kettle_next.sh            # actual Wren game, complete review and room return
+python3 tools/build_kettle_next.py                # four shared rigs, room, table and facial atlases
 tools/play_expressive_world.sh                   # full campaign, separate persistent preview saves
 tools/play_motion_fix.sh                         # locomotion/tram correction, separate persistent saves
 python3 tools/build_expressive_world.py          # all live world/cast/tram assets
@@ -795,3 +798,33 @@ and input locks. A 30 fps movie alone cannot establish high-refresh correctness.
 `tram_review.tscn` captures both sides of both ends with the campaign shader. Mirrored
 cab faces must reverse winding; the exported-normal contract enforces this.
 [Correction evidence and launch](docs/expressive_world/motion-fix/README.md).
+
+
+## ART-14 — optional Kettle model, motion and atmosphere prototype
+
+`NINEPOINT_PRESENTATION=kettle_next` is a process-only presentation profile. The normal
+campaign presentation remains the default. `tools/kettle_next/` coordinates Blender/Pillow
+sources and `art/kettle_next/` exports; no AI illustration or hand-edited exports.
+The four rigs are shared between world, dialogue and match. `KettleNextActing` owns
+clip transitions, one-shot expiry, blink timing and gait-phase preservation; existing
+actors retain all input, physics and interaction authority. The captured reaction timer
+is a scene child and rejects an actor whose action serial has changed.
+`kettle_next.json` uses a real Wren game and explicitly rejects engine fallback or partial
+review. `kettle_next_showcase.json` is the shorter filming route. See the
+[launcher and review evidence](docs/kettle_next/README.md). The owner approved this
+prototype and authorized ART-15; full-campaign production adoption awaits its visual review.
+
+
+## ART-15 campaign presentation preview
+
+`tools/play_campaign_next.sh` launches the whole-campaign preview with disposable saves;
+`--baseline` uses the same fixture without the profile. `tools/run_campaign_next.sh` imports
+assets and runs the serial twelve-map route. `tools/build_campaign_next.py --people ...` /
+`--maps ...` export only selected preview assets. `build_assets.py --groups campaign_next`
+is opt-in and excluded from default production builds. See `docs/campaign_next/README.md`.
+`--surfaces` rebuilds embedded lesson/review boards. `tools/campaign_next/collect.py`
+serially captures cast, 30/60/144-fps motion, contact and seeded performance comparisons.
+Run `check_assets.py` with Pillow for deformation/face/map contracts; `package.py` also
+requires FFmpeg. The original map manifest owns presentation seat assignments; do not
+derive them from progress-mutated runtime NPC activity. Production adoption is pending
+owner review of this complete preview.

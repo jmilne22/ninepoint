@@ -10,30 +10,38 @@ var active := ""
 var remaining := 0.0
 var clock := 0.0
 var identity := ""
+var acting: KettleNextActing
+var performance_serial := 0
+var held_stone: Node3D
 
 func setup(who: String) -> void:
     identity = who
     mouse_filter = Control.MOUSE_FILTER_IGNORE
     viewport = TableSceneStage.viewport(self, Vector2i(size), true)
-    model = load("res://art/table_scene/%s.glb" % who).instantiate()
+    model = load(KettleNextProfile.person_path(who, "res://art/table_scene/%s.glb" % who)).instantiate()
     viewport.add_child(model)
     if who == "sunny":
         model.scale = Vector3.ONE * 0.84
         model.position.y = 0.22
     model.rotation.y = 0.10 if who == "player" else -0.10
     var ink := ShaderMaterial.new()
-    ink.shader = preload("res://src/go_ui/table_scene/outline.gdshader")
+    ink.shader = preload("res://src/rpg/kettle_next/outline.gdshader") if KettleNextProfile.has_person(who) else preload("res://src/go_ui/table_scene/outline.gdshader")
     face = ShaderMaterial.new()
     face.next_pass = ink
     face.shader = preload("res://src/go_ui/table_scene/face.gdshader")
     face.set_shader_parameter("faces", load("res://art/table_scene/%s_face.png" % who))
     _prepare(model)
+    prepare_acting()
     var camera := Camera3D.new()
     viewport.add_child(camera)
     camera.projection = Camera3D.PROJECTION_ORTHOGONAL
     camera.size = 1.65
     camera.position = Vector3(-0.33 if who == "player" else 0.33, 1.6, 4)
     camera.look_at(Vector3(0, 1.43, 0))
+    if acting != null:
+        camera.size = 1.78
+        camera.position.y = 1.84
+        camera.look_at(Vector3(0, 1.69, 0))
     if animation:
         print("CAST CLIPS ", who, ": ", animation.get_animation_list())
 
@@ -49,12 +57,17 @@ func _prepare(node: Node) -> void:
                 var mat := ShaderMaterial.new()
                 mat.shader = preload("res://src/go_ui/table_scene/cel.gdshader")
                 mat.set_shader_parameter("colour", original.albedo_color)
+                if KettleNextProfile.has_person(identity): mat = KettleNextProfile.prepare_material(original)
                 mat.next_pass = face.next_pass
                 node.set_surface_override_material(index, mat)
     for child in node.get_children():
         _prepare(child)
 
 func perform(clip: String, duration: float) -> void:
+    performance_serial += 1
+    if acting != null:
+        acting.perform(clip)
+        return
     active = clip
     remaining = duration
     _play(clip)
@@ -65,7 +78,23 @@ func _play(clip: String) -> void:
     if animation.current_animation != clip or not animation.is_playing():
         animation.play(clip, 0.22)
 
+func prepare_acting() -> void:
+    if KettleNextProfile.has_person(identity):
+        face.next_pass = null
+        face.shader = preload("res://src/rpg/kettle_next/face.gdshader")
+        face.set_shader_parameter("faces",load(KettleNextProfile.face_path(identity)))
+        acting = KettleNextActing.new()
+        acting.setup(animation, identity)
+        if KettleNextProfile.campaign() and model != null: held_stone = KettleNextProps.attach_stone(model,identity == "player")
+
 func _process(delta: float) -> void:
+    if acting != null:
+        if held_stone != null:
+            held_stone.visible = acting.gesture == "place" and acting.remaining > animation.get_animation("place").length*.5
+        face.set_shader_parameter("expression", float(acting.update(delta, resting)))
+        var look := 1.0 if identity == "player" else -1.0
+        face.set_shader_parameter("gaze",look if fmod(acting.time,7.1)<5.9 else 0.0)
+        return
     clock += delta
     remaining -= delta
     var clip := active if remaining > 0 else resting

@@ -372,6 +372,9 @@ func _shot(name: String) -> void:
     print("AUTOPILOT SHOT: %s" % ProjectSettings.globalize_path(path))
     if OS.has_feature("movie"):
         print("MOVIE BEAT: %s frame=%d" % [name,Engine.get_process_frames()])
+        # Let review readers see each card while the scene continues at normal speed.
+        var hold := clampf(OS.get_environment("NINEPOINT_FILM_HOLD").to_float(),0.0,10.0)
+        if hold > 0.0: await get_tree().create_timer(hold).timeout
 
 
 # --- position-aware steps ----------------------------------------------------

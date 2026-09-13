@@ -1,0 +1,12 @@
+{
+  "map": "quay",
+  "source_sha256": "0d73b725c0d81a6e7984531d625dfa671cfc4adb95fd569860cf690972b37198",
+  "metres_per_tile": 0.8,
+  "steam": [],
+  "ambient": 0.48,
+  "sun": 0.87,
+  "angle": -35,
+  "indoors": false,
+  "window_fills": [],
+  "seats": []
+}

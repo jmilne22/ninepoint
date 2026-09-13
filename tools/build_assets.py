@@ -8,6 +8,7 @@ import gen_maps
 
 ROOT=Path(__file__).resolve().parent.parent
 GROUPS=('tiles','props','venues','arrivals','sprites','portraits','ui','title','font','ceremony','audio','rendered','table_scene','expressive_world')
+OPTIONAL_GROUPS=('kettle_next','campaign_next')
 ALIASES={'environments':('tiles','props','venues','arrivals'),
          'characters':('sprites','portraits'),
          'presentation':('ui','title','ceremony')}
@@ -15,9 +16,15 @@ ALIASES={'environments':('tiles','props','venues','arrivals'),
 
 def build(groups, output):
     art=output/'art'
-    for group in GROUPS:
+    for group in (*GROUPS,*OPTIONAL_GROUPS):
         if group not in groups:continue
-        if group=='expressive_world':
+        if group=='campaign_next':
+            subprocess.run([sys.executable,str(ROOT/'tools/build_campaign_next.py')],env=dict(os.environ,CAMPAIGN_NEXT_OUTPUT=str(art/'campaign_next')),check=True)
+            result='complete campaign presentation preview'
+        elif group=='kettle_next':
+            subprocess.run([sys.executable,str(ROOT/'tools/build_kettle_next.py')],env=dict(os.environ,KETTLE_NEXT_OUTPUT=str(art/'kettle_next')),check=True)
+            result='opt-in Kettle model, motion and room prototype'
+        elif group=='expressive_world':
             subprocess.run([sys.executable,str(ROOT/'tools/build_expressive_world.py')],env=dict(os.environ,EXPRESSIVE_WORLD_OUTPUT=str(art/'expressive_world')),check=True)
             result='live campaign maps, complete expressive cast and tram'
         elif group=='table_scene':
@@ -56,7 +63,7 @@ def build(groups, output):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--groups',nargs='+',default=['all'],choices=['all',*GROUPS,*ALIASES])
+    parser.add_argument('--groups',nargs='+',default=['all'],choices=['all',*GROUPS,*OPTIONAL_GROUPS,*ALIASES])
     parser.add_argument('--output',type=Path,default=ROOT,help='Project-shaped output root; default is this checkout.')
     args=parser.parse_args()
     groups=set()

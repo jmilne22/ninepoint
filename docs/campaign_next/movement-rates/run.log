@@ -1,0 +1,442 @@
+WorkerThreadPool: 32 threads, 9 max low-priority.
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+TextServer: Added interface "Dummy"
+TextServer: Added interface "ICU / HarfBuzz / Graphite (Built-in)"
+SDL: Init OK!
+Accessibility: AccessKit driver loaded.
+Xshape 1.1 detected.
+Xinerama 1.1 detected.
+Xrandr 1.6 detected.
+Xrender 0.11 detected.
+Xinput 2.2 detected.
+XInput: Refreshing devices.
+XInput: Absolute pointing device: xwayland-pointer:11
+XInput: No touch devices found.
+Input method started.
+Detecting GPUs, set DRI_PRIME in the environment to override GPU detection logic.
+Only one GPU found, using default.
+Accessibility: window 0 adapter created.
+DBus 1.16.2 detected.
+FreeDesktopScreenSaver: Acquired screensaver inhibition cookie: 22234
+Using "default" pen tablet driver...
+Shader 'CanvasSdfShaderGLES3' SHA256: eeebf701afed57fdcd45576133587c1c3fe608cfb10a561a769163565c589a30
+Shader 'SkeletonShaderGLES3' SHA256: b8a4bc499c41a3f174c72b199f6d8ea6708ef8198f17191d4cdb80994e6cec2c
+Shader 'ParticlesShaderGLES3' SHA256: 44509d40f197c2b3462e02d25f430d91f28ae26f432da11968261e54625de9fb
+Shader 'ParticlesCopyShaderGLES3' SHA256: af7bc5043c8e366d2497e7c6e8a0b582000b0769b8b6e900f622bd286a29a841
+Shader 'CopyShaderGLES3' SHA256: 906d5642788adab6d6079cdc44ba4802aefa3da18904066eb29a3fd370da797f
+Shader 'CubemapFilterShaderGLES3' SHA256: 6bf22bd73e3643d96dfe54710bc7e122f614f14fe2780de02eb99cc1459b0275
+Shader 'GlowShaderGLES3' SHA256: 5223a15305457ccf76d7d807dd7f6aea8371118b5c4936b5da08a22c9a4bce54
+Shader 'PostShaderGLES3' SHA256: 2359f437d76ba2880b9bae51e2db21e86c1022d582cc0b03d54621fdca6bae2a
+Shader 'FeedShaderGLES3' SHA256: aea679d991999a949a8ad9e44cb6178d498e15cddb0e6f50351f35ee52f6abea
+Shader 'CanvasShaderGLES3' SHA256: e36e1a514506fee611a9b6e93e2e0d381b4426a759d1478759465fcc1807fc74
+Shader 'CanvasOcclusionShaderGLES3' SHA256: 28f8f153df15a944ecf15fb45f6c450194a610045f9fa7242e4223e321dd4fd4
+Shader 'SceneShaderGLES3' SHA256: 259ff4f2263a0bb6a6ea2e240dc7b249bbc74c9e9790054ab0997c00e2fd8c83
+Shader 'SkyShaderGLES3' SHA256: 6961d520ea21a360eb327707a98bff571904399523c10f139ca796aacdec76e0
+Shader 'TexBlitShaderGLES3' SHA256: 463567ac13e9049f6d6d461aa5bae200598b05cd1b05e1297fe1a149bb19fb9e
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: AMD - AMD Radeon RX 6900 XT (radeonsi, navi21, ACO, DRM 3.64, 7.2.2)
+PulseAudio 17.0.0 detected.
+PulseAudio: context other
+PulseAudio: context other
+PulseAudio: context other
+PulseAudio: context ready
+PulseAudio: Detecting channels for device: alsa_output.usb-Focusrite_Scarlett_2i2_USB_Y8PDW7Z0B5BBCD-00.HiFi__Line__sink
+PulseAudio: detected 2 output channels
+PulseAudio: audio buffer frames: 512 calculated output latency: 11ms
+
+TextServer: Primary interface set to: "ICU / HarfBuzz / Graphite (Built-in)".
+Loading resource: res://src/ui/theme.tres remapped: res://src/ui/theme.tres
+Loading resource: res://art/fonts/DejaVuSans.ttf remapped: res://art/fonts/DejaVuSans.ttf
+Loading resource: res://.godot/imported/DejaVuSans.ttf-860ffe91e288468a48f5efa5d72ad522.fontdata remapped: res://.godot/imported/DejaVuSans.ttf-860ffe91e288468a48f5efa5d72ad522.fontdata
+Completed load for: 'res://art/fonts/DejaVuSans.ttf' remapped 'res://art/fonts/DejaVuSans.ttf' at thread -1
+Completed load for: 'res://src/ui/theme.tres' remapped 'res://src/ui/theme.tres' at thread -1
+CORE API HASH: 2004498165
+EDITOR API HASH: 1696660745
+SceneTreeFTI: traversal method DEFAULT
+Loading resource: res://src/autoload/event_bus.gd remapped: res://src/autoload/event_bus.gd
+Completed load for: 'res://src/autoload/event_bus.gd' remapped 'res://src/autoload/event_bus.gd' at thread -1
+Loading resource: res://src/autoload/game_state.gd remapped: res://src/autoload/game_state.gd
+Completed load for: 'res://src/autoload/game_state.gd' remapped 'res://src/autoload/game_state.gd' at thread -1
+Loading resource: res://src/autoload/save_system.gd remapped: res://src/autoload/save_system.gd
+Completed load for: 'res://src/autoload/save_system.gd' remapped 'res://src/autoload/save_system.gd' at thread -1
+Loading resource: res://src/autoload/scene_router.gd remapped: res://src/autoload/scene_router.gd
+Loading resource: res://src/rpg/kettle_next/cloth.gdshader remapped: res://src/rpg/kettle_next/cloth.gdshader
+Completed load for: 'res://src/rpg/kettle_next/cloth.gdshader' remapped 'res://src/rpg/kettle_next/cloth.gdshader' at thread -1
+Loading resource: res://src/rpg/kettle_next/steam.gdshader remapped: res://src/rpg/kettle_next/steam.gdshader
+Completed load for: 'res://src/rpg/kettle_next/steam.gdshader' remapped 'res://src/rpg/kettle_next/steam.gdshader' at thread -1
+Loading resource: res://src/rpg/campaign_next/surface.gdshader remapped: res://src/rpg/campaign_next/surface.gdshader
+Completed load for: 'res://src/rpg/campaign_next/surface.gdshader' remapped 'res://src/rpg/campaign_next/surface.gdshader' at thread -1
+Loading resource: res://src/rpg/kettle_next/surface.gdshader remapped: res://src/rpg/kettle_next/surface.gdshader
+Completed load for: 'res://src/rpg/kettle_next/surface.gdshader' remapped 'res://src/rpg/kettle_next/surface.gdshader' at thread -1
+Loading resource: res://src/rpg/expressive/room.gdshader remapped: res://src/rpg/expressive/room.gdshader
+Completed load for: 'res://src/rpg/expressive/room.gdshader' remapped 'res://src/rpg/expressive/room.gdshader' at thread -1
+Completed load for: 'res://src/autoload/scene_router.gd' remapped 'res://src/autoload/scene_router.gd' at thread -1
+Loading resource: res://src/autoload/match_bridge.gd remapped: res://src/autoload/match_bridge.gd
+Completed load for: 'res://src/autoload/match_bridge.gd' remapped 'res://src/autoload/match_bridge.gd' at thread -1
+Loading resource: res://src/quest/quest_tracker.gd remapped: res://src/quest/quest_tracker.gd
+Completed load for: 'res://src/quest/quest_tracker.gd' remapped 'res://src/quest/quest_tracker.gd' at thread -1
+Loading resource: res://src/autoload/game_input.gd remapped: res://src/autoload/game_input.gd
+Completed load for: 'res://src/autoload/game_input.gd' remapped 'res://src/autoload/game_input.gd' at thread -1
+Loading resource: res://src/autoload/autopilot.gd remapped: res://src/autoload/autopilot.gd
+Loading resource: res://art/expressive_world/surfaces/board.png remapped: res://art/expressive_world/surfaces/board.png
+Loading resource: res://.godot/imported/board.png-7d1ae8b783d4f710477e687c2512e55f.ctex remapped: res://.godot/imported/board.png-7d1ae8b783d4f710477e687c2512e55f.ctex
+Completed load for: 'res://art/expressive_world/surfaces/board.png' remapped 'res://art/expressive_world/surfaces/board.png' at thread -1
+Loading resource: res://art/expressive_world/surfaces/black_stone.png remapped: res://art/expressive_world/surfaces/black_stone.png
+Loading resource: res://.godot/imported/black_stone.png-fcb4545867c9358cddfd1d32c4ef27d4.ctex remapped: res://.godot/imported/black_stone.png-fcb4545867c9358cddfd1d32c4ef27d4.ctex
+Completed load for: 'res://art/expressive_world/surfaces/black_stone.png' remapped 'res://art/expressive_world/surfaces/black_stone.png' at thread -1
+Loading resource: res://art/expressive_world/surfaces/white_stone.png remapped: res://art/expressive_world/surfaces/white_stone.png
+Loading resource: res://.godot/imported/white_stone.png-bb422114c47c9dcb0877d9399027d585.ctex remapped: res://.godot/imported/white_stone.png-bb422114c47c9dcb0877d9399027d585.ctex
+Completed load for: 'res://art/expressive_world/surfaces/white_stone.png' remapped 'res://art/expressive_world/surfaces/white_stone.png' at thread -1
+Loading resource: res://src/rpg/kettle_next/board_wood.gdshader remapped: res://src/rpg/kettle_next/board_wood.gdshader
+Completed load for: 'res://src/rpg/kettle_next/board_wood.gdshader' remapped 'res://src/rpg/kettle_next/board_wood.gdshader' at thread -1
+Loading resource: res://src/go_ui/table_scene/wood.gdshader remapped: res://src/go_ui/table_scene/wood.gdshader
+Completed load for: 'res://src/go_ui/table_scene/wood.gdshader' remapped 'res://src/go_ui/table_scene/wood.gdshader' at thread -1
+Loading resource: res://src/rpg/kettle_next/outline.gdshader remapped: res://src/rpg/kettle_next/outline.gdshader
+Completed load for: 'res://src/rpg/kettle_next/outline.gdshader' remapped 'res://src/rpg/kettle_next/outline.gdshader' at thread -1
+Loading resource: res://src/go_ui/table_scene/outline.gdshader remapped: res://src/go_ui/table_scene/outline.gdshader
+Completed load for: 'res://src/go_ui/table_scene/outline.gdshader' remapped 'res://src/go_ui/table_scene/outline.gdshader' at thread -1
+Loading resource: res://src/go_ui/table_scene/face.gdshader remapped: res://src/go_ui/table_scene/face.gdshader
+Completed load for: 'res://src/go_ui/table_scene/face.gdshader' remapped 'res://src/go_ui/table_scene/face.gdshader' at thread -1
+Loading resource: res://src/go_ui/table_scene/cel.gdshader remapped: res://src/go_ui/table_scene/cel.gdshader
+Completed load for: 'res://src/go_ui/table_scene/cel.gdshader' remapped 'res://src/go_ui/table_scene/cel.gdshader' at thread -1
+Loading resource: res://src/rpg/kettle_next/face.gdshader remapped: res://src/rpg/kettle_next/face.gdshader
+Completed load for: 'res://src/rpg/kettle_next/face.gdshader' remapped 'res://src/rpg/kettle_next/face.gdshader' at thread -1
+Loading resource: res://src/rpg/presentation/ground_occlusion.gdshader remapped: res://src/rpg/presentation/ground_occlusion.gdshader
+Completed load for: 'res://src/rpg/presentation/ground_occlusion.gdshader' remapped 'res://src/rpg/presentation/ground_occlusion.gdshader' at thread -1
+Completed load for: 'res://src/autoload/autopilot.gd' remapped 'res://src/autoload/autopilot.gd' at thread -1
+Loaded system CA certificates
+Loading resource: res://tools/expressive_world/motion_review.tscn remapped: res://tools/expressive_world/motion_review.tscn
+Loading resource: res://tools/expressive_world/motion_review.gd remapped: res://tools/expressive_world/motion_review.gd
+Loading resource: res://src/rpg/world.tscn remapped: res://src/rpg/world.tscn
+Loading resource: res://src/rpg/world.gd remapped: res://src/rpg/world.gd
+Loading resource: res://src/rpg/player/player.tscn remapped: res://src/rpg/player/player.tscn
+Completed load for: 'res://src/rpg/player/player.tscn' remapped 'res://src/rpg/player/player.tscn' at thread -1
+Loading resource: res://src/rpg/npc/npc.tscn remapped: res://src/rpg/npc/npc.tscn
+Completed load for: 'res://src/rpg/npc/npc.tscn' remapped 'res://src/rpg/npc/npc.tscn' at thread -1
+Completed load for: 'res://src/rpg/world.gd' remapped 'res://src/rpg/world.gd' at thread -1
+Completed load for: 'res://src/rpg/world.tscn' remapped 'res://src/rpg/world.tscn' at thread -1
+Completed load for: 'res://tools/expressive_world/motion_review.gd' remapped 'res://tools/expressive_world/motion_review.gd' at thread -1
+Completed load for: 'res://tools/expressive_world/motion_review.tscn' remapped 'res://tools/expressive_world/motion_review.tscn' at thread -1
+Loading resource: res://data/quests/beginner_cup.tres remapped: res://data/quests/beginner_cup.tres
+Completed load for: 'res://data/quests/beginner_cup.tres' remapped 'res://data/quests/beginner_cup.tres' at thread -1
+Loading resource: res://data/quests/enrolment.tres remapped: res://data/quests/enrolment.tres
+Completed load for: 'res://data/quests/enrolment.tres' remapped 'res://data/quests/enrolment.tres' at thread -1
+Loading resource: res://data/quests/first_stones.tres remapped: res://data/quests/first_stones.tres
+Completed load for: 'res://data/quests/first_stones.tres' remapped 'res://data/quests/first_stones.tres' at thread -1
+Loading resource: res://data/quests/qualifying_exam.tres remapped: res://data/quests/qualifying_exam.tres
+Completed load for: 'res://data/quests/qualifying_exam.tres' remapped 'res://data/quests/qualifying_exam.tres' at thread -1
+Loading resource: res://audio/amb_breeze.wav remapped: res://audio/amb_breeze.wav
+Loading resource: res://.godot/imported/amb_breeze.wav-e607b951ab90b75cca9d80cb5204c179.sample remapped: res://.godot/imported/amb_breeze.wav-e607b951ab90b75cca9d80cb5204c179.sample
+Completed load for: 'res://audio/amb_breeze.wav' remapped 'res://audio/amb_breeze.wav' at thread -1
+Loading resource: res://audio/amb_canal.wav remapped: res://audio/amb_canal.wav
+Loading resource: res://.godot/imported/amb_canal.wav-5738abd6e6b2803f630ea8320d2191f5.sample remapped: res://.godot/imported/amb_canal.wav-5738abd6e6b2803f630ea8320d2191f5.sample
+Completed load for: 'res://audio/amb_canal.wav' remapped 'res://audio/amb_canal.wav' at thread -1
+Loading resource: res://audio/amb_coast.wav remapped: res://audio/amb_coast.wav
+Loading resource: res://.godot/imported/amb_coast.wav-6fe701b88c1916cf1735e195d2a11942.sample remapped: res://.godot/imported/amb_coast.wav-6fe701b88c1916cf1735e195d2a11942.sample
+Completed load for: 'res://audio/amb_coast.wav' remapped 'res://audio/amb_coast.wav' at thread -1
+Loading resource: res://audio/amb_gull.wav remapped: res://audio/amb_gull.wav
+Loading resource: res://.godot/imported/amb_gull.wav-4eb1a7627f0c766b2102ae6dd7fd82fc.sample remapped: res://.godot/imported/amb_gull.wav-4eb1a7627f0c766b2102ae6dd7fd82fc.sample
+Completed load for: 'res://audio/amb_gull.wav' remapped 'res://audio/amb_gull.wav' at thread -1
+Loading resource: res://audio/amb_rain.wav remapped: res://audio/amb_rain.wav
+Loading resource: res://.godot/imported/amb_rain.wav-76bc2f62b4ef9faad9397ebc28fe2936.sample remapped: res://.godot/imported/amb_rain.wav-76bc2f62b4ef9faad9397ebc28fe2936.sample
+Completed load for: 'res://audio/amb_rain.wav' remapped 'res://audio/amb_rain.wav' at thread -1
+Loading resource: res://audio/amb_room.wav remapped: res://audio/amb_room.wav
+Loading resource: res://.godot/imported/amb_room.wav-92ae2d3b02adb625647892ada0e0edac.sample remapped: res://.godot/imported/amb_room.wav-92ae2d3b02adb625647892ada0e0edac.sample
+Completed load for: 'res://audio/amb_room.wav' remapped 'res://audio/amb_room.wav' at thread -1
+Loading resource: res://audio/amb_tram.wav remapped: res://audio/amb_tram.wav
+Loading resource: res://.godot/imported/amb_tram.wav-9517b01231c87d0ea9c279f49f346472.sample remapped: res://.godot/imported/amb_tram.wav-9517b01231c87d0ea9c279f49f346472.sample
+Completed load for: 'res://audio/amb_tram.wav' remapped 'res://audio/amb_tram.wav' at thread -1
+Loading resource: res://audio/blip.wav remapped: res://audio/blip.wav
+Loading resource: res://.godot/imported/blip.wav-727bf1c79c1a2371734890a4bff343a2.sample remapped: res://.godot/imported/blip.wav-727bf1c79c1a2371734890a4bff343a2.sample
+Completed load for: 'res://audio/blip.wav' remapped 'res://audio/blip.wav' at thread -1
+Loading resource: res://audio/capture.wav remapped: res://audio/capture.wav
+Loading resource: res://.godot/imported/capture.wav-d64fca1fab70b226bfdb50e9c72d205a.sample remapped: res://.godot/imported/capture.wav-d64fca1fab70b226bfdb50e9c72d205a.sample
+Completed load for: 'res://audio/capture.wav' remapped 'res://audio/capture.wav' at thread -1
+Loading resource: res://audio/door.wav remapped: res://audio/door.wav
+Loading resource: res://.godot/imported/door.wav-1fd8a7c6c1529fce90de7b2743c87d51.sample remapped: res://.godot/imported/door.wav-1fd8a7c6c1529fce90de7b2743c87d51.sample
+Completed load for: 'res://audio/door.wav' remapped 'res://audio/door.wav' at thread -1
+Loading resource: res://audio/fryer.wav remapped: res://audio/fryer.wav
+Loading resource: res://.godot/imported/fryer.wav-2654c5e121b052cae6bae2627591c8cd.sample remapped: res://.godot/imported/fryer.wav-2654c5e121b052cae6bae2627591c8cd.sample
+Completed load for: 'res://audio/fryer.wav' remapped 'res://audio/fryer.wav' at thread -1
+Loading resource: res://audio/game_lose.wav remapped: res://audio/game_lose.wav
+Loading resource: res://.godot/imported/game_lose.wav-139520cf875ea2850f65a239e4ee0a63.sample remapped: res://.godot/imported/game_lose.wav-139520cf875ea2850f65a239e4ee0a63.sample
+Completed load for: 'res://audio/game_lose.wav' remapped 'res://audio/game_lose.wav' at thread -1
+Loading resource: res://audio/game_win.wav remapped: res://audio/game_win.wav
+Loading resource: res://.godot/imported/game_win.wav-eafeb9d654da0c136b6bcc897e1cbad0.sample remapped: res://.godot/imported/game_win.wav-eafeb9d654da0c136b6bcc897e1cbad0.sample
+Completed load for: 'res://audio/game_win.wav' remapped 'res://audio/game_win.wav' at thread -1
+Loading resource: res://audio/illegal.wav remapped: res://audio/illegal.wav
+Loading resource: res://.godot/imported/illegal.wav-9b2896a153549187b9084f47a8b1b75a.sample remapped: res://.godot/imported/illegal.wav-9b2896a153549187b9084f47a8b1b75a.sample
+Completed load for: 'res://audio/illegal.wav' remapped 'res://audio/illegal.wav' at thread -1
+Loading resource: res://audio/pass.wav remapped: res://audio/pass.wav
+Loading resource: res://.godot/imported/pass.wav-5dd0d89c5e87f1aa2aeeca79198ed472.sample remapped: res://.godot/imported/pass.wav-5dd0d89c5e87f1aa2aeeca79198ed472.sample
+Completed load for: 'res://audio/pass.wav' remapped 'res://audio/pass.wav' at thread -1
+Loading resource: res://audio/pigeons.wav remapped: res://audio/pigeons.wav
+Loading resource: res://.godot/imported/pigeons.wav-8a35422568b1d06e765d42101b42e739.sample remapped: res://.godot/imported/pigeons.wav-8a35422568b1d06e765d42101b42e739.sample
+Completed load for: 'res://audio/pigeons.wav' remapped 'res://audio/pigeons.wav' at thread -1
+Loading resource: res://audio/rank_up.wav remapped: res://audio/rank_up.wav
+Loading resource: res://.godot/imported/rank_up.wav-9fdc287cb3358b3f4954ecd77bf6a65d.sample remapped: res://.godot/imported/rank_up.wav-9fdc287cb3358b3f4954ecd77bf6a65d.sample
+Completed load for: 'res://audio/rank_up.wav' remapped 'res://audio/rank_up.wav' at thread -1
+Loading resource: res://audio/step_a.wav remapped: res://audio/step_a.wav
+Loading resource: res://.godot/imported/step_a.wav-f1590aa8dccc14fedacae93645d48645.sample remapped: res://.godot/imported/step_a.wav-f1590aa8dccc14fedacae93645d48645.sample
+Completed load for: 'res://audio/step_a.wav' remapped 'res://audio/step_a.wav' at thread -1
+Loading resource: res://audio/step_b.wav remapped: res://audio/step_b.wav
+Loading resource: res://.godot/imported/step_b.wav-c09b2ed9ddbda895d540b6011a7e6228.sample remapped: res://.godot/imported/step_b.wav-c09b2ed9ddbda895d540b6011a7e6228.sample
+Completed load for: 'res://audio/step_b.wav' remapped 'res://audio/step_b.wav' at thread -1
+Loading resource: res://audio/step_gravel_a.wav remapped: res://audio/step_gravel_a.wav
+Loading resource: res://.godot/imported/step_gravel_a.wav-c60a38c84c0aee05aa123066d8d36a41.sample remapped: res://.godot/imported/step_gravel_a.wav-c60a38c84c0aee05aa123066d8d36a41.sample
+Completed load for: 'res://audio/step_gravel_a.wav' remapped 'res://audio/step_gravel_a.wav' at thread -1
+Loading resource: res://audio/step_gravel_b.wav remapped: res://audio/step_gravel_b.wav
+Loading resource: res://.godot/imported/step_gravel_b.wav-c5be32cffa3ff7668011cef6e592a3cc.sample remapped: res://.godot/imported/step_gravel_b.wav-c5be32cffa3ff7668011cef6e592a3cc.sample
+Completed load for: 'res://audio/step_gravel_b.wav' remapped 'res://audio/step_gravel_b.wav' at thread -1
+Loading resource: res://audio/step_wood_a.wav remapped: res://audio/step_wood_a.wav
+Loading resource: res://.godot/imported/step_wood_a.wav-80363ac41f929b3f0777a15cfa87dda5.sample remapped: res://.godot/imported/step_wood_a.wav-80363ac41f929b3f0777a15cfa87dda5.sample
+Completed load for: 'res://audio/step_wood_a.wav' remapped 'res://audio/step_wood_a.wav' at thread -1
+Loading resource: res://audio/step_wood_b.wav remapped: res://audio/step_wood_b.wav
+Loading resource: res://.godot/imported/step_wood_b.wav-494a0f2376ab3f3c34e40e3ac930a43b.sample remapped: res://.godot/imported/step_wood_b.wav-494a0f2376ab3f3c34e40e3ac930a43b.sample
+Completed load for: 'res://audio/step_wood_b.wav' remapped 'res://audio/step_wood_b.wav' at thread -1
+Loading resource: res://audio/stone_place.wav remapped: res://audio/stone_place.wav
+Loading resource: res://.godot/imported/stone_place.wav-63667a492579ebba12ef10122d9614ae.sample remapped: res://.godot/imported/stone_place.wav-63667a492579ebba12ef10122d9614ae.sample
+Completed load for: 'res://audio/stone_place.wav' remapped 'res://audio/stone_place.wav' at thread -1
+Loading resource: res://audio/stone_place_alt.wav remapped: res://audio/stone_place_alt.wav
+Loading resource: res://.godot/imported/stone_place_alt.wav-1a2e13509c6f98f1fdc14ee99474c7f4.sample remapped: res://.godot/imported/stone_place_alt.wav-1a2e13509c6f98f1fdc14ee99474c7f4.sample
+Completed load for: 'res://audio/stone_place_alt.wav' remapped 'res://audio/stone_place_alt.wav' at thread -1
+Loading resource: res://audio/stove_crackle.wav remapped: res://audio/stove_crackle.wav
+Loading resource: res://.godot/imported/stove_crackle.wav-1d8a9108ba948eec3e7f94a5384188a2.sample remapped: res://.godot/imported/stove_crackle.wav-1d8a9108ba948eec3e7f94a5384188a2.sample
+Completed load for: 'res://audio/stove_crackle.wav' remapped 'res://audio/stove_crackle.wav' at thread -1
+Loading resource: res://audio/theme_arches.wav remapped: res://audio/theme_arches.wav
+Loading resource: res://.godot/imported/theme_arches.wav-d6d0d305cf71e93b18f4681aba9e81bf.sample remapped: res://.godot/imported/theme_arches.wav-d6d0d305cf71e93b18f4681aba9e81bf.sample
+Completed load for: 'res://audio/theme_arches.wav' remapped 'res://audio/theme_arches.wav' at thread -1
+Loading resource: res://audio/theme_battle.wav remapped: res://audio/theme_battle.wav
+Loading resource: res://.godot/imported/theme_battle.wav-9e9ab6ca2f21b628790fc177aabb013e.sample remapped: res://.godot/imported/theme_battle.wav-9e9ab6ca2f21b628790fc177aabb013e.sample
+Completed load for: 'res://audio/theme_battle.wav' remapped 'res://audio/theme_battle.wav' at thread -1
+Loading resource: res://audio/theme_battle_in.wav remapped: res://audio/theme_battle_in.wav
+Loading resource: res://.godot/imported/theme_battle_in.wav-fe5eb86f96c052799b150a0a2ccaa064.sample remapped: res://.godot/imported/theme_battle_in.wav-fe5eb86f96c052799b150a0a2ccaa064.sample
+Completed load for: 'res://audio/theme_battle_in.wav' remapped 'res://audio/theme_battle_in.wav' at thread -1
+Loading resource: res://audio/theme_club.wav remapped: res://audio/theme_club.wav
+Loading resource: res://.godot/imported/theme_club.wav-370676cfd8552f11bf444497657ecd56.sample remapped: res://.godot/imported/theme_club.wav-370676cfd8552f11bf444497657ecd56.sample
+Completed load for: 'res://audio/theme_club.wav' remapped 'res://audio/theme_club.wav' at thread -1
+Loading resource: res://audio/theme_cup.wav remapped: res://audio/theme_cup.wav
+Loading resource: res://.godot/imported/theme_cup.wav-6da227a9ae460c7c10af10868d7eaf1b.sample remapped: res://.godot/imported/theme_cup.wav-6da227a9ae460c7c10af10868d7eaf1b.sample
+Completed load for: 'res://audio/theme_cup.wav' remapped 'res://audio/theme_cup.wav' at thread -1
+Loading resource: res://audio/theme_cup_in.wav remapped: res://audio/theme_cup_in.wav
+Loading resource: res://.godot/imported/theme_cup_in.wav-f1a71112b00466a3bc9369d787fecdc1.sample remapped: res://.godot/imported/theme_cup_in.wav-f1a71112b00466a3bc9369d787fecdc1.sample
+Completed load for: 'res://audio/theme_cup_in.wav' remapped 'res://audio/theme_cup_in.wav' at thread -1
+Loading resource: res://audio/theme_exam.wav remapped: res://audio/theme_exam.wav
+Loading resource: res://.godot/imported/theme_exam.wav-b9ff2768aa3ef0094f328ccb2a918d1f.sample remapped: res://.godot/imported/theme_exam.wav-b9ff2768aa3ef0094f328ccb2a918d1f.sample
+Completed load for: 'res://audio/theme_exam.wav' remapped 'res://audio/theme_exam.wav' at thread -1
+Loading resource: res://audio/theme_ghost.wav remapped: res://audio/theme_ghost.wav
+Loading resource: res://.godot/imported/theme_ghost.wav-56faf7f4ec5f35c21dd14348b6d13994.sample remapped: res://.godot/imported/theme_ghost.wav-56faf7f4ec5f35c21dd14348b6d13994.sample
+Completed load for: 'res://audio/theme_ghost.wav' remapped 'res://audio/theme_ghost.wav' at thread -1
+Loading resource: res://audio/theme_ghost_in.wav remapped: res://audio/theme_ghost_in.wav
+Loading resource: res://.godot/imported/theme_ghost_in.wav-d0bed49c56f370d2ec4245dbf18a4aff.sample remapped: res://.godot/imported/theme_ghost_in.wav-d0bed49c56f370d2ec4245dbf18a4aff.sample
+Completed load for: 'res://audio/theme_ghost_in.wav' remapped 'res://audio/theme_ghost_in.wav' at thread -1
+Loading resource: res://audio/theme_institute.wav remapped: res://audio/theme_institute.wav
+Loading resource: res://.godot/imported/theme_institute.wav-46e8ae855ae5f454a996f774736ce7a1.sample remapped: res://.godot/imported/theme_institute.wav-46e8ae855ae5f454a996f774736ce7a1.sample
+Completed load for: 'res://audio/theme_institute.wav' remapped 'res://audio/theme_institute.wav' at thread -1
+Loading resource: res://audio/theme_match.wav remapped: res://audio/theme_match.wav
+Loading resource: res://.godot/imported/theme_match.wav-95d69928e5e4de62d75cba3ced55d413.sample remapped: res://.godot/imported/theme_match.wav-95d69928e5e4de62d75cba3ced55d413.sample
+Completed load for: 'res://audio/theme_match.wav' remapped 'res://audio/theme_match.wav' at thread -1
+Loading resource: res://audio/theme_night.wav remapped: res://audio/theme_night.wav
+Loading resource: res://.godot/imported/theme_night.wav-cc8b077ca97d604e369a724426c972f8.sample remapped: res://.godot/imported/theme_night.wav-cc8b077ca97d604e369a724426c972f8.sample
+Completed load for: 'res://audio/theme_night.wav' remapped 'res://audio/theme_night.wav' at thread -1
+Loading resource: res://audio/theme_quay.wav remapped: res://audio/theme_quay.wav
+Loading resource: res://.godot/imported/theme_quay.wav-6e07a9533eb3e1eb618b8fee5fe29b7b.sample remapped: res://.godot/imported/theme_quay.wav-6e07a9533eb3e1eb618b8fee5fe29b7b.sample
+Completed load for: 'res://audio/theme_quay.wav' remapped 'res://audio/theme_quay.wav' at thread -1
+Loading resource: res://audio/theme_rival.wav remapped: res://audio/theme_rival.wav
+Loading resource: res://.godot/imported/theme_rival.wav-5241100e256f1175a9659bf063917778.sample remapped: res://.godot/imported/theme_rival.wav-5241100e256f1175a9659bf063917778.sample
+Completed load for: 'res://audio/theme_rival.wav' remapped 'res://audio/theme_rival.wav' at thread -1
+Loading resource: res://audio/theme_rival_in.wav remapped: res://audio/theme_rival_in.wav
+Loading resource: res://.godot/imported/theme_rival_in.wav-c368133df7e41fff7af617dcbeb37e8c.sample remapped: res://.godot/imported/theme_rival_in.wav-c368133df7e41fff7af617dcbeb37e8c.sample
+Completed load for: 'res://audio/theme_rival_in.wav' remapped 'res://audio/theme_rival_in.wav' at thread -1
+Loading resource: res://audio/theme_street.wav remapped: res://audio/theme_street.wav
+Loading resource: res://.godot/imported/theme_street.wav-9f393318d04a9819e3c9ece2507b5ab5.sample remapped: res://.godot/imported/theme_street.wav-9f393318d04a9819e3c9ece2507b5ab5.sample
+Completed load for: 'res://audio/theme_street.wav' remapped 'res://audio/theme_street.wav' at thread -1
+Loading resource: res://audio/theme_teacher.wav remapped: res://audio/theme_teacher.wav
+Loading resource: res://.godot/imported/theme_teacher.wav-5ed09072c33fd9ade80f927da3356ae7.sample remapped: res://.godot/imported/theme_teacher.wav-5ed09072c33fd9ade80f927da3356ae7.sample
+Completed load for: 'res://audio/theme_teacher.wav' remapped 'res://audio/theme_teacher.wav' at thread -1
+Loading resource: res://audio/theme_title.wav remapped: res://audio/theme_title.wav
+Loading resource: res://.godot/imported/theme_title.wav-c8ce5bc0fe82b546816cdff9ceb08a3c.sample remapped: res://.godot/imported/theme_title.wav-c8ce5bc0fe82b546816cdff9ceb08a3c.sample
+Completed load for: 'res://audio/theme_title.wav' remapped 'res://audio/theme_title.wav' at thread -1
+Loading resource: res://audio/theme_wall.wav remapped: res://audio/theme_wall.wav
+Loading resource: res://.godot/imported/theme_wall.wav-acf8cece1a7483f44a4b528a1b2ecd10.sample remapped: res://.godot/imported/theme_wall.wav-acf8cece1a7483f44a4b528a1b2ecd10.sample
+Completed load for: 'res://audio/theme_wall.wav' remapped 'res://audio/theme_wall.wav' at thread -1
+Loading resource: res://audio/toast.wav remapped: res://audio/toast.wav
+Loading resource: res://.godot/imported/toast.wav-98c0be528cab601a9e0dbbda0aa5cdeb.sample remapped: res://.godot/imported/toast.wav-98c0be528cab601a9e0dbbda0aa5cdeb.sample
+Completed load for: 'res://audio/toast.wav' remapped 'res://audio/toast.wav' at thread -1
+Loading resource: res://audio/tram_bell.wav remapped: res://audio/tram_bell.wav
+Loading resource: res://.godot/imported/tram_bell.wav-893e8b31f14ea9db87d5de8d08a60a0a.sample remapped: res://.godot/imported/tram_bell.wav-893e8b31f14ea9db87d5de8d08a60a0a.sample
+Completed load for: 'res://audio/tram_bell.wav' remapped 'res://audio/tram_bell.wav' at thread -1
+Loading resource: res://audio/ui_confirm.wav remapped: res://audio/ui_confirm.wav
+Loading resource: res://.godot/imported/ui_confirm.wav-9afc5ff916ed17e3787500250f8ef9aa.sample remapped: res://.godot/imported/ui_confirm.wav-9afc5ff916ed17e3787500250f8ef9aa.sample
+Completed load for: 'res://audio/ui_confirm.wav' remapped 'res://audio/ui_confirm.wav' at thread -1
+Loading resource: res://audio/ui_move.wav remapped: res://audio/ui_move.wav
+Loading resource: res://.godot/imported/ui_move.wav-7122de4475f19b426081611d588599bb.sample remapped: res://.godot/imported/ui_move.wav-7122de4475f19b426081611d588599bb.sample
+Completed load for: 'res://audio/ui_move.wav' remapped 'res://audio/ui_move.wav' at thread -1
+Loading resource: res://audio/washer.wav remapped: res://audio/washer.wav
+Loading resource: res://.godot/imported/washer.wav-8d25c273c42977096ea232348a84d6da.sample remapped: res://.godot/imported/washer.wav-8d25c273c42977096ea232348a84d6da.sample
+Completed load for: 'res://audio/washer.wav' remapped 'res://audio/washer.wav' at thread -1
+Loading resource: res://art/rendered/maps/ketelsteeg/scene.png remapped: res://art/rendered/maps/ketelsteeg/scene.png
+Loading resource: res://.godot/imported/scene.png-666ed9151042b4b4e588a04558a77008.ctex remapped: res://.godot/imported/scene.png-666ed9151042b4b4e588a04558a77008.ctex
+Completed load for: 'res://art/rendered/maps/ketelsteeg/scene.png' remapped 'res://art/rendered/maps/ketelsteeg/scene.png' at thread -1
+Loading resource: res://art/rendered/maps/ketelsteeg/depth.png remapped: res://art/rendered/maps/ketelsteeg/depth.png
+Loading resource: res://.godot/imported/depth.png-05f4df4c9b77e54c20459d9b6ba019bf.ctex remapped: res://.godot/imported/depth.png-05f4df4c9b77e54c20459d9b6ba019bf.ctex
+Completed load for: 'res://art/rendered/maps/ketelsteeg/depth.png' remapped 'res://art/rendered/maps/ketelsteeg/depth.png' at thread -1
+Loading resource: res://art/tiles/town_tileset.tres remapped: res://art/tiles/town_tileset.tres
+Loading resource: res://art/tiles/town_tileset.png remapped: res://art/tiles/town_tileset.png
+Loading resource: res://.godot/imported/town_tileset.png-66f5033f0b8b2dd20eaf124c008c8561.ctex remapped: res://.godot/imported/town_tileset.png-66f5033f0b8b2dd20eaf124c008c8561.ctex
+Completed load for: 'res://art/tiles/town_tileset.png' remapped 'res://art/tiles/town_tileset.png' at thread -1
+Completed load for: 'res://art/tiles/town_tileset.tres' remapped 'res://art/tiles/town_tileset.tres' at thread -1
+Loading resource: res://data/npcs/pip.tres remapped: res://data/npcs/pip.tres
+Loading resource: res://data/opponents/pip_9x9.tres remapped: res://data/opponents/pip_9x9.tres
+Completed load for: 'res://data/opponents/pip_9x9.tres' remapped 'res://data/opponents/pip_9x9.tres' at thread -1
+Completed load for: 'res://data/npcs/pip.tres' remapped 'res://data/npcs/pip.tres' at thread -1
+Loading resource: res://art/rendered/people/pip_sheet.png remapped: res://art/rendered/people/pip_sheet.png
+Loading resource: res://.godot/imported/pip_sheet.png-2672ad464676ef3012c7e8e9116d501f.ctex remapped: res://.godot/imported/pip_sheet.png-2672ad464676ef3012c7e8e9116d501f.ctex
+Completed load for: 'res://art/rendered/people/pip_sheet.png' remapped 'res://art/rendered/people/pip_sheet.png' at thread -1
+Loading resource: res://art/rendered/people/pip_actions.png remapped: res://art/rendered/people/pip_actions.png
+Loading resource: res://.godot/imported/pip_actions.png-4d9b4d097706d4fd2fb5030066216b3c.ctex remapped: res://.godot/imported/pip_actions.png-4d9b4d097706d4fd2fb5030066216b3c.ctex
+Completed load for: 'res://art/rendered/people/pip_actions.png' remapped 'res://art/rendered/people/pip_actions.png' at thread -1
+Loading resource: res://data/npcs/bertie.tres remapped: res://data/npcs/bertie.tres
+Loading resource: res://data/opponents/bertie_9x9.tres remapped: res://data/opponents/bertie_9x9.tres
+Completed load for: 'res://data/opponents/bertie_9x9.tres' remapped 'res://data/opponents/bertie_9x9.tres' at thread -1
+Completed load for: 'res://data/npcs/bertie.tres' remapped 'res://data/npcs/bertie.tres' at thread -1
+Loading resource: res://art/rendered/people/bertie_sheet.png remapped: res://art/rendered/people/bertie_sheet.png
+Loading resource: res://.godot/imported/bertie_sheet.png-6048a851e3d834bc7452504259faa8a4.ctex remapped: res://.godot/imported/bertie_sheet.png-6048a851e3d834bc7452504259faa8a4.ctex
+Completed load for: 'res://art/rendered/people/bertie_sheet.png' remapped 'res://art/rendered/people/bertie_sheet.png' at thread -1
+Loading resource: res://art/rendered/people/bertie_actions.png remapped: res://art/rendered/people/bertie_actions.png
+Loading resource: res://.godot/imported/bertie_actions.png-3a2af10a3ff2e2f8d6905f28a1b4b061.ctex remapped: res://.godot/imported/bertie_actions.png-3a2af10a3ff2e2f8d6905f28a1b4b061.ctex
+Completed load for: 'res://art/rendered/people/bertie_actions.png' remapped 'res://art/rendered/people/bertie_actions.png' at thread -1
+Loading resource: res://art/props/tram.png remapped: res://art/props/tram.png
+Loading resource: res://.godot/imported/tram.png-699e691997f5265fc89cfd0574166731.ctex remapped: res://.godot/imported/tram.png-699e691997f5265fc89cfd0574166731.ctex
+Completed load for: 'res://art/props/tram.png' remapped 'res://art/props/tram.png' at thread -1
+Loading resource: res://art/rendered/ui/tram_0.png remapped: res://art/rendered/ui/tram_0.png
+Loading resource: res://.godot/imported/tram_0.png-d1484a1453b171fd2f549a90ff3e2d37.ctex remapped: res://.godot/imported/tram_0.png-d1484a1453b171fd2f549a90ff3e2d37.ctex
+Completed load for: 'res://art/rendered/ui/tram_0.png' remapped 'res://art/rendered/ui/tram_0.png' at thread -1
+Loading resource: res://art/rendered/ui/tram_1.png remapped: res://art/rendered/ui/tram_1.png
+Loading resource: res://.godot/imported/tram_1.png-5be2ef92acced38c8c94d8ed75dda925.ctex remapped: res://.godot/imported/tram_1.png-5be2ef92acced38c8c94d8ed75dda925.ctex
+Completed load for: 'res://art/rendered/ui/tram_1.png' remapped 'res://art/rendered/ui/tram_1.png' at thread -1
+Loading resource: res://art/rendered/ui/tram_2.png remapped: res://art/rendered/ui/tram_2.png
+Loading resource: res://.godot/imported/tram_2.png-f17d96590373f0d6fd239185e295d0c0.ctex remapped: res://.godot/imported/tram_2.png-f17d96590373f0d6fd239185e295d0c0.ctex
+Completed load for: 'res://art/rendered/ui/tram_2.png' remapped 'res://art/rendered/ui/tram_2.png' at thread -1
+Loading resource: res://art/rendered/ui/tram_3.png remapped: res://art/rendered/ui/tram_3.png
+Loading resource: res://.godot/imported/tram_3.png-55f9a01db54041691f56cd1f37ce14de.ctex remapped: res://.godot/imported/tram_3.png-55f9a01db54041691f56cd1f37ce14de.ctex
+Completed load for: 'res://art/rendered/ui/tram_3.png' remapped 'res://art/rendered/ui/tram_3.png' at thread -1
+Loading resource: res://art/rendered/ui/tram_4.png remapped: res://art/rendered/ui/tram_4.png
+Loading resource: res://.godot/imported/tram_4.png-2880718b3563f0a1b1ceb80f664a32f0.ctex remapped: res://.godot/imported/tram_4.png-2880718b3563f0a1b1ceb80f664a32f0.ctex
+Completed load for: 'res://art/rendered/ui/tram_4.png' remapped 'res://art/rendered/ui/tram_4.png' at thread -1
+Loading resource: res://art/rendered/people/player_sheet.png remapped: res://art/rendered/people/player_sheet.png
+Loading resource: res://.godot/imported/player_sheet.png-947a3256d50ebc89d0cb764604b31b1a.ctex remapped: res://.godot/imported/player_sheet.png-947a3256d50ebc89d0cb764604b31b1a.ctex
+Completed load for: 'res://art/rendered/people/player_sheet.png' remapped 'res://art/rendered/people/player_sheet.png' at thread -1
+Loading resource: res://art/campaign_next/maps/ketelsteeg/room.glb remapped: res://art/campaign_next/maps/ketelsteeg/room.glb
+Loading resource: res://.godot/imported/room.glb-44853f5ac1aa24e07c4f807629b6bb53.scn remapped: res://.godot/imported/room.glb-44853f5ac1aa24e07c4f807629b6bb53.scn
+Completed load for: 'res://art/campaign_next/maps/ketelsteeg/room.glb' remapped 'res://art/campaign_next/maps/ketelsteeg/room.glb' at thread -1
+Loading resource: res://art/expressive_world/surfaces/plaster_grain.png remapped: res://art/expressive_world/surfaces/plaster_grain.png
+Loading resource: res://.godot/imported/plaster_grain.png-b3b4765a4d03262d9d72ac00382c2a82.ctex remapped: res://.godot/imported/plaster_grain.png-b3b4765a4d03262d9d72ac00382c2a82.ctex
+Completed load for: 'res://art/expressive_world/surfaces/plaster_grain.png' remapped 'res://art/expressive_world/surfaces/plaster_grain.png' at thread -1
+Loading resource: res://art/expressive_world/surfaces/wood_grain.png remapped: res://art/expressive_world/surfaces/wood_grain.png
+Loading resource: res://.godot/imported/wood_grain.png-4cd83f2de6efe43e81340a6044b0bb0a.ctex remapped: res://.godot/imported/wood_grain.png-4cd83f2de6efe43e81340a6044b0bb0a.ctex
+Completed load for: 'res://art/expressive_world/surfaces/wood_grain.png' remapped 'res://art/expressive_world/surfaces/wood_grain.png' at thread -1
+Loading resource: res://art/campaign_next/people/pip.glb remapped: res://art/campaign_next/people/pip.glb
+Loading resource: res://.godot/imported/pip.glb-f2a46828298eb1fe0140f46165e8efae.scn remapped: res://.godot/imported/pip.glb-f2a46828298eb1fe0140f46165e8efae.scn
+Completed load for: 'res://art/campaign_next/people/pip.glb' remapped 'res://art/campaign_next/people/pip.glb' at thread -1
+Loading resource: res://art/expressive_world/people/pip_face.png remapped: res://art/expressive_world/people/pip_face.png
+Loading resource: res://.godot/imported/pip_face.png-9977684b8e85fd994a693f66007a3385.ctex remapped: res://.godot/imported/pip_face.png-9977684b8e85fd994a693f66007a3385.ctex
+Completed load for: 'res://art/expressive_world/people/pip_face.png' remapped 'res://art/expressive_world/people/pip_face.png' at thread -1
+Loading resource: res://art/campaign_next/people/pip_face.png remapped: res://art/campaign_next/people/pip_face.png
+Loading resource: res://.godot/imported/pip_face.png-370b48fd43d6bcba1068f1e4a412db95.ctex remapped: res://.godot/imported/pip_face.png-370b48fd43d6bcba1068f1e4a412db95.ctex
+Completed load for: 'res://art/campaign_next/people/pip_face.png' remapped 'res://art/campaign_next/people/pip_face.png' at thread -1
+Loading resource: res://art/campaign_next/people/bertie.glb remapped: res://art/campaign_next/people/bertie.glb
+Loading resource: res://.godot/imported/bertie.glb-57c84ff81809c672e6bae1602068c981.scn remapped: res://.godot/imported/bertie.glb-57c84ff81809c672e6bae1602068c981.scn
+Completed load for: 'res://art/campaign_next/people/bertie.glb' remapped 'res://art/campaign_next/people/bertie.glb' at thread -1
+Loading resource: res://art/expressive_world/people/bertie_face.png remapped: res://art/expressive_world/people/bertie_face.png
+Loading resource: res://.godot/imported/bertie_face.png-9c48766bfcd4d45a7bceb8c77be2390b.ctex remapped: res://.godot/imported/bertie_face.png-9c48766bfcd4d45a7bceb8c77be2390b.ctex
+Completed load for: 'res://art/expressive_world/people/bertie_face.png' remapped 'res://art/expressive_world/people/bertie_face.png' at thread -1
+Loading resource: res://art/campaign_next/people/bertie_face.png remapped: res://art/campaign_next/people/bertie_face.png
+Loading resource: res://.godot/imported/bertie_face.png-cc26219ad6d29db43159dce483de8fb0.ctex remapped: res://.godot/imported/bertie_face.png-cc26219ad6d29db43159dce483de8fb0.ctex
+Completed load for: 'res://art/campaign_next/people/bertie_face.png' remapped 'res://art/campaign_next/people/bertie_face.png' at thread -1
+Loading resource: res://art/campaign_next/tram.glb remapped: res://art/campaign_next/tram.glb
+Loading resource: res://.godot/imported/tram.glb-af4085b3263d4cf5292ebfb9181661bd.scn remapped: res://.godot/imported/tram.glb-af4085b3263d4cf5292ebfb9181661bd.scn
+Completed load for: 'res://art/campaign_next/tram.glb' remapped 'res://art/campaign_next/tram.glb' at thread -1
+Loading resource: res://art/campaign_next/people/player.glb remapped: res://art/campaign_next/people/player.glb
+Loading resource: res://.godot/imported/player.glb-663cd766daa72c68708c9248d8a888e1.scn remapped: res://.godot/imported/player.glb-663cd766daa72c68708c9248d8a888e1.scn
+Completed load for: 'res://art/campaign_next/people/player.glb' remapped 'res://art/campaign_next/people/player.glb' at thread -1
+Loading resource: res://art/expressive_world/people/player_face.png remapped: res://art/expressive_world/people/player_face.png
+Loading resource: res://.godot/imported/player_face.png-c100434c8436bb4a83bb79a92d558190.ctex remapped: res://.godot/imported/player_face.png-c100434c8436bb4a83bb79a92d558190.ctex
+Completed load for: 'res://art/expressive_world/people/player_face.png' remapped 'res://art/expressive_world/people/player_face.png' at thread -1
+Loading resource: res://art/campaign_next/people/player_face.png remapped: res://art/campaign_next/people/player_face.png
+Loading resource: res://.godot/imported/player_face.png-88b496c6aa2bd0948547ae7eb724af22.ctex remapped: res://.godot/imported/player_face.png-88b496c6aa2bd0948547ae7eb724af22.ctex
+Completed load for: 'res://art/campaign_next/people/player_face.png' remapped 'res://art/campaign_next/people/player_face.png' at thread -1
+Loading resource: res://art/sprites/extra_kid.png remapped: res://art/sprites/extra_kid.png
+Loading resource: res://.godot/imported/extra_kid.png-93742da3a6b56a2c417d25d549b01e26.ctex remapped: res://.godot/imported/extra_kid.png-93742da3a6b56a2c417d25d549b01e26.ctex
+Completed load for: 'res://art/sprites/extra_kid.png' remapped 'res://art/sprites/extra_kid.png' at thread -1
+Loading resource: res://art/sprites/extra_kid_actions.png remapped: res://art/sprites/extra_kid_actions.png
+Loading resource: res://.godot/imported/extra_kid_actions.png-eb24a94a3ec47a4202103f631cd33c9f.ctex remapped: res://.godot/imported/extra_kid_actions.png-eb24a94a3ec47a4202103f631cd33c9f.ctex
+Completed load for: 'res://art/sprites/extra_kid_actions.png' remapped 'res://art/sprites/extra_kid_actions.png' at thread -1
+Loading resource: res://art/rendered/people/extra_kid_sheet.png remapped: res://art/rendered/people/extra_kid_sheet.png
+Loading resource: res://.godot/imported/extra_kid_sheet.png-555df14a514288e1837ed4e3b9835c9e.ctex remapped: res://.godot/imported/extra_kid_sheet.png-555df14a514288e1837ed4e3b9835c9e.ctex
+Completed load for: 'res://art/rendered/people/extra_kid_sheet.png' remapped 'res://art/rendered/people/extra_kid_sheet.png' at thread -1
+Loading resource: res://art/campaign_next/people/extra_kid.glb remapped: res://art/campaign_next/people/extra_kid.glb
+Loading resource: res://.godot/imported/extra_kid.glb-a756a0ac82f2b50e14b743e8f8b9946d.scn remapped: res://.godot/imported/extra_kid.glb-a756a0ac82f2b50e14b743e8f8b9946d.scn
+Completed load for: 'res://art/campaign_next/people/extra_kid.glb' remapped 'res://art/campaign_next/people/extra_kid.glb' at thread -1
+Loading resource: res://art/expressive_world/people/extra_kid_face.png remapped: res://art/expressive_world/people/extra_kid_face.png
+Loading resource: res://.godot/imported/extra_kid_face.png-a5b789e00cba08a0dfd61c2ee3363c89.ctex remapped: res://.godot/imported/extra_kid_face.png-a5b789e00cba08a0dfd61c2ee3363c89.ctex
+Completed load for: 'res://art/expressive_world/people/extra_kid_face.png' remapped 'res://art/expressive_world/people/extra_kid_face.png' at thread -1
+Loading resource: res://art/campaign_next/people/extra_kid_face.png remapped: res://art/campaign_next/people/extra_kid_face.png
+Loading resource: res://.godot/imported/extra_kid_face.png-1115f9ac1ba1183502619c0b6ba84176.ctex remapped: res://.godot/imported/extra_kid_face.png-1115f9ac1ba1183502619c0b6ba84176.ctex
+Completed load for: 'res://art/campaign_next/people/extra_kid_face.png' remapped 'res://art/campaign_next/people/extra_kid_face.png' at thread -1
+MOTION RATE 30 walk: 20 frames, 0 idle frames, 0 clip changes, foot travel 0.467
+MOTION: released input returns to standing
+MOTION RATE 30 run: 20 frames, 0 idle frames, 0 clip changes, foot travel 0.660
+MOTION: released input returns to standing
+Loading resource: res://art/sprites/extra_shopper.png remapped: res://art/sprites/extra_shopper.png
+Loading resource: res://.godot/imported/extra_shopper.png-5581942ec7f0a55cd161d909bd1cd8c3.ctex remapped: res://.godot/imported/extra_shopper.png-5581942ec7f0a55cd161d909bd1cd8c3.ctex
+Completed load for: 'res://art/sprites/extra_shopper.png' remapped 'res://art/sprites/extra_shopper.png' at thread -1
+Loading resource: res://art/sprites/extra_shopper_actions.png remapped: res://art/sprites/extra_shopper_actions.png
+Loading resource: res://.godot/imported/extra_shopper_actions.png-292f6f8ff1c48711c6e410cf187a0b39.ctex remapped: res://.godot/imported/extra_shopper_actions.png-292f6f8ff1c48711c6e410cf187a0b39.ctex
+Completed load for: 'res://art/sprites/extra_shopper_actions.png' remapped 'res://art/sprites/extra_shopper_actions.png' at thread -1
+Loading resource: res://art/rendered/people/extra_shopper_sheet.png remapped: res://art/rendered/people/extra_shopper_sheet.png
+Loading resource: res://.godot/imported/extra_shopper_sheet.png-7e63aa1e3dd93f87d252deebc2e7c2a7.ctex remapped: res://.godot/imported/extra_shopper_sheet.png-7e63aa1e3dd93f87d252deebc2e7c2a7.ctex
+Completed load for: 'res://art/rendered/people/extra_shopper_sheet.png' remapped 'res://art/rendered/people/extra_shopper_sheet.png' at thread -1
+Loading resource: res://art/campaign_next/people/extra_shopper.glb remapped: res://art/campaign_next/people/extra_shopper.glb
+Loading resource: res://.godot/imported/extra_shopper.glb-6ef489f7b065af5edc7b4c0a0ea6fc85.scn remapped: res://.godot/imported/extra_shopper.glb-6ef489f7b065af5edc7b4c0a0ea6fc85.scn
+Completed load for: 'res://art/campaign_next/people/extra_shopper.glb' remapped 'res://art/campaign_next/people/extra_shopper.glb' at thread -1
+Loading resource: res://art/expressive_world/people/extra_shopper_face.png remapped: res://art/expressive_world/people/extra_shopper_face.png
+Loading resource: res://.godot/imported/extra_shopper_face.png-ac6cb96c71c0eb5914c90eeb11ccad77.ctex remapped: res://.godot/imported/extra_shopper_face.png-ac6cb96c71c0eb5914c90eeb11ccad77.ctex
+Completed load for: 'res://art/expressive_world/people/extra_shopper_face.png' remapped 'res://art/expressive_world/people/extra_shopper_face.png' at thread -1
+Loading resource: res://art/campaign_next/people/extra_shopper_face.png remapped: res://art/campaign_next/people/extra_shopper_face.png
+Loading resource: res://.godot/imported/extra_shopper_face.png-c8601791f7039e715ff5b1ecd919e776.ctex remapped: res://.godot/imported/extra_shopper_face.png-c8601791f7039e715ff5b1ecd919e776.ctex
+Completed load for: 'res://art/campaign_next/people/extra_shopper_face.png' remapped 'res://art/campaign_next/people/extra_shopper_face.png' at thread -1
+MOTION RATE 60 walk: 39 frames, 0 idle frames, 0 clip changes, foot travel 0.466
+MOTION: released input returns to standing
+MOTION RATE 60 run: 40 frames, 0 idle frames, 0 clip changes, foot travel 0.664
+MOTION: released input returns to standing
+MOTION RATE 144 walk: 88 frames, 0 idle frames, 0 clip changes, foot travel 0.470
+MOTION: released input returns to standing
+MOTION RATE 144 run: 88 frames, 0 idle frames, 0 clip changes, foot travel 0.664
+MOTION: released input returns to standing
+MOTION: wall actually stops the player
+MOTION: held input against a wall does not run in place
+Loading resource: res://art/sprites/extra_docker.png remapped: res://art/sprites/extra_docker.png
+Loading resource: res://.godot/imported/extra_docker.png-e75822777cc0618e9b4c98293018fabf.ctex remapped: res://.godot/imported/extra_docker.png-e75822777cc0618e9b4c98293018fabf.ctex
+Completed load for: 'res://art/sprites/extra_docker.png' remapped 'res://art/sprites/extra_docker.png' at thread -1
+Loading resource: res://art/sprites/extra_docker_actions.png remapped: res://art/sprites/extra_docker_actions.png
+Loading resource: res://.godot/imported/extra_docker_actions.png-7acf84114ee82f79cd7e78fe76482dc8.ctex remapped: res://.godot/imported/extra_docker_actions.png-7acf84114ee82f79cd7e78fe76482dc8.ctex
+Completed load for: 'res://art/sprites/extra_docker_actions.png' remapped 'res://art/sprites/extra_docker_actions.png' at thread -1
+Loading resource: res://art/rendered/people/extra_docker_sheet.png remapped: res://art/rendered/people/extra_docker_sheet.png
+Loading resource: res://.godot/imported/extra_docker_sheet.png-4ccd79c8ff80ef029f1582eb748fea3d.ctex remapped: res://.godot/imported/extra_docker_sheet.png-4ccd79c8ff80ef029f1582eb748fea3d.ctex
+Completed load for: 'res://art/rendered/people/extra_docker_sheet.png' remapped 'res://art/rendered/people/extra_docker_sheet.png' at thread -1
+Loading resource: res://art/campaign_next/people/extra_docker.glb remapped: res://art/campaign_next/people/extra_docker.glb
+Loading resource: res://.godot/imported/extra_docker.glb-c8f8cd775fd21d30db81814fa150b7a9.scn remapped: res://.godot/imported/extra_docker.glb-c8f8cd775fd21d30db81814fa150b7a9.scn
+Completed load for: 'res://art/campaign_next/people/extra_docker.glb' remapped 'res://art/campaign_next/people/extra_docker.glb' at thread -1
+Loading resource: res://art/expressive_world/people/extra_docker_face.png remapped: res://art/expressive_world/people/extra_docker_face.png
+Loading resource: res://.godot/imported/extra_docker_face.png-8917f26453026ddf024e7dca72e8ff43.ctex remapped: res://.godot/imported/extra_docker_face.png-8917f26453026ddf024e7dca72e8ff43.ctex
+Completed load for: 'res://art/expressive_world/people/extra_docker_face.png' remapped 'res://art/expressive_world/people/extra_docker_face.png' at thread -1
+Loading resource: res://art/campaign_next/people/extra_docker_face.png remapped: res://art/campaign_next/people/extra_docker_face.png
+Loading resource: res://.godot/imported/extra_docker_face.png-9843d4898d82a77d1f8659eb926d0a5e.ctex remapped: res://.godot/imported/extra_docker_face.png-9843d4898d82a77d1f8659eb926d0a5e.ctex
+Completed load for: 'res://art/campaign_next/people/extra_docker_face.png' remapped 'res://art/campaign_next/people/extra_docker_face.png' at thread -1
+MOTION: modal input lock stops locomotion
+MOTION RATE FAILURES: 0
+XR: Clearing primary interface
+XR: Removed interface "Native mobile"
+XR: Removed interface "OpenXR"
+PulseAudio: context terminated
+Accessibility: window 0 adapter destroyed.

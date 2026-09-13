@@ -1,0 +1,9 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.6 (Core Profile) Mesa 26.2.1 - Compatibility - Using Device: AMD - AMD Radeon RX 6900 XT (radeonsi, navi21, ACO, DRM 3.64, 7.2.2)
+
+CONTACT 0.0 cloth (1.773446, 1.058398, 4.746327) normal (-0.012757, 0.999806, -0.015041)
+CONTACT 1.0 cloth (1.762378, 1.060375, 4.746111) normal (0.007074, 0.999885, -0.01343)
+CONTACT 2.0 cloth (1.773544, 1.071521, 4.738977) normal (-0.011682, 0.999857, 0.012188)
+CONTACT 3.0 cloth (1.843577, 1.06255, 4.74488) normal (-0.131321, 0.991284, -0.010544)
+CONTACT 4.0 cloth (1.887402, 1.06892, 4.748535) normal (-0.206027, 0.978421, -0.01565)
+CONTACT FAILURES: 0

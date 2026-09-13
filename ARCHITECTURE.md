@@ -35,6 +35,18 @@ campaign geometry for title and tram arrivals. Hana's introduction uses the live
 and the original table geometry. The original isolated Kettle experiment is preserved.
 [Pipeline and verification](docs/expressive_world/README.md).
 
+ART-14 adds an opt-in process profile in `src/rpg/kettle_next/`. It selects four shared
+rigs, the Kettle room and a refined table from `art/kettle_next/`; other identities and
+rooms keep their campaign sources. `KettleNextActing` is the sole AnimationPlayer owner
+for those rigs. It blends authored loops and one-shots, preserves normalized gait phase,
+and expires expressions into a resting pose. Actors still supply physics-sampled speed.
+Tomás's cloth follows a hand bone; steam positions come from generated cup coordinates.
+The prototype world viewport is 1536×864 and portrait textures render at twice their
+logical extent. Projection, match board viewport, picking plane and UI coordinates do
+not change. The profile is never serialized. Python coordinators remain authoritative;
+`tools/table_scene/export.py` exposes the same table builder for optional rim refinement.
+[Prototype scope and validation](docs/kettle_next/verification.md).
+
 ## 1. The one rule
 
 **`src/go/` may not know that a game exists around it.**
@@ -739,3 +751,20 @@ Map geometry, art props, collision, NPC positions and warps are unchanged. Since
 render manifest fingerprints the whole source JSON, text-only edits refresh its generated
 provenance stamp after an exact comparison of all render inputs. The existing renderer
 does not consume map names, sign text or warp prompts.
+
+
+### Campaign presentation preview (ART-15)
+
+The process-only `NINEPOINT_PRESENTATION=campaign_next` profile selects separate cast, map
+and table exports. KettleNextProfile retains the earlier Kettle-only selector and owns asset
+resolution; CampaignNextRoom owns per-map lighting/materials. The existing presentation
+controller owns clips, expressions and cancellation; 2D actors remain authoritative.
+TableSceneStage converts logical board coordinates to and from render pixels so supersampling
+does not change picking, labels or markers. Title/travel views share the same generated rooms.
+There is no save or content migration. Production presentation remains the default.
+
+Original chair assignments are exported in each room manifest, so progress-dependent
+NPC activity changes cannot make the visible rig stand through its chair. This changes
+presentation only. Compatible skinned meshes are batched by material after verifying
+posed vertex equivalence; painted face meshes remain separate. Embedded 2D lesson/review
+boards obtain the preview textures lazily through the same profile boundary.

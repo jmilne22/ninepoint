@@ -1,0 +1,98 @@
+[
+  {
+    "identity": "player",
+    "checks": 13560,
+    "clips": [
+      "stand",
+      "host",
+      "relaxed",
+      "listen",
+      "counter",
+      "seated",
+      "walk",
+      "run",
+      "idle",
+      "table_rest",
+      "thinking",
+      "place",
+      "surprise",
+      "pleased",
+      "concern",
+      "greet",
+      "serve"
+    ],
+    "bones": 40
+  },
+  {
+    "identity": "wren",
+    "checks": 14784,
+    "clips": [
+      "stand",
+      "host",
+      "relaxed",
+      "listen",
+      "counter",
+      "seated",
+      "walk",
+      "run",
+      "idle",
+      "table_rest",
+      "thinking",
+      "place",
+      "surprise",
+      "pleased",
+      "concern",
+      "greet",
+      "serve"
+    ],
+    "bones": 40
+  },
+  {
+    "identity": "kesh",
+    "checks": 20598,
+    "clips": [
+      "stand",
+      "host",
+      "relaxed",
+      "listen",
+      "counter",
+      "seated",
+      "walk",
+      "run",
+      "idle",
+      "table_rest",
+      "thinking",
+      "place",
+      "surprise",
+      "pleased",
+      "concern",
+      "greet",
+      "serve"
+    ],
+    "bones": 40
+  },
+  {
+    "identity": "tomas",
+    "checks": 15090,
+    "clips": [
+      "stand",
+      "host",
+      "relaxed",
+      "listen",
+      "counter",
+      "seated",
+      "walk",
+      "run",
+      "idle",
+      "table_rest",
+      "thinking",
+      "place",
+      "surprise",
+      "pleased",
+      "concern",
+      "greet",
+      "serve"
+    ],
+    "bones": 40
+  }
+]

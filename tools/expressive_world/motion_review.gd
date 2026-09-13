@@ -40,6 +40,11 @@ func _ready() -> void:
     var rates := [30,60,144]
     var filming := "--film" in OS.get_cmdline_user_args()
     if filming:
+        # The isolated comparison needs visible feet: a passing tram can cover
+        # the whole turn sequence. Normal play and the rate gate retain it.
+        if "--turns" in OS.get_cmdline_user_args():
+            var tram: Node = world.entities.get_node_or_null("Tram")
+            if tram != null: tram.queue_free()
         rates = [30]
         var overlay := CanvasLayer.new()
         overlay.layer=100
@@ -73,7 +78,7 @@ func _ready() -> void:
             sampling=true
             for i in (12 if filming else 4):
                 await get_tree().create_timer(.15).timeout
-                if fps==60 or filming: await _shot(("run" if running else "walk")+"_%s"%i)
+                if filming: await _shot(("run" if running else "walk")+"_%s"%i)
             sampling=false
             ProjectedProbe.follow_logical(world.map,Vector2.RIGHT,false)
             Input.action_release("move_right");Input.action_release("run")
@@ -82,9 +87,22 @@ func _ready() -> void:
             if samples<5 or wrong>0 or transitions>0 or travel<.20: failures+=1
             await get_tree().create_timer(.3).timeout
             _check(person.animation.current_animation == "stand", "released input returns to standing")
+    if filming and "--turns" in OS.get_cmdline_user_args():
+        caption.text = "Turning and stopping"
+        for direction in [Vector2.UP,Vector2.RIGHT,Vector2(1,1).normalized(),Vector2.DOWN,Vector2.LEFT]:
+            ProjectedProbe.follow_logical(world.map,direction,true)
+            await get_tree().create_timer(.55).timeout
+            ProjectedProbe.follow_logical(world.map,direction,false)
+            await get_tree().create_timer(.25).timeout
     if caption!=null: caption.text="Stops at walls and when input is locked"
     await _blocked_movement()
     print("MOTION RATE FAILURES: ",failures)
+    Audio.stop_music(0)
+    Audio.stop_ambience(0)
+    await get_tree().create_timer(.1).timeout
+    world.queue_free()
+    await get_tree().process_frame
+    await get_tree().process_frame
     get_tree().quit(0 if OS.get_environment("MOTION_BASELINE")=="1" else int(failures>0))
 
 func _process(_delta: float) -> void:
