@@ -148,7 +148,7 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
   ok  9x9: the analysis became a review (available)
 KataGo review 9x9: 78 moves, 79 positions, 47.4 s, 0.60 s per position on 8 threads, 2 findings
 REV-01 9x9: pass-1 14.701 s; pass-2 32.725 s; 9 detail queries
-  ok  detail pass completed: 
+  ok  detail pass completed:
   ok  all three branches returned
   ok  branch ownership covers the board
   ok  branch ownership covers the board
@@ -172,7 +172,7 @@ REV-01 9x9 complete save: before 12187 bytes; after 18614 bytes; delta +6427
   ok  19x19: the analysis became a review (available)
 KataGo review 19x19: 242 moves, 243 positions, 111.7 s, 0.46 s per position on 8 threads, 3 findings
 REV-01 19x19: pass-1 62.760 s; pass-2 48.853 s; 9 detail queries
-  ok  detail pass completed: 
+  ok  detail pass completed:
   ok  all three branches returned
   ok  branch ownership covers the board
   ok  branch ownership covers the board

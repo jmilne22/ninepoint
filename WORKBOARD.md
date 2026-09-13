@@ -97,6 +97,14 @@ Update the snapshot when reconciling after a merge; it is not a release number.
 - Inspected: normal-speed 8.5-second Godot footage with audio, motion frames, both
   sides of both cabs and actual boarding stop. [Evidence and corrected launcher](docs/expressive_world/motion-fix/README.md).
 
+### Pull request handoff
+
+The owner requested a PR for the approved presentation work on 2026-09-13.
+`codex/locomotion-tram-fix` contains ART-10R through ART-13R together; these local
+commits are not yet on main. Fresh fetch confirmed `origin/main == f90a39e` and
+that the branch merge base matches it before preparing the PR. Final runtime
+validation is recorded under `docs/expressive_world/motion-fix/`.
+
 ## How to use this board
 
 | Status | Meaning | Agent action |
