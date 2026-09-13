@@ -2,10 +2,13 @@
 class_name KettleNextProfile
 extends RefCounted
 
+## Practice opts into the newest models without changing the campaign setting.
+static var practice_presentation := false
+
 const PEOPLE := ["player", "wren", "kesh", "tomas"]
 
 static func campaign() -> bool:
-    return OS.get_environment("NINEPOINT_PRESENTATION") == "campaign_next"
+    return practice_presentation or OS.get_environment("NINEPOINT_PRESENTATION") == "campaign_next"
 
 static func enabled() -> bool:
     return campaign() or OS.get_environment("NINEPOINT_PRESENTATION") == "kettle_next"

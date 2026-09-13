@@ -30,7 +30,7 @@ func _build_ui() -> void:
     add_child(surface)
     surface.setup(board_view)
     player_actor = _actor("player", Vector2(-34, 88))
-    wren_actor = _actor(request.npc_id, Vector2(532, 88))
+    wren_actor = _actor(request.presentation_id(), Vector2(532, 88))
     _strip(Rect2(0, 0, 768, 63), Color("202e2d"))
     _strip(Rect2(0, 7, 282, 27), Color("eee4cc"))
     _strip(Rect2(458, 7, 310, 27), Color("eee4cc"))
@@ -39,7 +39,7 @@ func _build_ui() -> void:
     _strip(Rect2(0, 62, 768, 2), Color("c5ac72"))
     _strip(Rect2(0, 364, 768, 68), Color("202e2d"))
     _strip(Rect2(0, 363, 768, 1), Color("c5ac72"))
-    _text(GameState.player_name.to_upper(), Vector2(22, 10), 210, 18, Color("24332f"))
+    _text(context.player_name.to_upper(), Vector2(22, 10), 210, 18, Color("24332f"))
     _text(request.opponent_name.to_upper(), Vector2(470, 10), 280, 18, Color("24332f"))
     black_info = _text("", Vector2(22, 40), 250, 9, Color("d9c69e"))
     white_info = _text("", Vector2(470, 40), 285, 9, Color("d9c69e"))
@@ -172,7 +172,7 @@ func _refresh() -> void:
     elif phase == Phase.DONE: status.text = "Thanks for the game"
     var yours: int = game.captures[player_color] if game != null else 0
     var theirs: int = game.captures[other] if game != null else 0
-    var rank := GameState.rank_label() if GameState.is_ranked() else "Unranked"
+    var rank := GoRank.to_string_rank(request.player_strength) + " (selected)" if context.standalone else (GameState.rank_label() if GameState.is_ranked() else "Unranked")
     black_info.text = "%s / %s / Captured %d" % [rank, colour.to_upper(), yours]
     white_info.text = "%s / %s / Captured %d" % [request.opponent_rank, GoBoard.color_name(other).to_upper(), theirs]
     if game == null and setup.uses_nigiri:

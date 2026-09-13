@@ -12,7 +12,7 @@ func setup(value: Control) -> void:
 
 
 func enabled() -> bool:
-    return scene.request != null and (scene.request.context_id == "wren_first" \
+    return scene.request != null and (scene.request.help_enabled or scene.request.context_id == "wren_first" \
         or scene.request.profile.capture_goal > 0)
 
 

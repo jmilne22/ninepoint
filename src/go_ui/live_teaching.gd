@@ -19,6 +19,8 @@ func setup(value: Control) -> void:
 
 
 static func eligible(request: MatchRequest, setup: GoMatchSetup) -> bool:
+    if request != null and request.teaching_enabled:
+        return request.profile != null and request.profile.capture_goal == 0
     if request == null or request.profile == null or not request.unrated or not request.practice \
             or request.profile.capture_goal != 0 or setup.board_size != 9:
         return false
@@ -28,6 +30,10 @@ static func eligible(request: MatchRequest, setup: GoMatchSetup) -> bool:
 
 func choose_mode() -> void:
     if not eligible(scene.request, scene.setup):
+        return
+    if scene.request.teaching_enabled:
+        active = true
+        worker.start()
         return
     busy = true
     var choice := TeachingChoice.new()

@@ -131,6 +131,14 @@ src/
     nigiri_ceremony.*   choosing colours, as a set piece
     table_talk_voice.gd which character says a table-talk tag, and in what words
 
+  practice/           STANDALONE — explicit activity context, no campaign writes
+    practice_settings.gd / practice_profile.gd   independent setup and opponent identity
+    practice_snapshot.gd / practice_store.gd     replayable committed state and atomic JSON
+    practice_session.gd   activity routing and persistence owner (autoload)
+    hub.gd / setup_panel.gd / library.gd / history.gd   responsive menus
+    match.gd / practice_hint.gd / practice_help.gd       shared match host and assistance
+    replay.gd           completed games without engine analysis
+
   rpg/                THE WORLD
     player/             player character body, input, interaction ray
     npc/                NPC body, idle behaviour, passers-by
@@ -791,3 +799,39 @@ Kettle → theme_club, rated match → theme_battle plus theme_battle_in, and ta
 `build_assets.py --groups audio_preview` rebuilds the source renders and publishes them.
 Superseded synthesis recipes and stone_place_alt are removed. Historical audition media
 and source licenses remain available. No runtime synthesis or network access is needed.
+
+
+## Standalone Practice (PRACTICE-01)
+
+`src/practice/` owns a title-screen hub, typed settings/profile construction, the practice
+match host, learning library, history/replay, hints and the versioned practice store.
+`ActivityContext` supplies identity, completion callbacks and flag access to shared match,
+lesson and puzzle scenes. `MatchBridge.activity()` creates the existing campaign adapter
+unless PracticeSession has installed an explicit practice context. Campaign records,
+quest signals and slot files never serve as temporary practice storage. Campaign
+playtime pauses while that context is active.
+
+`MatchTurnLoop` and `MatchCompletion` share turn/count/result logic. The practice host
+extends the production table presentation and selects its avatar through
+`MatchRequest.presentation_id()`, independent of `npc_id` and engine rank/style.
+`KettleNextProfile.practice_presentation` selects existing campaign preview assets for
+Practice only. Leaving clears it; the RPG retains its configured presentation.
+
+`user://practice/state.json` (version 1) contains settings, completion markers, completed
+records, reviews keyed by stable append index and one active game. Active snapshots
+store resolved player colour, initial board settings, committed coloured actions,
+counting marks and coaching state. Replaying actions through GoGame restores captures,
+ko/pass history and undo snapshots. Temporary-file flush plus rename publishes a save;
+a stable game ID makes result callbacks idempotent. Provisional coaching moves never
+replace the last committed snapshot. Suspended games are not reconstructed from SGF.
+
+The single MatchReviewService accepts `start_record(index, record, write_callback)`;
+its campaign entry point delegates to this seam. ReviewCards accepts an explicit record
+for replay and player colour. Practice supplies its store, keeps review available while
+browsing, and cancels analysis when a new game starts. Unfinished analysis becomes an
+interrupted review on reload. SGF exports go to `user://practice/exports/`.
+
+`tools/gen_practice_profiles.py` generates standalone rank/style configs without touching
+cast configs. Small boards retain a two-second GTP response allowance; 13×13 uses four
+seconds and 19×19 eight. Approximate novice temperatures interpolate the existing novice
+anchors; the native Human-SL profile covers each selectable rank from 20k to 5d.

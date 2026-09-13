@@ -346,6 +346,7 @@ src/go_ai/     GoOpponent interface, GoEndgame (which ground is finished), the h
                (KataGo's analysis mode over a whole game) + MatchAnalysis (the review, pure),
                ReviewFacts / ReviewContinuation / ReviewNarrator / ReviewEnrichment (pure evidence and payloads)
 src/go_ui/     board view, match scene, puzzle scene, lesson runner, nigiri ceremony
+src/practice/  independent hub, settings/profile, learning/history, practice match/store
 src/rpg/       world, player, NPCs, maps, components (Warp, Interactable, CharacterSprite),
                SignDesk (everything you read on a wall or sit down at: the boards, the
                study desk, the tram stop, the bed), TileAnimator, Soundscape, NpcIdle,
@@ -513,7 +514,8 @@ Wren’s short rules and finishing lessons → optional opening comparison → s
 full game → reaction/review → Kesh’s novice card (optional handicap practice) → tram north →
 Hana’s welcome and first class → enrol → league board → novice fixtures → the Cup ending → optional Academy League/exam. Twelve maps, twenty characters, each on
 exactly one map. Capture Go uses 7×7; town games use 9×9 and 13×13, with 19×19 available
-in development play. Four quests. Three save slots.
+in standalone Practice and development play. Four quests. Three campaign save slots;
+Practice stores its own settings, history and one suspended game separately.
 
 REV-01/M51 adds coordinate-grounded review facts, ownership comparisons and Lesson L.
 Pure facts/narration run without engine or game files. Capture examples are explicitly
@@ -575,7 +577,7 @@ on the bundled Human-SL build.
 **Known gaps, in priority order:** see `ROADMAP.md`. The short version: independent beginner
 learning/motivation testing for CAP-01 and DESIGN-01; Wren/novice strength and stopping
 (CONTENT-05, PROG-01, ENG-09); engine dead-stone
-adjudication; teaching and town access for 19×19 (development play already has overview/zoom); `world.gd` and `go_match.gd` are over the line-count convention; independent audio listening remains separate from M49’s measured real-driver audibility check.
+adjudication; a campaign introduction and town access for 19×19 (Practice already supports teaching and overview/zoom); `world.gd` and `go_match.gd` are over the line-count convention; independent audio listening remains separate from M49’s measured real-driver audibility check.
 
 ## The longer documents
 
@@ -853,3 +855,24 @@ The surface owns landing audio for actual moves; reconstruction/redraw never req
 Child timers cancel captures when the scene exits. Preserve the existing QOA loop workaround.
 `tools/audio_preview/verify.gd` checks contact timing; `driver.gd` checks actual audible
 output and loops without any opt-in environment variable. See `docs/audio_preview/README.md`.
+
+
+## PRACTICE-01 — standalone Go
+
+Title → Practice bypasses campaign saves. `src/practice/` owns settings, one suspended
+game, completion markers and history under `user://practice/`. Never implement practice
+by resetting, temporarily replacing or saving GameState. `ActivityContext` carries
+shared activity callbacks; `MatchTurnLoop`/`MatchCompletion` share the match lifecycle.
+Avatar ID is cosmetic and independent of `npc_id`, rank and engine configuration.
+
+The owner requested the newest 3D presentation after the initial portrait-only plan.
+Practice selects existing `art/campaign_next/` models/table through a runtime profile
+flag and clears it on return to title; campaign presentation defaults are unchanged.
+
+Generate configs: `python3 tools/gen_practice_profiles.py`.
+Serial visual routes: `tools/run_rendered.sh tools/autopilot/standalone_practice.json`
+and `tools/run_rendered.sh tools/autopilot/standalone_practice_engines.json` (set
+`TIMEOUT=600`, separate OUT/LOG; `DISPLAY_NUM=0` for hardware rendering).
+`standalone_practice_layout.json` starts without any campaign saves and checks setup controls. `tools/practice_session_test.gd` verifies async undo,
+counting resume, failure exits, duplicate completion and campaign isolation; test.sh
+includes it. See [practice documentation](docs/practice/README.md).

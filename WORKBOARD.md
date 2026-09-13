@@ -7,6 +7,16 @@ what evidence makes a task done.
 Revision base: `origin/main` and HEAD both `fb044e7`, freshly fetched and verified on 2026-09-13 before DISPLAY-01.
 Update the snapshot when reconciling after a merge; it is not a release number.
 
+## PRACTICE-01 — Standalone practice hub
+
+- Status: `SHIPPED` (local implementation; not merged) · Owner: Codex · Branch: `codex/standalone-practice`.
+- Explicit owner-approved plan: title entry, configurable AI/avatars/ranks, teaching/hints/undo, lessons/puzzles, history/review/export and one resumable game.
+- Verified base HEAD = origin/main = `06a263d` on 2026-09-13.
+- Practice owns its records and completion state; campaign slots and progression must remain unchanged.
+- Acceptance: pure setup/persistence tests, campaign isolation, live engine checks, full technical gate and inspected serial practice/campaign routes.
+- Delivered: newest 3D models/table with cosmetic avatar selection; independent ordinary/teaching/Capture Go, 30k–5d controls, lessons, hints, undo, resume, history/review/export.
+- Evidence: full technical gate; 23 live-engine, 17 core, 12 layout and 16 async/isolation checks; played campaign teaching and review regression routes. [Details and inspected screenshots](docs/practice/README.md).
+
 ## PERF-01 — Remove the match frame-rate override
 
 - Status: `SHIPPED` (PR #40; pending merge) · Owner: Codex · Branch: `codex/launch-render-audio-fixes`.

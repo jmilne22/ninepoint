@@ -53,13 +53,15 @@ func _run() -> void:
 
 
 func _do(step: Dictionary) -> void:
-    var recognised := step.has("ketel") or step.has("projected")
+    var recognised := step.has("ketel") or step.has("projected") or step.has("standalone_practice")
     for key in ["save", "note", "live_file", "experience", "katago_trial", "board_input", "match_move", "match_resign", "match_wait_player", "match_autoplay", "review_engine", "review_walk", "review_card_wait", "review_landed_wait", "world_wait", "walk_to", "talk_to", "face", "advance", "choose", "wait", "tap", "hold", "shot", "trial_assert", "quit"]:
         recognised = recognised or step.has(key)
     if not recognised:
         push_error("Autopilot has no command for step: %s" % step)
         get_tree().quit(1)
         return
+    if step.has("standalone_practice"):
+        await StandalonePracticeProbe.perform(get_tree(), str(step.standalone_practice), _shot)
     if step.has("live_file"):
         await _live_session(str(step["live_file"]))
     if step.has("experience"):

@@ -142,7 +142,8 @@ Defeat advances the story and never blocks progress. There is no game-over scree
 
 The loop tightens: early games are 9×9 against people who explain what they are doing;
 the planned later games are 19×19 against people who expect you to already know.
-The UI supports nineteen lines through a development route; town access and the teaching
+The UI supports nineteen lines through standalone Practice (including teaching games)
+and a development route; town access and the campaign teaching
 bridge from thirteen remain unbuilt. Interface inspection is available to every learner
 using that board and never depends on rank or an earned ability.
 
@@ -517,3 +518,13 @@ ART-12 tests the approved match cast in one walkable Kettle interior, including
 conversation portraits and the match/return loop. Existing dialogue, ranks, teaching
 order and result consequences remain in force. The isolated visit uses disposable
 progress; ART-12R refined stances, movement and room finish following the owner’s GameCube reference clarification. The owner subsequently approved it and requested ART-13: the full campaign and a smooth, coherent interface. The visual renderer changes; gameplay systems and learning order remain unchanged.
+
+
+## Standalone practice
+
+Practice is available from the title screen without entering the campaign. Custom AI
+ranks, cosmetic avatars, teaching games, lessons, puzzles and saved reviews serve players
+who want time at the board alone. Its chosen player rank only sets automatic handicap;
+it is never earned, adjusted or imported into campaign progression. Its opponent avatars
+carry no character dialogue, narrative identity or canonical rank. The campaign teaching
+order and original cast ranks remain unchanged.

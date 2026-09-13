@@ -14,6 +14,7 @@ const PASS_BEAT := 1.1
 func _think_delay() -> float:
     return THINK_DELAY_FAST if Autopilot.active else THINK_DELAY
 
+var context: ActivityContext
 var request: MatchRequest
 var profile: OpponentProfile
 ## What the person across the board says about what just happened.
@@ -22,6 +23,8 @@ var game: GoGame
 var opponent: GoOpponent
 var player_color: int = GoBoard.BLACK
 var result_sent: bool = false
+var turn_paused := false
+var turn_revision := 0
 
 var board_view: GoBoardView
 var _last_view := Rect2i()
@@ -72,7 +75,7 @@ var _answer: Variant = null
 ## Whether a player may submit a board move right now. Kept public for the
 ## development autopilot so it does not need to duplicate phase enum values.
 func is_player_turn_ready() -> bool:
-    return game != null and phase == Phase.PLAYING and _awaiting == &"move" \
+    return not turn_paused and game != null and phase == Phase.PLAYING and _awaiting == &"move" \
         and game.to_move == player_color and _handicap_help == null and not _teaching.opened and not _live.busy
 
 
@@ -93,7 +96,8 @@ func _exit_tree() -> void:
 
 
 func _ready() -> void:
-    request = MatchBridge.pending_request
+    context = MatchBridge.activity()
+    request = context.request
     if request == null:
         request = _debug_request()
     profile = request.profile
@@ -325,19 +329,7 @@ func _run() -> void:
 
     phase = Phase.PLAYING
     _refresh()
-    while game.state == GoGame.State.PLAYING:
-        if game.to_move == player_color:
-            _refresh()
-            await _ask(&"move")
-        else:
-            _refresh()
-            await get_tree().create_timer(_think_delay()).timeout
-            await _opponent_turn()
-        await get_tree().process_frame
-
-    if game.state == GoGame.State.SCORING:
-        await _scoring_phase()
-    await _finish()
+    await MatchTurnLoop.run(self)
 
 
 # --- setup: who takes black --------------------------------------------------
@@ -428,10 +420,13 @@ func _skin_tone_for(npc_id: String) -> String:
 # --- turns --------------------------------------------------------------------
 
 func _opponent_turn() -> void:
+    var revision := turn_revision
     var before_key := TeachingPosition.key(game) if _live.active else ""
     var move: Dictionary = await _await_move()
-    while _handicap_help != null or _teaching.opened:
+    while is_inside_tree() and (_handicap_help != null or _teaching.opened or turn_paused) and revision == turn_revision:
         await get_tree().process_frame
+    if not is_inside_tree() or revision != turn_revision or phase == Phase.DONE:
+        return
     match str(move.get("type", "pass")):
         "pass":
             game.pass_turn()
@@ -624,38 +619,7 @@ func _finish() -> void:
         var s := GoScoring.score(game.board, board_view.dead, game.captures, game.komi)
         game.finish_with_score(s)
 
-    var res := MatchResult.new()
-    res.context_id = request.context_id
-    res.league_division = request.league_division
-    res.league_attempt = request.league_attempt
-    res.league_fixture = request.league_fixture
-    res.npc_id = request.npc_id
-    res.player_color = player_color
-    res.winner = int(game.result.get("winner", GoBoard.EMPTY))
-    res.player_won = res.winner == player_color
-    res.margin = float(game.result.get("margin", 0.0))
-    res.by_resignation = bool(game.result.get("by_resignation", false))
-    res.by_capture = bool(game.result.get("by_capture", false))
-    res.capture_goal = game.capture_goal
-    res.practice_ended = bool(game.result.get("practice_ended", false))
-    res.capture_review = CaptureGuide.final_capture(game)
-    res.board_size = game.size()
-    res.handicap = game.handicap
-    # In a handicap game the stones belong to whoever is Black. Which side that
-    # was is the difference between beating a 1 dan and being given five stones
-    # by one, and the rank ladder cannot tell them apart afterwards without this.
-    res.handicap_taken = game.handicap if player_color == GoBoard.BLACK else 0
-    res.komi = game.komi
-    res.move_count = game.move_number()
-    res.unrated = request.unrated or game.capture_goal > 0
-    res.opponent_name = request.opponent_name
-    res.opponent_strength = request.profile.strength() if request.profile != null else -1
-    res.sgf = GoSgf.to_sgf(game, {
-        "PB": GameState.player_name if player_color == GoBoard.BLACK else request.opponent_name,
-        "PW": request.opponent_name if player_color == GoBoard.BLACK else GameState.player_name,
-        "RE": str(game.result.get("text", "")),
-    })
-    res.summary = str(game.result.get("text", ""))
+    var res := MatchCompletion.result(self)
 
     var headline := "You win" if res.player_won else "You lose"
     if res.winner == GoBoard.EMPTY:
@@ -690,7 +654,7 @@ func _finish() -> void:
             }
         MatchBridge.record_dev_trial(res, engine)
     # The bridge owns the transition; this scene must not await its destruction.
-    MatchBridge.finish_match(res)
+    context.match_finished.call(res)
 
 
 ## Model loading is deliberately visible and cancellable. Once it completes,
@@ -718,7 +682,7 @@ func _prepare_opponent() -> GtpOpponent:
         if _awaiting == &"prepare" and _answer == false:
             KataGoService.cancel(profile)
             phase = Phase.DONE
-            await MatchBridge.cancel_match()
+            context.match_cancelled.call()
             return null
         _awaiting = &"prepare"
         await get_tree().process_frame
@@ -741,7 +705,7 @@ func _refresh() -> void:
     if _turn == null:
         return
     _navigation.refresh()
-    var my_name := GameState.player_name
+    var my_name := context.player_name
     var black_name := my_name if player_color == GoBoard.BLACK else request.opponent_name
     var white_name := request.opponent_name if player_color == GoBoard.BLACK else my_name
 
@@ -930,14 +894,14 @@ func _open_handicap_help(initial: bool) -> void:
     _handicap_help = HandicapHelp.new()
     _handicap_help.request = request
     _handicap_help.setup = setup
-    _handicap_help.first_time = not initial or not GameState.has_flag("handicap_intro_seen")
+    _handicap_help.first_time = not initial or not context.has_flag("handicap_intro_seen")
     add_child(_handicap_help)
     await _handicap_help.closed
     _handicap_help = null
     board_view.highlight = old_highlight
     board_view.queue_redraw()
     if initial:
-        GameState.set_flag("handicap_intro_seen", true)
+        context.set_flag("handicap_intro_seen", true)
     board_view.interactive = phase in [Phase.PLAYING, Phase.SCORING]
     _refresh()
 

@@ -25,3 +25,11 @@ var guidance: Array[String] = []
 var player_strength: int = -1
 ## Set by the match scene once colours are settled; carried back for dialogue.
 var setup: GoMatchSetup = null
+
+## Cosmetic identity and assistance are independent of campaign encounter IDs.
+var avatar_id: String = ""
+var teaching_enabled := false
+var help_enabled := false
+
+func presentation_id() -> String:
+    return avatar_id if not avatar_id.is_empty() else npc_id

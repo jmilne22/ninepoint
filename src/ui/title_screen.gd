@@ -3,13 +3,13 @@ extends Control
 
 ## New Game and Continue stay at 0 and 1. The autopilot navigates this menu by
 ## counting move_downs, so anything new goes on the end.
-const ITEMS := ["New Game", "Continue", "Load Game", "Quit"]
+const ITEMS := ["New Game", "Continue", "Load Game", "Quit", "Practice"]
 const OPENING_SCENE := "res://src/ui/opening.tscn"
 
 ## The framed left column. Every position in it is measured off this rect.
 const CARD := Rect2(12, 10, 142, 186)
 const FIRST_ROW := 74
-const ROW_STEP := 16
+const ROW_STEP := 13
 
 var _labels: Array[Label] = []
 var _index: int = 0
@@ -71,6 +71,21 @@ func _ready() -> void:
             int(CARD.size.x) - 30, Color("#ddd0b8"))
         l.text = item
         _labels.append(l)
+        var row := _labels.size() - 1
+        var hit := Button.new()
+        hit.flat = true
+        hit.focus_mode = Control.FOCUS_NONE
+        hit.position = Vector2(CARD.position.x + 10, y - 1)
+        hit.size = Vector2(CARD.size.x - 20, ROW_STEP)
+        hit.mouse_entered.connect(func():
+            if not _busy and _enabled(row):
+                _index = row
+                _refresh())
+        hit.pressed.connect(func():
+            if not _busy and _enabled(row):
+                _index = row
+                _activate())
+        _card.add_child(hit)
         y += ROW_STEP
 
     _rule(CARD.position.y + 138)
@@ -208,6 +223,9 @@ func _activate() -> void:
             _refresh()
         3:
             get_tree().quit()
+        4:
+            _busy = true
+            PracticeSession.enter()
 
 
 func _on_slot_chosen(slot: int) -> void:
