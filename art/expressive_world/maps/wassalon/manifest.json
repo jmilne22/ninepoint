@@ -1,0 +1,9 @@
+{
+  "id": "wassalon",
+  "size": [
+    20,
+    13
+  ],
+  "source_sha256": "c2cb21b8fc5fc2bcfe8d30d3f02a0cc307c59815c2162b7e610e236a29411eb8",
+  "metres_per_tile": 0.8
+}

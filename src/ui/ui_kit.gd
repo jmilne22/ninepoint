@@ -6,21 +6,21 @@
 class_name UiKit
 extends RefCounted
 
-const FONT: Font = preload("res://art/ui/ninepoint_font.fnt")
-## The bitmap font's native size. Anything else scales and stops being crisp.
+const FONT: Font = preload("res://art/fonts/DejaVuSans.ttf")
+## Logical text size; outline glyphs render at the window's native resolution.
 const FONT_SIZE := 9
 const LINE_H := 11
 const PAD := 10
 
 const VIEW := Vector2(384, 216)
 
-const INK := Color("#14121a")
-const INK_SOFT := Color("#45404f")
-const INK_FAINT := Color("#6b6577")
-const GOLD := Color("#8a6023")
-const PAPER := Color("#f2e9d8")
-const TEAL := Color("#367f72")
-const RUST := Color("#8c4034")
+const INK := Color("#243b33")
+const INK_SOFT := Color("#526b5e")
+const INK_FAINT := Color("#718477")
+const GOLD := Color("#926b36")
+const PAPER := Color("#f4eddf")
+const TEAL := Color("#477c6b")
+const RUST := Color("#a5624d")
 
 
 static func label(parent: Node, pos: Vector2, width: int, colour: Color,
@@ -36,15 +36,9 @@ static func label(parent: Node, pos: Vector2, width: int, colour: Color,
     return l
 
 
-## A label with a hard one-pixel drop shadow, for type that has to sit on
-## artwork rather than on a panel. The title screen, the pause menu and the save
-## slot list each hand-rolled the same eight theme overrides; the title screen's
-## copy also asked for font size 21, which is not a multiple of the bitmap
-## font's native 9 and so was being scaled -- the exact thing ART_DIRECTION 4b
-## forbids, in the largest piece of type in the game.
+## Compatibility helper for artwork labels; clear outline type needs no pixel shadow.
 static func shadow_label(parent: Node, pos: Vector2, width: int, colour: Color,
-        size: int = FONT_SIZE, offset: int = 1) -> Label:
-    assert(size % FONT_SIZE == 0, "the bitmap font only scales by whole multiples of 9")
+        size: int = FONT_SIZE, _offset: int = 1) -> Label:
     var l := Label.new()
     l.position = pos
     l.size = Vector2(width, LINE_H * (size / FONT_SIZE))
@@ -52,20 +46,20 @@ static func shadow_label(parent: Node, pos: Vector2, width: int, colour: Color,
     l.add_theme_font_size_override("font_size", size)
     l.add_theme_color_override("font_color", colour)
     l.add_theme_color_override("font_shadow_color", INK)
-    l.add_theme_constant_override("shadow_offset_x", offset)
-    l.add_theme_constant_override("shadow_offset_y", offset)
+    l.add_theme_constant_override("shadow_offset_x", 0)
+    l.add_theme_constant_override("shadow_offset_y", 0)
     parent.add_child(l)
     return l
 
 
 static func panel(parent: Node, rect: Rect2, dark: bool = false) -> NinePatchRect:
-    var p := NinePatchRect.new()
-    p.texture = load("res://art/rendered/ui/panel_dark.png" if dark else "res://art/rendered/ui/panel.png")
+    var p := SurfacePanel.new()
+    p.dark = dark
     for m in ["left", "top", "right", "bottom"]:
         p.set("patch_margin_%s" % m, 6)
     p.position = rect.position
     p.size = rect.size
-    p.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+    p.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
     parent.add_child(p)
     return p
 

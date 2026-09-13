@@ -10,7 +10,9 @@ static func viewport(parent: Control, extent: Vector2i, transparent: bool) -> Su
     view.msaa_3d = Viewport.MSAA_4X
     parent.add_child(view)
     var image := TextureRect.new()
+    image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
     image.texture = view.get_texture()
+    image.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
     image.size = extent
     image.mouse_filter = Control.MOUSE_FILTER_IGNORE
     parent.add_child(image)

@@ -29,25 +29,24 @@ window/size/viewport_width=384
 window/size/viewport_height=216
 window/size/window_width_override=1536
 window/size/window_height_override=864
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
 window/stretch/aspect="keep"
-; Integer scaling only: a fractional upscale of a 384x216 framebuffer smears
-; every pixel and every glyph edge.
-window/stretch/scale_mode="integer"
+; Native-resolution text and vector panels can scale with the window.
+window/stretch/scale_mode="fractional"
 
 [gui]
 
-theme/custom="res://art/ui/ninepoint_theme.tres"
-theme/default_font_antialiasing=0
+theme/custom="res://src/ui/theme.tres"
+theme/default_font_antialiasing=1
 theme/default_font_subpixel_positioning=0
 
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-textures/canvas_textures/default_texture_filter=0
-2d/snap/snap_2d_transforms_to_pixel=true
-2d/snap/snap_2d_vertices_to_pixel=true
+textures/canvas_textures/default_texture_filter=1
+2d/snap/snap_2d_transforms_to_pixel=false
+2d/snap/snap_2d_vertices_to_pixel=false
 environment/defaults/default_clear_color=Color(0.078, 0.071, 0.102, 1)
 
 [physics]

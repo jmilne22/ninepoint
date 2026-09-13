@@ -54,7 +54,7 @@ Update the snapshot when reconciling after a merge; it is not a release number.
 
 ## ART-12R — Refine the Kettle prototype for review
 
-- Status: local POC complete; `NEEDS DECISION` for visual adoption · Owner: Codex · Branch: `codex/kettle-refinement`.
+- Status: `SHIPPED` (owner approved for whole-game rollout) · Owner: Codex · Branch: `codex/kettle-refinement`.
 - Owner sees potential but rejected awkward stances and the overly pristine room.
   Clarified reference: Hikaru no Go 3 on GameCube; do not use PS1 as an excuse for weak art.
 - Fresh separate checkout proved HEAD = origin/main = `f90a39e`; brought in the
@@ -65,6 +65,22 @@ Update the snapshot when reconciling after a merge; it is not a release number.
   28 / 0 serial rendered checks. Inspected poses, gait, room/dialogue captures and the
   36.1-second normal-speed Godot film. Previous POC remains available for comparison.
   [Second review and launch](docs/expressive_kettle/refinement/README.md).
+
+## ART-13 — Expressive world and coherent interface
+
+- Status: `SHIPPED` locally for owner review · Owner: Codex · Branch: `codex/style-rollout`.
+- Owner approved ART-12R and requested the rest of the game, including replacing the
+  mismatched pixel UI. This explicitly authorizes the world and interface adoption.
+- Fresh checkout proved HEAD = origin/main = `f90a39e` on 2026-09-13; cherry-picked
+  the approved local match/area/refinement chain before edits.
+- Scope: every campaign area and cast identity, animated dialogue portraits, title/
+  opening/travel presentation, menus, HUD, teaching, match, counting and review panels.
+- Preserve logical maps, saves, doors, interactions, rank/progression and Go services.
+- Acceptance: 19,407 / 0 full gate, 380 resource loads, 119 live-asset checks and
+  3,640 deformed-pose assertions. Serial rendered routes cover all 22 doors, saves,
+  Capture Go, ko, puzzles, 19×19 input/counting, Wren match/review, tram and competitions.
+  Inspected all rooms/cast, six selected views and normal-speed Godot footage with audio.
+  [Play, review film and verification](docs/expressive_world/README.md).
 
 ## How to use this board
 

@@ -1,0 +1,40 @@
+[
+  {
+    "save": "exam_ready",
+    "note": "the state this script needs; run_game.sh builds it before launching"
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact",
+    "note": "Continue from the exam_ready save: two days out, third in the league"
+  },
+  {
+    "wait": 2.2,
+    "shot": "a_the_federation_hall"
+  },
+  {
+    "walk_to": [
+      13,
+      3
+    ],
+    "note": "to the exam list on the wall"
+  },
+  {
+    "face": [
+      13,
+      2
+    ]
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "wait": 1.4,
+    "shot": "b_the_exam_list"
+  }
+]

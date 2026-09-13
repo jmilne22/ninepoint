@@ -14,7 +14,7 @@ const LINES := [
 const MAX_NAME := 10
 
 var _board: Control
-var _portrait: TextureRect
+var _portrait: Control
 var _portrait_frame: Control
 var _text: Label
 var _more: Label
@@ -34,54 +34,32 @@ func _ready() -> void:
 
 
 func _build() -> void:
-    # The first screen of the game was a flat #14121a rectangle with a portrait
-    # and a board floating on it, which reads as a screen that has not finished
-    # loading. It is the same dusk as the title card, thirty seconds later and
-    # with the rain in it, and it carries no subject of its own: everything on
-    # this screen is drawn over it.
+    # Keep the room quiet behind Hana and the first empty board.
     var bg := ColorRect.new()
-    bg.color = Color("#14121a")
+    bg.color = Color("#243b33")
     bg.set_anchors_preset(Control.PRESET_FULL_RECT)
     add_child(bg)
 
-    const BACKDROP := "res://art/rendered/ui/opening.png"
-    if ResourceLoader.exists(BACKDROP):
-        var art := TextureRect.new()
-        art.texture = load(BACKDROP)
-        art.set_anchors_preset(Control.PRESET_FULL_RECT)
-        art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-        art.stretch_mode = TextureRect.STRETCH_SCALE
-        art.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-        add_child(art)
-
-    # An empty board, lit from nowhere. It is the only thing on screen at first.
+    var art := ExpressiveBackdrop.new()
+    art.map_id = "de_ketel"
+    add_child(art)
+    var veil := ColorRect.new()
+    veil.color = Color(.13,.23,.20,.55)
+    veil.size = UiKit.VIEW
+    add_child(veil)
     _board = _draw_board()
     add_child(_board)
-
-    # A frame, for the same reason the board gets a shadow: a 64x64 bust with
-    # its own pale background, dropped straight onto the sky, is a sticker.
     _portrait_frame = Control.new()
-    _portrait_frame.position = Vector2(22, 32)
-    _portrait_frame.modulate.a = 0.0
     add_child(_portrait_frame)
-    for spec in [[Vector2(3, 3), Vector2(68, 68), Color(0.08, 0.07, 0.10, 0.55)],
-            [Vector2(0, 0), Vector2(68, 68), Color("#2a2633")],
-            [Vector2(1, 1), Vector2(66, 66), Color("#8a6023")]]:
-        var piece := ColorRect.new()
-        piece.position = spec[0]
-        piece.size = spec[1]
-        piece.color = spec[2]
-        _portrait_frame.add_child(piece)
-
-    _portrait = TextureRect.new()
-    _portrait.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-    _portrait.position = Vector2(24, 34)
-    _portrait.size = Vector2(64, 64)
-    _portrait.modulate.a = 0.0
-    var portrait_path := "res://art/portraits/hana.png"
-    if ResourceLoader.exists(portrait_path):
-        _portrait.texture = PortraitMoods.slice(load(portrait_path), "neutral")
-    add_child(_portrait)
+    var hana := ExpressivePortrait.new()
+    hana.position = Vector2(20,0)
+    hana.size = Vector2(280,300)
+    hana.scale = Vector2(.5,.5)
+    hana.modulate.a = 0
+    add_child(hana)
+    hana.setup("hana")
+    hana.perform("greet",2.8)
+    _portrait = hana
 
     var panel := UiKit.panel(self, Rect2(20, 138, 344, 60))
     _text = UiKit.label(panel, Vector2(10, 8), 324, UiKit.INK, 44)
@@ -101,7 +79,7 @@ func _build() -> void:
     _field.add_theme_color_override("caret_color", UiKit.GOLD)
     var box := StyleBoxFlat.new()
     box.bg_color = Color("#f2e9d8")
-    box.border_color = Color("#8a6023")
+    box.border_color = Color("#926b36")
     box.set_border_width_all(1)
     box.set_content_margin_all(4)
     _field.add_theme_stylebox_override("normal", box)
@@ -114,45 +92,50 @@ func _build() -> void:
     _hint.visible = false
 
 
-## A 9x9 board drawn once into a Control, so the opening has something on it
-## other than words.
+## The introduction uses the same wooden set as the cast matches.
 func _draw_board() -> Control:
     var holder := Control.new()
-    holder.position = Vector2(232, 26)
-    holder.size = Vector2(128, 100)
-    # A shadow first, so the board sits on the evening rather than in front of
-    # it. It is the one saturated object in the game (ART_DIRECTION 1) and on a
-    # dim backdrop that made it read as a rectangle pasted on.
-    var shade := ColorRect.new()
-    shade.color = Color(0.08, 0.07, 0.10, 0.55)
-    shade.size = Vector2(112, 112)
-    shade.position = Vector2(11, 3)
-    holder.add_child(shade)
-    var slab := TextureRect.new()
-    slab.texture = load("res://art/rendered/ui/board_surface.png")
-    slab.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-    slab.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-    slab.size = Vector2(112, 112)
-    slab.position = Vector2(8, 0)
-    holder.add_child(slab)
-    var rim := ColorRect.new()
-    rim.color = Color("#a97b3c")
-    rim.size = Vector2(112, 2)
-    rim.position = Vector2(8, 110)
-    holder.add_child(rim)
+    holder.position = Vector2(145,16)
+    holder.size = Vector2(225,120)
+    var view := TableSceneStage.viewport(holder,Vector2i(450,240),true)
+    for child in holder.get_children():
+        if child is TextureRect:
+            child.size = holder.size
+    var table: Node3D = load("res://art/table_scene/table.glb").instantiate()
+    view.add_child(table)
+    _prepare_table(table)
+    var camera := Camera3D.new()
+    camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+    camera.size = 1.5
+    camera.position = Vector3(0,2.2,1.8)
+    view.add_child(camera)
+    camera.look_at_from_position(camera.position,Vector3.ZERO)
     for i in 9:
-        var h := ColorRect.new()
-        h.color = Color("#3a2a18")
-        h.position = Vector2(16, 8 + i * 12)
-        h.size = Vector2(96, 1)
-        holder.add_child(h)
-        var v := ColorRect.new()
-        v.color = Color("#3a2a18")
-        v.position = Vector2(16 + i * 12, 8)
-        v.size = Vector2(1, 96)
-        holder.add_child(v)
-    holder.modulate.a = 0.0
+        for direction in 2:
+            var bar := MeshInstance3D.new()
+            var mesh := BoxMesh.new()
+            mesh.size = Vector3(.004,.002,.88) if direction == 0 else Vector3(.88,.002,.004)
+            bar.mesh = mesh
+            bar.position = Vector3(-.44+i*.11,.122,0) if direction == 0 else Vector3(0,.122,-.44+i*.11)
+            bar.material_override = TableSceneStage.material(Color("57432b"))
+            view.add_child(bar)
+    holder.modulate.a = 0
     return holder
+
+
+func _prepare_table(node: Node) -> void:
+    if node is MeshInstance3D:
+        for index in node.mesh.get_surface_count():
+            var original: Material = node.get_active_material(index)
+            if original == null: continue
+            if original.resource_name == "Table walnut": node.hide()
+            elif original.resource_name in ["Kaya","Board end grain"]:
+                var wood := ShaderMaterial.new()
+                wood.shader = preload("res://src/go_ui/table_scene/wood.gdshader")
+                wood.set_shader_parameter("grain",load("res://art/table_scene/kaya.png"))
+                wood.set_shader_parameter("tint",Color.WHITE if original.resource_name == "Kaya" else Color("927247"))
+                node.set_surface_override_material(index,wood)
+    for child in node.get_children(): _prepare_table(child)
 
 
 func _run() -> void:

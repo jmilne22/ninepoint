@@ -44,6 +44,22 @@ static func perform(tree: SceneTree) -> void:
     if not "map" in world or not world.map is MapData or world.map.presentation == null:
         _fail(tree, "motion probe needs a production map")
         return
+    var live: ProjectedWorld
+    for child in world.get_children():
+        if child is ProjectedWorld: live = child
+    if live == null or live.view == null or live.camera_3d == null:
+        _fail(tree,"the campaign has no live 3D presentation")
+        return
+    var centre: Vector2 = world.camera.get_screen_center_position()
+    for y in world.map.height:
+        for x in world.map.width:
+            var feet := Vector2(x*16+8,y*16+8)
+            var expected: Vector2 = (world.map.presentation.project(feet)-centre+Vector2(192,108))*2
+            var actual := live.camera_3d.unproject_position(Vector3(feet.x*.05,0,feet.y*.05))
+            if expected.distance_to(actual) > .1:
+                _fail(tree,"3D floor projection differs from logical input at "+str(feet))
+                return
+    print("EXPRESSIVE: live camera agrees with every logical tile centre")
     var player: Player = world.player
     var map: MapData = world.map
     var start := Vector2.INF

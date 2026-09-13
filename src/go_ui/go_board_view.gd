@@ -18,11 +18,11 @@ const C_BLACK_HI := GoBoardInk.C_BLACK_HI
 const C_WHITE := GoBoardInk.C_WHITE
 const C_WHITE_LO := GoBoardInk.C_WHITE_LO
 const C_SHADOW := GoBoardInk.C_SHADOW
-const C_CURSOR := Color("#8c4034")
+const C_CURSOR := Color("#a5624d")
 const C_LAST := Color("#b8624a")
 const C_LIBERTY := GoBoardInk.C_LIBERTY
 const C_GOOD := Color("#c9962b")
-const FONT := preload("res://art/ui/ninepoint_font.fnt")
+const FONT := preload("res://art/fonts/DejaVuSans.ttf")
 const FONT_SIZE := 9
 
 var game: GoGame
@@ -196,7 +196,7 @@ static func star_points(n: int) -> PackedInt32Array:
     return GoBoardInk.star_points(n)
 
 
-const BOARD_SURFACE: Texture2D = preload("res://art/rendered/ui/board_surface.png")
+const BOARD_SURFACE: Texture2D = preload("res://art/expressive_world/surfaces/board.png")
 
 
 func _draw() -> void:
@@ -215,9 +215,9 @@ func _draw() -> void:
 
     for i in count:
         var a := _origin + Vector2(0, i * _cell)
-        draw_line(a, a + Vector2(used, 0), C_LINE, 1.0)
+        draw_line(a, a + Vector2(used, 0), C_LINE, 1.0, true)
         var b := _origin + Vector2(i * _cell, 0)
-        draw_line(b, b + Vector2(0, used), C_LINE, 1.0)
+        draw_line(b, b + Vector2(0, used), C_LINE, 1.0, true)
 
     for s in star_points(n):
         if not geometry.contains(s):
@@ -251,7 +251,7 @@ func _draw() -> void:
     if not last.is_empty() and geometry.contains(int(last["point"])):
         var lp := point_position(int(last["point"]))
         var col: Color = C_WHITE if int(last["color"]) == GoBoard.BLACK else C_BLACK
-        draw_arc(lp, _cell * 0.22, 0, TAU, 12, col, 1.5)
+        draw_arc(lp, _cell * 0.22, 0, TAU, 48, col, 1.5, true)
 
     if show_liberties and target_point() >= 0 and (interactive or inspection):
         GoBoardInk.liberties(self, game, geometry, target_point(), FONT)
@@ -262,7 +262,7 @@ func _draw() -> void:
     for h in highlight:
         if not geometry.contains(h):
             continue
-        draw_arc(point_position(h), _cell * 0.42, 0, TAU, 16, C_LAST, 1.0)
+        draw_arc(point_position(h), _cell * 0.42, 0, TAU, 48, C_LAST, 1.0, true)
 
     if geometry.contains(mark_point):
         draw_circle(point_position(mark_point), _cell * 0.18, C_GOOD if mark_good else C_LIBERTY)

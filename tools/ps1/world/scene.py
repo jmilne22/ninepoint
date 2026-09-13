@@ -45,7 +45,9 @@ def architecture(kind,x,y,w,d,m,door_centres=None):
     else:raise ValueError(kind)
 
 
-def build(output,map_id):
+def build(output,map_id,live=False):
+    from . import props
+    props.LIVE=live
     data=json.loads((ROOT/'data/maps'/f'{map_id}.json').read_text())
     w,h=data['size']; span=(w+h)*UNIT
     width=math.ceil(span*PX/math.sqrt(2))+64
@@ -138,6 +140,10 @@ def build(output,map_id):
     interiors(data,m)
     daylight(scene,w*UNIT,h*UNIT,data.get('indoors'),map_id=='de_ketel')
     output.mkdir(parents=True,exist_ok=True)
+    if live:
+        from live_export import export
+        export(output,data)
+        return
     bpy.ops.wm.save_as_mainfile(filepath=str(output/'scene.blend'))
     render(output/'scene.png')
     # A second render measures each visible surface's ground contact depth.

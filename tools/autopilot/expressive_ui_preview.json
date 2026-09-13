@@ -1,0 +1,49 @@
+[
+  {
+    "save": "invited"
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "shot": "title"
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "experience": "visit",
+    "map": "de_ketel",
+    "spawn": "from_street"
+  },
+  {
+    "shot": "kettle"
+  },
+  {
+    "tap": "menu"
+  },
+  {
+    "wait": 0.2
+  },
+  {
+    "shot": "pause"
+  },
+  {
+    "tap": "menu"
+  },
+  {
+    "experience": "visit",
+    "map": "attic",
+    "spawn": "desk"
+  },
+  {
+    "wait": 0.4,
+    "shot": "attic"
+  }
+]

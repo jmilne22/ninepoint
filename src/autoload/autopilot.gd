@@ -370,6 +370,8 @@ func _shot(name: String) -> void:
     var path := "%s%02d_%s.png" % [SHOT_DIR, _shot_index, name]
     img.save_png(path)
     print("AUTOPILOT SHOT: %s" % ProjectSettings.globalize_path(path))
+    if OS.has_feature("movie"):
+        print("MOVIE BEAT: %s frame=%d" % [name,Engine.get_process_frames()])
 
 
 # --- position-aware steps ----------------------------------------------------

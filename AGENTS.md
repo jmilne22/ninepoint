@@ -1,6 +1,6 @@
 # Ninepoint
 
-A PS1-inspired 2.5D RPG about learning to play **Go (baduk)**, in Godot 4.7 / GDScript.
+An expressive 2.5D RPG about learning to play **Go (baduk)**, in Godot 4.7 / GDScript.
 Original setting and characters — nothing is borrowed from any existing game's world,
 cast, art or branding. Combat does not exist; encounters are games of Go.
 
@@ -197,6 +197,8 @@ out at the end of the session, not the start.
 
 ```bash
 tools/play.sh                                    # play it, on the real display
+tools/play_expressive_world.sh                   # full campaign, separate persistent preview saves
+python3 tools/build_expressive_world.py          # all live world/cast/tram assets
 tools/play.sh -- --katago-trial=res://tools/fixtures/katago_trial_19x19.tres # development board
 tools/play_table_scene.sh                        # isolated 768×432 Wren match; disposable saves
 tools/run_table_scene.sh --showcase              # prepared replay, six screenshots and optional movie
@@ -409,10 +411,9 @@ and read it. Trust it.
 - Static typing everywhere; `class_name` on anything that is a type; snake_case files.
 - No script over ~300 lines — if it grows, it wants to be a component.
 - Signals past tense (`match_finished`), methods imperative (`start_match`).
-- **The bitmap font's native size is 9 and its line height is 11.** Only integer multiples
-  of the size are allowed, and the theme sets `Label/constants/line_spacing = 0`: Godot's
-  default of 3 made every row 14 px, so every "four rows" in the game was three and a
-  fourth on the frame, and nothing that measured text could see it.
+- **UI uses DejaVu Sans MSDF and vector panels.** Logical body size is 9; the old
+  bitmap-only/integer-font-multiple restriction is superseded by the owner's ART-13
+  rollout request. Canvas Items stretch keeps UI outlines sharp at window resolution.
 - Text panels are measured against their contents with `UiKit.text_height` /
   `UiKit.fit_card` / `UiKit.paginate`. Nothing may run off the bottom of a card.
 - Comments explain *why*, not what. Several record a bug that was actually hit — leave them.
@@ -491,15 +492,15 @@ does not declare its live status.
 
 ## Current state
 
-ART-08 converts the normal game to fixed-angle rendered 2.5D presentation. Use `tools/play.sh`.
-ART-09 adds connected gait poses, daylight, visible entrances, continued surroundings,
-varied White City facades and a Jaffa-inspired harbor.
-Maps, walking cast/passers and dialogue busts use `art/rendered/`. ART-11 cast
-matches use `art/table_scene/` at 768×432; logical coordinates, saves and Go rules
-are unchanged. `tools/run_rendered.sh <route>` provides isolated play
-verification. Blender/Pillow build commands and the depth-mask format are in
-`docs/ps1/world/README.md`. Earlier art-freeze statements below describe historical work;
-ART-08 supersedes them for production art. The ART-07 opt-in room remains session-only.
+ART-13 adopts the approved expressive cast and live 3D geometry in all twelve campaign
+areas. Use `tools/play_expressive_world.sh` for separate persistent preview saves, or
+`tools/play.sh` for the normal campaign save directory. `art/expressive_world/` supplies
+walking cast, passers, dialogue busts, maps and tram. ART-11 matches retain
+`art/table_scene/` at 768×432. Logical coordinates, saves and Go rules are unchanged.
+UI text and vector panels render at window resolution. Python/Blender/Pillow coordinate
+all generated art; see `docs/expressive_world/README.md`. `tools/run_rendered.sh <route>`
+provides isolated play verification. The earlier raster pipeline and trial launchers
+remain available; historical art-freeze and pixel-font statements do not govern ART-13.
 
 Playable start to finish: cold open → name → the attic → Market Lane → capture demonstration and optional practice with Pip →
 Wren’s short rules and finishing lessons → optional opening comparison → supported unrated
@@ -749,7 +750,7 @@ includes this production asset group. Cast boards use 768×432 at 30 fps, restor
 on return; original request profiles, colours, ranks, scoring and bridge persistence
 remain authoritative. Nigiri, teaching panels, 7/9/13/19 picking and counting share
 the table. Development profiles without a cast model retain their old harness.
-ART-12 now tests walking and dialogue portraits in one isolated Kettle area; other areas await review.
+ART-13 adopts the approved refinement in all campaign areas and replaces the pixel UI.
 See `docs/table_scene/adoption/verification.md` for inspected rollout evidence.
 
 
@@ -757,7 +758,7 @@ See `docs/table_scene/adoption/verification.md` for inspected rollout evidence.
 
 `src/experiments/expressive_kettle/` is a live-3D Kettle preview with four full-body
 cast models and animated match-model dialogue busts. `tools/play_expressive_kettle.sh`
-is the isolated launcher. Main campaign map rendering is unchanged. Source scripts
+is the isolated launcher. ART-13 subsequently adopts this direction across the campaign. Source scripts
 are in `tools/expressive_kettle/`; never edit `art/expressive_kettle/` exports by hand.
 [Launch, footage and inspected acceptance](docs/expressive_kettle/README.md).
 
@@ -767,3 +768,16 @@ as Hikaru no Go 3 on GameCube. `tools/expressive_kettle/motion.py` owns the cont
 world clips; preserve authored bone roll in limb solving. `check_pose.py` checks actual
 deformed knees and idle foot contact during the Python-coordinated art build.
 [Second-review evidence](docs/expressive_kettle/refinement/README.md).
+
+
+## ART-13 expressive campaign and interface
+
+The owner approved ART-12R and requested the rest of the game. All twelve campaign maps
+now render live geometry; `ExpressivePerson` follows existing 2D actors and
+`ExpressiveTramVisual` follows Tram. Keep the logical maps, physics, input, progression
+and save schema authoritative. Generated outputs are under `art/expressive_world/`,
+coordinated by `tools/build_expressive_world.py`; no hand edits to exports.
+`SurfacePanel`, `UiKit`, `src/ui/theme.tres` and the licensed DejaVu Sans font own the
+smooth interface. Shared viewport textures must use `EXPAND_IGNORE_SIZE` when displayed
+below their texture dimensions, or Godot silently crops them at the texture minimum.
+[Current launch, sources and verification](docs/expressive_world/README.md).

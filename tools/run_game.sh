@@ -100,8 +100,13 @@ fi
 rm -rf "$SHOTS" "$OUT"; mkdir -p "$OUT"
 echo "running $1 (log: $LOG) -- Ctrl-C to stop"
 
+movie_args=()
+if [ -n "${MOVIE:-}" ]; then
+  mkdir -p "$(dirname "$MOVIE")"
+  movie_args=(--write-movie "$MOVIE" --fixed-fps 30 --disable-vsync)
+fi
 DISPLAY=":$DISPLAY_NUM" timeout "${TIMEOUT:-180}" \
-  "$GODOT" --path . --max-fps "${MAX_FPS:-60}" --resolution 1152x648 ${ENTRY_SCENE:+"$ENTRY_SCENE"} -- "--autopilot=res://$1" > "$LOG" 2>&1 &
+  "$GODOT" --path . --max-fps "${MAX_FPS:-60}" --resolution "${RESOLUTION:-1152x648}" "${movie_args[@]}" ${ENTRY_SCENE:+"$ENTRY_SCENE"} -- "--autopilot=res://$1" > "$LOG" 2>&1 &
 child=$!
 wait "$child"
 status=$?

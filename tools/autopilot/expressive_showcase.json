@@ -1,0 +1,248 @@
+[
+  {
+    "save": "lost_to_kesh"
+  },
+  {
+    "wait": 1,
+    "shot": "title_start"
+  },
+  {
+    "wait": 3
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "world_wait": true
+  },
+  {
+    "experience": "visit",
+    "map": "attic",
+    "spawn": "desk"
+  },
+  {
+    "shot": "attic_start"
+  },
+  {
+    "wait": 3
+  },
+  {
+    "shot": "attic_end"
+  },
+  {
+    "tap": "menu"
+  },
+  {
+    "wait": 0.3,
+    "shot": "menu_start"
+  },
+  {
+    "wait": 3
+  },
+  {
+    "tap": "menu"
+  },
+  {
+    "experience": "visit",
+    "map": "ketelsteeg",
+    "spawn": "from_wassalon"
+  },
+  {
+    "walk_to": [
+      17,
+      12
+    ],
+    "timeout": 20
+  },
+  {
+    "shot": "street_walk_start"
+  },
+  {
+    "walk_to": [
+      17,
+      15
+    ],
+    "timeout": 20
+  },
+  {
+    "shot": "street_walk_end"
+  },
+  {
+    "shot": "ketelsteeg_start"
+  },
+  {
+    "wait": 3
+  },
+  {
+    "shot": "ketelsteeg_end"
+  },
+  {
+    "experience": "visit",
+    "map": "wassalon",
+    "spawn": "from_street"
+  },
+  {
+    "shot": "wassalon_start"
+  },
+  {
+    "wait": 3
+  },
+  {
+    "shot": "wassalon_end"
+  },
+  {
+    "experience": "visit",
+    "map": "onderbrug",
+    "spawn": "from_street"
+  },
+  {
+    "shot": "onderbrug_start"
+  },
+  {
+    "wait": 3
+  },
+  {
+    "shot": "onderbrug_end"
+  },
+  {
+    "experience": "visit",
+    "map": "quay",
+    "spawn": "bench"
+  },
+  {
+    "shot": "quay_start"
+  },
+  {
+    "wait": 3
+  },
+  {
+    "shot": "quay_end"
+  },
+  {
+    "experience": "visit",
+    "map": "academy_hall",
+    "spawn": "from_tram"
+  },
+  {
+    "shot": "academy_hall_start"
+  },
+  {
+    "wait": 3
+  },
+  {
+    "shot": "academy_hall_end"
+  },
+  {
+    "experience": "visit",
+    "map": "academy_study",
+    "spawn": "middle"
+  },
+  {
+    "shot": "academy_study_start"
+  },
+  {
+    "wait": 3
+  },
+  {
+    "shot": "academy_study_end"
+  },
+  {
+    "experience": "visit",
+    "map": "academy_class",
+    "spawn": "from_hall"
+  },
+  {
+    "shot": "academy_class_start"
+  },
+  {
+    "wait": 3
+  },
+  {
+    "shot": "academy_class_end"
+  },
+  {
+    "experience": "visit",
+    "map": "academy_novice",
+    "spawn": "from_hall"
+  },
+  {
+    "shot": "academy_novice_start"
+  },
+  {
+    "wait": 3
+  },
+  {
+    "shot": "academy_novice_end"
+  },
+  {
+    "experience": "visit",
+    "map": "academy_dorm",
+    "spawn": "from_hall"
+  },
+  {
+    "shot": "academy_dorm_start"
+  },
+  {
+    "wait": 3
+  },
+  {
+    "shot": "academy_dorm_end"
+  },
+  {
+    "experience": "visit",
+    "map": "bondszaal",
+    "spawn": "front"
+  },
+  {
+    "shot": "bondszaal_start"
+  },
+  {
+    "wait": 3
+  },
+  {
+    "shot": "bondszaal_end"
+  },
+  {
+    "experience": "visit",
+    "map": "de_ketel",
+    "spawn": "from_street"
+  },
+  {
+    "walk_to": [
+      8,
+      3
+    ],
+    "timeout": 15
+  },
+  {
+    "face": [
+      8,
+      4
+    ]
+  },
+  {
+    "shot": "de_ketel_start"
+  },
+  {
+    "wait": 3
+  },
+  {
+    "shot": "de_ketel_end"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "wait": 1.8,
+    "shot": "wren_talk_start"
+  },
+  {
+    "wait": 4
+  },
+  {
+    "shot": "wren_talk_end"
+  }
+]

@@ -50,7 +50,7 @@ def cab(sign, m):
     box('coupler recess',(sign*7.29,0,.39),(.05,.32,.13),m['rubber'],.02)
 
 
-def build(out):
+def build(out,live=False):
     out.mkdir(parents=True,exist_ok=True)
     scene=reset(384,272)
     m={key:material(key,col) for key,col in {
@@ -98,6 +98,9 @@ def build(out):
                 limb('pantograph upper arm',(.22,side*.25,2.95),(-.25,side*.25,3.26),.020,m['vent'])
             limb('contact shoe',(-.25,-.53,3.26),(-.25,.53,3.26),.026,m['rubber'])
         for obj in set(bpy.data.objects)-before:obj['tram_section']=i
+    if live:
+        bpy.ops.export_scene.gltf(filepath=str(out/'tram.glb'),export_format='GLB',export_animations=False,export_yup=True)
+        return
     # Match the world's 45-degree azimuth, 30-degree elevation and 32 px/unit.
     target=Vector((0,0,.72))
     cam=camera(target+Vector((10,-10,math.sqrt(200/3))),target,12)

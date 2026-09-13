@@ -171,13 +171,13 @@ func _build_ui() -> void:
     _navigation.setup(board_view)
     board_view.view_changed.connect(_on_board_view_changed)
 
-    _panel = NinePatchRect.new()
-    _panel.texture = load("res://art/rendered/ui/panel.png")
+    _panel = SurfacePanel.new()
+    _panel.set("dark", false)
     for m in ["left", "top", "right", "bottom"]:
         _panel.set("patch_margin_%s" % m, 6)
     _panel.position = Vector2(202, 8)
     _panel.size = Vector2(176, 182)
-    _panel.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+    _panel.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
     add_child(_panel)
 
     _portrait = TextureRect.new()
@@ -189,20 +189,20 @@ func _build_ui() -> void:
         _set_expression(GoMood.NEUTRAL)
     _panel.add_child(_portrait)
 
-    _name = _label(_panel, Vector2(76, 10), 92, 9, "#14121a")
+    _name = _label(_panel, Vector2(76, 10), 92, 9, "#243b33")
     _name.text = request.opponent_name
     _name.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     _name.size.y = 22
-    _rank = _label(_panel, Vector2(76, 34), 92, 9, "#8a6023")
+    _rank = _label(_panel, Vector2(76, 34), 92, 9, "#926b36")
     _rank.text = request.opponent_rank
     _turn = _label(_panel, Vector2(76, 50), 92, 9, "#45404f")
 
-    _captures = _label(_panel, Vector2(10, 74), 156, 9, "#2a2633")
+    _captures = _label(_panel, Vector2(10, 74), 156, 9, "#243e38")
     # Rows measured against the font's 11 px line height: captures at 74, the
     # details from 90, and the table talk's four rows from 132 to 176, the
     # panel's inner edge. They used to overlap by a pixel at the top and sit on
     # the frame at the bottom.
-    _details = _label(_panel, Vector2(10, 86), 156, 9, "#6b6577")
+    _details = _label(_panel, Vector2(10, 86), 156, 9, "#718477")
     _details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     _details.size.y = 44
 
@@ -210,7 +210,7 @@ func _build_ui() -> void:
     _message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     _message.size.y = 44
 
-    _hints = _label(self, Vector2(204, 194), 176, 9, "#8a8494")
+    _hints = _label(self, Vector2(204, 194), 176, 9, "#a7b9ac")
     _hints.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     _hints.size.y = 22
 

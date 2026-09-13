@@ -1,4 +1,4 @@
-Current verified local revision: [M57 Kettle refinement](docs/expressive_kettle/refinement/README.md), [M56 expressive Kettle POC](docs/expressive_kettle/verification.md) and [M55 expressive matches](docs/table_scene/adoption/verification.md). Historical entries retain their original behavior and counts.
+Current verified local revision: [M58 expressive campaign](docs/expressive_world/verification.md), [M57 Kettle refinement](docs/expressive_kettle/refinement/README.md), [M56 expressive Kettle POC](docs/expressive_kettle/verification.md) and [M55 expressive matches](docs/table_scene/adoption/verification.md). Historical entries retain their original behavior and counts.
 
 # NINEPOINT — Milestones
 
@@ -3737,3 +3737,31 @@ remain exercised with disposable data.
 Wren/Tomás/Kesh conversations and the 36.1-second normal-speed Godot review film.
 The 114.97-second complete tour and previous POC remain available.
 [Evidence, limitations and launch](docs/expressive_kettle/refinement/README.md).
+
+
+## M58 — Expressive campaign and smooth interface [done locally]
+
+ART-13 follows owner approval of the refined Kettle and the request to carry it through
+the rest of the game. Twelve live 3D areas, all 26 full-body identities, seated/counter
+activities, matching animated dialogue portraits and the existing moving tram now share
+the approved palette and model pipeline. DejaVu Sans outline text, rounded vector panels,
+new title/opening/travel views and matching teaching/review stones replace the pixel UI.
+
+**Done when:** 19,407 / 0 checks (M57 predecessor: 19,407), 380 resource loads
+(previous 361), 119 live-asset checks and 3,640 deformed-pose assertions. Serial rendered
+routes verify 22 doors/projection, saves, Capture Go, ko, puzzles, 19×19 navigation/group
+selection, real Wren counting/review/return, tram and all three competition panels.
+The inherited shutdown resource diagnostics remain in some harnesses.
+
+| Deliberate change | Boundary |
+|---|---|
+| Live 3D world replaces campaign raster layers | Original logical maps, physics, interactions and save coordinates remain authoritative |
+| Smooth outline font and vector UI at window resolution | Existing measured layouts, mouse/keyboard actions and modal blocking remain |
+| Same full-body identities in walking and dialogue views | Cast names, clothes, ranks and game behaviour remain original |
+| Full-campaign preview launcher | Its persistent saves are separate from normal campaign saves |
+
+**Actually inspected:** all twelve areas and 26 identities, chairs/feet, Wren portrait,
+Hana opening, long room names, three save slots, lessons/puzzles, count group toggles,
+competition panels, match/result/review and motion frames. Watched the 90.6-second full
+world tour and 61.65-second review cut at 1×; both are actual Godot capture with audio.
+[Launch, footage, six screenshots and limits](docs/expressive_world/README.md).

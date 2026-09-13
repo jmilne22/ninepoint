@@ -168,7 +168,7 @@ func _wood(node: Node) -> void:
 func _draw() -> void:
     if camera == null: return
     draw_texture_rect(viewport.get_texture(), Rect2(Vector2.ZERO, size), false)
-    var font := preload("res://art/ui/ninepoint_font.fnt")
+    var font := preload("res://art/fonts/DejaVuSans.ttf")
     for index in layout.region.size.x:
         var x := float(index) * layout.spacing - 0.42
         var top := camera.unproject_position(Vector3(x, 0.123, -0.493))

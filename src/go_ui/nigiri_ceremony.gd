@@ -74,7 +74,7 @@ func _ready() -> void:
 
 func _build() -> void:
     var bg := ColorRect.new()
-    bg.color = Color("#14121a")
+    bg.color = Color("#243b33")
     bg.set_anchors_preset(Control.PRESET_FULL_RECT)
     add_child(bg)
 
@@ -117,7 +117,7 @@ func _build() -> void:
     _hand_holder.add_child(_hand)
 
     # Window 3: the close-up.
-    _close_band = _band(CLOSE, "#2a2633")
+    _close_band = _band(CLOSE, "#243e38")
     _portrait_rect = TextureRect.new()
     _portrait_rect.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
     _portrait_rect.position = Vector2(4, 3)
@@ -145,7 +145,7 @@ func _band(rect: Rect2, edge: String) -> Control:
     # a one-pixel rule top and bottom, so the windows read as windows
     for y in [0.0, rect.size.y - 1.0]:
         var rule := ColorRect.new()
-        rule.color = Color("#14121a")
+        rule.color = Color("#243b33")
         rule.position = Vector2(0, y)
         rule.size = Vector2(rect.size.x, 1)
         holder.add_child(rule)

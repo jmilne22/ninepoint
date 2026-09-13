@@ -1,12 +1,14 @@
 """Small generated nine-patch using the approved table palette."""
 from pathlib import Path
+import os
 from PIL import Image, ImageDraw
 root=Path(__file__).resolve().parents[2]
+out=Path(os.environ.get('EXPRESSIVE_SURFACES',root/'art/expressive_kettle'));out.mkdir(parents=True,exist_ok=True)
 im=Image.new('RGBA',(24,24),'#20332f');d=ImageDraw.Draw(im)
 d.rectangle((0,0,23,23),outline='#182924',width=2)
 d.rectangle((2,2,21,21),outline='#b79961',width=1)
 d.rectangle((3,3,20,20),outline='#526551',width=1)
-im.save(root/'art/expressive_kettle/dialogue_panel.png')
+im.save(out/'dialogue_panel.png')
 
 import random,math
 rng=random.Random(512)
@@ -24,4 +26,4 @@ for name,wood in [('wood_grain',True),('plaster_grain',False)]:
    y=rng.randrange(size);x=rng.randrange(size);length=rng.randrange(15,100)
    pts=[(x+k,y+math.sin(k*.06)*1.3) for k in range(length)]
    d.line(pts,fill=(109,109,109),width=1)
- im.save(root/('art/expressive_kettle/'+name+'.png'))
+ im.save(out/(name+'.png'))

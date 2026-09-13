@@ -9,6 +9,7 @@ GODOT="${GODOT:-$HOME/.local/bin/godot}"
 echo "== deterministic art contracts =="
 python3 tests/test_art.py
 python3 tools/table_scene/check_assets.py
+python3 tools/expressive_world/check_assets.py
 
 echo "== compiling all scripts and importing assets =="
 IMPORT_LOG=$(mktemp)
@@ -26,7 +27,7 @@ echo "   import pass produced no parse errors"
 
 # The import log is not enough on its own: a bad patch has produced a clean log
 # and a broken scene. Load every file and see.
-LOAD=$(timeout 240 "$GODOT" --headless --path . --script res://tests/check_load.gd 2>&1)
+LOAD=$(timeout 240 "$GODOT" --headless --path . --script res://tests/check_load.gd 2>&1) || { printf '%s\n' "$LOAD"; exit 1; }
 echo "$LOAD" | grep -E "load check|FAILED|  res://" | head -30
 if echo "$LOAD" | grep -q "FAILED"; then
   exit 1

@@ -358,6 +358,7 @@ func _talk(npc: Npc, start_node: String = "start", fallback: String = "") -> voi
     if graph != null:
         var speaker := {
             "name": npc.data.display_name,
+            "id": npc.npc_id,
             "portrait": npc.data.portrait_texture(),
             "rank": npc.data.rank_label,
         }

@@ -2,8 +2,8 @@
 class_name GoBoardInk
 extends RefCounted
 
-const BLACK_STONE := preload("res://art/rendered/ui/black_stone.png")
-const WHITE_STONE := preload("res://art/rendered/ui/white_stone.png")
+const BLACK_STONE := preload("res://art/expressive_world/surfaces/black_stone.png")
+const WHITE_STONE := preload("res://art/expressive_world/surfaces/white_stone.png")
 
 const C_LINE := Color("#3a2a18")
 const C_BLACK := Color("#0d0b10")
@@ -11,7 +11,7 @@ const C_BLACK_HI := Color("#2e2a35")
 const C_WHITE := Color("#f7f2e6")
 const C_WHITE_LO := Color("#cfc6b4")
 const C_SHADOW := Color(0.08, 0.07, 0.1, 0.35)
-const C_LIBERTY := Color("#367f72")
+const C_LIBERTY := Color("#477c6b")
 const FONT_SIZE := 9
 
 ## Small open circles on each liberty, plus a count. Deliberately drawn over the
@@ -57,7 +57,7 @@ static func stone(view: CanvasItem, cell: float, pos: Vector2, colour: int, is_d
         return
     var r := cell * 0.46 * scale
     var alpha := (0.4 if is_dead else 1.0) * fade
-    view.draw_circle(pos + Vector2(1, 1), r, Color(C_SHADOW.r, C_SHADOW.g, C_SHADOW.b, C_SHADOW.a * alpha))
+    view.draw_circle(pos + Vector2(1, 1), r, Color(C_SHADOW.r, C_SHADOW.g, C_SHADOW.b, C_SHADOW.a * alpha),true,-1,true)
     var texture: Texture2D = BLACK_STONE if colour == GoBoard.BLACK else WHITE_STONE
     view.draw_texture_rect(texture, Rect2(pos - Vector2(r, r), Vector2(r * 2, r * 2)),
         false, Color(1, 1, 1, alpha))

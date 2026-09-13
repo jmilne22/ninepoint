@@ -1,6 +1,6 @@
 # NINEPOINT — Architecture
 
-Godot 4.7 · GDScript · 2D runtime with rendered 2.5D presentation · `gl_compatibility` renderer.
+Godot 4.7 · GDScript · 2D simulation with live 3D presentation · `gl_compatibility` renderer.
 
 `MatchViewRoute` selects `src/go_ui/table_scene/match.tscn` for cast encounters on
 7/9/13/19 boards. `TableSceneMatch` subclasses the existing controller and switches
@@ -16,19 +16,21 @@ painted face atlases in `art/table_scene/`. Development profiles without a cast 
 retain the standard scene. The disposable Wren showcase remains under
 `src/experiments/table_scene/`. [Details](docs/table_scene/README.md).
 
-ART-12 is an isolated live-3D area under `src/experiments/expressive_kettle/`.
-`ExpressiveKettleRoom` reads generated geometry/collision layout, drives screen-relative
-`CharacterBody3D` movement and uses the existing dialogue graph interpreter. Its adapter
-passes X/Z as the bridge's return Vector2; SceneRouter's session-world override returns
-to the same area and position. Dialogue busts use `ExpressiveKettlePortrait`, reusing `TableSceneActor` face/clip handling with the revised full-body models. Full-body exports
-extend the match source meshes with balanced proportions, legs and individual
-rest/working/walk clips in a separate art directory. `motion.py` preserves each bone's
-rest roll while solving limbs; `check_pose.py` evaluates deformed knee widths and idle
-sole contact during art builds. The room shader adds generated grain and receives
-actual scene shadows. The approved production match exports remain their own source set.
-The existing novice/player cards and review service remain authoritative; nested review
-CanvasLayers are explicitly scaled for the area's 768×432 canvas. Saves are disposable.
-[POC contract and evidence](docs/expressive_kettle/README.md).
+ART-13 adopts the approved ART-12R direction throughout the campaign. `ProjectedWorld`
+creates a 768×432 3D SubViewport over the original logical map. Its camera agrees with
+`RoomProjection` at every tile centre; `Player`, `Npc`, doors, collision and save positions
+remain in the original 2D coordinate system. `ExpressivePerson` follows those actors,
+without owning gameplay state. `ExpressiveTramVisual` follows the existing tram tween.
+Generated campaign GLBs retain source-map hashes and join static surfaces by material.
+`ExpressivePortrait` reuses the same full-body mesh and face animation in dialogue.
+
+`SurfacePanel` supplies a vector drawing behind the existing measured panel contents.
+`UiKit`, `src/ui/theme.tres` and the bundled DejaVu Sans MSDF font share type and colours.
+Canvas Items stretch renders UI at window resolution; logical layouts retain their
+384×216 world/teaching and 768×432 match coordinates. `ExpressiveBackdrop` renders
+campaign geometry for title and tram arrivals. Hana's introduction uses the live portrait
+and the original table geometry. The original isolated Kettle experiment is preserved.
+[Pipeline and verification](docs/expressive_world/README.md).
 
 ## 1. The one rule
 

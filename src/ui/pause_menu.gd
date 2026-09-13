@@ -34,13 +34,13 @@ func _ready() -> void:
     dim.set_anchors_preset(Control.PRESET_FULL_RECT)
     _root.add_child(dim)
 
-    var panel := NinePatchRect.new()
-    panel.texture = load("res://art/rendered/ui/panel.png")
+    var panel := SurfacePanel.new()
+    panel.set("dark", false)
     for m in ["left", "top", "right", "bottom"]:
         panel.set("patch_margin_%s" % m, 6)
     panel.position = Vector2(112, 36)
     panel.size = Vector2(160, 144)
-    panel.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+    panel.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
     _root.add_child(panel)
 
     var y := 12
@@ -58,7 +58,7 @@ func _ready() -> void:
     _status.size = Vector2(132, 26)
     _status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     _status.add_theme_font_size_override("font_size", 9)
-    _status.add_theme_color_override("font_color", Color("#6b6577"))
+    _status.add_theme_color_override("font_color", Color("#718477"))
     panel.add_child(_status)
 
     _slots = SaveSlots.new()
@@ -101,7 +101,7 @@ func _refresh() -> void:
         var selected := i == _index
         _labels[i].text = ("> " if selected else "  ") + ITEMS[i]
         _labels[i].add_theme_color_override(
-            "font_color", Color("#14121a") if selected else Color("#6b6577"))
+            "font_color", Color("#243b33") if selected else Color("#718477"))
 
 
 func _input(event: InputEvent) -> void:

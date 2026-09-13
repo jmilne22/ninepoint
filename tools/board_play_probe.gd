@@ -32,6 +32,10 @@ static func tap(tree: SceneTree, action: String) -> void:
 
 
 static func navigate(tree: SceneTree, point: int) -> void:
+    # A fresh scene can deliver its first hover after layout; sample the keyboard
+    # starting point only after that event, as a person sees it on screen.
+    await RenderingServer.frame_post_draw
+    await tree.process_frame
     var board := board_in(tree)
     if board == null:
         fail(tree, "No board to navigate")

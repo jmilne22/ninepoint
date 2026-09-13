@@ -44,7 +44,7 @@ func _ready() -> void:
 func _build_ui() -> void:
     set_anchors_preset(Control.PRESET_FULL_RECT)
     var bg := ColorRect.new()
-    bg.color = Color("#2a2633")
+    bg.color = Color("#243e38")
     bg.set_anchors_preset(Control.PRESET_FULL_RECT)
     add_child(bg)
 
@@ -63,21 +63,21 @@ func _build_ui() -> void:
     add_child(_actions)
     _actions.action_selected.connect(_mouse_action)
 
-    var panel := NinePatchRect.new()
-    panel.texture = load("res://art/rendered/ui/panel.png")
+    var panel := SurfacePanel.new()
+    panel.set("dark", false)
     for m in ["left", "top", "right", "bottom"]:
         panel.set("patch_margin_%s" % m, 6)
     panel.position = Vector2(202, 8)
     panel.size = Vector2(176, 158)
-    panel.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+    panel.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
     add_child(panel)
 
-    _title = _label(panel, Vector2(10, 8), 156, 9, "#8a6023", 14)
+    _title = _label(panel, Vector2(10, 8), 156, 9, "#926b36", 14)
     _title.text = puzzle.title
-    _goal = _label(panel, Vector2(10, 26), 156, 9, "#14121a", 40)
+    _goal = _label(panel, Vector2(10, 26), 156, 9, "#243b33", 40)
     _goal.text = puzzle.goal
-    _message = _label(panel, Vector2(10, 74), 156, 9, "#8c4034", 60)
-    _hints = _label(self, Vector2(204, 172), 176, 9, "#8a8494", 40)
+    _message = _label(panel, Vector2(10, 74), 156, 9, "#a5624d", 60)
+    _hints = _label(self, Vector2(204, 172), 176, 9, "#a7b9ac", 40)
     _hints.text = "Click / Space: play\nR: reset the position"
 
     _overlay = Control.new()

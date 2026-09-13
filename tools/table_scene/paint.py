@@ -86,7 +86,7 @@ def face(who,mood):
     return im
 
 
-for who in CAST_IDS:
+for who in (list(BY_ID) if os.environ.get('TABLE_SCENE_ALL') else CAST_IDS):
     atlas=Image.new('RGB',(1024,512*len(MOODS)))
     for row,mood in enumerate(MOODS):atlas.paste(face(who,mood),(0,row*512))
     atlas.save(OUT/f'{who}_face.png')

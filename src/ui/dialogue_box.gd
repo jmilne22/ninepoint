@@ -52,15 +52,15 @@ func _build() -> void:
     _root.mouse_filter = Control.MOUSE_FILTER_IGNORE
     add_child(_root)
 
-    _panel = NinePatchRect.new()
-    _panel.texture = load("res://art/rendered/ui/panel.png")
+    _panel = SurfacePanel.new()
+    _panel.set("dark", false)
     _panel.patch_margin_left = 6
     _panel.patch_margin_top = 6
     _panel.patch_margin_right = 6
     _panel.patch_margin_bottom = 6
     _panel.position = BOX_RECT.position
     _panel.size = BOX_RECT.size
-    _panel.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+    _panel.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
     _root.add_child(_panel)
 
     _portrait = TextureRect.new()
@@ -72,13 +72,13 @@ func _build() -> void:
     _name_plate = Label.new()
     _name_plate.position = Vector2(78, 4)
     _name_plate.add_theme_font_size_override("font_size", 9)
-    _name_plate.add_theme_color_override("font_color", Color("#8a6023"))
+    _name_plate.add_theme_color_override("font_color", Color("#926b36"))
     _panel.add_child(_name_plate)
 
     _name_label = Label.new()
     _name_label.position = Vector2(78, 3)
     _name_label.add_theme_font_size_override("font_size", 9)
-    _name_label.add_theme_color_override("font_color", Color("#2a2633"))
+    _name_label.add_theme_color_override("font_color", Color("#243e38"))
     _panel.add_child(_name_label)
 
     _text = Label.new()
@@ -86,7 +86,7 @@ func _build() -> void:
     _text.size = Vector2(288, 44)
     _text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
     _text.add_theme_font_size_override("font_size", 9)
-    _text.add_theme_color_override("font_color", Color("#14121a"))
+    _text.add_theme_color_override("font_color", Color("#243b33"))
     _panel.add_child(_text)
 
     # On the frame, outside the text rect, so a long fourth row cannot run
@@ -95,7 +95,7 @@ func _build() -> void:
     _more.position = Vector2(364, 58)
     _more.text = "▼"
     _more.add_theme_font_size_override("font_size", 9)
-    _more.add_theme_color_override("font_color", Color("#8a6023"))
+    _more.add_theme_color_override("font_color", Color("#926b36"))
     _panel.add_child(_more)
 
     _choice_box = VBoxContainer.new()
@@ -250,7 +250,7 @@ func _choose(options: Array) -> Dictionary:
         l.text = "  " + str(o.get("text", "..."))
         l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
         l.add_theme_font_size_override("font_size", 9)
-        l.add_theme_color_override("font_color", Color("#45404f"))
+        l.add_theme_color_override("font_color", Color("#526b5e"))
         _choice_box.add_child(l)
         _choice_nodes.append(l)
     _choice_index = 0
@@ -268,7 +268,7 @@ func _highlight() -> void:
         var selected := i == _choice_index
         _choice_nodes[i].text = ("> " if selected else "  ") + _choice_nodes[i].text.substr(2)
         _choice_nodes[i].add_theme_color_override(
-            "font_color", Color("#14121a") if selected else Color("#6b6577"))
+            "font_color", Color("#243b33") if selected else Color("#718477"))
 
 
 func _process(delta: float) -> void:

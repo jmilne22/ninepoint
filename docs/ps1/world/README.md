@@ -1,6 +1,9 @@
-# Ninepoint: the rendered game
+# Ninepoint: previous rendered pipeline
 
-ART-08 carries the approved De Ketel experiment into the normal game. Sela's current
+**Superseded for the campaign by [ART-13 expressive world and UI](../../expressive_world/README.md).**
+The sections below document the retained ART-08 raster build and its historical contracts.
+
+ART-08 carried the approved De Ketel experiment into the normal game. Sela's current
 places and progression remain: twelve maps, twenty opponents, the player, five kinds
 of passer, the novice league/Cup and the optional Academy league/exam.
 

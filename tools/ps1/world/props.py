@@ -2,6 +2,7 @@
 import math,random
 import bpy
 from common import box, cylinder, sphere, limb
+LIVE = False
 
 
 def table(x,y,w,d,m,kind='playing_table'):
@@ -26,6 +27,10 @@ def table(x,y,w,d,m,kind='playing_table'):
 def plant(x,y,m,tree=False):
     cylinder('terracotta planter',(x,y,.20),.28,.4,m['terra'])
     limb('trunk',(x,y,.3),(x+.03,y,1.65 if tree else .8),.045 if tree else .025,m['wood'])
+    if LIVE:
+        from world.live_foliage import crown
+        crown(x,y,m,tree)
+        return
     rng=random.Random(round(x*77+y*99))
     for i in range(12 if tree else 7):
         a=i*2.4;r=.5 if tree else .22; z=(1.2 if tree else .48)+rng.random()*.5
@@ -46,7 +51,9 @@ def cabinet(x,y,w,d,m,kind):
         for i in range(max(1,round(w/.7))):
             cx=x-w*.5+(i+.5)*w/max(1,round(w/.7))
             ring=cylinder('washer rim',(cx,y-d*.48,.51),.22,.04,m['metal']);ring.rotation_euler.x=math.pi/2
-            disk=cylinder('washer glass',(cx,y-d*.5,.51),.17,.05,m['glass']);disk.rotation_euler.x=math.pi/2
+            glass=m['glass'].copy() if LIVE else m['glass']
+            if LIVE:glass.name='washer_glass'
+            disk=cylinder('washer glass',(cx,y-d*.5,.51),.17,.05,glass);disk.rotation_euler.x=math.pi/2
             box('controls',(cx,y-d*.5,.83),(.26,.02,.06),m['ink'])
     else:
         box('counter stone',(x,y,1.0),(w,d,.08),m['stone'],.015)

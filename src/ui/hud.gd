@@ -27,18 +27,18 @@ func _ready() -> void:
     _prompt_panel.hide()
     _prompt = _make_label(_prompt_panel, Vector2(8, 5), 352, 9, Color("#f2e9d8"))
     _prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-    _prompt.add_theme_color_override("font_shadow_color", Color("#14121a"))
-    _prompt.add_theme_constant_override("shadow_offset_y", 1)
-    _prompt.add_theme_constant_override("shadow_offset_x", 1)
+    _prompt.add_theme_color_override("font_shadow_color", Color("#243b33"))
+    _prompt.add_theme_constant_override("shadow_offset_y", 0)
+    _prompt.add_theme_constant_override("shadow_offset_x", 0)
     _prompt.visible = false
 
-    _toast_panel = NinePatchRect.new()
-    _toast_panel.texture = load("res://art/rendered/ui/panel_dark.png")
+    _toast_panel = SurfacePanel.new()
+    _toast_panel.set("dark", true)
     for m in ["left", "top", "right", "bottom"]:
         _toast_panel.set("patch_margin_%s" % m, 5)
     _toast_panel.position = Vector2(8, 6)
     _toast_panel.size = Vector2(368, 18)
-    _toast_panel.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+    _toast_panel.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
     _toast_panel.visible = false
     _root.add_child(_toast_panel)
 
@@ -81,6 +81,13 @@ func _ready() -> void:
     # to change. Every quest in the game ended that way; the exam
     # made it visible because finishing it is the last thing that happens.
     EventBus.quest_completed.connect(func(_q): refresh())
+    var map := MapData.load_map(GameState.current_map)
+    var name_text := map.display_name if map != null else "Sela"
+    var name_width := mini(352,ceili(UiKit.FONT.get_string_size(name_text,HORIZONTAL_ALIGNMENT_LEFT,-1,9).x))
+    var place := UiKit.panel(_root,Rect2(360-name_width,7,name_width+16,21),true)
+    var place_name := UiKit.label(place,Vector2(8,5),name_width,UiKit.PAPER,12)
+    place_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+    place_name.text = name_text
     refresh()
 
 
@@ -124,7 +131,7 @@ func _make_label(parent: Node, pos: Vector2, width: int, size: int, colour: Colo
     l.size = Vector2(width, size + 4)
     l.add_theme_font_size_override("font_size", size)
     l.add_theme_color_override("font_color", colour)
-    l.add_theme_color_override("font_shadow_color", Color("#14121a"))
+    l.add_theme_color_override("font_shadow_color", Color("#243b33"))
     l.add_theme_constant_override("shadow_offset_y", 1)
     l.add_theme_constant_override("shadow_offset_x", 1)
     parent.add_child(l)

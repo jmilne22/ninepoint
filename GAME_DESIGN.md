@@ -1,6 +1,6 @@
 # NINEPOINT — Game Design
 
-> A PS1-inspired 2.5D RPG about learning to play Go, set in **Sela**, a warm, leafy coastal city.
+> An expressive 2.5D RPG about learning to play Go, set in **Sela**, a warm, leafy coastal city.
 > There are no combat statistics. The only thing that gets stronger is the person holding the controller.
 
 ---
@@ -516,4 +516,4 @@ played; completed events do not replace it.
 ART-12 tests the approved match cast in one walkable Kettle interior, including
 conversation portraits and the match/return loop. Existing dialogue, ranks, teaching
 order and result consequences remain in force. The isolated visit uses disposable
-progress; campaign-wide world adoption awaits review of this one-area proof. ART-12R refines the same area’s stances, movement and room finish following the owner’s GameCube reference clarification.
+progress; ART-12R refined stances, movement and room finish following the owner’s GameCube reference clarification. The owner subsequently approved it and requested ART-13: the full campaign and a smooth, coherent interface. The visual renderer changes; gameplay systems and learning order remain unchanged.

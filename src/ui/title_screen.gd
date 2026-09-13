@@ -22,17 +22,13 @@ var _slots: SaveSlots
 
 
 func _ready() -> void:
+    get_window().title = "Ninepoint — expressive edition"
     set_anchors_preset(Control.PRESET_FULL_RECT)
     # The one place the game is allowed to announce itself. It carries on under
     # the opening -- Hana speaks over it -- and World._apply_music() takes over
     # the moment the city exists.
     Audio.play_music("theme_title")
-    var art := TextureRect.new()
-    art.texture = load("res://art/rendered/ui/title.png")
-    art.set_anchors_preset(Control.PRESET_FULL_RECT)
-    art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-    art.stretch_mode = TextureRect.STRETCH_SCALE
-    art.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+    var art := ExpressiveBackdrop.new()
     add_child(art)
 
     # A title card needs a quiet place for type. The old screen put its title,
@@ -63,12 +59,11 @@ func _ready() -> void:
     _cursor = Control.new()
     _cursor.mouse_filter = Control.MOUSE_FILTER_IGNORE
     _card.add_child(_cursor)
-    for i in 5:
-        var bar := ColorRect.new()
-        bar.color = Color("#f2d791")
-        bar.position = Vector2(0, i)
-        bar.size = Vector2(3 - absi(i - 2), 1)
-        _cursor.add_child(bar)
+    var arrow := Polygon2D.new()
+    arrow.polygon = PackedVector2Array([Vector2(0,0),Vector2(4,2.5),Vector2(0,5)])
+    arrow.color = Color("f2d791")
+    arrow.antialiased = true
+    _cursor.add_child(arrow)
 
     var y := int(CARD.position.y + FIRST_ROW)
     for item in ITEMS:
@@ -92,7 +87,7 @@ func _ready() -> void:
     # Inside the card, not under it: at 384x216 there are twenty pixels below
     # the panel and a nine-pixel line put on them lands on the letterbox.
     _hint = UiKit.shadow_label(_card, Vector2(CARD.position.x + 13,
-        CARD.position.y + 168), int(CARD.size.x) - 24, Color("#6b6577"))
+        CARD.position.y + 168), int(CARD.size.x) - 24, Color("#a9bba7"))
     _hint.text = "Up Down     Space"
 
     _slots = SaveSlots.new()
@@ -108,7 +103,7 @@ func _ready() -> void:
 ## A hairline the width of the card's type column, between the blocks.
 func _rule(y: float) -> void:
     var line := ColorRect.new()
-    line.color = Color("#6b6577")
+    line.color = Color("#a9bba7")
     line.position = Vector2(CARD.position.x + 13, y)
     line.size = Vector2(CARD.size.x - 26, 1)
     _card.add_child(line)
@@ -154,7 +149,7 @@ func _refresh() -> void:
         var selected := i == _index
         var colour := Color("#f2d791") if selected else Color("#ddd0b8")
         if not enabled:
-            colour = Color("#6b6577")
+            colour = Color("#a9bba7")
         _labels[i].add_theme_color_override("font_color", colour)
 
 

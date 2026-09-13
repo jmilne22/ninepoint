@@ -1,0 +1,54 @@
+[
+  {
+    "save": "novice_graduate"
+  },
+  {
+    "wait": 0.8
+  },
+  {
+    "tap": "move_down"
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "experience": "map",
+    "map": "academy_hall"
+  },
+  {
+    "talk_to": "marguerite"
+  },
+  {
+    "experience": "choice",
+    "text": "The Academy League."
+  },
+  {
+    "experience": "choice",
+    "text": "Register."
+  },
+  {
+    "advance": 8,
+    "stop_at_choice": true
+  },
+  {
+    "walk_to": [
+      10,
+      3
+    ]
+  },
+  {
+    "face": [
+      10,
+      2
+    ]
+  },
+  {
+    "tap": "interact"
+  },
+  {
+    "wait": 0.5
+  },
+  {
+    "shot": "academy_zero"
+  }
+]
