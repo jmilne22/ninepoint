@@ -7,6 +7,14 @@ what evidence makes a task done.
 Revision base: `origin/main` and HEAD both `fb044e7`, freshly fetched and verified on 2026-09-13 before DISPLAY-01.
 Update the snapshot when reconciling after a merge; it is not a release number.
 
+## PERF-01 — Remove the match frame-rate override
+
+- Status: `SHIPPED` (PR #40; pending merge) · Owner: Codex · Branch: `codex/launch-render-audio-fixes`.
+- Owner reported slow performance/animation during Go games. Production match entry forced `Engine.max_fps = 30`, irrespective of the normal game cap.
+- Scope: preserve the caller's frame cap, elapsed-time animation and contact timing; measure the full production scene, including both actors and a populated board.
+- Acceptance: production entry/return at 30/60/144/uncapped, animation/contact timing, rendered inspection and real-display frame measurements with isolated saves.
+- Verified: 117 / 0 production adoption checks and inspected board/world return; 332 / 0 full-scene hardware checks on RX 6900 XT at 1536×864, sustaining 60 and 144 fps over four-second samples. Contact timing 48 / 0; 406 loads and 19,569 / 0 unit checks. [Evidence and hardware mouse-automation limitation](docs/player-fixes/README.md).
+
 ## DISPLAY-01 — Render 3D at the displayed resolution
 
 - Status: `SHIPPED` (combined PR branch; pending merge) · Owner: Codex · Branch: `codex/launch-render-audio-fixes`.

@@ -8,10 +8,14 @@ static func run(tree: SceneTree, shot: Callable) -> void:
     var state := tree.root.get_node("GameState")
     var bridge := tree.root.get_node("MatchBridge")
     var pilot := tree.root.get_node("Autopilot")
+    var original_fps := Engine.max_fps
     await _check_world_resolution(tree, shot, t)
     for spec in [["pip", 7], ["tomas", 13], ["marguerite", 19], ["joos", 9]]:
         var npc := str(spec[0])
         var n := int(spec[1])
+        # Match entry must preserve uncapped and high-refresh gameplay alike.
+        var frame_cap: int = {7: 60, 13: 144, 19: 0, 9: 30}[n]
+        Engine.max_fps = frame_cap
         var request := MatchRequest.new()
         request.npc_id = npc
         request.profile = load(OpponentProfile.path_for(npc, 13 if n == 13 else 9)).duplicate()
@@ -30,6 +34,7 @@ static func run(tree: SceneTree, shot: Callable) -> void:
         var scene := tree.current_scene as TableSceneMatch
         t.ok(scene != null, npc + " reaches shared match scene")
         if scene == null: break
+        t.eq(Engine.max_fps, frame_cap, "match preserves the caller's frame cap")
         t.eq(tree.root.content_scale_size, Vector2i(768,432), "match canvas is sharp")
         t.eq(scene.request, request, "original match request is preserved")
         t.eq(scene.game.size(), n, "requested board size retained")
@@ -42,6 +47,7 @@ static func run(tree: SceneTree, shot: Callable) -> void:
         scene.board_view.set_game(scene.game)
         scene._refresh()
         scene._sync_mouse()
+        await _check_animation(tree, scene, t)
         await tree.create_timer(0.7).timeout
         await shot.call(npc + "_%d_board" % n)
         await BoardPlayProbe.perform(tree, {"click_legal": [n-1,0]})
@@ -79,9 +85,28 @@ static func run(tree: SceneTree, shot: Callable) -> void:
         t.eq(state.match_records.size(), records + 1, "bridge records exactly once")
         t.eq(state.rank_strength, rank, "fixture remains unrated")
         t.eq(tree.root.content_scale_size, before_resolution, "world resolution restored")
+        t.eq(Engine.max_fps, frame_cap, "return preserves the caller's frame cap")
         t.eq(str(state.match_records[-1].get("npc_id", "")), npc, "saved result belongs to opponent")
+    Engine.max_fps = original_fps
     print("TABLE ADOPTION: ", t.report())
     if t.failed > 0: tree.quit(1)
+
+static func _check_animation(tree: SceneTree, scene: TableSceneMatch, t: TestKit) -> void:
+    var actor := scene.player_actor
+    actor.perform("place", 1.6)
+    actor.animation.advance(0)
+    var started := Time.get_ticks_usec()
+    var clip_start := actor.animation.current_animation_position
+    var frames := 0
+    while Time.get_ticks_usec() - started < 400000:
+        await tree.process_frame
+        frames += 1
+    var elapsed := (Time.get_ticks_usec() - started) / 1000000.0
+    var clip_elapsed := actor.animation.current_animation_position - clip_start
+    t.ok(absf(clip_elapsed - elapsed) < 0.1, "placement animation follows elapsed time")
+    print("MATCH CADENCE: board=%d cap=%d frames=%d elapsed=%.3f clip=%.3f renderer=%s" % [
+        scene.game.size(), Engine.max_fps, frames, elapsed, clip_elapsed,
+        RenderingServer.get_video_adapter_name()])
 
 static func _check_world_resolution(tree: SceneTree, shot: Callable, t: TestKit) -> void:
     var world: ProjectedWorld

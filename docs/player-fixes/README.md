@@ -1,4 +1,4 @@
-# Launch, native rendering and default audio
+# Launch, native rendering, match frame rate and default audio
 
 The normal launcher refreshes Godot imports and script classes before opening the game.
 One retry handles a theme that initially references a missing imported font. A remaining
@@ -34,7 +34,28 @@ Verified with isolated user data on 2026-09-13:
 - Audio contact: 48 checks at 30/60/144 fps, including redraw and destruction cancellation.
 - Three Python audio asset tests verify source integrity and exact production bytes.
 
-Rendered verification used software OpenGL; native GPU performance was not benchmarked.
+The original rendered verification used software OpenGL.
 Driver measurements establish output and routing, not a new independent aesthetic review.
 Full local logs and captures are under `/home/user/.cache/ninepoint-default-audio/` and
 `/home/user/.cache/ninepoint-resolution/`.
+
+The match-performance follow-up removes the production scene's forced 30 fps limit.
+Matches now preserve the normal game cap and VSync behavior. Animation durations and
+stone-contact timing remain based on elapsed time.
+
+`table_adoption` now passes 117 checks, including entry/return at 30/60/144/uncapped
+and placement-animation elapsed time. Its software-rendered 19×19 board and world-return
+screenshots were inspected. A real-display run reached 60 fps, then failed its synthetic
+mouse-hover assertion during counting; it is not counted as a complete hardware input pass.
+
+The separate `tools/table_performance.gd` runs the full production Wren scene with both
+actors and 80 legally placed stones on a 19×19 board. At 1536×864 on the Radeon RX 6900 XT,
+four-second samples sustain the requested 30, 60 and 144 fps. The 30 setting reproduces
+the old ceiling. This uses a random-opponent fixture held at the player's turn, VSync
+disabled and isolated saves; it does not measure KataGo thinking, every monitor resolution
+or long-session frame spikes. Its 332 assertions check setup, legal fixtures and cap preservation.
+Run it on the real display with an absolute disposable `XDG_DATA_HOME`, as documented in
+the script. Logs and inspected captures: `/home/user/.cache/ninepoint-performance/`.
+The follow-up also passed a fresh editor import, 406 resource loads, 19,569 unit checks
+and 48 audio-contact checks. The earlier full engine integration gate was not repeated
+for the frame-cap removal.

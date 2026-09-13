@@ -37,8 +37,8 @@ events; animation never asks the engine for another evaluation.
 Teaching temporarily gives the board the left side and a measured panel the right.
 Liberties, teaching targets, attempted moves, counting groups and territory follow
 the existing board state. Colour selection uses the same table and new characters.
-The view runs at 30 fps, with normal-speed animation, and restores the previous
-canvas and frame cap when returning to the world. Hands make authored gestures;
+The view preserves the game's frame cap, with normal-speed animation, and restores
+the previous canvas when returning to the world. Hands make authored gestures;
 they do not physically reach each arbitrary intersection.
 
 The original GoMatch controller still owns setup, legality, keyboard controls,

@@ -752,8 +752,9 @@ The owner approved the revised table scene and requested all match screens first
 `MatchViewRoute` now selects `src/go_ui/table_scene/match.tscn` for all original
 cast encounters. Python/Blender/Pillow build 21 models and seven clips each from
 `tools/table_scene/` and shared identity records; `build_assets.py --groups table_scene`
-includes this production asset group. Cast boards use 768×432 at 30 fps, restored
-on return; original request profiles, colours, ranks, scoring and bridge persistence
+includes this production asset group. Cast boards use a 768×432 logical canvas, restored
+on return, and preserve the game's frame cap; original request profiles, colours, ranks,
+scoring and bridge persistence
 remain authoritative. Nigiri, teaching panels, 7/9/13/19 picking and counting share
 the table. Development profiles without a cast model retain their old harness.
 ART-13 adopts the approved refinement in all campaign areas and replaces the pixel UI.
