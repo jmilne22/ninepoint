@@ -1,0 +1,15 @@
+[
+  {"save": "lost_to_kesh"},
+  {"wait": 1},
+  {"tap": "move_down"},
+  {"tap": "interact"},
+  {"world_wait": true},
+  {"experience": "visit", "map": "ketelsteeg", "spawn": "from_wassalon"},
+  {"walk_to": [17, 12], "timeout": 20},
+  {"wait": 1, "shot": "market_lane"},
+  {"experience": "visit", "map": "de_ketel", "spawn": "from_street"},
+  {"walk_to": [8, 3], "timeout": 20},
+  {"face": [8, 4]},
+  {"tap": "interact"},
+  {"wait": 3, "shot": "wren_conversation"}
+]
